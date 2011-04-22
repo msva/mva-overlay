@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>mva</herd>
+<maintainer>
+ <email>mva@mva.name</email>
+ <description>This is my own sandbox overlay. If you have any issues, please contact me via email, or in Jabber (JID is same, as e-mail), or in IRC (Freenode)</description> 
+   <maintainer status="active">
+    <name>Misbakh-Soloviev Vadim A.</name>
+    <email>mva@mva.name</email>
+   </maintainer>
+</maintainer>
+ <longdescription>This is a litte data acquisition tool for the V&A VA18B (chances are that some other mutlimeters (e.g. PeakTech 3375) will be compatible as well.) multimeter connected to a Linux PC via the provided USB optocoupler.</longdescription> 
+<use>
+</use>
+</pkgmetadata>

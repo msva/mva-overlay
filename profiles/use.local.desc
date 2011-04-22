@@ -1,0 +1,21 @@
+# Copyright 1999-2010 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+# This file contains descriptions of local USE flags, and the ebuilds which
+# contain them.
+
+app-dicts/qstardict:plugin_stardict - Enables support for stardict dictionaries
+app-dicts/qstardict:plugin_web - Enables support for varios WEB dictionaries
+net-im/psi:onewindow - Make roster and chat windows in one
+net-im/psi:powersave - Disablessome internal timers which eats CPU
+sys-power/kpowersave:icons - Enable support for beauty icons for each 10% of charge
+www-client/leechcraft:lyrics - Build client for lyricwiki.org site
+www-client/leechcraft:history - Build history keeper
+www-client/leechcraft:mediaplayer - Build Leechcraft Media Previewer
+www-client/leechcraft:networkmonitor -  Build monitor for HTTP requests
+www-client/leechcraft:opensearch - Build client for OpenSearch-aware websites
+www-client/leechcraft:torrent - Build BitTorrent client based on rb_libtorrent
+net-libs/rb_libtorrent:log - Enable log
+net-libs/rb_libtorrent:resolvecountries - Enable capability for resolving countries
+net-libs/rb_libtorrent:verbose - Enable verbose log
+net-misc/remmina-plugins:nx - Build NX Compression plugin
