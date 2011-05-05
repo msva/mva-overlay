@@ -1,0 +1,6 @@
+# ChangeLog for sci-electronics/sapec-ng
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+
+	06 Apr 2008; Mauro Toffanin <toffanin.mauro@gmail.com>
+	sapec-ng-1.8.2.ebuild:
+	- first import;

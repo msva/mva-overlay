@@ -1,0 +1,8 @@
+# ChangeLog for sci-electronics/qsapec-ng
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# ChangeLog: mva overlay; http://git.pirate-party.ru/overlay.git
+# $Header: $
+
+  05 May 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  qsapec-ng-1.2.2.ebuild:
+  initial

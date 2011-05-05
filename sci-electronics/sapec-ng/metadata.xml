@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>sci-electronics</herd>
+	<maintainer>
+		<email>skypjack@gmail.com</email>
+		<name>Michele Caini</name>
+	</maintainer>
+	<longdescription>
+		SAPEC-NG (Symbolic Analysis Program For Electric Circuits - Next
+		Generation) is a symbolic analysis program for linear analog circuits.
+		It is an open source project for Linux-platform, in continuous progress
+		by students and researchers of Department of Electronics and
+		Telecommunications of the University of Florence
+	</longdescription>
+</pkgmetadata>

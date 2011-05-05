@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>sci-electronics</herd>
+<maintainer>
+ <email>mva@mva.name</email>
+ <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
+</maintainer>
+ <longdescription>Qt-based program for symbolic analysis of linear analog circuits. In fact, it consists of two indipendent parts: the SapecNG framework engine and the application gui QSapecNG.</longdescription> 
+<use>
+</use>
+</pkgmetadata>
