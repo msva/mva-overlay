@@ -1,0 +1,10 @@
+# ChangeLog for dev-ruby/rails-app-installer
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*rails-app-installer-0.2.0 (13 Aug 2010)
+
+  13 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  +rails-app-installer-0.2.0.ebuild, +metadata.xml:
+  Initial import for www-apps/typo.
+

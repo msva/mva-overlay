@@ -1,0 +1,17 @@
+# ChangeLog for dev-ruby/vpim
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org> -vpim-0.695.ebuild:
+  Remove old version.
+
+*vpim-0.695-r1 (06 Aug 2010)
+
+  06 Aug 2010; Hans de Graaff <graaff@gentoo.org> +vpim-0.695-r1.ebuild:
+  Convert to ruby-fakegem.
+
+  05 Aug 2010; Hans de Graaff <graaff@gentoo.org> -vpim-0.658.ebuild:
+  Remove old version.
+
+  24 Mar 2009; Hans de Graaff <graaff@gentoo.org> ChangeLog:
+  Version bump
+

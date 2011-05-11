@@ -1,0 +1,18 @@
+# ChangeLog for dev-ruby/chronic
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  05 Aug 2010; Hans de Graaff <graaff@gentoo.org> -chronic-0.2.3.ebuild:
+  Remove old version.
+
+*chronic-0.2.3-r1 (28 Dec 2009)
+
+  28 Dec 2009; Hans de Graaff <graaff@gentoo.org> +chronic-0.2.3-r1.ebuild:
+  Convert to ruby-fakegem. Drop x86 keyword due to dependencies.
+
+*chronic-0.2.3 (20 May 2009)
+
+  20 May 2009; Hans de Graaff <graaff@gentoo.org> +chronic-0.2.3.ebuild,
+  +metadata.xml:
+  Initial import. Dependency for big-help support ticket system.
+

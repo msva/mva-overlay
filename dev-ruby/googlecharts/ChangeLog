@@ -1,0 +1,10 @@
+# ChangeLog for dev-ruby/googlecharts
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*googlecharts-1.6.0 (13 Jul 2010)
+
+  13 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  +googlecharts-1.6.0.ebuild, +metadata.xml:
+  Initial import. Optional dependency for metric_fu.
+

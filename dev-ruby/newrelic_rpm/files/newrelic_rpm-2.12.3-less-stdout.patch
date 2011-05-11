@@ -1,0 +1,32 @@
+commit 8b4f3418b4f3885c82e0b847b9d75c4f522f4ef0
+Author: Hans de Graaff <hans@degraaff.org>
+Date:   Fri Jul 16 10:13:44 2010 +0200
+
+    Be more prudent in logging information to stdout.
+    
+    The documentation for control.log! (in control.rb) says that it should
+    be used for important informational messages at boot. The fact that
+    things work as expected is something that I would not expect to see
+    here.
+
+diff --git a/lib/new_relic/agent/agent.rb b/lib/new_relic/agent/agent.rb
+index 928c6d7..91da4f5 100644
+--- a/lib/new_relic/agent/agent.rb
++++ b/lib/new_relic/agent/agent.rb
+@@ -232,8 +232,6 @@ module NewRelic
+           end
+         end
+       end
+-      control.log! "New Relic RPM Agent #{NewRelic::VERSION::STRING} Initialized: pid = #$$"
+-      control.log! "Agent Log found in #{NewRelic::Control.instance.log_file}" if NewRelic::Control.instance.log_file
+     end
+     
+     # Clear out the metric data, errors, and transaction traces.  Reset the histogram data.
+@@ -389,7 +389,6 @@ module NewRelic
+             
+         @report_period = invoke_remote :get_data_report_period, @agent_id
+  
+-        control.log! "Connected to NewRelic Service at #{@collector}"
+         log.debug "Agent ID = #{@agent_id}."
+         
+         # Ask the server for permission to send transaction samples.

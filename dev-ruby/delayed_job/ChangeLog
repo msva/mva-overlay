@@ -1,0 +1,15 @@
+# ChangeLog for dev-ruby/delayed_job
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*delayed_job-2.0.3 (31 Jul 2010)
+
+  31 Jul 2010; Hans de Graaff <graaff@gentoo.org> +delayed_job-2.0.3.ebuild:
+  Version bump.
+
+*delayed_job-1.8.4 (02 Mar 2010)
+
+  02 Mar 2010; Hans de Graaff <graaff@gentoo.org> +delayed_job-1.8.4.ebuild,
+  +metadata.xml:
+  Initial import for experimentation.
+

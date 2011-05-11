@@ -1,0 +1,10 @@
+# ChangeLog for dev-ruby/inline_attachment
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*inline_attachment-0.4.5 (13 Jan 2011)
+
+  13 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  +inline_attachment-0.4.5.ebuild, +metadata.xml:
+  Initial import.
+

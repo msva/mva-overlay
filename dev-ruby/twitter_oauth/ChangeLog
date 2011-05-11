@@ -1,0 +1,34 @@
+# ChangeLog for dev-ruby/twitter_oauth
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  10 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  twitter_oauth-0.4.3.ebuild:
+  Remove old version.
+
+  10 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  -twitter_oauth-0.3.6.ebuild:
+  Remove old version.
+
+*twitter_oauth-0.4.3 (10 Dec 2010)
+
+  10 Dec 2010; Hans de Graaff <graaff@gentoo.org>
+  +twitter_oauth-0.4.3.ebuild:
+  Version bump.
+
+  10 Dec 2010; Hans de Graaff <graaff@gentoo.org>
+  -twitter_oauth-0.3.2.ebuild:
+  Remove old version.
+
+*twitter_oauth-0.3.6 (07 May 2010)
+
+  07 May 2010; Hans de Graaff <graaff@gentoo.org>
+  +twitter_oauth-0.3.6.ebuild:
+  Version bump.
+
+*twitter_oauth-0.3.2 (27 Jan 2010)
+
+  27 Jan 2010; Hans de Graaff <graaff@gentoo.org>
+  +twitter_oauth-0.3.2.ebuild, +metadata.xml:
+  Initial import.
+

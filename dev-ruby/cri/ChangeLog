@@ -1,0 +1,10 @@
+# ChangeLog for dev-ruby/cri
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*cri-1.0.1 (29 Nov 2010)
+
+  29 Nov 2010; Hans de Graaff <graaff@gentoo.org> +cri-1.0.1.ebuild,
+  +metadata.xml:
+  Initial import. Dependency of nanoc.
+

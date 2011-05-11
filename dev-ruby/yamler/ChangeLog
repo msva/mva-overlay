@@ -1,0 +1,10 @@
+# ChangeLog for dev-ruby/yamler
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*yamler-0.1.0 (25 Jul 2010)
+
+  25 Jul 2010; Hans de Graaff <graaff@gentoo.org> +yamler-0.1.0.ebuild,
+  +metadata.xml:
+  Initial import: dependency for configuratron.
+

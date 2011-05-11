@@ -1,0 +1,12 @@
+Actually use the newly defined logger.
+
+--- lib/rsi/index.rb.~1~	2011-01-06 13:07:56.940685299 +0100
++++ lib/rsi/index.rb	2011-01-06 13:10:21.000000000 +0100
+@@ -44,6 +44,7 @@
+       log_fh = File.open( File.join( @root, "index.log" ), 
+                           File::WRONLY|File::APPEND|File::CREAT )
+       log_fh.sync = true
++      LogManager.instance().root_fh = log_fh
+       logger.info( "Trying to reload index..." )
+       begin
+         reload()

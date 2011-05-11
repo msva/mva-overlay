@@ -1,0 +1,17 @@
+# ChangeLog for dev-ruby/railroad
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org> -railroad-0.5.0.ebuild:
+  Remove old version.
+
+*railroad-0.5.0-r1 (13 Aug 2010)
+
+  13 Aug 2010; Hans de Graaff <graaff@gentoo.org> +railroad-0.5.0-r1.ebuild:
+  Convert to ruby-fakegem.
+
+  27 Dec 2009; Hans de Graaff <graaff@gentoo.org> -railroad-0.4.0.ebuild:
+  Remove old version.
+
+  16 May 2009; Hans de Graaff <graaff@gentoo.org> ChangeLog:
+  Version bump
+

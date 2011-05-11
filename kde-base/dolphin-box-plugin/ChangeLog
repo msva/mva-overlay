@@ -1,0 +1,9 @@
+# ChangeLog for kde-base/dolphin-box-plugin
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*kde-base/dolphin-box-plugin-4.5.4 (28 Dec 2010)
+
+	28 Dec 2010; Dmitry 'daks' Fomenko <daks12@gmail.com>
+	+metadata.xml, +kde-base/dolphin-box-plugin-4.5.4:
+	Initial commit

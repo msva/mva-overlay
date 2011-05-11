@@ -1,0 +1,15 @@
+# ChangeLog for dev-ruby/happymapper
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*happymapper-0.3.2 (09 Jul 2010)
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org> +happymapper-0.3.2.ebuild:
+  Version bump.
+
+*happymapper-0.3.0 (23 Apr 2010)
+
+  23 Apr 2010; Hans de Graaff <graaff@gentoo.org> +happymapper-0.3.0.ebuild,
+  +metadata.xml:
+  Initial import. Dependency for pivotal-tracker.
+

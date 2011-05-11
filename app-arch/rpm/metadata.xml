@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>no-herd</herd>
+<maintainer>
+  <email>maintainer-needed@gentoo.org</email>
+</maintainer>
+<use>
+  <flag name='magic'>Add magic file support (<pkg>sys-apps/file</pkg>)</flag>
+  <flag name='neon'>Include support for <pkg>net-misc/neon</pkg></flag>
+ <flag name='dmalloc'>I</flag>
+ <flag name='efence'>I</flag>
+ <flag name='keyutils'>I</flag>
+ <flag name='xar'>I</flag>
+ <flag name='xz'>I</flag>
+</use>
+</pkgmetadata>

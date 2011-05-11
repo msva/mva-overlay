@@ -1,0 +1,24 @@
+# ChangeLog for dev-ruby/ts-datetime-delta
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  ts-datetime-delta-1.0.2-r1.ebuild:
+  Keyword ~x86-macos.
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  -ts-datetime-delta-1.0.2.ebuild:
+  Remove old version.
+
+*ts-datetime-delta-1.0.2-r1 (18 Aug 2010)
+
+  18 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  +ts-datetime-delta-1.0.2-r1.ebuild:
+  Convert to ruby-fakegem.
+
+*ts-datetime-delta-1.0.2 (15 Dec 2009)
+
+  15 Dec 2009; Hans de Graaff <graaff@gentoo.org>
+  +ts-datetime-delta-1.0.2.ebuild, +metadata.xml:
+  Initial import. This got spun off from thinking-sphinx 1.2.x.
+

@@ -1,0 +1,21 @@
+# ChangeLog for dev-ruby/beanstalk-client
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*beanstalk-client-1.1.0 (23 Sep 2010)
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  +beanstalk-client-1.1.0.ebuild:
+  Version bump.
+
+  03 Mar 2010; Hans de Graaff <graaff@gentoo.org>
+  beanstalk-client-1.0.2.ebuild:
+  Update homepage and description.
+
+*beanstalk-client-1.0.2 (16 Feb 2010)
+
+  16 Feb 2010; Hans de Graaff <graaff@gentoo.org>
+  +beanstalk-client-1.0.2.ebuild, +metadata.xml:
+  Initial import. Dependency of flapjack which may or may not be
+  forthcoming.
+

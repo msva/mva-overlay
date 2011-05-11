@@ -1,0 +1,25 @@
+# ChangeLog for dev-ruby/hirb
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*hirb-0.3.4 (23 Sep 2010)
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> +hirb-0.3.4.ebuild:
+  Version bump.
+
+*hirb-0.3.2 (09 Jul 2010)
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org> +hirb-0.3.2.ebuild:
+  Version bump.
+
+*hirb-0.3.1 (24 Mar 2010)
+
+  24 Mar 2010; Hans de Graaff <graaff@gentoo.org> +hirb-0.3.1.ebuild:
+  Version bump.
+
+*hirb-0.2.9 (12 Feb 2010)
+
+  12 Feb 2010; Hans de Graaff <graaff@gentoo.org> +hirb-0.2.9.ebuild,
+  +metadata.xml:
+  Initial import, test dependency of dev-ruby/churn.
+

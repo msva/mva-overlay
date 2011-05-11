@@ -1,0 +1,16 @@
+# ChangeLog for dev-ruby/paypal
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org> -paypal-2.0.0.ebuild:
+  Remove old version.
+
+*paypal-2.0.0-r1 (13 Aug 2010)
+
+  13 Aug 2010; Hans de Graaff <graaff@gentoo.org> +paypal-2.0.0-r1.ebuild:
+  Convert to ruby-fakegem.
+
+  27 Dec 2009; Hans de Graaff <graaff@gentoo.org> paypal-2.0.0.ebuild,
+  +metadata.xml:
+  Fix QA issues.
+

@@ -1,0 +1,57 @@
+# ChangeLog for dev-ruby/database_cleaner
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  28 Dec 2010; Hans de Graaff <graaff@gentoo.org>
+  database_cleaner-0.5.2.ebuild:
+  Keyword ~x86-macos.
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  -database_cleaner-0.4.2.ebuild, -database_cleaner-0.4.3.ebuild,
+  -database_cleaner-0.5.0.ebuild:
+  Remove old versions.
+
+*database_cleaner-0.5.2 (07 May 2010)
+
+  07 May 2010; Hans de Graaff <graaff@gentoo.org>
+  +database_cleaner-0.5.2.ebuild, metadata.xml:
+  Version bump.
+
+*database_cleaner-0.5.0 (23 Apr 2010)
+
+  23 Apr 2010; Hans de Graaff <graaff@gentoo.org>
+  +database_cleaner-0.5.0.ebuild:
+  Version bump.
+
+*database_cleaner-0.4.3 (09 Feb 2010)
+
+  09 Feb 2010; Hans de Graaff <graaff@gentoo.org>
+  +database_cleaner-0.4.3.ebuild:
+  Version bump: Truncation for ActiveRecord oracle_enhanced adapter.
+
+  09 Feb 2010; Hans de Graaff <graaff@gentoo.org>
+  -database_cleaner-0.2.3.ebuild, -database_cleaner-0.4.0.ebuild:
+  Remove old versions.
+
+*database_cleaner-0.4.2 (15 Jan 2010)
+
+  15 Jan 2010; Hans de Graaff <graaff@gentoo.org>
+  +database_cleaner-0.4.2.ebuild:
+  Version bump with changes to Datamapper support.
+
+  28 Dec 2009; Hans de Graaff <graaff@gentoo.org>
+  database_cleaner-0.4.0.ebuild:
+  Fix description and homepage.
+
+*database_cleaner-0.4.0 (24 Dec 2009)
+
+  24 Dec 2009; Hans de Graaff <graaff@gentoo.org>
+  +database_cleaner-0.4.0.ebuild:
+  Version bump with support for more ORMs and databases.
+
+*database_cleaner-0.2.3 (18 Dec 2009)
+
+  18 Dec 2009; Hans de Graaff <graaff@gentoo.org>
+  +database_cleaner-0.2.3.ebuild, +metadata.xml:
+  Initial import. Needed for cucumber 0.5.0 support in applications.
+

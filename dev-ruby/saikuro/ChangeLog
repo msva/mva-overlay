@@ -1,0 +1,13 @@
+# ChangeLog for dev-ruby/saikuro
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  27 Dec 2009; Hans de Graaff <graaff@gentoo.org> saikuro-1.1.0.ebuild:
+  Add missing IUSE
+
+*saikuro-1.1.0 (27 Dec 2009)
+
+  27 Dec 2009; Hans de Graaff <graaff@gentoo.org> -saikuro-0.2.1.ebuild,
+  +saikuro-1.1.0.ebuild, +metadata.xml:
+  Version bump. Convert to ruby-fakegem. Add metadata. Remove old version.
+

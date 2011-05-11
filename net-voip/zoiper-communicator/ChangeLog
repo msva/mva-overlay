@@ -1,0 +1,9 @@
+# ChangeLog for net-misc/zoiper-communicator
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# ChangeLog: rion overlay ;http://code.google.com/p/rion-overlay/ 
+# $Header: $
+
+  16 Jul 2010; mva <mva@mva.name> +zoiper-communicator-1.0.ebuild,
+  +metadata.xml:
+  Proprietary SIP//IAX SoftPhone.
+

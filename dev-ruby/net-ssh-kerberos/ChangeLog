@@ -1,0 +1,10 @@
+# ChangeLog for dev-ruby/net-ssh-kerberos
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*net-ssh-kerberos-0.2.4 (28 Sep 2010)
+
+  28 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  +net-ssh-kerberos-0.2.4.ebuild, +metadata.xml:
+  Initial import.
+

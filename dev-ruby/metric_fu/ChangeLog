@@ -1,0 +1,44 @@
+# ChangeLog for dev-ruby/metric_fu
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> -metric_fu-1.2.0.ebuild,
+  -metric_fu-1.3.0.ebuild, -metric_fu-1.4.0.ebuild:
+  Remove old versions.
+
+*metric_fu-1.5.1 (30 Jul 2010)
+
+  30 Jul 2010; Hans de Graaff <graaff@gentoo.org> +metric_fu-1.5.1.ebuild:
+  Version bump.
+
+*metric_fu-1.4.0 (13 Jul 2010)
+
+  13 Jul 2010; Hans de Graaff <graaff@gentoo.org> +metric_fu-1.4.0.ebuild:
+  Version bump.
+
+*metric_fu-1.3.0 (12 Feb 2010)
+
+  12 Feb 2010; Hans de Graaff <graaff@gentoo.org> +metric_fu-1.3.0.ebuild:
+  Version bump with new dependencies.
+
+  12 Feb 2010; Hans de Graaff <graaff@gentoo.org> -metric_fu-1.1.6.ebuild,
+  -metric_fu-1.1.6-r1.ebuild:
+  Remove old versions.
+
+*metric_fu-1.2.0 (15 Jan 2010)
+
+  15 Jan 2010; Hans de Graaff <graaff@gentoo.org> +metric_fu-1.2.0.ebuild:
+  Version bump.
+
+*metric_fu-1.1.6-r1 (30 Dec 2009)
+
+  30 Dec 2009; Hans de Graaff <graaff@gentoo.org> +metric_fu-1.1.6.ebuild,
+  +metric_fu-1.1.6-r1.ebuild, +metadata.xml:
+  Also install vendored code since metric_fu is hardcoded to use that.
+
+*metric_fu-1.1.6 (28 Dec 2009)
+
+  28 Dec 2009; Hans de Graaff <graaff@gentoo.org> +metric_fu-1.1.6.ebuild,
+  +metadata.xml:
+  Initial import.
+

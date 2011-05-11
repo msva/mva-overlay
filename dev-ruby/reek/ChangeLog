@@ -1,0 +1,38 @@
+# ChangeLog for dev-ruby/reek
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  28 Dec 2010; Hans de Graaff <graaff@gentoo.org> reek-1.2.8.ebuild:
+  Keyword ~x86-macos.
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> -reek-1.2.6.ebuild,
+  -reek-1.2.7.1.ebuild, -reek-1.2.7.2.ebuild:
+  Remove old versions.
+
+*reek-1.2.8 (07 May 2010)
+
+  07 May 2010; Hans de Graaff <graaff@gentoo.org> +reek-1.2.8.ebuild:
+  Version bump.
+
+*reek-1.2.7.2 (21 Mar 2010)
+
+  21 Mar 2010; Hans de Graaff <graaff@gentoo.org> +reek-1.2.7.2.ebuild:
+  Version bump with fix for massive memory use in some cases.
+
+*reek-1.2.7.1 (10 Feb 2010)
+
+  10 Feb 2010; Hans de Graaff <graaff@gentoo.org> +reek-1.2.7.1.ebuild:
+  Version bump.
+
+  16 Jan 2010; Hans de Graaff <graaff@gentoo.org> reek-1.2.6.ebuild:
+  Add ~x86 keyword.
+
+  31 Dec 2009; Hans de Graaff <graaff@gentoo.org> reek-1.2.6.ebuild:
+  Fix homepage and description.
+
+*reek-1.2.6 (30 Dec 2009)
+
+  30 Dec 2009; Hans de Graaff <graaff@gentoo.org> +reek-1.2.6.ebuild,
+  +metadata.xml:
+  Initial import. Used by metric_fu.
+

@@ -1,0 +1,34 @@
+# ChangeLog for dev-ruby/authlogic-oid
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  authlogic-oid-1.0.4-r1.ebuild:
+  Keyword ~x86-macos.
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  -authlogic-oid-1.0.4.ebuild:
+  Remove old version.
+
+*authlogic-oid-1.0.4-r1 (13 Aug 2010)
+
+  13 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  +authlogic-oid-1.0.4-r1.ebuild:
+  Convert to ruby-fakegem.
+
+  24 Mar 2010; Hans de Graaff <graaff@gentoo.org>
+  -authlogic-oid-1.0.3.ebuild:
+  Remove old version.
+
+*authlogic-oid-1.0.4 (03 Jun 2009)
+
+  03 Jun 2009; Hans de Graaff <graaff@gentoo.org>
+  +authlogic-oid-1.0.4.ebuild:
+  Version bump that works with authlogic 2.0.13
+
+*authlogic-oid-1.0.3 (19 May 2009)
+
+  19 May 2009; Hans de Graaff <graaff@gentoo.org>
+  +authlogic-oid-1.0.3.ebuild, +metadata.xml:
+  Initial import.
+

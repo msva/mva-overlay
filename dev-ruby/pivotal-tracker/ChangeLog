@@ -1,0 +1,16 @@
+# ChangeLog for dev-ruby/pivotal-tracker
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*pivotal-tracker-0.3.0 (08 Nov 2010)
+
+  08 Nov 2010; Hans de Graaff <graaff@gentoo.org>
+  +pivotal-tracker-0.3.0.ebuild:
+  Version bump.
+
+*pivotal-tracker-0.1.0.1 (23 Apr 2010)
+
+  23 Apr 2010; Hans de Graaff <graaff@gentoo.org>
+  +pivotal-tracker-0.1.0.1.ebuild, +metadata.xml:
+  Initial import.
+

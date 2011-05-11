@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>no-herd</herd>
+<maintainer>
+  <email>mva@mva.name</email>
+ <description>mva</description> 
+</maintainer>
+ <longdescription>Asterisk's channel (module) for using with some datacards (usb-stick 3g-modems, Huawei e1550, for example)</longdescription> 
+<use>
+</use>
+</pkgmetadata>

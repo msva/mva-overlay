@@ -1,0 +1,26 @@
+# ChangeLog for dev-ruby/rails_best_practices
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*rails_best_practices-0.4.0 (23 Sep 2010)
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  +rails_best_practices-0.4.0.ebuild:
+  Version bump.
+
+*rails_best_practices-0.3.26 (05 Aug 2010)
+
+  05 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  +rails_best_practices-0.3.26.ebuild:
+  Version bump.
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  rails_best_practices-0.3.21.ebuild:
+  Also install needed yml file.
+
+*rails_best_practices-0.3.21 (09 Jul 2010)
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  +rails_best_practices-0.3.21.ebuild, +metadata.xml:
+  Initial import. Dependency of metric_fu.
+

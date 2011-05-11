@@ -1,0 +1,24 @@
+# ChangeLog for dev-ruby/responds_to_parent
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  responds_to_parent-1.0.20091013-r1.ebuild:
+  Keyword ~x86-macos.
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  -responds_to_parent-1.0.20091013.ebuild:
+  Remove old version.
+
+*responds_to_parent-1.0.20091013-r1 (13 Aug 2010)
+
+  13 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  +responds_to_parent-1.0.20091013-r1.ebuild:
+  Convert to ruby-fakegem.
+
+*responds_to_parent-1.0.20091013 (27 Nov 2009)
+
+  27 Nov 2009; Hans de Graaff <graaff@gentoo.org>
+  +responds_to_parent-1.0.20091013.ebuild, +metadata.xml:
+  Initial import. Need this for work to facilitate uploading via iframe.
+

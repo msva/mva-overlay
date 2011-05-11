@@ -1,0 +1,39 @@
+# ChangeLog for dev-ruby/ruby-recaptcha
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  10 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  ruby-recaptcha-1.0.2-r1.ebuild:
+  Remove old version.
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  -ruby-recaptcha-1.0.2.ebuild:
+  Remove old version.
+
+*ruby-recaptcha-1.0.2-r1 (18 Aug 2010)
+
+  18 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  +ruby-recaptcha-1.0.2-r1.ebuild:
+  Convert to ruby-fakegem.
+
+  05 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  -ruby-recaptcha-1.0.0.ebuild:
+  Remove old version.
+
+  07 May 2010; Hans de Graaff <graaff@gentoo.org>
+  +ruby-recaptcha-1.0.2.ebuild, +metadata.xml:
+  Version bump.
+
+*ruby-recaptcha-1.0.2 (07 May 2010)
+
+  07 May 2010; Hans de Graaff <graaff@gentoo.org>
+  +ruby-recaptcha-1.0.2.ebuild:
+  Version bump.
+
+*ruby-recaptcha-1.0.0 (26 May 2009)
+
+  26 May 2009; Hans de Graaff <graaff@gentoo.org>
+  +ruby-recaptcha-1.0.0.ebuild:
+  Version bump. Package moved from dev-ruby/recaptcha due to upstream name
+  change.
+

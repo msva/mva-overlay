@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>no-herd</herd>
+<maintainer>
+  <email>i.am@antixpuct.ru</email>
+ <description>Description of the maintainership</description> 
+</maintainer>
+ <longdescription>Long description of the package</longdescription> 
+<use>
+<flag name='ypp2'>Adds basic (and unofficial) support for Samsung YP-P2 player (can break your device)</flag>
+</use>
+</pkgmetadata>

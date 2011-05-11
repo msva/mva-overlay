@@ -1,0 +1,19 @@
+# ChangeLog for dev-ruby/htmltools
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  28 Dec 2010; Hans de Graaff <graaff@gentoo.org> htmltools-1.10-r1.ebuild:
+  Keyword ~x86-macos.
+
+  03 Sep 2010; Hans de Graaff <graaff@gentoo.org> -htmltools-1.10.ebuild:
+  Remove old version.
+
+*htmltools-1.10-r1 (13 Aug 2010)
+
+  13 Aug 2010; Hans de Graaff <graaff@gentoo.org> +htmltools-1.10-r1.ebuild:
+  Convert to ruby-fakegem.
+
+  27 Dec 2009; Hans de Graaff <graaff@gentoo.org> htmltools-1.10.ebuild,
+  +metadata.xml:
+  Fix QA issues.
+

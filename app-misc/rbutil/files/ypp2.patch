@@ -1,0 +1,1828 @@
+Index: tools/configure
+===================================================================
+--- tools/configure	(revision 21192)
++++ tools/configure	(working copy)
+@@ -919,6 +919,7 @@
+  141) YH-920                                     ==Lyre project==1
+  142) YH-925              ==Packard Bell==       130) Lyre proto 1
+  143) YP-S3               160) Vibe 500          131) Mini2440
++ 144) YP-P2
+ EOF
+ 
+   buildfor=`input`;
+@@ -2487,6 +2488,27 @@
+     t_model="yps3"
+     ;;
+     
++    144|ypp2)
++    target_id=60
++    modelname="ypp2"
++    target="-DSAMSUNG_YPP2"
++    memory=32
++    arm926ejscc
++    tool="$rootdir/tools/scramble -add=d2"
++    boottool="$rootdir/tools/scramble -tcc=crc"
++    bmp2rb_mono="$rootdir/tools/bmp2rb -f 0"
++    bmp2rb_native="$rootdir/tools/bmp2rb -f 4"
++    output="rockbox.ypp2"
++    appextra="recorder:gui"
++    plugins="yes"
++    swcodec="yes"
++    toolset="$tccbitmaptools"
++    # architecture, manufacturer and model for the target-tree build
++    t_cpu="arm"
++    t_manufacturer="tcc780x"
++    t_model="ypp2"
++    ;;
++
+    160|vibe500)
+     target_id=67
+     modelname="vibe500"
+Index: apps/plugins/lib/pluginlib_actions.c
+===================================================================
+--- apps/plugins/lib/pluginlib_actions.c	(revision 21192)
++++ apps/plugins/lib/pluginlib_actions.c	(working copy)
+@@ -180,6 +180,7 @@
+     { PLA_LEFT_REPEAT,       BUTTON_PREV|BUTTON_REPEAT,  BUTTON_NONE},
+     { PLA_RIGHT_REPEAT,      BUTTON_NEXT|BUTTON_REPEAT,  BUTTON_NONE},
+ #elif (CONFIG_KEYPAD == ONDAVX747_PAD) /* Touchscreen target */
++#elif (CONFIG_KEYPAD == SAMSUNG_YPP2_PAD)
+ #elif (CONFIG_KEYPAD == ONDAVX777_PAD) /* Touchscreen target */
+ #elif (CONFIG_KEYPAD == SAMSUNG_YH_PAD)
+     { PLA_UP,                BUTTON_UP,                         BUTTON_NONE},
+@@ -327,6 +328,7 @@
+     { PLA_FIRE,              BUTTON_PLAY,                  BUTTON_NONE},
+     { PLA_FIRE_REPEAT,       BUTTON_PLAY|BUTTON_REPEAT,    BUTTON_NONE},
+ #elif (CONFIG_KEYPAD == ONDAVX747_PAD) /* Touchscreen target */
++#elif (CONFIG_KEYPAD == SAMSUNG_YPP2_PAD)
+ #elif (CONFIG_KEYPAD == ONDAVX777_PAD) /* Touchscreen target */
+ #elif (CONFIG_KEYPAD == SAMSUNG_YH_PAD)
+     { PLA_LEFT,              BUTTON_LEFT,                BUTTON_NONE},
+@@ -485,6 +487,7 @@
+     {PLA_MENU,          BUTTON_MENU,                    BUTTON_NONE},
+     {PLA_FIRE,          BUTTON_VOLUP,                   BUTTON_NONE},
+     {PLA_FIRE_REPEAT,   BUTTON_VOLUP|BUTTON_REPEAT,     BUTTON_NONE},
++#elif (CONFIG_KEYPAD == SAMSUNG_YPP2_PAD)
+ #elif (CONFIG_KEYPAD == CREATIVEZVM_PAD)
+     {PLA_QUIT,          BUTTON_BACK,                   BUTTON_NONE},
+     {PLA_START,         BUTTON_PLAY,                    BUTTON_NONE},
+@@ -559,6 +562,7 @@
+     {PLA_DEC,              BUTTON_VOL_DOWN,                BUTTON_NONE},
+     {PLA_INC_REPEAT,       BUTTON_VOL_UP|BUTTON_REPEAT,    BUTTON_NONE},
+     {PLA_DEC_REPEAT,       BUTTON_VOL_DOWN|BUTTON_REPEAT,  BUTTON_NONE},
++#elif (CONFIG_KEYPAD == SAMSUNG_YPP2_PAD)
+ #elif (CONFIG_KEYPAD == IPOD_1G2G_PAD) \
+     || (CONFIG_KEYPAD == IPOD_3G_PAD) \
+     || (CONFIG_KEYPAD == IPOD_4G_PAD) \
+Index: apps/SOURCES
+===================================================================
+--- apps/SOURCES	(revision 21192)
++++ apps/SOURCES	(working copy)
+@@ -270,6 +270,8 @@
+ keymaps/keymap-ondavx767.c
+ #elif CONFIG_KEYPAD == SAMSUNG_YH_PAD
+ keymaps/keymap-yh8xx_yh9xx.c
++#elif CONFIG_KEYPAD == SAMSUNG_YPP2_PAD
++keymaps/keymap-ypp2.c
+ #elif CONFIG_KEYPAD == MINI2440_PAD
+ keymaps/keymap-mini2440.c
+ #elif CONFIG_KEYPAD == PBELL_VIBE500_PAD
+Index: apps/keymaps/keymap-ypp2.c
+===================================================================
+--- apps/keymaps/keymap-ypp2.c	(revision 0)
++++ apps/keymaps/keymap-ypp2.c	(revision 0)
+@@ -0,0 +1,204 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: keymap-cowond2.c 20420 2009-03-21 00:13:20Z rob $
++ *
++ * Copyright (C) 2008 Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++
++/* Button Code Definitions for the Cowon D2 target */
++/* NB: Up/Down/Left/Right are not physical buttons - touchscreen emulation */
++
++#include <stdio.h>
++#include <string.h>
++#include <stdlib.h>
++
++#include "config.h"
++#include "action.h"
++#include "button.h"
++#include "settings.h"
++
++/*
++ * The format of the list is as follows
++ * { Action Code,   Button code,    Prereq button code }
++ * if there's no need to check the previous button's value, use BUTTON_NONE
++ * Insert LAST_ITEM_IN_LIST at the end of each mapping
++ */
++
++static const struct button_mapping button_context_standard[]  = {
++    { ACTION_STD_PREV,        BUTTON_MINUS,               BUTTON_NONE },
++    { ACTION_STD_PREVREPEAT,  BUTTON_MINUS|BUTTON_REPEAT, BUTTON_NONE },
++    { ACTION_STD_NEXT,        BUTTON_PLUS,                BUTTON_NONE },
++    { ACTION_STD_NEXTREPEAT,  BUTTON_PLUS|BUTTON_REPEAT,  BUTTON_NONE },
++
++    { ACTION_STD_OK,          BUTTON_MENU|BUTTON_REL,     BUTTON_MENU },
++    { ACTION_STD_CANCEL,      BUTTON_POWER,               BUTTON_NONE },
++    
++    { ACTION_STD_QUICKSCREEN, BUTTON_PLUS|BUTTON_REPEAT,  BUTTON_NONE },
++    { ACTION_STD_CONTEXT,     BUTTON_MENU|BUTTON_REPEAT,  BUTTON_NONE },
++    
++    LAST_ITEM_IN_LIST
++}; /* button_context_standard */
++
++
++static const struct button_mapping button_context_wps[]  = {
++
++    { ACTION_WPS_VOLDOWN,       BUTTON_MINUS,                    BUTTON_NONE },
++    { ACTION_WPS_VOLDOWN,       BUTTON_MINUS|BUTTON_REPEAT,      BUTTON_NONE },
++    { ACTION_WPS_VOLUP,         BUTTON_PLUS,                     BUTTON_NONE },
++    { ACTION_WPS_VOLUP,         BUTTON_PLUS|BUTTON_REPEAT,       BUTTON_NONE },
++    { ACTION_WPS_MENU,          BUTTON_MENU|BUTTON_REL,          BUTTON_MENU },
++    { ACTION_WPS_CONTEXT,       BUTTON_MENU|BUTTON_REPEAT,       BUTTON_MENU },
++    
++    { ACTION_WPS_STOP,          BUTTON_POWER|BUTTON_REL,         BUTTON_POWER },
++    
++    LAST_ITEM_IN_LIST
++}; /* button_context_wps */
++
++static const struct button_mapping button_context_list[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_STD)
++}; /* button_context_list */
++
++static const struct button_mapping button_context_tree[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_LIST)
++}; /* button_context_tree */
++
++static const struct button_mapping button_context_listtree_scroll_with_combo[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_CUSTOM|CONTEXT_TREE),
++};
++
++static const struct button_mapping button_context_listtree_scroll_without_combo[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_CUSTOM|CONTEXT_TREE),
++};
++
++static const struct button_mapping button_context_settings[]  = {
++    { ACTION_SETTINGS_INC,          BUTTON_PLUS,                  BUTTON_NONE },
++    { ACTION_SETTINGS_INCREPEAT,    BUTTON_PLUS|BUTTON_REPEAT,    BUTTON_NONE },
++    { ACTION_SETTINGS_DEC,          BUTTON_MINUS,                 BUTTON_NONE },
++    { ACTION_SETTINGS_DECREPEAT,    BUTTON_MINUS|BUTTON_REPEAT,   BUTTON_NONE },
++    { ACTION_STD_OK,                BUTTON_MENU,                  BUTTON_NONE },
++    { ACTION_STD_CANCEL,            BUTTON_POWER,                 BUTTON_NONE },
++
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_STD)
++}; /* button_context_settings */
++
++static const struct button_mapping button_context_settings_right_is_inc[]  = {
++
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_STD)
++}; /* button_context_settingsgraphical */
++
++static const struct button_mapping button_context_yesno[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_STD)
++}; /* button_context_settings_yesno */
++
++static const struct button_mapping button_context_colorchooser[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_CUSTOM|CONTEXT_SETTINGS),
++}; /* button_context_colorchooser */
++
++static const struct button_mapping button_context_eq[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_CUSTOM|CONTEXT_SETTINGS),
++}; /* button_context_eq */
++
++/** Bookmark Screen **/
++static const struct button_mapping button_context_bmark[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_LIST),
++}; /* button_context_bmark */
++
++static const struct button_mapping button_context_time[]  = {
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_SETTINGS),
++}; /* button_context_time */
++
++static const struct button_mapping button_context_quickscreen[]  = {
++
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_STD)
++}; /* button_context_quickscreen */
++
++static const struct button_mapping button_context_pitchscreen[]  = {
++
++    { ACTION_PS_INC_SMALL, BUTTON_PLUS,                BUTTON_NONE },
++    { ACTION_PS_INC_SMALL, BUTTON_PLUS|BUTTON_REPEAT,  BUTTON_NONE },
++    { ACTION_PS_DEC_SMALL, BUTTON_MINUS,               BUTTON_NONE },
++    { ACTION_PS_DEC_SMALL, BUTTON_MINUS|BUTTON_REPEAT, BUTTON_NONE },
++    { ACTION_PS_EXIT,      BUTTON_POWER,               BUTTON_NONE },
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_STD)
++}; /* button_context_pitchcreen */
++
++static const struct button_mapping button_context_keyboard[]  = {
++    { ACTION_KBD_PAGE_FLIP,    BUTTON_MENU,                   BUTTON_NONE },
++    { ACTION_KBD_CURSOR_LEFT,  BUTTON_MINUS,                  BUTTON_NONE },
++    { ACTION_KBD_CURSOR_LEFT,  BUTTON_MINUS|BUTTON_REPEAT,    BUTTON_NONE },
++    { ACTION_KBD_CURSOR_RIGHT, BUTTON_PLUS,                   BUTTON_NONE },
++    { ACTION_KBD_CURSOR_RIGHT, BUTTON_PLUS|BUTTON_REPEAT,     BUTTON_NONE },
++    
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_STD)
++}; /* button_context_keyboard */
++
++static const struct button_mapping button_context_radio[]  = {
++    { ACTION_FM_MENU, BUTTON_MENU,    BUTTON_NONE },
++    { ACTION_FM_STOP, BUTTON_POWER,   BUTTON_NONE },
++
++    LAST_ITEM_IN_LIST__NEXTLIST(CONTEXT_SETTINGS)
++}; /* button_context_radio */
++
++const struct button_mapping* target_get_context_mapping(int context)
++{
++    switch (context)
++    {
++        case CONTEXT_STD:
++            return button_context_standard;
++        case CONTEXT_WPS:
++            return button_context_wps;
++
++        case CONTEXT_LIST:
++            return button_context_list;
++        case CONTEXT_MAINMENU:
++        case CONTEXT_TREE:
++            if (global_settings.hold_lr_for_scroll_in_list)
++                return button_context_listtree_scroll_without_combo;
++            else
++                return button_context_listtree_scroll_with_combo;
++        case CONTEXT_CUSTOM|CONTEXT_TREE:
++            return button_context_tree;
++
++        case CONTEXT_SETTINGS:
++            return button_context_settings;
++        case CONTEXT_CUSTOM|CONTEXT_SETTINGS:
++        case CONTEXT_SETTINGS_RECTRIGGER:
++            return button_context_settings_right_is_inc;
++
++        case CONTEXT_SETTINGS_COLOURCHOOSER:
++            return button_context_colorchooser;
++        case CONTEXT_SETTINGS_EQ:
++            return button_context_eq;
++
++        case CONTEXT_SETTINGS_TIME:
++            return button_context_time;
++
++        case CONTEXT_YESNOSCREEN:
++            return button_context_yesno;
++        case CONTEXT_FM:
++            return button_context_radio;
++        case CONTEXT_BOOKMARKSCREEN:
++            return button_context_bmark;
++        case CONTEXT_QUICKSCREEN:
++            return button_context_quickscreen;
++        case CONTEXT_PITCHSCREEN:
++            return button_context_pitchscreen;
++        case CONTEXT_KEYBOARD:
++            return button_context_keyboard;
++    }
++    return button_context_standard;
++}
+Index: firmware/export/config.h
+===================================================================
+--- firmware/export/config.h	(revision 21192)
++++ firmware/export/config.h	(working copy)
+@@ -117,6 +117,7 @@
+ #define MINI2440_PAD       41
+ #define PHILIPS_HDD6330_PAD 42
+ #define PBELL_VIBE500_PAD 43
++#define SAMSUNG_YPP2_PAD   44
+ 
+ /* CONFIG_REMOTE_KEYPAD */
+ #define H100_REMOTE 1
+@@ -199,6 +200,7 @@
+ #define LCD_MINI2440  37 /* as used by the Mini2440 */
+ #define LCD_HDD6330   38 /* as used by the Philips HDD6330 */
+ #define LCD_VIBE500   39 /* as used by the Packard Bell Vibe 500 */
++#define LCD_YPP2      40 /* as used by Samsung YP-P2 */
+ 
+ /* LCD_PIXELFORMAT */
+ #define HORIZONTAL_PACKING 1
+@@ -410,6 +412,8 @@
+ #include "config/samsungyh925.h"
+ #elif defined(SAMSUNG_YPS3)
+ #include "config/samsungyps3.h"
++#elif defined(SAMSUNG_YPP2)
++#include "config/ypp2.h"
+ #elif defined(PBELL_VIBE500)
+ #include "config/vibe500.h"
+ #else
+Index: firmware/export/config/ypp2.h
+===================================================================
+--- firmware/export/config/ypp2.h	(revision 0)
++++ firmware/export/config/ypp2.h	(revision 0)
+@@ -0,0 +1,167 @@
++/*
++ * This config file is for the Cowon D2
++ */
++#define TARGET_TREE /* this target is using the target tree system */
++
++/* For Rolo and boot loader */
++#define MODEL_NUMBER 60
++
++#define MODEL_NAME   "Samsung YP-P2"
++
++#if 0
++#define HAVE_USBSTACK
++#define USE_ROCKBOX_USB
++#define USB_VENDOR_ID 0x0e21
++#define USB_PRODUCT_ID 0x0800
++#endif
++
++
++/* Produce a dual-boot bootloader.bin for mktccboot */
++#define TCCBOOT
++
++/* define this if you have recording possibility */
++//#define HAVE_RECORDING
++
++/* Define bitmask of input sources - recordable bitmask can be defined
++   explicitly if different */
++#define INPUT_SRC_CAPS (SRC_CAP_MIC | SRC_CAP_LINEIN | SRC_CAP_FMRADIO)
++
++/* define this if you have a bitmap LCD display */
++#define HAVE_LCD_BITMAP
++
++/* define this if you have a colour LCD */
++#define HAVE_LCD_COLOR
++
++/* define this if you can flip your LCD */
++/* #define HAVE_LCD_FLIP */
++
++/* define this if you can invert the colours on your LCD */
++/* #define HAVE_LCD_INVERT */
++
++/* define this if you want album art for this target */
++#define HAVE_ALBUMART
++
++/* define this to enable bitmap scaling */
++#define HAVE_BMP_SCALING
++
++/* define this to enable JPEG decoding */
++#define HAVE_JPEG
++
++/* define this if you have access to the quickscreen */
++#define HAVE_QUICKSCREEN
++/* define this if you have access to the pitchscreen */
++#define HAVE_PITCHSCREEN
++
++/* define this if you would like tagcache to build on this target */
++//#define HAVE_TAGCACHE
++
++/* FM Tuner */
++/* #define CONFIG_TUNER LV24020LP */
++/* #define HAVE_TUNER_PWR_CTRL */
++
++/* define this if you have a flash memory storage */
++#define HAVE_FLASH_STORAGE
++
++#define CONFIG_STORAGE STORAGE_NAND
++
++#define CONFIG_NAND NAND_TCC
++
++/* Some (2Gb?) D2s seem to be FAT16 formatted */
++/* #define HAVE_FAT16SUPPORT */
++
++/* LCD dimensions */
++#define LCD_WIDTH  480
++#define LCD_HEIGHT 272
++#define LCD_DEPTH  16
++#define LCD_PIXELFORMAT 565
++
++/* define this if you have LCD enable function */
++#define HAVE_LCD_ENABLE
++
++/* define this to indicate your device's keypad */
++#define CONFIG_KEYPAD SAMSUNG_YPP2_PAD
++#define HAVE_TOUCHSCREEN
++#define HAVE_BUTTON_DATA
++
++/* define this if you have a real-time clock */
++#define CONFIG_RTC RTC_PCF50606
++
++/* define this if you have RTC RAM available for settings */
++//#define HAVE_RTC_RAM
++
++/* Define this if you have a software controlled poweroff */
++#define HAVE_SW_POWEROFF
++
++/* Reduce Tremor's ICODE usage */
++#define ICODE_ATTR_TREMOR_NOT_MDCT
++
++/* The number of bytes reserved for loadable codecs */
++#define CODEC_SIZE 0x100000
++
++/* The number of bytes reserved for loadable plugins */
++#define PLUGIN_BUFFER_SIZE 0x80000
++
++#define AB_REPEAT_ENABLE 1
++
++/* Define this if you do software codec */
++#define CONFIG_CODEC SWCODEC
++
++/* The D2 uses a WM8985 codec */
++#define HAVE_WM8985
++
++/* Use WM8985 EQ1 & EQ5 as hardware tone controls */
++/* #define HAVE_SW_TONE_CONTROLS */
++
++/* Define this for LCD backlight available */
++#define HAVE_BACKLIGHT
++/* Enable LCD brightness control */
++#define HAVE_BACKLIGHT_BRIGHTNESS
++/* Which backlight fading type? */
++#define CONFIG_BACKLIGHT_FADING BACKLIGHT_FADING_SW_HW_REG
++
++/* Main LCD backlight brightness range and defaults */
++#define MIN_BRIGHTNESS_SETTING      1
++#define MAX_BRIGHTNESS_SETTING      14
++#define DEFAULT_BRIGHTNESS_SETTING  8
++
++#define CONFIG_I2C I2C_TCC780X
++
++#define BATTERY_CAPACITY_DEFAULT 1600 /* default battery capacity */
++#define BATTERY_CAPACITY_MIN 1500 /* min. capacity selectable */
++#define BATTERY_CAPACITY_MAX 3200 /* max. capacity selectable */
++#define BATTERY_CAPACITY_INC 50   /* capacity increment */
++#define BATTERY_TYPES_COUNT  1    /* only one type */
++
++/* Hardware controlled charging */
++#define CONFIG_CHARGING CHARGING_SIMPLE
++
++#ifndef SIMULATOR
++/* Define this if you have a TCC7801 */
++#define CONFIG_CPU TCC7801
++
++/* Define this if you have ATA power-off control */
++#define HAVE_ATA_POWER_OFF
++
++/* Define this to the CPU frequency */
++#define CPU_FREQ 48000000
++
++/* Define this if you have adjustable CPU frequency */
++#define HAVE_ADJUSTABLE_CPU_FREQ
++
++/* Offset ( in the firmware file's header ) to the file CRC */
++#define FIRMWARE_OFFSET_FILE_CRC 0
++
++/* Offset ( in the firmware file's header ) to the real data */
++#define FIRMWARE_OFFSET_FILE_DATA 8
++
++/* Software controlled LED */
++#define CONFIG_LED LED_VIRTUAL
++
++#define CONFIG_LCD LCD_YPP2
++
++#define BOOTFILE_EXT "ypp2"
++#define BOOTFILE "rockbox." BOOTFILE_EXT
++#define BOOTDIR "/.rockbox"
++
++
++#endif /* SIMULATOR */
+Index: firmware/SOURCES
+===================================================================
+--- firmware/SOURCES	(revision 21192)
++++ firmware/SOURCES	(working copy)
+ #endif /* SIMULATOR */
+ #endif
+ 
++#ifdef SAMSUNG_YPP2
++#ifndef SIMULATOR
++drivers/nand_id.c
++drivers/pcf50606.c
++target/arm/lcd-as-memframe.S
++target/arm/tcc780x/adc-tcc780x.c
++target/arm/tcc780x/system-tcc780x.c
++target/arm/tcc780x/ypp2/button-ypp2.c
++target/arm/tcc780x/ypp2/lcd-ypp2.c
++target/arm/tcc780x/ypp2/power-ypp2.c
++target/arm/tcc780x/ypp2/powermgmt-ypp2.c
++target/arm/tcc780x/ypp2/backlight-ypp2.c
++target/arm/usb-tcc.c
++#ifndef BOOTLOADER
++target/arm/tcc780x/kernel-tcc780x.c
++target/arm/tcc780x/timer-tcc780x.c
++target/arm/wmcodec-telechips.c
++target/arm/tcc780x/debug-tcc780x.c
++target/arm/pcm-telechips.c
++target/arm/tcc780x/ypp2/audio-ypp2.c
++#endif /* BOOTLOADER */
++#endif /* SIMULATOR */
++#endif /* SAMSUNG_P2 */
+Index: firmware/target/arm/tcc780x/system-tcc780x.c
+===================================================================
+--- firmware/target/arm/tcc780x/system-tcc780x.c	(revision 21192)
++++ firmware/target/arm/tcc780x/system-tcc780x.c	(working copy)
+@@ -151,9 +151,10 @@
+    investigate what the GPIO pins do.
+ */
+ 
+-#ifdef COWON_D2
++
+ static void gpio_init(void)
+ {
++#ifdef COWON_D2
+     /* Do what the original firmware does */
+     GPIOA = 0x07000C83;
+     GPIOA_DIR = 0x0F010CE3;
+@@ -170,13 +171,28 @@
+     PORTCFG1 = 0x0566A000;
+     PORTCFG2 = 0x000004C0;
+     PORTCFG3 = 0x0AA40455;
++#elif defined(SAMSUNG_YPP2)
++    GPIOA = 0x10400C03;
++    GPIOA_DIR = 0x1EE20C17;
++    GPIOB = 0;
++    GPIOB_DIR = 0x280000;
++    GPIOC = 0x20800000;
++    GPIOC_DIR = 0x10000007;
++    GPIOD = 0;
++    GPIOD_DIR = 0;
++    GPIOE = 0x100099;
++    GPIOE_DIR = 0x58009D;
++    
++    PORTCFG0 = 0x4000;
++    PORTCFG1 = 0xc06e8000;
++    PORTCFG2 = 0x00000933;
++    PORTCFG3 = 0x0fdff055;
++#endif
+ }
+-#endif
+ 
+-
+ /* Second function called in the original firmware's startup code - we just
+    set up the clocks in the same way as the original firmware for now. */
+-#ifdef COWON_D2
++#if (defined(COWON_D2) || defined(SAMSUNG_YPP2))
+ static void clock_init(void)
+ {
+     int i;
+@@ -238,7 +254,7 @@
+ #endif
+ 
+ 
+-#ifdef COWON_D2
++#if (defined(COWON_D2) || defined(SAMSUNG_YPP2))
+ void system_init(void)
+ {
+     MBCFG = 0x19;
+Index: firmware/target/arm/tcc780x/ypp2/backlight-ypp2.c
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/backlight-ypp2.c	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/backlight-ypp2.c	(revision 0)
+@@ -0,0 +1,51 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: backlight-cowond2.c 19221 2008-11-26 08:26:13Z pondlife $
++ *
++ * Copyright (C) 2008 by Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++#include "backlight-target.h"
++#include "system.h"
++#include "backlight.h"
++#include "pcf50606.h"
++#include "tcc780x.h"
++
++int _backlight_init(void)
++{
++    _backlight_set_brightness(DEFAULT_BRIGHTNESS_SETTING);
++    /* set backlight on by default, since the screen is unreadable without it */
++    _backlight_on();
++    return true;
++}
++
++void _backlight_set_brightness(int brightness)
++{
++    int level = disable_irq_save();
++    pcf50606_write(PCF5060X_PWMC1, 0xe1 | (MAX_BRIGHTNESS_SETTING-brightness)<<1);
++    pcf50606_write(PCF5060X_GPOC1, 0x3);
++    restore_irq(level);
++}
++
++void _backlight_on(void)
++{
++    GPIOA_SET = (1<<6);
++}
++
++void _backlight_off(void)
++{
++    GPIOA_CLEAR = (1<<6);
++}
+Index: firmware/target/arm/tcc780x/ypp2/adc-target.h
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/adc-target.h	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/adc-target.h	(revision 0)
+@@ -0,0 +1,28 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: adc-target.h 17847 2008-06-28 18:10:04Z bagder $
++ *
++ * Copyright (C) 2007 Dave Chapman
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++#ifndef _ADC_TARGET_H_
++#define _ADC_TARGET_H_
++
++#define NUM_ADC_CHANNELS 4
++
++#define ADC_BUTTONS 0
++
++#endif /* _ADC_TARGET_H_ */
+Index: firmware/target/arm/tcc780x/ypp2/backlight-target.h
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/backlight-target.h	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/backlight-target.h	(revision 0)
+@@ -0,0 +1,29 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: backlight-target.h 17847 2008-06-28 18:10:04Z bagder $
++ *
++ * Copyright (C) 2008 by Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++#ifndef BACKLIGHT_TARGET_H
++#define BACKLIGHT_TARGET_H
++
++int _backlight_init(void);
++void _backlight_on(void);
++void _backlight_off(void);
++void _backlight_set_brightness(int brightness);
++
++#endif
+Index: firmware/target/arm/tcc780x/ypp2/usb-ypp2.c
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/usb-ypp2.c	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/usb-ypp2.c	(revision 0)
+@@ -0,0 +1,45 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: usb-cowond2.c 17847 2008-06-28 18:10:04Z bagder $
++ *
++ * Copyright (C) 2008 by Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++
++#include "config.h"
++#include <stdbool.h>
++
++/* USB detect is currently unknown */
++inline bool usb_detect(void)
++{
++    return true;
++}
++
++void usb_init_device(void)
++{
++}
++
++void usb_enable(bool on)
++{
++    if (on)
++    {
++    
++    }
++    else
++    {
++    
++    }
++}
+Index: firmware/target/arm/tcc780x/ypp2/button-ypp2.c
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/button-ypp2.c	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/button-ypp2.c	(revision 0)
+@@ -0,0 +1,195 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: button-cowond2.c 20527 2009-03-24 23:06:36Z rob $
++ *
++ * Copyright (C) 2008 by Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++
++#include "config.h"
++#include "cpu.h"
++#include "button.h"
++#include "adc.h"
++#include "pcf50606.h"
++#include "backlight.h"
++#include "touchscreen.h"
++
++#define TOUCH_MARGIN 8
++
++static short last_x, last_y;
++static bool touch_available = false;
++
++void button_set_touch_available(void)
++{
++    touch_available = true;
++}
++
++struct touch_calibration_point {
++    short px_x; /* known pixel value */
++    short px_y;
++    short val_x; /* touchscreen value at the known pixel */
++    short val_y;
++};
++
++static struct touch_calibration_point topleft, bottomright;
++
++static int touch_to_pixels(short val_x, short val_y)
++{
++    short x,y;
++
++    x=val_x;
++    y=val_y;
++
++    x = (x-topleft.val_x)*(bottomright.px_x - topleft.px_x)
++            / (bottomright.val_x - topleft.val_x) + topleft.px_x;
++
++    y = (y-topleft.val_y)*(bottomright.px_y - topleft.px_y)
++            / (bottomright.val_y - topleft.val_y) + topleft.px_y;
++
++    if (x < 0)
++        x = 0;
++    else if (x>=LCD_WIDTH)
++        x=LCD_WIDTH-1;
++
++    if (y < 0)
++        y = 0;
++    else if (y>=LCD_HEIGHT)
++        y=LCD_HEIGHT-1;
++
++    return (x<<16)|y;
++}
++
++void button_init_device(void)
++{
++    /* Configure GPIOA 4 (POWER) and 8 (HOLD) for input */
++    GPIOA_DIR &= ~0x110;
++    
++    /* Configure GPIOB 4 (button pressed) for input */
++    GPIOB_DIR &= ~0x10;
++
++    touch_available = false;
++
++    /* Arbitrary touchscreen calibration */
++    topleft.px_x = 0;
++    topleft.px_y = 0;
++    topleft.val_x = 50;
++    topleft.val_y = 50;
++
++    bottomright.px_x = LCD_WIDTH;
++    bottomright.px_y = LCD_HEIGHT;
++    bottomright.val_x = 980;
++    bottomright.val_y = 980;
++}
++
++bool button_hold(void)
++{
++    return (GPIOA & 0x8) ? false : true;
++}
++
++int button_read_device(int *data)
++{
++    int btn = BUTTON_NONE;
++    int adc;
++    *data = 0;
++    
++    if (button_hold()) return BUTTON_NONE;
++
++    if (GPIOB & 0x4)
++    {
++        adc = adc_read(ADC_BUTTONS);
++
++        /* The following contains some arbitrary, but working, guesswork */
++        if (adc < 0x038) {
++            btn |= (BUTTON_MINUS | BUTTON_PLUS | BUTTON_MENU);
++        } else if (adc < 0x048) {
++            btn |= (BUTTON_MINUS | BUTTON_PLUS);
++        } else if (adc < 0x058) {
++            btn |= (BUTTON_PLUS | BUTTON_MENU);
++        } else if (adc < 0x070) {
++            btn |= BUTTON_PLUS;
++        } else if (adc < 0x090) {
++            btn |= (BUTTON_MINUS  | BUTTON_MENU);
++        } else if (adc < 0x150) {
++            btn |= BUTTON_MINUS;
++        } else if (adc < 0x200) {
++            btn |= BUTTON_MENU;
++        }
++    }
++
++    if (touch_available)
++    {
++        short x = 0, y = 0;
++        static long last_touch = 0;
++        bool send_touch = false;
++
++        int irq_level = disable_irq_save();
++        if (pcf50606_read(PCF5060X_ADCC1) & 0x80) /* Pen down */
++        {
++            unsigned char buf[3];
++
++            pcf50606_write(PCF5060X_ADCC2, (0xE<<1) | 1); /* ADC start X+Y */
++
++            do {
++                buf[1] = pcf50606_read(PCF5060X_ADCS2);
++            } while (!(buf[1] & 0x80));        /* Busy wait on ADCRDY flag */
++
++            buf[0] = pcf50606_read(PCF5060X_ADCS1);
++            buf[2] = pcf50606_read(PCF5060X_ADCS3);
++
++            pcf50606_write(PCF5060X_ADCC2, 0);            /* ADC stop */
++
++            x = (buf[0] << 2) | (buf[1] & 3);
++            y = (buf[2] << 2) | ((buf[1] & 0xC) >> 2);
++
++            if (TIME_BEFORE(last_touch + HZ/5, current_tick))
++            {
++                if ((x > last_x + TOUCH_MARGIN) ||
++                    (x < last_x - TOUCH_MARGIN) ||
++                    (y > last_y + TOUCH_MARGIN) ||
++                    (y < last_y - TOUCH_MARGIN))
++                {
++                    send_touch = true;
++                }
++            }
++            else
++            {
++                send_touch = true;
++            }
++        }
++        restore_irq(irq_level);
++
++        if (send_touch)
++        {
++            last_x = x;
++            last_y = y;
++            *data = touch_to_pixels(x, y);
++            btn |= touchscreen_to_pixels((*data&0xffff0000)>>16,
++                                         (*data&0x0000ffff),
++                                         data);
++        }
++
++        last_touch = current_tick;
++        touch_available = false;
++    }
++
++    if (!(GPIOA & 0x4))
++        btn |= BUTTON_POWER;
++        
++    if(btn & BUTTON_TOUCHSCREEN && !is_backlight_on(true))
++        *data = 0;
++    
++    return btn;
++}
+Index: firmware/target/arm/tcc780x/ypp2/power-ypp2.c
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/power-ypp2.c	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/power-ypp2.c	(revision 0)
+@@ -0,0 +1,148 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: power-cowond2.c 19315 2008-12-03 19:54:25Z jethead71 $
++ *
++ * Copyright (C) 2007 Dave Chapman
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++#include "cpu.h"
++#include "kernel.h"
++#include "system.h"
++#include "power.h"
++#include "pcf50606.h"
++#include "button-target.h"
++#include "tuner.h"
++
++void power_init(void)
++{
++    unsigned char data[3]; /* 0 = INT1, 1 = INT2, 2 = INT3 */
++
++    /* Clear pending interrupts from pcf50606 */
++    pcf50606_read_multiple(0x02, data, 3);
++    
++    /* Set outputs as per OF - further investigation required. */
++    pcf50606_write(PCF5060X_DCDEC1,  0xe4);
++    pcf50606_write(PCF5060X_IOREGC,  0xf5);
++    pcf50606_write(PCF5060X_D1REGC1, 0xf5);
++    pcf50606_write(PCF5060X_D2REGC1, 0xe9);
++    pcf50606_write(PCF5060X_D3REGC1, 0xf8); /* WM8985 3.3v */
++    pcf50606_write(PCF5060X_DCUDC1,  0xe7);
++    pcf50606_write(PCF5060X_LPREGC1, 0x0);
++    pcf50606_write(PCF5060X_LPREGC2, 0x2);
++
++#ifndef BOOTLOADER
++    IEN |= EXT3_IRQ_MASK;   /* Unmask EXT3 */
++#endif
++}
++
++void ide_power_enable(bool on)
++{
++    (void)on;
++}
++
++bool ide_powered(void)
++{
++    return true;
++}
++
++void power_off(void)
++{
++    /* Forcibly cut power to SoC & peripherals by putting the PCF to sleep */
++    pcf50606_write(PCF5060X_OOCC1, GOSTDBY | CHGWAK | EXTONWAK);
++}
++
++#ifndef BOOTLOADER
++void EXT3(void)
++{
++    unsigned char data[3]; /* 0 = INT1, 1 = INT2, 2 = INT3 */
++
++    /* Clear pending interrupts from pcf50606 */
++    pcf50606_read_multiple(0x02, data, 3);
++
++    if (data[0] & 0x04)
++    {
++        /* ONKEY1S: don't reset the timeout, because we want a way to power off
++           the player in the event of a crashed plugin or UIE/panic, etc. */
++#if 0
++        /* ONKEY1S: reset timeout as we're using SW poweroff */
++        pcf50606_write(0x08, pcf50606_read(0x08) | 0x02); /* OOCC1: TOTRST=1 */
++#endif
++    }
++
++    if (data[2] & 0x08)
++    {
++        /* Touchscreen event, do something about it */
++        button_set_touch_available();
++    }
++}
++#endif
++
++#if CONFIG_CHARGING
++unsigned int power_input_status(void)
++{
++    return ((GPIOC & (1<<26)) == 0) ?
++        POWER_INPUT_MAIN_CHARGER : POWER_INPUT_NONE;
++}
++#endif
++
++#if CONFIG_TUNER
++
++/** Tuner **/
++static bool powered = false;
++
++bool tuner_power(bool status)
++{
++    bool old_status;
++    lv24020lp_lock();
++
++    old_status = powered;
++
++    if (status != old_status)
++    {
++        if (status)
++        {
++            /* When power up, host should initialize the 3-wire bus
++               in host read mode: */
++
++            /* 1. Set direction of the DATA-line to input-mode. */
++            GPIOC_DIR &= ~(1 << 30); 
++
++            /* 2. Drive NR_W low */
++            GPIOC_CLEAR = (1 << 31); 
++            GPIOC_DIR |= (1 << 31); 
++
++            /* 3. Drive CLOCK high */
++            GPIOC_SET = (1 << 29); 
++            GPIOC_DIR |= (1 << 29); 
++
++            lv24020lp_power(true);
++        }
++        else
++        {
++            lv24020lp_power(false);
++
++            /* set all as inputs */
++            GPIOC_DIR &= ~((1 << 29) | (1 << 30) | (1 << 31));
++        }
++
++        powered = status;
++    }
++
++    lv24020lp_unlock();
++    return old_status;
++}
++
++#endif /* CONFIG_TUNER */
+Index: firmware/target/arm/tcc780x/ypp2/button-target.h
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/button-target.h	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/button-target.h	(revision 0)
+@@ -0,0 +1,69 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: button-target.h 18338 2008-08-23 09:46:38Z mcuelenaere $
++ *
++ * Copyright (C) 2007 by Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++
++#ifndef _BUTTON_TARGET_H_
++#define _BUTTON_TARGET_H_
++
++#include <stdbool.h>
++#include "config.h"
++
++#define HAS_BUTTON_HOLD
++
++bool button_hold(void);
++void button_init_device(void);
++int button_read_device(int *data);
++void button_set_touch_available(void);
++
++/* Main unit's buttons */
++#define BUTTON_POWER      0x00000001
++#define BUTTON_PLUS       0x00000002
++#define BUTTON_MINUS      0x00000004
++#define BUTTON_MENU       0x00000008
++
++/* Compatibility hacks for flipping. Needs a somewhat better fix. */
++#define BUTTON_LEFT  BUTTON_MIDLEFT
++#define BUTTON_RIGHT BUTTON_MIDRIGHT
++#define BUTTON_UP    BUTTON_TOPMIDDLE
++#define BUTTON_DOWN  BUTTON_BOTTOMMIDDLE
++
++/* Touch Screen Area Buttons */
++#define BUTTON_TOPLEFT      0x00000010
++#define BUTTON_TOPMIDDLE    0x00000020
++#define BUTTON_TOPRIGHT     0x00000040
++#define BUTTON_MIDLEFT      0x00000080
++#define BUTTON_CENTER       0x00000100
++#define BUTTON_MIDRIGHT     0x00000200
++#define BUTTON_BOTTOMLEFT   0x00000400
++#define BUTTON_BOTTOMMIDDLE 0x00000800
++#define BUTTON_BOTTOMRIGHT  0x00001000
++
++#define BUTTON_TOUCH        0x00002000
++
++#define BUTTON_MAIN 0x3FFF
++
++/* No remote */
++#define BUTTON_REMOTE 0
++
++/* Software power-off */
++#define POWEROFF_BUTTON BUTTON_POWER
++#define POWEROFF_COUNT 10
++                
++#endif /* _BUTTON_TARGET_H_ */
+Index: firmware/target/arm/tcc780x/ypp2/i2c-target.h
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/i2c-target.h	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/i2c-target.h	(revision 0)
+@@ -0,0 +1,39 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: i2c-target.h 17847 2008-06-28 18:10:04Z bagder $
++ *
++ * Copyright (C) 2008 by Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++#ifndef I2C_TARGET_H
++#define I2C_TARGET_H
++
++/* Definitions for the D2 I2C bus */
++
++#define SCL_BIT (1<<0)
++#define SDA_BIT (1<<1)
++
++#define SCL    (GPIOA & SCL_BIT)
++#define SCL_HI GPIOA_SET = SCL_BIT
++#define SCL_LO GPIOA_CLEAR = SCL_BIT
++
++#define SDA        (GPIOA & SDA_BIT)
++#define SDA_HI     GPIOA_SET = SDA_BIT
++#define SDA_LO     GPIOA_CLEAR = SDA_BIT
++#define SDA_INPUT  GPIOA_DIR &= ~SDA_BIT
++#define SDA_OUTPUT GPIOA_DIR |= SDA_BIT
++
++#endif /* I2C_TARGET_H */
+Index: firmware/target/arm/tcc780x/ypp2/powermgmt-ypp2.c
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/powermgmt-ypp2.c	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/powermgmt-ypp2.c	(revision 0)
+@@ -0,0 +1,84 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: powermgmt-cowond2.c 17847 2008-06-28 18:10:04Z bagder $
++ *
++ * Copyright (C) 2007 by Karl Kurbjun
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++
++#include "config.h"
++#include "adc.h"
++#include "powermgmt.h"
++#include "kernel.h"
++#include "pcf50606.h"
++
++unsigned short current_voltage = 3910;
++
++const unsigned short battery_level_dangerous[BATTERY_TYPES_COUNT] =
++{
++    /* FIXME: calibrate value */
++    3380
++};
++
++const unsigned short battery_level_shutoff[BATTERY_TYPES_COUNT] =
++{
++    /* FIXME: calibrate value */
++    3300
++};
++
++/* voltages (millivolt) of 0%, 10%, ... 100% when charging disabled */
++const unsigned short percent_to_volt_discharge[BATTERY_TYPES_COUNT][11] =
++{
++    /* FIXME: calibrate values. Table is "inherited" from iPod-PCF / H100 */
++    { 3370, 3650, 3700, 3740, 3780, 3820, 3870, 3930, 4000, 4080, 4160 }
++};
++
++#if CONFIG_CHARGING
++/* voltages (millivolt) of 0%, 10%, ... 100% when charging enabled */
++const unsigned short percent_to_volt_charge[11] =
++{
++    /* FIXME: calibrate values. Table is "inherited" from iPod-PCF / H100 */
++    3370, 3650, 3700, 3740, 3780, 3820, 3870, 3930, 4000, 4080, 4160
++};
++#endif /* CONFIG_CHARGING */
++
++#define BATTERY_SCALE_FACTOR 6000
++/* full-scale ADC readout (2^10) in millivolt */
++
++/* Returns battery voltage from ADC [millivolts] */
++unsigned int battery_adc_voltage(void)
++{
++    static unsigned last_tick = 0;
++
++    if (TIME_BEFORE(last_tick+HZ, current_tick))
++    {
++        int adc_val, irq_status;
++        unsigned char buf[2];
++
++        irq_status = disable_irq_save();
++        pcf50606_write(PCF5060X_ADCC2, 0x1);
++        pcf50606_read_multiple(PCF5060X_ADCS1, buf, 2);
++        restore_interrupt(irq_status);
++
++        adc_val = (buf[0]<<2) | (buf[1] & 3); //ADCDAT1H+ADCDAT1L
++        current_voltage = (adc_val * BATTERY_SCALE_FACTOR) >> 10;
++
++        last_tick = current_tick;
++    }
++
++    return current_voltage;
++}
++
+Index: firmware/target/arm/tcc780x/ypp2/audio-ypp2.c
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/audio-ypp2.c	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/audio-ypp2.c	(revision 0)
+@@ -0,0 +1,96 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: audio-cowond2.c 20420 2009-03-21 00:13:20Z rob $
++ *
++ * Copyright (C) 2007 by Michael Sevakis
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++#include "system.h"
++#include "cpu.h"
++#include "audio.h"
++#include "sound.h"
++
++int audio_channels = 2;
++int audio_output_source = AUDIO_SRC_PLAYBACK;
++
++void audio_set_output_source(int source)
++{
++    int oldmode = set_fiq_status(FIQ_DISABLED);
++
++    if ((unsigned)source >= AUDIO_NUM_SOURCES)
++        source = AUDIO_SRC_PLAYBACK;
++
++    audio_output_source = source;
++
++    /*if (source != AUDIO_SRC_PLAYBACK)
++        IISCONFIG |= (1 << 29);*/
++
++    set_fiq_status(oldmode);
++}
++
++void audio_input_mux(int source, unsigned flags)
++{
++    static int last_source = AUDIO_SRC_PLAYBACK;
++    static bool last_recording = false;
++    bool recording = flags & SRCF_RECORDING;
++
++    switch (source)
++    {
++        default:                        /* playback - no recording */
++            source = AUDIO_SRC_PLAYBACK;
++        case AUDIO_SRC_PLAYBACK:
++            audio_channels = 2;
++            if (source != last_source)
++            {
++                /*audiohw_set_monitor(false);
++                audiohw_disable_recording();*/
++                audiohw_set_aux_vol(0,0);
++            }
++            break;
++
++        case AUDIO_SRC_MIC:             /* recording only */
++            audio_channels = 1;
++            if (source != last_source)
++            {
++                /*audiohw_set_monitor(false);
++                audiohw_enable_recording(true);  /. source mic */
++            }
++            break;
++
++        case AUDIO_SRC_FMRADIO:         /* recording and playback */
++            audio_channels = 2;
++
++            if (source == last_source && recording == last_recording)
++                break;
++
++            last_recording = recording;
++
++            if (recording)
++            {
++                /*audiohw_set_monitor(false);
++                audiohw_enable_recording(false);*/
++            }
++            else
++            {
++                /*audiohw_disable_recording();
++                audiohw_set_monitor(true); /. line 1 analog audio path */
++                audiohw_set_aux_vol(7,7);
++            }
++            break;
++    } /* end switch */
++
++    last_source = source;
++} /* audio_input_mux */
+Index: firmware/target/arm/tcc780x/ypp2/lcd-ypp2.c
+===================================================================
+--- firmware/target/arm/tcc780x/ypp2/lcd-ypp2.c	(revision 0)
++++ firmware/target/arm/tcc780x/ypp2/lcd-ypp2.c	(revision 0)
+@@ -0,0 +1,364 @@
++/***************************************************************************
++ *             __________               __   ___.
++ *   Open      \______   \ ____   ____ |  | _\_ |__   _______  ___
++ *   Source     |       _//  _ \_/ ___\|  |/ /| __ \ /  _ \  \/  /
++ *   Jukebox    |    |   (  <_> )  \___|    < | \_\ (  <_> > <  <
++ *   Firmware   |____|_  /\____/ \___  >__|_ \|___  /\____/__/\_ \
++ *                     \/            \/     \/    \/            \/
++ * $Id: lcd-cowond2.c 20585 2009-03-30 21:15:15Z rob $
++ *
++ * Copyright (C) 2008 by Rob Purchase
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
++ * KIND, either express or implied.
++ *
++ ****************************************************************************/
++#include "config.h"
++
++#include "hwcompat.h"
++#include "kernel.h"
++#include "lcd.h"
++#include "system.h"
++#include "cpu.h"
++
++/* GPIO A pins for LCD panel SDI interface */
++
++#define LTV250QV_CS  (1<<23)
++#define LTV250QV_SCL (1<<11)
++#define LTV250QV_SDI (1<<10)
++
++/* LCD Controller registers */
++
++#define LCDC_CTRL    (*(volatile unsigned long *)0xF0000000)
++#define LCDC_CLKDIV  (*(volatile unsigned long *)0xF0000008)
++#define LCDC_HTIME1  (*(volatile unsigned long *)0xF000000C)
++#define LCDC_HTIME2  (*(volatile unsigned long *)0xF0000010)
++#define LCDC_VTIME1  (*(volatile unsigned long *)0xF0000014)
++#define LCDC_VTIME2  (*(volatile unsigned long *)0xF0000018)
++#define LCDC_VTIME3  (*(volatile unsigned long *)0xF000001C)
++#define LCDC_VTIME4  (*(volatile unsigned long *)0xF0000020)
++#define LCDC_DS      (*(volatile unsigned long *)0xF000005C)
++#define LCDC_I1CTRL  (*(volatile unsigned long *)0xF000008C)
++#define LCDC_I1POS   (*(volatile unsigned long *)0xF0000090)
++#define LCDC_I1SIZE  (*(volatile unsigned long *)0xF0000094)
++#define LCDC_I1BASE  (*(volatile unsigned long *)0xF0000098)
++#define LCDC_I1OFF   (*(volatile unsigned long *)0xF00000A8)
++#define LCDC_I1SCALE (*(volatile unsigned long *)0xF00000AC)
++
++/* Power and display status */
++static bool display_on  = false; /* Is the display turned on? */
++
++static unsigned lcd_yuv_options = 0;
++
++/* Framebuffer copy as seen by the hardware */
++fb_data lcd_driver_framebuffer[LCD_FBHEIGHT][LCD_FBWIDTH];
++
++int lcd_default_contrast(void)
++{
++    return 0x1f;
++}
++
++void lcd_set_contrast(int val)
++{
++    /* TODO: This won't be implemented until the S6F2002 controller
++       is better understood (nb: registers 16-23 control gamma). */
++    (void)val;
++}
++
++
++/* LTV250QV panel functions */
++
++/* Delay loop based on CPU frequency (FREQ>>23 is 3..22 for 32MHz..192MHz) */
++static void delay_loop(void)
++{
++    unsigned long x;
++    for (x = (unsigned)(FREQ>>23); x; x--);
++}
++#define DELAY delay_loop()
++
++static void ltv250qv_write(unsigned int command)
++{
++    int i;
++    
++    GPIOC_CLEAR = LTV250QV_CS;
++    DELAY;
++
++    for (i = 15; i >= 0; i--)
++    {
++      GPIOA_CLEAR = LTV250QV_SCL;
++      DELAY;
++
++      if ((command>>i) & 1)
++        GPIOA_SET = LTV250QV_SDI;
++      else
++        GPIOA_CLEAR = LTV250QV_SDI;
++      
++      DELAY;
++      GPIOA_SET = LTV250QV_SCL;
++    }
++
++    DELAY;
++    GPIOC_SET = LTV250QV_CS;
++}
++
++static void lcd_write_reg(unsigned char reg, unsigned short val)
++{
++    int level = disable_irq_save();
++    
++    ltv250qv_write(0x740000 | reg);
++    ltv250qv_write(0x760000 | val);
++    
++    restore_irq(level);
++}
++
++static void lcd_display_on(void)
++{
++    /* power on sequence as per the D2 firmware */
++    GPIOA_SET = (1<<16);
++    udelay(10000);
++    
++    lcd_write_reg(13, 0xD44);
++    lcd_write_reg(13, 0xD4D);
++    lcd_write_reg(11, 0xB06);
++    lcd_write_reg(64, 0x40C0);
++    lcd_write_reg(66, 0x4243);
++    lcd_write_reg(66, 0x4428);
++    lcd_write_reg(13, 0xD4F);
++
++    /* tell that we're on now */
++    display_on = true;
++}
++
++static void lcd_display_off(void)
++{
++    /* block drawing operations and changing of first */
++    display_on = false;
++
++    /* LQV shutdown sequence */
++    lcd_write_reg(13, 0xD4C);
++
++    /* kill power to LCD panel (unconfirmed) */
++    GPIOA_CLEAR = (1<<16);
++}
++
++
++void lcd_enable(bool on)
++{
++    if (on == display_on)
++        return;
++
++    if (on)
++    {
++        lcd_display_on();
++        LCDC_CTRL |= 1;     /* controller enable */
++        lcd_update();       /* Resync display */
++        lcd_activation_call_hook();
++    }
++    else
++    {
++        LCDC_CTRL &= ~1;    /* controller disable */
++        lcd_display_off();
++    }
++}
++
++bool lcd_active(void)
++{
++    return display_on;
++}
++
++/* TODO: implement lcd_sleep() and separate out the power on/off functions */
++
++void lcd_init_device(void)
++{
++    BCLKCTR |= 4;   /* enable LCD bus clock */
++    
++    /* set PCK_LCD to 108Mhz */
++    PCLK_LCD &= ~PCK_EN;
++    PCLK_LCD = PCK_EN | (CKSEL_PLL1<<24) | 1;  /* source = PLL1, divided by 2 */
++    
++    /* reset the LCD controller */
++    SWRESET |= 4;
++    SWRESET &= ~4;
++    
++    /* set port configuration */
++    PORTCFG1 &= ~0xC0000000;
++    PORTCFG1 &= ~0x3FC0;
++    PORTCFG2 &= ~0x100;
++    
++    /* set physical display size */
++    LCDC_DS = (LCD_HEIGHT<<16) | LCD_WIDTH;
++
++    LCDC_HTIME1 = (0x29<<16) | 0x1df;
++    LCDC_HTIME2 = (1<<16) | 1;
++    LCDC_VTIME1 = LCDC_VTIME3 = (0<<16) | 271;
++    LCDC_VTIME2 = LCDC_VTIME4 = (3<<16) | 5;
++
++    LCDC_I1BASE  = (unsigned int)lcd_driver_framebuffer;
++    LCDC_I1SIZE  = (LCD_HEIGHT<<16) | LCD_WIDTH;  /* image 1 size */
++    LCDC_I1POS   = (0<<16) | 0;                   /* position */
++    LCDC_I1OFF   = 0;                             /* address offset */
++    LCDC_I1SCALE = 0;                             /* scaling */
++    LCDC_I1CTRL  = 5;                             /* 565bpp (7 = 888bpp) */
++    LCDC_CTRL &= ~(1<<28);
++
++    LCDC_CLKDIV = (LCDC_CLKDIV &~ 0xFF00FF) | (1<<16) | 7; /* and this means? */
++    
++    /* set and clear various flags - not investigated yet */
++    LCDC_CTRL &~ 0x090006AA;  /* clear bits 1,3,5,7,9,10,24,27 */
++    LCDC_CTRL |= 0x02806144;  /*   set bits 2,6,8,25,23 */
++    LCDC_CTRL = (LCDC_CTRL &~ 0xF0000) | 0x50000;
++    LCDC_CTRL = (LCDC_CTRL &~ 0xF00000) | 0x500000;
++
++    /* enable LCD controller */
++    LCDC_CTRL |= 1;
++    
++    /* enable LTV250QV panel */
++    lcd_display_on();
++}
++
++
++/*** Update functions ***/
++
++
++/* Copies a rectangle from one framebuffer to another. Can be used in
++   single transfer mode with width = num pixels, and height = 1 which
++   allows a full-width rectangle to be copied more efficiently. */
++extern void lcd_copy_buffer_rect(fb_data *dst, const fb_data *src,
++                                 int width, int height);
++
++/* Update the display.
++   This must be called after all other LCD functions that change the display. */
++void lcd_update(void) ICODE_ATTR;
++void lcd_update(void)
++{
++    if (!display_on)
++        return;
++
++    lcd_copy_buffer_rect(&lcd_driver_framebuffer[0][0],
++                         &lcd_framebuffer[0][0], LCD_WIDTH*LCD_HEIGHT, 1);
++}
++
++/* Update a fraction of the display. */
++void lcd_update_rect(int, int, int, int) ICODE_ATTR;
++void lcd_update_rect(int x, int y, int width, int height)
++{
++    fb_data *dst, *src;
++
++    if (!display_on)
++        return;
++
++    if (x + width > LCD_WIDTH)
++        width = LCD_WIDTH - x; /* Clip right */
++    if (x < 0)
++        width += x, x = 0; /* Clip left */
++    if (width <= 0)
++        return; /* nothing left to do */
++
++    if (y + height > LCD_HEIGHT)
++        height = LCD_HEIGHT - y; /* Clip bottom */
++    if (y < 0)
++        height += y, y = 0; /* Clip top */
++    if (height <= 0)
++        return; /* nothing left to do */
++
++    /* TODO: It may be faster to swap the addresses of lcd_driver_framebuffer
++     * and lcd_framebuffer */
++    dst = &lcd_driver_framebuffer[y][x];
++    src = &lcd_framebuffer[y][x];
++
++    /* Copy part of the Rockbox framebuffer to the second framebuffer */
++    if (width < LCD_WIDTH)
++    {
++        /* Not full width - do line-by-line */
++        lcd_copy_buffer_rect(dst, src, width, height);
++    }
++    else
++    {
++        /* Full width - copy as one line */
++        lcd_copy_buffer_rect(dst, src, LCD_WIDTH*height, 1);
++    }
++}
++
++void lcd_set_flip(bool yesno)
++{
++    // TODO
++    (void)yesno;
++}
++
++void lcd_set_invert_display(bool yesno)
++{
++    // TODO
++    (void)yesno;
++}
++
++void lcd_yuv_set_options(unsigned options)
++{
++    lcd_yuv_options = options;
++}
++
++/* Line write helper function for lcd_yuv_blit. Write two lines of yuv420. */
++extern void lcd_write_yuv420_lines(fb_data *dst,
++                                   unsigned char const * const src[3],
++                                   int width,
++                                   int stride);
++
++extern void lcd_write_yuv420_lines_odither(fb_data *dst,
++                                           unsigned char const * const src[3],
++                                           int width,
++                                           int stride,
++                                           int x_screen, /* To align dither pattern */
++                                           int y_screen);
++
++/* Performance function to blit a YUV bitmap directly to the LCD */
++void lcd_blit_yuv(unsigned char * const src[3],
++                  int src_x, int src_y, int stride,
++                  int x, int y, int width, int height)
++{
++    unsigned char const * yuv_src[3];
++    off_t z;
++
++    if (!display_on)
++        return;
++
++    /* Sorry, but width and height must be >= 2 or else */
++    width &= ~1;
++    height >>= 1;
++
++    fb_data *dst = &lcd_driver_framebuffer[y][x];
++
++    z = stride*src_y;
++    yuv_src[0] = src[0] + z + src_x;
++    yuv_src[1] = src[1] + (z >> 2) + (src_x >> 1);
++    yuv_src[2] = src[2] + (yuv_src[1] - src[1]);
++
++    if (lcd_yuv_options & LCD_YUV_DITHER)
++    {
++        do
++        {
++            lcd_write_yuv420_lines_odither(dst, yuv_src, width, stride, y, x);
++            yuv_src[0] += stride << 1; /* Skip down two luma lines */
++            yuv_src[1] += stride >> 1; /* Skip down one chroma line */
++            yuv_src[2] += stride >> 1;
++            dst += 2*LCD_FBWIDTH;
++            y -= 2;
++        }
++        while (--height > 0);
++    }
++    else
++    {
++        do
++        {
++            lcd_write_yuv420_lines(dst, yuv_src, width, stride);
++            yuv_src[0] += stride << 1; /* Skip down two luma lines */
++            yuv_src[1] += stride >> 1; /* Skip down one chroma line */
++            yuv_src[2] += stride >> 1;
++            dst += 2*LCD_FBWIDTH;
++        }
++        while (--height > 0);
++    }
++}
+Index: firmware/target/arm/wmcodec-telechips.c
+===================================================================
+--- firmware/target/arm/wmcodec-telechips.c	(revision 21192)
++++ firmware/target/arm/wmcodec-telechips.c	(working copy)
+@@ -31,7 +31,7 @@
+ #include "i2c.h"
+ #include "wmcodec.h"
+ 
+-#if defined(COWON_D2)
++#if defined(COWON_D2) || defined(SAMSUNG_YPP2)
+ /* The D2's audio codec uses an I2C address of 0x34 */
+ #define I2C_AUDIO_ADDRESS 0x34
+ #elif defined (IAUDIO_7) || defined(LOGIK_DAX) || defined(SANSA_M200)
+Index: firmware/target/arm/ata-nand-telechips.c
+===================================================================
+--- firmware/target/arm/ata-nand-telechips.c	(revision 21192)
++++ firmware/target/arm/ata-nand-telechips.c	(working copy)
+@@ -48,7 +48,7 @@
+ 
+ static struct mutex ata_mtx SHAREDBSS_ATTR;
+ 
+-#if defined(COWON_D2) || defined(IAUDIO_7)
++#if defined(COWON_D2) || defined(IAUDIO_7) || defined(SAMSUNG_YPP2)
+ #define FTL_V2
+ #define MAX_WRITE_CACHES    8
+ #else
+Index: firmware/target/arm/pcm-telechips.c
+===================================================================
+--- firmware/target/arm/pcm-telechips.c	(revision 21192)
++++ firmware/target/arm/pcm-telechips.c	(working copy)
+@@ -71,7 +71,7 @@
+ void pcm_play_dma_init(void)
+ {
+     DAVC = 0x0;         /* Digital Volume = max */
+-#ifdef COWON_D2
++#if defined(COWON_D2) || defined(SAMSUNG_YPP2)
+     /* Set DAI clock divided from PLL0 (192MHz).
+        The best approximation of 256*44.1kHz is 11.291MHz. */
+     BCLKCTR &= ~DEV_DAI;

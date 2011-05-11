@@ -1,0 +1,24 @@
+# ChangeLog for dev-ruby/flay
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*flay-1.4.1 (23 Sep 2010)
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> +flay-1.4.1.ebuild:
+  Version bump.
+
+  05 Aug 2010; Hans de Graaff <graaff@gentoo.org> -flay-1.4.0.ebuild:
+  Remove old version.
+
+*flay-1.4.0-r1 (28 Dec 2009)
+
+  28 Dec 2009; Hans de Graaff <graaff@gentoo.org> +flay-1.4.0-r1.ebuild:
+  Convert to ruby-fakegem. Specs fail, revisit later. Drop x86 keyword since
+  dependencies have not been keyworded yet.
+
+*flay-1.4.0 (05 Nov 2009)
+
+  05 Nov 2009; Hans de Graaff <graaff@gentoo.org> +flay-1.4.0.ebuild,
+  +metadata.xml:
+  Initial import.
+

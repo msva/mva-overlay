@@ -1,0 +1,61 @@
+# ChangeLog for dev-ruby/newrelic_rpm
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  newrelic_rpm-2.10.8-r1.ebuild, newrelic_rpm-2.12.3.ebuild,
+  newrelic_rpm-2.12.3-r1.ebuild:
+  Keyword ~x86-macos.
+
+  10 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  files/newrelic_rpm-2.12.3-less-stdout.patch:
+  Hack patch to actually work.
+
+*newrelic_rpm-2.12.3-r1 (16 Jul 2010)
+
+  16 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  +newrelic_rpm-2.12.3-r1.ebuild,
+  +files/newrelic_rpm-2.12.3-less-stdout.patch:
+  Add patch to output less purely informational into to stdout.
+
+*newrelic_rpm-2.12.3 (07 Jul 2010)
+
+  07 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  +newrelic_rpm-2.12.3.ebuild:
+  Version bump.
+
+  07 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  -newrelic_rpm-2.9.4.ebuild, -newrelic_rpm-2.9.9.ebuild,
+  files/newrelic_rpm-2.9.9-no-webrick.patch, -newrelic_rpm-2.10.8.ebuild,
+  files/newrelic_rpm-2.10.8-no-webrick.patch, metadata.xml:
+  Remove old versions.
+
+*newrelic_rpm-2.10.8-r1 (21 May 2010)
+
+  21 May 2010; Hans de Graaff <graaff@gentoo.org>
+  +newrelic_rpm-2.10.8-r1.ebuild,
+  +files/newrelic_rpm-2.10.8-no-webrick.patch:
+  Patch out webrick detection because it generates false positives.
+
+*newrelic_rpm-2.10.8 (06 Apr 2010)
+
+  06 Apr 2010; Hans de Graaff <graaff@gentoo.org>
+  +newrelic_rpm-2.10.8.ebuild:
+  Version bump.
+
+  16 Jan 2010; Hans de Graaff <graaff@gentoo.org> newrelic_rpm-2.9.9.ebuild,
+  +files/newrelic_rpm-2.9.9-no-webrick.patch:
+  Remove webrick detection, it is wrong too often.
+
+*newrelic_rpm-2.9.9 (15 Jan 2010)
+
+  15 Jan 2010; Hans de Graaff <graaff@gentoo.org>
+  +newrelic_rpm-2.9.9.ebuild:
+  Version bump. Convert to ruby-fakegem.
+
+*newrelic_rpm-2.9.4 (08 Sep 2009)
+
+  08 Sep 2009; Hans de Graaff <graaff@gentoo.org>
+  +newrelic_rpm-2.9.4.ebuild, +metadata.xml:
+  Initial import.
+

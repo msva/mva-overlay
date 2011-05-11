@@ -1,0 +1,14 @@
+Remove webrick detection since it is very unreliable and it gets it
+wrong in many cases. And really, who is using webrick?
+
+--- lib/new_relic/local_environment.rb.~1~	2010-01-15 10:59:33.635092502 +0100
++++ lib/new_relic/local_environment.rb	2010-01-15 11:01:08.207217589 +0100
+@@ -149,7 +149,7 @@
+     # is not advisable since it implies certain api's being available.
+     def discover_dispatcher
+       @dispatcher = ENV['NEWRELIC_DISPATCHER'] && ENV['NEWRELIC_DISPATCHER'].to_sym
+-      dispatchers = %w[passenger glassfish thin mongrel litespeed webrick fastcgi unicorn]
++      dispatchers = %w[passenger glassfish thin mongrel litespeed fastcgi unicorn]
+       while dispatchers.any? && @dispatcher.nil?
+         send 'check_for_'+(dispatchers.shift)
+       end

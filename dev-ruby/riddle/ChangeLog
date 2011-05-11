@@ -1,0 +1,35 @@
+# ChangeLog for dev-ruby/riddle
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  28 Dec 2010; Hans de Graaff <graaff@gentoo.org> riddle-1.1.0.ebuild:
+  Keyword ~x86-macos.
+
+  28 Dec 2010; Hans de Graaff <graaff@gentoo.org> -riddle-1.0.10.ebuild:
+  Remove old version.
+
+*riddle-1.1.0 (23 Sep 2010)
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> +riddle-1.1.0.ebuild:
+  Version bump.
+
+  05 Aug 2010; Hans de Graaff <graaff@gentoo.org> -riddle-1.0.6.ebuild,
+  -riddle-1.0.8.ebuild:
+  Remove old versions.
+
+*riddle-1.0.10 (23 Feb 2010)
+
+  23 Feb 2010; Hans de Graaff <graaff@gentoo.org> +riddle-1.0.10.ebuild:
+  Version bump. Convert to ruby-fakegem.
+
+*riddle-1.0.8 (15 Dec 2009)
+
+  15 Dec 2009; Hans de Graaff <graaff@gentoo.org> +riddle-1.0.8.ebuild:
+  Version bump, required by new thinking-sphinx version.
+
+*riddle-1.0.6 (06 Dec 2009)
+
+  06 Dec 2009; Hans de Graaff <graaff@gentoo.org> +riddle-1.0.6.ebuild,
+  +metadata.xml:
+  Initial import, refactored out of thinking_sphinx.
+

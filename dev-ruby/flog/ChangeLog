@@ -1,0 +1,29 @@
+# ChangeLog for dev-ruby/flog
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+
+*flog-2.5.0 (23 Sep 2010)
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> +flog-2.5.0.ebuild:
+  Version bump.
+
+  24 Mar 2010; Hans de Graaff <graaff@gentoo.org> -flog-2.2.0.ebuild:
+  Remove old version.
+
+*flog-2.4.0 (28 Dec 2009)
+
+  28 Dec 2009; Hans de Graaff <graaff@gentoo.org> +flog-2.4.0.ebuild,
+  metadata.xml:
+  Version bump, convert to ruby-fakegem.
+
+  27 Dec 2009; Hans de Graaff <graaff@gentoo.org> -flog-2.1.0.ebuild,
+  +metadata.xml:
+  Remove old version.
+
+*flog-2.2.0 (02 Sep 2009)
+
+  02 Sep 2009; Hans de Graaff <graaff@gentoo.org> +flog-2.2.0.ebuild:
+  Version bump.
+
+  16 May 2009; Hans de Graaff <graaff@gentoo.org> ChangeLog:
+  Version bump. Clean up ebuild to have right description and license.
+

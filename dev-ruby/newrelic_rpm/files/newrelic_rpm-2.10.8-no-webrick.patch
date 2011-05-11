@@ -1,0 +1,11 @@
+--- lib/new_relic/local_environment.rb.~1~	2010-05-21 09:23:04.784895876 +0200
++++ lib/new_relic/local_environment.rb	2010-05-21 09:24:03.672933709 +0200
+@@ -163,7 +163,7 @@
+     # is not advisable since it implies certain api's being available.
+     def discover_dispatcher
+       @dispatcher ||= ENV['NEWRELIC_DISPATCHER'] && ENV['NEWRELIC_DISPATCHER'].to_sym
+-      dispatchers = %w[passenger torquebox glassfish thin mongrel litespeed webrick fastcgi unicorn sinatra]
++      dispatchers = %w[passenger torquebox glassfish thin mongrel litespeed fastcgi unicorn sinatra]
+       while dispatchers.any? && @dispatcher.nil?
+         send 'check_for_'+(dispatchers.shift)
+       end

@@ -1,0 +1,32 @@
+# ChangeLog for dev-ruby/icalendar
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+
+  07 Jan 2011; Hans de Graaff <graaff@gentoo.org> icalendar-1.1.4.ebuild,
+  icalendar-1.1.5.ebuild:
+  Keyword ~x86-macos.
+
+*icalendar-1.1.5 (09 Jul 2010)
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org> +icalendar-1.1.5.ebuild:
+  Version bump: Fix for windows line endings.
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org> -icalendar-1.1.0.ebuild,
+  -icalendar-1.1.3.ebuild:
+  Remove old versions.
+
+  06 Jun 2010; Hans de Graaff <graaff@gentoo.org> icalendar-1.1.4.ebuild:
+  Tests have been fixed so unrestrict this.
+
+*icalendar-1.1.4 (07 May 2010)
+
+  07 May 2010; Hans de Graaff <graaff@gentoo.org> +icalendar-1.1.4.ebuild:
+  Version bump with bug fixes.
+
+*icalendar-1.1.3 (29 Mar 2010)
+
+  29 Mar 2010; Hans de Graaff <graaff@gentoo.org> +icalendar-1.1.3.ebuild:
+  Version bump.
+
+  25 Mar 2009; Hans de Graaff <graaff@gentoo.org> ChangeLog:
+  Initial import
+

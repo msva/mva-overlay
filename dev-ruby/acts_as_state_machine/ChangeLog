@@ -1,0 +1,14 @@
+# ChangeLog for dev-ruby/acts_as_state_machine
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Jan 2011; Hans de Graaff <graaff@gentoo.org>
+  acts_as_state_machine-2.2.0.ebuild:
+  Keyword ~x86-macos.
+
+*acts_as_state_machine-2.2.0 (24 Aug 2010)
+
+  24 Aug 2010; Hans de Graaff <graaff@gentoo.org>
+  +acts_as_state_machine-2.2.0.ebuild, +metadata.xml:
+  Initial import.
+

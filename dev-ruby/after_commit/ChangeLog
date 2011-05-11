@@ -1,0 +1,39 @@
+# ChangeLog for dev-ruby/after_commit
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  28 Dec 2010; Hans de Graaff <graaff@gentoo.org> after_commit-1.0.8.ebuild:
+  Keyword ~x86-macos.
+
+  28 Dec 2010; Hans de Graaff <graaff@gentoo.org>
+  -after_commit-1.0.6.ebuild, -after_commit-1.0.7.ebuild:
+  Remove old versions.
+
+*after_commit-1.0.8 (23 Sep 2010)
+
+  23 Sep 2010; Hans de Graaff <graaff@gentoo.org>
+  +after_commit-1.0.8.ebuild:
+  Version bump.
+
+*after_commit-1.0.7 (09 Jul 2010)
+
+  09 Jul 2010; Hans de Graaff <graaff@gentoo.org>
+  +after_commit-1.0.7.ebuild:
+  Version bump.
+
+  24 Mar 2010; Hans de Graaff <graaff@gentoo.org>
+  -after_commit-1.0.5.ebuild:
+  Remove old version.
+
+*after_commit-1.0.6 (19 Feb 2010)
+
+  19 Feb 2010; Hans de Graaff <graaff@gentoo.org>
+  +after_commit-1.0.6.ebuild:
+  Version bump. Convert to ruby-fakegem.
+
+*after_commit-1.0.5 (06 Dec 2009)
+
+  06 Dec 2009; Hans de Graaff <graaff@gentoo.org>
+  +after_commit-1.0.5.ebuild, +metadata.xml:
+  Initial import, dependency of thinking_sphinx.
+

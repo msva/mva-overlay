@@ -1,0 +1,10 @@
+# ChangeLog for dev-ruby/redgreen
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*redgreen-1.2.2 (16 Jan 2010)
+
+  16 Jan 2010; Hans de Graaff <graaff@gentoo.org> +redgreen-1.2.2.ebuild,
+  +metadata.xml:
+  Initial import, dependency of www-misc/jekyll.
+
