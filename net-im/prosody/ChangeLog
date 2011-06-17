@@ -1,0 +1,67 @@
+# ChangeLog for net-im/prosody
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/net-im/prosody/ChangeLog,v 1.14 2011/06/06 11:44:26 djc Exp $
+
+  06 Jun 2011; Dirkjan Ochtman <djc@gentoo.org> -prosody-0.7.0.ebuild,
+  -files/prosody-0.7.0-cfg.lua.patch, -prosody-0.8.0.ebuild:
+  Remove old versions.
+
+*prosody-0.8.1 (06 Jun 2011)
+
+  06 Jun 2011; Dirkjan Ochtman <djc@gentoo.org> +prosody-0.8.1.ebuild:
+  Version bump to 0.8.1, change SQL dependencies (bug 369623).
+
+*prosody-0.8.0-r1 (02 May 2011)
+
+  02 May 2011; Dirkjan Ochtman <djc@gentoo.org> +prosody-0.8.0-r1.ebuild:
+  Add optional dependency on lua-zlib, for XMPP compression (bug 360683).
+
+  08 Apr 2011; Dirkjan Ochtman <djc@gentoo.org> -prosody-0.6.2.ebuild,
+  -files/prosody-0.6.2-cfg.lua.patch:
+  Remove old version.
+
+*prosody-0.8.0 (08 Apr 2011)
+
+  08 Apr 2011; Dirkjan Ochtman <djc@gentoo.org> +prosody-0.8.0.ebuild,
+  +files/prosody-0.8.0-cfg.lua.patch, metadata.xml:
+  Version bump to 0.8.0 (bug 352382).
+
+  22 Mar 2011; Ulrich Mueller <ulm@gentoo.org> prosody-0.6.2.ebuild,
+  prosody-0.7.0.ebuild:
+  Drop PROVIDE=virtual/jabber-server, bug 358833.
+
+*prosody-0.7.0 (16 Mar 2011)
+
+  16 Mar 2011; Dirkjan Ochtman <djc@gentoo.org> +prosody-0.7.0.ebuild,
+  +files/prosody-0.7.0-cfg.lua.patch, metadata.xml:
+  Version bump to 0.7.0 (bug 323999).
+
+  05 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  prosody-0.6.2.ebuild:
+  Fixed luafilesystem dependency.
+
+  05 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  prosody-0.6.2.ebuild:
+  Fixed luasocket dependency.
+
+  05 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  prosody-0.6.2.ebuild:
+  Fixed luasec dependency.
+
+  05 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  prosody-0.6.2.ebuild, metadata.xml:
+  Fixed luaexpat dependency. Added myself to metadata.xml.
+
+  13 Jul 2010; Jorge Manuel B. S. Vicetto <jmbsvicetto@gentoo.org>
+  metadata.xml:
+  Added missing herd tag to metadata.xml
+
+  27 May 2010; Dirkjan Ochtman <djc@gentoo.org> prosody-0.6.2.ebuild:
+  Add some die statements as needed.
+
+*prosody-0.6.2 (27 May 2010)
+
+  27 May 2010; Dirkjan Ochtman <djc@gentoo.org> +prosody-0.6.2.ebuild,
+  +files/prosody-0.6.2-cfg.lua.patch, +files/prosody.initd, +metadata.xml:
+  Initial version, contributed by jochen@schalanda.de in bug 290594.
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <herd>no-herd</herd>
+  <maintainer>
+    <email>djc@gentoo.org</email>
+  </maintainer>
+  <maintainer>
+    <email>rafaelmartins@gentoo.org</email>
+  </maintainer>
+  <use>
+    <flag name="libevent">Use libevent for event handling</flag>
+    <flag name="sql">Require dev-lua/luadbi for SQL storage plugins</flag>
+    <flag name="zlib">Support for compressing XMPP streams with mod_compression</flag>
+  </use>
+</pkgmetadata>
