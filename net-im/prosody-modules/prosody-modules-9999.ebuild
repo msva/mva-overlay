@@ -28,10 +28,10 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	cd "${S}";
-	insinto /usr/lib/prosody/modules/
 	for m in ${IUSE}; do
 		if use ${m}; then
-			doins "mod_${m}/mod_${m}.lua" || die
+			insinto "/usr/lib/prosody/modules/mod_${m}";
+			doins "mod_${m}"/* || die
 		fi
 	done
 }
