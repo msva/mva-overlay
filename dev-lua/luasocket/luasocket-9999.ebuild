@@ -1,8 +1,8 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lua/luasocket/luasocket-2.0.2.ebuild,v 1.1 2010/11/05 21:31:09 rafaelmartins Exp $
+# $Header: $
 
-EAPI=2
+EAPI=4
 
 inherit multilib toolchain-funcs flag-o-matic mercurial eutils
 
@@ -12,7 +12,7 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/luasocket2-hg/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="debug"
 
 RDEPEND=">=dev-lang/lua-5.1[deprecated]"

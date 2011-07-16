@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: AntiXpucT $
 
-EAPI=2
+EAPI=4
 
 inherit qt4-r2 subversion
 

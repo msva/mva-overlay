@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=4
 inherit cmake-utils qt4-r2
 
 DESCRIPTION="Qt based GUI for sapec-ng (electric circuit analizys program)"

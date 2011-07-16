@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: NEEDS MAINTAINER!!!! $
 
-EAPI="3"
+EAPI=4
 USE_RUBY="ruby18"
 
 RUBY_FAKEGEM_TASK_DOC=""

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-ruby/oauth/oauth-0.4.3.ebuild,v 1.1 2010/09/18 09:58:03 graaff Exp $
 
-EAPI="2"
+EAPI=4
 USE_RUBY="ruby18"
 
 RUBY_FAKEGEM_TASK_TEST=""

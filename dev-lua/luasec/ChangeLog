@@ -1,0 +1,25 @@
+# ChangeLog for dev-lua/luasec
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/dev-lua/luasec/ChangeLog,v 1.2 2010/11/05 21:33:44 rafaelmartins Exp $
+
+  05 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  luasec-0.4.ebuild:
+  Fixed luasocket dependency.
+
+  05 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  +luasec-0.4.ebuild, +files/luasec-0.4_Makefile.patch, +metadata.xml:
+  Moved from dev-libs to dev-lua. Added myself to metadata.xml.
+
+  13 Jul 2010; Jorge Manuel B. S. Vicetto <jmbsvicetto@gentoo.org>
+  metadata.xml:
+  Added missing herd tag to metadata.xml
+
+  27 May 2010; Dirkjan Ochtman <djc@gentoo.org> luasec-0.4.ebuild:
+  Fix up use of bare make, pointed out by ssuominen.
+
+*luasec-0.4 (27 May 2010)
+
+  27 May 2010; Dirkjan Ochtman <djc@gentoo.org> +luasec-0.4.ebuild,
+  +files/luasec-0.4_Makefile.patch, +metadata.xml:
+  Initial ebuild by jochen@schalanda.de, bug 290592.
+
