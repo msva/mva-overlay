@@ -1,8 +1,8 @@
-# ChangeLog for dev-lua/luasec
+# ChangeLog for dev-lua/squish
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*luasec-9999 (17 Jul 2011)
+*squish-9999 (17 Jul 2011)
 
   17 Jul 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
-        Initial commit.
+	Initial commit.

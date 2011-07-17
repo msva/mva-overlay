@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="debug"
 
-RDEPEND=">=dev-lang/lua-5.1[deprecated]"
+RDEPEND=">=dev-lang/lua-5.1"
 DEPEND="${RDEPEND}
 	dev-util/pkgconfig"
 
@@ -24,19 +24,20 @@ src_compile() {
 	use debug && append-flags -DLUASOCKET_DEBUG
 	append-flags -fPIC
 
-	emake \
-		CFLAGS="${CFLAGS}" \
-		LDFLAGS="${LDFLAGS}" \
-		CC="$(tc-getCC)" \
-		LD="$(tc-getCC) -shared" \
-		|| die
+	emake linux \
+			CFLAGS="${CFLAGS}" \
+			LDFLAGS="${LDFLAGS} -o" \
+			CC="$(tc-getCC)" \
+			LD="$(tc-getCC) -shared" || die
+# I'm sorry for dirty LDFLAGS hack with "-o", but it is only way
+# to fix it ATM..
+# //wbr mva.
 }
 
 src_install() {
 	emake install \
 		INSTALL_TOP_SHARE="${D}/$(pkg-config --variable INSTALL_LMOD lua)" \
-		INSTALL_TOP_LIB="${D}/$(pkg-config --variable INSTALL_CMOD lua | sed -e "s:lib/:$(get_libdir)/:")" \
-		|| die
+		INSTALL_TOP_LIB="${D}/$(pkg-config --variable INSTALL_CMOD lua | sed -e "s:lib/:$(get_libdir)/:")" || die
 
 	dodoc NEW README || die
 	dohtml doc/* || die
