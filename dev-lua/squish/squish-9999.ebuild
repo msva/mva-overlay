@@ -8,7 +8,7 @@ inherit multilib toolchain-funcs flag-o-matic mercurial eutils
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.mathewwild.co.uk/"
-EHG_REPO_URI="http://code.matthewwild.co.uk/squish/"
+EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 
 LICENSE="MIT"
 SLOT="0"

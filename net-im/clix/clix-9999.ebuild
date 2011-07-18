@@ -17,15 +17,15 @@ IUSE=""
 
 RDEPEND=">=dev-lang/lua-5.1
 	dev-lua/squish
-	dev-lua/luasocket"
+	dev-lua/verse
+	dev-lua/luaexpat"
 DEPEND="${RDEPEND}"
 
 src_compile() {
-squish --use-http
+squish
 }
 
 src_install() {
-	insinto $(pkg-config --variable INSTALL_LMOD lua)
-	doins verse.lua || die
-	dodoc doc/* || die
+	#insinto $(pkg-config --variable INSTALL_LMOD lua)
+	newbin clix.bin clix || die
 }
