@@ -1,0 +1,17 @@
+diff --git a/Makefile.in b/Makefile.in
+index 69a9229..eccdbf4 100644
+--- a/Makefile.in
++++ b/Makefile.in
+@@ -69,12 +69,6 @@ install:
+ 	@cd man/ && $(MAKE) install
+ 	# test if the jk_chrootsh is already in /etc/shells
+ 	# this previously had @echo but that fails on FreeBSD
+-	if test -w /etc/shells; then \
+-		if ! grep ${prefix}/sbin/jk_chrootsh /etc/shells ; then \
+-			echo "appending ${prefix}/sbin/jk_chroots to /etc/shells";\
+-			echo ${prefix}/sbin/jk_chrootsh >> /etc/shells ;\
+-		fi \
+-	fi
+ 
+ 
+ uninstall:

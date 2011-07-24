@@ -1,0 +1,12 @@
+diff --git a/py/Makefile.in b/py/Makefile.in
+index 925cd12..7ffb1a2 100644
+--- a/py/Makefile.in
++++ b/py/Makefile.in
+@@ -67,7 +67,6 @@ install: all
+ 	done
+ 	${INSTALL} -d -m 755 ${DESTDIR}${PYLIBDIR}
+ 	${INSTALL} -m 0644 jk_lib.py ${DESTDIR}${PYLIBDIR}/
+-	${INSTALL} -m 0644 jk_lib.pyc ${DESTDIR}${PYLIBDIR}/
+ 
+ uninstall:
+ 	for file in ${PY_BINS}; do \

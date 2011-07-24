@@ -1,0 +1,36 @@
+# ChangeLog for app-admin/cpulimit
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/app-admin/cpulimit/ChangeLog,v 1.8 2009/09/14 21:02:40 volkmar Exp $
+
+  14 Sep 2009; Mounir Lamouri <volkmar@gentoo.org> cpulimit-1.1.ebuild:
+  Keywording for ppc.
+
+  23 Oct 2008; Diego Pettenò <flameeyes@gentoo.org>
+  files/cpulimit-1.1-makefile.patch, cpulimit-1.1.ebuild:
+  Respect LDFLAGS, respect CC.
+
+  21 Apr 2007; Andrew Ross <aross@gentoo.org> cpulimit-1.1.ebuild:
+  Update HOMEPAGE and SRC_URI, thanks to Thomas Pani <thomas.pani@gmail.com> in
+  bug #174648
+
+  19 Mar 2007; Bryan Østergaard <kloeri@gentoo.org> metadata.xml:
+  Remove tcort from metadata.xml due to retirement.
+
+  01 Jan 2007; Charlie Shepherd <masterdriverz@gentoo.org>
+  cpulimit-1.1.ebuild:
+  Fix bug 157660
+
+  19 Nov 2006; Andrej Kacian <ticho@gentoo.org> cpulimit-1.1.ebuild:
+  Stable on x86, bug #155629.
+
+  19 Nov 2006; Thomas Cort <tcort@gentoo.org> cpulimit-1.1.ebuild:
+  Stable on amd64.
+
+*cpulimit-1.1 (19 Oct 2006)
+
+  19 Oct 2006; Thomas Cort <tcort@gentoo.org>
+  +files/cpulimit-1.1-makefile.patch, +files/cpulimit.8, +metadata.xml,
+  +cpulimit-1.1.ebuild:
+  Initial Commit. Ebuild from sunrise overlay. Ebuild originally from Rupel
+  <ruepel@gmx.li> on Bug #139547.
+

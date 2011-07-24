@@ -1,0 +1,46 @@
+diff --git a/configure.ac b/configure.ac
+index e77ea24..1814f2a 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -142,7 +142,7 @@ AC_CHECK_FUNCS(
+ 	[cap_get_proc],,
+ 	AC_CHECK_LIB([cap], [cap_get_proc],
+ 		AC_DEFINE(HAVE_CAP_GET_PROC)
+-		LDFLAGS="$LDLAGS -lcap",
++		LIBS="$LIBS -lcap",
+ 	)
+ )
+ 
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 49449b6..f55150f 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -67,22 +67,22 @@ OBJS = $(SRCS:.c=.o)
+ all: ${BINARIES}
+ 
+ jk_chrootlaunch: jk_chrootlaunch.o jk_lib.o utils.o
+-	$(CC) $(DEFS) $(LDFLAGS) $(LIBS) -o $@ jk_chrootlaunch.o jk_lib.o utils.o
++	$(CC) $(DEFS) $(LDFLAGS) -o $@ jk_chrootlaunch.o jk_lib.o utils.o $(LIBS)
+ 
+ jk_socketd: jk_socketd.o jk_lib.o utils.o iniparser.o
+-	$(CC) $(DEFS) $(LDFLAGS) $(LIBS) -o $@ jk_socketd.o jk_lib.o utils.o iniparser.o
++	$(CC) $(DEFS) $(LDFLAGS) -o $@ jk_socketd.o jk_lib.o utils.o iniparser.o $(LIBS)
+ 
+ jk_lsh: jk_lsh.o iniparser.o jk_lib.o utils.o wordexp.o
+-	$(CC) $(DEFS) $(LDFLAGS) $(LIBS) -o $@ jk_lsh.o iniparser.o jk_lib.o utils.o wordexp.o
++	$(CC) $(DEFS) $(LDFLAGS) -o $@ jk_lsh.o iniparser.o jk_lib.o utils.o wordexp.o $(LIBS)
+ 
+ jk_chrootsh: jk_chrootsh.o iniparser.o jk_lib.o utils.o passwdparser.o
+-	$(CC) $(DEFS) $(LDFLAGS) $(LIBS) -o $@ jk_chrootsh.o iniparser.o jk_lib.o utils.o passwdparser.o
++	$(CC) $(DEFS) $(LDFLAGS) -o $@ jk_chrootsh.o iniparser.o jk_lib.o utils.o passwdparser.o $(LIBS)
+ 
+ jk_uchroot: jk_uchroot.o iniparser.o jk_lib.o utils.o
+-	$(CC) $(DEFS) $(LDFLAGS) $(LIBS) -o $@ jk_uchroot.o iniparser.o jk_lib.o utils.o
++	$(CC) $(DEFS) $(LDFLAGS) -o $@ jk_uchroot.o iniparser.o jk_lib.o utils.o $(LIBS)
+ 
+ jk_procmailwrapper: jk_procmailwrapper.o jk_lib.o utils.o
+-	$(CC) $(DEFS) $(LDFLAGS) $(LIBS) -o $@ jk_procmailwrapper.o jk_lib.o utils.o
++	$(CC) $(DEFS) $(LDFLAGS) -o $@ jk_procmailwrapper.o jk_lib.o utils.o $(LIBS)
+ 
+ clean:
+ 	rm -f ${BINARIES}

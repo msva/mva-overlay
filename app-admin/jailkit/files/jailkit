@@ -1,0 +1,18 @@
+#!/sbin/runscript
+
+JK_SOCKETD="/usr/sbin/jk_socketd"
+
+depend() {
+	need logger
+}
+
+start() {
+	ebegin "Starting jk_socketd"
+	start-stop-daemon --start --exec ${JK_SOCKETD}
+	eend $?
+}
+stop() {
+	ebegin "Stopping jk_socketd"
+	start-stop-daemon --stop --exec ${JK_SOCKETD}
+	eend $?
+}
