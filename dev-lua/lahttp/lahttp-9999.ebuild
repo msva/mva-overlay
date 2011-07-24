@@ -6,7 +6,7 @@ EAPI=4
 
 inherit multilib toolchain-funcs flag-o-matic mercurial eutils
 
-DESCRIPTION="XMPP client library written in Lua."
+DESCRIPTION="Lua Asynchronous HTTP Library."
 HOMEPAGE="http://code.mathewwild.co.uk/"
 EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 
@@ -26,6 +26,5 @@ squish --use-http
 
 src_install() {
 	insinto $(pkg-config --variable INSTALL_LMOD lua)
-	doins verse.lua || die
-	dodoc doc/* || die
+	doins lahttp.lua || die
 }

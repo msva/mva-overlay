@@ -1,8 +1,8 @@
-# ChangeLog for dev-lua/verse
+# ChangeLog for dev-lua/lsysstats
 # Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*verse-9999 (17 Jul 2011)
+*lsysstats-9999 (17 Jul 2011)
 
   17 Jul 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
         Initial commit.

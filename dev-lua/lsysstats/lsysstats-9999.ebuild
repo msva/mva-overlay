@@ -20,12 +20,7 @@ RDEPEND=">=dev-lang/lua-5.1
 	dev-lua/luasocket"
 DEPEND="${RDEPEND}"
 
-src_compile() {
-squish --use-http
-}
-
 src_install() {
-	insinto $(pkg-config --variable INSTALL_LMOD lua)
-	doins verse.lua || die
-	dodoc doc/* || die
+	insinto $(pkg-config --variable INSTALL_LMOD lua)/${PN}/;
+	doins *.lua || die
 }
