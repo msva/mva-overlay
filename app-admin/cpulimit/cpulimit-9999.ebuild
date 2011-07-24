@@ -17,9 +17,7 @@ IUSE=""
 
 DEPEND=""
 
-src_unpack() {
-	unpack ${A}
-	cd "${S}"
+src_prepare() {
 	epatch "${FILESDIR}/${P}-makefile.patch"
 }
 
