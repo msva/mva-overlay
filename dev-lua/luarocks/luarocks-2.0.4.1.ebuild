@@ -39,6 +39,15 @@ src_configure() {
 			--force-config || die "configure failed"
 }
 
+src_compile() {
+        emake -j1 DESTDIR="${D}" || die "make failed"
+}
+
+src_install() {
+        emake -j1 DESTDIR="${D}" install || die "einstall"
+}
+
+
 pkg_preinst() {
 	find "${D}" -type f | xargs sed -i -e "s:${D}::g" || die "sed failed"
 }

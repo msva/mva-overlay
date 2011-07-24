@@ -21,6 +21,9 @@ DEPEND="dev-lang/lua
 RDEPEND="${DEPEND}
 		app-arch/unzip"
 
+#### sorry for that, but luarocks make fails if -j is >= 3
+MAKEOPTS="-j2"
+
 src_configure() {
 	USE_MD5="md5sum"
 	USE_FETCH="wget"
@@ -37,6 +40,14 @@ src_configure() {
 			--with-downloader=$USE_FETCH \
 			--with-md5-checker=$USE_MD5 \
 			--force-config || die "configure failed"
+}
+
+src_compile() {
+        emake -j1 DESTDIR="${D}" || die "make failed"
+}
+
+src_install() {
+        emake -j1 DESTDIR="${D}" install || die "einstall"
 }
 
 pkg_preinst() {
