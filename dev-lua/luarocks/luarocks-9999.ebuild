@@ -36,7 +36,7 @@ src_configure() {
 			--prefix=/usr \
 			--with-lua=/usr \
 			--with-lua-lib=/usr/$(get_libdir) \
-			--rocks-tree=/usr/lib/lua/luarocks \
+			--rocks-tree=/usr \
 			--with-downloader=$USE_FETCH \
 			--with-md5-checker=$USE_MD5 \
 			--force-config || die "configure failed"

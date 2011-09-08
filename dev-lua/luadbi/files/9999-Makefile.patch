@@ -1,0 +1,39 @@
+--- Makefile.old	2010-07-16 08:22:13.000000000 +0200
++++ Makefile	2011-01-08 11:35:16.000000000 +0100
+@@ -27,6 +27,14 @@
+ DB2_OBJS=$(OBJS) build/dbd_db2_main.o build/dbd_db2_connection.o build/dbd_db2_statement.o
+ ORACLE_OBJS=$(OBJS) build/dbd_oracle_main.o build/dbd_oracle_connection.o build/dbd_oracle_statement.o
+ 
++INSTALL = install
++INSTALL_PROGRAM = $(INSTALL)
++INSTALL_DATA = $(INSTALL) -m 644
++LUA_INC_DIR=/usr/include/lua5.1
++LUA_LIB_DIR=/usr/lib
++INSTALL_DIR_LUA=/usr/share/lua/5.1
++INSTALL_DIR_BIN=/usr/lib/lua/5.1
++
+ free: mysql psql sqlite3
+ 
+ all:  mysql psql sqlite3 db2 oracle
+@@ -90,3 +98,21 @@
+ build:
+ 	$(MKDIR) ${BUILDDIR}
+ 
++install_lua:
++	$(INSTALL_DATA) -D DBI.lua $(DESTDIR)$(INSTALL_DIR_LUA)/DBI.lua
++
++install_mysql: mysql install_lua
++	$(INSTALL_PROGRAM) -D $(DBDMYSQL) $(DESTDIR)$(INSTALL_DIR_BIN)/$(DBDMYSQL)
++
++install_psql: psql install_lua
++	$(INSTALL_PROGRAM) -D $(DBDPSQL) $(DESTDIR)$(INSTALL_DIR_BIN)/$(DBDPSQL)
++
++install_sqlite3: sqlite3 install_lua
++	$(INSTALL_PROGRAM) -D $(DBDSQLITE3) $(DESTDIR)$(INSTALL_DIR_BIN)/$(DBDSQLITE3)
++
++install_db2: db2 install_lua
++	$(INSTALL_PROGRAM) -D $(DBDDB2) $(DESTDIR)$(INSTALL_DIR_BIN)/$(DBDDB2)
++
++install_oracle: oracle install_lua
++	$(INSTALL_PROGRAM) -D $(DBDORACLE) $(DESTDIR)$(INSTALL_DIR_BIN)/$(DBDORACLE)
++
