@@ -1,0 +1,12 @@
+diff -ur trafshow-5.2.3.orig/session.c trafshow-5.2.3/session.c
+--- trafshow-5.2.3.orig/session.c	2006-01-08 07:58:08.000000000 +0200
++++ trafshow-5.2.3/session.c	2009-07-25 23:54:32.000000000 +0300
+@@ -40,7 +40,7 @@
+ #define	ASYNC_MODE	FNDELAY
+ #elif	O_ASYNC
+ #define	ASYNC_MODE	O_ASYNC
+-#elif
++#else
+ #error the fcntl argument to turn ON/OFF non-blocking I/O is unknown
+ #endif
+ 

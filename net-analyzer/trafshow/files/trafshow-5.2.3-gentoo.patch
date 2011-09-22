@@ -1,0 +1,15 @@
+--- trafshow-5.2.3/Makefile.in.orig	2004-06-15 10:29:14.000000000 +0200
++++ trafshow-5.2.3/Makefile.in	2009-01-15 06:49:41.000000000 +0100
+@@ -73,9 +73,9 @@
+ 	@echo 'char compiled[] = "$(CC) $(CFLAGS) $(LIBS)";' >> $@
+ 
+ install:
+-	./install-sh -c -s -m 555 -o bin -g bin $(PROG) $(BINDEST)/$(PROG)
+-	./install-sh -c -m 444 -o bin -g bin $(PROG).1 $(MANDEST)/man1/$(PROG).1
+-	[ -f /etc/$(PROG) ] || ./install-sh -c -m 444 .trafshow /etc/$(PROG)
++	./install-sh -c -m 755 -o root -g root $(PROG) $(DESTDIR)$(BINDEST)/$(PROG)
++	./install-sh -c -m 644 -o root -g root $(PROG).1 $(DESTDIR)$(MANDEST)/man1/$(PROG).1
++	[ -f $(DESTDIR)/etc/$(PROG) ] || ./install-sh -c -o root -m 644 .trafshow $(DESTDIR)/etc/$(PROG)
+ 
+ clean:
+ 	rm -f $(CLEANFILES)
