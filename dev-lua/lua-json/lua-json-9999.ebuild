@@ -12,27 +12,31 @@ DESCRIPTION="Lua Crypto Library"
 HOMEPAGE=""
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/msva/lua-crypto.git"
+EGIT_REPO_URI="git://github.com/msva/lua-json.git"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc"
+IUSE="doc examples"
 IUSE+="${LANGS// / linguas_}"
 
 RDEPEND=">=dev-lang/lua-5.1
-	>=dev-libs/openssl-0.9.7"
-DEPEND="${RDEPEND}
-	dev-util/pkgconfig"
+	dev-lua/luasocket"
+DEPEND="${RDEPEND}"
+#	dev-util/pkg-config"
 
 src_install() {
 	if use doc; then
 		dodoc README || die "dodoc (REAMDE) failed"
 		for x in ${LANGS}; do
 			if use linguas_${x}; then
-				dohtml -r doc/${x} || die "dohtml failed"
+				dohtml -r doc/"${x}" || die "dohtml failed"
 			fi
 		done
+	fi
+	if use examples; then
+		insinto /usr/share/doc/"${P}"
+		doins -r examples	
 	fi
 	default
 }
