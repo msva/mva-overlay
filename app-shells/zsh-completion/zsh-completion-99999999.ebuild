@@ -5,7 +5,8 @@
 inherit git
 DESCRIPTION="Programmable Completion for zsh (includes emerge and ebuild commands)"
 HOMEPAGE="http://gentoo.org"
-EGIT_REPO_URI="git://github.com/msva/gzc.git"
+#EGIT_REPO_URI="git://github.com/msva/gzc.git"
+EGIT_REPO_URI="git://github.com/zsh-users/zsh-completions"
 EGIT_TREE="HEAD" # SHA1 id
 
 LICENSE="ZSH"
