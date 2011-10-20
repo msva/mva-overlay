@@ -23,6 +23,6 @@ each_ruby_test() {
 	${RUBY} test/list_test.rb
 }
 
-all_ruby_install() {
-	dodoc README
-}
+#all_ruby_install() {
+#	dodoc README
+#}
