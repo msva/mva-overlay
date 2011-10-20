@@ -1,0 +1,16 @@
+# ChangeLog for dev-ruby/acts_as_list
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Jan 2011; Hans de Graaff <graaff@gentoo.org> acts_as_list-0.1.2.ebuild:
+  Keyword ~x86-macos.
+
+  18 Dec 2009; Hans de Graaff <graaff@gentoo.org> acts_as_list-0.1.2.ebuild:
+  Fix copy-paste issues.
+
+*acts_as_list-0.1.2 (15 Dec 2009)
+
+  15 Dec 2009; Hans de Graaff <graaff@gentoo.org>
+  +acts_as_list-0.1.2.ebuild, +metadata.xml:
+  Initial import.
+
