@@ -14,7 +14,8 @@ KEYWORDS="amd64 ~ia64 ppc ppc64 x86 ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-lin
 IUSE=""
 
 RDEPEND=">=app-admin/eselect-1.2.3"
-PDEPEND=""
+
+S="${WORKDIR}"
 
 src_install() {
 	insinto /usr/share/eselect/modules
