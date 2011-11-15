@@ -18,5 +18,9 @@
 	<flag name='http-cache'> </flag>
 	<flag name='nginx_modules_http_upload'>Enable support for handling file
 				uploads using multipart/form-data encoding</flag>
+	<flag name='nginx_modules_http_ey_balancer'>This module adds an upstream
+				connection queue to nginx</flag>
+	<flag name='nginx_modules_http_slowfs_cache'>This module adds the
+				ability to cache static files</flag>	
 </use>
 </pkgmetadata>
