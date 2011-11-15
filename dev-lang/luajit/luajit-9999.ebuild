@@ -33,7 +33,7 @@ src_prepare(){
 		-e 's|/lib|/$(get_libdir)|' \
 		-e 's|VERSION=.*|VERSION= ${PV}|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
-	sed -e 's|\(share/luajit\)-[^"]*|\1-${PV}/|g'
+	sed -e 's|\(share/luajit\)-[^"]*|\1-${PV}/|g' \
 		-e 's|/usr/local|/usr|' \
 		-e 's|lib/|$(get_libdir)/|' \
 		-i src/luaconf.h || die "failed to fix prefix in luaconf.h"
