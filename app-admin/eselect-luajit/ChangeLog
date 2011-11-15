@@ -1,0 +1,10 @@
+# ChangeLog for app-admin/eselect-luajit
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*eselect-luajit-0.1 (15 Nov 2011)
+
+  15 Nov 2011; mva <mva@mva.name> +files/luajit-0.1.eselect,
+  +metadata.xml, +eselect-luajit-0.1.ebuild:
+  Initial commit.
+

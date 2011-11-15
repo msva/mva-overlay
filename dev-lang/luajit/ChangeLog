@@ -1,0 +1,39 @@
+# ChangeLog for dev-lang/luajit
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/dev-lang/luajit/ChangeLog,v 1.7 2011/05/07 11:06:00 rafaelmartins Exp $
+
+*luajit-2.0.0_beta7 (07 May 2011)
+
+  07 May 2011; Rafael G. Martins <rafaelmartins@gentoo.org>
+  -luajit-2.0.0_beta6.ebuild, +luajit-2.0.0_beta7.ebuild:
+  Version bump.
+
+*luajit-2.0.0_beta6 (09 Mar 2011)
+
+  09 Mar 2011; Rafael G. Martins <rafaelmartins@gentoo.org>
+  -files/2.0.0_beta5_hotfix1.patch, -luajit-2.0.0_beta5-r1.ebuild,
+  +luajit-2.0.0_beta6.ebuild:
+  Version bump.
+
+*luajit-2.0.0_beta5-r1 (07 Nov 2010)
+
+  07 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  -luajit-2.0.0_beta5.ebuild, +luajit-2.0.0_beta5-r1.ebuild:
+  revbump
+
+  07 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  luajit-2.0.0_beta5.ebuild:
+  Fixed multilib, DESTDIR and PREFIX paths for luajit:2
+
+*luajit-2.0.0_beta5 (13 Oct 2010)
+
+  13 Oct 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  +files/2.0.0_beta5_hotfix1.patch, +luajit-2.0.0_beta5.ebuild:
+  Initial version for the branch 2.0. (bug #313005). Thanks to Paulo Matias.
+
+*luajit-1.1.6 (13 Oct 2010)
+
+  13 Oct 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
+  +luajit-1.1.6.ebuild, +metadata.xml:
+  Initial commit. (bugs #313005 and #317707)
+
