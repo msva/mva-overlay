@@ -1,0 +1,37 @@
+--- Makefile	2011-11-17 19:20:40.269174977 +0700
++++ Makefile	2011-11-17 19:20:14.839492893 +0700
+@@ -39,12 +39,11 @@
+ # Name of .pc file. "lua5.1" on Debian/Ubuntu
+ LUAPKG=lua5.1
+ OUTFILE=gd.so
+-CFLAGS=`gdlib-config --cflags` `pkg-config $(LUAPKG) --cflags` -O3 -Wall \
+-    $(OMITFP) -fPIC
++CFLAGS=`gdlib-config --cflags` `pkg-config $(LUAPKG) --cflags` $(OMITFP) -fPIC
+ GDFEATURES=`gdlib-config --features |sed -e "s/GD_/-DGD_/g"`
+-LFLAGS=-shared `gdlib-config --ldflags` `gdlib-config --libs` -lgd $(OMITFP)
+-INSTALL_PATH=`pkg-config $(LUAPKG) --variable=INSTALL_CMOD`
+-
++LIBS=`gdlib-config --libs` `pkg-config $(LUAPKG) --libs` -lgd
++LDFLAGS+=`gdlib-config --ldflags` -shared
++INSTALL_PATH=$(DESTDIR)`pkg-config $(LUAPKG) --variable=INSTALL_CMOD`
+ 
+ # ---------------------------------------------------------------------------
+ # Manual configuration for systems without pkgconfig.
+@@ -71,14 +70,15 @@
+ all: $(OUTFILE)
+ 
+ $(OUTFILE): gd.lo
+-	$(CC) -o $(OUTFILE) gd.lo $(LFLAGS)
++	$(CC) -o $(OUTFILE) gd.lo $(LDFLAGS) $(LIBS)
+ 	lua test_features.lua
+ 
+ gd.lo: luagd.c
+ 	$(CC) -o gd.lo -c $(GDFEATURES) $(CFLAGS) luagd.c
+ 
+ install: $(OUTFILE)
+-	install -D -s $(OUTFILE) $(INSTALL_PATH)
++	mkdir -p $(INSTALL_PATH)
++	install $(OUTFILE) $(INSTALL_PATH)
+ 
+ clean:
+ 	rm -f $(OUTFILE) gd.lo

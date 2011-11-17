@@ -1,0 +1,12 @@
+# ChangeLog for dev-libs/lua-gd
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Jul 2011; Piotr Szymaniak <szarpaj@grubelek.pl> lua-gd-2.0.33.2.ebuild:
+  EAPI bump, added png use depend to media-libs/gd.
+
+  24 Apr 2010; Denilson (CrazyTB) <denilsonsa@gmail.com>
+  +lua-gd-2.0.33.2.ebuild, +files/lua-gd-2.0.33.2-makefile.patch,
+  +metadata.xml:
+  New package lua-gd, wrt bug 316923, thanks to binki, Xarthisius and xmw.
+

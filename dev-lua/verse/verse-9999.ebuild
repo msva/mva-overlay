@@ -17,7 +17,10 @@ IUSE=""
 
 RDEPEND=">=dev-lang/lua-5.1
 	dev-lua/squish
-	dev-lua/luasocket"
+	dev-lua/luasocket
+	dev-lua/luaexpat
+	dev-lua/luafilesystem
+	dev-lua/LuaBitOp"
 DEPEND="${RDEPEND}"
 
 src_compile() {

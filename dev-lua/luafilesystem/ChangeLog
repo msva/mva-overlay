@@ -1,0 +1,9 @@
+# ChangeLog for dev-lua/luafilesystem
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*luafilesystem-9999 (17 Nov 2011)
+
+  17 Nov 2011; <mva@gentoo.org> +luafilesystem-9999.ebuild, +metadata.xml:
+  Initial commit.
+
