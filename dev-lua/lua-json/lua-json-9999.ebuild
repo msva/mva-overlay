@@ -8,8 +8,8 @@ LANGS=" en ru"
 
 inherit multilib toolchain-funcs flag-o-matic git-2 eutils
 
-DESCRIPTION="Lua Crypto Library"
-HOMEPAGE=""
+DESCRIPTION="Lua JSON Libary, written in pure Lua"
+HOMEPAGE="http://luaforge.net/projects/json"
 SRC_URI=""
 
 EGIT_REPO_URI="git://github.com/msva/lua-json.git"
@@ -23,7 +23,6 @@ IUSE+="${LANGS// / linguas_}"
 RDEPEND=">=dev-lang/lua-5.1
 	dev-lua/luasocket"
 DEPEND="${RDEPEND}"
-#	dev-util/pkg-config"
 
 src_install() {
 	if use doc; then
@@ -36,7 +35,7 @@ src_install() {
 	fi
 	if use examples; then
 		insinto /usr/share/doc/"${P}"
-		doins -r examples	
+		doins -r examples
 	fi
 	default
 }

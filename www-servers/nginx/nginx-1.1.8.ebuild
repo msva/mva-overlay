@@ -23,8 +23,10 @@ USE_RUBY="ruby18 ree18 jruby"
 RUBY_OPTIONAL="yes"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
+HTTP_UPLOAD_PROGRESS_MODULE_AUTHOR="masterzen"
+HTTP_UPLOAD_PROGRESS_MODULE_NAME="ngx_upload_progress"
 HTTP_UPLOAD_PROGRESS_MODULE_PV="0.8.3"
-HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE_PV}"
+HTTP_UPLOAD_PROGRESS_MODULE_P="${HTTP_UPLOAD_PROGRESS_MODULE_NAME}-${HTTP_UPLOAD_PROGRESS_MODULE_PV}"
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="c7c663f"
 
 # http_headers_more (http://github.com/agentzh/headers-more-nginx-module, BSD license)
@@ -54,6 +56,14 @@ HTTP_EY_BALANCER_MODULE_SHA1="d373670"
 HTTP_NDK_MODULE_PV="0.2.17rc2"
 HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="bc97eea"
+
+# NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
+HTTP_SET_HASH_MODULE_AUTHOR="simpl"
+HTTP_SET_HASH_MODULE_NAME="ngx_http_set_hash"
+HTTP_SET_HASH_MODULE_PV="0.2.1"
+HTTP_SET_HASH_MODULE_SHA1="cfdd587"
+HTTP_SET_HASH_MODULE_P="${HTTP_SET_HASH_MODULE_NAME}-${HTTP_NDK_MODULE_PV}"
+HTTP_SET_HASH_MODULE_PB="${HTTP_SET_HASH_MODULE_AUTHOR}-${HTTP_SET_HASH_MODULE_NAME}-${HTTP_NDK_MODULE_SHA1}"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
 HTTP_LUA_MODULE_PV="0.3.1rc19"
@@ -105,6 +115,24 @@ HTTP_ARRAY_VAR_MODULE_PV="0.03rc1"
 HTTP_ARRAY_VAR_MODULE_P="array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_PV}"
 HTTP_ARRAY_VAR_MODULE_SHA1="fed751a"
 
+# NginX Encrypt Session module (https://github.com/agentzh/encrypted-session-nginx-module, BSD)
+HTTP_ENCS_MODULE_PV="0.01"
+HTTP_ENCS_MODULE_P="encrypted-session-nginx-module-${HTTP_ENCS_MODULE_PV}"
+HTTP_ENCS_MODULE_SHA1="26da7fc"
+
+# NginX Encrypt Session module (https://github.com/agentzh/redis2-nginx-module, BSD)
+HTTP_REDIS2_MODULE_PV="0.08rc1"
+HTTP_REDIS2_MODULE_P="redis2-nginx-module-${HTTP_REDIS2_MODULE_PV}"
+HTTP_REDIS2_MODULE_SHA1="23cf589"
+
+#NginX RDS-Parser   (git://github.com/agentzh/lua-rds-parser.git, BSD)
+#NginX Redis Parser (git://github.com/agentzh/lua-redis-parser.git, BSD)
+
+# NginX RDS-CSV module (https://github.com/agentzh/rds-csv-nginx-module, BSD)
+HTTP_RDS_CSV_MODULE_PV="0.04"
+HTTP_RDS_CSV_MODULE_P="rds-csv-nginx-module-${HTTP_RDS_CSV_MODULE_PV}"
+HTTP_RDS_CSV_MODULE_SHA1="4cd999b"
+
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module, BSD)
 HTTP_ICONV_MODULE_PV="0.10rc5"
 HTTP_ICONV_MODULE_P="iconv-nginx-module-${HTTP_ICONV_MODULE_PV}"
@@ -132,12 +160,27 @@ HTTP_SUPERVISORD_MODULE_P="ngx_supervisord-${HTTP_SUPERVISORD_MODULE_PV}"
 HTTP_AUTH_REQUEST_MODULE_PV="0.2"
 HTTP_AUTH_REQUEST_MODULE_P="ngx_http_auth_request_module-${HTTP_AUTH_REQUEST_MODULE_PV}"
 
+# NginX Auth Request module (BSD)
+HTTP_UPSTREAM_KEEPALIVE_MODULE_PV="0.7"
+HTTP_UPSTREAM_KEEPALIVE_MODULE_P="ngx_http_upstream_keepalive-${HTTP_UPSTREAM_KEEPALIVE_MODULE_PV}"
+
 # http_slowfs_cache (http://labs.frickle.com/nginx_ngx_slowfs_cache/, BSD-2 license)
 HTTP_SLOWFS_CACHE_MODULE_PV="1.6"
 HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 
 CHUNKIN_MODULE_PV="0.22rc2"
+CHUNKIN_MODULE_P="chunkin-nginx-module-${CHUNKIN_MODULE_PV}"
 CHUNKIN_MODULE_SHA1="b46dd27"
+
+PAM_MODULE_PV="1.2"
+PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}"
+
+REDIS_MODULE_PV="0.3.5"
+REDIS_MODULE_P="ngx_http_redis-${REDIS_MODULE_PV}"
+
+RRD_MODULE_PV="0.2.0"
+RRD_MODULE_P="mod_rrd_graph-${RRD_MODULE_PV}"
+RRD_MODULE_D="Mod_rrd_graph-${RRD_MODULE_PV}"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic
 
@@ -165,15 +208,19 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_array_var? ( https://github.com/agentzh/array-var-nginx-module/tarball/v${HTTP_ARRAY_VAR_MODULE_PV} -> ${HTTP_ARRAY_VAR_MODULE_P}.tar.gz )
 	nginx_modules_http_iconv? ( https://github.com/calio/iconv-nginx-module/tarball/v${HTTP_ICONV_MODULE_PV} -> ${HTTP_ICONV_MODULE_P}.tar.gz )
 	nginx_modules_http_memc? ( https://github.com/agentzh/memc-nginx-module/tarball/v${HTTP_MEMC_MODULE_PV} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
+	nginx_modules_http_encrypted_session? ( https://github.com/agentzh/encrypted-session-nginx-module/tarball/v${HTTP_ENCS_MODULE_PV} -> ${HTTP_ENCS_MODULE_P}.tar.gz )
+	nginx_modules_http_redis2? ( https://github.com/agentzh/redis2-nginx-module/tarball/v${HTTP_REDIS2_MODULE_PV} -> ${HTTP_REDIS2_MODULE_P}.tar.gz )
+	nginx_modules_http_redis? ( http://people.freebsd.org/~osa/${REDIS_MODULE_P}.tar.gz )
 	nginx_modules_http_postgres? ( https://github.com/FRiCKLE/ngx_postgres/tarball/${HTTP_POSTGRES_MODULE_PV} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
 	nginx_modules_http_coolkit? ( http://labs.frickle.com/files/${HTTP_COOLKIT_MODULE_P}.tar.gz )
 	nginx_modules_http_upload_progress? ( https://github.com/masterzen/nginx-upload-progress-module/tarball/v${HTTP_UPLOAD_PROGRESS_MODULE_PV} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
 	nginx_modules_http_supervisord? ( http://labs.frickle.com/files/${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_request? ( http://mdounin.ru/files/${HTTP_AUTH_REQUEST_MODULE_P}.tar.gz )
+	nginx_modules_http_upstream_keepalive? ( http://mdounin.ru/files/${HTTP_UPSTREAM_KEEPALIVE_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
-	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
-	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
-	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
+	pam? ( http://web.iti.upv.es/~sto/nginx/${PAM_MODULE_P}.tar.gz )
+	rrd? ( http://wiki.nginx.org/images/9/9d/${RRD_MODULE_D}.tar.gz )
+	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> ${CHUNKIN_MODULE_P}.tar.gz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 
 LICENSE="BSD BSD-2 GPL-2 MIT
@@ -191,7 +238,7 @@ NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_push
 http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
-http_xss http_iconv http_upload_progress"
+http_xss http_iconv http_upload_progress http_encrypted_session http_redis2 http_redis http_upstream_keepalive"
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -199,6 +246,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
 		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
+		nginx_modules_http_encrypted_session? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
@@ -294,9 +342,9 @@ pkg_setup() {
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	default
-	use pam && unpack "ngx_http_auth_pam_module-1.1.tar.gz"
-	use rrd && unpack "Mod_rrd_graph-0.2.0.tar.gz"
-	use chunk && unpack "chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz"
+	use pam && unpack "${PAM_MODULE_P}.tar.gz"
+	use rrd && unpack "${RRD_MODULE_D}.tar.gz"
+	use chunk && unpack "${CHUNKIN_MODULE_P}.tar.gz"
 }
 
 src_prepare() {
@@ -459,6 +507,24 @@ src_configure() {
 		myconf="${myconf} --add-module=${WORKDIR}/agentzh-array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_SHA1}"
 	fi
 
+# http_encrypted_session
+	if use nginx_modules_http_encrypted_session; then
+		http_enabled=1
+		myconf="${myconf} --add-module=${WORKDIR}/agentzh-encrypted-session-nginx-module-${HTTP_ENCS_MODULE_SHA1}"
+	fi
+
+# http_redis2
+	if use nginx_modules_http_redis2; then
+		http_enabled=1
+		myconf="${myconf} --add-module=${WORKDIR}/agentzh-redis2-nginx-module-${HTTP_REDIS2_MODULE_SHA1}"
+	fi
+
+# http_redis
+	if use nginx_modules_http_redis; then
+		http_enabled=1
+		myconf="${myconf} --add-module=${WORKDIR}/${HTTP_REDIS_MODULE_P}"
+	fi
+
 # http_form_input
 	if use nginx_modules_http_form_input; then
 		http_enabled=1
@@ -518,9 +584,9 @@ src_configure() {
 	fi
 
 	use perftools && myconf="${myconf} --with-google_perftools_module"
-	use rrd && myconf="${myconf} --add-module=${WORKDIR}/mod_rrd_graph-0.2.0"
+	use rrd && myconf="${myconf} --add-module=${WORKDIR}/${RRD_MODULE_P}"
 	use chunk && myconf="${myconf} --add-module=${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"
-	use pam && myconf="${myconf} --add-module=${WORKDIR}/ngx_http_auth_pam_module-1.1"
+	use pam && myconf="${myconf} --add-module=${WORKDIR}/${PAM_MODULE_P}"
 
 	# MAIL modules
 	for mod in $NGINX_MODULES_MAIL; do
@@ -705,6 +771,24 @@ src_install() {
 		dodoc "${WORKDIR}"/"agentzh-array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_SHA1}"/README
 	fi
 
+# http_encrypted_session
+	if use nginx_modules_http_encrypted_session; then
+		docinto "${HTTP_ENCS_MODULE_P}"
+		dodoc "${WORKDIR}"/"agentzh-encrypted-session-nginx-module-${HTTP_ENCS_MODULE_SHA1}"/README
+	fi
+
+# http_redis2
+	if use nginx_modules_http_redis2; then
+		docinto "${HTTP_REDIS2_MODULE_P}"
+		dodoc "${WORKDIR}"/"agentzh-redis2-nginx-module-${HTTP_REDIS2_MODULE_SHA1}"/README
+	fi
+
+# http_redis
+	if use nginx_modules_http_redis; then
+		docinto "${HTTP_REDIS_MODULE_P}"
+		dodoc "${WORKDIR}"/"${HTTP_REDIS_MODULE_P}"/README
+	fi
+
 # http_iconv
 	if use nginx_modules_http_iconv; then
 		docinto "${HTTP_ICONV_MODULE_P}"
@@ -735,8 +819,9 @@ src_install() {
 		rake fakeroot
 	fi
 
-	use chunk   && newdoc "${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
-	use pam && newdoc "${WORKDIR}"/ngx_http_auth_pam_module-1.1/README README.pam
+	use chunk && newdoc "${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
+	use pam   && newdoc "${WORKDIR}/${PAM_MODULE_P}"/README README.pam
+	use rrd   && newdoc "${WORKDIR}/${RRD_MODULE_P}"/README README.rrd
 }
 
 pkg_postinst() {
