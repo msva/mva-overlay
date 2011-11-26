@@ -14,10 +14,11 @@ EHG_REPO_URI="http://hg.prosody.im/trunk"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="libevent mysql postgres sqlite ssl zlib"
+IUSE="libevent mysql postgres sqlite ssl zlib luajit"
 
 DEPEND="net-im/jabber-base
-		>=dev-lang/lua-5.1
+		luajit? ( dev-lang/luajit:2 )
+		!luajit? ( >=dev-lang/lua-5.1 )
 		>=net-dns/libidn-1.1
 		>=dev-libs/openssl-0.9.8"
 RDEPEND="${DEPEND}
@@ -38,10 +39,11 @@ JABBER_SPOOL="/var/spool/jabber"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-0.8.0-cfg.lua.patch"
-	sed -i "s!MODULES = \$(DESTDIR)\$(PREFIX)/lib/!MODULES = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" Makefile
-	sed -i "s!SOURCE = \$(DESTDIR)\$(PREFIX)/lib/!SOURCE = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" Makefile
-	sed -i "s!INSTALLEDSOURCE = \$(PREFIX)/lib/!INSTALLEDSOURCE = \$(PREFIX)/$(get_libdir)/!" Makefile
-	sed -i "s!INSTALLEDMODULES = \$(PREFIX)/lib/!INSTALLEDMODULES = \$(PREFIX)/$(get_libdir)/!" Makefile
+	sed -e "s!MODULES = \$(DESTDIR)\$(PREFIX)/lib/!MODULES = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" -i Makefile
+	sed -e "s!SOURCE = \$(DESTDIR)\$(PREFIX)/lib/!SOURCE = \$(DESTDIR)\$(PREFIX)/$(get_libdir)/!" -i Makefile
+	sed -e "s!INSTALLEDSOURCE = \$(PREFIX)/lib/!INSTALLEDSOURCE = \$(PREFIX)/$(get_libdir)/!" -i Makefile
+	sed -e "s!INSTALLEDMODULES = \$(PREFIX)/lib/!INSTALLEDMODULES = \$(PREFIX)/$(get_libdir)/!" -i Makefile
+	use luajit && sed -e "s!\(/usr/bin/env\) lua!\1 luajit!" -i prosody -i prosodyctl
 }
 
 src_configure() {
