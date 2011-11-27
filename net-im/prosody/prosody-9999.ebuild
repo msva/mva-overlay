@@ -47,6 +47,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# LuaJIT configuration feature (pkg-config is not in deps, since it is LuaJIT there)
+	# and LuaJIT has pkg-config in deps ;)
+	use luajit && myconf="--with-lua-include=$(pkg-config --variable includedir luajit)"
 	# the configure script is handcrafted (and yells at unknown options)
 	# hence do not use 'econf'
 	./configure --prefix="/usr" \
@@ -56,7 +59,7 @@ src_configure() {
 		--c-compiler="$(tc-getCC)" --linker="$(tc-getCC)" \
 		--cflags="${CFLAGS} -Wall -fPIC" \
 		--ldflags="${LDFLAGS} -shared" \
-		--require-config || die "configure failed"
+		--require-config "${myconf}" || die "configure failed"
 }
 
 src_install() {
