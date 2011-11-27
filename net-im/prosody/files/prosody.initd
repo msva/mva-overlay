@@ -13,38 +13,38 @@ USER="jabber"
 COMMAND="/usr/bin/prosodyctl"
 
 depend() {
-        use dns
-        need net
-        provide jabber-server
+	use dns
+	need net
+	provide jabber-server
 }
 
 checkconfig() {
-        if [ ! -e /etc/jabber/prosody.cfg.lua ] ; then
-                eerror "You need a /etc/jabber/prosody.cfg.lua file to run prosody"
-                return 1
-        fi
+	if [ ! -e /etc/jabber/prosody.cfg.lua ] ; then
+		eerror "You need a /etc/jabber/prosody.cfg.lua file to run prosody"
+		return 1
+	fi
 }
 
 start() {
-        checkconfig || return 1
-        ebegin "Starting Prosody XMPP Server"
-        start-stop-daemon -S -u ${USER} -x ${COMMAND} -- start &>/dev/null
-        eend $?
+	checkconfig || return 1
+	ebegin "Starting Prosody XMPP Server"
+	start-stop-daemon -S -u ${USER} -x ${COMMAND} -- start &>/dev/null
+	eend $?
 }
 
 stop() {
-        ebegin "Stopping Prosody XMPP Server"
-        start-stop-daemon -S -u ${USER} -x ${COMMAND} -- stop &>/dev/null
-        eend $?
+	ebegin "Stopping Prosody XMPP Server"
+	start-stop-daemon -S -u ${USER} -x ${COMMAND} -- stop &>/dev/null
+	eend $?
 }
 
 status() {
-        einfo $(${COMMAND} status)
-        eend $?
+	einfo $(${COMMAND} status)
+	eend $?
 }
 
 reload() {
-        ebegin "Reloading configuration of Prosody XMPP Server"
-        start-stop-daemon -p ${PIDFILE} -s HUP
-        eend $?
+	ebegin "Reloading configuration of Prosody XMPP Server"
+	start-stop-daemon -p ${PIDFILE} -s HUP
+	eend $?
 }
