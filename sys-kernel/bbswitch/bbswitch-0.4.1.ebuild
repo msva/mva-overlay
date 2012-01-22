@@ -23,10 +23,10 @@ SLOT="0"
 LICENSE="GPL-2"
 IUSE=""
 
-RDEPEND="virtual/linux-sources
+DEPEND="virtual/linux-sources
 	sys-kernel/linux-headers"
 
-DEPEND="${RDEPEND}"
+RDEPEND=""
 
 MODULE_NAMES="bbswitch(kernel/drivers/acpi)"
 

@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>mva</herd>
 <maintainer>
-	<email>maintainer-needed@gentoo.org</email>
+ <email>mva@mva.name</email>
+ <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
+ <name>Vadim A. Misbakh-Soloviev</name>
 </maintainer>
+ <longdescription>Long description of the package</longdescription> 
 <use>
-	<flag name='magic'>Add magic file support (<pkg>sys-apps/file</pkg>)</flag>
-	<flag name='neon'>Include support for <pkg>net-misc/neon</pkg></flag>
-	<flag name='dmalloc'>dmalloc support</flag>
-	<flag name='efence'>efence support</flag>
-	<flag name='keyutils'>keyutils support</flag>
-	<flag name='xar'>xar support</flag>
-	<flag name='xz'>XZ support</flag>
+	<flag name='dmalloc'></flag>
+	<flag name='efence'></flag>
+	<flag name='keyutils'></flag>
+	<flag name='magic'></flag>
+	<flag name='xar'></flag>
+	<flag name='xz'></flag>
 </use>
 </pkgmetadata>

@@ -19,8 +19,8 @@ DEPEND="dev-lang/perl"
 RDEPEND="${DEPEND}"
 
 pkg_setup() {
-        CONFIG_CHECK="~USB_SERIAL_SPCP8X5"
-        linux-mod_pkg_setup
+	CONFIG_CHECK="~USB_SERIAL_SPCP8X5"
+	linux-mod_pkg_setup
 }
 
 src_install() {

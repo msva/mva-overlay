@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <herd>mva</herd>
-  <maintainer>
-    <email>djc@gentoo.org</email>
-  </maintainer>
-  <maintainer>
-    <email>rafaelmartins@gentoo.org</email>
-  </maintainer>
-  <use>
-    <flag name="libevent">Use libevent for event handling</flag>
-    <flag name="sql">Require dev-lua/luadbi for SQL storage plugins</flag>
-    <flag name="zlib">Support for compressing XMPP streams with mod_compression</flag>
-  </use>
+<maintainer>
+ <email>mva@mva.name</email>
+ <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
+ <name>Vadim A. Misbakh-Soloviev</name>
+</maintainer>
+ <longdescription>Long description of the package</longdescription> 
+<use>
+	<flag name='libevent'></flag>
+	<flag name='luajit'></flag>
+</use>
 </pkgmetadata>

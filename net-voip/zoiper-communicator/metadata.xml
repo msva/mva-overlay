@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>mva</herd>
 <maintainer>
-  <email>mva@mva.name</email>
- <description>mva</description> 
+ <email>mva@mva.name</email>
+ <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
+ <name>Vadim A. Misbakh-Soloviev</name>
 </maintainer>
- <longdescription>Proprietary SoftPhone with SIP, IAX, and alsa support</longdescription> 
+ <longdescription>Long description of the package</longdescription> 
 <use>
 </use>
 </pkgmetadata>

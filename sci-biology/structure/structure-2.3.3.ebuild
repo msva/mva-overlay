@@ -7,7 +7,6 @@
 EAPI="2"
 inherit eutils
 
-
 DESCRIPTION="A free software package for using multi-locus genotype data to investigate population structure"
 HOMEPAGE="http://pritch.bsd.uchicago.edu/structure.html"
 SRC_URI="http://pritch.bsd.uchicago.edu/structure_software/release_versions/v${PV}/structure_kernel_source.tar.gz
@@ -22,7 +21,6 @@ RESTRICT="mirror"
 IUSE="java doc"
 RDEPEND="java? ( virtual/jre )"
 DEPEND=""
-
 
 S="${WORKDIR}/structure_kernel_src"
 
@@ -53,16 +51,14 @@ src_install() {
 
 	# Install docs
 	use doc && dodoc "${DISTDIR}/structure_doc.pdf"
-	
+
 	einfo "Structure expects files mainparams and extraparams to be in the cwd at runtime."
 	einfo "Defaults of these files are located under /usr/share/${P} and are a"
 	einfo "good place to start."
 }
-
 
 # To do: Write the +java frontend portion (wow, that's alot of files)
 #	- The only necessary file is Structure.jar (!) which can be put under /usr/share/structure/*
 # See the binary release for a better idea of what files are necessary & how to install them.
 
 # A simple man page might be nice, certainly easier to read than the rather obtuse pdf docs.
-

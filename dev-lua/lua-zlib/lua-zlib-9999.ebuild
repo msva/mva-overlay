@@ -12,7 +12,7 @@ EGIT_REPO_URI="git://github.com/brimworks/lua-zlib.git"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE=""
 
 RDEPEND="|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 )

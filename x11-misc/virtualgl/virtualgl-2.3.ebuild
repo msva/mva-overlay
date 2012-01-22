@@ -17,7 +17,7 @@ else
 	MY_P="${MY_PN}-${PV}"
 	S="${WORKDIR}/${MY_P}"
 	SRC_URI="mirror://sourceforge/${PN}/${MY_PN}/${PV}/${MY_P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 x86"
 fi;
 
 inherit cmake-utils ${SCM_ECLASS}
@@ -37,15 +37,15 @@ DEPEND="dev-util/cmake
 	${RDEPEND}"
 
 src_prepare() {
-        ewarn "If you get error about '-fPIC' when linking to"
-        ewarn "libjpeg-turbo, then you should build libjpeg-turbo"
-        ewarn "from mva overlay and vote bug about -fPIC issue on b.g.o"
+	ewarn "If you get error about '-fPIC' when linking to"
+	ewarn "libjpeg-turbo, then you should build libjpeg-turbo"
+	ewarn "from mva overlay and vote bug about -fPIC issue on b.g.o"
 	cd "${S}";
 	for file in rr/vglgenkey rr/vglrun rr/vglserver_config doc/index.html; do
 		sed -e "s#/etc/opt#/etc#g" -i ${file};
 	done
 
-        default
+	default
 }
 
 src_configure() {

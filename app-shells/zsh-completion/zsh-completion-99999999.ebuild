@@ -7,7 +7,6 @@ inherit git-2
 DESCRIPTION="Programmable Completion for zsh (includes emerge and ebuild commands)"
 HOMEPAGE="http://gentoo.org"
 EGIT_REPO_URI="git://github.com/zsh-users/zsh-completions"
-#EGIT_TREE="HEAD" # SHA1 id
 
 LICENSE="ZSH"
 SLOT="0"
@@ -17,19 +16,11 @@ IUSE=""
 DEPEND="app-shells/zsh"
 RDEPEND="${DEPEND}"
 
-#S="${WORKDIR}"/${PN}-${MY_PV}
-#
-#src_unpack() {
-#	unpack ${A}
-#	cd "${S}"
-#	rm _eix
-#}
-#
 src_install() {
 	insinto /usr/share/zsh/site-functions
 	doins _*
 
-	dodoc AUTHORS README COPYING
+	dodoc README.md
 }
 
 pkg_postinst() {

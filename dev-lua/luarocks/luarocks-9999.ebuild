@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lua/luarocks/luarocks-1.0.ebuild,v 1.1 2010/11/05 22:13:24 rafaelmartins Exp $
+# $Header: $
 
 EAPI=4
 
@@ -21,8 +21,7 @@ DEPEND="dev-lang/lua
 RDEPEND="${DEPEND}
 		app-arch/unzip"
 
-#### sorry for that, but luarocks make fails if -j is >= 3
-MAKEOPTS="-j2"
+MAKEOPTS="-j1"
 
 src_configure() {
 	USE_MD5="md5sum"
@@ -40,14 +39,6 @@ src_configure() {
 			--with-downloader=$USE_FETCH \
 			--with-md5-checker=$USE_MD5 \
 			--force-config || die "configure failed"
-}
-
-src_compile() {
-        emake -j1 DESTDIR="${D}" || die "make failed"
-}
-
-src_install() {
-        emake -j1 DESTDIR="${D}" install || die "einstall"
 }
 
 pkg_preinst() {

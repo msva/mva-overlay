@@ -15,10 +15,10 @@ RESTRICT="mirror"
 
 IUSE="doc"
 DEPEND="media-libs/jpeg
-        media-libs/openjpeg
-        media-libs/tiff
-        >=x11-libs/cairo-1.2
-        >=dev-libs/glib-2.12"
+	media-libs/openjpeg
+	media-libs/tiff
+	>=x11-libs/cairo-1.2
+	>=dev-libs/glib-2.12"
 RDEPEND="${DEPEND}"
 
 src_configure() {

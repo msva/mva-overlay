@@ -1,5 +1,12 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer><email>graaff@gentoo.org</email></maintainer>
+<maintainer>
+ <email>mva@mva.name</email>
+ <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
+ <name>Vadim A. Misbakh-Soloviev</name>
+</maintainer>
+ <longdescription>An ActiveRecord library to add before_commit, after_commit, before_rollback and after_rollback callbacks.</longdescription> 
+<use>
+</use>
 </pkgmetadata>
