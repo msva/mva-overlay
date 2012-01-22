@@ -1,0 +1,22 @@
+test? ( ruby_targets_ruby18? ( dev-ruby/activesupport[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( test? ( dev-ruby/ruby-debug[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( test? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) )
+ruby_targets_ruby18? ( dev-ruby/activesupport[ruby_targets_ruby18] ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] )
+0
+mirror://rubygems/authlogic-2.1.6.gem
+
+http://authlogic.rubyforge.org/
+Ruby
+A clean, simple, and unobtrusive ruby authentication solution.
+~amd64 ~x86 ~x86-macos
+eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+test elibc_FreeBSD ruby_targets_ruby18 test test
+|| ( ruby_targets_ruby18 )
+
+
+4
+
+compile configure install prepare setup test unpack
+
+
+
+
+

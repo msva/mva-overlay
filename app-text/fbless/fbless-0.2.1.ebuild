@@ -1,8 +1,8 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=4
 PYTHON_DEPEND="2"
 SUPPORT_PYTHON_ABIS="1"
 
@@ -17,11 +17,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="~dev-lang/python-2
-	sys-libs/ncurses"
+DEPEND="sys-libs/ncurses"
 RDEPEND="${DEPEND}"
-#RESTRICT_PYTHON_ABIS="3.*"
-#
+RESTRICT_PYTHON_ABIS="3.*"
+PYTHON_MODNAME="ornamentbook pybookreader"
 #S="${WORKDIR}/${MY_P}"
-#
-#PYTHON_MODNAME="ornamentbook pybookreader"

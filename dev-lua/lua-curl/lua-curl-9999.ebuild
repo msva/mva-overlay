@@ -1,13 +1,13 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI="4"
 
-inherit autotools git-2 eutils
+inherit autotools eutils git-2
 
 DESCRIPTION="Lua cURL Library"
-HOMEPAGE=""
+HOMEPAGE="https://github.com/msva/lua-curl"
 SRC_URI=""
 
 #EGIT_REPO_URI="git://github.com/juergenhoetzel/Lua-cURL.git"

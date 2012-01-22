@@ -1,0 +1,14 @@
+# ChangeLog for dev-util/madde
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  madde-0.7.48.ebuild:
+  some fixes
+
+*madde-0.7.48 (22 Apr 2011)
+
+  22 Apr 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +files/madde-0.7.48-no-interactive.patch, +madde-0.7.48.ebuild:
+  added first party of packages
+

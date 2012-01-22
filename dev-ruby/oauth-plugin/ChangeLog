@@ -1,14 +1,14 @@
 # ChangeLog for dev-ruby/oauth-plugin
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  26 Dec 2010; Hans de Graaff <graaff@gentoo.org>
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
   oauth-plugin-0.3.14.ebuild:
-  Keyword ~x86-macos.
+  some fixes
 
-*oauth-plugin-0.3.14 (28 Oct 2010)
+*oauth-plugin-0.3.14 (11 May 2011)
 
-  28 Oct 2010; Hans de Graaff <graaff@gentoo.org>
-  +oauth-plugin-0.3.14.ebuild, +metadata.xml:
-  Initial import.
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name> +metadata.xml,
+  +oauth-plugin-0.3.14.ebuild:
+  added some crap.
 

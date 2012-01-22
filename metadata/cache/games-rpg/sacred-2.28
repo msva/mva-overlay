@@ -1,0 +1,22 @@
+
+x11-base/xorg-server >=x11-libs/gtk+-2.0.0 amd64? ( app-emulation/emul-linux-x86-baselibs app-emulation/emul-linux-x86-compat app-emulation/emul-linux-x86-gtklibs app-emulation/emul-linux-x86-medialibs app-emulation/emul-linux-x86-sdl app-emulation/emul-linux-x86-soundlibs app-emulation/emul-linux-x86-xlibs )
+0
+http://alpha.mva.name/distfiles/sacred.tar.bz2 iampirate? ( http://alpha.mva.name/distfiles/sacred_pirate.tar.bz2 ) linguas_ru? ( http://alpha.mva.name/distfiles/sacred_rus.tar.bz2 )
+mirror strip test
+http://www.linuxgamepublishing.com/
+EULA
+Linux port of famous RPG-game.
+~amd64 ~x86
+check-reqs eutils multilib portability toolchain-funcs user
+iampirate linguas_ru
+
+
+
+4
+
+install postinst pretend setup
+
+
+
+
+

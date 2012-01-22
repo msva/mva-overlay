@@ -1,15 +1,15 @@
 # ChangeLog for dev-ruby/churn
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*churn-0.0.12 (24 Mar 2010)
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  churn-0.0.11.ebuild, churn-0.0.12.ebuild:
+  some fixes
 
-  24 Mar 2010; Hans de Graaff <graaff@gentoo.org> +churn-0.0.12.ebuild:
-  Version bump.
+*churn-0.0.12 (11 May 2011)
+*churn-0.0.11 (11 May 2011)
 
-*churn-0.0.11 (12 Feb 2010)
-
-  12 Feb 2010; Hans de Graaff <graaff@gentoo.org> +churn-0.0.11.ebuild,
-  +metadata.xml:
-  Initial import, new dependency for dev-ruby/metric_fu.
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +churn-0.0.11.ebuild, +churn-0.0.12.ebuild, +metadata.xml:
+  added some crap.
 

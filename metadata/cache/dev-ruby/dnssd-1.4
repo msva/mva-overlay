@@ -1,0 +1,22 @@
+net-dns/avahi[mdnsresponder-compat] ruby_targets_ruby18? ( >=dev-ruby/hoe-2.3.3[ruby_targets_ruby18] >=dev-ruby/rake-compiler-0.6[ruby_targets_ruby18] ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( doc? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( test? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) )
+net-dns/avahi[mdnsresponder-compat] ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] )
+0
+mirror://rubygems/dnssd-1.4.gem
+test
+http://rubyforge.org/projects/dnssd/
+Ruby
+Implementation of a Ruby binding to Apple's cross-platform multicast DNS Service Discovery API.
+~x86 ~amd64
+eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+elibc_FreeBSD ruby_targets_ruby18 doc doc test test
+|| ( ruby_targets_ruby18 )
+
+
+4
+
+compile configure install prepare setup test unpack
+
+
+
+
+

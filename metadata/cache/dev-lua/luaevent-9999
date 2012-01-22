@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) >=dev-libs/libevent-1.4 dev-util/pkgconfig dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) >=dev-libs/libevent-1.4
+0
+
+
+http://luaforge.net/projects/luaevent http://repo.or.cz/w/luaevent.git
+LGPL-2.1
+libevent bindings for Lua
+amd64 x86
+git-2 multilib toolchain-funcs
+
+
+
+
+4
+
+install prepare unpack
+
+
+
+
+

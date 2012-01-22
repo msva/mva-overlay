@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 dev-libs/expat dev-util/pkgconfig dev-vcs/mercurial
+>=dev-lang/lua-5.1 dev-libs/expat
+0
+
+
+http://code.mathewwild.co.uk/
+MIT
+XMPP client library written in Lua.
+
+eutils flag-o-matic mercurial multilib portability toolchain-funcs user
+
+
+
+
+4
+
+compile install prepare unpack
+
+
+
+
+

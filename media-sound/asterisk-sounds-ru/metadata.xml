@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>mva</herd>
+<maintainer>
+  <email>mva@mva.name</email>
+ <description>mva</description> 
+</maintainer>
+ <longdescription>Asterisk's russian sounds from IVR team.</longdescription> 
+<use>
+  <flag name="gsm">Install sounds in GSM format.</flag>
+  <flag name="wav">Install sounds in wav format (needs to be converted).</flag>
+  <flag name="alaw">Install sounds in aLaw format.</flag>
+</use>
+</pkgmetadata>

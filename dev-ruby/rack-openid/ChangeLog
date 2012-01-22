@@ -1,15 +1,15 @@
 # ChangeLog for dev-ruby/rack-openid
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*rack-openid-1.0.3 (07 May 2010)
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  rack-openid-0.2.2.ebuild, rack-openid-1.0.3.ebuild:
+  some fixes
 
-  07 May 2010; Hans de Graaff <graaff@gentoo.org> +rack-openid-1.0.3.ebuild:
-  Version bump.
+*rack-openid-1.0.3 (11 May 2011)
+*rack-openid-0.2.2 (11 May 2011)
 
-*rack-openid-0.2.2 (22 Jan 2010)
-
-  22 Jan 2010; Hans de Graaff <graaff@gentoo.org> +rack-openid-0.2.2.ebuild,
-  +metadata.xml:
-  Initial import.
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name> +metadata.xml,
+  +rack-openid-0.2.2.ebuild, +rack-openid-1.0.3.ebuild:
+  added some crap.
 

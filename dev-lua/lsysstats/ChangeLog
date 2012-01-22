@@ -1,8 +1,14 @@
 # ChangeLog for dev-lua/lsysstats
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*lsysstats-9999 (17 Jul 2011)
+  24 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  lsysstats-9999.ebuild:
+  fixed lua pkgs
 
-  17 Jul 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
-        Initial commit.
+*lsysstats-9999 (18 Jul 2011)
+
+  18 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +lsysstats-9999.ebuild, +metadata.xml:
+  new lua pkgs (some of them is not fully completed)
+

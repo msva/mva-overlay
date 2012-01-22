@@ -1,16 +1,14 @@
 # ChangeLog for dev-ruby/sanitize
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  07 Jan 2011; Hans de Graaff <graaff@gentoo.org> sanitize-1.2.1.ebuild:
-  Keyword ~x86-macos.
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  sanitize-1.2.1.ebuild:
+  some fixes
 
-  08 Jun 2010; Hans de Graaff <graaff@gentoo.org> sanitize-1.2.1.ebuild:
-  Add x86 keyword.
+*sanitize-1.2.1 (11 May 2011)
 
-*sanitize-1.2.1 (24 Apr 2010)
-
-  24 Apr 2010; Hans de Graaff <graaff@gentoo.org> +sanitize-1.2.1.ebuild,
-  +metadata.xml:
-  Initial import. New dependency of tracks.
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name> +metadata.xml,
+  +sanitize-1.2.1.ebuild:
+  added some crap.
 

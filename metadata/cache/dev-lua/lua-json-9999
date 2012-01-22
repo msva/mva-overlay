@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 dev-lua/luasocket dev-vcs/git
+>=dev-lang/lua-5.1 dev-lua/luasocket
+0
+
+
+http://luaforge.net/projects/json
+MIT
+Lua JSON Libary, written in pure Lua
+
+eutils flag-o-matic git-2 multilib portability toolchain-funcs user
+doc examples linguas_en linguas_ru
+
+
+
+4
+
+install unpack
+
+
+
+
+

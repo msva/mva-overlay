@@ -1,0 +1,22 @@
+>=net-misc/asterisk-1.6.2.0 dev-vcs/subversion net-misc/rsync
+>=net-misc/asterisk-1.6.2.0
+0
+
+
+http://www.digium.com/
+GPL-3
+Asterisk's GUI.
+
+eutils multilib portability subversion toolchain-funcs user
+
+
+
+
+4
+
+configure install preinst prepare unpack
+
+
+
+
+

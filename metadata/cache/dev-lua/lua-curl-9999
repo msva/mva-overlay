@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 net-misc/curl || ( =sys-devel/automake-1.11* ) >=sys-devel/autoconf-2.61 sys-devel/libtool dev-vcs/git
+>=dev-lang/lua-5.1
+0
+
+
+
+MIT
+Lua cURL Library
+
+autotools eutils git-2 libtool multilib portability toolchain-funcs user
+doc examples
+
+
+
+4
+
+install prepare unpack
+
+
+
+
+

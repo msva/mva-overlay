@@ -1,39 +1,24 @@
 # ChangeLog for dev-lang/luajit
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/dev-lang/luajit/ChangeLog,v 1.7 2011/05/07 11:06:00 rafaelmartins Exp $
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
 
-*luajit-2.0.0_beta7 (07 May 2011)
+  25 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  luajit fix
 
-  07 May 2011; Rafael G. Martins <rafaelmartins@gentoo.org>
-  -luajit-2.0.0_beta6.ebuild, +luajit-2.0.0_beta7.ebuild:
-  Version bump.
+  24 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  luajit fix
 
-*luajit-2.0.0_beta6 (09 Mar 2011)
+  23 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  Lua json fix + Lua csjon + luajit fix
 
-  09 Mar 2011; Rafael G. Martins <rafaelmartins@gentoo.org>
-  -files/2.0.0_beta5_hotfix1.patch, -luajit-2.0.0_beta5-r1.ebuild,
-  +luajit-2.0.0_beta6.ebuild:
-  Version bump.
+  15 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> luajit-9999.ebuild:
+  luajit-9999 fix
 
-*luajit-2.0.0_beta5-r1 (07 Nov 2010)
+*luajit-9999 (15 Nov 2011)
+*luajit-2.0.0_beta8 (15 Nov 2011)
+*luajit-1.1.7 (15 Nov 2011)
 
-  07 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
-  -luajit-2.0.0_beta5.ebuild, +luajit-2.0.0_beta5-r1.ebuild:
-  revbump
-
-  07 Nov 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
-  luajit-2.0.0_beta5.ebuild:
-  Fixed multilib, DESTDIR and PREFIX paths for luajit:2
-
-*luajit-2.0.0_beta5 (13 Oct 2010)
-
-  13 Oct 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
-  +files/2.0.0_beta5_hotfix1.patch, +luajit-2.0.0_beta5.ebuild:
-  Initial version for the branch 2.0. (bug #313005). Thanks to Paulo Matias.
-
-*luajit-1.1.6 (13 Oct 2010)
-
-  13 Oct 2010; Rafael G. Martins <rafaelmartins@gentoo.org>
-  +luajit-1.1.6.ebuild, +metadata.xml:
-  Initial commit. (bugs #313005 and #317707)
+  15 Nov 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> +luajit-1.1.7.ebuild,
+  +luajit-2.0.0_beta8.ebuild, +luajit-9999.ebuild, +metadata.xml:
+  LuaJIT and eselect-luajit
 

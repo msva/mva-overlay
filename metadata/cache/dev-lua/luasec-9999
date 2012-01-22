@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1[deprecated] dev-lua/luasocket dev-libs/openssl dev-util/pkgconfig dev-vcs/mercurial
+>=dev-lang/lua-5.1[deprecated] dev-lua/luasocket dev-libs/openssl
+0
+
+
+http://www.inf.puc-rio.br/~brunoos/luasec/
+MIT
+Lua binding for OpenSSL library to provide TLS/SSL communication.
+
+eutils flag-o-matic mercurial multilib portability toolchain-funcs user
+
+
+
+
+4
+
+compile install prepare unpack
+
+
+
+
+

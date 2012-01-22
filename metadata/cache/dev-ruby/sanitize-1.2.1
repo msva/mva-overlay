@@ -1,0 +1,22 @@
+test? ( ruby_targets_ruby18? ( >=dev-ruby/nokogiri-1.4.1[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) )
+ruby_targets_ruby18? ( >=dev-ruby/nokogiri-1.4.1[ruby_targets_ruby18] ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] )
+0
+mirror://rubygems/sanitize-1.2.1.gem
+
+http://github.com/rgrove/sanitize
+MIT
+Sanitize is a whitelist-based HTML sanitizer.
+~amd64 ~x86 ~x86-macos
+eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+test elibc_FreeBSD ruby_targets_ruby18 test
+|| ( ruby_targets_ruby18 )
+
+
+4
+
+compile configure install prepare setup test unpack
+
+
+
+
+

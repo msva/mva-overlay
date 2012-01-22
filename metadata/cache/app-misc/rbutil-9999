@@ -1,0 +1,22 @@
+x11-libs/qt-gui:4 dev-vcs/subversion net-misc/rsync
+x11-libs/qt-gui:4
+0
+
+
+http://www.rockbox.org/wiki/RockboxUtility
+GPL-2
+The Rockbox Utility, all you need for installing and managing rockbox
+
+base eutils multilib portability qt4-r2 subversion toolchain-funcs user
+ypp2
+
+
+
+4
+
+compile configure install preinst prepare unpack
+
+
+
+
+

@@ -1,27 +1,15 @@
 # ChangeLog for dev-ruby/dnssd
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
 
-*dnssd-1.4 (23 Sep 2010)
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  dnssd-1.3.1.ebuild, dnssd-1.4.ebuild:
+  some fixes
 
-  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> +dnssd-1.4.ebuild:
-  Version bump.
+*dnssd-1.4 (11 May 2011)
+*dnssd-1.3.1 (11 May 2011)
 
-  24 Mar 2010; Hans de Graaff <graaff@gentoo.org> -dnssd-1.3.ebuild:
-  Remove old version.
-
-*dnssd-1.3.1 (12 Feb 2010)
-
-  12 Feb 2010; Hans de Graaff <graaff@gentoo.org> +dnssd-1.3.1.ebuild:
-  Version bump. Convert to ruby-fakegem.
-
-  12 Feb 2010; Hans de Graaff <graaff@gentoo.org> -dnssd-0.7.1.ebuild:
-  Remove old version.
-
-*dnssd-1.3 (01 Sep 2009)
-
-  01 Sep 2009; Hans de Graaff <graaff@gentoo.org> +dnssd-1.3.ebuild:
-  Version bump.
-
-  19 Apr 2009; Hans de Graaff <graaff@gentoo.org> ChangeLog:
-  Initial import.
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +dnssd-1.3.1.ebuild, +dnssd-1.4.ebuild, +metadata.xml:
+  added some crap.
 

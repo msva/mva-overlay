@@ -1,15 +1,14 @@
 # ChangeLog for net-misc/asterisk-gui
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# ChangeLog: rion overlay ;http://code.google.com/p/rion-overlay/ 
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  18 Oct 2010; Nikoli <nikoli@lavabit.com> asterisk-gui-2.9999.ebuild:
-  make repoman happy
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  asterisk-gui-2.9999.ebuild:
+  some fixes
 
-  16 Jul 2010; mva <mva@mva.name> +asterisk-gui-2.9999.ebuild,
-  -asterisk-gui-9999.ebuild:
-  Fixed version
+*asterisk-gui-2.9999 (11 May 2011)
 
-  16 Jul 2010; mva <mva@mva.name> +asterisk-gui-9999.ebuild, +metadata.xml:
-  Added Asterisk GUI
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +asterisk-gui-2.9999.ebuild, +metadata.xml:
+  added some crap.
 

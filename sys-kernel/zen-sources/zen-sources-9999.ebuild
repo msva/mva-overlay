@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -24,7 +24,7 @@ K_NOSETEXTRAVERSION="don't_set_it"
 DESCRIPTION="The Zen Kernel Live Sources"
 HOMEPAGE="http://zen-kernel.org"
 
-EGIT_FETCH_CMD="${EGIT_FETCH_CMD} --depth 1"
+EGIT_LOCAL_OPTIONS="--depth 1"
 EGIT_REPO_URI="git://zen-kernel.org/kernel/zen-stable.git"
 
 KEYWORDS=""

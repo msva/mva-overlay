@@ -1,20 +1,16 @@
 # ChangeLog for dev-ruby/grit
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*grit-2.3.0 (04 Nov 2010)
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  grit-2.0.0.ebuild, grit-2.2.0.ebuild, grit-2.3.0.ebuild:
+  some fixes
 
-  04 Nov 2010; Hans de Graaff <graaff@gentoo.org> +grit-2.3.0.ebuild:
-  Version bump.
+*grit-2.3.0 (11 May 2011)
+*grit-2.2.0 (11 May 2011)
+*grit-2.0.0 (11 May 2011)
 
-*grit-2.2.0 (23 Sep 2010)
-
-  23 Sep 2010; Hans de Graaff <graaff@gentoo.org> +grit-2.2.0.ebuild:
-  Version bump.
-
-*grit-2.0.0 (18 Feb 2010)
-
-  18 Feb 2010; Hans de Graaff <graaff@gentoo.org> +grit-2.0.0.ebuild,
-  +metadata.xml:
-  Initial import, successor of dev-ruby/git.
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +grit-2.0.0.ebuild, +grit-2.2.0.ebuild, +grit-2.3.0.ebuild, +metadata.xml:
+  added some crap.
 

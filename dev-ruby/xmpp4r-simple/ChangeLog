@@ -1,10 +1,14 @@
 # ChangeLog for dev-ruby/xmpp4r-simple
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*xmpp4r-simple-0.8.8 (10 Feb 2010)
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  xmpp4r-simple-0.8.8.ebuild:
+  some fixes
 
-  10 Feb 2010; Hans de Graaff <graaff@gentoo.org>
-  +xmpp4r-simple-0.8.8.ebuild, +metadata.xml:
-  Initial import, dependency of jabber-bot.
+*xmpp4r-simple-0.8.8 (11 May 2011)
+
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name> +metadata.xml,
+  +xmpp4r-simple-0.8.8.ebuild:
+  added some crap.
 

@@ -1,0 +1,22 @@
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) sys-libs/zlib dev-util/pkgconfig >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) dev-vcs/git
+|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) sys-libs/zlib
+0
+
+
+http://github.com/brimworks/lua-zlib
+MIT
+Lua bindings to zlib
+~amd64 ~x86
+base cmake-utils eutils flag-o-matic git-2 multilib portability toolchain-funcs user
+
+
+
+
+4
+
+compile configure install prepare test unpack
+
+
+
+
+

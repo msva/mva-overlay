@@ -1,0 +1,22 @@
+|| ( =sys-devel/automake-1.11* ) >=sys-devel/autoconf-2.61 sys-devel/libtool
+
+0
+http://olivier.sessink.nl/jailkit/jailkit-2.14.tar.bz2
+
+http://olivier.sessink.nl/jailkit/
+BSD
+Allows you to easily put programs and users in a chrooted environment
+~x86
+autotools eutils libtool multilib portability toolchain-funcs user
+
+
+
+
+4
+
+install postinst prepare
+
+
+
+
+

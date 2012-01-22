@@ -1,11 +1,11 @@
-# Copyright 1999-2010 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: 
 
 EAPI=4
 
 KMNAME="kdesdk"
-inherit kde4-meta git
+inherit kde4-meta git-2
 
 DESCRIPTION="Provides Dropbox integration in Dolphin."
 EGIT_REPO_URI="git://anongit.kde.org/scratch/trichard/dolphin-box-plugin"
@@ -15,13 +15,13 @@ KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
 IUSE=""
 LICENSE="GPL-3"
 
-DEPEND="
-	$(add_kdebase_dep libkonq)
+RDEPEND="
+	kde-base/kdelibs
 "
-RDEPEND="${DEPEND}
+DEPEND="
+	${RDEPEND}
 	dev-vcs/git
 "
-#	$(add_kdebase_dep kompare)
 
 src_unpack() {
 	git_src_unpack

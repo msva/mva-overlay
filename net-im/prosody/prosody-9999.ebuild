@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -14,7 +14,7 @@ EHG_REPO_URI="http://hg.prosody.im/trunk"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="libevent mysql postgres sqlite ssl zlib luajit"
+IUSE="+libevent mysql postgres sqlite +ssl +zlib +luajit ipv6"
 
 DEPEND="net-im/jabber-base
 		luajit? ( dev-lang/luajit:2 )
@@ -23,6 +23,7 @@ DEPEND="net-im/jabber-base
 		>=dev-libs/openssl-0.9.8"
 RDEPEND="${DEPEND}
 		dev-lua/luasocket
+		ipv6? ( =dev-lua/luasocket-9999 )
 		ssl? ( dev-lua/luasec )
 		dev-lua/luaexpat
 		dev-lua/luafilesystem

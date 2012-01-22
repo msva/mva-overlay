@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 sys-libs/ncurses dev-util/pkgconfig dev-vcs/git
+>=dev-lang/lua-5.1 sys-libs/ncurses
+0
+
+
+
+MIT
+Lua NCurses Library
+
+eutils git-2 multilib portability toolchain-funcs user
+
+
+
+
+4
+
+unpack
+
+
+
+
+

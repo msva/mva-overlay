@@ -1,5 +1,14 @@
-# ChangeLog for <CATEGORY>/<PACKAGE_NAME>
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
-# ChangeLog: mva overlay; http://git.pirate-party.ru/overlay.git
+# ChangeLog for app-text/fbless
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  fbless-0.2.1.ebuild:
+  some fixes
+
+*fbless-0.2.1 (17 Jun 2011)
+
+  17 Jun 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +fbless-0.2.1.ebuild, +metadata.xml:
+  some lua staff
 

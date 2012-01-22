@@ -1,13 +1,13 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit git
+EAPI="4"
+inherit git-2
 DESCRIPTION="Programmable Completion for zsh (includes emerge and ebuild commands)"
 HOMEPAGE="http://gentoo.org"
-#EGIT_REPO_URI="git://github.com/msva/gzc.git"
 EGIT_REPO_URI="git://github.com/zsh-users/zsh-completions"
-EGIT_TREE="HEAD" # SHA1 id
+#EGIT_TREE="HEAD" # SHA1 id
 
 LICENSE="ZSH"
 SLOT="0"

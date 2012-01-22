@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 dev-lua/squish dev-vcs/mercurial
+>=dev-lang/lua-5.1 dev-lua/squish
+0
+
+
+http://code.mathewwild.co.uk/
+MIT
+Lua to HTML code converter written in Lua.
+
+eutils flag-o-matic mercurial multilib portability toolchain-funcs user
+
+
+
+
+4
+
+compile install unpack
+
+
+
+
+

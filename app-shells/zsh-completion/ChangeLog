@@ -1,10 +1,20 @@
 # ChangeLog for app-shells/zsh-completion
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  18 Oct 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  zsh-completion-99999999.ebuild:
+  Some fixes + more completions for zsh
+
+*zsh-completion-99999999 (08 Sep 2011)
+
+  08 Sep 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  -zsh-completion-9999.ebuild, +zsh-completion-99999999.ebuild:
+  zsh-completions moved to 99999999 to avoid eix blocking
 
 *zsh-completion-9999 (08 Sep 2011)
 
-  08 Sep 2011; mva <mva@mva.name> +metadata.xml,
+  08 Sep 2011; Vadim A. Misbakh-Soloviev <mva@mva.name> +metadata.xml,
   +zsh-completion-9999.ebuild:
-  Initial import. Derived from zsh package.
+  zsh-completions and some things
 

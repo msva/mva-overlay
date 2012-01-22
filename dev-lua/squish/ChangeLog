@@ -1,8 +1,14 @@
 # ChangeLog for dev-lua/squish
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  18 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  squish-9999.ebuild:
+  new lua pkgs (some of them is not fully completed)
 
 *squish-9999 (17 Jul 2011)
 
-  17 Jul 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
-	Initial commit.
+  17 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name> +metadata.xml,
+  +squish-9999.ebuild:
+  new lua pkgs
+

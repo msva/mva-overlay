@@ -1,13 +1,13 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI="4"
 
-inherit multilib git-2 eutils
+inherit multilib eutils git-2
 
 DESCRIPTION="Lua NCurses Library"
-HOMEPAGE=""
+HOMEPAGE="https://github.com/msva/lua-ncurses"
 SRC_URI=""
 
 EGIT_REPO_URI="git://github.com/msva/lua-ncurses.git"

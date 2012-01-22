@@ -1,8 +1,11 @@
 # ChangeLog for app-admin/jailkit
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*jailkit-2.14 (17 Jul 2011)
+*jailkit-2.14 (24 Jul 2011)
 
-  24 Jul 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
-        Initial commit.
+  24 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name> +files/jailkit,
+  +files/jailkit-2.14-ldflags.patch, +files/jailkit-2.14-noshells.patch,
+  +files/jailkit-2.14-pyc.patch, +jailkit-2.14.ebuild, +metadata.xml:
+  new lua pkgs && some admin utils
+

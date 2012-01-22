@@ -1,0 +1,22 @@
+dev-util/cmake ssl? ( dev-libs/openssl ) media-libs/libjpeg-turbo x11-libs/libX11 x11-libs/libXext x11-libs/libXv virtual/opengl >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) dev-vcs/subversion net-misc/rsync
+ssl? ( dev-libs/openssl ) media-libs/libjpeg-turbo x11-libs/libX11 x11-libs/libXext x11-libs/libXv virtual/opengl
+0
+
+
+http://www.virtualgl.org/
+LGPL-2.1 wxWinLL-3.1
+Based on the subversion eclass
+
+base cmake-utils eutils flag-o-matic multilib portability subversion toolchain-funcs user
+ssl
+
+
+
+4
+
+compile configure install preinst prepare test unpack
+
+
+
+
+

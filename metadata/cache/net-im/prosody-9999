@@ -1,0 +1,22 @@
+net-im/jabber-base luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) >=net-dns/libidn-1.1 >=dev-libs/openssl-0.9.8 dev-vcs/mercurial
+net-im/jabber-base luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) >=net-dns/libidn-1.1 >=dev-libs/openssl-0.9.8 dev-lua/luasocket ipv6? ( =dev-lua/luasocket-9999 ) ssl? ( dev-lua/luasec ) dev-lua/luaexpat dev-lua/luafilesystem mysql? ( >=dev-lua/luadbi-0.5[mysql] ) postgres? ( >=dev-lua/luadbi-0.5[postgres] ) sqlite? ( >=dev-lua/luadbi-0.5[sqlite] ) libevent? ( dev-lua/luaevent ) zlib? ( dev-lua/lua-zlib )
+0
+
+
+http://prosody.im/
+MIT
+Prosody is a flexible communications server for Jabber/XMPP written in Lua.
+
+eutils mercurial multilib portability toolchain-funcs user versionator
++libevent mysql postgres sqlite +ssl +zlib +luajit ipv6
+
+
+
+4
+
+configure install postinst prepare test unpack
+
+
+
+
+

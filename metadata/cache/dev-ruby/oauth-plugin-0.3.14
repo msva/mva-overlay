@@ -1,0 +1,22 @@
+test? ( ruby_targets_ruby18? ( >=dev-ruby/oauth-0.3.5[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( doc? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) )
+ruby_targets_ruby18? ( >=dev-ruby/oauth-0.3.5[ruby_targets_ruby18] ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] )
+0
+mirror://rubygems/oauth-plugin-0.3.14.gem
+
+http://github.com/pelle/oauth-plugin
+MIT
+A plugin for implementing OAuth Providers and Consumers in Rails applications.
+~amd64 ~x86-macos
+eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+test elibc_FreeBSD ruby_targets_ruby18 doc doc test
+|| ( ruby_targets_ruby18 )
+
+
+4
+
+compile configure install prepare setup test unpack
+
+
+
+
+

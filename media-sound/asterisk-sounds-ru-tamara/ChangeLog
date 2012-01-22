@@ -1,0 +1,12 @@
+# ChangeLog for net-misc/asterisk-sounds-ru-tamara
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  04 Apr 2011; A. Vinogradov <spamslepnoga@inbox.ru>
+  asterisk-sounds-ru-tamara-2.0.2.ebuild:
+  fix RDEPEND implicit, add EAPI 4
+
+  10 Jul 2010; mva <mva@mva.name> +asterisk-sounds-ru-0.1.ebuild,
+  +metadata.xml:
+  added russian sounds
+

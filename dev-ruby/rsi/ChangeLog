@@ -1,16 +1,14 @@
 # ChangeLog for dev-ruby/rsi
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*rsi-0.4-r1 (06 Jan 2011)
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  rsi-0.4-r1.ebuild:
+  some fixes
 
-  06 Jan 2011; Hans de Graaff <graaff@gentoo.org> -rsi-0.4.ebuild,
-  +rsi-0.4-r1.ebuild, +files/rsi-0.4-fix-logger.patch, metadata.xml:
-  Fix logger use.
+*rsi-0.4-r1 (11 May 2011)
 
-*rsi-0.4 (05 Jan 2011)
-
-  05 Jan 2011; Hans de Graaff <graaff@gentoo.org> +rsi-0.4.ebuild,
-  +metadata.xml:
-  Initial import.
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +files/rsi-0.4-fix-logger.patch, +metadata.xml, +rsi-0.4-r1.ebuild:
+  added some crap.
 

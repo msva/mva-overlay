@@ -1,8 +1,10 @@
-# ChangeLog for dev-lua/luacrypto
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# ChangeLog for dev-lua/luancurses
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*luacrypto-9999 (9 Oct 2011)
+*luancurses-9999 (16 Oct 2011)
 
-  9 Oct 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
-        Initial commit.
+  16 Oct 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  +luancurses-9999.ebuild, +metadata.xml:
+  Some lua libs
+

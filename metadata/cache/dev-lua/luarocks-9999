@@ -1,0 +1,22 @@
+dev-lang/lua curl? ( net-misc/curl ) openssl? ( dev-libs/openssl ) dev-vcs/git
+dev-lang/lua curl? ( net-misc/curl ) openssl? ( dev-libs/openssl ) app-arch/unzip
+0
+
+
+http://www.luarocks.org
+MIT
+A deployment and management system for Lua modules
+
+eutils git-2 multilib portability toolchain-funcs user
+curl openssl
+
+
+
+4
+
+compile configure install preinst unpack
+
+
+
+
+

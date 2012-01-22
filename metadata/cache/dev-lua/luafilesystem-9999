@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 dev-vcs/git
+>=dev-lang/lua-5.1
+0
+
+
+http://keplerproject.github.com/luafilesystem/
+MIT
+File System Library for the Lua Programming Language
+
+git-2 multilib toolchain-funcs
+
+
+
+
+4
+
+install prepare unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) )
+ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] )
+0
+mirror://rubygems/newrelic_rpm-2.10.8.gem
+
+http://www.newrelic.com
+Ruby
+New Relic RPM is a Ruby performance management system.
+~amd64 ~x86 ~x86-macos
+eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+elibc_FreeBSD ruby_targets_ruby18 test
+|| ( ruby_targets_ruby18 )
+
+
+4
+
+compile configure install prepare setup test unpack
+
+
+
+
+

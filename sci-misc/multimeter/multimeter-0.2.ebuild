@@ -1,4 +1,4 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -9,7 +9,7 @@ inherit eutils linux-mod
 DESCRIPTION="A litte data acquisition tool for the V&A VA18B (and others, e.g. PeakTech 3375) multimeter."
 HOMEPAGE="http://multimeter.schewe.com/"
 SRC_URI="http://multimeter.schewe.com/${PN}-${PV}.tar.gz"
-LICENSE="GPL"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""

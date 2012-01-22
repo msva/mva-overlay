@@ -1,0 +1,22 @@
+>=sys-devel/autoconf-2.68 sys-devel/automake sys-devel/gcc dev-util/pkgconfig dev-libs/glib:2 x11-libs/libX11 dev-libs/libbsd sys-apps/help2man x11-misc/virtualgl sys-kernel/bbswitch virtual/opengl x11-base/xorg-drivers[video_cards_nvidia?,video_cards_nouveau?]
+x11-misc/virtualgl sys-kernel/bbswitch virtual/opengl x11-base/xorg-drivers[video_cards_nvidia?,video_cards_nouveau?]
+0
+https://github.com/downloads/Bumblebee-Project/Bumblebee/Bumblebee-3.0.tar.gz
+
+https://github.com/Bumblebee-Project/Bumblebee
+GPL
+Based on the eutils eclass
+~amd64 ~x86
+base eutils multilib portability toolchain-funcs user
+video_cards_nouveau video_cards_nvidia
+
+
+
+4
+
+compile configure install prepare unpack
+
+
+
+
+

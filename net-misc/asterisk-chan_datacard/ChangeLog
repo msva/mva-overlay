@@ -1,11 +1,14 @@
 # ChangeLog for net-misc/asterisk-chan_datacard
-# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  07 Jul 2010; mva <mva@mva.name> asterisk-chan_datacard-9999.ebuild:
-  fixed keywords and, config and documentation
+  16 Jul 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  asterisk-chan_datacard-9999.ebuild:
+  some fixes
 
-  07 Jul 2010; mva <mva@mva.name> +asterisk-chan_datacard-9999.ebuild,
-  +metadata.xml:
-  added yummi asterisk module
+*asterisk-chan_datacard-9999 (11 May 2011)
+
+  11 May 2011; Misbakh-Soloviev Vadim A. (mva) <mva@mva.name>
+  +asterisk-chan_datacard-9999.ebuild, +metadata.xml:
+  added some crap.
 

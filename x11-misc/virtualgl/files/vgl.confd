@@ -1,0 +1,7 @@
+# /etc/conf.d/vgl
+
+DISPLAY=":0"
+XAUTHORITY="$(find /var/run/xauth/A${DISPLAY}-*|tail -n1)"
+
+# slim
+# XAUTHORITY="/var/run/slim.auth"

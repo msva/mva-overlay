@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 dev-util/pkgconfig dev-vcs/mercurial
+>=dev-lang/lua-5.1
+0
+
+
+http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/
+MIT
+Networking support library for the Lua language.
+
+eutils flag-o-matic mercurial multilib portability toolchain-funcs user
+debug
+
+
+
+4
+
+compile install unpack
+
+
+
+
+

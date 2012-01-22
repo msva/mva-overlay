@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 dev-lua/squish dev-lua/luasocket dev-vcs/mercurial
+>=dev-lang/lua-5.1 dev-lua/squish dev-lua/luasocket
+0
+
+
+http://code.mathewwild.co.uk/
+MIT
+Lua Asynchronous HTTP Library.
+
+eutils flag-o-matic mercurial multilib portability toolchain-funcs user
+
+
+
+
+4
+
+compile install unpack
+
+
+
+
+
