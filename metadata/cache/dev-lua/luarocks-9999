@@ -14,7 +14,7 @@ curl openssl
 
 4
 
-compile configure install preinst unpack
+configure preinst unpack
 
 
 

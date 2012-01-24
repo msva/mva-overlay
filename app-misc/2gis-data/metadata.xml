@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer><email>maintainer-wanted@gentoo.org</email></maintainer>
+	<use>
+		<flag name='astr'>The map of Astrakhan for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='barn'>The map of Barnaul for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='biysk'>The map of Biysk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='chel'>The map of Chelyabinsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='ekb'>The map of Ekaterinburg for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='galt'>The map of Gornoaltaysk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='irk'>The map of Irkutsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='kaz'>The map of Kazan for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='kdar'>The map of Krasnodar for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='kem'>The map of Kemerovo for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='khb'>The map of Khabarovsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='kost'>The map of Kostroma for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='kras'>The map of Krasnoyarsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='kur'>The map of Kurgan for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='magn'>The map of Magnitogorsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='nchl'>The map of Nabchelny for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='nkuz'>The map of Novokuznetsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='nnov'>The map of N_Novgorod for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='nsk'>The map of Novosibirsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='nvar'>The map of Nizhnevartovsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='odes'>The map of Odessa for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='omsk'>The map of Omsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='perm'>The map of Perm for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='rost'>The map of Rostov-na-Donu for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='sam'>The map of Samara for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='sochi'>The map of Sochi for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='spb'>The map of St.Petersburg for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='tim'>The map of Tyumen for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='tom'>The map of Tomsk for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='tula'>The map of Tula for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='vlad'>The map of Vladivostok for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='vrnz'>The map of Voronezh for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='ufa'>The map of Ufa for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='volg'>The map of Volgograd for <pkg>app-misc/2gis</pkg></flag>
+		<flag name='yar'>The map of Yaroslavl for <pkg>app-misc/2gis</pkg></flag>
+	</use>
+</pkgmetadata>

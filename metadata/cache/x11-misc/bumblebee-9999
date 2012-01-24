@@ -4,17 +4,17 @@ x11-misc/virtualgl sys-kernel/bbswitch virtual/opengl x11-base/xorg-drivers[vide
 
 
 https://github.com/Bumblebee-Project/Bumblebee
-GPL
+GPL-2
 Based on the eutils eclass
 
-base eutils git-2 multilib portability toolchain-funcs user
+eutils git-2 multilib portability toolchain-funcs user
 video_cards_nouveau video_cards_nvidia
 
 
 
 4
 
-compile configure install prepare unpack
+configure install postinst preinst unpack
 
 
 

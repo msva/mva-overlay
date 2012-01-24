@@ -6,7 +6,7 @@
 http://luaforge.net/projects/luaevent http://repo.or.cz/w/luaevent.git
 LGPL-2.1
 libevent bindings for Lua
-amd64 x86
+
 git-2 multilib toolchain-funcs
 
 

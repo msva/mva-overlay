@@ -1,0 +1,43 @@
+#!/bin/bash
+shopt -s nocasematch
+
+INPUTFILE="${1:-NOFILE}"
+OUTPUTFILE="${2:-out.png}"
+RES_SIZE="${3:-48x48}"
+
+if [ "${INPUTFILE}" = "NOFILE" ]; then echo "No input file!" && exit 1; fi
+
+TEMPFILE1=$(mktemp)
+TEMPFILE2=$(mktemp)
+
+wrestool --extract --type=group_icon "${INPUTFILE}" 2>/dev/null >$TEMPFILE1 || (echo "Fail to extract!" && exit 1)
+if [ -s ${TEMPFILE1} ]; then
+	read OFFSET INDEX < <(
+		icotool --list ${TEMPFILE1} | awk '{
+			ci=int(substr($2,index($2,"=") + 1));
+			cw=int(substr($3,index($3,"=") + 1));
+			cb=int(substr($5,index($5,"=") + 1));
+				if ((cw > w && cw <= 256) || (cw == w && cb > b)) {
+				b = cb;
+				w = cw;
+				i = ci;
+			}
+		}
+		END {
+			print 16 + (256 - w) / 2, i;
+		}'
+	)
+
+	if [ "${INDEX}" = '' ]; then
+		INDEX=1
+		OFFSET=20
+	fi
+
+	icotool --extract --index=${INDEX} ${TEMPFILE1} -o ${TEMPFILE2}
+	ICON=${TEMPFILE2}
+	mogrify -resize ${RES_SIZE} ${ICON}
+fi
+cp ${ICON} ${OUTPUTFILE}
+
+rm $TEMPFILE1* ${TEMPFILE2} ${TEMPTHUMB}
+

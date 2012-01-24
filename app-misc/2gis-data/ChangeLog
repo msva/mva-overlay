@@ -1,0 +1,84 @@
+# ChangeLog for app-misc/2gis-data
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  03 Mar 2011; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2011.02.ebuild, +2gis-data-2011.03.ebuild, metadata.xml:
+  Bump to 2gis-data-2011.03, add St.Petersburg map.
+
+*2gis-data-2011.02 (01 Feb 2011)
+
+  01 Feb 2011; Nathan Brink <ohnobinki@gentoo.org>
+  -2gis-data-2010.10.ebuild, +2gis-data-2011.02.ebuild, metadata.xml:
+  Bump to 2gis-data-2011.02 for yuri_k.
+
+*2gis-data-2010.10 (01 Oct 2010)
+
+  01 Oct 2010; Nathan Phillip Brink (ohnobinki)
+  <ohnobinki@ohnopublishing.net> -2gis-data-2010.6-r1.ebuild,
+  +2gis-data-2010.10.ebuild, metadata.xml:
+  Version bump to 2gis-data-2010.10 per oper777's request. Adds 6 new maps.
+
+*2gis-data-2010.6-r1 (03 Jul 2010)
+
+  03 Jul 2010; Michał Górny (sedzimir) <mgorny.3ehbo@mailnull.com>
+  -2gis-data-2010.6.ebuild, +2gis-data-2010.6-r1.ebuild:
+  Some of the distfiles have changed (probably double copies of files were
+  removed), updating the Manifest and revbumping the ebuild.
+
+  01 Jun 2010; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2010.5.ebuild, +2gis-data-2010.6.ebuild:
+  Version bump
+
+  03 May 2010; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2010.4.ebuild, +2gis-data-2010.5.ebuild:
+  Version bump
+
+  09 Apr 2010; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  2gis-data-2010.4.ebuild:
+  Adding ~amd64 keyword. Thanks Kirin Yuri for testing.
+
+  01 Apr 2010; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2010.3.ebuild, +2gis-data-2010.4.ebuild, metadata.xml:
+  Version bump, added Rostov and Vladivostok maps
+
+  01 Mar 2010; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2010.2.ebuild, +2gis-data-2010.3.ebuild:
+  Version bump
+
+  01 Feb 2010; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2010.1.ebuild, +2gis-data-2010.2.ebuild, metadata.xml:
+  Version bump, added Krasnodar map (kdar use-flag)
+
+  05 Jan 2010; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2009.12.ebuild, +2gis-data-2010.1.ebuild:
+  Version bump
+
+  02 Dec 2009; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2009.11.ebuild, +2gis-data-2009.12.ebuild:
+  Version bump
+
+  03 Nov 2009; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2009.10.ebuild, +2gis-data-2009.11.ebuild:
+  Version bump
+
+  02 Oct 2009; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2009.9.ebuild, +2gis-data-2009.10.ebuild:
+  Version bump
+
+  04 Sep 2009; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  -2gis-data-2009.8.ebuild, +2gis-data-2009.9.ebuild:
+  Version bump
+
+  12 Aug 2009; Michał Górny (sedzimir) <gentoo@mgorny.alt.pl>
+  2gis-data-2009.8.ebuild:
+  Fix 'working workaround' to support overlay paths containing 'files'.
+
+  11 Aug 2009; Thomas Sachau (Tommy[D]) <tommy@gentoo.org>
+  2gis-data-2009.8.ebuild:
+  Fix check_license with some working workaround
+
+  03 Aug 2009; Leonid Evdokimov (darkk) <leon@darkk.net.ru>
+  +2gis-data-2009.8.ebuild, +metadata.xml:
+  New Ebuild for bug #280034, thanks to ssuominen and Tommy[D]
+

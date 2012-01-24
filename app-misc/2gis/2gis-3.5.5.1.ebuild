@@ -1,0 +1,34 @@
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+EAPI="4"
+
+inherit eutils
+
+DESCRIPTION="Proprietary freeware multimedia map of several Russian and Ukrainian towns"
+HOMEPAGE="http://2gis.ru"
+SRC_URI="http://download.2gis.ru/arhives/2GISShell-${PV}.orig.zip"
+
+ICON_SIZE="48x48"
+
+LICENSE="2Gis-ru"
+SLOT="0"
+KEYWORDS="~x86 ~amd64"
+IUSE="+data"
+
+DEPEND="app-arch/unzip"
+RDEPEND="app-emulation/wine
+	data? ( app-misc/2gis-data )"
+
+src_install() {
+	insinto /opt/${PN}
+	doins -r 2gis/3.0/* || die
+
+	bash "${FILESDIR}"/exe2png 2gis/3.0/grym.exe 2gis.png "${ICON_SIZE}"
+	insinto /usr/share/icons/hicolor/"${ICON_SIZE}"/apps
+	doins 2gis.png
+
+	make_wrapper 2gis "wine grym.exe -nomta" /opt/${PN}
+	make_desktop_entry 2gis "2Gis" 2gis.png "Navigation" || die
+}
