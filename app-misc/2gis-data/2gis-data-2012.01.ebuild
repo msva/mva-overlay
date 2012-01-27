@@ -17,7 +17,8 @@ RDEPEND=">=app-misc/2gis-3.0.7.1"
 
 IUSE=""
 SRC_URI=""
-RESTRICT="mirror"
+
+S="${WORKDIR}"
 
 MY_PV_YEAR=$(get_version_component_range 1)
 MY_PV_MON=$(get_version_component_range 2)
@@ -91,6 +92,11 @@ my_add_town ulan Ulanude 2011 1
 my_add_town uli Ulyanovsk 2011 11
 my_add_town yar Yaroslavl 2010 6
 my_add_town yak Yakutsk 2011 8
+
+src_prepare() {
+	mv "${WORKDIR}"/2gis "${S}"
+	default
+}
 
 src_install() {
 	insinto /opt/2gis

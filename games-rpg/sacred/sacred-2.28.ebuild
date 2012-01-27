@@ -59,7 +59,7 @@ src_install() {
 	dodir /usr/games/bin
 	dosym /opt/sacred/sacred /usr/games/bin/sacred
 	newicon ${S}"/icon.xpm" "${PN}.png"
-	make_desktop_entry ${PN} "Sacred: Gold Edition" ${PN}.png "Games"
+	make_desktop_entry "${PN}" "Sacred: Gold Edition" "${PN}" "Games"
 }
 
 pkg_postinst() {

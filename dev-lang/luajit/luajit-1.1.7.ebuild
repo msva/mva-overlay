@@ -54,3 +54,9 @@ src_install(){
 	pax-mark m "${D}usr/bin/luajit-${PV}"
 	dosym "luajit-${PV}" "/usr/bin/luajit-${SLOT}"
 }
+
+pkg_postinst() {
+	ewarn "Now you should select LuaJIT version to use as system default LuaJIT interpreter."
+	ewarn "Use 'eselect luajit list' to look for installed versions and"
+	ewarn "Use 'eselect luajit set <NUMBER_or_NAME>' to set version you chose."
+}
