@@ -14,7 +14,7 @@ eutils multilib pax-utils portability toolchain-funcs user
 
 4
 
-install prepare
+install postinst prepare
 
 
 
