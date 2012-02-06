@@ -31,6 +31,7 @@ RDEPEND="ssl? ( dev-libs/openssl )
 	x11-libs/libX11
 	x11-libs/libXext
 	x11-libs/libXv
+	multilib? ( app-emulation/emul-linux-x86-xlibs )
 	virtual/opengl"
 
 DEPEND="dev-util/cmake
