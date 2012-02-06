@@ -1,1 +1,1 @@
-virtualgl-2.3.ebuild
+virtualgl-2.3-r1.ebuild
