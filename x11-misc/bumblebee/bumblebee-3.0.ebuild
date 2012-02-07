@@ -65,5 +65,5 @@ pkg_postinst() {
 
 	ewarn "This is *NOT* all! Bumblebee still *NOT* ready to use."
 	ewarn "You may need to setup your /etc/bumblebee/bumblebee.conf!"
-	ewarn "Also you should add you user to 'bumblebee' group."
+	ewarn "Also you should add your user to 'bumblebee' group."
 }
