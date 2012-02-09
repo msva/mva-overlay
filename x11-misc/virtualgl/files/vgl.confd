@@ -1,7 +1,15 @@
 # /etc/conf.d/vgl
 
-DISPLAY=":0"
-XAUTHORITY="$(find /var/run/xauth/A${DISPLAY}-*|tail -n1)"
+DISPLAY="${DISPLAY:-:0}"
 
-# slim
+# common case:
+XAUTHORITY="$(ps wwwaux | perl -nle '/(X|[xX]org).*$ENV{DISPLAY}.*-auth (\S+)/ && print $2')"
+
+# kdm and some others:
+# XAUTHORITY="$(find /var/run/xauth/A${DISPLAY}-*|tail -n1)"
+
+# gdm:
+# XAUTHORITY="/var/gdm/${DISPLAY}.Xauth"
+
+# slim:
 # XAUTHORITY="/var/run/slim.auth"
