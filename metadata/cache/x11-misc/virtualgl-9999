@@ -1,5 +1,5 @@
-dev-util/cmake ssl? ( dev-libs/openssl ) media-libs/libjpeg-turbo x11-libs/libX11 x11-libs/libXext x11-libs/libXv virtual/opengl >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) dev-vcs/subversion net-misc/rsync
-ssl? ( dev-libs/openssl ) media-libs/libjpeg-turbo x11-libs/libX11 x11-libs/libXext x11-libs/libXv virtual/opengl
+dev-util/cmake ssl? ( dev-libs/openssl ) media-libs/libjpeg-turbo x11-libs/libX11 x11-libs/libXext x11-libs/libXv multilib? ( app-emulation/emul-linux-x86-xlibs app-emulation/emul-linux-x86-baselibs ) virtual/opengl >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) dev-vcs/subversion net-misc/rsync
+ssl? ( dev-libs/openssl ) media-libs/libjpeg-turbo x11-libs/libX11 x11-libs/libXext x11-libs/libXv multilib? ( app-emulation/emul-linux-x86-xlibs app-emulation/emul-linux-x86-baselibs ) virtual/opengl
 0
 
 

@@ -1,4 +1,4 @@
->=dev-lang/lua-5.1 net-misc/curl || ( =sys-devel/automake-1.11* ) >=sys-devel/autoconf-2.61 sys-devel/libtool dev-vcs/git
+>=dev-lang/lua-5.1 net-misc/curl || ( =sys-devel/automake-1.11* ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
 >=dev-lang/lua-5.1
 0
 

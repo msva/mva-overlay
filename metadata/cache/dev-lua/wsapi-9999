@@ -1,0 +1,22 @@
+>=dev-lang/lua-5.1 luajit? ( dev-lang/luajit ) dev-libs/fcgi virtual/httpd-fastcgi xavante? ( dev-lua/xavante ) dev-util/pkgconfig dev-vcs/git
+>=dev-lang/lua-5.1 luajit? ( dev-lang/luajit ) dev-libs/fcgi virtual/httpd-fastcgi xavante? ( dev-lua/xavante )
+0
+
+
+https://github.com/keplerproject/wsapi
+MIT
+Lua WSAPI Library
+
+eutils git-2 multilib portability toolchain-funcs user
+luajit xavante
+
+
+
+4
+
+configure unpack
+
+
+
+
+
