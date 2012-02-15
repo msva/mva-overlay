@@ -28,7 +28,7 @@ DEPEND="virtual/linux-sources
 
 RDEPEND=""
 
-MODULE_NAMES="bbswitch(kernel/drivers/acpi)"
+MODULE_NAMES="bbswitch(acpi)"
 
 pkg_setup() {
 	linux-mod_pkg_setup
