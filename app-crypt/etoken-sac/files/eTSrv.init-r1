@@ -1,0 +1,58 @@
+#!/sbin/runscript
+
+# Distributed under the terms of the GNU General Purpose License v2
+# $Header: $
+# Description:       eTSrv This starts, stops, and reloads the eToken eTSrv daemon
+
+NAME=eTSrv
+name="eToken eTSrv daemon"
+command="/usr/bin/${NAME}"
+command_args="${EXTRA_OPTS}"
+pidfile="/var/run/${NAME}.pid"
+
+start_stop_daemon_args="-q -u pcscd:pcscd -n ${NAME}"
+start_stop_daemon_start_args="-k 000"
+start_stop_daemon_stop_args="-R TERM/2/KILL/5"
+
+depend() {
+        need pcscd
+}
+
+checkconfig() {
+	"${DAEMON}" --test > /dev/null || return 1
+}
+
+start_pre() {
+	if [ "${RC_CMD}" != "restart" ] ; then
+		checkconfig || return 1
+	fi
+}
+
+stop_pre() {
+	if [ "${RC_CMD}" = "restart" ] ; then
+		checkconfig || return 1
+	fi
+}
+
+#start() {
+#	checkconfig || return 1
+#	ebegin "Starting ${SVCNAME}"
+#		start-stop-daemon -k 000 -S -q -p "${PIDFILE}" -x "${DAEMON}" -n "${NAME}" -- "${DAEMON_ARGS}"
+#        eend $?
+#}
+
+#
+# Function that stops the daemon/service
+#
+#stop() {
+#	if [ "${RC_CMD}" = "restart" ] ; then
+#		checkconfig || return 1
+#	fi
+#
+#	ebegin "Stopping ${SVCNAME}"
+#		start-stop-daemon -K -q -R TERM/2/KILL/5 -p "${PIDFILE}" -n "${NAME}"
+#		# Many daemons don't delete their pidfiles when they exit.
+#		rm -f "${PIDFILE}"
+#		rm -f "/tmp/${NAME}"
+#	eend $?
+#}

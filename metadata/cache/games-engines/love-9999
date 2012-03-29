@@ -1,0 +1,22 @@
+media-libs/libsdl[joystick] media-libs/sdl-sound virtual/opengl media-libs/openal luajit? ( dev-lang/luajit ) !luajit? ( dev-lang/lua ) media-libs/devil media-libs/libmng media-libs/tiff >=media-libs/freetype-2 dev-games/physfs media-libs/libmodplug media-sound/mpg123 media-libs/libvorbis || ( >=sys-devel/automake-1.11.1:1.11 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/mercurial
+media-libs/libsdl[joystick] media-libs/sdl-sound virtual/opengl media-libs/openal luajit? ( dev-lang/luajit ) !luajit? ( dev-lang/lua ) media-libs/devil media-libs/libmng media-libs/tiff >=media-libs/freetype-2 dev-games/physfs media-libs/libmodplug media-sound/mpg123 media-libs/libvorbis
+0
+
+
+http://love2d.org/
+ZLIB
+Based on the libtool eclass
+~amd64 ~x86
+autotools base eutils games libtool mercurial multilib toolchain-funcs user
+luajit
+
+
+
+2
+
+compile configure install postinst preinst prepare setup unpack
+
+
+
+
+

@@ -1,5 +1,5 @@
->=dev-lang/lua-5.1 mysql? ( dev-db/mysql ) postgres? ( dev-db/postgresql-base ) sqlite? ( >=dev-db/sqlite-3 ) dev-util/pkgconfig dev-vcs/subversion net-misc/rsync
->=dev-lang/lua-5.1 mysql? ( dev-db/mysql ) postgres? ( dev-db/postgresql-base ) sqlite? ( >=dev-db/sqlite-3 )
+>=dev-lang/lua-5.1 mysql? ( || ( dev-db/mysql dev-db/mariadb ) ) postgres? ( dev-db/postgresql-base ) sqlite? ( >=dev-db/sqlite-3 ) dev-util/pkgconfig dev-vcs/subversion net-misc/rsync
+>=dev-lang/lua-5.1 mysql? ( || ( dev-db/mysql dev-db/mariadb ) ) postgres? ( dev-db/postgresql-base ) sqlite? ( >=dev-db/sqlite-3 )
 0
 
 
@@ -7,7 +7,7 @@ http://code.google.com/p/luadbi/
 MIT
 DBI module for Lua
 
-eutils flag-o-matic multilib portability subversion toolchain-funcs user
+eutils flag-o-matic multilib subversion toolchain-funcs user
 mysql postgres sqlite
 
 

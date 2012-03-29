@@ -7,7 +7,7 @@ http://www.luarocks.org
 MIT
 A deployment and management system for Lua modules
 
-eutils git-2 multilib portability toolchain-funcs user
+eutils git-2 multilib toolchain-funcs user
 curl openssl
 
 

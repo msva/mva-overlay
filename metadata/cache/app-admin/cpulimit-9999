@@ -7,7 +7,7 @@ http://cpulimit.sourceforge.net
 GPL-2
 Limits the CPU usage of a process
 
-eutils multilib portability subversion toolchain-funcs user
+eutils multilib subversion toolchain-funcs user
 
 
 

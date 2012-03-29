@@ -1,3 +1,0 @@
-# /etc/conf.d/bumblebee
-
-BUMBLEBEE_EXTRA_OPTS="--use-syslog -l /usr/lib/opengl/nvidia/lib:/usr/lib/opengl/nvidia/extensions:/usr/lib64/opengl/nvidia/lib:/usr/lib32/opengl/nvidia/lib:/usr/lib64/opengl/nvidia/extensions:/usr/lib32/opengl/nvidia/extensions"

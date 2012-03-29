@@ -7,7 +7,7 @@ http://vpim.rubyforge.org/
 MIT
 A library to manipulate vCards and iCalendars
 ~x86 ~amd64
-eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+eutils java-utils-2 multilib ruby-fakegem ruby-ng toolchain-funcs user versionator
 elibc_FreeBSD ruby_targets_ruby18 test
 || ( ruby_targets_ruby18 )
 

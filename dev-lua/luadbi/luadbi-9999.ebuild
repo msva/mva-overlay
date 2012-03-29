@@ -16,7 +16,7 @@ KEYWORDS=""
 IUSE="mysql postgres sqlite"
 
 RDEPEND=">=dev-lang/lua-5.1
-		mysql? ( dev-db/mysql )
+		mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
 		postgres? ( dev-db/postgresql-base )
 		sqlite? ( >=dev-db/sqlite-3 )"
 DEPEND="${RDEPEND}

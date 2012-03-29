@@ -7,7 +7,7 @@ http://www.digium.com/
 GPL-3
 Asterisk's GUI.
 
-eutils multilib portability subversion toolchain-funcs user
+eutils multilib subversion toolchain-funcs user
 
 
 

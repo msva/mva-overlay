@@ -7,7 +7,7 @@ http://qsapecng.sourceforge.net/
 GPL-3
 Qt based GUI for sapec-ng (electric circuit analizys program)
 ~x86 ~amd64
-base cmake-utils eutils flag-o-matic multilib portability qt4-r2 toolchain-funcs user
+base cmake-utils eutils flag-o-matic multilib qt4-r2 toolchain-funcs user
 doc
 
 

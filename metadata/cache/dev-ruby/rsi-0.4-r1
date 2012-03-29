@@ -7,7 +7,7 @@ http://rsi.rubyforge.org/
 BSD-2
 Ruby Simple Indexer (or perhaps Really Simple Indexer) is a simple full text index.
 ~amd64
-eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+eutils java-utils-2 multilib ruby-fakegem ruby-ng toolchain-funcs user versionator
 test elibc_FreeBSD ruby_targets_ruby18 test
 || ( ruby_targets_ruby18 )
 

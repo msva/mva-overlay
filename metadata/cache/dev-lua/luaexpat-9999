@@ -7,7 +7,7 @@ http://code.mathewwild.co.uk/
 MIT
 XMPP client library written in Lua.
 
-eutils flag-o-matic mercurial multilib portability toolchain-funcs user
+eutils flag-o-matic mercurial multilib toolchain-funcs user
 
 
 

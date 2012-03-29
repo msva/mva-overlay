@@ -7,7 +7,7 @@ https://github.com/msva/lua-crypto
 MIT
 Lua Crypto Library
 
-eutils flag-o-matic git-2 multilib portability toolchain-funcs user
+eutils flag-o-matic git-2 multilib toolchain-funcs user
 doc linguas_en linguas_ru
 
 

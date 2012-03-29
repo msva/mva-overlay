@@ -1,4 +1,4 @@
->=dev-lang/lua-5.1 net-misc/curl || ( =sys-devel/automake-1.11* ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
+>=dev-lang/lua-5.1 net-misc/curl || ( >=sys-devel/automake-1.11.1:1.11 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
 >=dev-lang/lua-5.1
 0
 
@@ -7,7 +7,7 @@ https://github.com/msva/lua-curl
 MIT
 Lua cURL Library
 
-autotools eutils git-2 libtool multilib portability toolchain-funcs user
+autotools eutils git-2 libtool multilib toolchain-funcs user
 doc examples
 
 

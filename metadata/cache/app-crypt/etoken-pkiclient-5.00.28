@@ -1,0 +1,22 @@
+app-arch/rpm2targz
+>=sys-apps/pcsc-lite-1.4.99 dev-libs/libusb media-libs/fontconfig
+0
+pkiclient-5.00.28-0.x86_64.rpm
+fetch
+http://www.etokenonlinux.org
+Aladdin Knowledge Systems
+Aladdin eToken Middleware for eTokenPRO, eTokenNG OTP, eTokenNG Flash, eToken Pro (Java)
+-* amd64
+eutils multilib toolchain-funcs user
+
+
+
+
+
+
+install nofetch postinst unpack
+
+
+
+
+

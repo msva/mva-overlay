@@ -7,7 +7,7 @@ http://wiki.maemo.org/MADDE
 Nokia-SDK
 Maemo Application Development and Debugging Environment
 -* ~amd64 ~x86
-eutils multilib portability toolchain-funcs user
+eutils multilib toolchain-funcs user
 
 
 

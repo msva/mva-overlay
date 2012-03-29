@@ -7,7 +7,7 @@ http://www.kyne.com.au/~mark/software/lua-cjson.php
 MIT
 Lua JSON Library, written in C
 
-eutils flag-o-matic git-2 multilib portability toolchain-funcs user
+eutils flag-o-matic git-2 multilib toolchain-funcs user
 examples
 
 

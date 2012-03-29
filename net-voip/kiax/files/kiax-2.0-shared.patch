@@ -1,0 +1,28 @@
+diff -ur kiax/gui/gui.pro kiax.shared/gui/gui.pro
+--- kiax/gui/gui.pro	2009-04-27 08:47:29.000000000 -0500
++++ kiax.shared/gui/gui.pro	2009-04-27 08:50:32.000000000 -0500
+@@ -14,11 +14,9 @@
+ 
+ linux-g++ {
+ # Uncomment if you want dynamic linking
+-# LIBSDIR += $$CORELIBDIR/libs-linux
+-# LIBS += -L/usr/lib -L/usr/local/lib -L$$CORELIBDIR -liaxclient -lkiax2core -ljson -lspeexdsp -lspeex -lportaudio -lgsm -lsqlite3 -lasound 
++LIBSDIR += $$CORELIBDIR/libs-linux
++LIBS += -L/usr/lib -L/usr/local/lib -L$$CORELIBDIR -liaxclient -lkiax2core -ljson -lspeexdsp -lspeex -lportaudio -lgsm -lsqlite3 -lasound 
+ 
+-LIBSDIR += $$CORELIBDIR/static-libs-linux
+-LIBS += $$LIBSDIR/libiaxclient.a $$CORELIBDIR/libkiax2core.a $$LIBSDIR/libjson.a $$LIBSDIR/libspeexdsp.a $$LIBSDIR/libspeex.a $$LIBSDIR/libportaudio.a $$LIBSDIR/libgsm.a $$LIBSDIR/libsqlite3.a /usr/lib/libasound.so.2 
+ 
+ # Uncomment if you want dynamic linking
+ # LIBS += $$LIBSDIR/libiaxclient.so.1.0.2 $$LIBSDIR/libsqlite3.so.0.8.6 $$CORELIBDIR/libkiax2core.so.1.0.0 $$LIBSDIR/libjson.a $$LIBSDIR/libspeexdsp.so.1.4.0 $$LIBSDIR/libspeex.so.1.4.0
+diff -ur kiax/kiax2core/kiax2core.pro kiax.shared/kiax2core/kiax2core.pro
+--- kiax/kiax2core/kiax2core.pro	2009-04-27 08:47:30.000000000 -0500
++++ kiax.shared/kiax2core/kiax2core.pro	2009-04-27 08:49:27.000000000 -0500
+@@ -12,6 +12,7 @@
+ # Uncomment if you want dynamic linking
+ # LIBSDIR +=./libs-linux
+ # LIBS += $$LIBSDIR/libiaxclient.so.1.0.2 $$LIBSDIR/libsqlite3.so.0.8.6
++LIBS += -liaxclient -lsqlite3
+ DEFINES += LINUXDEP
+ }
+ 

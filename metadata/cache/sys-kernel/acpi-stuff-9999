@@ -1,5 +1,5 @@
-virtual/linux-sources sys-kernel/linux-headers kernel_linux? ( sys-apps/module-init-tools ) sys-apps/sed kernel_linux? ( virtual/linux-sources ) dev-vcs/git
-kernel_linux? ( sys-apps/module-init-tools )
+virtual/linux-sources sys-kernel/linux-headers kernel_linux? ( virtual/modutils ) sys-apps/sed kernel_linux? ( virtual/linux-sources ) dev-vcs/git
+kernel_linux? ( virtual/modutils )
 0
 
 
@@ -7,7 +7,7 @@ https://github.com/Lekensteyn/acpi-stuff
 GPL-2
 Based on the linux-mod eclass
 
-eutils git-2 linux-info linux-mod multilib portability toolchain-funcs user versionator
+eutils git-2 linux-info linux-mod multilib toolchain-funcs user versionator
 kernel_linux
 
 

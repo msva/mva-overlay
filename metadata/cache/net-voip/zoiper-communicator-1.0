@@ -7,7 +7,7 @@ http://www.zoiper.com/
 EULA
 Free proprietary cross-platform VoIP-client with SIP and IAX support.
 ~amd64 ~x86
-confutils eutils multilib portability toolchain-funcs user wxwidgets
+confutils eutils multilib toolchain-funcs user wxwidgets
 alsa oss
 
 

@@ -7,7 +7,7 @@ http://freelancing-god.github.com/ts/en/
 MIT
 Manage delta indexes via datetime columns for Thinking Sphinx.
 ~amd64 ~x86 ~x86-macos
-eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+eutils java-utils-2 multilib ruby-fakegem ruby-ng toolchain-funcs user versionator
 test elibc_FreeBSD ruby_targets_ruby18 test
 || ( ruby_targets_ruby18 )
 

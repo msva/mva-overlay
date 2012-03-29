@@ -7,7 +7,7 @@ http://github.com/pelle/oauth-plugin
 MIT
 A plugin for implementing OAuth Providers and Consumers in Rails applications.
 ~amd64 ~x86-macos
-eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+eutils java-utils-2 multilib ruby-fakegem ruby-ng toolchain-funcs user versionator
 test elibc_FreeBSD ruby_targets_ruby18 doc doc test
 || ( ruby_targets_ruby18 )
 

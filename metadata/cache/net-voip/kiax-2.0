@@ -1,0 +1,22 @@
+>=x11-libs/qt-gui-4.4 net-libs/libiaxclient dev-db/sqlite:3 net-libs/json-c media-libs/speex media-libs/portaudio media-sound/gsm media-libs/alsa-lib dev-vcs/subversion net-misc/rsync
+>=x11-libs/qt-gui-4.4 net-libs/libiaxclient dev-db/sqlite:3 net-libs/json-c media-libs/speex media-libs/portaudio media-sound/gsm media-libs/alsa-lib
+2
+
+
+http://www.forschung-direkt.eu/projects/kiax/
+GPL-3 LGPL-2
+softphone which aims to provide a flexible architecture for extention and customization
+~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~sparc-fbsd ~x86 ~x86-fbsd
+base eutils multilib qt4 subversion toolchain-funcs user versionator
+static webkit
+
+
+
+
+
+compile install preinst setup unpack
+
+
+
+
+

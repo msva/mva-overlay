@@ -7,7 +7,7 @@ http://www.inf.puc-rio.br/~brunoos/luasec/
 MIT
 Lua binding for OpenSSL library to provide TLS/SSL communication.
 
-eutils flag-o-matic mercurial multilib portability toolchain-funcs user
+eutils flag-o-matic mercurial multilib toolchain-funcs user
 
 
 

@@ -7,7 +7,7 @@ http://lua-gd.luaforge.net/
 MIT
 Lua bindings to Thomas Boutell's gd library
 
-eutils git-2 multilib portability toolchain-funcs user versionator
+eutils git-2 multilib toolchain-funcs user versionator
 doc examples
 
 

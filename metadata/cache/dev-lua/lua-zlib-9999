@@ -7,7 +7,7 @@ http://github.com/brimworks/lua-zlib
 MIT
 Lua bindings to zlib
 
-base cmake-utils eutils flag-o-matic git-2 multilib portability toolchain-funcs user
+base cmake-utils eutils flag-o-matic git-2 multilib toolchain-funcs user
 
 
 

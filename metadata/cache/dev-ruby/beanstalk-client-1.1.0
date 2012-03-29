@@ -7,7 +7,7 @@ http://beanstalk.rubyforge.org/
 GPL-3
 This is a Ruby client library for the Beanstalk protocol.
 ~amd64
-eutils java-utils-2 multilib portability ruby-fakegem ruby-ng toolchain-funcs user versionator
+eutils java-utils-2 multilib ruby-fakegem ruby-ng toolchain-funcs user versionator
 elibc_FreeBSD ruby_targets_ruby18 doc test
 || ( ruby_targets_ruby18 )
 

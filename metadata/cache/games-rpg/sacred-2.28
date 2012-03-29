@@ -7,7 +7,7 @@ http://www.linuxgamepublishing.com/
 EULA
 Linux port of famous RPG-game.
 ~amd64 ~x86
-check-reqs eutils multilib portability toolchain-funcs user
+check-reqs eutils multilib toolchain-funcs user
 iampirate linguas_ru
 
 

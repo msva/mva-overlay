@@ -7,7 +7,7 @@ http://www.makhutov.org/
 GPL-3
 Datacard channel for Asterisk.
 
-eutils multilib portability subversion toolchain-funcs user
+eutils multilib subversion toolchain-funcs user
 
 
 
