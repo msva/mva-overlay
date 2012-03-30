@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer>
+		<email>ramereth@gentoo.org</email>
+		<name>Lance Albertson</name>
+	</maintainer>
+	<longdescription lang="en">
+	Drush is a command line shell and scripting interface for Drupal, a
+	veritable Swiss Army knife designed to make life easier for those of us who
+	spend some of our working hours hacking away at the command prompt.
+
+	See http://drush.ws, the homepage for the drush project. It contains many
+	important resources for drush users.
+	</longdescription>
+</pkgmetadata>
+
