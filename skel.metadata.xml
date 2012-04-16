@@ -3,8 +3,8 @@
 <pkgmetadata>
 <maintainer>
  <email>mva@mva.name</email>
- <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
- <name>Vadim A .Misbakh-Soloviev</name>
+ <description>This package is from mva's sandbox overlay. If you have any issues, please contact he via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
+ <name>Vadim A. Misbakh-Soloviov</name>
   <upstream>
    <maintainer status="inactive">
     <name>Foo Bar</name>
@@ -14,11 +14,11 @@
     <name>Foo Gentoo</name>
     <email>foo@gentoo.org</email>
    </maintainer>
-    <changelog>http://foo.bar/changelog.txt</changelog>
-    <doc lang="en">http://foo.bar/doc/index.html</doc>
-    <doc lang="de">http://foo.bar/doc/index.de.html</doc>
-    <bugs-to>https://bugs.foo.bar</bugs-to>
-    <remote-id type="freshmeat">foobar</remote-id>
+   <changelog>http://foo.bar/changelog.txt</changelog>
+   <doc lang="en">http://foo.bar/doc/index.html</doc>
+   <doc lang="de">http://foo.bar/doc/index.de.html</doc>
+   <bugs-to>https://bugs.foo.bar</bugs-to>
+   <remote-id type="freshmeat">foobar</remote-id>
    <remote-id type="sourceforge">foobar</remote-id>
   </upstream>
 </maintainer>

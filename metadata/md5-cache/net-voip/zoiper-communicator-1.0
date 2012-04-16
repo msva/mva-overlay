@@ -1,0 +1,14 @@
+DEFINED_PHASES=install setup unpack
+DEPEND=app-arch/deb2targz x11-libs/wxGTK:2.6[X]
+DESCRIPTION=Free proprietary cross-platform VoIP-client with SIP and IAX support.
+EAPI=4
+HOMEPAGE=http://www.zoiper.com/
+IUSE=alsa oss
+KEYWORDS=~amd64 ~x86
+LICENSE=EULA
+RDEPEND=x11-libs/wxGTK:2.6[X]
+RESTRICT=strip
+SLOT=0
+SRC_URI=x86? ( alsa? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-alsa_1.0-1ubuntu16_i386.deb ) oss? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-oss_1.0-1ubuntu16_i386.deb ) http://rion-overlay.googlecode.com/files/libavutil_x86.tbz2 ) amd64? ( alsa? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-alsa_1.0-1ubuntu12_amd64.deb ) oss? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-oss_1.0-1ubuntu12_amd64.deb ) http://rion-overlay.googlecode.com/files/libavutil_amd64.tbz2 )
+_eclasses_=confutils	a80706bb5b9ddcf6bbd14365656d4985	eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	wxwidgets	fb1a306837717dfa2af841ecdf929565
+_md5_=84eac64541e1a176ad8578fe392a7864

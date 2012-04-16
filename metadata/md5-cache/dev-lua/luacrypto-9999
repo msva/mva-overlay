@@ -1,0 +1,11 @@
+DEFINED_PHASES=install unpack
+DEPEND=>=dev-lang/lua-5.1 >=dev-libs/openssl-0.9.7 dev-util/pkgconfig dev-vcs/git
+DESCRIPTION=Lua Crypto Library
+EAPI=4
+HOMEPAGE=https://github.com/msva/lua-crypto
+IUSE=doc linguas_en linguas_ru
+LICENSE=MIT
+RDEPEND=>=dev-lang/lua-5.1 >=dev-libs/openssl-0.9.7
+SLOT=0
+_eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	flag-o-matic	66cb710a2aa184a5687fe1289d7973ab	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=0a0eec0da55f280fe80753f12b66a01e

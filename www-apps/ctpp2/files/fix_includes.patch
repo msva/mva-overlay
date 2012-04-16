@@ -1,0 +1,12 @@
+diff --git a/tests/CTPP2Emulator.cpp b/tests/CTPP2Emulator.cpp
+--- a/tests/CTPP2Emulator.cpp
++++ b/tests/CTPP2Emulator.cpp
+@@ -42,7 +42,7 @@
+ #include <CTPP2GetText.hpp>
+ 
+ #include <sys/stat.h>
+-
++#include <memory>
+ #ifdef HAVE_SYS_TIME_H
+     #include <sys/time.h>
+ #endif

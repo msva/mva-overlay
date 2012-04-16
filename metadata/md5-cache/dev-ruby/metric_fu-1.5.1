@@ -1,0 +1,15 @@
+DEFINED_PHASES=compile configure install prepare setup test unpack
+DEPEND=ruby_targets_ruby18? ( >=dev-ruby/rspec-1.2.0[ruby_targets_ruby18] >=dev-ruby/test-construct-1.2.0[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( >=dev-ruby/flay-1.2.1[ruby_targets_ruby18] >=dev-ruby/activesupport-2.0.0[ruby_targets_ruby18] >=dev-ruby/flog-2.2.0[ruby_targets_ruby18] >=dev-ruby/rcov-0.9[ruby_targets_ruby18] >=dev-ruby/chronic-0.2.3[ruby_targets_ruby18] >=dev-ruby/churn-0.0.7[ruby_targets_ruby18] >=dev-ruby/saikuro-1.1.0[ruby_targets_ruby18] >=dev-ruby/activesupport-2.2.3[ruby_targets_ruby18] >=dev-ruby/rails_best_practices-0.3.16[ruby_targets_ruby18] >=dev-ruby/reek-1.2.6[ruby_targets_ruby18] >=dev-ruby/roodi-2.1.0[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( test? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) )
+DESCRIPTION=A set of rake tasks that make it easy to generate metrics reports.
+EAPI=4
+HOMEPAGE=http://metric-fu.rubyforge.org/
+IUSE=test elibc_FreeBSD ruby_targets_ruby18 test test
+KEYWORDS=~amd64
+LICENSE=MIT
+RDEPEND=ruby_targets_ruby18? ( >=dev-ruby/flay-1.2.1[ruby_targets_ruby18] >=dev-ruby/activesupport-2.0.0[ruby_targets_ruby18] >=dev-ruby/flog-2.2.0[ruby_targets_ruby18] >=dev-ruby/rcov-0.9[ruby_targets_ruby18] >=dev-ruby/chronic-0.2.3[ruby_targets_ruby18] >=dev-ruby/churn-0.0.7[ruby_targets_ruby18] >=dev-ruby/saikuro-1.1.0[ruby_targets_ruby18] >=dev-ruby/activesupport-2.2.3[ruby_targets_ruby18] >=dev-ruby/rails_best_practices-0.3.16[ruby_targets_ruby18] >=dev-ruby/reek-1.2.6[ruby_targets_ruby18] >=dev-ruby/roodi-2.1.0[ruby_targets_ruby18] ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] )
+REQUIRED_USE=|| ( ruby_targets_ruby18 )
+RESTRICT=test
+SLOT=0
+SRC_URI=mirror://rubygems/metric_fu-1.5.1.gem
+_eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	java-utils-2	b173b5d55bfd6e328939985bc54a1c9e	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	ruby-fakegem	6732f927427c6069df6c4f22271f2c75	ruby-ng	927a565459a62f2839d06e03cfbe1440	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
+_md5_=72fa64a8569e7ce5b4ed46dfe237d367

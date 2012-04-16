@@ -1,0 +1,10 @@
+DEFINED_PHASES=install unpack
+DEPEND=>=dev-lang/lua-5.1 dev-vcs/mercurial
+DESCRIPTION=XMPP client library written in Lua.
+EAPI=4
+HOMEPAGE=http://code.mathewwild.co.uk/
+LICENSE=MIT
+RDEPEND=>=dev-lang/lua-5.1
+SLOT=0
+_eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	flag-o-matic	66cb710a2aa184a5687fe1289d7973ab	mercurial	add64e64d758a9618d46a08a95f77483	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=7238661db687c47935ff72da2f5e7616

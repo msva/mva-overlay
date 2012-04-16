@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit autotools eutils git-2
+inherit eutils git-2
 
 DESCRIPTION="Lua cURL Library"
 HOMEPAGE="http://ittner.github.com/lua-iconv"

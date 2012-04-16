@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: mva $
 
-inherit eutils rpm
-
 EAPI="4"
+
+inherit eutils rpm
 
 DESCRIPTION="SafeNet (Aladdin) eToken Middleware for eTokenPRO, eTokenNG OTP, eTokenNG Flash, eToken Pro (Java)"
 
@@ -30,7 +30,6 @@ RDEPEND=">=sys-apps/pcsc-lite-1.4.99
 	ssl? ( dev-libs/engine_pkcs11 )"
 DEPEND="${RDEPEND}"
 
-
 QA_PREBUILT="*"
 QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
 
@@ -50,12 +49,17 @@ src_unpack() {
 	use amd64 && ( cat "${FILESDIR}/libhal_64.txz" | tar xJf - )
 	use amd64 && ( cat "${FILESDIR}/pcsc_64.txz" | tar xJf - )
 
-	EPATCH_SOURCE="${FILESDIR}/patches" \
-	EPATCH_SUFFIX="patch" \
-        EPATCH_FORCE="yes" epatch
-	epatch_user
 	cp "${FILESDIR}/eTSrv.init-r1" etc/init.d/eTSrv
 	cp "${FILESDIR}/Makefile" "${S}"
+}
+
+src_prepare() {
+	default
+	EPATCH_SOURCE="${FILESDIR}/patches" \
+	EPATCH_SUFFIX="patch" \
+	EPATCH_FORCE="yes" epatch
+
+	epatch_user
 }
 
 pkg_postinst() {

@@ -1,0 +1,10 @@
+DEFINED_PHASES=install preinst prepare unpack
+DEPEND=>=net-misc/asterisk-1.6.2.0 dev-libs/libxml2 sys-libs/ncurses dev-vcs/subversion net-misc/rsync
+DESCRIPTION=Datacard channel for Asterisk.
+EAPI=4
+HOMEPAGE=http://www.makhutov.org/
+LICENSE=GPL-3
+RDEPEND=>=net-misc/asterisk-1.6.2.0 dev-libs/libxml2 sys-libs/ncurses
+SLOT=0
+_eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	subversion	b1dabda0045f060f19070d67a57c1a21	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=a0ab22723d50e0c2d0ab3c5b4e6e9866

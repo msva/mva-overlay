@@ -1,0 +1,10 @@
+# ChangeLog for www-apps/ctpp2
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*ctpp2-2.7.1 (04 Sep 2011)
+
+  04 Sep 2011; Andreis Vinogradovs <spamslepnoga@inbox.ru> +ctpp2-2.7.1.ebuild,
+  +files/fix_man_location.patch, +metadata.xml:
+  recommit from my owerlay
+

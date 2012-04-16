@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure install prepare test unpack
+DEPEND=iconv? ( virtual/libiconv ) md5? ( dev-libs/openssl ) >=dev-util/cmake-2.8 userland_GNU? ( >=sys-apps/findutils-4.4.0 )
+DESCRIPTION=CTPP is a tool separating data processing (business logic) from data presentation.
+EAPI=4
+HOMEPAGE=http://ctpp.havoc.ru/ http://ctpp.havoc.ru/en/
+IUSE=debug md5 iconv
+KEYWORDS=~amd64
+LICENSE=BSD
+RDEPEND=iconv? ( virtual/libiconv ) md5? ( dev-libs/openssl )
+SLOT=2
+SRC_URI=http://ctpp.havoc.ru/download/ctpp2-2.8.tar.gz
+_eclasses_=base	5f35078c26d6c60556d5c8a2feb4f84f	cmake-utils	d9f3f2f6cc1a1d6ad8e31702e44133e5	eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	flag-o-matic	66cb710a2aa184a5687fe1289d7973ab	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=ed07b00f0e40fd6022d5fa5b8bae858a

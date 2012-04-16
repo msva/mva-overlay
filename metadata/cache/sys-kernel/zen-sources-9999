@@ -8,11 +8,11 @@ GPL-2 freedist
 The Zen Kernel Live Sources
 
 eutils git-2 kernel-2 multilib toolchain-funcs user versionator
-symlink build
++minimal symlink build
 
 !build? ( virtual/dev-manager )
 
-4
+2
 
 compile install postinst postrm preinst setup test unpack
 

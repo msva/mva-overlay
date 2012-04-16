@@ -1,5 +1,5 @@
->=dev-lang/lua-5.1 luajit? ( dev-lang/luajit ) dev-libs/fcgi virtual/httpd-fastcgi xavante? ( dev-lua/xavante ) dev-util/pkgconfig dev-vcs/git
->=dev-lang/lua-5.1 luajit? ( dev-lang/luajit ) dev-libs/fcgi virtual/httpd-fastcgi xavante? ( dev-lua/xavante )
+>=dev-lang/lua-5.1 luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi dev-util/pkgconfig dev-vcs/git
+>=dev-lang/lua-5.1 luajit? ( dev-lang/luajit:2 ) dev-libs/fcgi virtual/httpd-fastcgi
 0
 
 
@@ -8,13 +8,13 @@ MIT
 Lua WSAPI Library
 
 eutils git-2 multilib toolchain-funcs user
-luajit xavante
+luajit
 
 
 
 4
 
-configure unpack
+compile configure install unpack
 
 
 

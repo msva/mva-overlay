@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install prepare setup test unpack
+DEPEND=ruby_targets_ruby18? ( >=dev-ruby/mocha-0.9.5[ruby_targets_ruby18] dev-ruby/test-construct[ruby_targets_ruby18] dev-ruby/shoulda[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( dev-ruby/main[ruby_targets_ruby18] dev-ruby/json[ruby_targets_ruby18] dev-ruby/chronic[ruby_targets_ruby18] dev-ruby/sexp-processor[ruby_targets_ruby18] dev-ruby/ruby_parser[ruby_targets_ruby18] dev-ruby/hirb[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( doc? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( test? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) )
+DESCRIPTION=A Project to give the churn file, class, and method for a project for a given checkin.
+EAPI=4
+HOMEPAGE=http://metric-fu.rubyforge.org/
+IUSE=test elibc_FreeBSD ruby_targets_ruby18 doc doc test test
+KEYWORDS=~amd64
+LICENSE=MIT
+RDEPEND=ruby_targets_ruby18? ( dev-ruby/main[ruby_targets_ruby18] dev-ruby/json[ruby_targets_ruby18] dev-ruby/chronic[ruby_targets_ruby18] dev-ruby/sexp-processor[ruby_targets_ruby18] dev-ruby/ruby_parser[ruby_targets_ruby18] dev-ruby/hirb[ruby_targets_ruby18] ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] )
+REQUIRED_USE=|| ( ruby_targets_ruby18 )
+SLOT=0
+SRC_URI=mirror://rubygems/churn-0.0.11.gem
+_eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	java-utils-2	b173b5d55bfd6e328939985bc54a1c9e	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	ruby-fakegem	6732f927427c6069df6c4f22271f2c75	ruby-ng	927a565459a62f2839d06e03cfbe1440	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
+_md5_=222d3ac200f07fcd768c6bfaa8ab5f5c

@@ -10,7 +10,7 @@ DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/msva/lua-cjson.git"
+EGIT_REPO_URI="git://github.com/mpx/lua-cjson.git"
 
 LICENSE="MIT"
 SLOT="0"

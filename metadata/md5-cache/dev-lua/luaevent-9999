@@ -1,0 +1,10 @@
+DEFINED_PHASES=install prepare unpack
+DEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) >=dev-libs/libevent-1.4 dev-util/pkgconfig dev-vcs/git
+DESCRIPTION=libevent bindings for Lua
+EAPI=4
+HOMEPAGE=http://luaforge.net/projects/luaevent http://repo.or.cz/w/luaevent.git
+LICENSE=LGPL-2.1
+RDEPEND=|| ( >=dev-lang/lua-5.1 dev-lang/luajit:2 ) >=dev-libs/libevent-1.4
+SLOT=0
+_eclasses_=git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68
+_md5_=451b8366cc89e63c9b226e8d70ba71e5

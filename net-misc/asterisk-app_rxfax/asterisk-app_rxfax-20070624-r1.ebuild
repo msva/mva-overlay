@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI="4"
 DESCRIPTION="Asterisk applications for sending and receiving faxes"
 HOMEPAGE="http://www.soft-switch.org/"
 MyPN="${PN/asterisk-/}"
@@ -10,6 +11,8 @@ SRC_URI="http://www.soft-switch.org/downloads/snapshots/spandsp/test-apps-asteri
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
+
+IUSE=""
 
 DEPEND=">=media-libs/spandsp-0.0.4_pre9
 	>=net-misc/asterisk-1.4
