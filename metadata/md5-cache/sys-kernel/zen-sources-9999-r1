@@ -8,6 +8,6 @@ LICENSE=GPL-2 freedist
 PDEPEND=!build? ( virtual/dev-manager )
 RDEPEND=!build? ( >=sys-libs/ncurses-5.2 sys-devel/make )
 RESTRICT=binchecks strip
-SLOT=9999
+SLOT=9999-r1
 _eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	git-2	15733ab6a6feb34af9837b41623c2bad	kernel-2	4ad25895a12c475dde98376a2e743827	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
 _md5_=b7c1564eaa5a4492b2fd5a84760d7cf2

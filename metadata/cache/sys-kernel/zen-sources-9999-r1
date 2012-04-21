@@ -1,6 +1,6 @@
 !build? ( sys-apps/sed >=sys-devel/binutils-2.11.90.0.31 ) dev-vcs/git
 !build? ( >=sys-libs/ncurses-5.2 sys-devel/make )
-9999
+9999-r1
 
 binchecks strip
 http://zen-kernel.org

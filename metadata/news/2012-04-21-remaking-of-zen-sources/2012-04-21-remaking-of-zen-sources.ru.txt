@@ -4,7 +4,7 @@ Content-Type: text/plain
 Posted: 2012-04-21
 Revision: 1
 News-Item-Format: 1.0
-Display-If-Installed: =sys-kernel/zen-sources-9999
+Display-If-Installed: <sys-kernel/zen-sources-9999-r1
 
 Я переписал ебилд на ZEN-ядро таким образом, что теперь при первом же
 скачивании он пересоздаст директорию со своим деревом файлов.

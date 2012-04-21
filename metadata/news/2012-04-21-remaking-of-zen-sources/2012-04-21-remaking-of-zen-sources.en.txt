@@ -4,10 +4,10 @@ Content-Type: text/plain
 Posted: 2012-04-21
 Revision: 1
 News-Item-Format: 1.0
-Display-If-Installed: =sys-kernel/zen-sources-9999
+Display-If-Installed: <sys-kernel/zen-sources-9999-r1
 
-I have rewrote ZEN ebuild to create non-bare repo.
-This way fixes "shallow" error, that git throw on both my and portage versions.
+I have rewritten ZEN ebuild to create a non-bare repo.
+This way fixes "shallow" error, that git throw on both my and gentoo versions.
 But, at same time, this way will create new directory for ZEN under
 DISTDIR/egit-src. So, you may want to remove old bare repo (zen-stable.git) or
-convert it to bare repo (zen-stable without ".git" suffix) by hands.
+convert it to bare repo (zen-stable without ".git" suffix) by hand.
