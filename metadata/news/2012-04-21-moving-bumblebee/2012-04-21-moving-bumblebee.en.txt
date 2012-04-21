@@ -1,0 +1,15 @@
+Title: Moving of the bumblebee and related stuff
+Author: Vadim A. Misbakh-Soloviov <mva@mva.name>
+Content-Type: text/plain
+Posted: 2012-04-21
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: =x11-misc/bumblebee-9999
+Display-If-Installed: =x11-misc/virtualgl-9999
+Display-If-Installed: =sys-kernel/bbswitch-9999
+
+I'm so sorry about not posting this news before, but bumblebee and related
+stuff was moved to "bumblebee" overlay, and started moving to the tree.
+Because of this fact I've removed them from this sandbox about few commits
+ago.
+I promise to notify you, when I'll remove something next time.

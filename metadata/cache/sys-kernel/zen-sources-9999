@@ -12,7 +12,7 @@ eutils git-2 kernel-2 multilib toolchain-funcs user versionator
 
 !build? ( virtual/dev-manager )
 
-2
+4
 
 compile install postinst postrm preinst setup test unpack
 
