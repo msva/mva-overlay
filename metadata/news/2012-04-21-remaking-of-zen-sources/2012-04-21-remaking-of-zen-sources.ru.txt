@@ -1,0 +1,17 @@
+Title: Обновление ебилда на ZEN-ядро
+Author: Vadim A. Misbakh-Soloviov <mva@mva.name>
+Content-Type: text/plain
+Posted: 2012-04-21
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: =sys-kernel/zen-sources-9999
+
+Я переписал ебилд на ZEN-ядро таким образом, что теперь при первом же
+скачивании он пересоздаст директорию со своим деревом файлов.
+Таким образом исправлена ошибка, которую выдаёт Git когда Portage пытается
+склонировать shallow-репозиторий из дистфайлов, которая вываливается в том
+числе и при использовании ебилда из дерева.
+Возможно, Вам будет полезно ради экономии трафика и места на диске вручную
+сконвертировать DISTDIR/egit-src/zen-stable.git в DISTDIR/egit-src/zen-stable.
+Ну, или же просто удалить DISTDIR/egit-src/zen-stable.git чтобы не дублировать
+контент в дистфайлах.

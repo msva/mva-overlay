@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-kernel/zen-sources/zen-sources-9999.ebuild,v 1.5 2011/10/17 18:46:00 hwoarang Exp $
 
-EAPI="2"
+EAPI="4"
 
 COMPRESSTYPE=".lzma"
 K_PREPATCHED="yes"
@@ -39,6 +39,7 @@ pkg_setup(){
 	ewarn "system explodes"
 	if use minimal; then
 		EGIT_OPTIONS="--depth 1"
+		EGIT_NONBARE="1"
 	fi
 	kernel-2_pkg_setup
 }
