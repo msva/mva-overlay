@@ -1,5 +1,5 @@
->=net-misc/asterisk-1.6.2.0 dev-vcs/subversion net-misc/rsync
->=net-misc/asterisk-1.6.2.0
+net-misc/asterisk dev-vcs/subversion net-misc/rsync
+net-misc/asterisk
 0
 
 

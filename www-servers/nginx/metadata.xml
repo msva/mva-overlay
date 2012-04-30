@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer>
+  <email>mva@mva.name</email>
+  <name>Vadim A. Misbakh-Soloviov</name>
+</maintainer>
+<use>
+	<flag name='aio'>Enable aio support</flag>
+	<flag name='debug'>Enable the debugging logging</flag>
+	<flag name='rrd'>Enadle 3rd party rrd module</flag>
+	<flag name='chunk'>Enadle 3rd party chunk module</flag>
+	<flag name='libatomic'>Force libatomic_ops library usage:atomic memory
+		update operations</flag>
+	<flag name='perftools'>Use <pkg>dev-util/google-perftools</pkg> for
+	performance tuning</flag>
+	<flag name='http'> </flag>
+	<flag name='http-cache'> </flag>
+	<flag name='nginx_modules_http_upload'>Enable support for handling file
+				uploads using multipart/form-data encoding</flag>
+	<flag name='nginx_modules_http_ey_balancer'>This module adds an upstream
+				connection queue to nginx</flag>
+	<flag name='nginx_modules_http_slowfs_cache'>This module adds the
+				ability to cache static files</flag>	
+	<flag name='pcre-jit'></flag>
+	<flag name='luajit'></flag>
+	<flag name='nginx_modules_http_ndk'></flag>
+	<flag name='nginx_modules_http_lua'></flag>
+	<flag name='nginx_modules_http_form_input'></flag>
+	<flag name='nginx_modules_http_echo'></flag>
+	<flag name='nginx_modules_http_memc'></flag>
+	<flag name='nginx_modules_http_drizzle'></flag>
+	<flag name='nginx_modules_http_rds_json'></flag>
+	<flag name='nginx_modules_http_postgres'></flag>
+	<flag name='nginx_modules_http_coolkit'></flag>
+	<flag name='nginx_modules_http_auth_request'></flag>
+	<flag name='nginx_modules_http_set_misc'></flag>
+	<flag name='nginx_modules_http_srcache'></flag>
+	<flag name='nginx_modules_http_supervisord'></flag>
+	<flag name='nginx_modules_http_array_var'></flag>
+	<flag name='nginx_modules_http_xss'></flag>
+	<flag name='nginx_modules_http_iconv'></flag>
+	<flag name='nginx_modules_http_ctpp'></flag>
+	<flag name='pcre-jit'></flag>
+	<flag name='luajit'></flag>
+	<flag name='nginx_modules_http_ndk'></flag>
+	<flag name='nginx_modules_http_lua'></flag>
+	<flag name='nginx_modules_http_form_input'></flag>
+	<flag name='nginx_modules_http_echo'></flag>
+	<flag name='nginx_modules_http_memc'></flag>
+	<flag name='nginx_modules_http_drizzle'></flag>
+	<flag name='nginx_modules_http_rds_json'></flag>
+	<flag name='nginx_modules_http_postgres'></flag>
+	<flag name='nginx_modules_http_coolkit'></flag>
+	<flag name='nginx_modules_http_auth_request'></flag>
+	<flag name='nginx_modules_http_set_misc'></flag>
+	<flag name='nginx_modules_http_srcache'></flag>
+	<flag name='nginx_modules_http_supervisord'></flag>
+	<flag name='nginx_modules_http_array_var'></flag>
+	<flag name='nginx_modules_http_xss'></flag>
+	<flag name='nginx_modules_http_iconv'></flag>
+	<flag name='nginx_modules_http_ctpp'></flag>
+</use>
+</pkgmetadata>

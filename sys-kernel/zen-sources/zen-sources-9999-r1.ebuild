@@ -1,6 +1,6 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-kernel/zen-sources/zen-sources-9999.ebuild,v 1.5 2011/10/17 18:46:00 hwoarang Exp $
+# $Header: This ebuild is from mva overlay $
 
 EAPI="4"
 
@@ -33,10 +33,10 @@ K_EXTRAEINFO="For more info on zen-sources, and for how to report problems, see:
 ${HOMEPAGE}, also go to #zen-sources on freenode"
 
 pkg_setup(){
-	ewarn "Be carefull!! You are about to install live kernel sources."
-	ewarn "Git zen-sources are extremely unsupported, even from the upstream"
-	ewarn "developers. Use them at your own risk and don't bite us if your"
-	ewarn "system explodes"
+	ewarn "ZEN-kernel ebuild installing kernel to linux-3.99-zen1,"
+	ewarn "so if you upgading from previous 9999 ebuild — you should"
+	ewarn "select new kernel via"
+	einfo "eselect kernel set linux-3.99-zen1"
 	if use minimal; then
 		EGIT_OPTIONS="--depth 1"
 		EGIT_NONBARE="1"

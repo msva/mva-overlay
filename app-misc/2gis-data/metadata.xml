@@ -3,6 +3,27 @@
 <pkgmetadata>
 	<maintainer><email>maintainer-wanted@gentoo.org</email></maintainer>
 	<use>
+		<flag name='arkh'></flag>
+		<flag name='belg'></flag>
+		<flag name='brat'></flag>
+		<flag name='cheb'></flag>
+		<flag name='izh'></flag>
+		<flag name='kal'></flag>
+		<flag name='lip'></flag>
+		<flag name='msk'></flag>
+		<flag name='ntag'></flag>
+		<flag name='oren'></flag>
+		<flag name='penza'></flag>
+		<flag name='ryaz'></flag>
+		<flag name='sar'></flag>
+		<flag name='stav'></flag>
+		<flag name='ster'></flag>
+		<flag name='sur'></flag>
+		<flag name='tver'></flag>
+		<flag name='tlt'></flag>
+		<flag name='ulan'></flag>
+		<flag name='uli'></flag>
+		<flag name='yak'></flag>
 		<flag name='astr'>The map of Astrakhan for <pkg>app-misc/2gis</pkg></flag>
 		<flag name='barn'>The map of Barnaul for <pkg>app-misc/2gis</pkg></flag>
 		<flag name='biysk'>The map of Biysk for <pkg>app-misc/2gis</pkg></flag>

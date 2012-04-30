@@ -1,22 +1,18 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
-EAPI=3
+EAPI="3"
+# we've waiting for porting games.eclass to EAPI4
+
+inherit games eutils autotools mercurial
 
 DESCRIPTION="An *awesome* framework you can use to make 2D games in Lua."
 HOMEPAGE="http://love2d.org/"
-if [[ ${PV} =~ "9999" ]]; then
-	SCM_ECLASS="mercurial"
-	EHG_REPO_URI="https://bitbucket.org/rude/love"
-	SRC_URI=""
-	KEYWORDS=""
-else
-	SRC_URI="https://bitbucket.org/rude/love/downloads/${P}-linux-src.tar.gz"
-	KEYWORDS="~amd64 ~x86"
-fi;
+EHG_REPO_URI="https://bitbucket.org/rude/love"
+SRC_URI=""
+KEYWORDS=""
 
-inherit games eutils autotools ${SCM_ECLASS}
 
 LICENSE="ZLIB"
 SLOT="0"

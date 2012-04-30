@@ -1,10 +1,10 @@
 DEFINED_PHASES=configure install preinst prepare unpack
-DEPEND=>=net-misc/asterisk-1.6.2.0 dev-vcs/subversion net-misc/rsync
+DEPEND=net-misc/asterisk dev-vcs/subversion net-misc/rsync
 DESCRIPTION=Asterisk's GUI.
 EAPI=4
 HOMEPAGE=http://www.digium.com/
 LICENSE=GPL-3
-RDEPEND=>=net-misc/asterisk-1.6.2.0
+RDEPEND=net-misc/asterisk
 SLOT=0
-_eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	subversion	b1dabda0045f060f19070d67a57c1a21	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=b8d1cf1e13dcda6493eb77b61bff0d7f
+_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	subversion	b1dabda0045f060f19070d67a57c1a21	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=7c098efabe41a5a21423cccda8392d8a

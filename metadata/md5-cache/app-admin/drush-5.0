@@ -9,4 +9,4 @@ LICENSE=GPL-2
 RDEPEND=dev-lang/php[cli,simplexml] dev-php/pear
 SLOT=0
 SRC_URI=http://ftp.drupal.org/files/projects/drush-7.x-5.0.tar.gz -> drush-5.0.tar.gz
-_md5_=296edfd78b34e342778752054aeace11
+_md5_=a4d85979aa50ab312d8bac5e52c1d3d3

@@ -1,0 +1,17 @@
+# ChangeLog for mail-filter/dovecot-antispam
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  22 Jan 2012; Vadim A. Misbakh-Soloviev <mva@mva.name> metadata.xml:
+  repoman related
+
+  22 Jan 2012; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  -dovecot-antispam-9999.ebuild, +metadata.xml:
+  Mass Pulling. Sorry.
+
+*dovecot-antispam-9999 (24 Sep 2011)
+
+  24 Sep 2011; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  +dovecot-antispam-9999.ebuild:
+  9999
+

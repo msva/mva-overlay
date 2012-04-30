@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
-EAPI=4
+EAPI="4"
 
 inherit eutils check-reqs
 
@@ -15,10 +15,13 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror strip test"
 IUSE="iampirate linguas_ru"
 
-SRC_URI="http://alpha.mva.name/distfiles/sacred.tar.bz2
-iampirate? ( http://alpha.mva.name/distfiles/sacred_pirate.tar.bz2 )
-linguas_ru? ( http://alpha.mva.name/distfiles/sacred_rus.tar.bz2 )
+# Do you really have no $15 to buy sacred on LGP? Okay, you can ask me for
+# distfiles, but I recommend you to buy official sacred release from LGP.
+SRC_URI="sacred.tar.bz2
+iampirate? ( sacred_pirate.tar.bz2 )
+linguas_ru? ( sacred_rus.tar.bz2 )
 "
+
 CHECKREQS_DISK_BUILD="2560"
 CHECKREQS_MEMORY="256"
 S="${WORKDIR}/${PN}"
@@ -52,6 +55,7 @@ pkg_setup() {
 }
 
 src_install() {
+	#TODO: games.eclass (when it will be EAPI4-compatible)
 	dodir /opt/${PN}
 	cd "${S}"
 	chown -R games:games ./*

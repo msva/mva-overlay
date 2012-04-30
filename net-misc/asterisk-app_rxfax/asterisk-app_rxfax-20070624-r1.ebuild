@@ -1,6 +1,6 @@
-# Copyright 1999-2006 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
 EAPI="4"
 DESCRIPTION="Asterisk applications for sending and receiving faxes"
@@ -14,9 +14,7 @@ KEYWORDS="~amd64 ~ppc ~x86"
 
 IUSE=""
 
-DEPEND=">=media-libs/spandsp-0.0.4_pre9
-	>=net-misc/asterisk-1.4
-"
+DEPEND=">=media-libs/spandsp-0.0.4_pre9"
 
 S="${WORKDIR}"
 

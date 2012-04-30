@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
-EAPI=4
+EAPI="4"
 USE_RUBY="ruby18"
 
 RUBY_FAKEGEM_EXTRADOC="README.rdoc"

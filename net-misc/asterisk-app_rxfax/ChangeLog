@@ -1,0 +1,16 @@
+# ChangeLog for net-misc/asterisk-app_rxfax
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  16 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  asterisk-app_rxfax-20070624-r1.ebuild:
+  Sorry. Sometimes I can't make single-feature-commits
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+*asterisk-app_rxfax-20070624-r1 (29 Mar 2012)
+
+  29 Mar 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  +asterisk-app_rxfax-20070624-r1.ebuild:
+  commit some stuff. Some of them can be broken. Please create issues.
+

@@ -1,4 +1,4 @@
->=media-libs/spandsp-0.0.4_pre9 >=net-misc/asterisk-1.4
+>=media-libs/spandsp-0.0.4_pre9
 
 0
 http://www.soft-switch.org/downloads/snapshots/spandsp/test-apps-asterisk-1.4/app_rxfax.c

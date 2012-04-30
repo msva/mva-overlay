@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: mva $
+# $Header: This ebuild is from mva overlay $
 
 EAPI="4"
 
@@ -18,11 +18,13 @@ SRC_URI="x86? ( ${MY_P_86} )
 	amd64? ( ${MY_P_64} ${MY_COMPAT_P} )"
 
 HOMEPAGE="http://www.etokenonlinux.org"
-LICENSE="Aladdin Knowledge Systems"
+LICENSE="EULA"
 RESTRICT="fetch"
 SLOT="0"
 KEYWORDS="-* ~x86 ~amd64"
 IUSE="ssl"
+
+REQUIRED_USE="amd64? ( multilib )"
 
 RDEPEND=">=sys-apps/pcsc-lite-1.4.99
 	dev-libs/libusb
@@ -45,12 +47,13 @@ src_unpack() {
 	cd "${S}"
 	rpm_src_unpack ${A}
 
-	use x86 && ( cat "${FILESDIR}/libhal_32.txz" | tar xJf - )
-	use amd64 && ( cat "${FILESDIR}/libhal_64.txz" | tar xJf - )
-	use amd64 && ( cat "${FILESDIR}/pcsc_64.txz" | tar xJf - )
+	use x86 && ( cat "${FILESDIR}/libhal_x86.txz" | tar xJf - )
+	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib32.txz" | tar xJf - )
+	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib64.txz" | tar xJf - )
+	use amd64 && ( cat "${FILESDIR}/dist/pcsc_amd64.txz" | tar xJf - )
 
 	cp "${FILESDIR}/eTSrv.init-r1" etc/init.d/eTSrv
-	cp "${FILESDIR}/Makefile" "${S}"
+	cp "${FILESDIR}/dist/Makefile" "${S}"
 }
 
 src_prepare() {
@@ -67,5 +70,5 @@ pkg_postinst() {
 	einfo "rc-update add eTSrv default"
 	einfo "to add eToken support to default runlevel"
 	einfo ""
-	einfo "In some cases the eToken will not work after rebooting your system. This can be due to the fact, that your pcscd is not running. The installation of pki-client does not configure the pcscd to start automatically."
+	einfo "In some cases the eToken will not work after rebooting your system. This can be due to the fact, that your pcscd is not running. The installation of SA-client does not configure the pcscd to start automatically."
 }

@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
-EAPI="2"
+EAPI="4"
 
 DESCRIPTION="A C library that provides a simple interface to read whole-slide images, aka virtual slides."
 HOMEPAGE="http://openslide.org/"

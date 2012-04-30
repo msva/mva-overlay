@@ -1,101 +1,24 @@
 # ChangeLog for media-libs/libjpeg-turbo
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/libjpeg-turbo/ChangeLog,v 1.21 2012/01/18 16:18:36 jer Exp $
+# $Header: $
 
-  18 Jan 2012; Jeroen Roovers <jer@gentoo.org> libjpeg-turbo-1.1.90.ebuild:
-  Marked ~hppa (bug #398909).
+*libjpeg-turbo-1.1.90 (29 Mar 2012)
 
-*libjpeg-turbo-1.1.90 (20 Nov 2011)
+  29 Mar 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  +libjpeg-turbo-1.1.90.ebuild, +metadata.xml:
+  commit some stuff. Some of them can be broken. Please create issues.
 
-  20 Nov 2011; Samuli Suominen <ssuominen@gentoo.org>
-  +libjpeg-turbo-1.1.90.ebuild:
-  Version bump.
+  06 Feb 2012; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  -libjpeg-turbo-1.1.90.ebuild, -metadata.xml:
+  Added 32bit libs building on multilib
 
-  20 Nov 2011; Samuli Suominen <ssuominen@gentoo.org>
-  -libjpeg-turbo-1.1.0.ebuild:
-  old
+  22 Jan 2012; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  libjpeg-turbo-1.1.90.ebuild, metadata.xml:
+  repoman related
 
-  18 Jun 2011; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  libjpeg-turbo-1.1.1.ebuild:
-  x86 stable wrt bug #371284
+*libjpeg-turbo-1.1.90 (22 Jan 2012)
 
-  18 Jun 2011; Markos Chandras <hwoarang@gentoo.org>
-  libjpeg-turbo-1.1.1.ebuild:
-  Stable on amd64 wrt bug #371284
-
-  02 Jun 2011; Markus Meier <maekke@gentoo.org> libjpeg-turbo-1.1.1.ebuild:
-  add ~arm, bug #365845
-
-*libjpeg-turbo-1.1.1 (18 May 2011)
-
-  18 May 2011; Samuli Suominen <ssuominen@gentoo.org>
-  +libjpeg-turbo-1.1.1.ebuild:
-  Version bump wrt #367117 by Stefan Talpalaru
-
-  07 May 2011; Samuli Suominen <ssuominen@gentoo.org>
-  libjpeg-turbo-1.1.0.ebuild:
-  Limit dev-lang/nasm DEPEND to amd64/x86/amd64-linux/and x86-linux wrt
-  #364985.
-
-  28 Mar 2011; Pawel Hajdan jr <phajdan.jr@gentoo.org>
-  libjpeg-turbo-1.1.0.ebuild:
-  x86 stable wrt bug #360715
-
-  27 Mar 2011; Christoph Mende <angelos@gentoo.org> libjpeg-turbo-1.1.0.ebuild:
-  Stable on amd64 wrt bug #360715
-
-  27 Mar 2011; Christian Faulhammer <fauli@gentoo.org>
-  libjpeg-turbo-1.1.0.ebuild:
-  fix typo in DESCRIPTION
-
-  03 Mar 2011; Jonathan Callen <abcd@gentoo.org> libjpeg-turbo-1.1.0.ebuild:
-  Add ~amd64-linux/~x86-linux keywords, fix build on prefix
-
-  01 Mar 2011; Samuli Suominen <ssuominen@gentoo.org>
-  libjpeg-turbo-1.1.0.ebuild:
-  Run "make test" instead of "make check" by Johan Bergström.
-
-*libjpeg-turbo-1.1.0 (28 Feb 2011)
-
-  28 Feb 2011; Samuli Suominen <ssuominen@gentoo.org>
-  +libjpeg-turbo-1.1.0.ebuild:
-  Version bump.
-
-  19 Jan 2011; Samuli Suominen <ssuominen@gentoo.org>
-  libjpeg-turbo-1.0.90.1.ebuild:
-  Install jpegexiforient and exifautotran.
-
-  19 Jan 2011; Dror Levin <spatz@gentoo.org> -libjpeg-turbo-1.0.1.ebuild,
-  libjpeg-turbo-1.0.90.1.ebuild:
-  Keyword ~amd64 and ~x86, drop old.
-
-*libjpeg-turbo-1.0.90.1 (05 Jan 2011)
-
-  05 Jan 2011; Jory A. Pratt <anarchy@gentoo.org>
-  -libjpeg-turbo-1.0.90-r1.ebuild, +libjpeg-turbo-1.0.90.1.ebuild:
-  Update snapshot, includes tjDecompressHeader() function
-
-*libjpeg-turbo-1.0.90-r1 (07 Nov 2010)
-
-  07 Nov 2010; Jory A. Pratt <anarchy@gentoo.org>
-  -libjpeg-turbo-1.0.90.ebuild, +libjpeg-turbo-1.0.90-r1.ebuild:
-  Fix up breakage from cleanup of personal devspace
-
-*libjpeg-turbo-1.0.90 (21 Oct 2010)
-
-  21 Oct 2010; Jory A. Pratt <anarchy@gentoo.org>
-  +libjpeg-turbo-1.0.90.ebuild:
-  current svn snapshot, jpeg-8 support enabled by default
-
-*libjpeg-turbo-1.0.1 (20 Sep 2010)
-
-  20 Sep 2010; Samuli Suominen <ssuominen@gentoo.org>
-  +libjpeg-turbo-1.0.1.ebuild:
-  Version bump.
-
-*libjpeg-turbo-1.0.0 (23 Jul 2010)
-
-  23 Jul 2010; Samuli Suominen <ssuominen@gentoo.org>
-  +libjpeg-turbo-1.0.0.ebuild:
-  Initial commit wrt #327487 by Siarhei Siamashka.
+  22 Jan 2012; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  +libjpeg-turbo-1.1.90.ebuild, +metadata.xml:
+  Mass Pulling. Sorry.
 

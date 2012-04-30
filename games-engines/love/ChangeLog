@@ -1,0 +1,7 @@
+*love-0.7.2 (22 Apr 2012)
+*love-9999 (22 Apr 2012)
+
+  22 Apr 2012; Misbakh-Soloviov Vadim A. <mva@gentoo.org> +love-0.7.2.ebuild,
+  +love-9999.ebuild, +metadata.xml:
+  bump!
+

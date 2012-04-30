@@ -1,0 +1,38 @@
+Title: Перемещение Lua-ебилдов в другой оверлей
+Author: Vadim A. Misbakh-Soloviov <mva@mva.name>
+Content-Type: text/plain
+Posted: 2012-04-21
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: dev-lang/luajit
+Display-If-Installed: dev-lang/lua
+Display-If-Installed: app-admin/eselect-luajit
+Display-If-Installed: dev-lua/lahttp
+Display-If-Installed: dev-lua/lsysstats
+Display-If-Installed: dev-lua/lua2html
+Display-If-Installed: dev-lua/lua-cjson
+Display-If-Installed: dev-lua/luacrypto
+Display-If-Installed: dev-lua/lua-curl
+Display-If-Installed: dev-lua/luadbi
+Display-If-Installed: dev-lua/luaevent
+Display-If-Installed: dev-lua/luaexpat
+Display-If-Installed: dev-lua/luafilesystem
+Display-If-Installed: dev-lua/lua-gd
+Display-If-Installed: dev-lua/lua-iconv
+Display-If-Installed: dev-lua/lua-json
+Display-If-Installed: dev-lua/luancurses
+Display-If-Installed: dev-lua/luarocks
+Display-If-Installed: dev-lua/luasec
+Display-If-Installed: dev-lua/luasocket
+Display-If-Installed: dev-lua/lua-zlib
+Display-If-Installed: dev-lua/squish
+Display-If-Installed: dev-lua/verse
+Display-If-Installed: dev-lua/wsapi
+Display-If-Installed: games-engines/love
+Display-If-Installed: games-arcade/mari0
+Display-If-Installed: games-arcade/snayke
+
+Я переместил все Lua-ебилды в тематический оверлей Lua.
+Советую вам добавить его, т.к. я планирую добавить много "вкусностей"
+в тот оверлей в дальнейшем.
+Будьте счастливы в мире Lua ;)

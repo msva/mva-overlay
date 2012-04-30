@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer>
- <email>mva@mva.name</email>
- <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
- <name>Vadim A. Misbakh-Soloviev</name>
-</maintainer>
- <longdescription>Long description of the package</longdescription> 
-<use>
-</use>
+  <maintainer>
+    <email>mva@mva.name</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription lang="en">
+    LuaJIT is a Just-In-Time Compiler for the Lua programming language.
+  </longdescription>
+  <longdescription lang="ru">
+    LuaJIT — это Just-In-Time компилятор для языка программирования Lua.
+  </longdescription>
 </pkgmetadata>
+

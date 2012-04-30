@@ -1,8 +1,8 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
-EAPI=4
+EAPI="4"
 
 WX_GTK_VER="2.6"
 inherit confutils eutils wxwidgets
@@ -24,7 +24,6 @@ LICENSE="EULA"
 SLOT="0"
 IUSE="alsa oss"
 
-RDEPEND="x11-libs/wxGTK:2.6[X]"
 DEPEND="app-arch/deb2targz
 	${RDEPEND}"
 

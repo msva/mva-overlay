@@ -1,3 +1,16 @@
-# ChangeLog for app-crypt/SafenetAuthenticationClient
+# ChangeLog for app-crypt/etoken-sac
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
-# $Header:  $
+# $Header: $
+
+  16 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> etoken-sac-8.1.ebuild:
+  Sorry. Sometimes I can't make single-feature-commits
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+*etoken-sac-8.1 (29 Mar 2012)
+
+  29 Mar 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  +etoken-sac-8.1.ebuild, +files/Makefile, +files/eTSrv.init-r1,
+  +files/libhal_32.txz, +files/libhal_64.txz, +files/pcsc_64.txz:
+  commit some stuff. Some of them can be broken. Please create issues.
+

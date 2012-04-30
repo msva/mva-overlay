@@ -2,20 +2,101 @@
 # your descriptions to your package's metadata.xml ONLY.
 # * generated automatically using egencache *
 
-app-arch/rpm:dmalloc - I
-app-arch/rpm:efence - I
-app-arch/rpm:keyutils - I
-app-arch/rpm:magic - Add magic file support (sys-apps/file)
-app-arch/rpm:neon - Include support for net-misc/neon
-app-arch/rpm:xar - I
-app-arch/rpm:xz - I
-app-misc/rbutil:ypp2 - Adds basic (and unofficial) support for Samsung YP-P2 player (can break your device)
-dev-lua/luarocks:curl - Uses net-misc/curl for fetching lua packages instead of net-misc/wget.
-dev-lua/luarocks:openssl - Uses dev-libs/openssl for verifying lua packages instead of md5sum.
-games-rpg/sacred:iampirate - Warezz
-media-sound/asterisk-sounds-ru:alaw - Install sounds in aLaw format.
-media-sound/asterisk-sounds-ru:gsm - Install sounds in GSM format.
-media-sound/asterisk-sounds-ru:wav - Install sounds in wav format (needs to be converted).
-net-im/prosody:libevent - Use libevent for event handling
-net-im/prosody:sql - Require dev-lua/luadbi for SQL storage plugins
-net-im/prosody:zlib - Support for compressing XMPP streams with mod_compression
+app-arch/rpm:dmalloc - 
+app-arch/rpm:efence - 
+app-arch/rpm:keyutils - 
+app-arch/rpm:magic - 
+app-arch/rpm:xar - 
+app-arch/rpm:xz - 
+app-misc/2gis:data - Use maps and other data from app-misc/2gis-data
+app-misc/2gis-data:arkh - 
+app-misc/2gis-data:astr - The map of Astrakhan for app-misc/2gis
+app-misc/2gis-data:barn - The map of Barnaul for app-misc/2gis
+app-misc/2gis-data:belg - 
+app-misc/2gis-data:biysk - The map of Biysk for app-misc/2gis
+app-misc/2gis-data:brat - 
+app-misc/2gis-data:cheb - 
+app-misc/2gis-data:chel - The map of Chelyabinsk for app-misc/2gis
+app-misc/2gis-data:ekb - The map of Ekaterinburg for app-misc/2gis
+app-misc/2gis-data:galt - The map of Gornoaltaysk for app-misc/2gis
+app-misc/2gis-data:irk - The map of Irkutsk for app-misc/2gis
+app-misc/2gis-data:izh - 
+app-misc/2gis-data:kal - 
+app-misc/2gis-data:kaz - The map of Kazan for app-misc/2gis
+app-misc/2gis-data:kdar - The map of Krasnodar for app-misc/2gis
+app-misc/2gis-data:kem - The map of Kemerovo for app-misc/2gis
+app-misc/2gis-data:khb - The map of Khabarovsk for app-misc/2gis
+app-misc/2gis-data:kost - The map of Kostroma for app-misc/2gis
+app-misc/2gis-data:kras - The map of Krasnoyarsk for app-misc/2gis
+app-misc/2gis-data:kur - The map of Kurgan for app-misc/2gis
+app-misc/2gis-data:lip - 
+app-misc/2gis-data:magn - The map of Magnitogorsk for app-misc/2gis
+app-misc/2gis-data:msk - 
+app-misc/2gis-data:nchl - The map of Nabchelny for app-misc/2gis
+app-misc/2gis-data:nkuz - The map of Novokuznetsk for app-misc/2gis
+app-misc/2gis-data:nnov - The map of N_Novgorod for app-misc/2gis
+app-misc/2gis-data:nsk - The map of Novosibirsk for app-misc/2gis
+app-misc/2gis-data:ntag - 
+app-misc/2gis-data:nvar - The map of Nizhnevartovsk for app-misc/2gis
+app-misc/2gis-data:odes - The map of Odessa for app-misc/2gis
+app-misc/2gis-data:omsk - The map of Omsk for app-misc/2gis
+app-misc/2gis-data:oren - 
+app-misc/2gis-data:penza - 
+app-misc/2gis-data:perm - The map of Perm for app-misc/2gis
+app-misc/2gis-data:rost - The map of Rostov-na-Donu for app-misc/2gis
+app-misc/2gis-data:ryaz - 
+app-misc/2gis-data:sam - The map of Samara for app-misc/2gis
+app-misc/2gis-data:sar - 
+app-misc/2gis-data:sochi - The map of Sochi for app-misc/2gis
+app-misc/2gis-data:spb - The map of St.Petersburg for app-misc/2gis
+app-misc/2gis-data:stav - 
+app-misc/2gis-data:ster - 
+app-misc/2gis-data:sur - 
+app-misc/2gis-data:tim - The map of Tyumen for app-misc/2gis
+app-misc/2gis-data:tlt - 
+app-misc/2gis-data:tom - The map of Tomsk for app-misc/2gis
+app-misc/2gis-data:tula - The map of Tula for app-misc/2gis
+app-misc/2gis-data:tver - 
+app-misc/2gis-data:ufa - The map of Ufa for app-misc/2gis
+app-misc/2gis-data:ulan - 
+app-misc/2gis-data:uli - 
+app-misc/2gis-data:vlad - The map of Vladivostok for app-misc/2gis
+app-misc/2gis-data:volg - The map of Volgograd for app-misc/2gis
+app-misc/2gis-data:vrnz - The map of Voronezh for app-misc/2gis
+app-misc/2gis-data:yak - 
+app-misc/2gis-data:yar - The map of Yaroslavl for app-misc/2gis
+games-rpg/sacred:iampirate - 
+media-libs/libjpeg-turbo:pic - 
+media-sound/asterisk-sounds-ru:alaw - 
+media-sound/asterisk-sounds-ru:wav - 
+www-apps/ctpp2:md5 - 
+www-servers/nginx:aio - Enable aio support
+www-servers/nginx:chunk - Enadle 3rd party chunk module
+www-servers/nginx:debug - Enable the debugging logging
+www-servers/nginx:http - 
+www-servers/nginx:http-cache - 
+www-servers/nginx:libatomic - Force libatomic_ops library usage:atomic memory update operations
+www-servers/nginx:luajit - 
+www-servers/nginx:nginx_modules_http_array_var - 
+www-servers/nginx:nginx_modules_http_auth_request - 
+www-servers/nginx:nginx_modules_http_coolkit - 
+www-servers/nginx:nginx_modules_http_ctpp - 
+www-servers/nginx:nginx_modules_http_drizzle - 
+www-servers/nginx:nginx_modules_http_echo - 
+www-servers/nginx:nginx_modules_http_ey_balancer - This module adds an upstream connection queue to nginx
+www-servers/nginx:nginx_modules_http_form_input - 
+www-servers/nginx:nginx_modules_http_iconv - 
+www-servers/nginx:nginx_modules_http_lua - 
+www-servers/nginx:nginx_modules_http_memc - 
+www-servers/nginx:nginx_modules_http_ndk - 
+www-servers/nginx:nginx_modules_http_postgres - 
+www-servers/nginx:nginx_modules_http_rds_json - 
+www-servers/nginx:nginx_modules_http_set_misc - 
+www-servers/nginx:nginx_modules_http_slowfs_cache - This module adds the ability to cache static files
+www-servers/nginx:nginx_modules_http_srcache - 
+www-servers/nginx:nginx_modules_http_supervisord - 
+www-servers/nginx:nginx_modules_http_upload - Enable support for handling file uploads using multipart/form-data encoding
+www-servers/nginx:nginx_modules_http_xss - 
+www-servers/nginx:pcre-jit - 
+www-servers/nginx:perftools - Use dev-util/google-perftools for performance tuning
+www-servers/nginx:rrd - Enadle 3rd party rrd module

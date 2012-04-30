@@ -1,8 +1,9 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
-EAPI=3
+EAPI="3"
+# we've waiting for porting games.eclass to EAPI4
 
 inherit eutils games
 

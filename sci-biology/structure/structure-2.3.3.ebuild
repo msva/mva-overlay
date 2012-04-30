@@ -1,10 +1,10 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
 # sci-biology/structure
 
-EAPI="2"
+EAPI="4"
 inherit eutils
 
 DESCRIPTION="A free software package for using multi-locus genotype data to investigate population structure"

@@ -1,5 +1,5 @@
-app-arch/deb2targz x11-libs/wxGTK:2.6[X]
-x11-libs/wxGTK:2.6[X]
+app-arch/deb2targz
+
 0
 x86? ( alsa? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-alsa_1.0-1ubuntu16_i386.deb ) oss? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-oss_1.0-1ubuntu16_i386.deb ) http://rion-overlay.googlecode.com/files/libavutil_x86.tbz2 ) amd64? ( alsa? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-alsa_1.0-1ubuntu12_amd64.deb ) oss? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-oss_1.0-1ubuntu12_amd64.deb ) http://rion-overlay.googlecode.com/files/libavutil_amd64.tbz2 )
 strip

@@ -1,13 +1,14 @@
 DEFINED_PHASES=compile configure install prepare setup test unpack
 DEPEND=ruby_targets_ruby18? ( test? ( virtual/ruby-test-unit[ruby_targets_ruby18] ) ) ruby_targets_ree18? ( test? ( virtual/ruby-test-unit[ruby_targets_ree18] ) ) ruby_targets_ruby19? ( test? ( virtual/ruby-test-unit[ruby_targets_ruby19] ) ) ruby_targets_jruby? ( test? ( virtual/ruby-test-unit[ruby_targets_jruby] ) ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ree18? ( dev-lang/ruby-enterprise:1.8 ) ruby_targets_ruby19? ( dev-lang/ruby:1.9 ) ruby_targets_jruby? ( dev-java/jruby ) ruby_targets_ruby18? ( doc? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ree18? ( doc? ( dev-ruby/rake[ruby_targets_ree18] ) ) ruby_targets_ruby19? ( doc? ( dev-ruby/rake[ruby_targets_ruby19] ) ) ruby_targets_jruby? ( doc? ( dev-ruby/rake[ruby_targets_jruby] ) ) ruby_targets_ruby18? ( test? ( dev-ruby/rake[ruby_targets_ruby18] ) ) ruby_targets_ree18? ( test? ( dev-ruby/rake[ruby_targets_ree18] ) ) ruby_targets_ruby19? ( test? ( dev-ruby/rake[ruby_targets_ruby19] ) ) ruby_targets_jruby? ( test? ( dev-ruby/rake[ruby_targets_jruby] ) ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) ruby_targets_ree18? ( virtual/rubygems[ruby_targets_ree18] ) ruby_targets_ruby19? ( virtual/rubygems[ruby_targets_ruby19] ) ruby_targets_jruby? ( virtual/rubygems[ruby_targets_jruby] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) ruby_targets_ree18? ( virtual/rubygems[ruby_targets_ree18] ) ruby_targets_ruby19? ( virtual/rubygems[ruby_targets_ruby19] ) ruby_targets_jruby? ( virtual/rubygems[ruby_targets_jruby] ) )
 DESCRIPTION=Daylight-savings aware timezone library
-EAPI=2
+EAPI=4
 HOMEPAGE=http://tzinfo.rubyforge.org/
 IUSE=elibc_FreeBSD ruby_targets_ruby18 ruby_targets_ree18 ruby_targets_ruby19 ruby_targets_jruby doc doc test test
 KEYWORDS=~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x64-solaris ~x86-solaris
 LICENSE=MIT
 RDEPEND=ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ree18? ( dev-lang/ruby-enterprise:1.8 ) ruby_targets_ruby19? ( dev-lang/ruby:1.9 ) ruby_targets_jruby? ( dev-java/jruby ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) ruby_targets_ree18? ( virtual/rubygems[ruby_targets_ree18] ) ruby_targets_ruby19? ( virtual/rubygems[ruby_targets_ruby19] ) ruby_targets_jruby? ( virtual/rubygems[ruby_targets_jruby] )
+REQUIRED_USE=|| ( ruby_targets_ruby18 ruby_targets_ree18 ruby_targets_ruby19 ruby_targets_jruby )
 SLOT=0
 SRC_URI=mirror://rubyforge/tzinfo/tzinfo-0.3.31.tar.gz
-_eclasses_=eutils	6891f6f484e3b44a0a15e1b0c0fc9a14	java-utils-2	b173b5d55bfd6e328939985bc54a1c9e	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	ruby-fakegem	6732f927427c6069df6c4f22271f2c75	ruby-ng	927a565459a62f2839d06e03cfbe1440	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
-_md5_=61b3048fdd59d3e94973570ec41fda60
+_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	java-utils-2	b173b5d55bfd6e328939985bc54a1c9e	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	ruby-fakegem	6732f927427c6069df6c4f22271f2c75	ruby-ng	927a565459a62f2839d06e03cfbe1440	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
+_md5_=3c95f6db5be81bbe188e852614c0dca3

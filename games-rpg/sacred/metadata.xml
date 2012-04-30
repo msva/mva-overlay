@@ -3,10 +3,12 @@
 <pkgmetadata>
 <maintainer>
  <email>mva@mva.name</email>
- <description>This is my own sandbox overlay. If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet)</description> 
- <name>Vadim A. Misbakh-Soloviev</name>
+ <description>
+	If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
+ </description> 
+ <name>Vadim A. Misbakh-Soloviov</name>
 </maintainer>
- <longdescription>Long description of the package</longdescription> 
+<longdescription>FIXME</longdescription> 
 <use>
 	<flag name='iampirate'></flag>
 </use>

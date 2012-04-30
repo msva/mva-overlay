@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay $
 
 EAPI="4"
 
@@ -16,16 +16,16 @@ KEYWORDS=""
 IUSE=""
 LICENSE="GPL-3"
 DEPEND="
-        $(add_kdebase_dep libkonq)
+	$(add_kdebase_dep libkonq)
 "
 
 RDEPEND="${DEPEND}"
 
 pkg_postinst() {
-        elog ""
-        elog "Quick start:"
-        elog "  * Restart Dolphin"
-        elog "  * Settings --> Configure Dolphin --> Services"
-        elog "  * Check Dropbox"
-        elog "  * Restart Dolphin"
+	elog ""
+	elog "Quick start:"
+	elog "  * Restart Dolphin"
+	elog "  * Settings --> Configure Dolphin --> Services"
+	elog "  * Check Dropbox"
+	elog "  * Restart Dolphin"
 }

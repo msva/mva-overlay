@@ -1,5 +1,5 @@
->=net-misc/asterisk-1.6.2.0 dev-libs/libxml2 sys-libs/ncurses dev-vcs/subversion net-misc/rsync
->=net-misc/asterisk-1.6.2.0 dev-libs/libxml2 sys-libs/ncurses
+net-misc/asterisk dev-libs/libxml2 sys-libs/ncurses dev-vcs/subversion net-misc/rsync
+net-misc/asterisk dev-libs/libxml2 sys-libs/ncurses
 0
 
 
