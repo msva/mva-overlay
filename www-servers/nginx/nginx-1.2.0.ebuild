@@ -18,8 +18,8 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="3.0.9"
-USE_RUBY="ruby18 ree18 jruby"
+PASSENGER_PV="3.0.12"
+USE_RUBY="ruby18 ree18 jruby ruby19 rbx"
 RUBY_OPTIONAL="yes"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
@@ -60,14 +60,14 @@ HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="bc97eea"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
-HTTP_LUA_MODULE_PV="0.5.0rc22"
+HTTP_LUA_MODULE_PV="0.5.0rc25"
 HTTP_LUA_MODULE_P="lua-nginx-module-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="19bd322"
+HTTP_LUA_MODULE_SHA1="6de0c1c"
 
 # NginX Lua module (https://github.com/chaoslawful/drizzle-nginx-module, BSD)
-HTTP_DRIZZLE_MODULE_PV="0.1.2rc6"
+HTTP_DRIZZLE_MODULE_PV="0.1.2rc7"
 HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
-HTTP_DRIZZLE_MODULE_SHA1="e05b5ff"
+HTTP_DRIZZLE_MODULE_SHA1="272cabf"
 
 # NginX for-input module (https://github.com/calio/form-input-nginx-module, BSD)
 HTTP_FORM_INPUT_MODULE_PV="0.07rc5"
@@ -85,9 +85,9 @@ HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_SHA1="4007350"
 
 # NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module, BSD)
-HTTP_RDS_JSON_MODULE_PV="0.12rc7"
+HTTP_RDS_JSON_MODULE_PV="0.12rc8"
 HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
-HTTP_RDS_JSON_MODULE_SHA1="253db2b"
+HTTP_RDS_JSON_MODULE_SHA1="509fbf1"
 
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module, BSD)
 HTTP_SRCACHE_MODULE_PV="0.13rc6"
@@ -95,9 +95,9 @@ HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_SHA1="fa2da58"
 
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.22rc5"
+HTTP_SET_MISC_MODULE_PV="0.22rc7"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="e6a54ab"
+HTTP_SET_MISC_MODULE_SHA1="84ae24c"
 
 # NginX XSS module (https://github.com/agentzh/xss-nginx-module, BSD)
 HTTP_XSS_MODULE_PV="0.03rc9"
@@ -138,9 +138,10 @@ HTTP_AUTH_REQUEST_MODULE_PV="0.2"
 HTTP_AUTH_REQUEST_MODULE_P="ngx_http_auth_request_module-${HTTP_AUTH_REQUEST_MODULE_PV}"
 
 # http_slowfs_cache (http://labs.frickle.com/nginx_ngx_slowfs_cache/, BSD-2 license)
-HTTP_SLOWFS_CACHE_MODULE_PV="1.8"
+HTTP_SLOWFS_CACHE_MODULE_PV="1.9"
 HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 
+# Chunkin (https://github.com/agentzh/chunkin-nginx-module )
 CHUNKIN_MODULE_PV="0.23rc2"
 CHUNKIN_MODULE_P="chunkin-nginx-module-${HTTP_CHUNKIN_MODULE_PV}"
 CHUNKIN_MODULE_SHA1="ddc0dd5"
@@ -317,7 +318,6 @@ src_prepare() {
 		epatch "${FILESDIR}"/passenger-"${PASSENGER_PV}"-gentoo.patch
 		epatch "${FILESDIR}"/passenger-"${PASSENGER_PV}"-ldflags.patch
 		epatch "${FILESDIR}"/passenger-"${PASSENGER_PV}"-contenthandler.patch
-		epatch "${FILESDIR}"/passenger-"${PASSENGER_PV}"-math.patch
 
 		sed -i -e "s:/usr/share/doc/phusion-passenger:/usr/share/doc/${P}:" \
 		-e "s:/usr/lib/phusion-passenger/agents:/usr/libexec/passenger/agents:" lib/phusion_passenger.rb || die

@@ -65,12 +65,15 @@ app-misc/2gis-data:volg - The map of Volgograd for app-misc/2gis
 app-misc/2gis-data:vrnz - The map of Voronezh for app-misc/2gis
 app-misc/2gis-data:yak - 
 app-misc/2gis-data:yar - The map of Yaroslavl for app-misc/2gis
+dev-ruby/rails:asset-pipeline - Also install the default components for the asset pipeline. These are not required but they are activated automatically in new Rails projects by default.
 games-engines/love:luajit - Enable linking with LuaJIT library instead of Lua
 games-rpg/sacred:iampirate - 
 media-libs/libjpeg-turbo:pic - 
 media-sound/asterisk-sounds-ru:alaw - 
 media-sound/asterisk-sounds-ru:wav - 
 www-apps/ctpp2:md5 - 
+www-apps/redmine:openid - Enable support for OpenID
+www-apps/redmine:passenger - Enable support for Phusion Passenger (aka mod_rails)
 www-servers/nginx:aio - Enable aio support
 www-servers/nginx:chunk - Enadle 3rd party chunk module
 www-servers/nginx:debug - Enable the debugging logging
