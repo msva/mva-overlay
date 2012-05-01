@@ -236,7 +236,7 @@ CDEPEND="
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
-	nginx_modules_http_ctpp? ( www-apps/ctpp2 )
+	nginx_modules_http_ctpp? ( www-apps/ctpp2 sys-devel/gcc:4.6 )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
@@ -270,29 +270,20 @@ pkg_setup() {
 	if use libatomic; then
 		ewarn ""
 		ewarn "GCC 4.1+ features built-in atomic operations."
-		ewarn "Using libatomic_ops is only needed if using"
-		ewarn "a different compiler or a GCC prior to 4.1"
+		ewarn "Using libatomic_ops is only needed if you use"
+		ewarn "a different compiler or GCC <4.1"
 	fi
 
 	if [[ -n $NGINX_ADD_MODULES ]]; then
 		ewarn ""
 		ewarn "You are building custom modules via \$NGINX_ADD_MODULES!"
-		ewarn "This nginx installation is not supported!"
+		ewarn "This nginx installation is *not supported*!"
 		ewarn "Make sure you can reproduce the bug without those modules"
 		ewarn "_before_ reporting bugs."
 	fi
 
 	if use nginx_modules_http_passenger; then
 		ruby-ng_pkg_setup
-
-############### AFAIR, fixed. Not removing on current commit, since I've not sure.
-#		if [[ ${PV//.} -gt 113 ]]; then
-#			ewarn ""
-#			ewarn "If you planning to use Passenger with Rails3 applications"
-#			ewarn "you should downgrade NginX to 1.1.3."
-#			ewarn "Due to some API changes Rails3 apps don't working under NginX >=1.1.4"
-#		fi
-##############
 		use debug && append-flags -DPASSENGER_DEBUG
 	fi
 

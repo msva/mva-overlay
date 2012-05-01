@@ -1,6 +1,25 @@
-*mari0-1.6 (22 Apr 2012)
+# ChangeLog for games-arcade/mari0
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
 
-  22 Apr 2012; Misbakh-Soloviov Vadim A. <mva@gentoo.org> +mari0-1.6.ebuild,
+  30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> mari0-1.6.ebuild,
   +metadata.xml:
-  bump!
+  BUMP! (sorry for bunch-commit again. I still save no time to clean overlay
+  and then do little one-feature commits)
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+*mari0-1.6 (16 Apr 2012)
+
+  16 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -mari0-1.2.ebuild,
+  -mari0-1.2.ebuild.save, +mari0-1.6.ebuild:
+  Sorry. Sometimes I can't make single-feature-commits
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+*mari0-1.2 (29 Mar 2012)
+
+  29 Mar 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +mari0-1.2.ebuild,
+  +mari0-1.2.ebuild.save:
+  commit some stuff. Some of them can be broken. Please create issues.
 

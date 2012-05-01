@@ -1,0 +1,22 @@
+app-admin/eselect-luajit dev-vcs/git
+
+2
+
+
+http://luajit.org/
+MIT
+Just-In-Time Compiler for the Lua programming language
+~amd64 ~x86
+eutils git-2 multilib pax-utils toolchain-funcs user
+
+
+
+
+4
+
+install postinst prepare unpack
+
+
+
+
+

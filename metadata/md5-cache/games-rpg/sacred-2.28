@@ -8,6 +8,6 @@ LICENSE=EULA
 RDEPEND=x11-base/xorg-server >=x11-libs/gtk+-2.0.0 amd64? ( app-emulation/emul-linux-x86-baselibs app-emulation/emul-linux-x86-compat app-emulation/emul-linux-x86-gtklibs app-emulation/emul-linux-x86-medialibs app-emulation/emul-linux-x86-sdl app-emulation/emul-linux-x86-soundlibs app-emulation/emul-linux-x86-xlibs )
 RESTRICT=mirror strip test
 SLOT=0
-SRC_URI=http://alpha.mva.name/distfiles/sacred.tar.bz2 iampirate? ( http://alpha.mva.name/distfiles/sacred_pirate.tar.bz2 ) linguas_ru? ( http://alpha.mva.name/distfiles/sacred_rus.tar.bz2 )
+SRC_URI=sacred.tar.bz2 iampirate? ( sacred_pirate.tar.bz2 ) linguas_ru? ( sacred_rus.tar.bz2 )
 _eclasses_=check-reqs	e25439e7f4ca914e41d6bb617caa564d	eutils	74d9118e657da5b1db0c36f5dea88e57	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=f691cbcee49626707006a85ef27bb182
+_md5_=3edf77ed61e75520214daa2379c59502

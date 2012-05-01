@@ -1,7 +1,26 @@
-*love-0.7.2 (22 Apr 2012)
-*love-9999 (22 Apr 2012)
+# ChangeLog for games-engines/love
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
 
-  22 Apr 2012; Misbakh-Soloviov Vadim A. <mva@gentoo.org> +love-0.7.2.ebuild,
-  +love-9999.ebuild, +metadata.xml:
-  bump!
+  30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> love-0.7.2.ebuild,
+  love-9999.ebuild, +metadata.xml:
+  BUMP! (sorry for bunch-commit again. I still save no time to clean overlay
+  and then do little one-feature commits)
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+*love-0.7.2 (16 Apr 2012)
+
+  16 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -love-0.7.1.ebuild,
+  +love-0.7.2.ebuild, love-9999.ebuild:
+  Sorry. Sometimes I can't make single-feature-commits
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+*love-9999 (29 Mar 2012)
+*love-0.7.1 (29 Mar 2012)
+
+  29 Mar 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +love-0.7.1.ebuild,
+  +love-9999.ebuild:
+  commit some stuff. Some of them can be broken. Please create issues.
 

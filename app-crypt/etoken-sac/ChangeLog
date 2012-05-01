@@ -2,6 +2,16 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> etoken-sac-8.1.ebuild,
+  -files/Makefile, +files/dist/Makefile, +files/dist/libhal_amd64_lib32.txz,
+  +files/dist/libhal_amd64_lib64.txz, +files/dist/libhal_x86.txz,
+  +files/dist/pcsc_amd64.txz, -files/libhal_32.txz, -files/libhal_64.txz,
+  -files/pcsc_64.txz, +metadata.xml:
+  BUMP! (sorry for bunch-commit again. I still save no time to clean overlay
+  and then do little one-feature commits)
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
   16 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> etoken-sac-8.1.ebuild:
   Sorry. Sometimes I can't make single-feature-commits
 

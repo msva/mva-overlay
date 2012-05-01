@@ -65,6 +65,7 @@ app-misc/2gis-data:volg - The map of Volgograd for app-misc/2gis
 app-misc/2gis-data:vrnz - The map of Voronezh for app-misc/2gis
 app-misc/2gis-data:yak - 
 app-misc/2gis-data:yar - The map of Yaroslavl for app-misc/2gis
+games-engines/love:luajit - Enable linking with LuaJIT library instead of Lua
 games-rpg/sacred:iampirate - 
 media-libs/libjpeg-turbo:pic - 
 media-sound/asterisk-sounds-ru:alaw - 

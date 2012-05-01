@@ -1,12 +1,21 @@
-# ChangeLog for net-misc/asterisk-sounds-ru
+# ChangeLog for media-sound/asterisk-sounds-ru
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  04 Apr 2011; A. Vinogradov <spamslepnoga@inbox.ru>
-  asterisk-sounds-ru-1.1.ebuild:
-  fix RDEPEND implicit
+  30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  asterisk-sounds-ru-1.1.ebuild, metadata.xml:
+  BUMP! (sorry for bunch-commit again. I still save no time to clean overlay
+  and then do little one-feature commits)
 
-  10 Jul 2010; mva <mva@mva.name> +asterisk-sounds-ru-0.1.ebuild,
-  +metadata.xml:
-  added russian sounds
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  22 Jan 2012; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  asterisk-sounds-ru-1.1.ebuild, metadata.xml:
+  repoman related
+
+*asterisk-sounds-ru-1.1 (22 Jan 2012)
+
+  22 Jan 2012; Vadim A. Misbakh-Soloviev <mva@mva.name>
+  +asterisk-sounds-ru-1.1.ebuild, +metadata.xml:
+  Mass Pulling. Sorry.
 

@@ -10,4 +10,4 @@ RDEPEND=!build? ( >=sys-libs/ncurses-5.2 sys-devel/make )
 RESTRICT=binchecks strip
 SLOT=9999-r1
 _eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	git-2	15733ab6a6feb34af9837b41623c2bad	kernel-2	4ad25895a12c475dde98376a2e743827	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e	versionator	6601b4c5b3f019a993db59a50e1854e4
-_md5_=68aba2a6de601aa3d8a494881dc84f23
+_md5_=8daaf3ce8f4ccb46b1ccbf382367cb16

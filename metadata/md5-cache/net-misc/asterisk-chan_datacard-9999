@@ -7,4 +7,4 @@ LICENSE=GPL-3
 RDEPEND=net-misc/asterisk dev-libs/libxml2 sys-libs/ncurses
 SLOT=0
 _eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	subversion	b1dabda0045f060f19070d67a57c1a21	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=5679102bd7d69b6c5081f4524f63453d
+_md5_=ba38c6d025621151590c13c71f1ce7b2

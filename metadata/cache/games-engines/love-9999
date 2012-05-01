@@ -1,0 +1,22 @@
+dev-games/physfs dev-lang/lua media-libs/devil[mng,tiff] media-libs/freetype media-libs/libmodplug media-libs/libsdl[joystick,opengl] media-libs/libvorbis media-libs/openal media-sound/mpg123 virtual/opengl media-libs/libmng media-libs/tiff || ( >=sys-devel/automake-1.11.1:1.11 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/mercurial
+dev-games/physfs dev-lang/lua media-libs/devil[mng,tiff] media-libs/freetype media-libs/libmodplug media-libs/libsdl[joystick,opengl] media-libs/libvorbis media-libs/openal media-sound/mpg123 virtual/opengl
+0
+
+
+http://love2d.org/
+ZLIB
+An *awesome* framework you can use to make 2D games in Lua.
+
+autotools base eutils games libtool mercurial multilib toolchain-funcs user
+luajit
+
+
+
+3
+
+compile configure install postinst preinst prepare setup unpack
+
+
+
+
+
