@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer>
+		<email>elvanor@gentoo.org</email>
+		<name>Jean-Noël Rivasseau</name>
+	</maintainer>
+	<longdescription>
+		SFLphone is a robust standards-compliant enterprise softphone, for desktop and embedded systems. It is designed to handle several hundreds of calls a day. SFLphone is available under the GNU GPL license, version 3.
+	</longdescription>
+	<use>
+		<flag name="doxygen">Support for building documentation with doxygen</flag>
+		<flag name="iax">Support for IAX (Inter Asterisk eXchange)</flag>
+	</use>
+</pkgmetadata>

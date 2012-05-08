@@ -1,0 +1,48 @@
+# ChangeLog for net-voip/sflphone
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/net-voip/sflphone/ChangeLog,v 1.11 2012/03/02 14:58:32 elvanor Exp $
+
+  02 Mar 2012;  <elvanor@gentoo.org> sflphone-1.0.1.ebuild:
+  Fixed bug #396707.
+
+*sflphone-1.0.1 (26 Nov 2011)
+
+  26 Nov 2011; <elvanor@gentoo.org> +sflphone-1.0.1.ebuild:
+  Version bump to 1.0.1 along with various fixes.
+
+  21 Mar 2011; Nirbheek Chauhan <nirbheek@gentoo.org>
+  sflphone-0.9.8.4.ebuild, sflphone-0.9.12.ebuild:
+  Fix slot-deps on gnome libs
+
+  17 Mar 2011; <elvanor@gentoo.org> sflphone-0.9.12.ebuild:
+  Bug #356755. Minor changes.
+
+*sflphone-0.9.12 (22 Feb 2011)
+
+  22 Feb 2011; <elvanor@gentoo.org> +sflphone-0.9.12.ebuild,
+  +files/sflphone-0.9.12-libnotify-0.7.patch:
+  Version bump, bug #343043.
+
+  30 Jan 2011; Samuli Suominen <ssuominen@gentoo.org> sflphone-0.9.8.4.ebuild,
+  +files/sflphone-0.9.8.4-libnotify-0.7.patch:
+  Fix building with x11-libs/libnotify >= 0.7.
+
+  04 Nov 2010; Christian Faulhammer <fauli@gentoo.org>
+  sflphone-0.9.8.4.ebuild:
+  stable x86, bug 342757
+
+  28 Oct 2010; Markos Chandras <hwoarang@gentoo.org>
+  sflphone-0.9.8.4.ebuild:
+  Keyworded for amd64. Bug 342757
+
+  26 Oct 2010; <elvanor@gentoo.org> sflphone-0.9.8.4.ebuild:
+  Bug #339294, again. Put gnome-doc-utils as DEPEND only.
+
+  26 Oct 2010; <elvanor@gentoo.org> sflphone-0.9.8.4.ebuild:
+  Fixed bug #339294.
+
+*sflphone-0.9.8.4 (06 Sep 2010)
+
+  06 Sep 2010; <elvanor@gentoo.org> +sflphone-0.9.8.4.ebuild, +metadata.xml:
+  Initial import from bug #293399. Credits goes to Atman Sense.
+

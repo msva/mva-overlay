@@ -1,4 +1,4 @@
-app-admin/eselect-luajit dev-vcs/git
+dev-lang/lua app-admin/eselect-luajit dev-vcs/git
 
 2
 
