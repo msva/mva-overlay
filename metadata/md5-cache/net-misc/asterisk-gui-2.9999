@@ -6,5 +6,5 @@ HOMEPAGE=http://www.digium.com/
 LICENSE=GPL-3
 RDEPEND=net-misc/asterisk
 SLOT=0
-_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	subversion	b1dabda0045f060f19070d67a57c1a21	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
+_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	subversion	b1dabda0045f060f19070d67a57c1a21	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e
 _md5_=e3e44f6ddc3827d0a8458321c2d7b4f0

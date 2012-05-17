@@ -6,5 +6,5 @@ HOMEPAGE=http://luajit.org/
 KEYWORDS=~amd64 ~x86
 LICENSE=MIT
 SLOT=2
-_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	6526ac6fc9aedf391efb91fcd75ace68	user	32a09e82e2f592bf88ad2fd08525166e
+_eclasses_=eutils	74d9118e657da5b1db0c36f5dea88e57	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5f4ad6cf85e365e8f0c6050ddd21659e	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e
 _md5_=8500829081086906db08f63076a3b6a0
