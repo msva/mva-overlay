@@ -14,34 +14,33 @@ SRC_URI="mirror://rubyforge/${PN}/${P}.tar.gz"
 KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-2"
 SLOT="0"
-#IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion"
-IUSE="fastcgi imagemagick ldap openid passenger"
+IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion ldap"
 
 RDEPEND="$(ruby_implementation_depend ruby18 '>=' -1.8.6)[ssl]"
 
 ruby_add_rdepend "virtual/ruby-ssl
 	virtual/rubygems
 	>=dev-ruby/coderay-1.0.6
-	dev-ruby/i18n:0.4
-	>=dev-ruby/rack-1.1:0
-	>=dev-ruby/tzinfo-0.3.31
+	dev-ruby/i18n:0.6
+	>=dev-ruby/rack-1.4:1.4
+	>=dev-ruby/tzinfo-0.3.33
 	dev-ruby/rake
-	>=dev-ruby/rails-2.3.14:2.3
+	>=dev-ruby/rails-3.2.3:3.2
+	passenger? ( || ( www-apache/passenger www-servers/nginx[nginx_modules_http_passenger] ) )
 	fastcgi? ( dev-ruby/ruby-fcgi )
 	imagemagick? ( >=dev-ruby/rmagick-2 )
 	ldap? ( >=dev-ruby/ruby-net-ldap-0.3.1 )
 	openid? ( >=dev-ruby/ruby-openid-2.1.4 )
-	passenger? || ( www-apache/passenger www-servers/nginx[nginx_modules_http_passenger] )
 	ruby_targets_ruby18? (
 		>=dev-ruby/fastercsv-1.5
 		postgres? ( >=dev-ruby/pg-0.11 )
 		sqlite3? ( dev-ruby/sqlite3-ruby )
-		mysql? ( dev-ruby/mysql )
+		mysql? ( dev-ruby/mysql2 )
 	)
 	ruby_targets_ruby19? (
 		postgres? ( >=dev-ruby/pg-0.11 )
 		sqlite3? ( dev-ruby/sqlite3-ruby )
-		mysql? ( dev-ruby/mysql2:0.2 )
+		mysql? ( dev-ruby/mysql2 )
 	)
 	ruby_targets_jruby? (
 		>=dev-ruby/fastercsv-1.5
@@ -58,7 +57,7 @@ ruby_add_rdepend "virtual/ruby-ssl
 #	)"
 
 RDEPEND="${RDEPEND}
-	bazaar ( dev-vcs/bazaar )
+	bazaar? ( dev-vcs/bzr )
 	cvs? ( >=dev-vcs/cvs-1.12 )
 	darcs? ( dev-vcs/darcs )
 	git? ( dev-vcs/git )
