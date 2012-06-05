@@ -1,0 +1,22 @@
+=dev-lang/perl-5* ssl? ( >=dev-libs/openssl-0.9.8 ) dev-vcs/git
+=dev-lang/perl-5* ssl? ( >=dev-libs/openssl-0.9.8 )
+0
+
+
+https://uhub.org/
+GPL-3
+High performance peer-to-peer hub for the ADC network
+
+eutils git-2 multilib toolchain-funcs user
+debug +ssl
+
+
+
+4
+
+compile install postinst unpack
+
+
+
+
+

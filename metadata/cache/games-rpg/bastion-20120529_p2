@@ -1,0 +1,22 @@
+
+
+0
+Bastion-HIB-2012-05-29-2.sh
+mirror fetch strip test
+http://supergiantgames.com/?page_id=242
+EULA
+An original action role-playing game set in a lush imaginative world, in which players must create and fight for civilization’s last refuge as a mysterious narrator marks their every move.
+~amd64 ~x86
+base eutils games multilib toolchain-funcs unpacker user versionator
+
+
+
+
+
+
+compile install postinst preinst setup unpack
+
+
+
+
+

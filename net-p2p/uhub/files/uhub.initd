@@ -1,0 +1,28 @@
+#!/sbin/runscript
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: /var/cvsroot/gentoo-x86/www-servers/nginx/files/nginx.initd,v 1.1 2012/02/11 10:17:30 hollow Exp $
+
+extra_started_commands="reload"
+
+description="High performance peer-to-peer hub for the ADC network"
+description_reload="Reload uHub configuration and re-read log file"
+
+command="/usr/bin/uhub"
+command_args="${UHUBOPTIONS}"
+pidfile="/var/run/uhub.pid"
+
+depend() {
+	need net
+	use dns logger netmount
+}
+
+stop_post() {
+	rm ${pidfile}
+}
+
+reload() {
+	ebegin "Reloading uHub configuration"
+	kill -HUP `cat ${pidfile}` &>/dev/null
+	eend $? "Failed to reload uHub"
+}

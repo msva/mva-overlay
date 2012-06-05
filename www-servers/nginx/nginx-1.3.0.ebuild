@@ -244,7 +244,13 @@ CDEPEND="
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) )
 	nginx_modules_http_passenger? (
-		$(ruby_implementation_depend ruby18)
+		|| (
+			$(ruby_implementation_depend ruby19)
+			$(ruby_implementation_depend ruby18)
+			$(ruby_implementation_depend ree18)
+			$(ruby_implementation_depend jruby)
+			$(ruby_implementation_depend rbx)
+		)
 		>=dev-ruby/rubygems-0.9.0
 		>=dev-ruby/rake-0.8.1
 		>=dev-ruby/fastthread-1.0.1
