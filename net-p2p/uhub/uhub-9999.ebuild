@@ -38,7 +38,7 @@ src_compile() {
 #	export CFLAGS="${CFLAGS}"
 #	export LDFLAGS="${LDFLAGS}"
 
-	use debug && opts="RELEASE=NO FUNCTRACE=YES PROFILING=YES $opts"
+	use debug && opts="RELEASE=NO FUNCTRACE=YES"
 	use ssl || opts="USE_SSL=NO $opts"
 	emake $opts SILENT=YES || die "Failed to build"
 }
