@@ -1,4 +1,4 @@
-dev-cpp/commoncpp2 dev-libs/dbus-c++ dev-libs/expat dev-libs/openssl dev-libs/libpcre dev-libs/libyaml media-libs/alsa-lib celt? ( media-libs/celt ) media-libs/libsamplerate pulseaudio? ( media-sound/pulseaudio ) net-libs/ccrtp iax? ( net-libs/iax ) net-libs/libzrtpcpp >=net-libs/pjsip-1.8.10 dbus? ( sys-apps/dbus ) gsm? ( media-sound/gsm ) speex? ( media-libs/speex ) networkmanager? ( net-misc/networkmanager ) gnome? ( dev-libs/atk dev-libs/check dev-libs/log4c gnome-base/libgnomeui gnome-base/orbit:2 gnome-extra/evolution-data-server media-libs/fontconfig media-libs/freetype media-libs/libart_lgpl net-libs/libsoup:2.4 net-libs/webkit-gtk:3 x11-libs/cairo x11-libs/libICE x11-libs/libnotify x11-libs/libSM ) >=dev-util/astyle-1.24 doxygen? ( app-doc/doxygen ) gnome? ( app-text/gnome-doc-utils ) || ( >=sys-devel/automake-1.11.1:1.11 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
+dev-cpp/commoncpp2 dev-libs/dbus-c++ dev-libs/expat dev-libs/openssl dev-libs/libpcre dev-libs/libyaml media-libs/alsa-lib celt? ( media-libs/celt ) media-libs/libsamplerate pulseaudio? ( media-sound/pulseaudio ) net-libs/ccrtp iax? ( net-libs/iax ) net-libs/libzrtpcpp >=net-libs/pjsip-1.8.10 dbus? ( sys-apps/dbus ) gsm? ( media-sound/gsm ) speex? ( media-libs/speex ) networkmanager? ( net-misc/networkmanager ) gnome? ( dev-libs/atk dev-libs/check dev-libs/log4c gnome-base/libgnomeui gnome-base/orbit:2 gnome-extra/evolution-data-server media-libs/fontconfig media-libs/freetype media-libs/libart_lgpl net-libs/libsoup:2.4 net-libs/webkit-gtk:3 x11-libs/cairo x11-libs/libICE x11-libs/libnotify x11-libs/libSM ) >=dev-util/astyle-1.24 doxygen? ( app-doc/doxygen ) gnome? ( app-text/gnome-doc-utils ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool dev-vcs/git
 dev-cpp/commoncpp2 dev-libs/dbus-c++ dev-libs/expat dev-libs/openssl dev-libs/libpcre dev-libs/libyaml media-libs/alsa-lib celt? ( media-libs/celt ) media-libs/libsamplerate pulseaudio? ( media-sound/pulseaudio ) net-libs/ccrtp iax? ( net-libs/iax ) net-libs/libzrtpcpp >=net-libs/pjsip-1.8.10 dbus? ( sys-apps/dbus ) gsm? ( media-sound/gsm ) speex? ( media-libs/speex ) networkmanager? ( net-misc/networkmanager ) gnome? ( dev-libs/atk dev-libs/check dev-libs/log4c gnome-base/libgnomeui gnome-base/orbit:2 gnome-extra/evolution-data-server media-libs/fontconfig media-libs/freetype media-libs/libart_lgpl net-libs/libsoup:2.4 net-libs/webkit-gtk:3 x11-libs/cairo x11-libs/libICE x11-libs/libnotify x11-libs/libSM )
 0
 
@@ -7,7 +7,7 @@ http://www.sflphone.org/
 GPL-3
 SFLphone is a robust standards-compliant enterprise softphone, for desktop and embedded systems.
 ~amd64 ~x86
-autotools eutils git-2 libtool multilib toolchain-funcs user
+autotools eutils git-2 libtool multilib multiprocessing toolchain-funcs user
 debug doxygen dbus gnome gsm networkmanager speex static-libs iax kde cli celt pulseaudio
 
 

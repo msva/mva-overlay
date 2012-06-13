@@ -7,5 +7,5 @@ IUSE=debug +ssl
 LICENSE=GPL-3
 RDEPEND==dev-lang/perl-5* ssl? ( >=dev-libs/openssl-0.9.8 )
 SLOT=0
-_eclasses_=eutils	a95b1bf9d854485ca6fdbb47df2975aa	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	f71b9936acc911ed1cc84557d3b5c2b3	user	32a09e82e2f592bf88ad2fd08525166e
-_md5_=d6dfb54139f936c780b55a22b19b555f
+_eclasses_=eutils	e9ac199862f908195424dc48ca2de8f6	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	940fa431b6227157c9a420dadef4970b	user	32a09e82e2f592bf88ad2fd08525166e
+_md5_=eef0128127bccbe4e5247cfd1e4a7356

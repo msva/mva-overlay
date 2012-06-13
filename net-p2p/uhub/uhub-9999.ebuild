@@ -34,13 +34,14 @@ UHUB_USER="${UHUB_USER:-uhub}"
 UHUB_GROUP="${UHUB_GROUP:-uhub}"
 
 src_compile() {
-	opts="RELEASE=YES"
-#	export CFLAGS="${CFLAGS}"
-#	export LDFLAGS="${LDFLAGS}"
-
-	use debug && opts="RELEASE=NO FUNCTRACE=YES"
-	use ssl || opts="USE_SSL=NO $opts"
-	emake $opts SILENT=YES || die "Failed to build"
+	opts="RELEASE=YES";
+	use debug && opts="RELEASE=NO FUNCTRACE=YES";
+#### Workaround to http://bugs.extatic.org/view.php?id=187
+	use ssl && CFLAGS="-lssl -lcrypto" || opts="USE_SSL=NO $opts";
+	LDFLAGS="-rdynamic";
+####
+	export CFLAGS LDFLAGS;
+	emake $opts SILENT=YES || die "Failed to build";
 }
 
 src_install() {
