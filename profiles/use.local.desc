@@ -80,6 +80,8 @@ media-sound/asterisk-sounds-ru:alaw -
 media-sound/asterisk-sounds-ru:wav - 
 net-voip/sflphone:doxygen - Support for building documentation with doxygen
 net-voip/sflphone:iax - Support for IAX (Inter Asterisk eXchange)
+sys-process/htop:openvz - Enable openvz support
+sys-process/htop:vserver - Enable vserver support
 www-apps/ctpp2:md5 - 
 www-apps/redmine:openid - Enable support for OpenID
 www-apps/redmine:passenger - Enable support for Phusion Passenger (aka mod_rails)
