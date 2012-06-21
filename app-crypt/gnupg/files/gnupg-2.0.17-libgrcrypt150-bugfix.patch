@@ -1,0 +1,38 @@
+From 13290b0e0fcf3a493e4848b29329d56b69bc4dd9 Mon Sep 17 00:00:00 2001
+From: Werner Koch <wk@gnupg.org>
+Date: Mon, 13 Jun 2011 14:35:30 +0200
+Subject: [PATCH] Fix a for a bug fix in the latest Libgcrypt.
+
+        * pkglue.c (mpi_from_sexp, pk_decrypt): Use GCRYMPI_FMT_USG for
+	gcry_sexp_nth_mpi.  This fixes a problem with a recent bug fix in
+	Libgcrypt.
+
+diff --git a/g10/pkglue.c b/g10/pkglue.c
+index cbfe21e..5c47511 100644
+--- a/g10/pkglue.c
++++ b/g10/pkglue.c
+@@ -34,10 +34,10 @@ mpi_from_sexp (gcry_sexp_t sexp, const char * item)
+ {
+   gcry_sexp_t list;
+   gcry_mpi_t data;
+-  
++
+   list = gcry_sexp_find_token (sexp, item, 0);
+   assert (list);
+-  data = gcry_sexp_nth_mpi (list, 1, 0);
++  data = gcry_sexp_nth_mpi (list, 1, GCRYMPI_FMT_USG);
+   assert (data);
+   gcry_sexp_release (list);
+   return data;
+@@ -293,7 +293,7 @@ pk_decrypt (int algo, gcry_mpi_t * result, gcry_mpi_t * data,
+   if (rc)
+     return rc;
+ 
+-  *result = gcry_sexp_nth_mpi (s_plain, 0, 0);
++  *result = gcry_sexp_nth_mpi (s_plain, 0, GCRYMPI_FMT_USG);
+   gcry_sexp_release (s_plain);
+   if (!*result)
+     return -1;			/* oops */
+-- 
+1.7.1
+

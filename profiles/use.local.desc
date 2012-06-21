@@ -8,6 +8,11 @@ app-arch/rpm:keyutils -
 app-arch/rpm:magic - 
 app-arch/rpm:xar - 
 app-arch/rpm:xz - 
+app-crypt/gnupg:idea - Add support for the IDEA algorithm
+app-crypt/gnupg:openct - Bring in dev-libs/openct as a dependency; enable scdaemon.
+app-crypt/gnupg:pcsc-lite - Bring in sys-apps/pcsc-lite as a dependency; enable scdaemon.
+app-crypt/gnupg:smartcard - Build scdaemon software. Enables usage of OpenPGP cards. For other type of smartcards, try app-crypt/gnupg-pkcs11-scd.
+app-crypt/gnupg:usb - Build direct CCID access for scdaemon; requires dev-libs/libusb.
 app-misc/2gis:data - Use maps and other data from app-misc/2gis-data
 app-misc/2gis-data:arkh - 
 app-misc/2gis-data:astr - The map of Astrakhan for app-misc/2gis
@@ -65,6 +70,7 @@ app-misc/2gis-data:volg - The map of Volgograd for app-misc/2gis
 app-misc/2gis-data:vrnz - The map of Voronezh for app-misc/2gis
 app-misc/2gis-data:yak - 
 app-misc/2gis-data:yar - The map of Yaroslavl for app-misc/2gis
+dev-libs/libgpg-error:common-lisp - Install common-lisp files
 dev-ruby/rails:asset-pipeline - Also install the default components for the asset pipeline. These are not required but they are activated automatically in new Rails projects by default.
 games-engines/love:luajit - Enable linking with LuaJIT library instead of Lua
 games-rpg/bastion:iampirate - 

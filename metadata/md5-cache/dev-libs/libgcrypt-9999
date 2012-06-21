@@ -1,0 +1,12 @@
+DEFINED_PHASES=configure install prepare unpack
+DEPEND=~dev-libs/libgpg-error-9999 doc? ( media-gfx/transfig ) dev-vcs/git
+DESCRIPTION=General purpose crypto library based on the code used in GnuPG
+EAPI=4
+HOMEPAGE=http://www.gnupg.org/
+IUSE=static-libs +doc
+KEYWORDS=~alpha ~amd64 ~arm ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd
+LICENSE=LGPL-2.1 MIT
+RDEPEND=~dev-libs/libgpg-error-9999
+SLOT=0
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	a0c068b0a2e1b2a724349c81e600d712
+_md5_=b4b99e291e0f7a74a98342a4dd245ed5

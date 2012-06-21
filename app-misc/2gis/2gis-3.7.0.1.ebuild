@@ -25,7 +25,7 @@ src_install() {
 	insinto /opt/${PN}
 	doins -r 2gis/3.0/* || die
 
-	bash "${FILESDIR}"/exe2png "2gis/3.0/grym.exe" "2gis.png" "48x48"
+	bash "${FILESDIR}"/exe2png "2gis/3.0/grym.exe" "2gis_256.png" "256x256"
 	for path in $(find /usr/share/icons/hicolor -maxdepth 1 -type d -iname '[0-9]*x[0-9]*'); do
 		size=$(basename "${path}")
 		convert 2gis_256.png -resize "${size}" 2gis.png
