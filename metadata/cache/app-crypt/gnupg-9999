@@ -6,7 +6,7 @@
 http://www.gnupg.org/
 GPL-3
 The GNU Privacy Guard, a GPL pgp replacement
-~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x64-freebsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris
+
 eutils flag-o-matic git-2 multilib toolchain-funcs user
 adns bzip2 doc ldap nls readline static selinux smartcard usb
 smartcard? ( !static )

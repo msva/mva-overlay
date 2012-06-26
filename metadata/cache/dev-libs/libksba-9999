@@ -6,7 +6,7 @@
 http://www.gnupg.org/related_software/libksba
 GPL-3
 X.509 and CMS (PKCS#7) library
-alpha amd64 arm hppa ia64 ~mips ppc ppc64 s390 sh sparc x86 ~amd64-fbsd ~x86-fbsd ~x64-freebsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris
+
 git-2
 static-libs
 
