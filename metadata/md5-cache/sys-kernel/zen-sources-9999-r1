@@ -6,8 +6,8 @@ HOMEPAGE=http://zen-kernel.org
 IUSE=+minimal symlink build
 LICENSE=GPL-2 freedist
 PDEPEND=!build? ( virtual/dev-manager )
-RDEPEND=!build? ( >=sys-libs/ncurses-5.2 sys-devel/make )
+RDEPEND=!build? ( >=sys-libs/ncurses-5.2 sys-devel/make dev-lang/perl )
 RESTRICT=binchecks strip
 SLOT=9999-r1
-_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	git-2	15733ab6a6feb34af9837b41623c2bad	kernel-2	4fbd75462523383ba153fa86d46603f4	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	a0c068b0a2e1b2a724349c81e600d712	versionator	6601b4c5b3f019a993db59a50e1854e4
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	git-2	15733ab6a6feb34af9837b41623c2bad	kernel-2	dd451098928ff900df7c254820871c00	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	d0a4d0735a6c0183d707ca919bd72f28	versionator	6601b4c5b3f019a993db59a50e1854e4
 _md5_=8daaf3ce8f4ccb46b1ccbf382367cb16

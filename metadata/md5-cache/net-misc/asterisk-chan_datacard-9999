@@ -6,5 +6,5 @@ HOMEPAGE=http://www.makhutov.org/
 LICENSE=GPL-3
 RDEPEND=net-misc/asterisk dev-libs/libxml2 sys-libs/ncurses
 SLOT=0
-_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	subversion	0dcbf97982a8420280528c5c94e13a13	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	a0c068b0a2e1b2a724349c81e600d712
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	subversion	0dcbf97982a8420280528c5c94e13a13	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=ba38c6d025621151590c13c71f1ce7b2

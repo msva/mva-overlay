@@ -1,0 +1,18 @@
+diff -ur a/wifo/phapi/phcodec-avcodec-wrapper.c b/wifo/phapi/phcodec-avcodec-wrapper.c
+--- a/wifo/phapi/phcodec-avcodec-wrapper.c	2011-02-10 11:03:43.000000000 +0100
++++ b/wifo/phapi/phcodec-avcodec-wrapper.c	2012-01-30 14:05:15.000000000 +0100
+@@ -63,8 +63,12 @@
+ 	int dec_len, got_picture = 0;
+ 	ph_avcodec_decoder_ctx_t * decoder_t = (ph_avcodec_decoder_ctx_t *) ctx;
+ 
+-	dec_len = avcodec_decode_video(decoder_t->context,
+-		dst, &got_picture, (uint8_t *)src, srcsize);
++	AVPacket pkt;
++	av_init_packet(&pkt);
++	pkt.data = (uint8_t*) src;
++	pkt.size = srcsize;
++	dec_len = avcodec_decode_video2(decoder_t->context,
++		dst, &got_picture, &pkt);
+ 
+ 	if (got_picture)
+ 	{

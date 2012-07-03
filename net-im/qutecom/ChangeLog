@@ -1,0 +1,52 @@
+# ChangeLog for net-im/qutecom
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/net-im/qutecom/ChangeLog,v 1.13 2012/06/17 01:05:11 chithanh Exp $
+
+  17 Jun 2012; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  qutecom-2.2_p20110210.ebuild:
+  Do not include gtypes.h, bug #421415
+
+  30 Jan 2012; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  qutecom-2.2_p20110210.ebuild,
+  +files/qutecom-2.2-no-deprecated-avcodec-decode-video.patch:
+  Fix building against >=ffmpeg-0.8, bug #401175.
+
+  03 Oct 2011; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  qutecom-2.2_p20110210.ebuild:
+  Allow building against >=linux-headers-2.6.38, bug #361181.
+
+  31 Mar 2011; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  qutecom-2.2_p20110210.ebuild:
+  Require old kernel headers, bug #361181.
+
+  28 Mar 2011; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  -qutecom-2.2_p20100309.ebuild, -qutecom-2.2_p20100620.ebuild,
+  qutecom-2.2_p20110210.ebuild:
+  Depend on virtual/ffmpeg, remove old.
+
+*qutecom-2.2_p20110210 (13 Feb 2011)
+
+  13 Feb 2011; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  +qutecom-2.2_p20110210.ebuild:
+  New snapshot.
+
+  14 Aug 2010; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  qutecom-2.2_p20100309.ebuild, qutecom-2.2_p20100620.ebuild:
+  Filter --as-needed, bug #315045, ack'ed by QA on IRC.
+
+*qutecom-2.2_p20100620 (21 Jun 2010)
+
+  21 Jun 2010; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  +qutecom-2.2_p20100620.ebuild:
+  New snapshot. Fixes bug #324317
+
+  13 Apr 2010; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  qutecom-2.2_p20100309.ebuild:
+  add qt-webkit dependency, bug 315043
+
+*qutecom-2.2_p20100309 (09 Mar 2010)
+
+  09 Mar 2010; Chí-Thanh Christopher Nguyễn <chithanh@gentoo.org>
+  +qutecom-2.2_p20100309.ebuild:
+  initial import for bug 237941
+
