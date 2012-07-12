@@ -2,6 +2,39 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*nginx-1.3.2 (26 Jun 2012)
+
+  26 Jun 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -nginx-1.3.1.ebuild,
+  +nginx-1.3.2.ebuild:
+  bumped NgX-1.3.2
+
+*nginx-1.3.1 (05 Jun 2012)
+*nginx-1.2.1 (05 Jun 2012)
+
+  05 Jun 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -nginx-1.2.0.ebuild,
+  +nginx-1.2.1.ebuild, -nginx-1.3.0.ebuild, +nginx-1.3.1.ebuild:
+  Nginx bump
+
+  05 Jun 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.3.0.ebuild:
+  Nginx fixes + uhub + some fixes
+
+*nginx-1.3.0 (17 May 2012)
+
+  17 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +nginx-1.3.0.ebuild:
+  NginX 1.3.0
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  01 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  +files/passenger-3.0.12-contenthandler.patch,
+  +files/passenger-3.0.12-gentoo.patch, +files/passenger-3.0.12-ldflags.patch,
+  -files/passenger-3.0.9-contenthandler.patch,
+  -files/passenger-3.0.9-gentoo.patch, -files/passenger-3.0.9-ldflags.patch,
+  -files/passenger-3.0.9-math.patch, nginx-1.2.0.ebuild:
+  NginX modules bump + redmine
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
   01 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -nginx-1.1.15.ebuild,
   -nginx-1.1.19.ebuild, nginx-1.2.0.ebuild:
   NginX ctpp module fix and metadata-cache

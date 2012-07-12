@@ -2,6 +2,12 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*2gis-data-2012.06 (21 Jun 2012)
+
+  21 Jun 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  -2gis-data-2012.01.ebuild, +2gis-data-2012.06.ebuild:
+  2gis bump + gnupg-9999 (2.1 beta)
+
   30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
   2gis-data-2012.01.ebuild, metadata.xml:
   BUMP! (sorry for bunch-commit again. I still save no time to clean overlay

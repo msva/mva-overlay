@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="alsa debug oss portaudio xv"
 
-RDEPEND="dev-libs/boost
+RDEPEND=">=dev-libs/boost-1.49.0
 	dev-libs/glib
 	dev-libs/openssl
 	alsa? ( media-libs/alsa-lib )

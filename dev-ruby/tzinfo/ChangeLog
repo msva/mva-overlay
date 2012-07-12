@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*tzinfo-0.3.33 (24 May 2012)
+
+  24 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -tzinfo-0.3.31.ebuild,
+  +tzinfo-0.3.33.ebuild:
+  bump redmine to 2.0 (finaly, rewrited to Rails:3)
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
   30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> metadata.xml,
   tzinfo-0.3.31.ebuild:
   BUMP! (sorry for bunch-commit again. I still save no time to clean overlay
