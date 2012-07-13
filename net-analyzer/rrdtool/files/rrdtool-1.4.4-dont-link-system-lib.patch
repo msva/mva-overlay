@@ -1,0 +1,16 @@
+Make sure the Makefile for the ruby binding does not look in the
+normal library path first by setting it to something else that will
+not contain a rrd.so library. This is the least invasive method to fix
+the linking order.
+
+--- bindings/Makefile.am.~1~	2010-03-02 17:54:04.000000000 +0100
++++ bindings/Makefile.am	2010-11-27 14:19:07.080938486 +0100
+@@ -29,7 +29,7 @@
+ # RUBYARCHDIR= is to work around in a makefile quirk not sure 
+ # it is is the right thing todo, but it makes rrdtool build on freebsd as well
+ ruby:   Makefile
+-	cd ruby && $(RUBY) extconf.rb && $(MAKE) EPREFIX=$(exec_prefix) $(RUBY_MAKE_OPTIONS) RUBYARCHDIR=
++	cd ruby && $(RUBY) extconf.rb && $(MAKE) libdir=/lib EPREFIX=$(exec_prefix) $(RUBY_MAKE_OPTIONS) RUBYARCHDIR=
+ 
+ # rules for building the pyton module
+ python: Makefile

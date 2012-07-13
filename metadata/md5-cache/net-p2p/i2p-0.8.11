@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure install postinst preinst prepare setup unpack
+DEPEND=>=virtual/jdk-1.5 >=dev-java/java-config-2.1.9-r1 >=dev-java/ant-core-1.7.0 >=dev-java/javatoolkit-0.3.0-r2 >=dev-lang/python-2.4
+DESCRIPTION=I2P is an anonymous network.
+EAPI=4
+HOMEPAGE=http://www.i2p.net/
+IUSE=initscript elibc_FreeBSD elibc_FreeBSD
+KEYWORDS=~x86 ~amd64
+LICENSE=GPL-2
+RDEPEND=>=virtual/jdk-1.5 >=dev-java/java-config-2.1.9-r1
+SLOT=0
+SRC_URI=http://mirror.i2p2.de/i2psource_0.8.11.tar.bz2 http://dist.codehaus.org/jetty/jetty-5.1.x/jetty-5.1.15.tgz
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	java-ant-2	05b1e5a708f4dd372a85c9c6424fecbe	java-pkg-2	f12d7295133e77160a42c2f1ec69a43d	java-utils-2	2d9eb3508fa5d6759e39354b74545567	multilib	5782800349f728f725f9378105c6a2ab	pax-utils	0ace932c4045349c7fc1af0fe7091acf	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	d0a4d0735a6c0183d707ca919bd72f28	versionator	6601b4c5b3f019a993db59a50e1854e4
+_md5_=da95b3a08154b44869a4ee52021cac44

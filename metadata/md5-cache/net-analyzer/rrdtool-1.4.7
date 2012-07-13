@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure install postinst postrm prepare setup test unpack
+DEPEND=>=media-libs/libpng-1.5.10 >=dev-libs/libxml2-2.7.8 >=x11-libs/cairo-1.10.2[svg] >=dev-libs/glib-2.28.7 >=x11-libs/pango-1.28 lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) ) perl? ( dev-lang/perl ) ruby? ( >=dev-lang/ruby-1.8.6_p287-r13 ) tcl? ( dev-lang/tcl ) tcpd? ( sys-apps/tcp-wrappers ) dbi? ( dev-db/libdbi ) virtual/pkgconfig sys-apps/gawk python? ( =dev-lang/python-2* ) || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool
+DESCRIPTION=A system to store and display time-series data
+EAPI=4
+HOMEPAGE=http://oss.oetiker.ch/rrdtool/
+IUSE=dbi doc lua perl python ruby rrdcgi tcl tcpd
+KEYWORDS=~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris
+LICENSE=GPL-2
+RDEPEND=>=media-libs/libpng-1.5.10 >=dev-libs/libxml2-2.7.8 >=x11-libs/cairo-1.10.2[svg] >=dev-libs/glib-2.28.7 >=x11-libs/pango-1.28 lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) ) perl? ( dev-lang/perl ) ruby? ( >=dev-lang/ruby-1.8.6_p287-r13 ) tcl? ( dev-lang/tcl ) tcpd? ( sys-apps/tcp-wrappers ) dbi? ( dev-db/libdbi ) python? ( =dev-lang/python-2* )
+SLOT=0
+SRC_URI=http://oss.oetiker.ch/rrdtool/pub/rrdtool-1.4.7.tar.gz
+_eclasses_=autotools	9d170f07df0e48055093b8c6a60d0fba	base	d40e074a6349af3ea5e937210630bdc1	distutils	15ae23f6f8219a009bfcfff7724fe727	eutils	327b713e2d6949c42cd96bc4898fd280	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	libtool	46e19fa7553f66c48ebc7cf025acd3ed	multilib	5782800349f728f725f9378105c6a2ab	multiprocessing	1512bdfe7004902b8cd2c466fc3df772	perl-module	1c5ba5b92574108992a6758f863da534	python	4152846e243ec207de8a1b02a36f1461	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	d0a4d0735a6c0183d707ca919bd72f28
+_md5_=aaa98de26a245ca4fccb2f403b18a540

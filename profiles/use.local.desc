@@ -78,6 +78,11 @@ games-rpg/sacred:iampirate -
 media-libs/libjpeg-turbo:pic - 
 media-sound/asterisk-sounds-ru:alaw - 
 media-sound/asterisk-sounds-ru:wav - 
+net-analyzer/nmap:ncat - Install the ncat utility
+net-analyzer/nmap:ndiff - Install the ndiff utility
+net-analyzer/nmap:nmap-update - Install nmap-update, which uses dev-vcs/subversion to update nmap scripts in your home directory
+net-analyzer/nmap:nping - Install the nping utility
+net-analyzer/rrdtool:rrdcgi - Build rrdcgi support
 net-voip/sflphone:doxygen - Support for building documentation with doxygen
 net-voip/sflphone:iax - Support for IAX (Inter Asterisk eXchange)
 sys-process/htop:openvz - Enable openvz support
