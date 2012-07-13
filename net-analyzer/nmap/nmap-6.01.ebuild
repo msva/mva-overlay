@@ -25,7 +25,7 @@ DEPEND="dev-libs/libpcre
 		   >=dev-python/pygtk-2.6
 		   || ( dev-lang/python:2.7[sqlite] dev-lang/python:2.6[sqlite] dev-lang/python:2.5[sqlite] dev-python/pysqlite:2 )
 		 )
-	lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) )
+	lua? ( virtual/lua )
 	nmap-update? ( dev-libs/apr dev-vcs/subversion )
 	ssl? ( dev-libs/openssl )"
 RDEPEND="${DEPEND}"

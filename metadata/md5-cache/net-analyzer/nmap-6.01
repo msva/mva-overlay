@@ -1,13 +1,13 @@
 DEFINED_PHASES=configure install prepare setup
-DEPEND=dev-libs/libpcre net-libs/libpcap dev-libs/apr gtk? ( >=x11-libs/gtk+-2.6:2 >=dev-python/pygtk-2.6 || ( dev-lang/python:2.7[sqlite] dev-lang/python:2.6[sqlite] dev-lang/python:2.5[sqlite] dev-python/pysqlite:2 ) ) lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) ) nmap-update? ( dev-libs/apr dev-vcs/subversion ) ssl? ( dev-libs/openssl ) =dev-lang/python-2*
+DEPEND=dev-libs/libpcre net-libs/libpcap dev-libs/apr gtk? ( >=x11-libs/gtk+-2.6:2 >=dev-python/pygtk-2.6 || ( dev-lang/python:2.7[sqlite] dev-lang/python:2.6[sqlite] dev-lang/python:2.5[sqlite] dev-python/pysqlite:2 ) ) lua? ( virtual/lua ) nmap-update? ( dev-libs/apr dev-vcs/subversion ) ssl? ( dev-libs/openssl ) =dev-lang/python-2*
 DESCRIPTION=A utility for network exploration or security auditing
 EAPI=4
 HOMEPAGE=http://nmap.org/
 IUSE=gtk lua ncat ndiff nmap-update nping ssl
 KEYWORDS=~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~x86-solaris
 LICENSE=GPL-2
-RDEPEND=dev-libs/libpcre net-libs/libpcap dev-libs/apr gtk? ( >=x11-libs/gtk+-2.6:2 >=dev-python/pygtk-2.6 || ( dev-lang/python:2.7[sqlite] dev-lang/python:2.6[sqlite] dev-lang/python:2.5[sqlite] dev-python/pysqlite:2 ) ) lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) ) nmap-update? ( dev-libs/apr dev-vcs/subversion ) ssl? ( dev-libs/openssl ) =dev-lang/python-2*
+RDEPEND=dev-libs/libpcre net-libs/libpcap dev-libs/apr gtk? ( >=x11-libs/gtk+-2.6:2 >=dev-python/pygtk-2.6 || ( dev-lang/python:2.7[sqlite] dev-lang/python:2.6[sqlite] dev-lang/python:2.5[sqlite] dev-python/pysqlite:2 ) ) lua? ( virtual/lua ) nmap-update? ( dev-libs/apr dev-vcs/subversion ) ssl? ( dev-libs/openssl ) =dev-lang/python-2*
 SLOT=0
 SRC_URI=http://nmap.org/dist/nmap-6.01.tar.bz2
 _eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	multilib	5782800349f728f725f9378105c6a2ab	python	4152846e243ec207de8a1b02a36f1461	toolchain-funcs	e575dd4d4682fc3539829c52d8382856	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=6049b29c874b696d114b02c815a7edf2
+_md5_=29f8633be0c31338369f8d7846f46c78
