@@ -18,7 +18,7 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="3.0.12"
+PASSENGER_PV="3.0.13"
 USE_RUBY="ruby18 ree18 jruby ruby19 rbx"
 RUBY_OPTIONAL="yes"
 
@@ -28,9 +28,9 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="a788dea"
 
 # http_headers_more (http://github.com/agentzh/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.17rc1"
+HTTP_HEADERS_MORE_MODULE_PV="0.17"
 HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}"
-HTTP_HEADERS_MORE_MODULE_SHA1="3580526"
+HTTP_HEADERS_MORE_MODULE_SHA1="b7c8cfc"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
 HTTP_PUSH_MODULE_PV="0.692"
@@ -41,11 +41,11 @@ HTTP_CTPP_MODULE_PV="0.5"
 HTTP_CTPP_MODULE_P="ngx_ctpp2-${HTTP_CTPP_MODULE_PV}"
 
 # http_cache_purge (http://labs.frickle.com/nginx_ngx_cache_purge/, BSD-2 license)
-HTTP_CACHE_PURGE_MODULE_PV="1.5"
+HTTP_CACHE_PURGE_MODULE_PV="1.6"
 HTTP_CACHE_PURGE_MODULE_P="ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}"
 
 # HTTP Upload module from Valery Kholodkov
-# (http://www.grid.net.ru/nginx/upload.en.html, BSD license)
+# (http://www.grid.net.ru/nginx/upload.ru.html (ru) http://www.grid.net.ru/nginx/upload.en.html (en), BSD license)
 HTTP_UPLOAD_MODULE_PV="2.2.0"
 HTTP_UPLOAD_MODULE_P="nginx_upload_module-${HTTP_UPLOAD_MODULE_PV}"
 
@@ -60,9 +60,9 @@ HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="bc97eea"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
-HTTP_LUA_MODULE_PV="0.5.0rc25"
+HTTP_LUA_MODULE_PV="0.5.7rc1"
 HTTP_LUA_MODULE_P="lua-nginx-module-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="6de0c1c"
+HTTP_LUA_MODULE_SHA1="6d67fc4"
 
 # NginX Lua module (https://github.com/chaoslawful/drizzle-nginx-module, BSD)
 HTTP_DRIZZLE_MODULE_PV="0.1.2rc7"
@@ -75,9 +75,9 @@ HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="d41681d"
 
 # NginX echo module (https://github.com/agentzh/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.38rc2"
+HTTP_ECHO_MODULE_PV="0.40"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="43c8843"
+HTTP_ECHO_MODULE_SHA1="3dee230"
 
 # NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module, BSD)
 HTTP_MEMC_MODULE_PV="0.13rc3"
@@ -85,19 +85,19 @@ HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_SHA1="4007350"
 
 # NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module, BSD)
-HTTP_RDS_JSON_MODULE_PV="0.12rc8"
+HTTP_RDS_JSON_MODULE_PV="0.12rc10"
 HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
-HTTP_RDS_JSON_MODULE_SHA1="509fbf1"
+HTTP_RDS_JSON_MODULE_SHA1="74c21b3"
 
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module, BSD)
-HTTP_SRCACHE_MODULE_PV="0.13rc6"
+HTTP_SRCACHE_MODULE_PV="0.14"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
-HTTP_SRCACHE_MODULE_SHA1="fa2da58"
+HTTP_SRCACHE_MODULE_SHA1="bee0276"
 
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.22rc7"
+HTTP_SET_MISC_MODULE_PV="0.22rc8"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="84ae24c"
+HTTP_SET_MISC_MODULE_SHA1="658c235"
 
 # NginX XSS module (https://github.com/agentzh/xss-nginx-module, BSD)
 HTTP_XSS_MODULE_PV="0.03rc9"
@@ -120,9 +120,9 @@ HTTP_ICONV_MODULE_SHA1="abdac17"
 #HTTP_SET_CCONV_MODULE_SHA1=""
 
 # NginX postgres module (https://github.com/FRiCKLE/ngx_postgres, BSD-2)
-HTTP_POSTGRES_MODULE_PV="0.9"
+HTTP_POSTGRES_MODULE_PV="1.0rc1"
 HTTP_POSTGRES_MODULE_P="ngx_postgres-${HTTP_POSTGRES_MODULE_PV}"
-HTTP_POSTGRES_MODULE_SHA1="85b52b3"
+HTTP_POSTGRES_MODULE_SHA1="714081d"
 
 # NginX coolkit module (https://github.com/FRiCKLE/ngx_coolkit, BSD-2)
 HTTP_COOLKIT_MODULE_PV="0.2rc1"
@@ -237,14 +237,20 @@ CDEPEND="
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
-	nginx_modules_http_ctpp? ( www-apps/ctpp2 sys-devel/gcc:4.6 )
+	nginx_modules_http_ctpp? ( www-apps/ctpp2 >=sys-devel/gcc-4.6 )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
-	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) )
+	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5 ) )
 	nginx_modules_http_passenger? (
-		$(ruby_implementation_depend ruby18)
+		|| (
+			$(ruby_implementation_depend ruby19)
+			$(ruby_implementation_depend ruby18)
+			$(ruby_implementation_depend ree18)
+			$(ruby_implementation_depend jruby)
+			$(ruby_implementation_depend rbx)
+		)
 		>=dev-ruby/rubygems-0.9.0
 		>=dev-ruby/rake-0.8.1
 		>=dev-ruby/fastthread-1.0.1
