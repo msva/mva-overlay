@@ -89,8 +89,7 @@ src_configure() {
 }
 
 src_compile() {
-	default
-
+	emake LUA_INSTALL_CMOD="/usr/$(get_libdir)/lua/5.1" LUA_INSTALL_LMOD="/usr/share/lua/5.1/" || die "make install failed"
 	use python && distutils_src_compile
 }
 
