@@ -3,6 +3,9 @@
 # $Header: $
 
   13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> rrdtool-1.4.7.ebuild:
+  bump
+
+  13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> rrdtool-1.4.7.ebuild:
   rrdtool lua fix
 
 *rrdtool-1.4.7 (13 Jul 2012)

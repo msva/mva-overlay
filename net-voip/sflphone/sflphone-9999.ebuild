@@ -4,7 +4,7 @@
 
 EAPI="4"
 
-inherit autotools eutils git-2
+inherit autotools eutils cmake-utils git-2
 
 DESCRIPTION="SFLphone is a robust standards-compliant enterprise softphone, for desktop and embedded systems."
 HOMEPAGE="http://www.sflphone.org/"
@@ -13,7 +13,7 @@ SRC_URI=""
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug doxygen dbus gnome gsm networkmanager speex static-libs iax kde cli celt pulseaudio"
+IUSE="debug doxygen dbus gnome +gsm networkmanager +speex +portaudio static-libs iax kde cli celt pulseaudio"
 
 # USE="-iax" does not work in 1.0.1. Upstream problem. (not tested on 1.0.2)
 
@@ -24,6 +24,7 @@ CDEPEND="dev-cpp/commoncpp2
 	dev-libs/libpcre
 	dev-libs/libyaml
 	media-libs/alsa-lib
+	portaudio? ( media-libs/portaudio )
 	celt? ( media-libs/celt )
 	media-libs/libsamplerate
 	pulseaudio? ( media-sound/pulseaudio )
@@ -65,43 +66,97 @@ src_prepare() {
 		ewarn "No clients selected. It will be daemon-only installation."
 	fi
 
-	sed -i -e 's/unpad=paren/unpad-paren/' astylerc || die "sed failed."
-	cd daemon
-	#remove "target" from lib-names, remove dep to shipped pjsip
-	sed -i -e 's/-$(target)//' \
-		-e '/^\t\t\t-L/ d' \
-		-e 's!include $(src)/libs/pjproject!LDFLAGS+=-I/usr/include!' \
-		globals.mak || die "sed failed."
-	#respect CXXFLAGS
-	sed -i -e 's/CXXFLAGS="-g/CXXFLAGS="-g $CXXFLAGS /' \
-		configure.ac || die "sed failed."
-	rm -r libs/pjproject
-#	cd libs/pjproject
-#	mkdir -p m4
-#	eautoreconf
-	#workaround:
-	mkdir -p m4
+	AT_NO_RECURSIVE=yes
+
+	cd "${S}"/daemon
 	eautoreconf
+
+	use gnome && {
+		cd "${S}"/gnome
+		eautoreconf
+# evolution addressbook. Want libebook. Dunno, where to get it.
+#		cd "${S}"/plugins
+#		eautoreconf
+
+	}
+
+	#remove "target" from lib-names, remove dep to shipped pjsip
+#	sed -i -e 's/-$(target)//' \
+#		-e '/^\t\t\t-L/ d' \
+#		-e 's!include $(src)/libs/pjproject!LDFLAGS+=-I/usr/include!' \
+#		"${S}"/daemon/globals.mak || die "sed failed."
+#	#respect CXXFLAGS
+	sed -i -e 's/CXXFLAGS="-g/CXXFLAGS="-g $CXXFLAGS /' \
+		"${S}"/daemon/configure.ac || die "CXX sed failed."
+
+	# Temporary fix of cmake strangeness
+	use kde && sed -i -e 's:../src/lib/typedefs.h:../lib/typedefs.h:' \
+		"${S}"/kde/src/klib/kcfg_settings.kcfgc || die "kde fix failed."
 }
 
 src_configure() {
-	cd daemon
-	# $(use_with iax iax2) won't work (compilation failure)
-	econf
-# --disable-dependency-tracking $(use_with debug) \
-#		$(use_with gsm) $(use_with networkmanager) $(use_with speex) $(use_enable static-libs static) $(use_enable doxygen) --with-iax
-#$(use_with iax iax2) $(use_with celt)
+	cd "${S}"/daemon
+	econf $(use_with debug) \
+	--enable-video \
+	$(use_with pulseaudio pulse) \
+	$(use_with gsm) \
+	$(use_with networkmanager) \
+	$(use_with speex) \
+	$(use_enable static-libs static) \
+	$(use_enable doxygen) \
+	$(use_with iax iax2)
+
+	cd "${S}"/daemon/libs/pjproject
+	econf $(use_with speex external-speex) \
+	$(use_with gsm external-gsm) \
+	$(use_with portaudio external-pa)
+
+	use kde && {
+		cd "${S}"/kde
+		CMAKE_USE_DIR="${S}/kde"
+		CMAKE_IN_SOURCE_BUILD=yes
+		cmake-utils_src_configure
+	}
+	use gnome && {
+		cd "${S}"/gnome
+		econf
+#		cd "${S}"/plugins
+#		econf
+	}
+	use cli && echo "I don't know how to get cli to work :("
 }
 
 src_compile() {
-	cd daemon
+	cd "${S}"/daemon/libs/pjproject
+	emake -j1 || die "emake failed."
+	cd "${S}"/daemon
 	emake || die "emake failed."
+	use kde && {
+		cd "${S}"/kde
+		emake || die "emake failed."
+	}
+	use gnome && {
+		cd "${S}"/gnome
+		emake || die "emake failed."
+#		cd "${S}"/plugins
+#		emake || die "emake failed."
+	}
 }
 
 src_install() {
-	cd daemon
-	emake -j1 DESTDIR="${D}" install || die "emake install failed"
-	dodoc test/sflphonedrc-sample
+	cd "${S}"/daemon
+	emake DESTDIR="${D}" install || die "emake install failed"
+	dodoc "${S}"/daemon/test/sflphonedrc-sample
+	use kde && {
+		cd "${S}"/kde
+		emake DESTDIR="${D}" install || die "emake install failed"
+	}
+	use gnome && {
+		cd "${S}"/gnome
+		emake DESTDIR="${D}" install || die "emake install failed"
+#		cd "${S}"/plugins
+#		emake DESTDIR="${D}" install || die "emake install failed"
+	}
 }
 
 pkg_postinst() {
