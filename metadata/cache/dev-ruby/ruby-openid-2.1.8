@@ -1,0 +1,22 @@
+ruby_targets_ruby18? ( test? ( virtual/ruby-test-unit[ruby_targets_ruby18] ) ) ruby_targets_ruby19? ( test? ( virtual/ruby-test-unit[ruby_targets_ruby19] ) ) ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby19? ( dev-lang/ruby:1.9 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) ruby_targets_ruby19? ( virtual/rubygems[ruby_targets_ruby19] ) test? ( ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) ruby_targets_ruby19? ( virtual/rubygems[ruby_targets_ruby19] ) )
+ruby_targets_ruby18? ( dev-lang/ruby:1.8 ) ruby_targets_ruby19? ( dev-lang/ruby:1.9 ) ruby_targets_ruby18? ( virtual/rubygems[ruby_targets_ruby18] ) ruby_targets_ruby19? ( virtual/rubygems[ruby_targets_ruby19] )
+0
+mirror://rubygems/ruby-openid-2.1.8.gem
+
+http://ruby-openid.rubyforge.org/
+GPL-2
+A robust library for verifying and serving OpenID identities
+amd64 ~ppc x86 ~x86-macos
+eutils java-utils-2 multilib ruby-fakegem ruby-ng toolchain-funcs user versionator
+test elibc_FreeBSD ruby_targets_ruby18 ruby_targets_ruby19 test
+|| ( ruby_targets_ruby18 ruby_targets_ruby19 )
+
+
+4
+
+compile configure install prepare setup test unpack
+
+
+
+
+
