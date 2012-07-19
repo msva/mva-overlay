@@ -30,7 +30,7 @@ ruby_add_rdepend "virtual/ruby-ssl
 	fastcgi? ( dev-ruby/ruby-fcgi )
 	imagemagick? ( >=dev-ruby/rmagick-2 )
 	ldap? ( >=dev-ruby/ruby-net-ldap-0.3.1 )
-	openid? ( >=dev-ruby/ruby-openid-2.1.4 )
+	openid? ( >=dev-ruby/ruby-openid-2.1.4 dev-ruby/rack-openid )
 	ruby_targets_ruby18? (
 		>=dev-ruby/fastercsv-1.5
 		postgres? ( >=dev-ruby/pg-0.11 )
