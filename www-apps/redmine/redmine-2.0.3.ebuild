@@ -85,6 +85,11 @@ all_ruby_prepare() {
 }
 
 all_ruby_install() {
+	local REDMINE_USER REDMINE_GROUP
+	REDMINE_USER="${HTTPD_USER:-redmine}"
+	REDMINE_GROUP="${HTTPD_GROUP:-redmine}"
+
+	use ldap || rm app/models/auth_source_ldap.rb
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
 	rm -fr doc || die
 	dodoc README.rdoc || die
@@ -98,14 +103,14 @@ all_ruby_install() {
 	keepdir "${REDMINE_DIR}/files" || die
 	keepdir "${REDMINE_DIR}/public/plugin_assets" || die
 
-	fowners -R redmine:redmine \
+	fowners -R "${REDMINE_USER}:${REDMINE_GROUP}" \
 		"${REDMINE_DIR}/config" \
 		"${REDMINE_DIR}/files" \
 		"${REDMINE_DIR}/public/plugin_assets" \
 		"${REDMINE_DIR}/tmp" \
 		/var/log/${PN} || die
 	# for SCM
-	fowners redmine:redmine "${REDMINE_DIR}" || die
+	fowners "${REDMINE_USER}:${REDMINE_GROUP}" "${REDMINE_DIR}" || die
 	# bug #406605
 	fperms -R go-rwx \
 		"${REDMINE_DIR}/config" \
@@ -121,7 +126,7 @@ all_ruby_install() {
 		newconfd "${FILESDIR}/${PN}.confd" ${PN} || die
 		newinitd "${FILESDIR}/${PN}.initd" ${PN} || die
 		keepdir /var/run/${PN} || die
-		fowners -R redmine:redmine /var/run/${PN} || die
+		fowners -R "${REDMINE_USER}:${REDMINE_GROUP}" /var/run/${PN} || die
 		dosym /var/run/${PN}/ "${REDMINE_DIR}/tmp/pids" || die
 	fi
 	doenvd "${T}/50${PN}" || die
@@ -142,7 +147,7 @@ pkg_postinst() {
 		elog "# cd ${EPREFIX}${REDMINE_DIR}"
 		elog "# cp config/database.yml.example config/database.yml"
 		elog "# \${EDITOR} config/database.yml"
-		elog "# chown redmine:redmine config/database.yml"
+		elog "# chown "${REDMINE_USER}:${REDMINE_GROUP}" config/database.yml"
 		elog "# emerge --config \"=${CATEGORY}/${PF}\""
 		elog
 		elog "Installation notes are at official site"
@@ -189,7 +194,7 @@ pkg_config() {
 		einfo "If you use sqlite3. please do not forget to change the ownership of the sqlite files."
 		einfo
 		einfo "# cd \"${EPREFIX}${REDMINE_DIR}\""
-		einfo "# chown redmine:redmine db/ db/*.sqlite3"
+		einfo "# chown "${REDMINE_USER}:${REDMINE_GROUP}" db/ db/*.sqlite3"
 		einfo
 	fi
 }
