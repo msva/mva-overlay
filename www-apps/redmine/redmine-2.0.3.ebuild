@@ -67,18 +67,18 @@ RDEPEND="${RDEPEND}
 REDMINE_DIR="/var/lib/${PN}"
 
 pkg_setup() {
-	enewgroup redmine
+	enewgroup "${HTTPD_GROUP:-redmine}"
 	# home directory is required for SCM.
-	enewuser redmine -1 -1 "${REDMINE_DIR}" redmine
+	enewuser "${HTTPD_USER-redmine}" -1 -1 "${REDMINE_DIR}" "${HTTPD_USER:-redmine}"
 }
 
 all_ruby_prepare() {
 	rm -r log files/delete.me || die
 
-	# bug #406605
-	rm .gitignore .hgignore || die
-
-	rm Gemfile config/preinitializer.rb || die
+#	# bug #406605
+#	rm .gitignore .hgignore || die
+#
+#	rm Gemfile config/preinitializer.rb || die
 
 	echo "CONFIG_PROTECT=\"${EPREFIX}${REDMINE_DIR}/config\"" > "${T}/50${PN}"
 	echo "CONFIG_PROTECT_MASK=\"${EPREFIX}${REDMINE_DIR}/config/locales ${EPREFIX}${REDMINE_DIR}/config/settings.yml\"" >> "${T}/50${PN}"
