@@ -60,9 +60,9 @@ HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="bc97eea"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
-HTTP_LUA_MODULE_PV="0.5.7rc1"
+HTTP_LUA_MODULE_PV="0.5.11"
 HTTP_LUA_MODULE_P="lua-nginx-module-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="6d67fc4"
+HTTP_LUA_MODULE_SHA1="f0efac2"
 
 # NginX Lua module (https://github.com/chaoslawful/drizzle-nginx-module, BSD)
 HTTP_DRIZZLE_MODULE_PV="0.1.2rc7"
