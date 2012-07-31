@@ -1,0 +1,12 @@
+diff -Naur a/acinclude.m4 b/acinclude.m4
+--- a/acinclude.m4	2010-09-01 09:30:36.000000000 -0400
++++ b/acinclude.m4	2011-07-09 23:57:49.734641040 -0400
+@@ -805,8 +805,6 @@
+ AC_DEFUN([CLEANUP],
+ [
+ 	# CFLAGS/CXXFLAGS may well contain unwanted settings, so clear them.
+-	CFLAGS=""
+-	CXXFLAGS=""
+ ])
+ 
+ #########################

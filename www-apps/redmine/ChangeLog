@@ -2,6 +2,31 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  21 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> redmine-2.0.3.ebuild:
+  redmine fix
+
+  21 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> redmine-2.0.3.ebuild:
+  redmine fix
+
+  19 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> redmine-2.0.3.ebuild:
+  redmine fix
+
+  19 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> redmine-2.0.3.ebuild:
+  redmine fix
+
+  19 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> redmine-2.0.3.ebuild:
+  redmine fix
+
+  19 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  -files/redmine-1.4.1-bundler.patch, redmine-2.0.3.ebuild:
+  redmine fix
+
+*redmine-2.0.3 (19 Jul 2012)
+
+  19 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -redmine-2.0.0.ebuild,
+  +redmine-2.0.3.ebuild:
+  redbine bump. sflphone fix
+
 *redmine-2.0.0 (24 May 2012)
 
   24 May 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -redmine-1.4.1.ebuild,

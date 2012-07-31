@@ -1,0 +1,64 @@
+--- pgadmin3-1.14.0-rc1.orig/acinclude.m4	2011-06-28 13:44:29.000000000 +0000
++++ pgadmin3-1.14.0-rc1/acinclude.m4	2011-09-05 21:10:03.222953210 +0000
+@@ -406,6 +406,13 @@
+ 		PGSQL_OLD_LDFLAGS="$LDFLAGS"
+ 		PGSQL_OLD_CPPFLAGS="$CPPFLAGS"
+ 
++		PG_INCLUDE=`${PG_CONFIG} --includedir` 
++        PG_SVRINCLUDE=`${PG_CONFIG} --includedir-server`
++		PG_PKGINCLUDE=`${PG_CONFIG} --pkgincludedir`
++		CPPFLAGS="$CPPFLAGS -I${PG_INCLUDE} -I${PG_SVRINCLUDE} -I${PG_PKGINCLUDE}"
++	
++		PG_VERSION=`${PG_CONFIG} --version`
++
+ 		AC_LANG_SAVE    
+ 		AC_LANG_C	       
+ 		AC_CHECK_LIB(ssl, SSL_library_init, [LIB_SSL=yes], [LIB_SSL=no])
+@@ -477,33 +484,7 @@
+ 		if test "$LIB_SSL" = "yes"
+ 		then
+ 		# Check for SSL support
+-		if test "$BUILD_STATIC" = "yes"
+-		then
+-			AC_MSG_CHECKING(for SSL_connect in libpq.a)
+-			if test "$(nm ${PG_LIB}/libpq.a | grep -c SSL_connect)" -gt 0
+-			then
+-				AC_MSG_RESULT(present)
+-				PG_SSL="yes"
+-			else   
+-				AC_MSG_RESULT(not present)
+-				PG_SSL="no"
+-			fi
+-		else
+-			if test "$build_cpu-$build_vendor" = "powerpc-apple" -o "$build_cpu-$build_vendor" = "i386-apple" -o "$build_cpu-$build_vendor" = "i686-apple"
+-			then
+-				AC_MSG_CHECKING(for SSL_connect in -lpq)
+-				if test "$(otool -L ${PG_LIB}/libpq.?.dylib | grep -c libssl)" -gt 0
+-				then
+-					AC_MSG_RESULT(present)
+-					PG_SSL="yes"
+-				else
+-					AC_MSG_RESULT(not present)
+-					PG_SSL="no"
+-				fi
+-			else
+-				AC_CHECK_LIB(pq, SSL_connect, [PG_SSL=yes], [PG_SSL=no])
+-			fi
+-		fi
++			AC_CHECK_DECL([USE_SSL], [PG_SSL=yes], [PG_SSL=no], [[#include <pg_config.h>]])
+ 		else
+ 			PG_SSL="no"
+ 		fi
+@@ -547,12 +528,6 @@
+ 
+ 		AC_LANG_RESTORE
+ 
+-		PG_INCLUDE=`${PG_CONFIG} --includedir` 
+-        PG_SVRINCLUDE=`${PG_CONFIG} --includedir-server`
+-		PG_PKGINCLUDE=`${PG_CONFIG} --pkgincludedir`
+-		CPPFLAGS="$CPPFLAGS -I${PG_INCLUDE} -I${PG_SVRINCLUDE} -I${PG_PKGINCLUDE}"
+-	
+-		PG_VERSION=`${PG_CONFIG} --version`
+ 
+ 		if test "$build_os" = "mingw32"
+ 		then

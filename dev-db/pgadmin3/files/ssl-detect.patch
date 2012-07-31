@@ -1,0 +1,43 @@
+diff -Naur a/acinclude.m4 b/acinclude.m4
+--- a/acinclude.m4	2011-04-15 09:12:01.000000000 -0400
++++ b/acinclude.m4	2011-07-10 16:09:46.405593411 -0400
+@@ -476,19 +476,7 @@
+ 
+ 		if test "$LIB_SSL" = "yes"
+ 		then
+-		# Check for SSL support
+-		if test "$BUILD_STATIC" = "yes"
+-		then
+-			AC_MSG_CHECKING(for SSL_connect in libpq.a)
+-			if test "$(nm ${PG_LIB}/libpq.a | grep -c SSL_connect)" -gt 0
+-			then
+-				AC_MSG_RESULT(present)
+-				PG_SSL="yes"
+-			else   
+-				AC_MSG_RESULT(not present)
+-				PG_SSL="no"
+-			fi
+-		else
++			# Check for SSL support
+ 			if test "$build_cpu-$build_vendor" = "powerpc-apple" -o "$build_cpu-$build_vendor" = "i386-apple" -o "$build_cpu-$build_vendor" = "i686-apple"
+ 			then
+ 				AC_MSG_CHECKING(for SSL_connect in -lpq)
+@@ -501,9 +489,16 @@
+ 					PG_SSL="no"
+ 				fi
+ 			else
+-				AC_CHECK_LIB(pq, SSL_connect, [PG_SSL=yes], [PG_SSL=no])
++				AC_MSG_CHECKING(for SSL_connect in libpq.a)
++				if test "$(nm ${PG_LIB}/libpq.a | grep -c SSL_connect)" -gt 0
++				then
++					AC_MSG_RESULT(present)
++					PG_SSL="yes"
++				else   
++					AC_MSG_RESULT(not present)
++					PG_SSL="no"
++				fi
+ 			fi
+-		fi
+ 		else
+ 			PG_SSL="no"
+ 		fi
