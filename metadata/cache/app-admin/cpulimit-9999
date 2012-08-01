@@ -1,4 +1,4 @@
-dev-vcs/subversion net-misc/rsync
+|| ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
 
 0
 

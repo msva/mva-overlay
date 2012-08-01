@@ -9,5 +9,5 @@ LICENSE=GPL-2 LGPL-2
 RDEPEND=dmalloc? ( dev-libs/dmalloc ) efence? ( dev-util/duma ) keyutils? ( sys-apps/keyutils ) xar? ( app-arch/xar ) dev-libs/beecrypt dev-libs/popt berkdb? ( sys-libs/db ) bzip2? ( app-arch/bzip2 ) lua? ( dev-lang/lua ) neon? ( net-libs/neon ) pcre? ( dev-libs/libpcre ) perl? ( dev-lang/perl ) python? ( dev-lang/python ) readline? ( sys-libs/readline ) selinux? ( sys-libs/libselinux ) sqlite? ( dev-db/sqlite ) xz? ( app-arch/xz-utils )
 SLOT=0
 SRC_URI=http://rpm5.org/files/rpm/rpm-5.4/SNAPSHOT/rpm-5.4.0-0.20101227.src.rpm
-_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	python	4152846e243ec207de8a1b02a36f1461	rpm	b94b54b44f14d6bee3e966c8f5c86fba	toolchain-funcs	87012e8fbee401b74b7e2bcbcd654141	user	d0a4d0735a6c0183d707ca919bd72f28	versionator	6601b4c5b3f019a993db59a50e1854e4
+_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	python	4152846e243ec207de8a1b02a36f1461	rpm	b94b54b44f14d6bee3e966c8f5c86fba	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28	versionator	6601b4c5b3f019a993db59a50e1854e4
 _md5_=b21dcfd39eb7e8f2e123bef407c35354

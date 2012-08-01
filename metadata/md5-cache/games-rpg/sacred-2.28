@@ -9,5 +9,5 @@ RDEPEND=x11-base/xorg-server >=x11-libs/gtk+-2.0.0 amd64? ( app-emulation/emul-l
 RESTRICT=mirror strip test
 SLOT=0
 SRC_URI=sacred.tar.bz2 iampirate? ( sacred_pirate.tar.bz2 ) linguas_ru? ( sacred_rus.tar.bz2 )
-_eclasses_=check-reqs	e25439e7f4ca914e41d6bb617caa564d	eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	87012e8fbee401b74b7e2bcbcd654141	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=check-reqs	e25439e7f4ca914e41d6bb617caa564d	eutils	327b713e2d6949c42cd96bc4898fd280	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=3edf77ed61e75520214daa2379c59502

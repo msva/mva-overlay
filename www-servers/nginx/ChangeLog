@@ -2,6 +2,15 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  31 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.2.ebuild:
+  Nginx metadata bump
+
+*nginx-1.3.4 (31 Jul 2012)
+
+  31 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -nginx-1.3.3.ebuild,
+  +nginx-1.3.4.ebuild:
+  Nginx bump
+
   13 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
   -files/passenger-3.0.12-contenthandler.patch,
   -files/passenger-3.0.12-gentoo.patch, -files/passenger-3.0.12-ldflags.patch,

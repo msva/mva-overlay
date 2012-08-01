@@ -1,4 +1,4 @@
-sys-libs/ncurses[unicode?] dev-vcs/subversion net-misc/rsync
+sys-libs/ncurses[unicode?] || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
 sys-libs/ncurses[unicode?]
 0
 

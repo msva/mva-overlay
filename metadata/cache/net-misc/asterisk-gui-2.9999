@@ -1,4 +1,4 @@
-net-misc/asterisk dev-vcs/subversion net-misc/rsync
+net-misc/asterisk || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
 net-misc/asterisk
 0
 
