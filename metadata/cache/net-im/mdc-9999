@@ -1,0 +1,22 @@
+>=dev-libs/boost-1.36 x11-libs/qt-gui x11-libs/qt-core notify? ( dev-cpp/gtkmm:2.4 x11-libs/libnotify ) test? ( dev-util/cppunit ) || ( dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+>=dev-libs/boost-1.36 x11-libs/qt-gui x11-libs/qt-core notify? ( dev-cpp/gtkmm:2.4 x11-libs/libnotify )
+0
+
+
+http://mdc.ru/
+GPL-2
+Multi-protocol instant messenger
+-*
+base eutils multilib qt4-r2 subversion toolchain-funcs user
+debug test notify
+
+
+
+4
+
+compile configure install preinst prepare unpack
+
+
+
+
+

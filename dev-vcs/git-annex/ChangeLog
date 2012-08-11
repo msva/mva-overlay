@@ -1,0 +1,13 @@
+# ChangeLog for dev-vcs/git-annex
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*git-annex-9999 (01 Aug 2012)
+*git-annex-3.20120721 (01 Aug 2012)
+
+  01 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  +files/git-annex-3.20120406-ghc-7.4.patch,
+  +files/git-annex-3.20120605-no-tf.patch, +git-annex-3.20120721.ebuild,
+  +git-annex-9999.ebuild, +metadata.xml:
+  working nginx ebuild + git-annex
+
