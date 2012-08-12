@@ -400,7 +400,7 @@ src_prepare() {
 	fi
 
 	if use nginx_modules_http_passenger; then
-		cd "${HTTP_PASSENGER_MODULE_WD}";
+		cd ../"${HTTP_PASSENGER_MODULE_P}";
 
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-gentoo.patch
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-ldflags.patch
