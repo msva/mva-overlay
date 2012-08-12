@@ -213,7 +213,7 @@ PAM_MODULE_WD="../${PAM_MODULE_P}"
 
 RRD_MODULE_PV="0.2.0"
 RRD_MODULE_P="mod_rrd_graph-${RRD_MODULE_PV}"
-RRD_MODULE_URI="http://wiki.nginx.org/images/9/9d/${RRD_MODULE_P/m/M}-${RRD_MODULE_PV}.tar.gz"
+RRD_MODULE_URI="http://wiki.nginx.org/images/9/9d/${RRD_MODULE_P/m/M}.tar.gz"
 RRD_MODULE_WD="../${RRD_MODULE_P}"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic
