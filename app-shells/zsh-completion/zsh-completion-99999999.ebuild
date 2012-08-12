@@ -18,7 +18,7 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	insinto /usr/share/zsh/site-functions
-	doins _*
+	doins src/*
 
 	dodoc README.md
 }

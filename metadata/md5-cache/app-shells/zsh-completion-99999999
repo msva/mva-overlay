@@ -7,4 +7,4 @@ LICENSE=ZSH
 RDEPEND=app-shells/zsh
 SLOT=0
 _eclasses_=git-2	15733ab6a6feb34af9837b41623c2bad
-_md5_=f4cedae6e238dd1aa35c9b91e957fde4
+_md5_=560f27687e4eb5eaaf3e605025fda466
