@@ -699,6 +699,7 @@ src_install() {
 		cd "${S}"/objs/src/http/modules/perl/
 		einstall DESTDIR="${D}" INSTALLDIRS=vendor || die "failed to install perl stuff"
 		fixlocalpod
+		cd "${S}"
 	fi
 
 # http_push
@@ -849,6 +850,7 @@ src_install() {
 	if use nginx_modules_http_passenger; then
 		cd "${HTTP_PASSENGER_MODULE_PV}"
 		rake fakeroot
+		cd "${S}"
 	fi
 
 	use chunk   && newdoc "${CHUNKIN_MODULE_WD}"/README README.chunkin
