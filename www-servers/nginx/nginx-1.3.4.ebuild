@@ -848,7 +848,7 @@ src_install() {
 
 # http_passenger
 	if use nginx_modules_http_passenger; then
-		cd "${HTTP_PASSENGER_MODULE_PV}"
+		cd "${HTTP_PASSENGER_MODULE_WD}"
 		rake fakeroot
 		cd "${S}"
 	fi
