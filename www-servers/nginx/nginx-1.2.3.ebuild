@@ -524,7 +524,7 @@ src_configure() {
 # http_passenger
 	if use nginx_modules_http_passenger; then
 		http_enabled=1
-		myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}/ext/nginx"
+		myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}"
 	fi
 
 # http_push
