@@ -25,7 +25,7 @@ PATCHES=("${FILESDIR}"/fix_man_location.patch)
 src_configure() {
 	mycmakeargs=(
 		-DENABLE_OPTIMIZATION=OFF \
-		-DSKIP_RELINK_RPATH=ON
+		-DSKIP_RELINK_RPATH=ON \
 		$(cmake-utils_use debug DEBUG) \
 		$(cmake-utils_use md5 MD5_SUPPORT)\
 		$(cmake-utils_use iconv ICONV_SUPPORT)
