@@ -1,42 +1,12 @@
 # ChangeLog for media-libs/libquvi
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/libquvi/ChangeLog,v 1.11 2012/08/04 19:52:50 radhermit Exp $
+# $Header: $
 
-  04 Aug 2012; Tim Harder <radhermit@gentoo.org> -libquvi-0.4.0.ebuild:
-  Remove old.
+*libquvi-0.4.1 (23 Aug 2012)
 
-  03 Aug 2012; Markos Chandras <hwoarang@gentoo.org> libquvi-0.4.1.ebuild:
-  Stable on amd64 wrt bug #419089
-
-  01 Aug 2012; Jeff Horelick <jdhore@gentoo.org> libquvi-0.4.1.ebuild:
-  marked x86 per bug 419089
-
-  05 May 2012; Jeff Horelick <jdhore@gentoo.org> libquvi-0.4.0.ebuild,
-  libquvi-0.4.1.ebuild:
-  dev-util/pkgconfig -> virtual/pkgconfig
-
-*libquvi-0.4.1 (26 Mar 2012)
-
-  26 Mar 2012; Tim Harder <radhermit@gentoo.org> +libquvi-0.4.1.ebuild:
-  Version bump.
-
-  14 Dec 2011; Agostino Sarubbo <ago@gentoo.org> libquvi-0.4.0.ebuild:
-  Stable for AMD64, wrt bug #393409
-
-  14 Dec 2011; Pawel Hajdan jr <phajdan.jr@gentoo.org> libquvi-0.4.0.ebuild:
-  x86 stable wrt bug #393409
-
-  28 Nov 2011; Tim Harder <radhermit@gentoo.org> libquvi-0.4.0.ebuild:
-  Fix autotools-utils usage (bug #392151).
-
-  27 Nov 2011; Tim Harder <radhermit@gentoo.org> libquvi-0.4.0.ebuild:
-  Build in the source tree.
-
-  10 Oct 2011; Tim Harder <radhermit@gentoo.org> libquvi-0.4.0.ebuild:
-  Block <quvi-0.4.0 due to file collisions (bug #386645).
-
-*libquvi-0.4.0 (10 Oct 2011)
-
-  10 Oct 2011; Tim Harder <radhermit@gentoo.org> +libquvi-0.4.0.ebuild,
+  23 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +libquvi-0.4.1.ebuild,
   +metadata.xml:
-  Initial import.
+  some yummy ebuilds
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+

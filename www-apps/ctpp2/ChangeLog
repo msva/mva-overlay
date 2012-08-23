@@ -2,6 +2,11 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  23 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> ctpp2-2.7.1.ebuild:
+  some yummy ebuilds
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
   30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> ctpp2-2.7.1.ebuild,
   ctpp2-2.8.ebuild:
   BUMP! (sorry for bunch-commit again. I still save no time to clean overlay

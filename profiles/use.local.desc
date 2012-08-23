@@ -2,6 +2,7 @@
 # your descriptions to your package's metadata.xml ONLY.
 # * generated automatically using egencache *
 
+app-antivirus/bitdefender-scanner:gtk - Enable the graphical user interface based on x11-libs/gtk+
 app-arch/rpm:dmalloc - 
 app-arch/rpm:efence - 
 app-arch/rpm:keyutils - 
@@ -83,6 +84,8 @@ net-analyzer/nmap:ndiff - Install the ndiff utility
 net-analyzer/nmap:nmap-update - Install nmap-update, which uses dev-vcs/subversion to update nmap scripts in your home directory
 net-analyzer/nmap:nping - Install the nping utility
 net-analyzer/rrdtool:rrdcgi - Build rrdcgi support
+net-dns/dnsmasq:dhcp - Enable support for reading ISC DHCPd lease files
+net-dns/dnsmasq:tftp - Enables built in TFTP server for netbooting
 net-voip/sflphone:doxygen - Support for building documentation with doxygen
 net-voip/sflphone:iax - Support for IAX (Inter Asterisk eXchange)
 sys-process/htop:openvz - Enable openvz support

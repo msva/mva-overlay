@@ -2,6 +2,56 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.3.ebuild,
+  nginx-1.3.4.ebuild:
+  some fixes to NgX src_install
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.3.ebuild,
+  nginx-1.3.4.ebuild:
+  some fixes to NgX src_install
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.3.ebuild,
+  nginx-1.3.4.ebuild:
+  fixed passenger
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.3.ebuild,
+  nginx-1.3.4.ebuild:
+  fixed passenger
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.3.ebuild,
+  nginx-1.3.4.ebuild:
+  fixed passenger
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.3.ebuild,
+  nginx-1.3.4.ebuild:
+  fixed mod_rrd once more
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.2.3.ebuild,
+  nginx-1.3.4.ebuild:
+  fixed mod_rrd path
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+*nginx-1.2.3 (12 Aug 2012)
+
+  12 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -nginx-1.2.2.ebuild,
+  +nginx-1.2.3.ebuild, nginx-1.3.4.ebuild:
+  fixed and bumped NginX
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
   01 Aug 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> nginx-1.3.4.ebuild:
   working nginx ebuild + git-annex
 

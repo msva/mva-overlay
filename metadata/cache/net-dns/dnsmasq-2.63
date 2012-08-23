@@ -1,0 +1,22 @@
+dbus? ( sys-apps/dbus ) idn? ( net-dns/libidn ) lua? ( dev-lang/lua ) conntrack? ( net-libs/libnetfilter_conntrack ) nls? ( sys-devel/gettext net-dns/libidn ) virtual/pkgconfig || ( app-arch/xz-utils app-arch/lzma ) systemd? ( >=sys-apps/systemd-184 ) !<sys-apps/systemd-29-r4 !=sys-apps/systemd-37-r1
+dbus? ( sys-apps/dbus ) idn? ( net-dns/libidn ) lua? ( dev-lang/lua ) conntrack? ( net-libs/libnetfilter_conntrack ) nls? ( sys-devel/gettext net-dns/libidn )
+0
+http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.63.tar.xz
+
+http://www.thekelleys.org.uk/dnsmasq/
+|| ( GPL-2 GPL-3 )
+Small forwarding DNS server
+~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~sparc-fbsd ~x86-fbsd
+eutils flag-o-matic multilib systemd toolchain-funcs user
+conntrack dbus +dhcp idn ipv6 lua nls script tftp systemd
+lua? ( script )
+
+
+4
+
+compile configure install postinst prepare setup
+
+
+
+
+
