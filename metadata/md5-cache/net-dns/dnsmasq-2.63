@@ -1,14 +1,14 @@
 DEFINED_PHASES=compile configure install postinst prepare setup
-DEPEND=dbus? ( sys-apps/dbus ) idn? ( net-dns/libidn ) lua? ( dev-lang/lua ) conntrack? ( net-libs/libnetfilter_conntrack ) nls? ( sys-devel/gettext net-dns/libidn ) virtual/pkgconfig || ( app-arch/xz-utils app-arch/lzma ) systemd? ( >=sys-apps/systemd-184 ) !<sys-apps/systemd-29-r4 !=sys-apps/systemd-37-r1
+DEPEND=dbus? ( sys-apps/dbus ) idn? ( net-dns/libidn ) lua? ( || ( =dev-lang/lua-5.1* dev-lang/luajit:2 ) ) conntrack? ( net-libs/libnetfilter_conntrack ) nls? ( sys-devel/gettext net-dns/libidn ) virtual/pkgconfig || ( app-arch/xz-utils app-arch/lzma ) systemd? ( >=sys-apps/systemd-184 ) !<sys-apps/systemd-29-r4 !=sys-apps/systemd-37-r1
 DESCRIPTION=Small forwarding DNS server
 EAPI=4
 HOMEPAGE=http://www.thekelleys.org.uk/dnsmasq/
 IUSE=conntrack dbus +dhcp idn ipv6 lua nls script tftp systemd
 KEYWORDS=~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~sparc-fbsd ~x86-fbsd
 LICENSE=|| ( GPL-2 GPL-3 )
-RDEPEND=dbus? ( sys-apps/dbus ) idn? ( net-dns/libidn ) lua? ( dev-lang/lua ) conntrack? ( net-libs/libnetfilter_conntrack ) nls? ( sys-devel/gettext net-dns/libidn )
+RDEPEND=dbus? ( sys-apps/dbus ) idn? ( net-dns/libidn ) lua? ( || ( =dev-lang/lua-5.1* dev-lang/luajit:2 ) ) conntrack? ( net-libs/libnetfilter_conntrack ) nls? ( sys-devel/gettext net-dns/libidn )
 REQUIRED_USE=lua? ( script )
 SLOT=0
 SRC_URI=http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.63.tar.xz
 _eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	multilib	5782800349f728f725f9378105c6a2ab	systemd	70a153740015c3457222dbdd8e07c1f7	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
-_md5_=9dc7a108f6c08c6b56bc40f70d9407c5
+_md5_=81ee6d0dfd266308fb433bb294902b2a

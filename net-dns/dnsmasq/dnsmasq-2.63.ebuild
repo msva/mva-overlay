@@ -19,7 +19,7 @@ IUSE="conntrack dbus +dhcp idn ipv6 lua nls script tftp systemd"
 
 RDEPEND="dbus? ( sys-apps/dbus )
 	idn? ( net-dns/libidn )
-	lua? ( dev-lang/lua )
+	lua? ( || ( =dev-lang/lua-5.1* dev-lang/luajit:2 ) )
 	conntrack? ( net-libs/libnetfilter_conntrack )
 	nls? (
 		sys-devel/gettext
