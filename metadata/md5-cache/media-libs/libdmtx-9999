@@ -1,0 +1,10 @@
+DEFINED_PHASES=configure install unpack
+DEPEND=dev-vcs/git
+DESCRIPTION=Barcode data matrix reading and writing library
+EAPI=4
+HOMEPAGE=http://www.libdmtx.org/
+IUSE=static-libs
+LICENSE=LGPL-2.1
+SLOT=0
+_eclasses_=git-2	15733ab6a6feb34af9837b41623c2bad
+_md5_=3088f4fa57c2f8634269d3ca8eadba2a

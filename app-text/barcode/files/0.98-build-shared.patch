@@ -1,0 +1,66 @@
+diff -Naur barcode-0.98.orig/Makefile.in barcode-0.98/Makefile.in
+--- barcode-0.98.orig/Makefile.in	2009-11-20 19:44:08.685484125 +0100
++++ barcode-0.98/Makefile.in	2009-11-20 20:05:20.095392515 +0100
+@@ -3,12 +3,13 @@
+ #
+ 
+ CC = @CC@
+-CFLAGS = @CFLAGS@ @DEFS@ @NO_GETOPT@ @NO_LIBPAPER@ @NO_STRERROR@
++CFLAGS = @CFLAGS@ -fPIC @DEFS@ @NO_GETOPT@ @NO_LIBPAPER@ @NO_STRERROR@
+ RANLIB = @RANLIB@
++LN = ln -sf
+ 
+ INSTALL = @INSTALL@
+ 
+-LDFLAGS = -L. -l$(TARGET) @LIBPAPER@
++LIBS = -L. -l$(TARGET) @LIBPAPER@
+ 
+ prefix = @prefix@
+ BINDIR = $(prefix)/bin
+@@ -23,6 +24,7 @@
+ 
+ TARGET = barcode
+ LIBRARY = lib$(TARGET).a
++SOLIBRARY = lib$(TARGET).so.0
+ MAN1 = $(TARGET).1
+ MAN3 = $(TARGET).3
+ INFO = doc/$(TARGET).info
+@@ -38,13 +40,13 @@
+ #Hmm... "RM" is undefined in pmake
+ RM = rm
+ 
+-all: $(TARGET) $(LIBRARY) $(MAN1) $(MAN3) $(INFO) sample
++all: $(TARGET) $(SOLIBRARY) $(LIBRARY) $(MAN1) $(MAN3) $(INFO) sample
+ 
+-$(TARGET): $(LIBRARY) $(EXEOBJECTS)
+-	$(CC) $(CFLAGS) $(EXEOBJECTS) $(LDFLAGS) -o $(TARGET)
++$(TARGET): $(SOLIBRARY) $(EXEOBJECTS)
++	$(CC) $(CFLAGS) $(LDFLAGS) $(EXEOBJECTS) $(LIBS) -o $(TARGET)
+ 
+ sample: sample.o $(LIBRARY)
+-	$(CC) $(CFLAGS) sample.o $(LDFLAGS) -o $@ 
++	$(CC) $(CFLAGS) $(LDFLAGS) sample.o $(LIBS) -o $@ 
+ 
+ # Avoid the standard CFLAGS, to avoid -Wall and -DNO_GETOPT
+ compat/getopt.o: compat/getopt.c
+@@ -54,6 +56,10 @@
+ 	$(AR) r $(LIBRARY) $(LIBOBJECTS)
+ 	$(RANLIB) $(LIBRARY)
+ 
++$(SOLIBRARY): $(LIBOBJECTS)
++	$(CC) -shared -Wl,-soname,$(SOLIBRARY) $(CFLAGS) $(LDFLAGS) $(LIBOBJECTS) @LIBPAPER@ -o $(SOLIBRARY)
++	$(LN) $(SOLIBRARY) lib$(TARGET).so
++
+ $(MAN1) $(MAN3): doc/doc.$(TARGET)
+ 	awk -f doc/manpager doc/doc.$(TARGET)
+ 
+@@ -67,7 +73,8 @@
+ 		$(MAN3DIR) $(INFODIR)
+ 	$(INSTALL) -c $(TARGET) $(BINDIR)
+ 	$(INSTALL) -c -m 0644 $(HEADER) $(INCDIR)
+-	$(INSTALL) -c -m 0644  $(LIBRARY) $(LIBDIR)
++	$(INSTALL) -c -m 0644  $(LIBRARY) $(SOLIBRARY) $(LIBDIR)
++	$(LN) $(SOLIBRARY) $(LIBDIR)/lib$(TARGET).so
+ 	$(INSTALL) -c -m 0644  $(MAN1) $(MAN1DIR)
+ 	$(INSTALL) -c -m 0644  $(MAN3) $(MAN3DIR)
+ 	$(INSTALL) -c -m 0644  $(INFO) $(INFODIR)

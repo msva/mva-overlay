@@ -7,5 +7,5 @@ IUSE=static-libs +doc
 LICENSE=LGPL-2.1 MIT
 RDEPEND=~dev-libs/libgpg-error-9999
 SLOT=0
-_eclasses_=eutils	327b713e2d6949c42cd96bc4898fd280	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	5782800349f728f725f9378105c6a2ab	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	f98a70ed99fbfc479df6694dc8af82ac	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=dc14d172ea6fa62824328411df91f6e1

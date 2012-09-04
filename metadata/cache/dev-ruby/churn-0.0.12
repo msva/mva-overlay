@@ -8,7 +8,7 @@ MIT
 A Project to give the churn file, class, and method for a project for a given checkin.
 ~amd64
 eutils java-utils-2 multilib ruby-fakegem ruby-ng toolchain-funcs user versionator
-test elibc_FreeBSD ruby_targets_ruby18 doc doc test test
+test elibc_FreeBSD ruby_targets_ruby18 doc test test
 || ( ruby_targets_ruby18 )
 
 

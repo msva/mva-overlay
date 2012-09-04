@@ -1,0 +1,22 @@
+dev-lang/php media-libs/libdmtx dev-vcs/git || ( >=sys-devel/automake-1.11.1:1.11 >=sys-devel/automake-1.12:1.12 ) >=sys-devel/autoconf-2.68 sys-devel/libtool >=sys-devel/m4-1.4.3 >=sys-devel/libtool-1.5.18 php_targets_php5-3? ( dev-lang/php:5.3 )
+dev-lang/php media-libs/libdmtx || ( =dev-php/php-dmtx-9999[php_targets_php5-3] ) php_targets_php5-3? ( dev-lang/php:5.3 )
+0
+
+
+https://github.com/mkoppanen/php-dmtx
+PHP-3.01
+PHP bindings for the dmtx library
+
+autotools eutils flag-o-matic git-2 libtool multilib multiprocessing php-ext-source-r2 toolchain-funcs user
+php_targets_php5-3
+
+
+
+4
+
+compile configure install prepare unpack
+
+
+
+
+

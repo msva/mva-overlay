@@ -1,0 +1,22 @@
+app-text/libpaper
+app-text/libpaper
+0
+mirror://gnu/barcode/barcode-0.98.tar.gz
+
+http://www.gnu.org/software/barcode/
+GPL-2
+barcode generator
+~amd64 ~arm ~ppc ~ppc64 ~x86
+eutils multilib toolchain-funcs user
+
+
+
+
+2
+
+configure install prepare
+
+
+
+
+
