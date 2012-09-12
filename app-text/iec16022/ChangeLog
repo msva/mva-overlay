@@ -1,11 +1,11 @@
-# ChangeLog for dev-php/php-dmtx
+# ChangeLog for app-text/iec16022
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*php-dmtx-9999 (04 Sep 2012)
+*iec16022-0.2.4 (04 Sep 2012)
 
-  04 Sep 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> +metadata.xml,
-  +php-dmtx-9999.ebuild:
+  04 Sep 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  +iec16022-0.2.4.ebuild:
   NginX bump + libdmtx-related
 
   Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>

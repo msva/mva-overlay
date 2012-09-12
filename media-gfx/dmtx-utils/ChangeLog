@@ -1,12 +1,12 @@
-# ChangeLog for app-text/barcode
+# ChangeLog for media-gfx/dmtx-utils
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-*barcode-0.98-r1 (04 Sep 2012)
+*dmtx-utils-9999 (04 Sep 2012)
+*dmtx-utils-0.7.4 (04 Sep 2012)
 
   04 Sep 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
-  +barcode-0.98-r1.ebuild, +files/0.98-build-shared.patch,
-  +files/0.98-info.patch, +metadata.xml:
+  +dmtx-utils-0.7.4.ebuild, +dmtx-utils-9999.ebuild, +metadata.xml:
   NginX bump + libdmtx-related
 
   Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
