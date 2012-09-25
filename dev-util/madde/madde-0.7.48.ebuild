@@ -28,7 +28,7 @@ RESTRICT="fetch mirror strip"
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-S=${WORKDIR}
+S="${WORKDIR}"
 
 my_p_setup() {
 	MY_P="${COMMON_SRC_URI##*/}"

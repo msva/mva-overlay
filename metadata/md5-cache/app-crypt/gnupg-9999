@@ -8,5 +8,5 @@ LICENSE=GPL-3
 RDEPEND=!static? ( ~dev-libs/libassuan-9999 ~dev-libs/libgcrypt-9999 ~dev-libs/libgpg-error-9999 ~dev-libs/libksba-9999 ~dev-libs/npth-9999 >=net-misc/curl-7.10 sys-libs/zlib adns? ( >=net-libs/adns-1.4 ) bzip2? ( app-arch/bzip2 ) readline? ( sys-libs/readline ) smartcard? ( usb? ( virtual/libusb:0 ) ) ldap? ( net-nds/openldap ) ) || ( app-crypt/pinentry app-crypt/pinentry-qt ) virtual/mta !<=app-crypt/gnupg-2.0.1 selinux? ( sec-policy/selinux-gpg ) nls? ( virtual/libintl )
 REQUIRED_USE=smartcard? ( !static )
 SLOT=0
-_eclasses_=eutils	f98a70ed99fbfc479df6694dc8af82ac	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	6e25eb368f2a449bd6f5f8b55eadba30	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	53a27e9e8acf42332c82a7838d84773f	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=c3df036ddbfd62efceb77e20f667b609

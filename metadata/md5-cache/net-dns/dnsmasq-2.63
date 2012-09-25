@@ -10,5 +10,5 @@ RDEPEND=dbus? ( sys-apps/dbus ) idn? ( net-dns/libidn ) lua? ( || ( =dev-lang/lu
 REQUIRED_USE=lua? ( script )
 SLOT=0
 SRC_URI=http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.63.tar.xz
-_eclasses_=eutils	f98a70ed99fbfc479df6694dc8af82ac	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	multilib	c2b85b5c63a44798c1e442147ac14c5c	systemd	552c9779ef210ba1c98f24b1e562addd	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	6e25eb368f2a449bd6f5f8b55eadba30	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	multilib	c2b85b5c63a44798c1e442147ac14c5c	systemd	552c9779ef210ba1c98f24b1e562addd	toolchain-funcs	53a27e9e8acf42332c82a7838d84773f	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=81ee6d0dfd266308fb433bb294902b2a

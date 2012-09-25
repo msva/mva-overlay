@@ -8,5 +8,5 @@ KEYWORDS=-*
 LICENSE=GPL-2
 RDEPEND=>=dev-libs/boost-1.36 x11-libs/qt-gui x11-libs/qt-core notify? ( dev-cpp/gtkmm:2.4 x11-libs/libnotify )
 SLOT=0
-_eclasses_=base	d40e074a6349af3ea5e937210630bdc1	eutils	f98a70ed99fbfc479df6694dc8af82ac	multilib	c2b85b5c63a44798c1e442147ac14c5c	qt4-r2	3f724d1082a722cce69ce795371b81a3	subversion	877d251a42b69543c01f6a36b4707b3b	toolchain-funcs	d3b5812eeab360bc41aa48b6cdbbc142	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=base	d40e074a6349af3ea5e937210630bdc1	eutils	6e25eb368f2a449bd6f5f8b55eadba30	multilib	c2b85b5c63a44798c1e442147ac14c5c	qt4-r2	3f724d1082a722cce69ce795371b81a3	subversion	877d251a42b69543c01f6a36b4707b3b	toolchain-funcs	53a27e9e8acf42332c82a7838d84773f	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=1c3179ed643d35733e7e4f4acc5f0ff7

@@ -5,7 +5,7 @@ kernel_linux? ( virtual/modutils )
 
 https://github.com/Lekensteyn/acpi-stuff
 GPL-2
-Based on the linux-mod eclass
+Few modules for ACPI debugging
 
 eutils git-2 linux-info linux-mod multilib toolchain-funcs user versionator
 kernel_linux
