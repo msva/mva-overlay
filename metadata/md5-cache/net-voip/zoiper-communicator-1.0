@@ -9,5 +9,5 @@ LICENSE=EULA
 RESTRICT=strip
 SLOT=0
 SRC_URI=x86? ( alsa? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-alsa_1.0-1ubuntu16_i386.deb ) oss? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-oss_1.0-1ubuntu16_i386.deb ) http://rion-overlay.googlecode.com/files/libavutil_x86.tbz2 ) amd64? ( alsa? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-alsa_1.0-1ubuntu12_amd64.deb ) oss? ( http://www.zoiper.com/downloads/free/linux/communicator/karmic/zoiper-communicator-free-oss_1.0-1ubuntu12_amd64.deb ) http://rion-overlay.googlecode.com/files/libavutil_amd64.tbz2 )
-_eclasses_=confutils	2ab69b52fa6ea0c0669a47fb94b354b4	eutils	6e25eb368f2a449bd6f5f8b55eadba30	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	53a27e9e8acf42332c82a7838d84773f	user	d0a4d0735a6c0183d707ca919bd72f28	wxwidgets	fb1a306837717dfa2af841ecdf929565
+_eclasses_=confutils	2ab69b52fa6ea0c0669a47fb94b354b4	eutils	0447741d6fd06d97d48995606c4cc6f8	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28	wxwidgets	fb1a306837717dfa2af841ecdf929565
 _md5_=e50b40c80234a8c4f2c7e918fcf87b25

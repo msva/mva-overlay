@@ -2,6 +2,12 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 Sep 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> madde-0.7.48.ebuild:
+  some stuff. bastion moved to gamerlay. LÖVE and mari0 and snayke moved to
+  lua overlay
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
   30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> madde-0.7.48.ebuild,
   metadata.xml:
   BUMP! (sorry for bunch-commit again. I still save no time to clean overlay
