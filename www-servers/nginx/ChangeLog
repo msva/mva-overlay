@@ -2,6 +2,15 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*nginx-1.3.7 (05 Oct 2012)
+*nginx-1.2.4 (05 Oct 2012)
+
+  05 Oct 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -nginx-1.2.3.ebuild,
+  +nginx-1.2.4.ebuild, -nginx-1.3.6.ebuild, +nginx-1.3.7.ebuild:
+  bump
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
 *nginx-1.3.6 (12 Sep 2012)
 
   12 Sep 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -nginx-1.3.5.ebuild,

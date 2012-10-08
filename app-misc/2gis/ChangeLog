@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*2gis-3.10.0.1 (07 Oct 2012)
+
+  07 Oct 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -2gis-3.7.0.1.ebuild,
+  +2gis-3.10.0.1.ebuild:
+  data] bump
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
 *2gis-3.7.0.1 (21 Jun 2012)
 
   21 Jun 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -2gis-3.5.5.1.ebuild,

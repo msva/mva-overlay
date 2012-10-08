@@ -16,7 +16,7 @@ DEPEND="app-arch/unzip"
 RDEPEND=">=app-misc/2gis-3.0.7.1"
 
 IUSE="venezia"
-SRC_URI="venezia? ( http://download.2gis.com/arhives/2GISData_Padova~it-2.0.6.zip )"
+SRC_URI="venezia? ( http://download.2gis.com/arhives/2GISData_Padova~it-6.0.0.zip )"
 
 S="${WORKDIR}"
 
@@ -34,8 +34,8 @@ my_add_town() {
 }
 
 # 20yy mm is the date of revision _0_.
-#my_add_town abakan Abakan 2012 7 #TOBE in July 2012
-my_add_town almaty Almaty 2012 5
+my_add_town abakan Abakan 2012 6
+my_add_town almaty Almaty 2012 4
 my_add_town arkhangelsk Arkhangelsk 2011 8
 my_add_town astrakhan Astrakhan 2005 11
 my_add_town barnaul Barnaul 2005 2
@@ -71,18 +71,20 @@ my_add_town novokuznetsk Novokuznetsk 2005 8
 my_add_town n_novgorod N_Novgorod 2008 9
 my_add_town novorossiysk Novorossiysk 2012 5
 my_add_town novosibirsk Novosibirsk 1998 9
+my_add_town norilsk Norilsk 2012 8
 my_add_town ntagil Ntagil 2011 6
 my_add_town nizhnevartovsk Nizhnevartovsk 2006 5
 my_add_town odessa Odessa 2007 2
 my_add_town omsk Omsk 2004 8
+#my_add_town orel Orel 2012 11 #TBD after release in 2012.11
 my_add_town orenburg Orenburg 2011 7
 my_add_town penza Penza 2011 4
 my_add_town perm Perm 2007 12
 my_add_town rostov Rostov 2010 3
 my_add_town ryazan Ryazan 2011 4
-my_add_town samama Samara 2008 7
+my_add_town samara Samara 2008 7
 my_add_town saratov Saratov 2011 4
-#my_add_town smolensk Smolensk #TOBE in May 2012 ## It is 21 June already, but they still not finished... :(
+my_add_town smolensk Smolensk 2012 6
 my_add_town sochi Sochi 2010 7
 my_add_town stavropol Stavropol 2011 12
 my_add_town staroskol Staroskol 2012 2
@@ -96,9 +98,10 @@ my_add_town togliatti Togliatti 2008 7
 my_add_town tomsk Tomsk 2004 12
 my_add_town tula Tula 2010 11
 my_add_town vladivostok Vladivostok 2010 3
-#my_add_town v_novgorod V_Novgorod 2012 7 #TOBE in July 2012
+my_add_town v_novgorod V_Novgorod 2012 7
 my_add_town vladimir Vladimir 2012 2
 my_add_town volgograd Volgograd 2010 9
+my_add_town vologda Vologda 2012 7
 my_add_town voronezh Voronezh 2010 7
 my_add_town ufa Ufa 2008 3
 my_add_town ulanude Ulanude 2011 1

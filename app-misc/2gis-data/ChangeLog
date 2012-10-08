@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*2gis-data-2012.10 (07 Oct 2012)
+
+  07 Oct 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
+  -2gis-data-2012.06.ebuild, +2gis-data-2012.10.ebuild:
+  [app-misc/2gis,-data] bump
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
 *2gis-data-2012.06 (21 Jun 2012)
 
   21 Jun 2012; Vadim A. Misbakh-Soloviov <mva@mva.name>
