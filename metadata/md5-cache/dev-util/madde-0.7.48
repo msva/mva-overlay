@@ -7,5 +7,5 @@ LICENSE=Nokia-SDK
 RESTRICT=fetch mirror strip
 SLOT=0
 SRC_URI=amd64? ( http://tablets-dev.nokia.com/install-madde-0.7.48-linux-x86_64.sh ) x86? ( http://tablets-dev.nokia.com/install-madde-0.7.48-linux-i686.sh )
-_eclasses_=eutils	0447741d6fd06d97d48995606c4cc6f8	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	2fd401453e32e8c9a676cd0361b82a5f	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=b5a1516f73d929de492e9c1dfb2d8524

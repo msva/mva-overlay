@@ -6,5 +6,5 @@ HOMEPAGE=https://github.com/Olga-Yakovleva/RHVoice
 KEYWORDS=~amd64 ~x86
 LICENSE=GPL-3
 SLOT=0
-_eclasses_=eutils	0447741d6fd06d97d48995606c4cc6f8	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	c2b85b5c63a44798c1e442147ac14c5c	scons-utils	988e24b9e2e4642189b4e97c03e5ae71	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	2fd401453e32e8c9a676cd0361b82a5f	git-2	15733ab6a6feb34af9837b41623c2bad	multilib	c2b85b5c63a44798c1e442147ac14c5c	scons-utils	988e24b9e2e4642189b4e97c03e5ae71	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=11c490b00f96f2a5af7cefd272a090cd

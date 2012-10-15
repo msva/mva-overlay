@@ -1,0 +1,23 @@
+Установка почти завершена! Всё, что Вам осталось сделать:
+
+  0. Настроить базу данных (например, MySQL: см.
+                       http://www.gentoo.org/doc/ru/mysql-howto.xml)
+    Так же, Вы можете использовать PostgreSQL.
+
+  1. Зайдите на http://${VHOST_HOSTNAME}/${VHOST_APPDIR}
+     и закончите инсталляцию.
+
+
+  2. Зайдите в директорию, куда Вы устанавливали "Joomla!" и удалите
+     директорию "installation":
+
+  # cd ${MY_INSTALLDIR}
+  # rm -rf installation
+
+  3. Теперь Вы можете зайти на Ваш сайт, например
+
+  http://${VHOST_HOSTNAME}/${VHOST_APPDIR} -> Основной сайт
+  http://${VHOST_HOSTNAME}/${VHOST_APPDIR}/administrator -> Админ-панель
+
+  Вы можете зайти в админ-панель с именем пользователя 'admin' и
+  паролем, который выбрали при веб-инсталляции.

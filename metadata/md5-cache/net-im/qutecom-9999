@@ -8,5 +8,5 @@ KEYWORDS=~amd64 ~x86
 LICENSE=GPL-2
 RDEPEND=dev-libs/boost dev-libs/glib dev-libs/openssl alsa? ( media-libs/alsa-lib ) media-libs/libsamplerate media-libs/libsndfile portaudio? ( media-libs/portaudio ) media-libs/speex net-im/pidgin[gnutls] net-libs/gnutls >=net-libs/libosip-3 >=net-libs/libeXosip-3 net-misc/curl virtual/ffmpeg x11-libs/libX11 x11-libs/qt-gui x11-libs/qt-svg x11-libs/qt-webkit xv? ( x11-libs/libXv )
 SLOT=0
-_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cmake-utils	2e18cd8b379d307b2473aa632de5a077	eutils	0447741d6fd06d97d48995606c4cc6f8	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	mercurial	add64e64d758a9618d46a08a95f77483	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cmake-utils	2e18cd8b379d307b2473aa632de5a077	eutils	2fd401453e32e8c9a676cd0361b82a5f	flag-o-matic	2c938a1fe61ea9899a2b97ea1e065f5f	mercurial	add64e64d758a9618d46a08a95f77483	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=98e58d2d70aa9e86d29c5cc69c556b91

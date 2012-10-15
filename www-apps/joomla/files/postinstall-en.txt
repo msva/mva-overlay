@@ -1,0 +1,26 @@
+You are almost done!
+
+  0. Setup a database (e.g. MySQL: see 
+                       http://www.gentoo.org/doc/en/mysql-howto.xml)
+    Alternatively, you can use postgres.
+
+  1. Login on http://${VHOST_HOSTNAME}/${VHOST_APPDIR}
+     and finish the installation.
+
+
+  2. Move into the directory where you installed Joomla and remove
+     the "installation" folder:
+
+  # cd ${MY_INSTALLDIR}
+  # rm -rf installation
+
+  3. You can now launch your browser and point it to your Joomla site e.g.
+
+  http://${VHOST_HOSTNAME}/${VHOST_APPDIR} -> Main Site
+  http://${VHOST_HOSTNAME}/${VHOST_APPDIR}/administrator -> Admin
+
+  You can log into the administration view using the username 'admin' 
+  along with the password that was generated or you chose during the
+  web based installation.
+
+  Enjoy Joomla!
