@@ -15,7 +15,7 @@ SRC_URI="http://joomlacode.org/gf/download/frsrelease/${MAGIC_1}/${MAGIC_2}/Joom
 
 LICENSE="GPL-2"
 KEYWORDS="~amd64 ~ppc ~sparc ~x86"
-IUSE="json mysql postgresql zlib xml"
+IUSE="json mysql postgres zlib xml"
 
 need_httpd_cgi
 need_php_httpd
@@ -24,7 +24,7 @@ S="${WORKDIR}"
 
 DEPEND="${DEPEND}
 	app-arch/unzip"
-RDEPEND="dev-lang/php[json,mysql,postgresql,zlib,xml]"
+RDEPEND="dev-lang/php[json,mysql,postgres,zlib,xml]"
 
 src_install () {
 	webapp_src_preinst

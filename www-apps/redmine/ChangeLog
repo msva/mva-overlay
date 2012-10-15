@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*redmine-2.1.0 (15 Oct 2012)
+
+  15 Oct 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> -redmine-2.0.3.ebuild,
+  +redmine-2.1.0.ebuild:
+  [www-apps/{redmine,joomla}] redmine bump + joomla added
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
   21 Jul 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> redmine-2.0.3.ebuild:
   redmine fix
 
