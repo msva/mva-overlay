@@ -47,7 +47,7 @@ src_unpack() {
 	cd "${S}"
 	rpm_src_unpack ${A}
 
-	use x86 && ( cat "${FILESDIR}/libhal_x86.txz" | tar xJf - )
+	use x86 && ( cat "${FILESDIR}/dist/libhal_x86.txz" | tar xJf - )
 	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib32.txz" | tar xJf - )
 	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib64.txz" | tar xJf - )
 	use amd64 && ( cat "${FILESDIR}/dist/pcsc_amd64.txz" | tar xJf - )
