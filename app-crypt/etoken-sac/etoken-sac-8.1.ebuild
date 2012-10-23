@@ -26,9 +26,13 @@ IUSE="ssl"
 
 REQUIRED_USE="amd64? ( multilib )"
 
+# TODO: minimal useflag (I can't do it now, since
+# it seems like I brake my token and it is uninitialized now)
 RDEPEND=">=sys-apps/pcsc-lite-1.4.99
-	dev-libs/libusb
-	media-libs/fontconfig
+	dev-libs/libusb:0
+	sys-apps/dbus
+		media-libs/libpng:1.2
+		media-libs/fontconfig
 	ssl? ( dev-libs/engine_pkcs11 )"
 DEPEND="${RDEPEND}"
 
