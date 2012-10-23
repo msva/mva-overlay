@@ -2,6 +2,14 @@
 # Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  23 Oct 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> etoken-sac-8.1.ebuild:
+  some deps, added TODO
+
+  Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+
+  21 Oct 2012; Dmitriy Vilkov <dav.daemon@gmail.com> etoken-sac-8.1.ebuild:
+  Fix path to libhal_x86.txz
+
   30 Apr 2012; Vadim A. Misbakh-Soloviov <mva@mva.name> etoken-sac-8.1.ebuild,
   -files/Makefile, +files/dist/Makefile, +files/dist/libhal_amd64_lib32.txz,
   +files/dist/libhal_amd64_lib64.txz, +files/dist/libhal_x86.txz,

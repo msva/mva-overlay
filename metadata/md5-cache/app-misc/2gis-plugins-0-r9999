@@ -9,5 +9,5 @@ LICENSE=2Gis-ru
 RDEPEND=app-misc/2gis
 SLOT=0
 SRC_URI=area? ( http://download.2gis.ru/arhives/ComputeAreaPlugin2.zip ) goto? ( http://download.2gis.ru/arhives/GoTo.zip ) photo? ( http://download.2gis.ru/arhives/2GISPlugin_Photo-1.0.4.0.zip ) mapnotes? ( http://download.2gis.ru/arhives/MapNotes.zip ) gps? ( http://download.2gis.ru/arhives/2GISPlugin_GPS-1.12.0.zip )
-_eclasses_=eutils	2fd401453e32e8c9a676cd0361b82a5f	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	5a98daf52f7430a4a6f46cee24cfe3e2	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=449c3163c4a7619c4fa63f5528e5abca

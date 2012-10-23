@@ -7,5 +7,5 @@ LICENSE=GPL
 RDEPEND=media-gfx/inkscape
 SLOT=0
 SRC_URI=mirror://sourceforge/inkscape-tables/inkscape-table-1.0.tar.gz
-_eclasses_=eutils	2fd401453e32e8c9a676cd0361b82a5f	multilib	c2b85b5c63a44798c1e442147ac14c5c	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
+_eclasses_=eutils	5a98daf52f7430a4a6f46cee24cfe3e2	multilib	9aa8a023e062fca0ba79362d9d0cc488	toolchain-funcs	134429b842a6c67254bfd76a8753e4d4	user	d0a4d0735a6c0183d707ca919bd72f28
 _md5_=48875d04a113eea1f16e51a22416eb84

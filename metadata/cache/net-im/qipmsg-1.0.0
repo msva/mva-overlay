@@ -7,7 +7,7 @@ http://qipmsg.googlecode.com
 GPL
 An open-source Qt4 implementation of IP Messenger for linux.
 ~amd64 ~x86
-autotools base eutils googlecode libtool multilib multiprocessing qt4 toolchain-funcs user versionator
+autotools base eutils googlecode libtool multilib multiprocessing qt4-r2 toolchain-funcs user
 
 
 
