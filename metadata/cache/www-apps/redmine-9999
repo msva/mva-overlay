@@ -1,0 +1,22 @@
+>=dev-ruby/rails-2.3.4:2.3 dev-ruby/activerecord:2.3[mysql?,postgres?,sqlite3?] imagemagick? ( dev-ruby/rmagick ) openid? ( dev-ruby/ruby-openid ) dev-vcs/git
+>=dev-ruby/rails-2.3.4:2.3 dev-ruby/activerecord:2.3[mysql?,postgres?,sqlite3?] imagemagick? ( dev-ruby/rmagick ) openid? ( dev-ruby/ruby-openid ) >=dev-ruby/ruby-net-ldap-0.0.4 >=dev-ruby/coderay-0.7.6.227 cvs? ( >=dev-vcs/cvs-1.12 ) darcs? ( dev-vcs/darcs ) git? ( dev-vcs/git ) mercurial? ( dev-vcs/mercurial ) subversion? ( >=dev-vcs/subversion-1.3 ) mongrel? ( www-servers/mongrel_cluster www-servers/apache[apache2_modules_proxy,apache2_modules_proxy_http,apache2_modules_proxy_balancer] )
+0
+
+
+http://www.redmine.org/
+GPL-2
+Redmine is a flexible project management web application written using Ruby on Rails framework
+~amd64 ~x86
+confutils depend.apache eutils git-2 multilib toolchain-funcs user
+cvs darcs git imagemagick mercurial mysql openid postgres sqlite3 subversion mongrel
+
+
+
+4
+
+config install postinst prepare setup unpack
+
+
+
+
+
