@@ -1,5 +1,5 @@
-=dev-lang/perl-5* ssl? ( >=dev-libs/openssl-0.9.8 ) dev-vcs/git
-=dev-lang/perl-5* ssl? ( >=dev-libs/openssl-0.9.8 )
+>=dev-util/cmake-2.8.3 ssl? ( >=dev-libs/openssl-0.9.8 ) >=dev-util/cmake-2.8.4 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) dev-vcs/git
+>=dev-util/cmake-2.8.3 ssl? ( >=dev-libs/openssl-0.9.8 )
 0
 
 
@@ -7,14 +7,14 @@ https://uhub.org/
 GPL-3
 High performance peer-to-peer hub for the ADC network
 
-eutils git-2 multilib toolchain-funcs user
-debug +ssl
+base cmake-utils eutils flag-o-matic git-2 multilib toolchain-funcs user
+debug +ssl systemd
 
 
 
-4
+5
 
-compile install postinst unpack
+compile configure install postinst prepare test unpack
 
 
 
