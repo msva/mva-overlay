@@ -17,3 +17,5 @@ LICENSE="|| ( GPL-2 Ruby )"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 IUSE=""
+
+ruby_add_rdepend "=dev-ruby/prawn-$(get_version_component_range 1-2)*"
