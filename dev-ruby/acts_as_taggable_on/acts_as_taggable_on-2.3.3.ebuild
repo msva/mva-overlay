@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from mva overlay $
 
-EAPI="4"
-USE_RUBY="ruby18 ree18"
+EAPI="5"
+USE_RUBY="ruby18 ree18 ruby19"
 
 inherit ruby-fakegem
 
