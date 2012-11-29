@@ -1,0 +1,10 @@
+Title: All Activehome-related stuff is moved (or start moving) to other overlay
+Author: Vadim A. Misbakh-Soloviov <mva@mva.name>
+Content-Type: text/plain
+Posted: 2012-11-29
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: app-accessibility/rhvoice
+
+All Active Home related stuff is moving to thematic "activehome" overlay. So, I advice you
+to add that overlay.

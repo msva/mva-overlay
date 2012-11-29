@@ -1,0 +1,11 @@
+Title: Перемещение покетов, связанных с умным домом в другой оверлей
+Author: Vadim A. Misbakh-Soloviov <mva@mva.name>
+Content-Type: text/plain
+Posted: 2012-11-29
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: app-accessibility/rhvoice
+
+Все ебилды связанные с тематикой умного дома перемещены,
+или скопированы в тематический оверлей "activehome".
+Если у вас был установлен RHVoice, то тепер искать его следует там.
