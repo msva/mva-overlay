@@ -242,13 +242,13 @@ HTTP_FANCYINDEX_MODULE_URI="http://gitorious.org/${HTTP_FANCYINDEX_MODULE_A}/${H
 HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_A}-${HTTP_FANCYINDEX_MODULE_PN}"
 
 # Chunkin (https://github.com/agentzh/chunkin-nginx-module )
-CHUNKIN_MODULE_A="agentzh"
-CHUNKIN_MODULE_PN="chunkin-nginx-module"
-CHUNKIN_MODULE_PV="0.23rc2"
-CHUNKIN_MODULE_SHA1="ddc0dd5"
-CHUNKIN_MODULE_P="${CHUNKIN_MODULE_PN}-${CHUNKIN_MODULE_PV}"
-CHUNKIN_MODULE_URI="https://github.com/${CHUNKIN_MODULE_A}/${CHUNKIN_MODULE_PN}/archive/v${CHUNKIN_MODULE_PV}.tar.gz"
-CHUNKIN_MODULE_WD="../${CHUNKIN_MODULE_P}"
+#CHUNKIN_MODULE_A="agentzh"
+#CHUNKIN_MODULE_PN="chunkin-nginx-module"
+#CHUNKIN_MODULE_PV="0.23rc2"
+#CHUNKIN_MODULE_SHA1="ddc0dd5"
+#CHUNKIN_MODULE_P="${CHUNKIN_MODULE_PN}-${CHUNKIN_MODULE_PV}"
+#CHUNKIN_MODULE_URI="https://github.com/${CHUNKIN_MODULE_A}/${CHUNKIN_MODULE_PN}/archive/v${CHUNKIN_MODULE_PV}.tar.gz"
+#CHUNKIN_MODULE_WD="../${CHUNKIN_MODULE_P}"
 
 PAM_MODULE_PV="1.2"
 PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}"
@@ -295,8 +295,8 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
 	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P}.tar.gz )
-	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
-	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
+	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )"
+#	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
 #	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 
 LICENSE="BSD BSD-2 GPL-2 MIT
@@ -325,8 +325,8 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux"
-
+IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux"
+#chunk
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -424,7 +424,7 @@ src_unpack() {
 	default
 	use pam && unpack "${PAM_MODULE_P}.tar.gz"
 	use rrd && unpack "${RRD_MODULE_P}.tar.gz"
-	use chunk && unpack "${CHUNKIN_MODULE_P}.tar.gz"
+#	use chunk && unpack "${CHUNKIN_MODULE_P}.tar.gz"
 }
 
 src_prepare() {
@@ -667,7 +667,7 @@ src_configure() {
 
 	use perftools	&& myconf+=" --with-google_perftools_module"
 	use rrd		&& myconf+=" --add-module=${RRD_MODULE_WD}"
-	use chunk	&& myconf+=" --add-module=${CHUNKIN_MODULE_WD}"
+#	use chunk	&& myconf+=" --add-module=${CHUNKIN_MODULE_WD}"
 	use pam		&& myconf+=" --add-module=${PAM_MODULE_WD}"
 
 	# MAIL modules
@@ -897,7 +897,7 @@ src_install() {
 		cd "${S}"
 	fi
 
-	use chunk   && newdoc "${CHUNKIN_MODULE_WD}"/README README.chunkin
+#	use chunk   && newdoc "${CHUNKIN_MODULE_WD}"/README README.chunkin
 	use pam && newdoc "${PAM_MODULE_WD}"/README README.pam
 }
 
