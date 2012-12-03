@@ -27,6 +27,7 @@ RDEPEND="
 	>=x11-libs/cairo-1.10.2[svg]
 	>=dev-libs/glib-2.28.7
 	>=x11-libs/pango-1.28
+	>=sys-apps/coreutils-8.20
 	lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) )
 	luajit? ( dev-lang/luajit:2 )
 	perl? ( dev-lang/perl )
