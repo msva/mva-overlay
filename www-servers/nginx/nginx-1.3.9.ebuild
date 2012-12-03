@@ -225,12 +225,12 @@ HOMEPAGE="http://sysoev.ru/nginx/
 	http://pushmodule.slact.net/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
 SRC_URI="http://nginx.org/download/${P}.tar.gz
-	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} )
+	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
-	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} )
-	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} )
-	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} )
-	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} )
+	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
+	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} -> ${HTTP_CTPP_MODULE_P}.tar.gz )
+	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
+	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
@@ -247,12 +247,12 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_postgres? ( ${HTTP_POSTGRES_MODULE_URI} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
 	nginx_modules_http_coolkit? ( ${HTTP_COOLKIT_MODULE_URI} -> ${HTTP_COOLKIT_MODULE_P}.tar.gz )
 	nginx_modules_http_upload_progress? ( ${HTTP_UPLOAD_PROGRESS_MODULE_URI} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
-	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} )
-	nginx_modules_http_auth_request? ( ${HTTP_AUTH_REQUEST_MODULE_URI} )
-	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} )
+	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
+	nginx_modules_http_auth_request? ( ${HTTP_AUTH_REQUEST_MODULE_URI} -> ${HTTP_AUTH_REQUEST_MODULE_P}.tar.gz )
+	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
-	pam? ( ${PAM_MODULE_URI} )
-	rrd? ( ${RRD_MODULE_URI} )
+	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P}.tar.gz )
+	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
 	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
 #	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 
