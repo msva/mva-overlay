@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-analyzer/rrdtool/rrdtool-1.4.7-r1.ebuild,v 1.8 2012/09/26 15:07:00 xarthisius Exp $
 
-EAPI="4"
+EAPI="5"
 
 GENTOO_DEPEND_ON_PERL="no"
 PYTHON_DEPEND="python? 2"
@@ -27,7 +27,6 @@ RDEPEND="
 	>=x11-libs/cairo-1.10.2[svg]
 	>=dev-libs/glib-2.28.7
 	>=x11-libs/pango-1.28
-	>=sys-apps/coreutils-8.20
 	lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) )
 	luajit? ( dev-lang/luajit:2 )
 	perl? ( dev-lang/perl )
