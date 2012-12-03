@@ -1,6 +1,6 @@
 # Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-analyzer/rrdtool/rrdtool-1.4.7.ebuild,v 1.2 2012/06/09 13:30:11 maksbotan Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-analyzer/rrdtool/rrdtool-1.4.7-r1.ebuild,v 1.8 2012/09/26 15:07:00 xarthisius Exp $
 
 EAPI="4"
 
@@ -17,8 +17,8 @@ SRC_URI="http://oss.oetiker.ch/rrdtool/pub/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
-IUSE="dbi doc lua perl python ruby rrdcgi tcl tcpd"
+KEYWORDS="alpha amd64 arm hppa ia64 ~mips ppc ppc64 s390 sh sparc x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
+IUSE="dbi doc lua luajit perl python ruby rrdcgi tcl tcpd"
 
 # This versions are minimal versions upstream tested with.
 RDEPEND="
@@ -28,6 +28,7 @@ RDEPEND="
 	>=dev-libs/glib-2.28.7
 	>=x11-libs/pango-1.28
 	lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) )
+	luajit? ( dev-lang/luajit:2 )
 	perl? ( dev-lang/perl )
 	ruby? ( >=dev-lang/ruby-1.8.6_p287-r13 )
 	tcl? ( dev-lang/tcl )
@@ -66,10 +67,10 @@ src_configure() {
 	# Stub configure.ac
 	local myconf=()
 	if ! use tcpd; then
-		myconf+="--disable-libwrap"
+		myconf+=( "--disable-libwrap" )
 	fi
 	if ! use dbi; then
-		myconf+="--disable-libdbi"
+		myconf+=( "--disable-libdbi" )
 	fi
 
 	econf \
@@ -89,7 +90,10 @@ src_configure() {
 }
 
 src_compile() {
-	emake LUA_INSTALL_CMOD="$(pkg-config lua --variable INSTALL_CMOD)" LUA_INSTALL_LMOD="$(pkg-config lua --variable INSTALL_LMOD)" || die "make install failed"
+	local LUA=lua;
+	use luajit && LUA=luajit;
+	emake LUA_INSTALL_CMOD="$(pkg-config ${LUA} --variable INSTALL_CMOD)" LUA_INSTALL_LMOD="$(pkg-config ${LUA} --variable INSTALL_LMOD)" || die "make install failed"
+
 	use python && distutils_src_compile
 }
 
@@ -116,6 +120,12 @@ src_install() {
 	dodoc CHANGES CONTRIBUTORS NEWS README THREADS TODO
 
 	find "${ED}"usr -name '*.la' -exec rm -f {} +
+
+	keepdir /var/lib/rrdcached/journal/
+	keepdir /var/lib/rrdcached/db/
+
+	newconfd "${FILESDIR}"/rrdcached.confd rrdcached
+	newinitd "${FILESDIR}"/rrdcached.init rrdcached
 }
 
 pkg_postinst() {
