@@ -380,7 +380,7 @@ src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	default
 	use pam && unpack "${PAM_MODULE_P}.tar.gz"
-	use rrd && unpack "${RRD_MODULE_P/m/M}.tar.gz"
+	use rrd && unpack "${RRD_MODULE_P}.tar.gz"
 	use chunk && unpack "${CHUNKIN_MODULE_P}.tar.gz"
 }
 
