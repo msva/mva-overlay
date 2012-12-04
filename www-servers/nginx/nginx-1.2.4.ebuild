@@ -88,7 +88,7 @@ HTTP_NDK_MODULE_PN="ngx_devel_kit"
 HTTP_NDK_MODULE_PV="0.2.17"
 HTTP_NDK_MODULE_SHA1="bc97eea"
 HTTP_NDK_MODULE_P="${HTTP_NDK_MODULE_PN}-${HTTP_NDK_MODULE_PV}"
-HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_PN}/archive/${HTTP_NDK_MODULE_PV}.tar.gz"
+HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_PN}/archive/v${HTTP_NDK_MODULE_PV}.tar.gz"
 HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
