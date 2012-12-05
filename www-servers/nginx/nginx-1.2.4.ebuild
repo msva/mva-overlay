@@ -238,7 +238,7 @@ HTTP_FANCYINDEX_MODULE_A="ngx-fancyindex"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
 HTTP_FANCYINDEX_MODULE_PV="0.3.1"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
-HTTP_FANCYINDEX_MODULE_URI="http://gitorious.org/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive-archive/${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
+HTTP_FANCYINDEX_MODULE_URI="http://gitorious.org/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive-tarball/v${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_A}-${HTTP_FANCYINDEX_MODULE_PN}"
 
 # Chunkin (https://github.com/agentzh/chunkin-nginx-module )
@@ -295,14 +295,15 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
 	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P}.tar.gz )
-	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
-	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
+	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )"
+#	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
 #	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 
 LICENSE="BSD BSD-2 GPL-2 MIT
 	pam? ( as-is )"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel"
+RESTRICT="mirror"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
@@ -325,8 +326,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux"
-
+IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux chunk"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done

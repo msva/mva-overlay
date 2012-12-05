@@ -238,7 +238,7 @@ HTTP_FANCYINDEX_MODULE_A="ngx-fancyindex"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
 HTTP_FANCYINDEX_MODULE_PV="0.3.1"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
-HTTP_FANCYINDEX_MODULE_URI="http://gitorious.org/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive-archive/${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
+HTTP_FANCYINDEX_MODULE_URI="http://gitorious.org/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive-tarball/v${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_A}-${HTTP_FANCYINDEX_MODULE_PN}"
 
 # Chunkin (https://github.com/agentzh/chunkin-nginx-module )
@@ -302,7 +302,8 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 LICENSE="BSD BSD-2 GPL-2 MIT
 	pam? ( as-is )"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel"
+RESTRICT="mirror"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
