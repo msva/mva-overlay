@@ -613,10 +613,10 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_ICONV_MODULE_WD}"
 	fi
 
-# http_fancy_index
+# http_fancyindex
 	if use nginx_modules_http_fancyindex; then
 		http_enabled=1
-		myconf+=" --add-module=${HTTP_FANCY_INDEX_MODULE_WD}"
+		myconf+=" --add-module=${HTTP_FANCYINDEX_MODULE_WD}"
 	fi
 
 # http_upload_progress
@@ -776,10 +776,10 @@ src_install() {
 		dodoc "${HTTP_UPLOAD_PROGRESS_MODULE_WD}"/README
 	fi
 
-# http_fancy_index
+# http_fancyindex
 	if use nginx_modules_http_fancyindex; then
-		docinto "${HTTP_FANCY_INDEX_MODULE_P}"
-		dodoc "${HTTP_FANCY_INDEX_MODULE_WD}"/README.rst
+		docinto "${HTTP_FANCYINDEX_MODULE_P}"
+		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/README.rst
 	fi
 
 # http_ey_balancer
