@@ -9,13 +9,13 @@ DESCRIPTION="Redmine is a flexible project management web application written
 using Ruby on Rails framework"
 HOMEPAGE="http://www.redmine.org/"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/edavis10/redmine.git"
+EGIT_REPO_URI="git://github.com/redmine/redmine.git"
 
 
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="cvs darcs git imagemagick mercurial mysql openid postgres sqlite3 subversion mongrel"
+IUSE="cvs darcs git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion mongrel"
 
 DEPEND="
 	>=dev-ruby/rails-2.3.4:2.3
@@ -34,7 +34,14 @@ RDEPEND="${DEPEND}
 	mongrel? (
 			www-servers/mongrel_cluster
 			www-servers/apache[apache2_modules_proxy,apache2_modules_proxy_http,apache2_modules_proxy_balancer]
-		)"
+		)
+	passenger? (
+			|| (
+				www-apache/passenger
+				www-servers/nginx[nginx_modules_http_passenger]
+			)
+		)
+"
 
 REDMINE_DIR="/var/lib/${PN}"
 
