@@ -6,13 +6,14 @@ EAPI="4"
 
 inherit eutils java-pkg-2 java-ant-2 pax-utils
 
-JETTY_V="6.1.26"
+JETTY_V="8.1.8"
+JETTY_TS="v20121106"
 
 DESCRIPTION="I2P is an anonymous network."
 
 SRC_URI="http://mirror.i2p2.de/${PN}source_${PV}.tar.bz2
-	http://dist.codehaus.org/jetty/jetty-6.1.26/jetty-${JETTY_V}.zip"
-HOMEPAGE="http://www.i2p.net/"
+	http://dist.codehaus.org/jetty/jetty-hightide-${JETTY_V}/jetty-hightide-${JETTY_V}.${JETTY_TS}.zip"
+HOMEPAGE="http://www.i2p2.de/"
 
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
@@ -26,7 +27,7 @@ QA_TEXTRELS="opt/i2p/lib/libwrapper.so"
 
 src_unpack() {
 	unpack "i2psource_${PV}.tar.bz2"
-	cp "${DISTDIR}/jetty-${JETTY_V}.zip" -P "${S}/apps/jetty" || die
+	cp "${DISTDIR}/jetty-hightide-${JETTY_V}.${JETTY_TS}.zip" -P "${S}/apps/jetty" || die
 }
 
 src_compile() {
