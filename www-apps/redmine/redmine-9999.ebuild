@@ -15,13 +15,14 @@ EGIT_REPO_URI="git://github.com/redmine/redmine.git"
 KEYWORDS=""
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="cvs darcs git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion mongrel"
+IUSE="cvs darcs git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion mongrel fastcgi"
 
 DEPEND="
 	>=dev-ruby/rails-2.3.4:2.3
 	dev-ruby/activerecord:2.3[mysql?,postgres?,sqlite3?]
 	imagemagick? ( dev-ruby/rmagick )
-	openid? ( dev-ruby/ruby-openid )"
+	openid? ( dev-ruby/ruby-openid )
+	fastcgi? ( dev-ruby/fcgi )"
 
 RDEPEND="${DEPEND}
 	>=dev-ruby/ruby-net-ldap-0.0.4

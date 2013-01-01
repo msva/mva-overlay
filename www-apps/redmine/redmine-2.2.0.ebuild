@@ -27,7 +27,7 @@ ruby_add_rdepend "virtual/ruby-ssl
 	dev-ruby/rake
 	>=dev-ruby/rails-3.2.3:3.2
 	passenger? ( || ( www-apache/passenger www-servers/nginx[nginx_modules_http_passenger] ) )
-	fastcgi? ( dev-ruby/ruby-fcgi )
+	fastcgi? ( dev-ruby/fcgi )
 	imagemagick? ( >=dev-ruby/rmagick-2 )
 	ldap? ( >=dev-ruby/ruby-net-ldap-0.3.1 )
 	openid? ( >=dev-ruby/ruby-openid-2.1.4 dev-ruby/rack-openid )
