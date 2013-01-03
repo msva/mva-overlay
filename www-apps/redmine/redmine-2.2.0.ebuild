@@ -23,9 +23,6 @@ ruby_add_rdepend "
 	virtual/rubygems
 	passenger? ( || ( www-apache/passenger www-servers/nginx[nginx_modules_http_passenger] ) )
 	fastcgi? ( >=dev-ruby/fcgi-0.9.0 )
-	postgres? ( dev-db/postgresql-base )
-	sqlite3? ( dev-db/sqlite:3 )
-	mysql? ( virtual/mysql )
 "
 
 #ruby_add_bdepend ">=dev-ruby/rdoc-2.4.2
@@ -36,6 +33,9 @@ ruby_add_rdepend "
 #	)"
 
 RDEPEND="${RDEPEND}
+	postgres? ( dev-db/postgresql-base )
+	sqlite3? ( dev-db/sqlite:3 )
+	mysql? ( virtual/mysql )
 	bazaar? ( dev-vcs/bzr )
 	cvs? ( >=dev-vcs/cvs-1.12 )
 	darcs? ( dev-vcs/darcs )
