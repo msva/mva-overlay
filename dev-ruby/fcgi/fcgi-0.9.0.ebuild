@@ -8,6 +8,8 @@ USE_RUBY="ruby18 ruby19 ree18 jruby"
 RUBY_FAKEGEM_TASK_TEST=""
 RUBY_FAKEGEM_TASK_DOC=""
 
+RUBY_S="ruby-fcgi-*"
+
 RUBY_FAKEGEM_EXTRADOC="README README.signals ChangeLog"
 
 inherit multilib ruby-fakegem
