@@ -10,7 +10,7 @@ RUBY_FAKEGEM_TASK_DOC=""
 
 RUBY_S="ruby-fcgi-*"
 
-RUBY_FAKEGEM_EXTRADOC="README README.signals ChangeLog"
+RUBY_FAKEGEM_EXTRADOC="README.rdoc README.signals ChangeLog"
 
 inherit multilib ruby-fakegem
 
