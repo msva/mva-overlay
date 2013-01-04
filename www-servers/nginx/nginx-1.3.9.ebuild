@@ -18,6 +18,13 @@ GENTOO_DEPEND_ON_PERL="no"
 USE_RUBY="ruby18 ree18 jruby ruby19 rbx"
 RUBY_OPTIONAL="yes"
 
+# syslog
+SYSLOG_MODULE_PV="1.2.0"
+SYSLOG_MODULE_P="ngx_syslog-${SYSLOG_MODULE_PV}"
+SYSLOG_MODULE_SHA1="2686c1c"
+SYSLOG_MODULE_URI="https://github.com/yaoweibin/nginx_syslog_patch/tarball/${SYSLOG_MODULE_SHA1}"
+SYSLOG_MODULE_WD="../yaoweibin-nginx_syslog_patch-${SYSLOG_MODULE_SHA1}"
+
 # http_passenger (http://www.modrails.com/, MIT license)
 HTTP_PASSENGER_MODULE_PV="3.0.18"
 HTTP_PASSENGER_MODULE_P="passenger-${HTTP_PASSENGER_MODULE_PV}"
@@ -268,6 +275,7 @@ HOMEPAGE="http://sysoev.ru/nginx/
 	http://pushmodule.slact.net/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
 SRC_URI="http://nginx.org/download/${P}.tar.gz
+	syslog? ( ${SYSLOG_MODULE_URI} -> ${SYSLOG_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
@@ -326,7 +334,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux"
+IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog"
 #chunk
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -429,6 +437,8 @@ src_unpack() {
 }
 
 src_prepare() {
+	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_${SYSLOG_MODULE_PV}.patch
+
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
 	# We have config protection, don't rename etc files
@@ -469,6 +479,11 @@ src_configure() {
 	use libatomic	&& myconf+=" --with-libatomic"
 	use pcre	&& myconf+=" --with-pcre"
 	use pcre-jit	&& myconf+=" --with-pcre-jit"
+
+	# syslog support
+	if use syslog; then
+		myconf+=" --add-module=${SYSLOG_MODULE_WD}"
+	fi
 
 	# HTTP modules
 	for mod in $NGINX_MODULES_STD; do
@@ -698,21 +713,21 @@ src_configure() {
 		myconf+=" --user=${HTTPD_USER:-$PN} --group=${HTTPD_GROUP:-$PN}"
 	fi
 
-        ./configure \
-                --prefix="${EPREFIX}/usr" \
-                --conf-path="${EPREFIX}/etc/${PN}/${PN}.conf" \
-                --error-log-path="${EPREFIX}/var/log/${PN}/error_log" \
-                --pid-path="${EPREFIX}/var/run/${PN}.pid" \
-                --lock-path="${EPREFIX}/var/lock/${PN}.lock" \
-                --with-cc-opt="-I${EROOT}usr/include" \
-                --with-ld-opt="-L${EROOT}usr/lib" \
-                --http-log-path="${EPREFIX}/var/log/${PN}/access_log" \
-                --http-client-body-temp-path="${EPREFIX}/var/tmp/${PN}/client" \
-                --http-proxy-temp-path="${EPREFIX}/var/tmp/${PN}/proxy" \
-                --http-fastcgi-temp-path="${EPREFIX}/var/tmp/${PN}/fastcgi" \
-                --http-scgi-temp-path="${EPREFIX}/var/tmp/${PN}/scgi" \
-                --http-uwsgi-temp-path="${EPREFIX}/var/tmp/${PN}/uwsgi" \
-                ${myconf} || die "configure failed"
+	./configure \
+		--prefix="${EPREFIX}/usr" \
+		--conf-path="${EPREFIX}/etc/${PN}/${PN}.conf" \
+		--error-log-path="${EPREFIX}/var/log/${PN}/error_log" \
+		--pid-path="${EPREFIX}/var/run/${PN}.pid" \
+		--lock-path="${EPREFIX}/var/lock/${PN}.lock" \
+		--with-cc-opt="-I${EROOT}usr/include" \
+		--with-ld-opt="-L${EROOT}usr/lib" \
+		--http-log-path="${EPREFIX}/var/log/${PN}/access_log" \
+		--http-client-body-temp-path="${EPREFIX}/var/tmp/${PN}/client" \
+		--http-proxy-temp-path="${EPREFIX}/var/tmp/${PN}/proxy" \
+		--http-fastcgi-temp-path="${EPREFIX}/var/tmp/${PN}/fastcgi" \
+		--http-scgi-temp-path="${EPREFIX}/var/tmp/${PN}/scgi" \
+		--http-uwsgi-temp-path="${EPREFIX}/var/tmp/${PN}/uwsgi" \
+		${myconf} || die "configure failed"
 #		--sbin-path=/usr/sbin/nginx \
 }
 
@@ -738,6 +753,12 @@ src_install() {
 	# logrotate
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/nginx.logrotate nginx
+
+	if use syslog; then
+		docinto "${SYSLOG_MODULE_P}"
+		dodoc "${SYSLOG_MODULE_WD}"/README
+	fi
+
 
 # http_perl
 	if use nginx_modules_http_perl; then
