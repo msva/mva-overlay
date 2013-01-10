@@ -314,7 +314,7 @@ KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel"
 RESTRICT="mirror"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
-geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
+geo gzip limit_req limit_conn map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static image_filter
 mp4 perl random_index realip secure_link stub_status sub xslt"
@@ -377,15 +377,16 @@ CDEPEND="
 			$(ruby_implementation_depend jruby)
 			$(ruby_implementation_depend rbx)
 		)
-		>=dev-ruby/rubygems-0.9.0
-		>=dev-ruby/rake-0.8.1
-		>=dev-ruby/fastthread-1.0.1
-		>=dev-ruby/rack-1.0.0
 		!!www-apache/passenger
 	)
 	perftools? ( dev-util/google-perftools )
 	rrd? ( >=net-analyzer/rrdtool-1.3.8 )
 "
+ruby_add_bdepend ">=dev-ruby/rake-0.8.1"
+ruby_add_bdepend "virtual/rubygems"
+ruby_add_bdepend ">=dev-ruby/fastthread-1.0.1"
+ruby_add_bdepend ">=dev-ruby/rack-1.0.0"
+
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
@@ -466,6 +467,8 @@ src_prepare() {
 		sed -i -e "s:/usr/lib/phusion-passenger/agents:/usr/libexec/passenger/agents:" ext/common/ResourceLocator.h || die
 		sed -i -e '/passenger-install-apache2-module/d' -e "/passenger-install-nginx-module/d" lib/phusion_passenger/packaging.rb || die
 		rm -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module || die "Unable to remove unneeded install script."
+
+		_ruby_each_implementation passenger_premake
 	fi
 }
 
@@ -738,6 +741,27 @@ src_compile() {
 	emake LINK="${CC} ${LDFLAGS}" OTHERLDFLAGS="${LDFLAGS}" || die "emake failed"
 }
 
+
+passenger_premake() {
+	# dirty spike to make passenger compilation each-ruby compatible
+	mkdir -p "${S}"
+	cp -r "${HTTP_PASSENGER_MODULE_P}" "${S}"
+	cp -r "${PN}-${PV}" "${S}"
+	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}"
+	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i build/ruby_extension.rb
+	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i lib/phusion_passenger/native_support.rb
+	# workaround on QA issues on passenger
+	export CFLAGS="${CFLAGS} -fno-strict-aliasing -Wno-unused-result"
+	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing -Wno-unused-result"
+	rake nginx
+}
+
+passenger_install() {
+	# dirty spike to make passenger installation each-ruby compatible
+	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}/ext/nginx"
+	rake fakeroot
+}
+
 src_install() {
 	cd "${S}"
 	emake DESTDIR="${D}" install
@@ -914,8 +938,7 @@ src_install() {
 
 # http_passenger
 	if use nginx_modules_http_passenger; then
-		cd "${HTTP_PASSENGER_MODULE_WD}"
-		rake fakeroot
+		_ruby_each_implementation passenger_install
 		cd "${S}"
 	fi
 
