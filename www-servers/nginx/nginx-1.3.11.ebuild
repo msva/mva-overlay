@@ -19,11 +19,11 @@ USE_RUBY="ruby18 ree18 jruby ruby19 rbx"
 RUBY_OPTIONAL="yes"
 
 # syslog
-SYSLOG_MODULE_PV="1.2.0"
+SYSLOG_MODULE_PV="1.3.11"
 SYSLOG_MODULE_P="ngx_syslog-${SYSLOG_MODULE_PV}"
-SYSLOG_MODULE_SHA1="2686c1c"
-SYSLOG_MODULE_URI="https://github.com/yaoweibin/nginx_syslog_patch/tarball/${SYSLOG_MODULE_SHA1}"
-SYSLOG_MODULE_WD="../yaoweibin-nginx_syslog_patch-${SYSLOG_MODULE_SHA1}"
+SYSLOG_MODULE_SHA1="55887b4"
+SYSLOG_MODULE_URI="https://github.com/alphallc/nginx_syslog_patch/tarball/${SYSLOG_MODULE_SHA1}"
+SYSLOG_MODULE_WD="../alphallc-nginx_syslog_patch-${SYSLOG_MODULE_SHA1}"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 HTTP_PASSENGER_MODULE_PV="3.0.18"
