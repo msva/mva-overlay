@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="4"
+EAPI="5"
 inherit eutils confutils git-2 depend.apache
 
 DESCRIPTION="Redmine is a flexible project management web application written
@@ -22,7 +22,7 @@ DEPEND="
 	dev-ruby/activerecord:2.3[mysql?,postgres?,sqlite3?]
 	imagemagick? ( dev-ruby/rmagick )
 	openid? ( dev-ruby/ruby-openid )
-	fastcgi? ( dev-ruby/fcgi )"
+	fastcgi? ( dev-ruby/ruby-fcgi-ng )"
 
 RDEPEND="${DEPEND}
 	>=dev-ruby/ruby-net-ldap-0.0.4
