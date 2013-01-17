@@ -13,10 +13,9 @@ RUBY_FAKEGEM_EXTRADOC="README.rdoc README.signals"
 inherit multilib ruby-fakegem
 
 DESCRIPTION="FastCGI library for Ruby"
-HOMEPAGE="http://rubyforge.org/projects/ruby-fcgi-ng/"
-SRC_URI="https://github.com/alphallc/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+HOMEPAGE="https://rubygems.org/gems/ruby-fcgi-ng/"
 
-KEYWORDS="~alpha amd64 ~hppa ~ia64 ppc ppc64 ~sparc x86 ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
+KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
 LICENSE="MIT"
 
 DEPEND+=" dev-libs/fcgi"
