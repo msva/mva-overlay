@@ -65,6 +65,7 @@ all_ruby_install() {
 	REDMINE_GROUP="${HTTPD_GROUP:-redmine}"
 
 	use ldap || rm app/models/auth_source_ldap.rb
+	use openid || rm -rf lib/plugins/open_id_authentication
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
 	rm -fr doc || die
 	dodoc README.rdoc || die
@@ -175,7 +176,7 @@ pkg_config() {
 		einfo
 
 		einfo "Generate a session store secret."
-		${RUBY} -S bundle exec rake generate_session_store || die
+		${RUBY} -S bundle exec rake generate_secret_token || die
 		einfo "Create the database structure."
 		RAILS_ENV="${RAILS_ENV}" ${RUBY} -S bundle exec rake db:migrate || die
 		einfo "Insert default configuration data in database."
