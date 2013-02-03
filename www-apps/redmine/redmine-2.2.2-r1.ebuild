@@ -64,7 +64,10 @@ all_ruby_install() {
 	REDMINE_USER="${HTTPD_USER:-redmine}"
 	REDMINE_GROUP="${HTTPD_GROUP:-redmine}"
 
-	use ldap || rm app/models/auth_source_ldap.rb
+	use ldap || (
+		rm app/models/auth_source_ldap.rb
+		epatch "${FILES_DIR}/no_ldap-${PV}.patch"
+	)
 	use openid || rm -rf lib/plugins/open_id_authentication
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
 	rm -fr doc || die

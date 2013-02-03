@@ -1,0 +1,11 @@
+--- lib/redmine.rb.old	2013-02-03 19:09:11.267220350 +0400
++++ lib/redmine.rb	2013-02-03 19:09:17.992220522 +0400
+@@ -186,8 +186,6 @@
+             :html => {:class => 'custom_fields'}
+   menu.push :enumerations, {:controller => 'enumerations'}
+   menu.push :settings, {:controller => 'settings'}
+-  menu.push :ldap_authentication, {:controller => 'auth_sources', :action => 'index'},
+-            :html => {:class => 'server_authentication'}
+   menu.push :plugins, {:controller => 'admin', :action => 'plugins'}, :last => true
+   menu.push :info, {:controller => 'admin', :action => 'info'}, :caption => :label_information_plural, :last => true
+ end
