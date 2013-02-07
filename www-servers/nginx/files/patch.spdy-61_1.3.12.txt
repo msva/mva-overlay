@@ -1,190 +1,12 @@
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358033253 -14400
-# Node ID a471b756a717cfea98a3227a87207b75d1d9d223
-# Parent  13c4c155f26f772b0bc1074a05298088d6499218
-imported patch ssl_useless_check
-
-diff -r 13c4c155f26f -r a471b756a717 src/event/ngx_event_openssl.c
---- a/src/event/ngx_event_openssl.c	Thu Jan 10 13:17:29 2013 +0000
-+++ b/src/event/ngx_event_openssl.c	Sun Jan 13 03:27:33 2013 +0400
-@@ -1232,10 +1232,8 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
-             break;
-         }
- 
--        if (buf->pos == buf->last) {
--            buf->pos = buf->start;
--            buf->last = buf->start;
--        }
-+        buf->pos = buf->start;
-+        buf->last = buf->start;
- 
-         if (in == NULL || send == limit) {
-             break;
-# HG changeset patch
-# User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358033262 -14400
-# Node ID ecf7c88e50924dedbcedca1b17ce9607cec41b00
-# Parent  a471b756a717cfea98a3227a87207b75d1d9d223
-imported patch flushing_flush
-
-diff -r a471b756a717 -r ecf7c88e5092 src/event/ngx_event_openssl.c
---- a/src/event/ngx_event_openssl.c	Sun Jan 13 03:27:33 2013 +0400
-+++ b/src/event/ngx_event_openssl.c	Sun Jan 13 03:27:42 2013 +0400
-@@ -1232,6 +1232,8 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
-             break;
-         }
- 
-+        flush = 0;
-+
-         buf->pos = buf->start;
-         buf->last = buf->start;
- 
-# HG changeset patch
-# User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358035266 -14400
-# Node ID a0c0b6e3cf34c3d3c7f929c63d97f155ec665c8b
-# Parent  ecf7c88e50924dedbcedca1b17ce9607cec41b00
-[mq]: flush_store
-
-diff -r ecf7c88e5092 -r a0c0b6e3cf34 src/event/ngx_event_openssl.c
---- a/src/event/ngx_event_openssl.c	Sun Jan 13 03:27:42 2013 +0400
-+++ b/src/event/ngx_event_openssl.c	Sun Jan 13 04:01:06 2013 +0400
-@@ -1106,7 +1106,7 @@ ngx_chain_t *
- ngx_ssl_send_chain(ngx_connection_t *c, ngx_chain_t *in, off_t limit)
- {
-     int          n;
--    ngx_uint_t   flush;
-+    ngx_uint_t   flush, limited;
-     ssize_t      send, size;
-     ngx_buf_t   *buf;
- 
-@@ -1169,11 +1169,12 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
-     }
- 
-     send = 0;
--    flush = (in == NULL) ? 1 : 0;
-+    flush = (in == NULL) ? 1 : buf->flush;
-+    limited = 0;
- 
-     for ( ;; ) {
- 
--        while (in && buf->last < buf->end && send < limit) {
-+        while (in && buf->last < buf->end && !limited) {
-             if (in->buf->last_buf || in->buf->flush) {
-                 flush = 1;
-             }
-@@ -1191,7 +1192,7 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
- 
-             if (send + size > limit) {
-                 size = (ssize_t) (limit - send);
--                flush = 1;
-+                limited = 1;
-             }
- 
-             ngx_log_debug1(NGX_LOG_DEBUG_EVENT, c->log, 0,
-@@ -1210,7 +1211,7 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
- 
-         size = buf->last - buf->pos;
- 
--        if (!flush && buf->last < buf->end && c->ssl->buffer) {
-+        if (!flush && !limited && buf->last < buf->end && c->ssl->buffer) {
-             break;
-         }
- 
-@@ -1221,8 +1222,7 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
-         }
- 
-         if (n == NGX_AGAIN) {
--            c->buffered |= NGX_SSL_BUFFERED;
--            return in;
-+            break;
-         }
- 
-         buf->pos += n;
-@@ -1237,11 +1237,13 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
-         buf->pos = buf->start;
-         buf->last = buf->start;
- 
--        if (in == NULL || send == limit) {
-+        if (in == NULL || limited) {
-             break;
-         }
-     }
- 
-+    buf->flush = flush;
-+
-     if (buf->pos < buf->last) {
-         c->buffered |= NGX_SSL_BUFFERED;
- 
-# HG changeset patch
-# User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358035440 -14400
-# Node ID 70c09030c7993e3b9a0be37fc0c168d55a1567f2
-# Parent  a0c0b6e3cf34c3d3c7f929c63d97f155ec665c8b
-[mq]: move
-
-diff -r a0c0b6e3cf34 -r 70c09030c799 src/event/ngx_event_openssl.c
---- a/src/event/ngx_event_openssl.c	Sun Jan 13 04:01:06 2013 +0400
-+++ b/src/event/ngx_event_openssl.c	Sun Jan 13 04:04:00 2013 +0400
-@@ -1209,12 +1209,12 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
-             }
-         }
- 
--        size = buf->last - buf->pos;
--
-         if (!flush && !limited && buf->last < buf->end && c->ssl->buffer) {
-             break;
-         }
- 
-+        size = buf->last - buf->pos;
-+
-         n = ngx_ssl_write(c, buf->pos, size);
- 
-         if (n == NGX_ERROR) {
-# HG changeset patch
-# User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358035781 -14400
-# Node ID 0d048316f257d8d63cb9e18fc0258dd7aec9373d
-# Parent  70c09030c7993e3b9a0be37fc0c168d55a1567f2
-OpenSSL: avoid calling SSL_write() with zero data size.
-
-According to "man SSL_write":
-
-    When calling SSL_write() with num=0 bytes to be sent the behaviour is
-    undefined.
-
-We do not call ngx_ssl_send_chain() with empty chain and buffer. But this check
-handles case if a chain with total data size multiple to NGX_SSL_BUFSIZE and
-with the special buffer at the end was passed.
-
-diff -r 70c09030c799 -r 0d048316f257 src/event/ngx_event_openssl.c
---- a/src/event/ngx_event_openssl.c	Sun Jan 13 04:04:00 2013 +0400
-+++ b/src/event/ngx_event_openssl.c	Sun Jan 13 04:09:41 2013 +0400
-@@ -1215,6 +1215,12 @@ ngx_ssl_send_chain(ngx_connection_t *c, 
- 
-         size = buf->last - buf->pos;
- 
-+        if (size == 0) {
-+            buf->flush = 0;
-+            c->buffered &= ~NGX_SSL_BUFFERED;
-+            return in;
-+        }
-+
-         n = ngx_ssl_write(c, buf->pos, size);
- 
-         if (n == NGX_ERROR) {
-# HG changeset patch
-# User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351713336 -14400
-# Node ID 286fd5c0d07257b9217ae540100c8e133e1fe82e
-# Parent  0d048316f257d8d63cb9e18fc0258dd7aec9373d
+# Node ID aaa6f9db6b4507377a59df5325c20a445c8a0461
+# Parent  b1ee73bb699f712817b3bbbdb98e1ee009dfa43b
 The default server lookup moved to ngx_http_init_connection().
 
-No functional changes.
-
-diff -r 0d048316f257 -r 286fd5c0d072 src/http/ngx_http_core_module.h
---- a/src/http/ngx_http_core_module.h	Sun Jan 13 04:09:41 2013 +0400
+diff -r b1ee73bb699f -r aaa6f9db6b45 src/http/ngx_http_core_module.h
+--- a/src/http/ngx_http_core_module.h	Tue Feb 05 14:07:01 2013 +0000
 +++ b/src/http/ngx_http_core_module.h	Wed Oct 31 23:55:36 2012 +0400
 @@ -209,6 +209,23 @@ typedef struct {
  
@@ -235,8 +57,8 @@ diff -r 0d048316f257 -r 286fd5c0d072 src/http/ngx_http_core_module.h
  typedef struct {
      ngx_int_t                  status;
      ngx_int_t                  overwrite;
-diff -r 0d048316f257 -r 286fd5c0d072 src/http/ngx_http_request.c
---- a/src/http/ngx_http_request.c	Sun Jan 13 04:09:41 2013 +0400
+diff -r b1ee73bb699f -r aaa6f9db6b45 src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Tue Feb 05 14:07:01 2013 +0000
 +++ b/src/http/ngx_http_request.c	Wed Oct 31 23:55:36 2012 +0400
 @@ -190,8 +190,99 @@ ngx_http_header_t  ngx_http_headers_in[]
  void
@@ -523,8 +345,8 @@ diff -r 0d048316f257 -r 286fd5c0d072 src/http/ngx_http_request.c
  
              n = ngx_http_regex_exec(r, sn[i].regex, &name);
  
-diff -r 0d048316f257 -r 286fd5c0d072 src/http/ngx_http_request.h
---- a/src/http/ngx_http_request.h	Sun Jan 13 04:09:41 2013 +0400
+diff -r b1ee73bb699f -r aaa6f9db6b45 src/http/ngx_http_request.h
+--- a/src/http/ngx_http_request.h	Tue Feb 05 14:07:01 2013 +0000
 +++ b/src/http/ngx_http_request.h	Wed Oct 31 23:55:36 2012 +0400
 @@ -284,7 +284,11 @@ typedef struct {
  } ngx_http_request_body_t;
@@ -567,24 +389,92 @@ diff -r 0d048316f257 -r 286fd5c0d072 src/http/ngx_http_request.h
      ngx_uint_t                        access_code;
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
+# Date 1360073539 -14400
+# Node ID 1a273489ffa87c9b779d08f105d6e3ffa53d88f0
+# Parent  aaa6f9db6b4507377a59df5325c20a445c8a0461
+Introduced ngx_http_set_log() macro.
+
+No functional changes.
+
+diff -r aaa6f9db6b45 -r 1a273489ffa8 src/http/ngx_http_core_module.c
+--- a/src/http/ngx_http_core_module.c	Wed Oct 31 23:55:36 2012 +0400
++++ b/src/http/ngx_http_core_module.c	Tue Feb 05 18:12:19 2013 +0400
+@@ -1458,11 +1458,7 @@ ngx_http_update_location_config(ngx_http
+     }
+ 
+     if (r == r->main) {
+-        r->connection->log->file = clcf->error_log->file;
+-
+-        if (!(r->connection->log->log_level & NGX_LOG_DEBUG_CONNECTION)) {
+-            r->connection->log->log_level = clcf->error_log->log_level;
+-        }
++        ngx_http_set_log(r->connection, clcf->error_log);
+     }
+ 
+     if ((ngx_io.flags & NGX_IO_SENDFILE) && clcf->sendfile) {
+diff -r aaa6f9db6b45 -r 1a273489ffa8 src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Wed Oct 31 23:55:36 2012 +0400
++++ b/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
+@@ -438,10 +438,8 @@ ngx_http_init_request(ngx_event_t *rev)
+ #endif
+ 
+     clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
+-    c->log->file = clcf->error_log->file;
+-    if (!(c->log->log_level & NGX_LOG_DEBUG_CONNECTION)) {
+-        c->log->log_level = clcf->error_log->log_level;
+-    }
++
++    ngx_http_set_log(r->connection, clcf->error_log);
+ 
+     if (c->buffer == NULL) {
+         c->buffer = ngx_create_temp_buf(c->pool,
+@@ -1845,11 +1843,8 @@ found:
+     r->loc_conf = cscf->ctx->loc_conf;
+ 
+     clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
+-    r->connection->log->file = clcf->error_log->file;
+-
+-    if (!(r->connection->log->log_level & NGX_LOG_DEBUG_CONNECTION)) {
+-        r->connection->log->log_level = clcf->error_log->log_level;
+-    }
++
++    ngx_http_set_log(r->connection, clcf->error_log);
+ 
+     return NGX_OK;
+ }
+diff -r aaa6f9db6b45 -r 1a273489ffa8 src/http/ngx_http_request.h
+--- a/src/http/ngx_http_request.h	Wed Oct 31 23:55:36 2012 +0400
++++ b/src/http/ngx_http_request.h	Tue Feb 05 18:12:19 2013 +0400
+@@ -566,4 +566,11 @@ extern ngx_http_header_t       ngx_http_
+ extern ngx_http_header_out_t   ngx_http_headers_out[];
+ 
+ 
++#define ngx_http_set_log(c, l)                                                \
++    c->log->file = l->file;                                                   \
++    if (!(c->log->log_level & NGX_LOG_DEBUG_CONNECTION)) {                    \
++        c->log->log_level = l->log_level;                                     \
++    }
++
++
+ #endif /* _NGX_HTTP_REQUEST_H_INCLUDED_ */
+# HG changeset patch
+# User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351864093 -14400
-# Node ID e3b2cdd5e77ced4f98e098351fb2e9ca1757ce21
-# Parent  286fd5c0d07257b9217ae540100c8e133e1fe82e
-Do not process regex captures while looking for SNI server.
+# Node ID 9248d69c981586d9b59463e0a03c80f4582c2dd6
+# Parent  1a273489ffa87c9b779d08f105d6e3ffa53d88f0
+SNI: do not process regex captures for SNI lookups.
 
 This change helps to decouple ngx_http_ssl_servername() from the request object.
-Since the new code is similar to ngx_http_find_virtual_server(), the whole
-function was moved closer to it.
 
-We also simplified SNI hostname validation by replacing ngx_http_validate_host()
-to ngx_strlow(). This is made possible by elimination of user access to the data
-through captures, as well as we don't care about port presence according to
-RFC 6066.
+SNI hostname was simplified validation by replacing ngx_http_validate_host()
+with ngx_strlow(). This is made possible by elimination of user access to the
+data through captures, as well as we don't care about port presence according
+to RFC 6066.
 
-diff -r 286fd5c0d072 -r e3b2cdd5e77c src/http/ngx_http_request.c
---- a/src/http/ngx_http_request.c	Wed Oct 31 23:55:36 2012 +0400
+diff -r 1a273489ffa8 -r 9248d69c9815 src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 17:48:13 2012 +0400
-@@ -33,7 +33,7 @@ static ngx_int_t ngx_http_process_cookie
+@@ -33,10 +33,16 @@ static ngx_int_t ngx_http_process_cookie
  static ngx_int_t ngx_http_process_request_header(ngx_http_request_t *r);
  static void ngx_http_process_request(ngx_http_request_t *r);
  static ssize_t ngx_http_validate_host(ngx_http_request_t *r, u_char **host,
@@ -593,39 +483,41 @@ diff -r 286fd5c0d072 -r e3b2cdd5e77c src/http/ngx_http_request.c
  static ngx_int_t ngx_http_find_virtual_server(ngx_http_request_t *r,
      u_char *host, size_t len);
  
-@@ -635,78 +635,6 @@ ngx_http_ssl_handshake_handler(ngx_conne
-     return;
- }
- 
--#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
--
--int
--ngx_http_ssl_servername(ngx_ssl_conn_t *ssl_conn, int *ad, void *arg)
--{
++static ngx_http_core_srv_conf_t *ngx_http_virtual_server_lookup(
++    ngx_http_virtual_names_t *virtual_names, u_char *host, size_t len,
++    ngx_connection_t *c, ngx_uint_t for_request);
++
++#define NGX_HTTP_SERVER_LOOKUP_ERROR (void *) -1
++
+ static void ngx_http_request_handler(ngx_event_t *ev);
+ static void ngx_http_terminate_request(ngx_http_request_t *r, ngx_int_t rc);
+ static void ngx_http_terminate_handler(ngx_http_request_t *r);
+@@ -638,12 +644,15 @@ ngx_http_ssl_handshake_handler(ngx_conne
+ int
+ ngx_http_ssl_servername(ngx_ssl_conn_t *ssl_conn, int *ad, void *arg)
+ {
 -    size_t                    len;
 -    u_char                   *host;
 -    const char               *servername;
 -    ngx_connection_t         *c;
 -    ngx_http_request_t       *r;
 -    ngx_http_ssl_srv_conf_t  *sscf;
--
--    servername = SSL_get_servername(ssl_conn, TLSEXT_NAMETYPE_host_name);
--
--    if (servername == NULL) {
--        return SSL_TLSEXT_ERR_NOACK;
--    }
--
--    c = ngx_ssl_get_connection(ssl_conn);
--
--    ngx_log_debug1(NGX_LOG_DEBUG_HTTP, c->log, 0,
--                   "SSL server name: \"%s\"", servername);
--
--    len = ngx_strlen(servername);
--
--    if (len == 0) {
--        return SSL_TLSEXT_ERR_NOACK;
--    }
--
++    size_t                     len;
++    u_char                    *host;
++    const char                *servername;
++    ngx_connection_t          *c;
++    ngx_http_request_t        *r;
++    ngx_http_connection_t     *hc;
++    ngx_http_ssl_srv_conf_t   *sscf;
++    ngx_http_core_loc_conf_t  *clcf;
++    ngx_http_core_srv_conf_t  *cscf;
+ 
+     servername = SSL_get_servername(ssl_conn, TLSEXT_NAMETYPE_host_name);
+ 
+@@ -662,20 +671,30 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
+         return SSL_TLSEXT_ERR_NOACK;
+     }
+ 
 -    r = c->data;
 -
 -    host = (u_char *) servername;
@@ -633,46 +525,35 @@ diff -r 286fd5c0d072 -r e3b2cdd5e77c src/http/ngx_http_request.c
 -    len = ngx_http_validate_host(r, &host, len, 1);
 -
 -    if (len <= 0) {
--        return SSL_TLSEXT_ERR_NOACK;
--    }
--
++    host = ngx_pnalloc(c->pool, len);
++    if (host == NULL) {
+         return SSL_TLSEXT_ERR_NOACK;
+     }
+ 
 -    if (ngx_http_find_virtual_server(r, host, len) != NGX_OK) {
--        return SSL_TLSEXT_ERR_NOACK;
--    }
--
--    sscf = ngx_http_get_module_srv_conf(r, ngx_http_ssl_module);
--
--    if (sscf->ssl.ctx) {
--        SSL_set_SSL_CTX(ssl_conn, sscf->ssl.ctx);
--
--        /*
--         * SSL_set_SSL_CTX() only changes certs as of 1.0.0d
--         * adjust other things we care about
--         */
--
--        SSL_set_verify(ssl_conn, SSL_CTX_get_verify_mode(sscf->ssl.ctx),
--                       SSL_CTX_get_verify_callback(sscf->ssl.ctx));
--
--        SSL_set_verify_depth(ssl_conn, SSL_CTX_get_verify_depth(sscf->ssl.ctx));
--
--#ifdef SSL_CTRL_CLEAR_OPTIONS
--        /* only in 0.9.8m+ */
--        SSL_clear_options(ssl_conn, SSL_get_options(ssl_conn) &
--                                    ~SSL_CTX_get_options(sscf->ssl.ctx));
--#endif
--
--        SSL_set_options(ssl_conn, SSL_CTX_get_options(sscf->ssl.ctx));
--    }
--
--    return SSL_TLSEXT_ERR_OK;
--}
--
--#endif
--
- #endif
++    ngx_strlow(host, (u_char *) servername, len);
++
++    r = c->data;
++    hc = r->http_connection;
++
++    cscf = ngx_http_virtual_server_lookup(hc->addr_conf->virtual_names,
++                                          host, len, c, 0);
++
++    if (cscf == NULL || cscf == NGX_HTTP_SERVER_LOOKUP_ERROR) {
+         return SSL_TLSEXT_ERR_NOACK;
+     }
  
++    r->srv_conf = cscf->ctx->srv_conf;
++    r->loc_conf = cscf->ctx->loc_conf;
++
++    clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
++
++    ngx_http_set_log(c, clcf->error_log);
++
+     sscf = ngx_http_get_module_srv_conf(r, ngx_http_ssl_module);
  
-@@ -883,7 +811,7 @@ ngx_http_process_request_line(ngx_event_
+     if (sscf->ssl.ctx) {
+@@ -881,7 +900,7 @@ ngx_http_process_request_line(ngx_event_
  
                  host = r->host_start;
                  n = ngx_http_validate_host(r, &host,
@@ -681,7 +562,20 @@ diff -r 286fd5c0d072 -r e3b2cdd5e77c src/http/ngx_http_request.c
  
                  if (n == 0) {
                      ngx_log_error(NGX_LOG_INFO, c->log, 0,
-@@ -1415,7 +1343,7 @@ ngx_http_process_host(ngx_http_request_t
+@@ -901,11 +920,7 @@ ngx_http_process_request_line(ngx_event_
+ 
+             if (r->http_version < NGX_HTTP_VERSION_10) {
+ 
+-                if (ngx_http_find_virtual_server(r, r->headers_in.server.data,
+-                                                 r->headers_in.server.len)
+-                    == NGX_ERROR)
+-                {
+-                    ngx_http_close_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
++                if (ngx_http_find_virtual_server(r, NULL, 0) == NGX_ERROR) {
+                     return;
+                 }
+ 
+@@ -1413,7 +1428,7 @@ ngx_http_process_host(ngx_http_request_t
      }
  
      host = h->value.data;
@@ -690,7 +584,15 @@ diff -r 286fd5c0d072 -r e3b2cdd5e77c src/http/ngx_http_request.c
  
      if (len == 0) {
          ngx_log_error(NGX_LOG_INFO, r->connection->log, 0,
-@@ -1700,11 +1628,11 @@ ngx_http_process_request(ngx_http_reques
+@@ -1551,7 +1566,6 @@ ngx_http_process_request_header(ngx_http
+                                      r->headers_in.server.len)
+         == NGX_ERROR)
+     {
+-        ngx_http_finalize_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
+         return NGX_ERROR;
+     }
+ 
+@@ -1698,11 +1712,11 @@ ngx_http_process_request(ngx_http_reques
  
  
  static ssize_t
@@ -700,13 +602,13 @@ diff -r 286fd5c0d072 -r e3b2cdd5e77c src/http/ngx_http_request.c
  {
 -    u_char  *h, ch;
 -    size_t   i, dot_pos, host_len;
-+    u_char     *h, ch;
-+    size_t      i, dot_pos, host_len;
-+    ngx_uint_t  alloc;
++    u_char      *h, ch;
++    size_t       i, dot_pos, host_len;
++    ngx_uint_t   alloc;
  
      enum {
          sw_usual = 0,
-@@ -1717,6 +1645,7 @@ ngx_http_validate_host(ngx_http_request_
+@@ -1715,6 +1729,7 @@ ngx_http_validate_host(ngx_http_request_
  
      h = *host;
  
@@ -714,154 +616,154 @@ diff -r 286fd5c0d072 -r e3b2cdd5e77c src/http/ngx_http_request.c
      state = sw_usual;
  
      for (i = 0; i < len; i++) {
-@@ -1855,6 +1784,140 @@ found:
- }
- 
- 
-+#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
+@@ -1786,26 +1801,51 @@ ngx_http_validate_host(ngx_http_request_
+ static ngx_int_t
+ ngx_http_find_virtual_server(ngx_http_request_t *r, u_char *host, size_t len)
+ {
++    ngx_http_connection_t     *hc;
+     ngx_http_core_loc_conf_t  *clcf;
+     ngx_http_core_srv_conf_t  *cscf;
+-    ngx_http_virtual_names_t  *virtual_names;
+-
+-    virtual_names = r->http_connection->addr_conf->virtual_names;
 +
-+int
-+ngx_http_ssl_servername(ngx_ssl_conn_t *ssl_conn, int *ad, void *arg)
-+{
-+    size_t                     len;
-+    u_char                    *host;
-+    const char                *servername;
-+    ngx_connection_t          *c;
-+    ngx_http_request_t        *r;
-+    ngx_http_ssl_srv_conf_t   *sscf;
-+    ngx_http_core_loc_conf_t  *clcf;
-+    ngx_http_core_srv_conf_t  *cscf;
-+    ngx_http_virtual_names_t  *virtual_names;
++    hc = r->http_connection;
 +
-+    servername = SSL_get_servername(ssl_conn, TLSEXT_NAMETYPE_host_name);
++    cscf = ngx_http_virtual_server_lookup(hc->addr_conf->virtual_names,
++                                          host, len, r->connection, 1);
 +
-+    if (servername == NULL) {
-+        return SSL_TLSEXT_ERR_NOACK;
++    if (cscf == NGX_HTTP_SERVER_LOOKUP_ERROR) {
++        ngx_http_finalize_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
++        return NGX_ERROR;
 +    }
 +
-+    c = ngx_ssl_get_connection(ssl_conn);
-+
-+    ngx_log_debug1(NGX_LOG_DEBUG_HTTP, c->log, 0,
-+                   "SSL server name: \"%s\"", servername);
-+
-+    len = ngx_strlen(servername);
-+
-+    if (len == 0) {
-+        return SSL_TLSEXT_ERR_NOACK;
++    if (cscf == NULL) {
++        return NGX_OK;
 +    }
-+
-+    host = ngx_pnalloc(c->pool, len);
-+    if (host == NULL) {
-+        return SSL_TLSEXT_ERR_NOACK;
-+    }
-+
-+    ngx_strlow(host, (u_char *) servername, len);
-+
-+    r = c->data;
-+
-+    virtual_names = r->http_connection->addr_conf->virtual_names;
-+
-+    if (virtual_names == NULL) {
-+        return SSL_TLSEXT_ERR_NOACK;
-+    }
-+
-+    cscf = ngx_hash_find_combined(&virtual_names->names,
-+                                  ngx_hash_key(host, len), host, len);
-+
-+    if (cscf) {
-+        goto found;
-+    }
-+
-+#if (NGX_PCRE)
-+
-+    if (len && virtual_names->nregex) {
-+        ngx_int_t                n;
-+        ngx_uint_t               i;
-+        ngx_str_t                name;
-+        ngx_http_server_name_t  *sn;
-+
-+        name.len = len;
-+        name.data = host;
-+
-+        sn = virtual_names->regex;
-+
-+        for (i = 0; i < virtual_names->nregex; i++) {
-+
-+            n = ngx_regex_exec(sn[i].regex->regex, &name, NULL, 0);
-+
-+            if (n == NGX_REGEX_NO_MATCHED) {
-+                continue;
-+            }
-+
-+            if (n < 0) {
-+                ngx_log_error(NGX_LOG_ALERT, c->log, 0, ngx_regex_exec_n
-+                              " failed: %i on \"%V\" using \"%V\"",
-+                              n, &name, &sn[i].regex->name);
-+                return SSL_TLSEXT_ERR_NOACK;
-+            }
-+
-+            cscf = sn[i].server;
-+
-+            goto found;
-+        }
-+    }
-+
-+#endif
-+
-+    return SSL_TLSEXT_ERR_NOACK;
-+
-+found:
 +
 +    r->srv_conf = cscf->ctx->srv_conf;
 +    r->loc_conf = cscf->ctx->loc_conf;
 +
 +    clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
 +
-+    c->log->file = clcf->error_log->file;
-+    if (!(c->log->log_level & NGX_LOG_DEBUG_CONNECTION)) {
-+        c->log->log_level = clcf->error_log->log_level;
-+    }
++    ngx_http_set_log(r->connection, clcf->error_log);
 +
-+    sscf = ngx_http_get_module_srv_conf(r, ngx_http_ssl_module);
-+
-+    if (sscf->ssl.ctx) {
-+        SSL_set_SSL_CTX(ssl_conn, sscf->ssl.ctx);
-+
-+        /*
-+         * SSL_set_SSL_CTX() only changes certs as of 1.0.0d
-+         * adjust other things we care about
-+         */
-+
-+        SSL_set_verify(ssl_conn, SSL_CTX_get_verify_mode(sscf->ssl.ctx),
-+                       SSL_CTX_get_verify_callback(sscf->ssl.ctx));
-+
-+        SSL_set_verify_depth(ssl_conn, SSL_CTX_get_verify_depth(sscf->ssl.ctx));
-+
-+#ifdef SSL_CTRL_CLEAR_OPTIONS
-+        /* only in 0.9.8m+ */
-+        SSL_clear_options(ssl_conn, SSL_get_options(ssl_conn) &
-+                                    ~SSL_CTX_get_options(sscf->ssl.ctx));
-+#endif
-+
-+        SSL_set_options(ssl_conn, SSL_CTX_get_options(sscf->ssl.ctx));
-+    }
-+
-+    return SSL_TLSEXT_ERR_OK;
++    return NGX_OK;
 +}
 +
++
++static ngx_http_core_srv_conf_t *
++ngx_http_virtual_server_lookup(ngx_http_virtual_names_t *virtual_names,
++    u_char *host, size_t len, ngx_connection_t *c, ngx_uint_t for_request)
++{
++    ngx_http_core_srv_conf_t  *cscf;
+ 
+     if (virtual_names == NULL) {
+-        return NGX_DECLINED;
++        return NULL;
+     }
+ 
+     cscf = ngx_hash_find_combined(&virtual_names->names,
+                                   ngx_hash_key(host, len), host, len);
+ 
+-    if (cscf) {
+-        goto found;
+-    }
+-
+ #if (NGX_PCRE)
+ 
+-    if (len && virtual_names->nregex) {
++    if (cscf == NULL && len && virtual_names->nregex) {
+         ngx_int_t                n;
+         ngx_uint_t               i;
+         ngx_str_t                name;
+@@ -1816,37 +1856,55 @@ ngx_http_find_virtual_server(ngx_http_re
+ 
+         sn = virtual_names->regex;
+ 
+-        for (i = 0; i < virtual_names->nregex; i++) {
+-
+-            n = ngx_http_regex_exec(r, sn[i].regex, &name);
+-
+-            if (n == NGX_OK) {
+-                cscf = sn[i].server;
+-                goto found;
++#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
++        if (for_request) {
++#endif
++            for (i = 0; i < virtual_names->nregex; i++) {
++
++                n = ngx_http_regex_exec(c->data, sn[i].regex, &name);
++
++                if (n == NGX_DECLINED) {
++                    continue;
++                }
++
++                if (n == NGX_OK) {
++                    cscf = sn[i].server;
++                    break;
++                }
++
++                return NGX_HTTP_SERVER_LOOKUP_ERROR;
+             }
+ 
+-            if (n == NGX_DECLINED) {
+-                continue;
++#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
++        } else {
++
++            for (i = 0; i < virtual_names->nregex; i++) {
++
++                n = ngx_regex_exec(sn[i].regex->regex, &name, NULL, 0);
++
++                if (n == NGX_REGEX_NO_MATCHED) {
++                    continue;
++                }
++
++                if (n >= 0) {
++                    cscf = sn[i].server;
++                    break;
++                }
++
++                ngx_log_error(NGX_LOG_ALERT, c->log, 0, ngx_regex_exec_n
++                              " failed: %i on \"%V\" using \"%V\"",
++                              n, &name, &sn[i].regex->name);
++
++                return NGX_HTTP_SERVER_LOOKUP_ERROR;
+             }
+-
+-            return NGX_ERROR;
+         }
 +#endif
 +
+     }
+ 
+-#endif
+-
+-    return NGX_DECLINED;
+-
+-found:
+-
+-    r->srv_conf = cscf->ctx->srv_conf;
+-    r->loc_conf = cscf->ctx->loc_conf;
+-
+-    clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
+-
+-    ngx_http_set_log(r->connection, clcf->error_log);
+-
+-    return NGX_OK;
++#endif /* NGX_PCRE */
 +
- static void
- ngx_http_request_handler(ngx_event_t *ev)
- {
++    return cscf;
+ }
+ 
+ 
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351866846 -14400
-# Node ID 8823c09269af94a0924b4dd6df203e7740ef799a
-# Parent  e3b2cdd5e77ced4f98e098351fb2e9ca1757ce21
-Server configuration found by SNI must be used not only for the first request
-in connection.
+# Node ID 8b1a221458a0c5df36cf9673abc542ff36ba9607
+# Parent  9248d69c981586d9b59463e0a03c80f4582c2dd6
+SNI: reuse negotiated configuration for subsequent requests.
 
 Now we store configuration context in the http connection object so we can use
 it as the default and change it in the ngx_http_ssl_servername().
@@ -869,7 +771,7 @@ it as the default and change it in the ngx_http_ssl_servername().
 This also made it possible a bit more quicker access to the configuration
 without the request object, so we did not make it specific to SNI.
 
-diff -r e3b2cdd5e77c -r 8823c09269af src/http/ngx_http_config.h
+diff -r 9248d69c9815 -r 8b1a221458a0 src/http/ngx_http_config.h
 --- a/src/http/ngx_http_config.h	Fri Nov 02 17:48:13 2012 +0400
 +++ b/src/http/ngx_http_config.h	Fri Nov 02 18:34:06 2012 +0400
 @@ -14,11 +14,11 @@
@@ -886,10 +788,10 @@ diff -r e3b2cdd5e77c -r 8823c09269af src/http/ngx_http_config.h
  
  
  typedef struct {
-diff -r e3b2cdd5e77c -r 8823c09269af src/http/ngx_http_request.c
+diff -r 9248d69c9815 -r 8b1a221458a0 src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 17:48:13 2012 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 18:34:06 2012 +0400
-@@ -284,6 +284,8 @@ ngx_http_init_connection(ngx_connection_
+@@ -290,6 +290,8 @@ ngx_http_init_connection(ngx_connection_
          }
      }
  
@@ -898,7 +800,7 @@ diff -r e3b2cdd5e77c -r 8823c09269af src/http/ngx_http_request.c
      ctx = ngx_palloc(c->pool, sizeof(ngx_http_log_ctx_t));
      if (ctx == NULL) {
          ngx_http_close_connection(c);
-@@ -391,12 +393,9 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -397,12 +399,9 @@ ngx_http_init_request(ngx_event_t *rev)
  
      r->connection = c;
  
@@ -914,25 +816,25 @@ diff -r e3b2cdd5e77c -r 8823c09269af src/http/ngx_http_request.c
  
      rev->handler = ngx_http_process_request_line;
      r->read_event_handler = ngx_http_block_reading;
-@@ -443,6 +442,8 @@ ngx_http_init_request(ngx_event_t *rev)
-         c->log->log_level = clcf->error_log->log_level;
-     }
+@@ -447,6 +446,8 @@ ngx_http_init_request(ngx_event_t *rev)
+ 
+     ngx_http_set_log(r->connection, clcf->error_log);
  
 +    cscf = ngx_http_get_module_srv_conf(r, ngx_http_core_module);
 +
      if (c->buffer == NULL) {
          c->buffer = ngx_create_temp_buf(c->pool,
                                          cscf->client_header_buffer_size);
-@@ -1878,6 +1879,8 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
+@@ -688,6 +689,8 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
+         return SSL_TLSEXT_ERR_NOACK;
+     }
  
- found:
- 
-+    r->http_connection->ctx = cscf->ctx;
++    hc->ctx = cscf->ctx;
 +
      r->srv_conf = cscf->ctx->srv_conf;
      r->loc_conf = cscf->ctx->loc_conf;
  
-diff -r e3b2cdd5e77c -r 8823c09269af src/http/ngx_http_request.h
+diff -r 9248d69c9815 -r 8b1a221458a0 src/http/ngx_http_request.h
 --- a/src/http/ngx_http_request.h	Fri Nov 02 17:48:13 2012 +0400
 +++ b/src/http/ngx_http_request.h	Fri Nov 02 18:34:06 2012 +0400
 @@ -286,8 +286,11 @@ typedef struct {
@@ -949,15 +851,17 @@ diff -r e3b2cdd5e77c -r 8823c09269af src/http/ngx_http_request.h
  
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358035788 -14400
-# Node ID 7abd28ee4652c17f5125d39136de6646e51b0190
-# Parent  8823c09269af94a0924b4dd6df203e7740ef799a
-imported patch stat
+# Date 1360073539 -14400
+# Node ID bbe66c91c6937c860005843856fef0277cafcc53
+# Parent  8b1a221458a0c5df36cf9673abc542ff36ba9607
+Stat: do not count connection in post accept state as reading.
 
-diff -r 8823c09269af -r 7abd28ee4652 src/http/ngx_http_request.c
+This change simplifies further code changes.
+
+diff -r 8b1a221458a0 -r bbe66c91c693 src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 18:34:06 2012 +0400
-+++ b/src/http/ngx_http_request.c	Sun Jan 13 04:09:48 2013 +0400
-@@ -307,10 +307,6 @@ ngx_http_init_connection(ngx_connection_
++++ b/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
+@@ -313,10 +313,6 @@ ngx_http_init_connection(ngx_connection_
      rev->handler = ngx_http_init_request;
      c->write->handler = ngx_http_empty_handler;
  
@@ -968,7 +872,7 @@ diff -r 8823c09269af -r 7abd28ee4652 src/http/ngx_http_request.c
      if (rev->ready) {
          /* the deferred accept(), rtsig, aio, iocp */
  
-@@ -326,9 +322,6 @@ ngx_http_init_connection(ngx_connection_
+@@ -332,9 +328,6 @@ ngx_http_init_connection(ngx_connection_
      ngx_add_timer(rev, c->listening->post_accept_timeout);
  
      if (ngx_handle_read_event(rev, 0) != NGX_OK) {
@@ -978,7 +882,7 @@ diff -r 8823c09269af -r 7abd28ee4652 src/http/ngx_http_request.c
          ngx_http_close_connection(c);
          return;
      }
-@@ -347,10 +340,6 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -353,10 +346,6 @@ ngx_http_init_request(ngx_event_t *rev)
      ngx_http_core_loc_conf_t   *clcf;
      ngx_http_core_main_conf_t  *cmcf;
  
@@ -989,7 +893,7 @@ diff -r 8823c09269af -r 7abd28ee4652 src/http/ngx_http_request.c
      c = rev->data;
  
      if (rev->timedout) {
-@@ -2611,10 +2600,6 @@ ngx_http_set_keepalive(ngx_http_request_
+@@ -2601,10 +2590,6 @@ ngx_http_set_keepalive(ngx_http_request_
  
          ngx_log_debug0(NGX_LOG_DEBUG_HTTP, c->log, 0, "pipelined request");
  
@@ -1000,7 +904,7 @@ diff -r 8823c09269af -r 7abd28ee4652 src/http/ngx_http_request.c
          hc->pipeline = 1;
          c->log->action = "reading client pipelined request line";
  
-@@ -2856,10 +2841,6 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2846,10 +2831,6 @@ ngx_http_keepalive_handler(ngx_event_t *
  
      b->last += n;
  
@@ -1014,27 +918,30 @@ diff -r 8823c09269af -r 7abd28ee4652 src/http/ngx_http_request.c
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351880578 -14400
-# Node ID 8dc2e625d0accf64920719336a2e13257f37f983
-# Parent  7abd28ee4652c17f5125d39136de6646e51b0190
-Do not create the request object until the TLS/SSL handshake is completed.
+# Node ID 5fe4bca78372719276be579dc0135b41bd61f342
+# Parent  bbe66c91c6937c860005843856fef0277cafcc53
+SSL: do not treat SSL handshake as the request.
 
-This will simplify adding another connection handler which does not need the
-request object (e.g. SPDY) after the TLS/SSL handshake. One more noticeable
-improvement is using "client_header_buffer_size" configuration from the server
-selected by SNI, not the default one.
+Now, the request object will not be created until SSL handshake was completed.
+This simplifies adding another connection handler which does not need the
+request object after the handshake (e.g. SPDY).
 
-The two additional changes were made to simplify the code: we do not log the
-TLS/SSL connection errors into the access log, and do not count idle connection
-and TLS/SSL handshake as the reading request state.
+There are also a few more intentional effects:
 
-Apart from that we do not call ngx_ssl_create_connection() until we got the
-first byte of the ClientHello message. This also decrease memory consumption
-in case of plain HTTP request to TLS/SSL socket.
+ - the "client_header_buffer_size" directive will respect server configuration
+   that was negotiated by SNI;
 
-diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
---- a/src/http/ngx_http_request.c	Sun Jan 13 04:09:48 2013 +0400
+ - SSL handshake errors and timeouts are not logged into the access log as bad
+   requests;
+
+ - ngx_ssl_create_connection() is not called until the first byte of ClientHello
+   message was recieved. This also decrease memory consumption in case of plain
+   HTTP request to SSL socket.
+
+diff -r bbe66c91c693 -r 5fe4bca78372 src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 22:22:58 2012 +0400
-@@ -307,6 +307,29 @@ ngx_http_init_connection(ngx_connection_
+@@ -313,6 +313,31 @@ ngx_http_init_connection(ngx_connection_
      rev->handler = ngx_http_init_request;
      c->write->handler = ngx_http_empty_handler;
  
@@ -1056,6 +963,8 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
 +            return;
 +        }
 +
++        hc->ssl = 1;
++
 +        rev->handler = ngx_http_ssl_handshake;
 +    }
 +    }
@@ -1064,7 +973,7 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
      if (rev->ready) {
          /* the deferred accept(), rtsig, aio, iocp */
  
-@@ -315,7 +338,7 @@ ngx_http_init_connection(ngx_connection_
+@@ -321,7 +346,7 @@ ngx_http_init_connection(ngx_connection_
              return;
          }
  
@@ -1073,7 +982,7 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
          return;
      }
  
-@@ -386,45 +409,8 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -392,45 +417,8 @@ ngx_http_init_request(ngx_event_t *rev)
      r->srv_conf = hc->ctx->srv_conf;
      r->loc_conf = hc->ctx->loc_conf;
  
@@ -1117,31 +1026,22 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
 -#endif
 -
      clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
-     c->log->file = clcf->error_log->file;
-     if (!(c->log->log_level & NGX_LOG_DEBUG_CONNECTION)) {
-@@ -482,6 +468,21 @@ ngx_http_init_request(ngx_event_t *rev)
+ 
+     ngx_http_set_log(r->connection, clcf->error_log);
+@@ -486,6 +474,12 @@ ngx_http_init_request(ngx_event_t *rev)
      c->single_connection = 1;
      c->destroyed = 0;
  
 +#if (NGX_HTTP_SSL)
-+    {
-+    ngx_http_ssl_srv_conf_t  *sscf;
-+
 +    if (c->ssl) {
 +        r->main_filter_need_in_memory = 1;
-+
-+    } else {
-+        sscf = ngx_http_get_module_srv_conf(hc->ctx, ngx_http_ssl_module);
-+
-+        r->plain_http = sscf->enable || hc->addr_conf->ssl;
-+    }
 +    }
 +#endif
 +
      r->main = r;
      r->count = 1;
  
-@@ -512,7 +513,8 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -516,7 +510,8 @@ ngx_http_init_request(ngx_event_t *rev)
      (void) ngx_atomic_fetch_add(ngx_stat_requests, 1);
  #endif
  
@@ -1151,7 +1051,7 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
  }
  
  
-@@ -521,81 +523,93 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -525,36 +520,47 @@ ngx_http_init_request(ngx_event_t *rev)
  static void
  ngx_http_ssl_handshake(ngx_event_t *rev)
  {
@@ -1162,6 +1062,7 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
 -    ngx_http_request_t  *r;
 +    u_char                    buf[1];
 +    ssize_t                   n;
++    ngx_err_t                 err;
 +    ngx_int_t                 rc;
 +    ngx_connection_t         *c;
 +    ngx_http_connection_t    *hc;
@@ -1187,8 +1088,12 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
 -
 -        if (!rev->timer_set) {
 -            ngx_add_timer(rev, c->listening->post_accept_timeout);
++    err = ngx_socket_errno;
++
++    ngx_log_debug1(NGX_LOG_DEBUG_HTTP, rev->log, err, "http recv(): %d", n);
++
 +    if (n == -1) {
-+        if (ngx_socket_errno == NGX_EAGAIN) {
++        if (err == NGX_EAGAIN) {
 +
 +            if (!rev->timer_set) {
 +                ngx_add_timer(rev, c->listening->post_accept_timeout);
@@ -1204,58 +1109,31 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
 -        if (ngx_handle_read_event(rev, 0) != NGX_OK) {
 -            ngx_http_close_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
 -        }
-+        ngx_connection_error(c, ngx_socket_errno, "recv() failed");
++        ngx_connection_error(c, err, "recv() failed");
 +        ngx_http_close_connection(c);
  
          return;
      }
+@@ -564,6 +570,16 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+             ngx_log_debug1(NGX_LOG_DEBUG_HTTP, rev->log, 0,
+                            "https ssl handshake: 0x%02Xd", buf[0]);
  
--    if (n == 1) {
--        if (buf[0] & 0x80 /* SSLv2 */ || buf[0] == 0x16 /* SSLv3/TLSv1 */) {
--            ngx_log_debug1(NGX_LOG_DEBUG_HTTP, rev->log, 0,
--                           "https ssl handshake: 0x%02Xd", buf[0]);
--
--            rc = ngx_ssl_handshake(c);
--
--            if (rc == NGX_AGAIN) {
--
--                if (!rev->timer_set) {
--                    ngx_add_timer(rev, c->listening->post_accept_timeout);
--                }
--
--                c->ssl->handler = ngx_http_ssl_handshake_handler;
--                return;
-+    if (n == 0) {
-+        ngx_log_error(NGX_LOG_INFO, c->log, 0, "client closed connection");
-+        ngx_http_close_connection(c);
-+        return;
-+    }
++            hc = c->data;
++            sscf = ngx_http_get_module_srv_conf(hc->ctx, ngx_http_ssl_module);
 +
-+    if (buf[0] & 0x80 /* SSLv2 */ || buf[0] == 0x16 /* SSLv3/TLSv1 */) {
-+        ngx_log_debug1(NGX_LOG_DEBUG_HTTP, rev->log, 0,
-+                       "https ssl handshake: 0x%02Xd", buf[0]);
++            if (ngx_ssl_create_connection(&sscf->ssl, c, NGX_SSL_BUFFER)
++                != NGX_OK)
++            {
++                ngx_http_close_connection(c);
++                return;
++            }
 +
-+        hc = c->data;
-+        sscf = ngx_http_get_module_srv_conf(hc->ctx, ngx_http_ssl_module);
-+
-+        if (ngx_ssl_create_connection(&sscf->ssl, c, NGX_SSL_BUFFER)
-+            != NGX_OK)
-+        {
-+            ngx_http_close_connection(c);
-+            return;
-+        }
-+
-+        rc = ngx_ssl_handshake(c);
-+
-+        if (rc == NGX_AGAIN) {
-+
-+            if (!rev->timer_set) {
-+                ngx_add_timer(rev, c->listening->post_accept_timeout);
-             }
+             rc = ngx_ssl_handshake(c);
  
--            ngx_http_ssl_handshake_handler(c);
--
-+            c->ssl->handler = ngx_http_ssl_handshake_handler;
+             if (rc == NGX_AGAIN) {
+@@ -579,27 +595,26 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+             ngx_http_ssl_handshake_handler(c);
+ 
              return;
 -
 -        } else {
@@ -1265,17 +1143,22 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
 -            r->plain_http = 1;
          }
 +
-+        ngx_http_ssl_handshake_handler(c);
++        ngx_log_debug0(NGX_LOG_DEBUG_HTTP, rev->log, 0, "plain http");
++
++        c->log->action = "reading client request line";
++
++        rev->handler = ngx_http_init_request;
++        ngx_http_init_request(rev);
 +
 +        return;
      }
  
-     c->log->action = "reading client request line";
- 
+-    c->log->action = "reading client request line";
+-
 -    rev->handler = ngx_http_process_request_line;
 -    ngx_http_process_request_line(rev);
-+    rev->handler = ngx_http_init_request;
-+    ngx_http_init_request(rev);
++    ngx_log_error(NGX_LOG_INFO, c->log, 0, "client closed connection");
++    ngx_http_close_connection(c);
  }
  
  
@@ -1287,7 +1170,7 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
      if (c->ssl->handshaked) {
  
          /*
-@@ -610,17 +624,19 @@ ngx_http_ssl_handshake_handler(ngx_conne
+@@ -614,17 +629,19 @@ ngx_http_ssl_handshake_handler(ngx_conne
  
          c->log->action = "reading client request line";
  
@@ -1312,79 +1195,118 @@ diff -r 7abd28ee4652 -r 8dc2e625d0ac src/http/ngx_http_request.c
  
      return;
  }
-@@ -1783,7 +1799,7 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
+@@ -638,7 +655,6 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
      u_char                    *host;
      const char                *servername;
      ngx_connection_t          *c;
 -    ngx_http_request_t        *r;
-+    ngx_http_connection_t     *hc;
+     ngx_http_connection_t     *hc;
      ngx_http_ssl_srv_conf_t   *sscf;
      ngx_http_core_loc_conf_t  *clcf;
-     ngx_http_core_srv_conf_t  *cscf;
-@@ -1813,9 +1829,9 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
+@@ -668,8 +684,7 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
  
      ngx_strlow(host, (u_char *) servername, len);
  
 -    r = c->data;
--
--    virtual_names = r->http_connection->addr_conf->virtual_names;
+-    hc = r->http_connection;
 +    hc = c->data;
-+
-+    virtual_names = hc->addr_conf->virtual_names;
  
-     if (virtual_names == NULL) {
-         return SSL_TLSEXT_ERR_NOACK;
-@@ -1868,19 +1884,16 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
+     cscf = ngx_http_virtual_server_lookup(hc->addr_conf->virtual_names,
+                                           host, len, c, 0);
+@@ -680,14 +695,11 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
  
- found:
+     hc->ctx = cscf->ctx;
  
--    r->http_connection->ctx = cscf->ctx;
--
 -    r->srv_conf = cscf->ctx->srv_conf;
 -    r->loc_conf = cscf->ctx->loc_conf;
 -
 -    clcf = ngx_http_get_module_loc_conf(r, ngx_http_core_module);
-+    hc->ctx = cscf->ctx;
-+
 +    clcf = ngx_http_get_module_loc_conf(hc->ctx, ngx_http_core_module);
  
-     c->log->file = clcf->error_log->file;
-     if (!(c->log->log_level & NGX_LOG_DEBUG_CONNECTION)) {
-         c->log->log_level = clcf->error_log->log_level;
-     }
+     ngx_http_set_log(c, clcf->error_log);
  
 -    sscf = ngx_http_get_module_srv_conf(r, ngx_http_ssl_module);
 +    sscf = ngx_http_get_module_srv_conf(hc->ctx, ngx_http_ssl_module);
  
      if (sscf->ssl.ctx) {
          SSL_set_SSL_CTX(ssl_conn, sscf->ssl.ctx);
+@@ -1628,20 +1640,20 @@ ngx_http_process_request(ngx_http_reques
+ 
+     c = r->connection;
+ 
+-    if (r->plain_http) {
+-        ngx_log_error(NGX_LOG_INFO, c->log, 0,
+-                      "client sent plain HTTP request to HTTPS port");
+-        ngx_http_finalize_request(r, NGX_HTTP_TO_HTTPS);
+-        return;
+-    }
+-
+ #if (NGX_HTTP_SSL)
+ 
+-    if (c->ssl) {
++    if (r->http_connection->ssl) {
+         long                      rc;
+         X509                     *cert;
+         ngx_http_ssl_srv_conf_t  *sscf;
+ 
++        if (c->ssl == NULL) {
++            ngx_log_error(NGX_LOG_INFO, c->log, 0,
++                          "client sent plain HTTP request to HTTPS port");
++            ngx_http_finalize_request(r, NGX_HTTP_TO_HTTPS);
++            return;
++        }
++
+         sscf = ngx_http_get_module_srv_conf(r, ngx_http_ssl_module);
+ 
+         if (sscf->verify) {
+diff -r bbe66c91c693 -r 5fe4bca78372 src/http/ngx_http_request.h
+--- a/src/http/ngx_http_request.h	Tue Feb 05 18:12:19 2013 +0400
++++ b/src/http/ngx_http_request.h	Fri Nov 02 22:22:58 2012 +0400
+@@ -300,7 +300,8 @@ typedef struct {
+     ngx_buf_t                       **free;
+     ngx_int_t                         nfree;
+ 
+-    ngx_uint_t                        pipeline;    /* unsigned  pipeline:1; */
++    unsigned                          pipeline:1;
++    unsigned                          ssl:1;
+ } ngx_http_connection_t;
+ 
+ 
+@@ -489,7 +490,6 @@ struct ngx_http_request_s {
+ #endif
+ 
+     unsigned                          pipeline:1;
+-    unsigned                          plain_http:1;
+     unsigned                          chunked:1;
+     unsigned                          header_only:1;
+     unsigned                          keepalive:1;
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351880664 -14400
-# Node ID ea5b571094a0eacb354c8c274b4464c37bf25c4b
-# Parent  8dc2e625d0accf64920719336a2e13257f37f983
-Applying the new server configuration as soon as the host header was parsed.
+# Node ID 250a5839aa61ba9f3a8d55c2615600196ee5b316
+# Parent  5fe4bca78372719276be579dc0135b41bd61f342
+Early server configuration lookup.
 
-This allows to use virtual server specific values of "underscores_in_headers"
-and "large_client_header_buffers" for the HTTP requests and the HTTPS requests
+Applying the new server configuration as soon as the host header was parsed
+allows to use virtual server specific values of "underscores_in_headers" and
+"large_client_header_buffers" for the HTTP requests and the HTTPS requests
 without SNI.
 
-diff -r 8dc2e625d0ac -r ea5b571094a0 src/http/ngx_http_request.c
+diff -r 5fe4bca78372 -r 250a5839aa61 src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 22:22:58 2012 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 22:24:24 2012 +0400
-@@ -831,6 +831,11 @@ ngx_http_process_request_line(ngx_event_
+@@ -918,6 +918,10 @@ ngx_http_process_request_line(ngx_event_
                      return;
                  }
  
 +                if (ngx_http_find_virtual_server(r, host, n) == NGX_ERROR) {
-+                    ngx_http_close_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
 +                    return;
 +                }
 +
                  r->headers_in.server.len = n;
                  r->headers_in.server.data = host;
              }
-@@ -938,7 +943,6 @@ ngx_http_process_request_headers(ngx_eve
+@@ -1021,7 +1025,6 @@ ngx_http_process_request_headers(ngx_eve
      }
  
      cmcf = ngx_http_get_module_main_conf(r, ngx_http_core_module);
@@ -1392,7 +1314,7 @@ diff -r 8dc2e625d0ac -r ea5b571094a0 src/http/ngx_http_request.c
  
      rc = NGX_AGAIN;
  
-@@ -992,6 +996,9 @@ ngx_http_process_request_headers(ngx_eve
+@@ -1075,6 +1078,9 @@ ngx_http_process_request_headers(ngx_eve
              }
          }
  
@@ -1402,19 +1324,18 @@ diff -r 8dc2e625d0ac -r ea5b571094a0 src/http/ngx_http_request.c
          rc = ngx_http_parse_header_line(r, r->header_in,
                                          cscf->underscores_in_headers);
  
-@@ -1367,6 +1374,11 @@ ngx_http_process_host(ngx_http_request_t
+@@ -1450,6 +1456,10 @@ ngx_http_process_host(ngx_http_request_t
          return NGX_OK;
      }
  
 +    if (ngx_http_find_virtual_server(r, host, len) == NGX_ERROR) {
-+        ngx_http_close_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
 +        return NGX_ERROR;
 +    }
 +
      r->headers_in.server.len = len;
      r->headers_in.server.data = host;
  
-@@ -1483,12 +1495,11 @@ ngx_http_process_cookie(ngx_http_request
+@@ -1566,11 +1576,10 @@ ngx_http_process_cookie(ngx_http_request
  static ngx_int_t
  ngx_http_process_request_header(ngx_http_request_t *r)
  {
@@ -1422,11 +1343,9 @@ diff -r 8dc2e625d0ac -r ea5b571094a0 src/http/ngx_http_request.c
 -                                     r->headers_in.server.len)
 -        == NGX_ERROR)
 -    {
--        ngx_http_finalize_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
 -        return NGX_ERROR;
-+    if (r->headers_in.server.len == 0) {
++    if (r->headers_in.server.data == NULL) {
 +        if (ngx_http_find_virtual_server(r, NULL, 0) == NGX_ERROR) {
-+            ngx_http_finalize_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
 +            return NGX_ERROR;
 +        }
      }
@@ -1434,87 +1353,87 @@ diff -r 8dc2e625d0ac -r ea5b571094a0 src/http/ngx_http_request.c
      if (r->headers_in.host == NULL && r->http_version > NGX_HTTP_VERSION_10) {
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1351882836 -14400
-# Node ID 1fc845f6ef7ac4674b916c4cdf8ff5358ba70a65
-# Parent  ea5b571094a0eacb354c8c274b4464c37bf25c4b
-Validate the host name in request taking into account the SNI restrictions.
+# Date 1360073539 -14400
+# Node ID cea4b7ff7f0a58e6ecadbc27ae373516771582e0
+# Parent  250a5839aa61ba9f3a8d55c2615600196ee5b316
+SNI: avoid surplus lookup for virtual server if SNI was used.
 
-Previously, it was possible to compromise those configurations that rely on
-the $host variable limitations imposed by the "server_name" directive value if
-SNI was used.
-
-An example of potentially unsafe configuration:
-
-  server {
-      listen 443 ssl;
-      server_name example.com;
-
-      location / {
-          proxy_pass http://$host:8080;
-      }
-  }
-
-According to RFC 6066 and security considerations since we use SNI for choosing
-server configuration, we must check that the client did not present different
-host name in request.
-
-At present the SNI implementation in Apache returns the 400 "Bad Request" error
-if the host name in the header does not match the host name from SNI.
-
-We decided to use a more flexible approach: the restriction is applied only if
-the SNI host name is actually was used for choosing configuration (i.e. the
-virtual server was found through SNI).
-
-diff -r ea5b571094a0 -r 1fc845f6ef7a src/http/ngx_http_request.c
+diff -r 250a5839aa61 -r cea4b7ff7f0a src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 22:24:24 2012 +0400
-+++ b/src/http/ngx_http_request.c	Fri Nov 02 23:00:36 2012 +0400
-@@ -1727,6 +1727,22 @@ ngx_http_validate_host(ngx_http_request_
-         ngx_strlow(*host, h, host_len);
++++ b/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
+@@ -693,6 +693,14 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
+         return SSL_TLSEXT_ERR_NOACK;
      }
  
-+#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
-+    {
-+    ngx_str_t  *sni_host;
-+
-+    sni_host = r->http_connection->sni_host;
-+
-+    if (sni_host) {
-+        if (sni_host->len != host_len
-+            || ngx_strncmp(sni_host->data, h, host_len) != 0)
-+        {
-+            return 0;
-+        }
-+    }
-+    }
-+#endif
-+
-     return host_len;
- }
- 
-@@ -1897,6 +1913,14 @@ found:
- 
-     hc->ctx = cscf->ctx;
- 
-+    hc->sni_host = ngx_palloc(c->pool, sizeof(ngx_str_t));
-+    if (hc->sni_host == NULL) {
++    hc->ssl_servername = ngx_palloc(c->pool, sizeof(ngx_str_t));
++    if (hc->ssl_servername == NULL) {
 +         return SSL_TLSEXT_ERR_NOACK;
 +    }
 +
-+    hc->sni_host->len = len;
-+    hc->sni_host->data = host;
++    hc->ssl_servername->len = len;
++    hc->ssl_servername->data = host;
 +
-     clcf = ngx_http_get_module_loc_conf(hc->ctx, ngx_http_core_module);
+     hc->ctx = cscf->ctx;
  
-     c->log->file = clcf->error_log->file;
-diff -r ea5b571094a0 -r 1fc845f6ef7a src/http/ngx_http_request.h
+     clcf = ngx_http_get_module_loc_conf(hc->ctx, ngx_http_core_module);
+@@ -1820,6 +1828,27 @@ ngx_http_find_virtual_server(ngx_http_re
+ 
+     hc = r->http_connection;
+ 
++#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
++
++    if (hc->ssl_servername) {
++        if (hc->ssl_servername->len == len
++            && ngx_strncmp(hc->ssl_servername->data, host, len) == 0)
++        {
++#if (NGX_PCRE)
++            if (hc->ssl_servername_regex
++                && ngx_http_regex_exec(r, hc->ssl_servername_regex,
++                                          hc->ssl_servername) != NGX_OK)
++            {
++                ngx_http_finalize_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
++                return NGX_ERROR;
++            }
++#endif
++            return NGX_OK;
++        }
++    }
++
++#endif
++
+     cscf = ngx_http_virtual_server_lookup(hc->addr_conf->virtual_names,
+                                           host, len, r->connection, 1);
+ 
+@@ -1890,6 +1919,7 @@ ngx_http_virtual_server_lookup(ngx_http_
+ 
+ #ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
+         } else {
++            ngx_http_connection_t  *hc;
+ 
+             for (i = 0; i < virtual_names->nregex; i++) {
+ 
+@@ -1900,6 +1930,9 @@ ngx_http_virtual_server_lookup(ngx_http_
+                 }
+ 
+                 if (n >= 0) {
++                    hc = c->data;
++                    hc->ssl_servername_regex = sn[i].regex;
++
+                     cscf = sn[i].server;
+                     break;
+                 }
+diff -r 250a5839aa61 -r cea4b7ff7f0a src/http/ngx_http_request.h
 --- a/src/http/ngx_http_request.h	Fri Nov 02 22:24:24 2012 +0400
-+++ b/src/http/ngx_http_request.h	Fri Nov 02 23:00:36 2012 +0400
-@@ -292,6 +292,10 @@ typedef struct {
++++ b/src/http/ngx_http_request.h	Tue Feb 05 18:12:19 2013 +0400
+@@ -292,6 +292,13 @@ typedef struct {
      ngx_http_addr_conf_t             *addr_conf;
      ngx_http_conf_ctx_t              *ctx;
  
 +#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
-+    ngx_str_t                        *sni_host;
++    ngx_str_t                        *ssl_servername;
++#if (NGX_PCRE)
++    ngx_http_regex_t                 *ssl_servername_regex;
++#endif
 +#endif
 +
      ngx_http_request_t               *request;
@@ -1522,115 +1441,118 @@ diff -r ea5b571094a0 -r 1fc845f6ef7a src/http/ngx_http_request.h
      ngx_buf_t                       **busy;
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1351882954 -14400
-# Node ID 0b48aac95825ba69668b04fb4f88716340441084
-# Parent  1fc845f6ef7ac4674b916c4cdf8ff5358ba70a65
-Do not lookup for a virtual server on each request if SNI was used.
+# Date 1360073539 -14400
+# Node ID 8677bedecc0fc879361b5d8c1b5ed70c53da6770
+# Parent  cea4b7ff7f0a58e6ecadbc27ae373516771582e0
+SNI: reset to default server if requested host was not found.
 
-Optimization. No functional changes.
+Apart from the more consistent behavior similar to the one without SNI
+used, this change prevents compromising configurations that rely on the
+$host variable limitations imposed by the "server_name" directive value
+if SNI was used.
 
-diff -r 1fc845f6ef7a -r 0b48aac95825 src/http/ngx_http_request.c
---- a/src/http/ngx_http_request.c	Fri Nov 02 23:00:36 2012 +0400
-+++ b/src/http/ngx_http_request.c	Fri Nov 02 23:02:34 2012 +0400
-@@ -475,6 +475,24 @@ ngx_http_init_request(ngx_event_t *rev)
-     if (c->ssl) {
-         r->main_filter_need_in_memory = 1;
+An example of potentially unsafe configuration:
+
+  server {
+      listen 443 ssl default_server;
+      ...
+  }
+
+  server {
+      listen 443;
+      server_name example.com;
+
+      location / {
+          proxy_pass http://$host;
+      }
+  }
+
+Note: it is possible to negotiate "example.com" by SNI, and to request
+arbitrary host name that does not exist in the configuration above. If
+we do not fallback to the default server then the request will be passed
+to the requested server which effectively makes an open relay from such
+configurations.
+
+diff -r cea4b7ff7f0a -r 8677bedecc0f src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
++++ b/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
+@@ -1857,6 +1857,14 @@ ngx_http_find_virtual_server(ngx_http_re
+         return NGX_ERROR;
+     }
  
 +#ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
-+        if (hc->sni_host) {
-+            r->headers_in.server = *hc->sni_host;
-+
-+#if (NGX_PCRE)
-+            if (hc->sni_regex) {
-+                if (ngx_http_regex_exec(r, hc->sni_regex, hc->sni_host)
-+                    != NGX_OK)
-+                {
-+                    ngx_destroy_pool(r->pool);
-+                    ngx_http_close_connection(c);
-+                    return;
-+                }
-+            }
-+#endif
++    if (hc->ssl_servername) {
++        if (cscf == NULL) {
++            cscf = hc->addr_conf->default_server;
 +        }
++    }
 +#endif
 +
-     } else {
-         sscf = ngx_http_get_module_srv_conf(hc->ctx, ngx_http_ssl_module);
- 
-@@ -831,23 +849,26 @@ ngx_http_process_request_line(ngx_event_
-                     return;
-                 }
- 
--                if (ngx_http_find_virtual_server(r, host, n) == NGX_ERROR) {
--                    ngx_http_close_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
--                    return;
-+                if (r->headers_in.server.len == 0) {
-+                    if (ngx_http_find_virtual_server(r, host, n) == NGX_ERROR) {
-+                        ngx_http_close_request(r,
-+                                               NGX_HTTP_INTERNAL_SERVER_ERROR);
-+                        return;
-+                    }
-+
-+                    r->headers_in.server.len = n;
-+                    r->headers_in.server.data = host;
-                 }
--
--                r->headers_in.server.len = n;
--                r->headers_in.server.data = host;
-             }
- 
-             if (r->http_version < NGX_HTTP_VERSION_10) {
- 
--                if (ngx_http_find_virtual_server(r, r->headers_in.server.data,
--                                                 r->headers_in.server.len)
--                    == NGX_ERROR)
--                {
--                    ngx_http_close_request(r, NGX_HTTP_INTERNAL_SERVER_ERROR);
--                    return;
-+                if (r->headers_in.server.len == 0) {
-+                    if (ngx_http_find_virtual_server(r, NULL, 0) == NGX_ERROR) {
-+                        ngx_http_close_request(r,
-+                                               NGX_HTTP_INTERNAL_SERVER_ERROR);
-+                        return;
-+                    }
-                 }
- 
-                 ngx_http_process_request(r);
-@@ -1901,6 +1922,8 @@ ngx_http_ssl_servername(ngx_ssl_conn_t *
- 
-             cscf = sn[i].server;
- 
-+            hc->sni_regex = sn[i].regex;
-+
-             goto found;
-         }
+     if (cscf == NULL) {
+         return NGX_OK;
      }
-diff -r 1fc845f6ef7a -r 0b48aac95825 src/http/ngx_http_request.h
---- a/src/http/ngx_http_request.h	Fri Nov 02 23:00:36 2012 +0400
-+++ b/src/http/ngx_http_request.h	Fri Nov 02 23:02:34 2012 +0400
-@@ -294,6 +294,9 @@ typedef struct {
+# HG changeset patch
+# User Valentin V. Bartenev <ne@vbart.ru>
+# Date 1360073539 -14400
+# Node ID fce8b9887871c7fdb89fd3c2490effdde1ba2a99
+# Parent  8677bedecc0fc879361b5d8c1b5ed70c53da6770
+SNI: restriction on requesting host names other than negotiated.
+
+At present the SNI implementation in Apache returns the 400 "Bad Request" error
+if the host name in the header does not match the host name negotiated by SNI.
+
+According to security considerations from RFC 6066 and the fact that there are
+implementations (foremost SPDY clients) rely on requesting different host names
+in SSL connection we decided to use a more flexible approach: the restriction
+is applied only if the host name negotiated by SNI is actually was used to
+choose configuration (i.e. the virtual server was found through SNI) and there
+is a possibility to compromise security somehow.
+
+So, now in such cases we deny requesting host names that rely on verification
+of client certificate.
+
+diff -r 8677bedecc0f -r fce8b9887871 src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
++++ b/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
+@@ -1858,11 +1858,25 @@ ngx_http_find_virtual_server(ngx_http_re
+     }
  
  #ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
-     ngx_str_t                        *sni_host;
-+#if (NGX_PCRE)
-+    ngx_http_regex_t                 *sni_regex;
-+#endif
++
+     if (hc->ssl_servername) {
++        ngx_http_ssl_srv_conf_t  *sscf;
++
+         if (cscf == NULL) {
+             cscf = hc->addr_conf->default_server;
+         }
++
++        sscf = ngx_http_get_module_srv_conf(cscf->ctx, ngx_http_ssl_module);
++
++        if (sscf->verify) {
++            ngx_log_error(NGX_LOG_INFO, r->connection->log, 0,
++                          "client attempted to request the server name "
++                          "different from that one was negotiated");
++            ngx_http_finalize_request(r, NGX_HTTP_BAD_REQUEST);
++            return NGX_ERROR;
++        }
+     }
++
  #endif
  
-     ngx_http_request_t               *request;
+     if (cscf == NULL) {
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351882955 -14400
-# Node ID 3c1a218ae25ef405d0c5959efa6433d6d4af9db7
-# Parent  0b48aac95825ba69668b04fb4f88716340441084
+# Node ID 746996584964b6286727bba7e64ffc7fd11e0c97
+# Parent  fce8b9887871c7fdb89fd3c2490effdde1ba2a99
 Allocate the request object from its pool.
 
 No functional changes.
 
-diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.c
---- a/src/http/ngx_http_request.c	Fri Nov 02 23:02:34 2012 +0400
+diff -r fce8b9887871 -r 746996584964 src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Tue Feb 05 18:12:19 2013 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 23:02:35 2012 +0400
-@@ -354,6 +354,7 @@ ngx_http_init_connection(ngx_connection_
+@@ -362,6 +362,7 @@ ngx_http_init_connection(ngx_connection_
  static void
  ngx_http_init_request(ngx_event_t *rev)
  {
@@ -1638,7 +1560,7 @@ diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.c
      ngx_time_t                 *tp;
      ngx_connection_t           *c;
      ngx_http_request_t         *r;
-@@ -376,27 +377,25 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -384,27 +385,25 @@ ngx_http_init_request(ngx_event_t *rev)
  
      hc = c->data;
  
@@ -1683,9 +1605,9 @@ diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.c
      c->data = r;
      r->http_connection = hc;
  
-@@ -417,27 +416,17 @@ ngx_http_init_request(ngx_event_t *rev)
-         c->log->log_level = clcf->error_log->log_level;
-     }
+@@ -423,27 +422,17 @@ ngx_http_init_request(ngx_event_t *rev)
+ 
+     ngx_http_set_log(r->connection, clcf->error_log);
  
 -    cscf = ngx_http_get_module_srv_conf(r, ngx_http_core_module);
 -
@@ -1713,7 +1635,7 @@ diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.c
  
      if (ngx_list_init(&r->headers_out.headers, r->pool, 20,
                        sizeof(ngx_table_elt_t))
-@@ -2683,16 +2672,12 @@ ngx_http_set_keepalive(ngx_http_request_
+@@ -2678,16 +2667,12 @@ ngx_http_set_keepalive(ngx_http_request_
  
      /*
       * To keep a memory footprint as small as possible for an idle
@@ -1732,7 +1654,7 @@ diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.c
      b = c->buffer;
  
      if (ngx_pfree(c->pool, b->start) == NGX_OK) {
-@@ -3142,6 +3127,7 @@ static void
+@@ -3137,6 +3122,7 @@ static void
  ngx_http_free_request(ngx_http_request_t *r, ngx_int_t rc)
  {
      ngx_log_t                 *log;
@@ -1740,7 +1662,7 @@ diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.c
      struct linger              linger;
      ngx_http_cleanup_t        *cln;
      ngx_http_log_ctx_t        *ctx;
-@@ -3208,7 +3194,9 @@ ngx_http_free_request(ngx_http_request_t
+@@ -3203,7 +3189,9 @@ ngx_http_free_request(ngx_http_request_t
  
      r->connection->destroyed = 1;
  
@@ -1751,8 +1673,8 @@ diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.c
  }
  
  
-diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.h
---- a/src/http/ngx_http_request.h	Fri Nov 02 23:02:34 2012 +0400
+diff -r fce8b9887871 -r 746996584964 src/http/ngx_http_request.h
+--- a/src/http/ngx_http_request.h	Tue Feb 05 18:12:19 2013 +0400
 +++ b/src/http/ngx_http_request.h	Fri Nov 02 23:02:35 2012 +0400
 @@ -299,8 +299,6 @@ typedef struct {
  #endif
@@ -1766,8 +1688,8 @@ diff -r 0b48aac95825 -r 3c1a218ae25e src/http/ngx_http_request.h
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351882955 -14400
-# Node ID 751c6676c79833e390644bd83ca5d806bed12b5b
-# Parent  3c1a218ae25ef405d0c5959efa6433d6d4af9db7
+# Node ID 4e43484a156b0de829401ea4512d6300c09c47f6
+# Parent  746996584964b6286727bba7e64ffc7fd11e0c97
 Do not create the request object until the first byte of request is received.
 
 Previously, we create the request object and log the 400 "Bad request" error
@@ -1776,10 +1698,10 @@ of the request. Since it's a common behavior of modern browsers (like Chrome),
 it would be more reasonable to consider such connections as idle and do not
 process them as a bad request.
 
-diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
+diff -r 746996584964 -r 4e43484a156b src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 23:02:35 2012 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 23:02:35 2012 +0400
-@@ -299,12 +299,20 @@ ngx_http_init_connection(ngx_connection_
+@@ -305,12 +305,20 @@ ngx_http_init_connection(ngx_connection_
      c->log->connection = c->number;
      c->log->handler = ngx_http_log_error;
      c->log->data = ctx;
@@ -1802,7 +1724,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
      c->write->handler = ngx_http_empty_handler;
  
  #if (NGX_HTTP_SSL)
-@@ -330,6 +338,8 @@ ngx_http_init_connection(ngx_connection_
+@@ -338,6 +346,8 @@ ngx_http_init_connection(ngx_connection_
      }
  #endif
  
@@ -1811,7 +1733,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
      if (rev->ready) {
          /* the deferred accept(), rtsig, aio, iocp */
  
-@@ -342,8 +352,6 @@ ngx_http_init_connection(ngx_connection_
+@@ -350,8 +360,6 @@ ngx_http_init_connection(ngx_connection_
          return;
      }
  
@@ -1820,7 +1742,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
      if (ngx_handle_read_event(rev, 0) != NGX_OK) {
          ngx_http_close_connection(c);
          return;
-@@ -366,13 +374,6 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -374,13 +382,6 @@ ngx_http_init_request(ngx_event_t *rev)
  
      c = rev->data;
  
@@ -1834,9 +1756,9 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
      c->requests++;
  
      hc = c->data;
-@@ -416,16 +417,6 @@ ngx_http_init_request(ngx_event_t *rev)
-         c->log->log_level = clcf->error_log->log_level;
-     }
+@@ -422,16 +423,6 @@ ngx_http_init_request(ngx_event_t *rev)
+ 
+     ngx_http_set_log(r->connection, clcf->error_log);
  
 -    if (c->buffer == NULL) {
 -        c->buffer = ngx_create_temp_buf(c->pool,
@@ -1851,9 +1773,9 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
      r->header_in = hc->nbusy ? hc->busy[0] : c->buffer;
  
      if (ngx_list_init(&r->headers_out.headers, r->pool, 20,
-@@ -553,10 +544,6 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+@@ -537,10 +528,6 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
      if (n == -1) {
-         if (ngx_socket_errno == NGX_EAGAIN) {
+         if (err == NGX_EAGAIN) {
  
 -            if (!rev->timer_set) {
 -                ngx_add_timer(rev, c->listening->post_accept_timeout);
@@ -1862,34 +1784,34 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
              if (ngx_handle_read_event(rev, 0) != NGX_OK) {
                  ngx_http_close_connection(c);
              }
-@@ -593,11 +580,6 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
-         rc = ngx_ssl_handshake(c);
+@@ -572,11 +559,6 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+             rc = ngx_ssl_handshake(c);
  
-         if (rc == NGX_AGAIN) {
+             if (rc == NGX_AGAIN) {
 -
--            if (!rev->timer_set) {
--                ngx_add_timer(rev, c->listening->post_accept_timeout);
--            }
+-                if (!rev->timer_set) {
+-                    ngx_add_timer(rev, c->listening->post_accept_timeout);
+-                }
 -
-             c->ssl->handler = ngx_http_ssl_handshake_handler;
-             return;
-         }
-@@ -607,10 +589,10 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+                 c->ssl->handler = ngx_http_ssl_handshake_handler;
+                 return;
+             }
+@@ -588,10 +570,10 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+ 
+         ngx_log_debug0(NGX_LOG_DEBUG_HTTP, rev->log, 0, "plain http");
+ 
+-        c->log->action = "reading client request line";
+-
+-        rev->handler = ngx_http_init_request;
+-        ngx_http_init_request(rev);
++        c->log->action = "waiting request";
++
++        rev->handler = ngx_http_keepalive_handler;
++        ngx_http_keepalive_handler(rev);
+ 
          return;
      }
- 
--    c->log->action = "reading client request line";
--
--    rev->handler = ngx_http_init_request;
--    ngx_http_init_request(rev);
-+    c->log->action = "waiting request";
-+
-+    rev->handler = ngx_http_keepalive_handler;
-+    ngx_http_keepalive_handler(rev);
- }
- 
- 
-@@ -629,12 +611,12 @@ ngx_http_ssl_handshake_handler(ngx_conne
+@@ -616,12 +598,12 @@ ngx_http_ssl_handshake_handler(ngx_conne
  
          c->ssl->no_wait_shutdown = 1;
  
@@ -1906,7 +1828,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
  
          return;
      }
-@@ -2792,16 +2774,24 @@ ngx_http_set_keepalive(ngx_http_request_
+@@ -2787,16 +2769,24 @@ ngx_http_set_keepalive(ngx_http_request_
  static void
  ngx_http_keepalive_handler(ngx_event_t *rev)
  {
@@ -1935,7 +1857,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
          ngx_http_close_connection(c);
          return;
      }
-@@ -2810,10 +2800,8 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2805,10 +2795,8 @@ ngx_http_keepalive_handler(ngx_event_t *
  
      if (ngx_event_flags & NGX_USE_KQUEUE_EVENT) {
          if (rev->pending_eof) {
@@ -1947,7 +1869,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
  #if (NGX_HTTP_SSL)
              if (c->ssl) {
                  c->ssl->no_send_shutdown = 1;
-@@ -2826,17 +2814,14 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2821,17 +2809,14 @@ ngx_http_keepalive_handler(ngx_event_t *
  
  #endif
  
@@ -1969,7 +1891,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
          b->pos = ngx_palloc(c->pool, size);
          if (b->pos == NULL) {
              ngx_http_close_connection(c);
-@@ -2866,7 +2851,7 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2861,7 +2846,7 @@ ngx_http_keepalive_handler(ngx_event_t *
  
          /*
           * Like ngx_http_set_keepalive() we are trying to not hold
@@ -1978,7 +1900,7 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
           */
  
          if (ngx_pfree(c->pool, b->start) == NGX_OK) {
-@@ -2886,18 +2871,15 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2881,18 +2866,15 @@ ngx_http_keepalive_handler(ngx_event_t *
          return;
      }
  
@@ -2001,15 +1923,15 @@ diff -r 3c1a218ae25e -r 751c6676c798 src/http/ngx_http_request.c
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351883308 -14400
-# Node ID 3b63868f43bae4b98181df88bc2fccc4e021329a
-# Parent  751c6676c79833e390644bd83ca5d806bed12b5b
+# Node ID d6bb4caed9cd44c88ac47fe252e9088d52d639cd
+# Parent  4e43484a156b0de829401ea4512d6300c09c47f6
 Fixed: "client_header_timeout" was used only for the first request
 in connection.
 
-diff -r 751c6676c798 -r 3b63868f43ba src/http/ngx_http_request.c
+diff -r 4e43484a156b -r d6bb4caed9cd src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 23:02:35 2012 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 23:08:28 2012 +0400
-@@ -2628,8 +2628,6 @@ ngx_http_set_keepalive(ngx_http_request_
+@@ -2623,8 +2623,6 @@ ngx_http_set_keepalive(ngx_http_request_
  
      c->data = hc;
  
@@ -2018,7 +1940,7 @@ diff -r 751c6676c798 -r 3b63868f43ba src/http/ngx_http_request.c
      if (ngx_handle_read_event(rev, 0) != NGX_OK) {
          ngx_http_close_connection(c);
          return;
-@@ -2645,6 +2643,10 @@ ngx_http_set_keepalive(ngx_http_request_
+@@ -2640,6 +2638,10 @@ ngx_http_set_keepalive(ngx_http_request_
          hc->pipeline = 1;
          c->log->action = "reading client pipelined request line";
  
@@ -2029,7 +1951,7 @@ diff -r 751c6676c798 -r 3b63868f43ba src/http/ngx_http_request.c
          rev->handler = ngx_http_init_request;
          ngx_post_event(rev, &ngx_posted_events);
          return;
-@@ -2765,6 +2767,8 @@ ngx_http_set_keepalive(ngx_http_request_
+@@ -2760,6 +2762,8 @@ ngx_http_set_keepalive(ngx_http_request_
      c->idle = 1;
      ngx_reusable_connection(c, 1);
  
@@ -2038,7 +1960,7 @@ diff -r 751c6676c798 -r 3b63868f43ba src/http/ngx_http_request.c
      if (rev->ready) {
          ngx_post_event(rev, &ngx_posted_events);
      }
-@@ -2882,7 +2886,11 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2877,7 +2881,11 @@ ngx_http_keepalive_handler(ngx_event_t *
  
      c->log->action = "reading client request line";
  
@@ -2054,14 +1976,14 @@ diff -r 751c6676c798 -r 3b63868f43ba src/http/ngx_http_request.c
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351883906 -14400
-# Node ID 3b3e496fa58059e406df456f0334bd94981edbc8
-# Parent  3b63868f43bae4b98181df88bc2fccc4e021329a
+# Node ID 952353150c8eeb8eac3bcb42d4692e831d8eb826
+# Parent  d6bb4caed9cd44c88ac47fe252e9088d52d639cd
 Make connections reusable after the accept and till the first byte of request.
 
-diff -r 3b63868f43ba -r 3b3e496fa580 src/event/ngx_event_openssl.c
+diff -r d6bb4caed9cd -r 952353150c8e src/event/ngx_event_openssl.c
 --- a/src/event/ngx_event_openssl.c	Fri Nov 02 23:08:28 2012 +0400
 +++ b/src/event/ngx_event_openssl.c	Fri Nov 02 23:18:26 2012 +0400
-@@ -854,7 +854,7 @@ ngx_ssl_handshake_handler(ngx_event_t *e
+@@ -862,7 +862,7 @@ ngx_ssl_handshake_handler(ngx_event_t *e
      ngx_log_debug1(NGX_LOG_DEBUG_EVENT, c->log, 0,
                     "SSL handshake handler: %d", ev->write);
  
@@ -2070,10 +1992,10 @@ diff -r 3b63868f43ba -r 3b3e496fa580 src/event/ngx_event_openssl.c
          c->ssl->handler(c);
          return;
      }
-diff -r 3b63868f43ba -r 3b3e496fa580 src/http/ngx_http_request.c
+diff -r d6bb4caed9cd -r 952353150c8e src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 23:08:28 2012 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 23:18:26 2012 +0400
-@@ -338,6 +338,8 @@ ngx_http_init_connection(ngx_connection_
+@@ -346,6 +346,8 @@ ngx_http_init_connection(ngx_connection_
      }
  #endif
  
@@ -2082,7 +2004,7 @@ diff -r 3b63868f43ba -r 3b3e496fa580 src/http/ngx_http_request.c
      ngx_add_timer(rev, c->listening->post_accept_timeout);
  
      if (rev->ready) {
-@@ -539,6 +541,12 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+@@ -519,6 +521,12 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
          return;
      }
  
@@ -2094,8 +2016,8 @@ diff -r 3b63868f43ba -r 3b3e496fa580 src/http/ngx_http_request.c
 +
      n = recv(c->fd, (char *) buf, 1, MSG_PEEK);
  
-     if (n == -1) {
-@@ -623,6 +631,9 @@ ngx_http_ssl_handshake_handler(ngx_conne
+     err = ngx_socket_errno;
+@@ -610,6 +618,9 @@ ngx_http_ssl_handshake_handler(ngx_conne
  
      if (c->read->timedout) {
          ngx_log_error(NGX_LOG_INFO, c->log, NGX_ETIMEDOUT, "client timed out");
@@ -2105,7 +2027,7 @@ diff -r 3b63868f43ba -r 3b3e496fa580 src/http/ngx_http_request.c
      }
  
      ngx_http_close_connection(c);
-@@ -2792,8 +2803,12 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2787,8 +2798,12 @@ ngx_http_keepalive_handler(ngx_event_t *
      if (rev->timedout || c->close) {
  
          if (!c->idle) {
@@ -2123,8 +2045,8 @@ diff -r 3b63868f43ba -r 3b3e496fa580 src/http/ngx_http_request.c
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351885445 -14400
-# Node ID db8359794b9abdbbde5d99350b329ac2bce82444
-# Parent  3b3e496fa58059e406df456f0334bd94981edbc8
+# Node ID 8247ae893bc8210fdfd8e0b7f30033ed155eefa8
+# Parent  952353150c8eeb8eac3bcb42d4692e831d8eb826
 Respect the new behavior of TCP_DEFER_ACCEPT.
 
 The behavior of TCP_DEFER_ACCEPT was changed in Linux kernel 2.6.32.
@@ -2133,12 +2055,12 @@ was received from the client. In nginx the TCP_DEFER_ACCEPT timeout is
 equal to "post_accept_timeout", so we do not want to wait for another
 one if we have got EAGAIN after the deferred accept.
 
-diff -r 3b3e496fa580 -r db8359794b9a src/http/ngx_http_request.c
+diff -r 952353150c8e -r 8247ae893bc8 src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 23:18:26 2012 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 23:44:05 2012 +0400
-@@ -552,6 +552,15 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
+@@ -536,6 +536,15 @@ ngx_http_ssl_handshake(ngx_event_t *rev)
      if (n == -1) {
-         if (ngx_socket_errno == NGX_EAGAIN) {
+         if (err == NGX_EAGAIN) {
  
 +#if (NGX_HAVE_DEFERRED_ACCEPT&& defined TCP_DEFER_ACCEPT)
 +            if (c->listening->deferred_accept) {
@@ -2152,7 +2074,7 @@ diff -r 3b3e496fa580 -r db8359794b9a src/http/ngx_http_request.c
              if (ngx_handle_read_event(rev, 0) != NGX_OK) {
                  ngx_http_close_connection(c);
              }
-@@ -2864,6 +2873,23 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2859,6 +2868,23 @@ ngx_http_keepalive_handler(ngx_event_t *
      c->log_error = NGX_ERROR_INFO;
  
      if (n == NGX_AGAIN) {
@@ -2179,8 +2101,8 @@ diff -r 3b3e496fa580 -r db8359794b9a src/http/ngx_http_request.c
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351599261 -14400
-# Node ID f2764b845335820ef89b5c70c26b26a2556a5acc
-# Parent  db8359794b9abdbbde5d99350b329ac2bce82444
+# Node ID 10b8168d0b110cdaef165e36bee04e7ab340ba1d
+# Parent  8247ae893bc8210fdfd8e0b7f30033ed155eefa8
 Removed unused c->single_connection flag.
 
 The "single_connection" flag of ngx_connection_t is intended to be used as
@@ -2188,7 +2110,7 @@ lock mechanism to prevent simultaneous modifying request object from different
 threads working with client and upstream connections. The flag is redundant
 since threads in nginx have never been used this way.
 
-diff -r db8359794b9a -r f2764b845335 src/core/ngx_connection.c
+diff -r 8247ae893bc8 -r 10b8168d0b11 src/core/ngx_connection.c
 --- a/src/core/ngx_connection.c	Fri Nov 02 23:44:05 2012 +0400
 +++ b/src/core/ngx_connection.c	Tue Oct 30 16:14:21 2012 +0400
 @@ -900,11 +900,9 @@ ngx_close_connection(ngx_connection_t *c
@@ -2206,7 +2128,7 @@ diff -r db8359794b9a -r f2764b845335 src/core/ngx_connection.c
  
      ngx_mutex_unlock(ngx_posted_events_mutex);
  
-diff -r db8359794b9a -r f2764b845335 src/core/ngx_connection.h
+diff -r 8247ae893bc8 -r 10b8168d0b11 src/core/ngx_connection.h
 --- a/src/core/ngx_connection.h	Fri Nov 02 23:44:05 2012 +0400
 +++ b/src/core/ngx_connection.h	Tue Oct 30 16:14:21 2012 +0400
 @@ -152,7 +152,6 @@ struct ngx_connection_s {
@@ -2217,10 +2139,10 @@ diff -r db8359794b9a -r f2764b845335 src/core/ngx_connection.h
      unsigned            unexpected_eof:1;
      unsigned            timedout:1;
      unsigned            error:1;
-diff -r db8359794b9a -r f2764b845335 src/http/ngx_http_request.c
+diff -r 8247ae893bc8 -r 10b8168d0b11 src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 23:44:05 2012 +0400
 +++ b/src/http/ngx_http_request.c	Tue Oct 30 16:14:21 2012 +0400
-@@ -447,7 +447,6 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -453,7 +453,6 @@ ngx_http_init_request(ngx_event_t *rev)
          return;
      }
  
@@ -2228,10 +2150,10 @@ diff -r db8359794b9a -r f2764b845335 src/http/ngx_http_request.c
      c->destroyed = 0;
  
  #if (NGX_HTTP_SSL)
-diff -r db8359794b9a -r f2764b845335 src/http/ngx_http_upstream.c
+diff -r 8247ae893bc8 -r 10b8168d0b11 src/http/ngx_http_upstream.c
 --- a/src/http/ngx_http_upstream.c	Fri Nov 02 23:44:05 2012 +0400
 +++ b/src/http/ngx_http_upstream.c	Tue Oct 30 16:14:21 2012 +0400
-@@ -1105,8 +1105,6 @@ ngx_http_upstream_connect(ngx_http_reque
+@@ -1108,8 +1108,6 @@ ngx_http_upstream_connect(ngx_http_reque
  
      r->connection->log->action = "connecting to upstream";
  
@@ -2243,14 +2165,14 @@ diff -r db8359794b9a -r f2764b845335 src/http/ngx_http_upstream.c
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351886318 -14400
-# Node ID 8c745fbdbf09dde49b85a31213be0147f619e27e
-# Parent  f2764b845335820ef89b5c70c26b26a2556a5acc
+# Node ID d264f8301f83ceae8bc6cc9c32d256fba534b7fa
+# Parent  10b8168d0b110cdaef165e36bee04e7ab340ba1d
 The ngx_http_init_request() function was refactored.
 
 Now this function can be used as the request object factory with minimal impact
 to the connection object.
 
-diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
+diff -r 10b8168d0b11 -r d264f8301f83 src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Tue Oct 30 16:14:21 2012 +0400
 +++ b/src/http/ngx_http_request.c	Fri Nov 02 23:58:38 2012 +0400
 @@ -10,7 +10,7 @@
@@ -2262,7 +2184,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
  static void ngx_http_process_request_line(ngx_event_t *rev);
  static void ngx_http_process_request_headers(ngx_event_t *rev);
  static ssize_t ngx_http_read_request_header(ngx_http_request_t *r);
-@@ -361,12 +361,11 @@ ngx_http_init_connection(ngx_connection_
+@@ -369,12 +369,11 @@ ngx_http_init_connection(ngx_connection_
  }
  
  
@@ -2277,7 +2199,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
      ngx_http_request_t         *r;
      ngx_http_log_ctx_t         *ctx;
      ngx_http_connection_t      *hc;
-@@ -374,8 +373,6 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -382,8 +381,6 @@ ngx_http_init_request(ngx_event_t *rev)
      ngx_http_core_loc_conf_t   *clcf;
      ngx_http_core_main_conf_t  *cmcf;
  
@@ -2286,7 +2208,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
      c->requests++;
  
      hc = c->data;
-@@ -384,27 +381,19 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -392,27 +389,19 @@ ngx_http_init_request(ngx_event_t *rev)
  
      pool = ngx_create_pool(cscf->request_pool_size, c->log);
      if (pool == NULL) {
@@ -2316,7 +2238,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
      r->connection = c;
  
      r->main_conf = hc->ctx->main_conf;
-@@ -426,15 +415,13 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -432,15 +421,13 @@ ngx_http_init_request(ngx_event_t *rev)
          != NGX_OK)
      {
          ngx_destroy_pool(r->pool);
@@ -2334,7 +2256,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
      }
  
      cmcf = ngx_http_get_module_main_conf(r, ngx_http_core_module);
-@@ -443,12 +430,9 @@ ngx_http_init_request(ngx_event_t *rev)
+@@ -449,12 +436,9 @@ ngx_http_init_request(ngx_event_t *rev)
                                          * sizeof(ngx_http_variable_value_t));
      if (r->variables == NULL) {
          ngx_destroy_pool(r->pool);
@@ -2346,19 +2268,9 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
 -    c->destroyed = 0;
 -
  #if (NGX_HTTP_SSL)
-     {
-     ngx_http_ssl_srv_conf_t  *sscf;
-@@ -466,8 +450,7 @@ ngx_http_init_request(ngx_event_t *rev)
-                     != NGX_OK)
-                 {
-                     ngx_destroy_pool(r->pool);
--                    ngx_http_close_connection(c);
--                    return;
-+                    return NULL;
-                 }
-             }
- #endif
-@@ -512,8 +495,7 @@ ngx_http_init_request(ngx_event_t *rev)
+     if (c->ssl) {
+         r->main_filter_need_in_memory = 1;
+@@ -491,8 +475,7 @@ ngx_http_init_request(ngx_event_t *rev)
      (void) ngx_atomic_fetch_add(ngx_stat_requests, 1);
  #endif
  
@@ -2368,7 +2280,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
  }
  
  
-@@ -2659,20 +2641,30 @@ ngx_http_set_keepalive(ngx_http_request_
+@@ -2654,20 +2637,30 @@ ngx_http_set_keepalive(ngx_http_request_
  
          ngx_log_debug0(NGX_LOG_DEBUG_HTTP, c->log, 0, "pipelined request");
  
@@ -2403,7 +2315,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
      /*
       * To keep a memory footprint as small as possible for an idle
       * keepalive connection we try to free c->buffer's memory if it
-@@ -2926,6 +2918,15 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2921,6 +2914,15 @@ ngx_http_keepalive_handler(ngx_event_t *
  
      c->log->action = "reading client request line";
  
@@ -2419,7 +2331,7 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
      if (c->idle) {
          c->idle = 0;
          ngx_del_timer(rev);
-@@ -2933,7 +2934,8 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2928,7 +2930,8 @@ ngx_http_keepalive_handler(ngx_event_t *
  
      ngx_reusable_connection(c, 0);
  
@@ -2429,30 +2341,33 @@ diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.c
  }
  
  
-diff -r f2764b845335 -r 8c745fbdbf09 src/http/ngx_http_request.h
+diff -r 10b8168d0b11 -r d264f8301f83 src/http/ngx_http_request.h
 --- a/src/http/ngx_http_request.h	Tue Oct 30 16:14:21 2012 +0400
 +++ b/src/http/ngx_http_request.h	Fri Nov 02 23:58:38 2012 +0400
-@@ -304,8 +304,6 @@ typedef struct {
- 
+@@ -305,8 +305,9 @@ typedef struct {
      ngx_buf_t                       **free;
      ngx_int_t                         nfree;
--
--    ngx_uint_t                        pipeline;    /* unsigned  pipeline:1; */
+ 
+-    unsigned                          pipeline:1;
+-    unsigned                          ssl:1;
++#if (NGX_HTTP_SSL)
++    ngx_uint_t                        ssl;    /* unsigned  ssl:1; */
++#endif
  } ngx_http_connection_t;
  
  
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
 # Date 1351887542 -14400
-# Node ID 07c13096c2a470155cfc95e07347663a1b2f3e56
-# Parent  8c745fbdbf09dde49b85a31213be0147f619e27e
+# Node ID decbf83a0e1c1bb96347f94d26840607591ad862
+# Parent  d264f8301f83ceae8bc6cc9c32d256fba534b7fa
 The "post_accept_timeout" was separated from the "client_header_timeout".
 
 Since the connections in "post_accept_timeout" are cheap and reusable, there
 is not much sense in including it into the "client_header_timeout" as well as
 that they are being equal. The new directive introduced.
 
-diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http.c
+diff -r d264f8301f83 -r decbf83a0e1c src/http/ngx_http.c
 --- a/src/http/ngx_http.c	Fri Nov 02 23:58:38 2012 +0400
 +++ b/src/http/ngx_http.c	Sat Nov 03 00:19:02 2012 +0400
 @@ -1743,7 +1743,7 @@ ngx_http_add_listening(ngx_conf_t *cf, n
@@ -2464,7 +2379,7 @@ diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http.c
  
      clcf = cscf->ctx->loc_conf[ngx_http_core_module.ctx_index];
  
-diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_core_module.c
+diff -r d264f8301f83 -r decbf83a0e1c src/http/ngx_http_core_module.c
 --- a/src/http/ngx_http_core_module.c	Fri Nov 02 23:58:38 2012 +0400
 +++ b/src/http/ngx_http_core_module.c	Sat Nov 03 00:19:02 2012 +0400
 @@ -242,6 +242,13 @@ static ngx_command_t  ngx_http_core_comm
@@ -2481,7 +2396,7 @@ diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_core_module.c
      { ngx_string("client_header_timeout"),
        NGX_HTTP_MAIN_CONF|NGX_HTTP_SRV_CONF|NGX_CONF_TAKE1,
        ngx_conf_set_msec_slot,
-@@ -3402,6 +3409,7 @@ ngx_http_core_create_srv_conf(ngx_conf_t
+@@ -3398,6 +3405,7 @@ ngx_http_core_create_srv_conf(ngx_conf_t
  
      cscf->connection_pool_size = NGX_CONF_UNSET_SIZE;
      cscf->request_pool_size = NGX_CONF_UNSET_SIZE;
@@ -2489,7 +2404,7 @@ diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_core_module.c
      cscf->client_header_timeout = NGX_CONF_UNSET_MSEC;
      cscf->client_header_buffer_size = NGX_CONF_UNSET_SIZE;
      cscf->ignore_invalid_headers = NGX_CONF_UNSET;
-@@ -3427,6 +3435,8 @@ ngx_http_core_merge_srv_conf(ngx_conf_t 
+@@ -3423,6 +3431,8 @@ ngx_http_core_merge_srv_conf(ngx_conf_t 
                                prev->connection_pool_size, 256);
      ngx_conf_merge_size_value(conf->request_pool_size,
                                prev->request_pool_size, 4096);
@@ -2498,7 +2413,7 @@ diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_core_module.c
      ngx_conf_merge_msec_value(conf->client_header_timeout,
                                prev->client_header_timeout, 60000);
      ngx_conf_merge_size_value(conf->client_header_buffer_size,
-diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_core_module.h
+diff -r d264f8301f83 -r decbf83a0e1c src/http/ngx_http_core_module.h
 --- a/src/http/ngx_http_core_module.h	Fri Nov 02 23:58:38 2012 +0400
 +++ b/src/http/ngx_http_core_module.h	Sat Nov 03 00:19:02 2012 +0400
 @@ -190,6 +190,7 @@ typedef struct {
@@ -2509,10 +2424,10 @@ diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_core_module.h
      ngx_msec_t                  client_header_timeout;
  
      ngx_flag_t                  ignore_invalid_headers;
-diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_request.c
+diff -r d264f8301f83 -r decbf83a0e1c src/http/ngx_http_request.c
 --- a/src/http/ngx_http_request.c	Fri Nov 02 23:58:38 2012 +0400
 +++ b/src/http/ngx_http_request.c	Sat Nov 03 00:19:02 2012 +0400
-@@ -2927,13 +2927,11 @@ ngx_http_keepalive_handler(ngx_event_t *
+@@ -2923,13 +2923,11 @@ ngx_http_keepalive_handler(ngx_event_t *
      c->sent = 0;
      c->destroyed = 0;
  
@@ -2531,14 +2446,14 @@ diff -r 8c745fbdbf09 -r 07c13096c2a4 src/http/ngx_http_request.c
  }
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358035789 -14400
-# Node ID d74552a9cee8687454da505c02fe98b6bf74c341
-# Parent  07c13096c2a470155cfc95e07347663a1b2f3e56
+# Date 1360073540 -14400
+# Node ID a6ae8773349188b992933061c906fd1cb8f5c1d3
+# Parent  decbf83a0e1c1bb96347f94d26840607591ad862
 imported patch npn
 
-diff -r 07c13096c2a4 -r d74552a9cee8 src/http/modules/ngx_http_ssl_module.c
+diff -r decbf83a0e1c -r a6ae87733491 src/http/modules/ngx_http_ssl_module.c
 --- a/src/http/modules/ngx_http_ssl_module.c	Sat Nov 03 00:19:02 2012 +0400
-+++ b/src/http/modules/ngx_http_ssl_module.c	Sun Jan 13 04:09:49 2013 +0400
++++ b/src/http/modules/ngx_http_ssl_module.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -35,6 +35,15 @@ static char *ngx_http_ssl_session_cache(
  
  static ngx_int_t ngx_http_ssl_init(ngx_conf_t *cf);
@@ -2595,14 +2510,14 @@ diff -r 07c13096c2a4 -r d74552a9cee8 src/http/modules/ngx_http_ssl_module.c
 +#endif
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358035789 -14400
-# Node ID 9ffed9d498a01ed9539d87a1f0745521b773bb4e
-# Parent  d74552a9cee8687454da505c02fe98b6bf74c341
+# Date 1360073540 -14400
+# Node ID df4601e5d0cf4b427d8ee9c7992f58ee53595f8f
+# Parent  a6ae8773349188b992933061c906fd1cb8f5c1d3
 imported patch limit_req
 
-diff -r d74552a9cee8 -r 9ffed9d498a0 src/http/modules/ngx_http_limit_req_module.c
---- a/src/http/modules/ngx_http_limit_req_module.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/modules/ngx_http_limit_req_module.c	Sun Jan 13 04:09:49 2013 +0400
+diff -r a6ae87733491 -r df4601e5d0cf src/http/modules/ngx_http_limit_req_module.c
+--- a/src/http/modules/ngx_http_limit_req_module.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/modules/ngx_http_limit_req_module.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -56,7 +56,8 @@ typedef struct {
  } ngx_http_limit_req_conf_t;
  
@@ -2705,14 +2620,14 @@ diff -r d74552a9cee8 -r 9ffed9d498a0 src/http/modules/ngx_http_limit_req_module.
  {
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358035789 -14400
-# Node ID 2786c6775197131f322f7c157f7d2b2a240ef449
-# Parent  9ffed9d498a01ed9539d87a1f0745521b773bb4e
+# Date 1360073540 -14400
+# Node ID 075091134e5d96fdc402e050c53d323eb61672aa
+# Parent  df4601e5d0cf4b427d8ee9c7992f58ee53595f8f
 imported patch stat_keepalive
 
-diff -r 9ffed9d498a0 -r 2786c6775197 src/core/ngx_connection.c
---- a/src/core/ngx_connection.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/core/ngx_connection.c	Sun Jan 13 04:09:49 2013 +0400
+diff -r df4601e5d0cf -r 075091134e5d src/core/ngx_connection.c
+--- a/src/core/ngx_connection.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/core/ngx_connection.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -970,6 +970,10 @@ ngx_reusable_connection(ngx_connection_t
  
      if (c->reusable) {
@@ -2735,9 +2650,9 @@ diff -r 9ffed9d498a0 -r 2786c6775197 src/core/ngx_connection.c
      }
  }
  
-diff -r 9ffed9d498a0 -r 2786c6775197 src/event/ngx_event.c
---- a/src/event/ngx_event.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/event/ngx_event.c	Sun Jan 13 04:09:49 2013 +0400
+diff -r df4601e5d0cf -r 075091134e5d src/event/ngx_event.c
+--- a/src/event/ngx_event.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/event/ngx_event.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -73,6 +73,8 @@ ngx_atomic_t   ngx_stat_reading0;
  ngx_atomic_t  *ngx_stat_reading = &ngx_stat_reading0;
  ngx_atomic_t   ngx_stat_writing0;
@@ -2765,9 +2680,9 @@ diff -r 9ffed9d498a0 -r 2786c6775197 src/event/ngx_event.c
  
  #endif
  
-diff -r 9ffed9d498a0 -r 2786c6775197 src/event/ngx_event.h
---- a/src/event/ngx_event.h	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/event/ngx_event.h	Sun Jan 13 04:09:49 2013 +0400
+diff -r df4601e5d0cf -r 075091134e5d src/event/ngx_event.h
+--- a/src/event/ngx_event.h	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/event/ngx_event.h	Tue Feb 05 18:12:20 2013 +0400
 @@ -511,6 +511,7 @@ extern ngx_atomic_t  *ngx_stat_requests;
  extern ngx_atomic_t  *ngx_stat_active;
  extern ngx_atomic_t  *ngx_stat_reading;
@@ -2776,9 +2691,9 @@ diff -r 9ffed9d498a0 -r 2786c6775197 src/event/ngx_event.h
  
  #endif
  
-diff -r 9ffed9d498a0 -r 2786c6775197 src/http/modules/ngx_http_stub_status_module.c
---- a/src/http/modules/ngx_http_stub_status_module.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/modules/ngx_http_stub_status_module.c	Sun Jan 13 04:09:49 2013 +0400
+diff -r df4601e5d0cf -r 075091134e5d src/http/modules/ngx_http_stub_status_module.c
+--- a/src/http/modules/ngx_http_stub_status_module.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/modules/ngx_http_stub_status_module.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -64,7 +64,7 @@ static ngx_int_t ngx_http_status_handler
      ngx_int_t          rc;
      ngx_buf_t         *b;
@@ -2807,14 +2722,14 @@ diff -r 9ffed9d498a0 -r 2786c6775197 src/http/modules/ngx_http_stub_status_modul
      r->headers_out.content_length_n = b->last - b->pos;
 # HG changeset patch
 # User Valentin V. Bartenev <ne@vbart.ru>
-# Date 1358259504 -14400
-# Node ID e554d2262d030827817c3a85159a3d6809b28362
-# Parent  2786c6775197131f322f7c157f7d2b2a240ef449
-[mq]: spdy
+# Date 1360073540 -14400
+# Node ID bf6dec5d847ea32122196e4d0fa903034813526d
+# Parent  075091134e5d96fdc402e050c53d323eb61672aa
+imported patch spdy
 
-diff -r 2786c6775197 -r e554d2262d03 auto/modules
---- a/auto/modules	Sun Jan 13 04:09:49 2013 +0400
-+++ b/auto/modules	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e auto/modules
+--- a/auto/modules	Tue Feb 05 18:12:20 2013 +0400
++++ b/auto/modules	Tue Feb 05 18:12:20 2013 +0400
 @@ -118,8 +118,13 @@ fi
  
  HTTP_FILTER_MODULES="$HTTP_WRITE_FILTER_MODULE \
@@ -2847,9 +2762,9 @@ diff -r 2786c6775197 -r e554d2262d03 auto/modules
  HTTP_MODULES="$HTTP_MODULES $HTTP_STATIC_MODULE"
  
  if [ $HTTP_GZIP_STATIC = YES ]; then
-diff -r 2786c6775197 -r e554d2262d03 auto/options
---- a/auto/options	Sun Jan 13 04:09:49 2013 +0400
-+++ b/auto/options	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e auto/options
+--- a/auto/options	Tue Feb 05 18:12:20 2013 +0400
++++ b/auto/options	Tue Feb 05 18:12:20 2013 +0400
 @@ -60,6 +60,7 @@ HTTP_CACHE=YES
  HTTP_CHARSET=YES
  HTTP_GZIP=YES
@@ -2866,9 +2781,9 @@ diff -r 2786c6775197 -r e554d2262d03 auto/options
          --with-http_realip_module)       HTTP_REALIP=YES            ;;
          --with-http_addition_module)     HTTP_ADDITION=YES          ;;
          --with-http_xslt_module)         HTTP_XSLT=YES              ;;
-diff -r 2786c6775197 -r e554d2262d03 auto/sources
---- a/auto/sources	Sun Jan 13 04:09:49 2013 +0400
-+++ b/auto/sources	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e auto/sources
+--- a/auto/sources	Tue Feb 05 18:12:20 2013 +0400
++++ b/auto/sources	Tue Feb 05 18:12:20 2013 +0400
 @@ -324,6 +324,16 @@ HTTP_POSTPONE_FILTER_SRCS=src/http/ngx_h
  HTTP_FILE_CACHE_SRCS=src/http/ngx_http_file_cache.c
  
@@ -2886,9 +2801,9 @@ diff -r 2786c6775197 -r e554d2262d03 auto/sources
  HTTP_CHARSET_FILTER_MODULE=ngx_http_charset_filter_module
  HTTP_CHARSET_SRCS=src/http/modules/ngx_http_charset_filter_module.c
  
-diff -r 2786c6775197 -r e554d2262d03 src/http/modules/ngx_http_ssl_module.c
---- a/src/http/modules/ngx_http_ssl_module.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/modules/ngx_http_ssl_module.c	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/modules/ngx_http_ssl_module.c
+--- a/src/http/modules/ngx_http_ssl_module.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/modules/ngx_http_ssl_module.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -775,11 +775,27 @@ static int
  ngx_http_ssl_npn_advertised(ngx_ssl_conn_t *ssl_conn, const unsigned char **out,
      unsigned int *outlen, void *arg)
@@ -2918,9 +2833,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/modules/ngx_http_ssl_module.c
  #endif
  
      *out = (unsigned char *) NGX_HTTP_NPN_ADVERTISE;
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http.c
---- a/src/http/ngx_http.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http.c	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http.c
+--- a/src/http/ngx_http.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -1225,6 +1225,9 @@ ngx_http_add_addresses(ngx_conf_t *cf, n
  #if (NGX_HTTP_SSL)
      ngx_uint_t             ssl;
@@ -2980,9 +2895,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http.c
  
          if (addr[i].hash.buckets == NULL
              && (addr[i].wc_head == NULL
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http.h
---- a/src/http/ngx_http.h	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http.h	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http.h
+--- a/src/http/ngx_http.h	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http.h	Tue Feb 05 18:12:20 2013 +0400
 @@ -13,6 +13,7 @@
  #include <ngx_core.h>
  
@@ -3002,7 +2917,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http.h
  #include <ngx_http_variables.h>
  #include <ngx_http_request.h>
 @@ -35,6 +39,10 @@ typedef u_char *(*ngx_http_log_handler_p
- #include <ngx_http_script.h>
+ #include <ngx_http_busy_lock.h>
  #include <ngx_http_core_module.h>
  
 +#if (NGX_HTTP_SPDY)
@@ -3037,17 +2952,19 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http.h
  ngx_int_t ngx_http_find_server_conf(ngx_http_request_t *r);
  void ngx_http_update_location_config(ngx_http_request_t *r);
  void ngx_http_handler(ngx_http_request_t *r);
-@@ -111,6 +124,7 @@ void ngx_http_run_posted_requests(ngx_co
+@@ -111,6 +124,9 @@ void ngx_http_run_posted_requests(ngx_co
  ngx_int_t ngx_http_post_request(ngx_http_request_t *r,
      ngx_http_posted_request_t *pr);
  void ngx_http_finalize_request(ngx_http_request_t *r, ngx_int_t rc);
 +void ngx_http_log_request(ngx_http_request_t *r);
++
++void ngx_http_request_handler(ngx_event_t *ev);
  
  void ngx_http_empty_handler(ngx_event_t *wev);
  void ngx_http_request_empty_handler(ngx_http_request_t *r);
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_core_module.c
---- a/src/http/ngx_http_core_module.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http_core_module.c	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_core_module.c
+--- a/src/http/ngx_http_core_module.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http_core_module.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -82,7 +82,6 @@ static char *ngx_http_disable_symlinks(n
  #endif
  
@@ -3056,7 +2973,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_core_module.c
  
  static ngx_conf_post_t  ngx_http_core_lowat_post =
      { ngx_http_core_lowat_check };
-@@ -2138,6 +2137,13 @@ ngx_http_gzip_ok(ngx_http_request_t *r)
+@@ -2134,6 +2133,13 @@ ngx_http_gzip_ok(ngx_http_request_t *r)
          return NGX_DECLINED;
      }
  
@@ -3070,7 +2987,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_core_module.c
      ae = r->headers_in.accept_encoding;
      if (ae == NULL) {
          return NGX_DECLINED;
-@@ -4086,6 +4092,18 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx
+@@ -4082,6 +4088,18 @@ ngx_http_core_listen(ngx_conf_t *cf, ngx
  #endif
          }
  
@@ -3089,7 +3006,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_core_module.c
          if (ngx_strncmp(value[n].data, "so_keepalive=", 13) == 0) {
  
              if (ngx_strcmp(&value[n].data[13], "on") == 0) {
-@@ -5145,7 +5163,7 @@ ngx_http_core_lowat_check(ngx_conf_t *cf
+@@ -5141,7 +5159,7 @@ ngx_http_core_lowat_check(ngx_conf_t *cf
  }
  
  
@@ -3098,9 +3015,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_core_module.c
  ngx_http_core_pool_size(ngx_conf_t *cf, void *post, void *data)
  {
      size_t *sp = data;
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_core_module.h
---- a/src/http/ngx_http_core_module.h	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http_core_module.h	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_core_module.h
+--- a/src/http/ngx_http_core_module.h	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http_core_module.h	Tue Feb 05 18:12:20 2013 +0400
 @@ -75,6 +75,9 @@ typedef struct {
  #if (NGX_HTTP_SSL)
      unsigned                   ssl:1;
@@ -3133,9 +3050,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_core_module.h
  extern ngx_module_t  ngx_http_core_module;
  
  extern ngx_uint_t ngx_http_max_module;
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_parse.c
---- a/src/http/ngx_http_parse.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http_parse.c	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_parse.c
+--- a/src/http/ngx_http_parse.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http_parse.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -1075,6 +1075,154 @@ header_done:
  
  
@@ -3291,9 +3208,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_parse.c
  ngx_http_parse_complex_uri(ngx_http_request_t *r, ngx_uint_t merge_slashes)
  {
      u_char  c, ch, decoded, *p, *u;
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
---- a/src/http/ngx_http_request.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http_request.c	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_request.c
+--- a/src/http/ngx_http_request.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http_request.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -10,7 +10,6 @@
  #include <ngx_http.h>
  
@@ -3310,7 +3227,15 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
  static void ngx_http_process_request(ngx_http_request_t *r);
  static ssize_t ngx_http_validate_host(ngx_http_request_t *r, u_char **host,
      size_t len);
-@@ -52,8 +50,6 @@ static void ngx_http_lingering_close_han
+@@ -43,7 +41,6 @@ static ngx_http_core_srv_conf_t *ngx_htt
+ 
+ #define NGX_HTTP_SERVER_LOOKUP_ERROR (void *) -1
+ 
+-static void ngx_http_request_handler(ngx_event_t *ev);
+ static void ngx_http_terminate_request(ngx_http_request_t *r, ngx_int_t rc);
+ static void ngx_http_terminate_handler(ngx_http_request_t *r);
+ static void ngx_http_finalize_connection(ngx_http_request_t *r);
+@@ -58,8 +55,6 @@ static void ngx_http_lingering_close_han
  static ngx_int_t ngx_http_post_action(ngx_http_request_t *r);
  static void ngx_http_close_request(ngx_http_request_t *r, ngx_int_t error);
  static void ngx_http_free_request(ngx_http_request_t *r, ngx_int_t error);
@@ -3319,7 +3244,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
  
  static u_char *ngx_http_log_error(ngx_log_t *log, u_char *buf, size_t len);
  static u_char *ngx_http_log_error_handler(ngx_http_request_t *r,
-@@ -315,6 +311,12 @@ ngx_http_init_connection(ngx_connection_
+@@ -321,6 +316,12 @@ ngx_http_init_connection(ngx_connection_
      rev->handler = ngx_http_keepalive_handler;
      c->write->handler = ngx_http_empty_handler;
  
@@ -3332,7 +3257,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
  #if (NGX_HTTP_SSL)
      {
      ngx_http_ssl_srv_conf_t  *sscf;
-@@ -361,7 +363,7 @@ ngx_http_init_connection(ngx_connection_
+@@ -369,7 +370,7 @@ ngx_http_init_connection(ngx_connection_
  }
  
  
@@ -3341,7 +3266,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
  ngx_http_init_request(ngx_connection_t *c)
  {
      ngx_pool_t                 *pool;
-@@ -609,6 +611,22 @@ ngx_http_ssl_handshake_handler(ngx_conne
+@@ -597,6 +598,22 @@ ngx_http_ssl_handshake_handler(ngx_conne
  
          c->ssl->no_wait_shutdown = 1;
  
@@ -3364,7 +3289,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
          c->log->action = "waiting request";
  
          c->read->handler = ngx_http_keepalive_handler;
-@@ -1485,7 +1503,7 @@ ngx_http_process_cookie(ngx_http_request
+@@ -1554,7 +1571,7 @@ ngx_http_process_cookie(ngx_http_request
  }
  
  
@@ -3372,43 +3297,17 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
 +ngx_int_t
  ngx_http_process_request_header(ngx_http_request_t *r)
  {
-     if (r->headers_in.server.len == 0) {
-@@ -1721,19 +1739,24 @@ ngx_http_validate_host(ngx_http_request_
-     }
+     if (r->headers_in.server.data == NULL) {
+@@ -1949,7 +1966,7 @@ ngx_http_virtual_server_lookup(ngx_http_
+ }
  
- #ifdef SSL_CTRL_SET_TLSEXT_HOSTNAME
-+
-+#if (NGX_HTTP_SPDY)
-+    if (r->spdy_stream == NULL)
-+#endif
-     {
--    ngx_str_t  *sni_host;
--
--    sni_host = r->http_connection->sni_host;
--
--    if (sni_host) {
--        if (sni_host->len != host_len
--            || ngx_strncmp(sni_host->data, h, host_len) != 0)
--        {
--            return 0;
-+        ngx_str_t  *sni_host;
-+
-+        sni_host = r->http_connection->sni_host;
-+
-+        if (sni_host) {
-+            if (sni_host->len != host_len
-+                || ngx_strncmp(sni_host->data, h, host_len) != 0)
-+            {
-+                return 0;
-+            }
-         }
-     }
--    }
-+
- #endif
  
-     return host_len;
-@@ -2045,6 +2068,13 @@ ngx_http_finalize_request(ngx_http_reque
+-static void
++void
+ ngx_http_request_handler(ngx_event_t *ev)
+ {
+     ngx_connection_t    *c;
+@@ -2041,6 +2058,13 @@ ngx_http_finalize_request(ngx_http_reque
      ngx_http_request_t        *pr;
      ngx_http_core_loc_conf_t  *clcf;
  
@@ -3422,7 +3321,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
      c = r->connection;
  
      ngx_log_debug5(NGX_LOG_DEBUG_HTTP, c->log, 0,
-@@ -3230,7 +3260,7 @@ ngx_http_free_request(ngx_http_request_t
+@@ -3226,7 +3250,7 @@ ngx_http_free_request(ngx_http_request_t
  }
  
  
@@ -3431,7 +3330,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
  ngx_http_log_request(ngx_http_request_t *r)
  {
      ngx_uint_t                  i, n;
-@@ -3248,7 +3278,7 @@ ngx_http_log_request(ngx_http_request_t 
+@@ -3244,7 +3268,7 @@ ngx_http_log_request(ngx_http_request_t 
  }
  
  
@@ -3440,9 +3339,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.c
  ngx_http_close_connection(ngx_connection_t *c)
  {
      ngx_pool_t  *pool;
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.h
---- a/src/http/ngx_http_request.h	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http_request.h	Tue Jan 15 18:18:24 2013 +0400
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_request.h
+--- a/src/http/ngx_http_request.h	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http_request.h	Tue Feb 05 18:12:20 2013 +0400
 @@ -288,7 +288,7 @@ typedef struct ngx_http_addr_conf_s  ngx
  
  typedef struct ngx_http_conf_ctx_s  ngx_http_conf_ctx_t;
@@ -3452,16 +3351,16 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.h
      ngx_http_addr_conf_t             *addr_conf;
      ngx_http_conf_ctx_t              *ctx;
  
-@@ -304,7 +304,7 @@ typedef struct {
- 
-     ngx_buf_t                       **free;
-     ngx_int_t                         nfree;
+@@ -308,7 +308,7 @@ typedef struct {
+ #if (NGX_HTTP_SSL)
+     ngx_uint_t                        ssl;    /* unsigned  ssl:1; */
+ #endif
 -} ngx_http_connection_t;
 +};
  
  
  typedef void (*ngx_http_cleanup_pt)(void *data);
-@@ -422,6 +422,9 @@ struct ngx_http_request_s {
+@@ -426,6 +426,9 @@ struct ngx_http_request_s {
      ngx_uint_t                        err_status;
  
      ngx_http_connection_t            *http_connection;
@@ -3471,10 +3370,10 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request.h
  
      ngx_http_log_handler_pt           log_handler;
  
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request_body.c
---- a/src/http/ngx_http_request_body.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http_request_body.c	Tue Jan 15 18:18:24 2013 +0400
-@@ -41,7 +41,33 @@ ngx_http_read_client_request_body(ngx_ht
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_request_body.c
+--- a/src/http/ngx_http_request_body.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http_request_body.c	Tue Feb 05 18:12:20 2013 +0400
+@@ -42,7 +42,33 @@ ngx_http_read_client_request_body(ngx_ht
  
      r->main->count++;
  
@@ -3509,7 +3408,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request_body.c
          post_handler(r);
          return NGX_OK;
      }
-@@ -450,6 +476,13 @@ ngx_http_discard_request_body(ngx_http_r
+@@ -466,6 +492,13 @@ ngx_http_discard_request_body(ngx_http_r
          return NGX_OK;
      }
  
@@ -3523,10 +3422,10 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_request_body.c
      if (ngx_http_test_expect(r) != NGX_OK) {
          return NGX_HTTP_INTERNAL_SERVER_ERROR;
      }
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_spdy.c
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/http/ngx_http_spdy.c	Tue Jan 15 18:18:24 2013 +0400
-@@ -0,0 +1,3197 @@
++++ b/src/http/ngx_http_spdy.c	Tue Feb 05 18:12:20 2013 +0400
+@@ -0,0 +1,3141 @@
 +
 +/*
 + * Copyright (C) Nginx, Inc.
@@ -3717,8 +3616,6 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +    ngx_http_spdy_connection_t *sc, ngx_uint_t sid);
 +static void ngx_http_spdy_stream_index_cleanup(void *data);
 +
-+static u_char *ngx_http_spdy_log_error_handler(ngx_http_request_t *r,
-+    ngx_http_request_t *sr, u_char *buf, size_t len);
 +static void ngx_http_spdy_writer(ngx_http_request_t *r);
 +
 +static ngx_http_request_t *ngx_http_spdy_create_request(
@@ -3933,7 +3830,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +ngx_http_spdy_create_request(ngx_http_spdy_connection_t *sc)
 +{
 +    ngx_log_t                 *log;
-+    ngx_event_t               *ev;
++    ngx_event_t               *rev, *wev;
 +    ngx_connection_t          *fc;
 +    ngx_http_log_ctx_t        *ctx;
 +    ngx_http_request_t        *r;
@@ -3944,7 +3841,8 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +    if (fc) {
 +        sc->free_fake_connections = fc->data;
 +
-+        ev = fc->read;
++        rev = fc->read;
++        wev = fc->write;
 +        log = fc->log;
 +        ctx = log->data;
 +
@@ -3954,8 +3852,13 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +            return NULL;
 +        }
 +
-+        ev = ngx_palloc(sc->pool, sizeof(ngx_event_t));
-+        if (ev == NULL) {
++        rev = ngx_palloc(sc->pool, sizeof(ngx_event_t));
++        if (rev == NULL) {
++            return NULL;
++        }
++
++        wev = ngx_palloc(sc->pool, sizeof(ngx_event_t));
++        if (wev == NULL) {
 +            return NULL;
 +        }
 +
@@ -3973,20 +3876,26 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +        ctx->request = NULL;
 +    }
 +
-+    ngx_memzero(ev, sizeof(ngx_event_t));
-+
-+    ev->ready = 1;
-+    ev->handler = ngx_http_empty_handler;
-+
 +    ngx_memcpy(log, sc->connection->log, sizeof(ngx_log_t));
 +
 +    log->data = ctx;
 +
++    ngx_memzero(rev, sizeof(ngx_event_t));
++
++    rev->data = fc;
++    rev->ready = 1;
++    rev->handler = ngx_http_request_handler;
++    rev->log = log;
++
++    ngx_memcpy(wev, rev, sizeof(ngx_event_t));
++
++    wev->write = 1;
++
 +    ngx_memcpy(fc, sc->connection, sizeof(ngx_connection_t));
 +
 +    fc->data = sc->http_connection;
-+    fc->read = ev;
-+    fc->write = ev;
++    fc->read = rev;
++    fc->write = wev;
 +    fc->sent = 0;
 +    fc->log = log;
 +    fc->buffered = 0;
@@ -4010,7 +3919,6 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +    fc->data = r;
 +
 +    r->valid_location = 1;
-+    r->log_handler = ngx_http_spdy_log_error_handler;
 +
 +    r->gzip_tested = 1;
 +    r->gzip_ok = 1;
@@ -4272,7 +4180,7 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +        ngx_log_debug4(NGX_LOG_DEBUG_HTTP, c->log, 0,
 +                       "spdy frame sent: %p sid:%ui bl:%ui size:%uz",
 +                       out, out->stream ? out->stream->id : 0,
-+                       out->size, out->blocked);
++                       out->blocked, out->size);
 +    }
 +
 +    frame = NULL;
@@ -5351,13 +5259,6 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +        return;
 +    }
 +
-+    if (r->plain_http) {
-+        ngx_log_error(NGX_LOG_INFO, fc->log, 0,
-+                      "client sent plain HTTP request to HTTPS port");
-+        ngx_http_spdy_finalize_request(r, NGX_HTTP_TO_HTTPS);
-+        return;
-+    }
-+
 +#if (NGX_STAT_STUB)
 +    (void) ngx_atomic_fetch_add(ngx_stat_reading, -1);
 +    r->stat_reading = 0;
@@ -6069,80 +5970,6 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +}
 +
 +
-+static u_char *
-+ngx_http_spdy_log_error_handler(ngx_http_request_t *r, ngx_http_request_t *sr,
-+    u_char *buf, size_t len)
-+{
-+    char                      *uri_separator;
-+    u_char                    *p;
-+    ngx_http_upstream_t       *u;
-+    ngx_http_core_srv_conf_t  *cscf;
-+
-+    cscf = ngx_http_get_module_srv_conf(r, ngx_http_core_module);
-+
-+    p = ngx_snprintf(buf, len, ", server: %V", &cscf->server_name);
-+    len -= p - buf;
-+    buf = p;
-+
-+    if (r->request_line.data == NULL && r->request_start) {
-+        for (p = r->request_start; p < r->header_in->last; p++) {
-+            if (*p == CR || *p == LF) {
-+                break;
-+            }
-+        }
-+
-+        r->request_line.len = p - r->request_start;
-+        r->request_line.data = r->request_start;
-+    }
-+
-+    if (r->request_line.len) {
-+        p = ngx_snprintf(buf, len, ", request: \"%V\"", &r->request_line);
-+        len -= p - buf;
-+        buf = p;
-+    }
-+
-+    if (r != sr) {
-+        p = ngx_snprintf(buf, len, ", subrequest: \"%V\"", &sr->uri);
-+        len -= p - buf;
-+        buf = p;
-+    }
-+
-+    u = sr->upstream;
-+
-+    if (u && u->peer.name) {
-+
-+        uri_separator = "";
-+
-+#if (NGX_HAVE_UNIX_DOMAIN)
-+        if (u->peer.sockaddr && u->peer.sockaddr->sa_family == AF_UNIX) {
-+            uri_separator = ":";
-+        }
-+#endif
-+
-+        p = ngx_snprintf(buf, len, ", upstream: \"%V%V%s%V\"",
-+                         &u->schema, u->peer.name,
-+                         uri_separator, &u->uri);
-+        len -= p - buf;
-+        buf = p;
-+    }
-+
-+    if (r->headers_in.host) {
-+        p = ngx_snprintf(buf, len, ", host: \"%V\"",
-+                         &r->headers_in.host->value);
-+        len -= p - buf;
-+        buf = p;
-+    }
-+
-+    if (r->headers_in.referer) {
-+        p = ngx_snprintf(buf, len, ", referrer: \"%V\"",
-+                         &r->headers_in.referer->value);
-+        buf = p;
-+    }
-+
-+    return buf;
-+}
-+
-+
 +void
 +ngx_http_spdy_finalize_request(ngx_http_request_t *r, ngx_int_t rc)
 +{
@@ -6503,6 +6330,22 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +
 +    fc->log->action = "closing request";
 +
++    if (fc->read->active || fc->read->disabled) {
++        ngx_del_event(fc->read, NGX_READ_EVENT, 0);
++    }
++
++    if (fc->read->timer_set) {
++        ngx_del_timer(fc->read);
++    }
++
++    if (fc->read->prev) {
++        ngx_delete_posted_event(fc->read);
++    }
++
++    if (fc->write->active || fc->write->disabled) {
++        ngx_del_event(fc->write, NGX_WRITE_EVENT, 0);
++    }
++
 +    if (fc->write->timer_set) {
 +        ngx_del_timer(fc->write);
 +    }
@@ -6724,9 +6567,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.c
 +        ngx_del_event(ev, NGX_WRITE_EVENT, 0);
 +    }
 +}
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.h
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_spdy.h
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/http/ngx_http_spdy.h	Tue Jan 15 18:18:24 2013 +0400
++++ b/src/http/ngx_http_spdy.h	Tue Feb 05 18:12:20 2013 +0400
 @@ -0,0 +1,182 @@
 +/*
 + * Copyright (C) Nginx, Inc.
@@ -6910,9 +6753,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy.h
 +#endif
 +
 +#endif /* _NGX_HTTP_SPDY_H_INCLUDED_ */
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy_filter_module.c
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_spdy_filter_module.c
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/http/ngx_http_spdy_filter_module.c	Tue Jan 15 18:18:24 2013 +0400
++++ b/src/http/ngx_http_spdy_filter_module.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -0,0 +1,902 @@
 +
 +/*
@@ -7816,9 +7659,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy_filter_module.c
 +
 +    return NGX_OK;
 +}
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy_module.c
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_spdy_module.c
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/http/ngx_http_spdy_module.c	Tue Jan 15 18:18:24 2013 +0400
++++ b/src/http/ngx_http_spdy_module.c	Tue Feb 05 18:12:20 2013 +0400
 @@ -0,0 +1,299 @@
 +
 +/*
@@ -8119,9 +7962,9 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy_module.c
 +
 +    return NGX_CONF_OK;
 +}
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy_module.h
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_spdy_module.h
 --- /dev/null	Thu Jan 01 00:00:00 1970 +0000
-+++ b/src/http/ngx_http_spdy_module.h	Tue Jan 15 18:18:24 2013 +0400
++++ b/src/http/ngx_http_spdy_module.h	Tue Feb 05 18:12:20 2013 +0400
 @@ -0,0 +1,36 @@
 +
 +/*
@@ -8159,10 +8002,10 @@ diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_spdy_module.h
 +
 +
 +#endif /* _NGX_HTTP_SPDY_MODULE_H_INCLUDED_ */
-diff -r 2786c6775197 -r e554d2262d03 src/http/ngx_http_upstream.c
---- a/src/http/ngx_http_upstream.c	Sun Jan 13 04:09:49 2013 +0400
-+++ b/src/http/ngx_http_upstream.c	Tue Jan 15 18:18:24 2013 +0400
-@@ -427,6 +427,13 @@ ngx_http_upstream_init(ngx_http_request_
+diff -r 075091134e5d -r bf6dec5d847e src/http/ngx_http_upstream.c
+--- a/src/http/ngx_http_upstream.c	Tue Feb 05 18:12:20 2013 +0400
++++ b/src/http/ngx_http_upstream.c	Tue Feb 05 18:12:20 2013 +0400
+@@ -430,6 +430,13 @@ ngx_http_upstream_init(ngx_http_request_
      ngx_log_debug1(NGX_LOG_DEBUG_HTTP, c->log, 0,
                     "http init upstream, client timer: %d", c->read->timer_set);
  

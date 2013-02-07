@@ -18,7 +18,7 @@ GENTOO_DEPEND_ON_PERL="no"
 USE_RUBY="ruby18 ree18 jruby ruby19 rbx"
 RUBY_OPTIONAL="yes"
 
-#SPDY_VER="58"
+SPDY_VER="61"
 
 # syslog
 SYSLOG_MODULE_A="yaoweibin"
@@ -78,14 +78,15 @@ HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODU
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="../${HTTP_CACHE_PURGE_MODULE_P}"
 
-# HTTP Upload module from Valery Kholodkov
-# (http://www.grid.net.ru/nginx/upload.ru.html (ru) http://www.grid.net.ru/nginx/upload.en.html (en), BSD license)
-HTTP_UPLOAD_MODULE_A="vkholodkov"
-HTTP_UPLOAD_MODULE_PN="nginx-upload-module"
-HTTP_UPLOAD_MODULE_PV="2.2.0"
-HTTP_UPLOAD_MODULE_P="${HTTP_UPLOAD_MODULE_PN}-${HTTP_UPLOAD_MODULE_PV}"
-HTTP_UPLOAD_MODULE_URI="https://github.com/${HTTP_UPLOAD_MODULE_A}/${HTTP_UPLOAD_MODULE_PN}/archive/${HTTP_UPLOAD_MODULE_PV}.tar.gz"
-HTTP_UPLOAD_MODULE_WD="../${HTTP_UPLOAD_MODULE_P}"
+## Incompatible with latest 1.3.x; temporary removed, until new release;
+### HTTP Upload module from Valery Kholodkov
+### (http://www.grid.net.ru/nginx/upload.ru.html (ru) http://www.grid.net.ru/nginx/upload.en.html (en), BSD license)
+##HTTP_UPLOAD_MODULE_A="vkholodkov"
+##HTTP_UPLOAD_MODULE_PN="nginx-upload-module"
+##HTTP_UPLOAD_MODULE_PV="2.2.0"
+##HTTP_UPLOAD_MODULE_P="${HTTP_UPLOAD_MODULE_PN}-${HTTP_UPLOAD_MODULE_PV}"
+##HTTP_UPLOAD_MODULE_URI="https://github.com/${HTTP_UPLOAD_MODULE_A}/${HTTP_UPLOAD_MODULE_PN}/archive/${HTTP_UPLOAD_MODULE_PV}.tar.gz"
+##HTTP_UPLOAD_MODULE_WD="../${HTTP_UPLOAD_MODULE_P}"
 
 # ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer, as-is)
 HTTP_EY_BALANCER_MODULE_A="msva"
@@ -106,7 +107,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.7.6rc2"
+HTTP_LUA_MODULE_PV="0.7.14rc2"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -237,7 +238,7 @@ HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
 HTTP_FANCYINDEX_MODULE_PV="0.3.2"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
-HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
+HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_P}"
 
 # Chunkin (https://github.com/agentzh/chunkin-nginx-module )
 #CHUNKIN_MODULE_A="agentzh"
@@ -271,7 +272,6 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} -> ${HTTP_CTPP_MODULE_P}.tar.gz )
 	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
-	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
@@ -294,6 +294,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
 	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P}.tar.gz )
 	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )"
+#	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
 #	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
 #	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 #	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
@@ -308,14 +309,14 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_conn map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static image_filter
-mp4 perl random_index realip secure_link stub_status sub xslt"
-# spdy"
+mp4 perl random_index realip secure_link stub_status sub xslt spdy"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_push_stream
-http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
+http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
 http_xss http_iconv http_upload_progress http_ctpp http_fancyindex"
+# http_upload
 # http_push
 # http_set_cconv"
 
@@ -324,8 +325,8 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
 		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
+		nginx_modules_http_spdy? ( ssl )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
-#		nginx_modules_http_spdy? ( ssl )
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
 IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog"
@@ -432,10 +433,6 @@ src_unpack() {
 }
 
 src_prepare() {
-#	if use nginx_modules_http_spdy; then
-#		epatch "${FILESDIR}"/patch.spdy-${SPDY_VER}_${PV}.txt
-#	fi
-
 	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_1.3.11.patch
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
@@ -451,6 +448,14 @@ src_prepare() {
 
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
+	fi
+
+	if use nginx_modules_http_spdy; then
+		# Upstream maintains broken patch, which patch same file
+		# multiple times.
+		# So then it can't be applied via --dry-run or epatch;
+		# So then, we can apply it only in that way.
+		patch -p1 < "${FILESDIR}"/patch.spdy-${SPDY_VER}_${PV}.txt
 	fi
 
 	if use nginx_modules_http_passenger; then
@@ -660,11 +665,11 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_CACHE_PURGE_MODULE_WD}"
 	fi
 
-# http_upload
-	if use nginx_modules_http_upload; then
-		http_enabled=1
-		myconf+=" --add-module=${HTTP_UPLOAD_MODULE_WD}"
-	fi
+### http_upload
+##	if use nginx_modules_http_upload; then
+##		http_enabled=1
+##		myconf+=" --add-module=${HTTP_UPLOAD_MODULE_WD}"
+##	fi
 
 # http_ey_balancer
 	if use nginx_modules_http_ey_balancer; then
@@ -820,11 +825,11 @@ src_install() {
 		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md}
 	fi
 
-# http_upload
-	if use nginx_modules_http_upload; then
-		docinto "${HTTP_UPLOAD_MODULE_P}"
-		dodoc "${HTTP_UPLOAD_MODULE_WD}"/{Changelog,README}
-	fi
+### http_upload
+##	if use nginx_modules_http_upload; then
+##		docinto "${HTTP_UPLOAD_MODULE_P}"
+##		dodoc "${HTTP_UPLOAD_MODULE_WD}"/{Changelog,README}
+##	fi
 
 # http_upload_progress
 	if use nginx_modules_http_upload_progress; then
