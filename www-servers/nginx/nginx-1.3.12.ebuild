@@ -809,8 +809,8 @@ src_install() {
 
 # http_push_stream
 	if use nginx_modules_http_push_stream; then
-		docinto "${HTTP_PUSH_MODULE_P}"
-		dodoc "${HTTP_PUSH_MODULE_WD}"/{CHANGELOG.textile,README.textile}
+		docinto "${HTTP_PUSH_STREAM_MODULE_P}"
+		dodoc "${HTTP_PUSH_STREAM_MODULE_WD}"/{CHANGELOG.textile,README.textile}
 	fi
 
 # http_ctpp
