@@ -451,6 +451,10 @@ src_prepare() {
 	fi
 
 	if use nginx_modules_http_spdy; then
+		ewarn "!!!!!!!!!!!!!!!!!!"
+		ewarn "SPDY module is a bit broken, so it can cause build"
+		ewarn "failures when you build NginX with soma other modules"
+		ewarn "!!!!!!!!!!!!!!!!!!"
 		# Upstream maintains broken patch, which patch same file
 		# multiple times.
 		# So then it can't be applied via --dry-run or epatch;
