@@ -19,11 +19,12 @@ USE_RUBY="ruby18 ree18 jruby ruby19 rbx"
 RUBY_OPTIONAL="yes"
 
 # syslog
-SYSLOG_MODULE_PV="1.2.0"
-SYSLOG_MODULE_P="ngx_syslog-${SYSLOG_MODULE_PV}"
-SYSLOG_MODULE_SHA1="2686c1c"
-SYSLOG_MODULE_URI="https://github.com/yaoweibin/nginx_syslog_patch/tarball/${SYSLOG_MODULE_SHA1}"
-SYSLOG_MODULE_WD="../yaoweibin-nginx_syslog_patch-${SYSLOG_MODULE_SHA1}"
+SYSLOG_MODULE_A="yaoweibin"
+SYSLOG_MODULE_PN="nginx_syslog_patch"
+SYSLOG_MODULE_PV="0.24"
+SYSLOG_MODULE_P="${SYSLOG_MODULE_PN}-${SYSLOG_MODULE_PV}"
+SYSLOG_MODULE_URI="https://github.com/${SYSLOG_MODULE_A}/${SYSLOG_MODULE_PN}/archive/v${SYSLOG_MODULE_PV}.tar.gz"
+SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 HTTP_PASSENGER_MODULE_PV="3.0.18"
@@ -35,7 +36,6 @@ HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
 HTTP_UPLOAD_PROGRESS_MODULE_A="masterzen"
 HTTP_UPLOAD_PROGRESS_MODULE_PN="nginx-upload-progress-module"
 HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.0"
-HTTP_UPLOAD_PROGRESS_MODULE_SHA1="a788dea"
 HTTP_UPLOAD_PROGRESS_MODULE_P="${HTTP_UPLOAD_PROGRESS_MODULE_PN}-${HTTP_UPLOAD_PROGRESS_MODULE_PV}"
 HTTP_UPLOAD_PROGRESS_MODULE_URI="https://github.com/${HTTP_UPLOAD_PROGRESS_MODULE_A}/${HTTP_UPLOAD_PROGRESS_MODULE_PN}/archive/v${HTTP_UPLOAD_PROGRESS_MODULE_PV}.tar.gz"
 HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
@@ -44,16 +44,23 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 HTTP_HEADERS_MORE_MODULE_A="agentzh"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
 HTTP_HEADERS_MORE_MODULE_PV="0.19rc1"
-HTTP_HEADERS_MORE_MODULE_SHA1="5f9684b"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
-HTTP_PUSH_MODULE_PV="0.692"
-HTTP_PUSH_MODULE_P="nginx_http_push_module-${HTTP_PUSH_MODULE_PV}"
-HTTP_PUSH_MODULE_URI="http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz"
-HTTP_PUSH_MODULE_WD="../${HTTP_PUSH_MODULE_P}"
+#HTTP_PUSH_MODULE_PV="0.692"
+#HTTP_PUSH_MODULE_P="nginx_http_push_module-${HTTP_PUSH_MODULE_PV}"
+#HTTP_PUSH_MODULE_URI="http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz"
+#HTTP_PUSH_MODULE_WD="../${HTTP_PUSH_MODULE_P}"
+
+# http_headers_more (https://github.com/agentzh/headers-more-nginx-module, BSD license)
+HTTP_PUSH_STREAM_MODULE_A="wandenberg"
+HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
+HTTP_PUSH_STREAM_MODULE_PV="0.3.4"
+HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODULE_PV}"
+HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_PV}.tar.gz"
+HTTP_PUSH_STREAM_MODULE_WD="../${HTTP_PUSH_STREAM_MODULE_P}"
 
 # http_ctpp2 (http://ngx-ctpp.vbart.ru/ (ru) http://ngx-ctpp.vbart.info/ (en), BSD license)
 HTTP_CTPP_MODULE_PV="0.5"
@@ -65,26 +72,24 @@ HTTP_CTPP_MODULE_WD="../${HTTP_CTPP_MODULE_P}"
 HTTP_CACHE_PURGE_MODULE_A="FRiCKLE"
 HTTP_CACHE_PURGE_MODULE_PN="ngx_cache_purge"
 HTTP_CACHE_PURGE_MODULE_PV="1.6"
-HTTP_CACHE_PURGE_MODULE_SHA1="73a8a93"
 HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODULE_PV}"
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="../${HTTP_CACHE_PURGE_MODULE_P}"
 
-# HTTP Upload module from Valery Kholodkov
-# (http://www.grid.net.ru/nginx/upload.ru.html (ru) http://www.grid.net.ru/nginx/upload.en.html (en), BSD license)
-HTTP_UPLOAD_MODULE_A="vkholodkov"
-HTTP_UPLOAD_MODULE_PN="nginx-upload-module"
-HTTP_UPLOAD_MODULE_PV="2.2.0"
-HTTP_UPLOAD_MODULE_SHA1="2ec4e4f"
-HTTP_UPLOAD_MODULE_P="${HTTP_UPLOAD_MODULE_PN}-${HTTP_UPLOAD_MODULE_PV}"
-HTTP_UPLOAD_MODULE_URI="https://github.com/${HTTP_UPLOAD_MODULE_A}/${HTTP_UPLOAD_MODULE_PN}/archive/${HTTP_UPLOAD_MODULE_PV}.tar.gz"
-HTTP_UPLOAD_MODULE_WD="../${HTTP_UPLOAD_MODULE_P}"
+## Incompatible with latest 1.3.x; temporary removed, until new release;
+### HTTP Upload module from Valery Kholodkov
+### (http://www.grid.net.ru/nginx/upload.ru.html (ru) http://www.grid.net.ru/nginx/upload.en.html (en), BSD license)
+##HTTP_UPLOAD_MODULE_A="vkholodkov"
+##HTTP_UPLOAD_MODULE_PN="nginx-upload-module"
+##HTTP_UPLOAD_MODULE_PV="2.2.0"
+##HTTP_UPLOAD_MODULE_P="${HTTP_UPLOAD_MODULE_PN}-${HTTP_UPLOAD_MODULE_PV}"
+##HTTP_UPLOAD_MODULE_URI="https://github.com/${HTTP_UPLOAD_MODULE_A}/${HTTP_UPLOAD_MODULE_PN}/archive/${HTTP_UPLOAD_MODULE_PV}.tar.gz"
+##HTTP_UPLOAD_MODULE_WD="../${HTTP_UPLOAD_MODULE_P}"
 
 # ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer, as-is)
 HTTP_EY_BALANCER_MODULE_A="msva"
 HTTP_EY_BALANCER_MODULE_PN="nginx-ey-balancer"
 HTTP_EY_BALANCER_MODULE_PV="0.0.8"
-HTTP_EY_BALANCER_MODULE_SHA1="859b2ef"
 HTTP_EY_BALANCER_MODULE_P="${HTTP_EY_BALANCER_MODULE_PN}-${HTTP_EY_BALANCER_MODULE_PV}"
 HTTP_EY_BALANCER_MODULE_URI="https://github.com/${HTTP_EY_BALANCER_MODULE_A}/${HTTP_EY_BALANCER_MODULE_PN}/archive/v${HTTP_EY_BALANCER_MODULE_PV}.tar.gz"
 HTTP_EY_BALANCER_MODULE_WD="../${HTTP_EY_BALANCER_MODULE_P}"
@@ -93,7 +98,6 @@ HTTP_EY_BALANCER_MODULE_WD="../${HTTP_EY_BALANCER_MODULE_P}"
 HTTP_NDK_MODULE_A="simpl"
 HTTP_NDK_MODULE_PN="ngx_devel_kit"
 HTTP_NDK_MODULE_PV="0.2.17"
-HTTP_NDK_MODULE_SHA1="bc97eea"
 HTTP_NDK_MODULE_P="${HTTP_NDK_MODULE_PN}-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_PN}/archive/v${HTTP_NDK_MODULE_PV}.tar.gz"
 HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
@@ -101,8 +105,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.7.6rc2"
-HTTP_LUA_MODULE_SHA1="ff1949b"
+HTTP_LUA_MODULE_PV="0.7.14rc2"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -111,7 +114,6 @@ HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
 HTTP_DRIZZLE_MODULE_A="chaoslawful"
 HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
 HTTP_DRIZZLE_MODULE_PV="0.1.4"
-HTTP_DRIZZLE_MODULE_SHA1="59e12ad"
 HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_PV}"
 HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/v${HTTP_DRIZZLE_MODULE_PV}.tar.gz"
 HTTP_DRIZZLE_MODULE_WD="../${HTTP_DRIZZLE_MODULE_P}"
@@ -120,7 +122,6 @@ HTTP_DRIZZLE_MODULE_WD="../${HTTP_DRIZZLE_MODULE_P}"
 HTTP_FORM_INPUT_MODULE_A="calio"
 HTTP_FORM_INPUT_MODULE_PN="form-input-nginx-module"
 HTTP_FORM_INPUT_MODULE_PV="0.07rc5"
-HTTP_FORM_INPUT_MODULE_SHA1="d41681d"
 HTTP_FORM_INPUT_MODULE_P="${HTTP_FORM_INPUT_MODULE_PN}-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_URI="https://github.com/${HTTP_FORM_INPUT_MODULE_A}/${HTTP_FORM_INPUT_MODULE_PN}/archive/v${HTTP_FORM_INPUT_MODULE_PV}.tar.gz"
 HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
@@ -129,7 +130,6 @@ HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 HTTP_ECHO_MODULE_A="agentzh"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
 HTTP_ECHO_MODULE_PV="0.41"
-HTTP_ECHO_MODULE_SHA1="d3eb42d"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
@@ -138,7 +138,6 @@ HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
 HTTP_MEMC_MODULE_A="agentzh"
 HTTP_MEMC_MODULE_PN="memc-nginx-module"
 HTTP_MEMC_MODULE_PV="0.13rc3"
-HTTP_MEMC_MODULE_SHA1="4007350"
 HTTP_MEMC_MODULE_P="${HTTP_MEMC_MODULE_PN}-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_URI="https://github.com/${HTTP_MEMC_MODULE_A}/${HTTP_MEMC_MODULE_PN}/archive/v${HTTP_MEMC_MODULE_PV}.tar.gz"
 HTTP_MEMC_MODULE_WD="../${HTTP_MEMC_MODULE_P}"
@@ -147,7 +146,6 @@ HTTP_MEMC_MODULE_WD="../${HTTP_MEMC_MODULE_P}"
 HTTP_RDS_JSON_MODULE_A="agentzh"
 HTTP_RDS_JSON_MODULE_PN="rds-json-nginx-module"
 HTTP_RDS_JSON_MODULE_PV="0.12rc10"
-HTTP_RDS_JSON_MODULE_SHA1="74c21b3"
 HTTP_RDS_JSON_MODULE_P="${HTTP_RDS_JSON_MODULE_PN}-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_URI="https://github.com/${HTTP_RDS_JSON_MODULE_A}/${HTTP_RDS_JSON_MODULE_PN}/archive/v${HTTP_RDS_JSON_MODULE_PV}.tar.gz"
 HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
@@ -156,7 +154,6 @@ HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
 HTTP_SRCACHE_MODULE_A="agentzh"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
 HTTP_SRCACHE_MODULE_PV="0.16"
-HTTP_SRCACHE_MODULE_SHA1="9350a49"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/v${HTTP_SRCACHE_MODULE_PV}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
@@ -165,7 +162,6 @@ HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
 HTTP_SET_MISC_MODULE_A="agentzh"
 HTTP_SET_MISC_MODULE_PN="set-misc-nginx-module"
 HTTP_SET_MISC_MODULE_PV="0.22rc8"
-HTTP_SET_MISC_MODULE_SHA1="658c235"
 HTTP_SET_MISC_MODULE_P="${HTTP_SET_MISC_MODULE_PN}-${HTTP_SET_MISC_MODULE_PV}"
 HTTP_SET_MISC_MODULE_URI="https://github.com/${HTTP_SET_MISC_MODULE_A}/${HTTP_SET_MISC_MODULE_PN}/archive/v${HTTP_SET_MISC_MODULE_PV}.tar.gz"
 HTTP_SET_MISC_MODULE_WD="../${HTTP_SET_MISC_MODULE_P}"
@@ -174,7 +170,6 @@ HTTP_SET_MISC_MODULE_WD="../${HTTP_SET_MISC_MODULE_P}"
 HTTP_XSS_MODULE_A="agentzh"
 HTTP_XSS_MODULE_PN="xss-nginx-module"
 HTTP_XSS_MODULE_PV="0.03rc9"
-HTTP_XSS_MODULE_SHA1="beddbe1"
 HTTP_XSS_MODULE_P="${HTTP_XSS_MODULE_PN}-${HTTP_XSS_MODULE_PV}"
 HTTP_XSS_MODULE_URI="https://github.com/${HTTP_XSS_MODULE_A}/${HTTP_XSS_MODULE_PN}/archive/v${HTTP_XSS_MODULE_PV}.tar.gz"
 HTTP_XSS_MODULE_WD="../${HTTP_XSS_MODULE_P}"
@@ -183,7 +178,6 @@ HTTP_XSS_MODULE_WD="../${HTTP_XSS_MODULE_P}"
 HTTP_ARRAY_VAR_MODULE_A="agentzh"
 HTTP_ARRAY_VAR_MODULE_PN="array-var-nginx-module"
 HTTP_ARRAY_VAR_MODULE_PV="0.03rc1"
-HTTP_ARRAY_VAR_MODULE_SHA1="fed751a"
 HTTP_ARRAY_VAR_MODULE_P="${HTTP_ARRAY_VAR_MODULE_PN}-${HTTP_ARRAY_VAR_MODULE_PV}"
 HTTP_ARRAY_VAR_MODULE_URI="https://github.com/${HTTP_ARRAY_VAR_MODULE_A}/${HTTP_ARRAY_VAR_MODULE_PN}/archive/v${HTTP_ARRAY_VAR_MODULE_PV}.tar.gz"
 HTTP_ARRAY_VAR_MODULE_WD="../${HTTP_ARRAY_VAR_MODULE_P}"
@@ -192,23 +186,20 @@ HTTP_ARRAY_VAR_MODULE_WD="../${HTTP_ARRAY_VAR_MODULE_P}"
 HTTP_ICONV_MODULE_A="calio"
 HTTP_ICONV_MODULE_PN="iconv-nginx-module"
 HTTP_ICONV_MODULE_PV="0.10rc7"
-HTTP_ICONV_MODULE_SHA1="abdac17"
 HTTP_ICONV_MODULE_P="${HTTP_ICONV_MODULE_PN}-${HTTP_ICONV_MODULE_PV}"
 HTTP_ICONV_MODULE_URI="https://github.com/${HTTP_ICONV_MODULE_A}/${HTTP_ICONV_MODULE_PN}/archive/v${HTTP_ICONV_MODULE_PV}.tar.gz"
 HTTP_ICONV_MODULE_WD="../${HTTP_ICONV_MODULE_P}"
 
 ## NginX Set-CConv module (https://github.com/liseen/set-cconv-nginx-module, BSD)
 #HTTP_SET_CCONV_MODULE_PV=""
-#HTTP_SET_CCONV_MODULE_SHA1=""
 #HTTP_SET_CCONV_MODULE_P="set-cconv-nginx-module-${HTTP_SET_CCONV_MODULE_PV}"
 #HTTP_SET_CCONV_MODULE_URI="https://github.com/liseen/set-cconv-nginx-module/archive/${HTTP_SET_CCONV_MODULE_PV}.tar.gz"
-#HTTP_SET_CCONV_MODULE_WD="../liseen-set-cconv-nginx-module-${HTTP_SET_CCONV_MODULE_SHA1}"
+#HTTP_SET_CCONV_MODULE_WD="../${HTTP_SET_CCONV_MODULE_P}"
 
 # NginX postgres module (https://github.com/FRiCKLE/ngx_postgres, BSD-2)
 HTTP_POSTGRES_MODULE_A="FRiCKLE"
 HTTP_POSTGRES_MODULE_PN="ngx_postgres"
 HTTP_POSTGRES_MODULE_PV="1.0rc2"
-HTTP_POSTGRES_MODULE_SHA1="b72f87b"
 HTTP_POSTGRES_MODULE_P="${HTTP_POSTGRES_MODULE_PN}-${HTTP_POSTGRES_MODULE_PV}"
 HTTP_POSTGRES_MODULE_URI="https://github.com/${HTTP_POSTGRES_MODULE_A}/${HTTP_POSTGRES_MODULE_PN}/archive/${HTTP_POSTGRES_MODULE_PV}.tar.gz"
 HTTP_POSTGRES_MODULE_WD="../${HTTP_POSTGRES_MODULE_P}"
@@ -218,7 +209,6 @@ HTTP_COOLKIT_MODULE_A="FRiCKLE"
 HTTP_COOLKIT_MODULE_PN="ngx_coolkit"
 HTTP_COOLKIT_MODULE_PV="0.2rc1"
 HTTP_COOLKIT_MODULE_P="${HTTP_COOLKIT_MODULE_PN}-${HTTP_COOLKIT_MODULE_PV}"
-HTTP_COOLKIT_MODULE_SHA1="4b7d490"
 HTTP_COOLKIT_MODULE_URI="https://github.com/${HTTP_COOLKIT_MODULE_A}/${HTTP_COOLKIT_MODULE_PN}/archive/${HTTP_COOLKIT_MODULE_PV}.tar.gz"
 HTTP_COOLKIT_MODULE_WD="../${HTTP_COOLKIT_MODULE_P}"
 
@@ -241,21 +231,12 @@ HTTP_SLOWFS_CACHE_MODULE_URI="http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_
 HTTP_SLOWFS_CACHE_MODULE_WD="../${HTTP_SLOWFS_CACHE_MODULE_P}"
 
 # http_fancyindex (http://wiki.nginx.org/NgxFancyIndex, BSD license)
-HTTP_FANCYINDEX_MODULE_A="ngx-fancyindex"
+HTTP_FANCYINDEX_MODULE_A="alphallc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
-HTTP_FANCYINDEX_MODULE_PV="0.3.1"
+HTTP_FANCYINDEX_MODULE_PV="0.3.2"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
-HTTP_FANCYINDEX_MODULE_URI="http://gitorious.org/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive-tarball/v${HTTP_FANCYINDEX_MODULE_PV}"
-HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_A}-${HTTP_FANCYINDEX_MODULE_PN}"
-
-# Chunkin (https://github.com/agentzh/chunkin-nginx-module )
-CHUNKIN_MODULE_A="agentzh"
-CHUNKIN_MODULE_PN="chunkin-nginx-module"
-CHUNKIN_MODULE_PV="0.23rc2"
-CHUNKIN_MODULE_SHA1="ddc0dd5"
-CHUNKIN_MODULE_P="${CHUNKIN_MODULE_PN}-${CHUNKIN_MODULE_PV}"
-CHUNKIN_MODULE_URI="https://github.com/${CHUNKIN_MODULE_A}/${CHUNKIN_MODULE_PN}/archive/v${CHUNKIN_MODULE_PV}.tar.gz"
-CHUNKIN_MODULE_WD="../${CHUNKIN_MODULE_P}"
+HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
+HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_P}"
 
 PAM_MODULE_PV="1.2"
 PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}"
@@ -270,18 +251,17 @@ RRD_MODULE_WD="../${RRD_MODULE_P}"
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
+#	http://pushmodule.slact.net/
 HOMEPAGE="http://sysoev.ru/nginx/
 	http://www.modrails.com/
-	http://pushmodule.slact.net/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
 SRC_URI="http://nginx.org/download/${P}.tar.gz
 	syslog? ( ${SYSLOG_MODULE_URI} -> ${SYSLOG_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
-	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
+	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} -> ${HTTP_CTPP_MODULE_P}.tar.gz )
 	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
-	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
@@ -303,9 +283,10 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
 	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P}.tar.gz )
-	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
-	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
+	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )"
+#	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
 #	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
+#	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
 
 LICENSE="BSD BSD-2 GPL-2 MIT
 	pam? ( as-is )"
@@ -319,11 +300,13 @@ split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static image_filter
 mp4 perl random_index realip secure_link stub_status sub xslt"
 NGINX_MODULES_MAIL="imap pop3 smtp"
-NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_push
-http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
+NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_push_stream
+http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
 http_xss http_iconv http_upload_progress http_ctpp http_fancyindex"
+# http_upload
+# http_push
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -334,8 +317,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog chunk"
-
+IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -434,11 +416,10 @@ src_unpack() {
 	default
 	use pam && unpack "${PAM_MODULE_P}.tar.gz"
 	use rrd && unpack "${RRD_MODULE_P}.tar.gz"
-	use chunk && unpack "${CHUNKIN_MODULE_P}.tar.gz"
 }
 
 src_prepare() {
-	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_${SYSLOG_MODULE_PV}.patch
+	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_1.3.11.patch
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
@@ -590,10 +571,16 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}"
 	fi
 
-# http_push
-	if use nginx_modules_http_push; then
+## http_push
+#	if use nginx_modules_http_push; then
+#		http_enabled=1
+#		myconf+=" --add-module=${HTTP_PUSH_MODULE_WD}"
+#	fi
+
+# http_push_stream
+	if use nginx_modules_http_push_stream; then
 		http_enabled=1
-		myconf+=" --add-module=${HTTP_PUSH_MODULE_WD}"
+		myconf+=" --add-module=${HTTP_PUSH_STREAM_MODULE_WD}"
 	fi
 
 # http_ctpp
@@ -656,11 +643,11 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_CACHE_PURGE_MODULE_WD}"
 	fi
 
-# http_upload
-	if use nginx_modules_http_upload; then
-		http_enabled=1
-		myconf+=" --add-module=${HTTP_UPLOAD_MODULE_WD}"
-	fi
+### http_upload
+##	if use nginx_modules_http_upload; then
+##		http_enabled=1
+##		myconf+=" --add-module=${HTTP_UPLOAD_MODULE_WD}"
+##	fi
 
 # http_ey_balancer
 	if use nginx_modules_http_ey_balancer; then
@@ -686,7 +673,6 @@ src_configure() {
 
 	use perftools	&& myconf+=" --with-google_perftools_module"
 	use rrd		&& myconf+=" --add-module=${RRD_MODULE_WD}"
-	use chunk	&& myconf+=" --add-module=${CHUNKIN_MODULE_WD}"
 	use pam		&& myconf+=" --add-module=${PAM_MODULE_WD}"
 
 	# MAIL modules
@@ -792,10 +778,16 @@ src_install() {
 		cd "${S}"
 	fi
 
-# http_push
-	if use nginx_modules_http_push; then
-		docinto "${HTTP_PUSH_MODULE_P}"
-		dodoc "${HTTP_PUSH_MODULE_WD}"/{changelog.txt,protocol.txt,README}
+## http_push
+#	if use nginx_modules_http_push; then
+#		docinto "${HTTP_PUSH_MODULE_P}"
+#		dodoc "${HTTP_PUSH_MODULE_WD}"/{changelog.txt,protocol.txt,README}
+#	fi
+
+# http_push_stream
+	if use nginx_modules_http_push_stream; then
+		docinto "${HTTP_PUSH_STREAM_MODULE_P}"
+		dodoc "${HTTP_PUSH_STREAM_MODULE_WD}"/{CHANGELOG.textile,README.textile}
 	fi
 
 # http_ctpp
@@ -810,11 +802,11 @@ src_install() {
 		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md}
 	fi
 
-# http_upload
-	if use nginx_modules_http_upload; then
-		docinto "${HTTP_UPLOAD_MODULE_P}"
-		dodoc "${HTTP_UPLOAD_MODULE_WD}"/{Changelog,README}
-	fi
+### http_upload
+##	if use nginx_modules_http_upload; then
+##		docinto "${HTTP_UPLOAD_MODULE_P}"
+##		dodoc "${HTTP_UPLOAD_MODULE_WD}"/{Changelog,README}
+##	fi
 
 # http_upload_progress
 	if use nginx_modules_http_upload_progress; then
@@ -825,7 +817,7 @@ src_install() {
 # http_fancyindex
 	if use nginx_modules_http_fancyindex; then
 		docinto "${HTTP_FANCYINDEX_MODULE_P}"
-		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/README.rst
+		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/{README,HACKING}.rst
 	fi
 
 # http_ey_balancer
@@ -942,7 +934,6 @@ src_install() {
 		cd "${S}"
 	fi
 
-	use chunk   && newdoc "${CHUNKIN_MODULE_WD}"/README README.chunkin
 	use pam && newdoc "${PAM_MODULE_WD}"/README README.pam
 }
 
