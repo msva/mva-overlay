@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from mva overlay $
 
-EAPI="4"
+EAPI="5"
 inherit eutils versionator
 
 DESCRIPTION="Proprietary freeware multimedia map of several Russian and Ukrainian towns (data)"
@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
 DEPEND="app-arch/unzip"
-RDEPEND=">=app-misc/2gis-3.0.7.1"
+RDEPEND=">=app-misc/2gis-3.12.0.2"
 
 IUSE="venezia"
 SRC_URI="venezia? ( http://download.2gis.com/arhives/2GISData_Padova~it-6.0.0.zip )"
