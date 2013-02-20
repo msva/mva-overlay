@@ -22,7 +22,12 @@ ruby_add_rdepend "
 	dev-ruby/bundler
 	virtual/rubygems
 	passenger? ( || ( www-apache/passenger www-servers/nginx[nginx_modules_http_passenger] ) )
-	fastcgi? ( dev-ruby/ruby-fcgi-ng )
+	fastcgi? (
+		dev-ruby/fcgi
+		ruby_targets_ruby19? (
+			>=dev-ruby/fcgi-0.9.1
+		)
+	)
 "
 
 #ruby_add_bdepend ">=dev-ruby/rdoc-2.4.2
