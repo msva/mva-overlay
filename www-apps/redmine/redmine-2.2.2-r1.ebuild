@@ -66,7 +66,7 @@ all_ruby_install() {
 
 	use ldap || (
 		rm app/models/auth_source_ldap.rb
-		epatch "${FILES_DIR}/no_ldap-${PV}.patch"
+		epatch "${FILESDIR}/no_ldap-${PV}.patch"
 	)
 	use openid || rm -rf lib/plugins/open_id_authentication
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
