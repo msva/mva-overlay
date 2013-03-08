@@ -1,15 +1,13 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-analyzer/rrdtool/rrdtool-1.4.7-r1.ebuild,v 1.8 2012/09/26 15:07:00 xarthisius Exp $
+# $Header: $
 
 EAPI="5"
 
 GENTOO_DEPEND_ON_PERL="no"
-PYTHON_DEPEND="python? 2"
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="3.* *-jython"
+PYTHON_COMPAT=( python2_7 )
 
-inherit eutils distutils flag-o-matic multilib perl-module autotools
+inherit eutils distutils-r1 flag-o-matic multilib perl-module autotools
 
 DESCRIPTION="A system to store and display time-series data"
 HOMEPAGE="http://oss.oetiker.ch/rrdtool/"
@@ -17,32 +15,40 @@ SRC_URI="http://oss.oetiker.ch/rrdtool/pub/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ~mips ppc ppc64 s390 sh sparc x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
-IUSE="dbi doc lua luajit perl python ruby rrdcgi tcl tcpd"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
+IUSE="dbi doc +graph lua luajit perl python ruby rrdcgi static-libs tcl tcpd"
 
-# This versions are minimal versions upstream tested with.
 RDEPEND="
-	>=media-libs/libpng-1.5.10
-	>=dev-libs/libxml2-2.7.8
-	>=x11-libs/cairo-1.10.2[svg]
-	>=dev-libs/glib-2.28.7
+	>=dev-libs/glib-2.28.7[static-libs=]
+	>=dev-libs/libxml2-2.7.8[static-libs=]
+	dbi? ( dev-db/libdbi[static-libs=] )
+	graph? (
+		>=media-libs/libpng-1.5.10[static-libs=]
+		>=x11-libs/cairo-1.10.2[svg,static-libs=]
 	>=x11-libs/pango-1.28
+	)
 	lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) )
 	luajit? ( dev-lang/luajit:2 )
 	perl? ( dev-lang/perl )
+	python? ( ${PYTHON_DEPS} )
 	ruby? ( >=dev-lang/ruby-1.8.6_p287-r13 )
 	tcl? ( dev-lang/tcl )
 	tcpd? ( sys-apps/tcp-wrappers )
-	dbi? ( dev-db/libdbi )"
+"
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	sys-apps/gawk"
+	virtual/awk
+"
 
-DISTUTILS_SETUP_FILES=("bindings/python|setup.py")
+python_compile() {
+	cd bindings/python || die 'can not enter to python bindings directory'
+	distutils-r1_python_compile
+}
 
-pkg_setup() {
-	use python && python_pkg_setup
+python_install() {
+	cd bindings/python || die 'can not enter to python bindings directory'
+	distutils-r1_python_install
 }
 
 src_prepare() {
@@ -74,18 +80,19 @@ src_configure() {
 	fi
 
 	econf \
-		--disable-static \
-		$(use_enable rrdcgi) \
-		$(use_enable lua) \
+		$(use_enable graph rrd_graph) \
 		$(use_enable lua lua-site-install) \
-		$(use_enable ruby) \
-		$(use_enable ruby ruby-site-install) \
-		$(use_enable perl) \
+		$(use_enable lua) \
 		$(use_enable perl perl-site-install) \
-		--with-perl-options=INSTALLDIRS=vendor \
+		$(use_enable perl) \
+		$(use_enable python) \
+		$(use_enable rrdcgi) \
+		$(use_enable ruby ruby-site-install) \
+		$(use_enable ruby) \
+		$(use_enable static-libs static) \
 		$(use_enable tcl) \
 		$(use_with tcl tcllib "${EPREFIX}"/usr/$(get_libdir)) \
-		$(use_enable python) \
+		--with-perl-options=INSTALLDIRS=vendor \
 		${myconf[@]}
 }
 
@@ -94,7 +101,7 @@ src_compile() {
 	use luajit && LUA=luajit;
 	emake LUA_INSTALL_CMOD="$(pkg-config ${LUA} --variable INSTALL_CMOD)" LUA_INSTALL_LMOD="$(pkg-config ${LUA} --variable INSTALL_LMOD)" || die "make install failed"
 
-	use python && distutils_src_compile
+	use python && distutils-r1_src_compile
 }
 
 src_install() {
@@ -115,7 +122,7 @@ src_install() {
 		perl_delete_packlist
 	fi
 
-	use python && distutils_src_install
+	use python && distutils-r1_src_install
 
 	dodoc CHANGES CONTRIBUTORS NEWS README THREADS TODO
 
@@ -129,8 +136,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	use python && distutils_pkg_postinst
-
 	ewarn "Since version 1.3, rrdtool dump emits completely legal xml.  Basically this"
 	ewarn "means that it contains an xml header and a DOCTYPE definition.  Unfortunately"
 	ewarn "this causes older versions of rrdtool restore to be unhappy."
@@ -142,8 +147,4 @@ pkg_postinst() {
 	ewarn ">=net-analyzer/rrdtool-1.3 does not have any default font bundled. Thus if"
 	ewarn ">you've upgraded from rrdtool-1.2.x and don't have any font installed to make"
 	ewarn ">lables visible, please, install some font, e.g.  media-fonts/dejavu."
-}
-
-pkg_postrm() {
-	use python && distutils_pkg_postrm
 }
