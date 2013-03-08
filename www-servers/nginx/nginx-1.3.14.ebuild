@@ -18,7 +18,7 @@ GENTOO_DEPEND_ON_PERL="no"
 USE_RUBY="ruby18 ree18 jruby ruby19 rbx"
 RUBY_OPTIONAL="yes"
 
-SPDY_VER="61"
+SPDY_VER="64"
 
 # syslog
 SYSLOG_MODULE_A="yaoweibin"
@@ -29,7 +29,7 @@ SYSLOG_MODULE_URI="https://github.com/${SYSLOG_MODULE_A}/${SYSLOG_MODULE_PN}/arc
 SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
 
 # http_passenger (http://www.modrails.com/, MIT license)
-HTTP_PASSENGER_MODULE_PV="3.0.18"
+HTTP_PASSENGER_MODULE_PV="3.0.19"
 HTTP_PASSENGER_MODULE_P="passenger-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="mirror://rubyforge/passenger/${HTTP_PASSENGER_MODULE_P}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -45,7 +45,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_headers_more (https://github.com/agentzh/headers-more-nginx-module, BSD license)
 HTTP_HEADERS_MORE_MODULE_A="agentzh"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.19rc1"
+HTTP_HEADERS_MORE_MODULE_PV="0.19"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
@@ -56,7 +56,7 @@ HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
 #HTTP_PUSH_MODULE_URI="http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz"
 #HTTP_PUSH_MODULE_WD="../${HTTP_PUSH_MODULE_P}"
 
-# http_headers_more (https://github.com/agentzh/headers-more-nginx-module, BSD license)
+# http_headers_more (https://github.com/wandenberg/nginx-push-stream-module, BSD license)
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
 HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
 HTTP_PUSH_STREAM_MODULE_PV="0.3.4"
@@ -73,7 +73,7 @@ HTTP_CTPP_MODULE_WD="../${HTTP_CTPP_MODULE_P}"
 # http_cache_purge (http://labs.frickle.com/nginx_ngx_cache_purge/, BSD-2 license)
 HTTP_CACHE_PURGE_MODULE_A="FRiCKLE"
 HTTP_CACHE_PURGE_MODULE_PN="ngx_cache_purge"
-HTTP_CACHE_PURGE_MODULE_PV="1.6"
+HTTP_CACHE_PURGE_MODULE_PV="2.0"
 HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODULE_PV}"
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="../${HTTP_CACHE_PURGE_MODULE_P}"
@@ -99,7 +99,7 @@ HTTP_EY_BALANCER_MODULE_WD="../${HTTP_EY_BALANCER_MODULE_P}"
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
 HTTP_NDK_MODULE_A="simpl"
 HTTP_NDK_MODULE_PN="ngx_devel_kit"
-HTTP_NDK_MODULE_PV="0.2.17"
+HTTP_NDK_MODULE_PV="0.2.18"
 HTTP_NDK_MODULE_P="${HTTP_NDK_MODULE_PN}-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_PN}/archive/v${HTTP_NDK_MODULE_PV}.tar.gz"
 HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
@@ -107,7 +107,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.7.14rc2"
+HTTP_LUA_MODULE_PV="0.7.16"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -123,7 +123,7 @@ HTTP_DRIZZLE_MODULE_WD="../${HTTP_DRIZZLE_MODULE_P}"
 # NginX form-input module (https://github.com/calio/form-input-nginx-module, BSD)
 HTTP_FORM_INPUT_MODULE_A="calio"
 HTTP_FORM_INPUT_MODULE_PN="form-input-nginx-module"
-HTTP_FORM_INPUT_MODULE_PV="0.07rc5"
+HTTP_FORM_INPUT_MODULE_PV="0.07"
 HTTP_FORM_INPUT_MODULE_P="${HTTP_FORM_INPUT_MODULE_PN}-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_URI="https://github.com/${HTTP_FORM_INPUT_MODULE_A}/${HTTP_FORM_INPUT_MODULE_PN}/archive/v${HTTP_FORM_INPUT_MODULE_PV}.tar.gz"
 HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
@@ -131,7 +131,7 @@ HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 # NginX echo module (https://github.com/agentzh/echo-nginx-module, BSD)
 HTTP_ECHO_MODULE_A="agentzh"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
-HTTP_ECHO_MODULE_PV="0.41"
+HTTP_ECHO_MODULE_PV="0.42"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
@@ -155,7 +155,7 @@ HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module, BSD)
 HTTP_SRCACHE_MODULE_A="agentzh"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
-HTTP_SRCACHE_MODULE_PV="0.16"
+HTTP_SRCACHE_MODULE_PV="0.19"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/v${HTTP_SRCACHE_MODULE_PV}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
@@ -171,7 +171,7 @@ HTTP_SET_MISC_MODULE_WD="../${HTTP_SET_MISC_MODULE_P}"
 # NginX XSS module (https://github.com/agentzh/xss-nginx-module, BSD)
 HTTP_XSS_MODULE_A="agentzh"
 HTTP_XSS_MODULE_PN="xss-nginx-module"
-HTTP_XSS_MODULE_PV="0.03rc9"
+HTTP_XSS_MODULE_PV="0.03"
 HTTP_XSS_MODULE_P="${HTTP_XSS_MODULE_PN}-${HTTP_XSS_MODULE_PV}"
 HTTP_XSS_MODULE_URI="https://github.com/${HTTP_XSS_MODULE_A}/${HTTP_XSS_MODULE_PN}/archive/v${HTTP_XSS_MODULE_PV}.tar.gz"
 HTTP_XSS_MODULE_WD="../${HTTP_XSS_MODULE_P}"
@@ -227,7 +227,7 @@ HTTP_AUTH_REQUEST_MODULE_URI="http://mdounin.ru/files/${HTTP_AUTH_REQUEST_MODULE
 HTTP_AUTH_REQUEST_MODULE_WD="../${HTTP_AUTH_REQUEST_MODULE_P}"
 
 # http_slowfs_cache (http://labs.frickle.com/nginx_ngx_slowfs_cache/, BSD-2 license)
-HTTP_SLOWFS_CACHE_MODULE_PV="1.9"
+HTTP_SLOWFS_CACHE_MODULE_PV="1.10"
 HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 HTTP_SLOWFS_CACHE_MODULE_URI="http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz"
 HTTP_SLOWFS_CACHE_MODULE_WD="../${HTTP_SLOWFS_CACHE_MODULE_P}"
@@ -239,14 +239,6 @@ HTTP_FANCYINDEX_MODULE_PV="0.3.2"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_P}"
-
-# Chunkin (https://github.com/agentzh/chunkin-nginx-module )
-#CHUNKIN_MODULE_A="agentzh"
-#CHUNKIN_MODULE_PN="chunkin-nginx-module"
-#CHUNKIN_MODULE_PV="0.23rc2"
-#CHUNKIN_MODULE_P="${CHUNKIN_MODULE_PN}-${CHUNKIN_MODULE_PV}"
-#CHUNKIN_MODULE_URI="https://github.com/${CHUNKIN_MODULE_A}/${CHUNKIN_MODULE_PN}/archive/v${CHUNKIN_MODULE_PV}.tar.gz"
-#CHUNKIN_MODULE_WD="../${CHUNKIN_MODULE_P}"
 
 PAM_MODULE_PV="1.2"
 PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}"
@@ -295,7 +287,6 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P}.tar.gz )
 	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )"
 #	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
-#	chunk? ( ${CHUNKIN_MODULE_URI} -> ${CHUNKIN_MODULE_P}.tar.gz )"
 #	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 #	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
 
@@ -330,7 +321,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
 IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog"
-#chunk
+
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -412,6 +403,16 @@ pkg_setup() {
 		ewarn "_before_ reporting bugs."
 	fi
 
+	if use nginx_modules_http_spdy; then
+		if [[ "${PV}" =~ "1.2" ]]; then die "Sorry. Currently SPDY module doesn't support 1.2 branch"; fi
+		ewarn ""
+		ewarn "!!!"
+		ewarn "You've enabled testing SPDY module. It is known to brake "
+		ewarn "compilation when used together with some other modules."
+		ewarn "Also it is heavily developed and can produce unstable work."
+		ewarn "!!!"
+	fi
+
 	if use nginx_modules_http_passenger; then
 		ruby-ng_pkg_setup
 		use debug && append-flags -DPASSENGER_DEBUG
@@ -429,7 +430,6 @@ src_unpack() {
 	default
 	use pam && unpack "${PAM_MODULE_P}.tar.gz"
 	use rrd && unpack "${RRD_MODULE_P}.tar.gz"
-#	use chunk && unpack "${CHUNKIN_MODULE_P}.tar.gz"
 }
 
 src_prepare() {
@@ -699,7 +699,6 @@ src_configure() {
 
 	use perftools	&& myconf+=" --with-google_perftools_module"
 	use rrd		&& myconf+=" --add-module=${RRD_MODULE_WD}"
-#	use chunk	&& myconf+=" --add-module=${CHUNKIN_MODULE_WD}"
 	use pam		&& myconf+=" --add-module=${PAM_MODULE_WD}"
 
 	# MAIL modules
@@ -961,7 +960,6 @@ src_install() {
 		cd "${S}"
 	fi
 
-#	use chunk   && newdoc "${CHUNKIN_MODULE_WD}"/README README.chunkin
 	use pam && newdoc "${PAM_MODULE_WD}"/README README.pam
 }
 
