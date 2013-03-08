@@ -113,7 +113,7 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install || die "make install failed"
+	default
 
 	if ! use doc ; then
 		rm -rf "${ED}"usr/share/doc/${PF}/{html,txt}
