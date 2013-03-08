@@ -105,9 +105,9 @@ src_configure() {
 }
 
 src_compile() {
-	local LUA=lua;
-	use luajit && LUA=luajit;
-	emake LUA_INSTALL_CMOD="$(pkg-config ${LUA} --variable INSTALL_CMOD)" LUA_INSTALL_LMOD="$(pkg-config ${LUA} --variable INSTALL_LMOD)" || die "make install failed"
+	local lua=lua;
+	use luajit && lua=luajit;
+	emake LUA_INSTALL_CMOD="$(tc-getPKG_CONFIG --variable INSTALL_CMOD ${lua})" LUA_INSTALL_LMOD="$(tc-getPKG_CONFIG --variable INSTALL_LMOD ${lua})" || die "make install failed"
 
 	use python && distutils-r1_src_compile
 }
