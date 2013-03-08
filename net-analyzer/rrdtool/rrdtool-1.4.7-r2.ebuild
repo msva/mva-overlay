@@ -54,10 +54,18 @@ python_install() {
 src_prepare() {
 	epatch	"${FILESDIR}"/0001_"${P}"-configure.ac.patch
 	epatch	"${FILESDIR}/${PN}"-1.4.5-automake-1.11.2.patch
-	sed -i '/PERLLD/s:same as PERLCC:same-as-PERLCC:' configure.ac #281694
+
+	# bug 281694
+	# bug 456810
+	# no time to sleep
+	sed -i \
+		-e '/PERLLD/s:same as PERLCC:same-as-PERLCC:' \
+		-e 's|$LUA_CFLAGS|IGNORE_THIS_BAD_TEST|g' \
+		-e 's|^sleep 1$||g' \
+		configure.ac || die
 
 	# Python bindings are built/installed manually
-	sed -e "/^all-local:/s/ @COMP_PYTHON@//" -i bindings/Makefile.am
+	sed -e "/^all-local:/s/ @COMP_PYTHON@//" -i bindings/Makefile.am || die
 
 	eautoreconf
 }
