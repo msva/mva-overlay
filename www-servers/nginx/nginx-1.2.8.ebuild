@@ -22,6 +22,7 @@ RUBY_OPTIONAL="yes"
 SYSLOG_MODULE_A="yaoweibin"
 SYSLOG_MODULE_PN="nginx_syslog_patch"
 SYSLOG_MODULE_PV="0.25"
+SYSLOG_NG_PV="1.2.7"
 SYSLOG_MODULE_P="${SYSLOG_MODULE_PN}-${SYSLOG_MODULE_PV}"
 SYSLOG_MODULE_URI="mirror://github/${SYSLOG_MODULE_A}/${SYSLOG_MODULE_PN}/archive/v${SYSLOG_MODULE_PV}.tar.gz"
 SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
@@ -31,7 +32,7 @@ HTTP_PASSENGER_MODULE_A="FooBarWidget"
 HTTP_PASSENGER_MODULE_PN="passenger"
 HTTP_PASSENGER_MODULE_PV="4.0.0.rc4"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_PV}"
-HTTP_PASSENGER_MODULE_URI="mirror://github/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_P}.tar.gz"
+HTTP_PASSENGER_MODULE_URI="mirror://github/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module/tags, BSD-2 license)
@@ -435,7 +436,7 @@ src_unpack() {
 }
 
 src_prepare() {
-	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_1.2.7.patch
+	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_"${SYSLOG_NG_PV}".patch
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
