@@ -1,0 +1,55 @@
+--- build/basics.rb     2013-03-05 16:55:02.000000000 +0700
++++ build/basics.rb     2013-04-03 12:42:46.012231095 +0700
+@@ -134,6 +134,7 @@
+ EXTRA_CXXFLAGS << " -Wno-ambiguous-member-template" if PlatformInfo.cxx_is_clang?
+ EXTRA_CXXFLAGS << " #{OPTIMIZATION_FLAGS}" if !OPTIMIZATION_FLAGS.empty?
+ EXTRA_CXXFLAGS << " " << string_option('EXTRA_CXXFLAGS').gsub("\n", " ") if string_option('EXTRA_CXXFLAGS')
++EXTRA_CXXFLAGS << "#{ENV['CXXFLAGS']}"
+
+ # Extra linker flags that should always be passed to the linker.
+ # These should be included first in the command string, before anything else.
+--- build/packaging.rb	2013-03-05 16:55:02.000000000 +0700
++++ build/packaging.rb	2013-04-03 12:49:18.296222342 +0700
+@@ -77,28 +77,23 @@
+ end
+ 
+ desc "Create a fakeroot, useful for building native packages"
+-task :fakeroot => [:apache2, :nginx] + Packaging::ASCII_DOCS do
++task :fakeroot => Packaging::ASCII_DOCS do
+ 	require 'rbconfig'
+ 	require 'fileutils'
+ 	include Config
+-	fakeroot = "pkg/fakeroot"
++	fakeroot = ENV['D']
+ 	
+ 	# We don't use CONFIG['archdir'] and the like because we want
+ 	# the files to be installed to /usr, and the Ruby interpreter
+ 	# on the packaging machine might be in /usr/local.
+-	fake_libdir = "#{fakeroot}/usr/lib/ruby/#{CONFIG['ruby_version']}"
+-	fake_native_support_dir = "#{fakeroot}/usr/lib/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
++	fake_libdir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}"
++	fake_native_support_dir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
+ 	fake_agents_dir = "#{fakeroot}#{NATIVELY_PACKAGED_AGENTS_DIR}"
+ 	fake_helper_scripts_dir = "#{fakeroot}#{NATIVELY_PACKAGED_HELPER_SCRIPTS_DIR}"
+ 	fake_resources_dir = "#{fakeroot}/usr/share/phusion-passenger"
+ 	fake_docdir = "#{fakeroot}#{NATIVELY_PACKAGED_DOC_DIR}"
+ 	fake_bindir = "#{fakeroot}/usr/bin"
+ 	fake_sbindir = "#{fakeroot}/usr/sbin"
+-	fake_apache2_module = "#{fakeroot}#{NATIVELY_PACKAGED_APACHE2_MODULE}"
+-	fake_apache2_module_dir = File.dirname(fake_apache2_module)
+-	
+-	sh "rm -rf #{fakeroot}"
+-	sh "mkdir -p #{fakeroot}"
+ 	
+ 	sh "mkdir -p #{fake_libdir}"
+ 	sh "cp #{PhusionPassenger.ruby_libdir}/phusion_passenger.rb #{fake_libdir}/"
+@@ -136,9 +131,6 @@
+ 		sh "cp bin/#{exe} #{fake_sbindir}/"
+ 	end
+ 	
+-	sh "mkdir -p #{fake_apache2_module_dir}"
+-	sh "cp #{APACHE2_MODULE} #{fake_apache2_module_dir}/"
+-
+ 	sh "find #{fakeroot} -name .DS_Store -print0 | xargs -0 rm -f"
+ end
+ 

@@ -1,0 +1,11 @@
+--- build/basics.rb	2013-04-03 12:57:45.121211033 +0700
++++ build/basics.rb	2013-04-03 13:01:29.983206016 +0700
+@@ -141,7 +141,7 @@
+ EXTRA_PRE_LDFLAGS  = string_option('EXTRA_PRE_LDFLAGS', '').gsub("\n", " ")
+ # These should be included last in the command string, even after PlatformInfo.portability_ldflags.
+ EXTRA_LDFLAGS  = string_option('EXTRA_LDFLAGS', '').gsub("\n", " ")
+-
++EXTRA_LDFLAGS << "#{ENV['LDFLAGS']}"
+ 
+ AGENT_OUTPUT_DIR          = string_option('AGENT_OUTPUT_DIR', OUTPUT_DIR + "agents") + "/"
+ COMMON_OUTPUT_DIR         = string_option('COMMON_OUTPUT_DIR', OUTPUT_DIR + "libout/common") + "/"
