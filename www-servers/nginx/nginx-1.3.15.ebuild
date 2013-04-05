@@ -464,6 +464,7 @@ src_prepare() {
 			-e 's:(NATIVELY_PACKAGED_DOC_DIR)[ ]*=.*(.freeze):\1 = "/usr/share/doc/'${P}'/passenger"\2:' \
 			-e 's:(NATIVELY_PACKAGED_AGENTS_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/agents"\2:' \
 			-e 's:(NATIVELY_PACKAGED_RESOURCES_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/resources"\2:' \
+			-e 's:(NATIVELY_PACKAGED_HELPER_SCRIPTS_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/helper-scripts"\2:' \
 			-i lib/phusion_passenger.rb || die
 		sed -r \
 			-e 's:(fake_resources_dir)[ ]*=.*:\1 = "#{fakeroot}/#{NATIVELY_PACKAGED_RESOURCES_DIR}":' \
