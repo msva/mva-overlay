@@ -460,9 +460,15 @@ src_prepare() {
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-ldflags.patch
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-contenthandler.patch
 
-		sed -i -e "s:/usr/share/doc/phusion-passenger:/usr/share/doc/${P}:" \
-		-e "s:/usr/lib/phusion-passenger/agents:/usr/libexec/passenger/agents:" lib/phusion_passenger.rb || die
-		sed -i -e "s:/usr/lib/phusion-passenger/agents:/usr/libexec/passenger/agents:" ext/common/ResourceLocator.h || die
+		sed -r \
+			-e 's:(NATIVELY_PACKAGED_DOC_DIR)[ ]*=.*(.freeze):\1 = "/usr/share/doc/'${P}'/passenger"\2:' \
+			-e 's:(NATIVELY_PACKAGED_AGENTS_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/agents"\2:' \
+			-e 's:(NATIVELY_PACKAGED_RESOURCES_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/resources"\2:' \
+			-i lib/phusion_passenger.rb || die
+		sed -r \
+			-e 's:(fake_resources_dir)[ ]*=.*:\1 = "#{fakeroot}/#{NATIVELY_PACKAGED_RESOURCES_DIR}":' \
+			-i build/packaging.rb
+#		sed -i -e "s:/usr/lib/phusion-passenger/agents:/usr/libexec/passenger/agents:" ext/common/ResourceLocator.h || die
 		sed -i -e '/passenger-install-apache2-module/d' -e "/passenger-install-nginx-module/d" lib/phusion_passenger/packaging.rb || die
 		rm -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module || die "Unable to remove unneeded install script."
 
