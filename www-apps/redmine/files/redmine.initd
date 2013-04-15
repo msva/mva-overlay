@@ -16,7 +16,7 @@ depend() {
 }
 
 start_pre() {
-	if [ ! -e "${REDMINE_DIR}/config/initializers/session_store.rb" ] ; then
+	if [ ! -e "${REDMINE_DIR}/config/initializers/secret_token.rb" ] ; then
 		eerror "Execute the following command to initlize environment:"
 		eerror
 		eerror "# emerge --config www-apps/redmine"
@@ -28,9 +28,9 @@ start_pre() {
 start() {
 	ebegin "Starting redmine"
 	cd "${REDMINE_DIR}"
-	start-stop-daemon --start --quiet --user ${REDMINE_USER}:${REDMINE_GROUP} \
+	start-stop-daemon --start --user ${REDMINE_USER}:${REDMINE_GROUP} \
 		--pidfile "${REDMINE_PIDFILE}" \
-		--exec /usr/bin/ruby "${REDMINE_DIR}"/script/server -- \
+		--exec /usr/bin/ruby "${REDMINE_DIR}"/script/rails server -- \
 		--daemon --environment=${RAILS_ENV} \
 		--binding=${REDMINE_ADDRESS} --port=${REDMINE_PORT} \
 		${REDMINE_OPTS}
@@ -40,6 +40,6 @@ start() {
 stop() {
 	ebegin "Stopping redmine"
 	cd "${REDMINE_DIR}"
-	start-stop-daemon --signal INT --quiet --pidfile "${REDMINE_PIDFILE}"
+	start-stop-daemon --signal INT --pidfile "${REDMINE_PIDFILE}"
 	eend $?
 }
