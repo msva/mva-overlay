@@ -30,7 +30,7 @@ SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
 # http_passenger (https://github.com/FooBarWidget/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="FooBarWidget"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.0.rc4"
+HTTP_PASSENGER_MODULE_PV="4.0.0.rc6"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="mirror://github/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -371,16 +371,18 @@ CDEPEND="
 	perftools? ( dev-util/google-perftools )
 	rrd? ( >=net-analyzer/rrdtool-1.3.8 )
 "
-ruby_add_bdepend ">=dev-ruby/rake-0.8.1"
-ruby_add_bdepend "virtual/rubygems"
-ruby_add_bdepend ">=dev-ruby/fastthread-1.0.1"
-ruby_add_bdepend ">=dev-ruby/rack-1.0.0"
 
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
+
+ruby_add_bdepend ">=dev-ruby/rake-0.8.1"
+ruby_add_bdepend "virtual/rubygems"
+ruby_add_bdepend ">=dev-ruby/fastthread-1.0.1"
+ruby_add_bdepend ">=dev-ruby/rack-1.0.0"
+
 REQUIRED_USE="pcre-jit? ( pcre )"
 
 S="${WORKDIR}/${PN}-${PV}"
