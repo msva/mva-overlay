@@ -22,7 +22,7 @@ RUBY_OPTIONAL="yes"
 SYSLOG_MODULE_A="yaoweibin"
 SYSLOG_MODULE_PN="nginx_syslog_patch"
 SYSLOG_MODULE_PV="0.25"
-SYSLOG_NG_PV="1.2.7"
+SYSLOG_NG_PV="1.3.14"
 SYSLOG_MODULE_P="${SYSLOG_MODULE_PN}-${SYSLOG_MODULE_PV}"
 SYSLOG_MODULE_URI="mirror://github/${SYSLOG_MODULE_A}/${SYSLOG_MODULE_PN}/archive/v${SYSLOG_MODULE_PV}.tar.gz"
 SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
@@ -108,7 +108,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.7.19"
+HTTP_LUA_MODULE_PV="0.8.0"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="mirror://github/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -188,7 +188,7 @@ HTTP_ARRAY_VAR_MODULE_WD="../${HTTP_ARRAY_VAR_MODULE_P}"
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module/tags, BSD)
 HTTP_ICONV_MODULE_A="calio"
 HTTP_ICONV_MODULE_PN="iconv-nginx-module"
-HTTP_ICONV_MODULE_PV="0.10rc7"
+HTTP_ICONV_MODULE_PV="0.10"
 HTTP_ICONV_MODULE_P="${HTTP_ICONV_MODULE_PN}-${HTTP_ICONV_MODULE_PV}"
 HTTP_ICONV_MODULE_URI="mirror://github/${HTTP_ICONV_MODULE_A}/${HTTP_ICONV_MODULE_PN}/archive/v${HTTP_ICONV_MODULE_PV}.tar.gz"
 HTTP_ICONV_MODULE_WD="../${HTTP_ICONV_MODULE_P}"
@@ -371,7 +371,6 @@ CDEPEND="
 	perftools? ( dev-util/google-perftools )
 	rrd? ( >=net-analyzer/rrdtool-1.3.8 )
 "
-
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
