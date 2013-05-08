@@ -15,9 +15,15 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE="+data"
 
-DEPEND="app-arch/unzip"
-RDEPEND="app-emulation/wine
-	data? ( app-misc/2gis-data )"
+DEPEND="
+	app-arch/unzip
+	media-gfx/imagemagick
+	media-gfx/icoutils
+"
+RDEPEND="
+	app-emulation/wine
+	data? ( app-misc/2gis-data )
+"
 
 S="${WORKDIR}"
 
