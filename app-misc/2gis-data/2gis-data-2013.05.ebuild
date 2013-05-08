@@ -15,8 +15,11 @@ KEYWORDS="~x86 ~amd64"
 DEPEND="app-arch/unzip"
 RDEPEND=">=app-misc/2gis-3.12.0.2"
 
-IUSE="venezia"
-SRC_URI="venezia? ( http://download.2gis.com/arhives/2GISData_Padova~it-6.0.0.zip )"
+IUSE="venezia karaganda"
+SRC_URI="
+	venezia? ( http://download.2gis.com/arhives/2GISData_Padova~it-13.0.0.zip )
+	karaganda? ( http://download.2gis.ru/arhives/2GISData_Karaganda-2.0.0.zip )
+"
 
 S="${WORKDIR}"
 
@@ -47,6 +50,7 @@ my_add_town bryansk Bryansk 2012 2
 my_add_town cheboksary Cheboksary 2011 10
 my_add_town chelyabinsk Chelyabinsk 2007 8
 my_add_town chita Chita 2012 4
+my_add_town donetsk Donetsk 2012 12
 my_add_town ekaterinburg Ekaterinburg 2005 12
 my_add_town gornoaltaysk Gornoaltaysk 2010 4
 my_add_town irkutsk Irkutsk 2006 4
@@ -63,10 +67,14 @@ my_add_town krasnodar Krasnodar 2010 1
 my_add_town krasnoyarsk Krasnoyarsk 2005 8
 my_add_town kurgan Kurgan 2006 3
 my_add_town kursk Kursk 2012 5
+my_add_town len-kuz Lenkuz 2013 1
 my_add_town lipetsk Lipetsk 2011 11
 my_add_town magnitogorsk Magnitogorsk 2010 4
+my_add_town miass Miass 2013 2
+my_add_town minvody Minvody 2013 4
 my_add_town moscow Moscow 2011 4
 my_add_town nabchelny Nabchelny 2010 6
+my_add_town nahodka Nahodka 2013 2
 my_add_town novokuznetsk Novokuznetsk 2005 8
 my_add_town n_novgorod N_Novgorod 2008 9
 my_add_town novorossiysk Novorossiysk 2012 5
@@ -76,13 +84,15 @@ my_add_town ntagil Ntagil 2011 6
 my_add_town nizhnevartovsk Nizhnevartovsk 2006 5
 my_add_town odessa Odessa 2007 2
 my_add_town omsk Omsk 2004 8
-#my_add_town orel Orel 2012 11 #TBD after release in 2012.11
+my_add_town orel Orel 2012 11
 my_add_town orenburg Orenburg 2011 7
 my_add_town penza Penza 2011 4
 my_add_town perm Perm 2007 12
+#my_add_town petrozavodsk Petrozavodsk 2013 5
 my_add_town rostov Rostov 2010 3
 my_add_town ryazan Ryazan 2011 4
 my_add_town samara Samara 2008 7
+my_add_town saransk Saransk 2013 1
 my_add_town saratov Saratov 2011 4
 my_add_town smolensk Smolensk 2012 6
 my_add_town sochi Sochi 2010 7
@@ -92,11 +102,12 @@ my_add_town sterlitamak Sterlitamak 2011 11
 my_add_town spb Spb 2011 2
 my_add_town surgut Surgut 2011 2
 my_add_town syktyvkar Syktyvkar 2012 3
-my_add_town tver Tver 2011 7
-my_add_town tyumen Tyumen 2006 11
+my_add_town tambov Tambov 2013 1
 my_add_town togliatti Togliatti 2008 7
 my_add_town tomsk Tomsk 2004 12
 my_add_town tula Tula 2010 11
+my_add_town tver Tver 2011 7
+my_add_town tyumen Tyumen 2006 11
 my_add_town vladivostok Vladivostok 2010 3
 my_add_town v_novgorod V_Novgorod 2012 7
 my_add_town vladimir Vladimir 2012 2
@@ -106,9 +117,11 @@ my_add_town voronezh Voronezh 2010 7
 my_add_town ufa Ufa 2008 3
 my_add_town ulanude Ulanude 2011 1
 my_add_town ulianovsk Ulyanovsk 2011 11
+my_add_town ussuriysk Ussuriysk 2013 2
 my_add_town yaroslavl Yaroslavl 2010 6
 my_add_town yakutsk Yakutsk 2011 8
 my_add_town yoshkarola Yoshkarola 2012 4
+my_add_town yuzhnosakhalinsk Yuzhnosakhalinsk 2013 2
 
 src_prepare() {
 	mv "${WORKDIR}"/2gis "${S}"
