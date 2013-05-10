@@ -189,7 +189,7 @@ install_python_lib() {
 
 src_compile() {
 	local lua=lua;
-	use luajit && lua=luajit;
+	use luajit && lua=luajit-5.1;
 
 	python uwsgiconfig.py --build gentoo || die "building uwsgi failed"
 
