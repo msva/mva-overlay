@@ -25,7 +25,7 @@ SRC_URI="http://projects.unbit.it/downloads/${MY_P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="apache2 +caps +carbon cgi debug erlang gevent graylog2 json ldap lua +nagios pam perl +pcre php probepg +python rrdtool rsyslog ruby spooler sqlite syslog +xml yaml zeromq"
+IUSE="apache2 +caps +carbon cgi debug erlang gevent graylog2 json ldap lua luajit +nagios pam perl +pcre php probepg +python rrdtool rsyslog ruby spooler sqlite syslog +xml yaml zeromq"
 REQUIRED_USE="|| ( cgi erlang lua perl php python ruby )"
 
 # util-linux is required for libuuid when requesting zeromq support
@@ -35,7 +35,8 @@ CDEPEND="caps? ( sys-libs/libcap )
 	gevent? ( >=dev-python/gevent-1.0_beta2 )
 	graylog2? ( sys-libs/zlib )
 	ldap? ( net-nds/openldap )
-	lua? ( dev-lang/lua )
+	lua? ( !luajit? ( dev-lang/lua ) )
+	luajit? ( dev-lang/luajit )
 	pcre? ( dev-libs/libpcre )
 	perl? ( dev-lang/perl )
 	php? (
