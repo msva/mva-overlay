@@ -8,9 +8,9 @@
 
  # Extra linker flags that should always be passed to the linker.
  # These should be included first in the command string, before anything else.
---- build/packaging.rb	2013-03-05 16:55:02.000000000 +0700
-+++ build/packaging.rb	2013-04-03 12:49:18.296222342 +0700
-@@ -77,28 +77,23 @@
+--- build/packaging.rb	2013-05-29 20:49:12.000000000 +0700
++++ build/packaging.rb	2013-06-05 04:35:45.507136406 +0700
+@@ -162,18 +162,18 @@
  end
  
  desc "Create a fakeroot, useful for building native packages"
@@ -25,31 +25,43 @@
  	# We don't use CONFIG['archdir'] and the like because we want
  	# the files to be installed to /usr, and the Ruby interpreter
  	# on the packaging machine might be in /usr/local.
--	fake_libdir = "#{fakeroot}/usr/lib/ruby/#{CONFIG['ruby_version']}"
+-	fake_rubylibdir = "#{fakeroot}/usr/lib/ruby/vendor_ruby"
++	fake_rubylibdir = "#{fakeroot}/#{CONFIG['sitedir']}/vendor_ruby"
+ 	fake_libdir = "#{fakeroot}/usr/lib/phusion-passenger"
 -	fake_native_support_dir = "#{fakeroot}/usr/lib/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
-+	fake_libdir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}"
 +	fake_native_support_dir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
- 	fake_agents_dir = "#{fakeroot}#{NATIVELY_PACKAGED_AGENTS_DIR}"
- 	fake_helper_scripts_dir = "#{fakeroot}#{NATIVELY_PACKAGED_HELPER_SCRIPTS_DIR}"
+ 	fake_agents_dir = "#{fakeroot}/usr/lib/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
+ 	fake_helper_scripts_dir = "#{fakeroot}/usr/share/#{GLOBAL_NAMESPACE_DIRNAME}/helper-scripts"
  	fake_resources_dir = "#{fakeroot}/usr/share/phusion-passenger"
- 	fake_docdir = "#{fakeroot}#{NATIVELY_PACKAGED_DOC_DIR}"
+@@ -181,13 +181,8 @@
+ 	fake_docdir = "#{fakeroot}/usr/share/doc/#{GLOBAL_NAMESPACE_DIRNAME}"
  	fake_bindir = "#{fakeroot}/usr/bin"
  	fake_sbindir = "#{fakeroot}/usr/sbin"
--	fake_apache2_module = "#{fakeroot}#{NATIVELY_PACKAGED_APACHE2_MODULE}"
--	fake_apache2_module_dir = File.dirname(fake_apache2_module)
--	
+-	fake_apache2_module_dir = "#{fakeroot}/usr/lib/apache2/modules"
+-	fake_apache2_module = "#{fake_apache2_module_dir}/mod_passenger.so"
+ 	fake_ruby_extension_source_dir = "#{fakeroot}/usr/share/phusion-passenger/ruby_extension_source"
+ 	
 -	sh "rm -rf #{fakeroot}"
 -	sh "mkdir -p #{fakeroot}"
- 	
- 	sh "mkdir -p #{fake_libdir}"
- 	sh "cp #{PhusionPassenger.ruby_libdir}/phusion_passenger.rb #{fake_libdir}/"
-@@ -136,9 +131,6 @@
+-	
+ 	sh "mkdir -p #{fake_rubylibdir}"
+ 	sh "cp #{PhusionPassenger.ruby_libdir}/phusion_passenger.rb #{fake_rubylibdir}/"
+ 	sh "cp -R #{PhusionPassenger.ruby_libdir}/phusion_passenger #{fake_rubylibdir}/"
+@@ -246,9 +241,6 @@
  		sh "cp bin/#{exe} #{fake_sbindir}/"
  	end
  	
 -	sh "mkdir -p #{fake_apache2_module_dir}"
 -	sh "cp #{APACHE2_MODULE} #{fake_apache2_module_dir}/"
 -
- 	sh "find #{fakeroot} -name .DS_Store -print0 | xargs -0 rm -f"
- end
+ 	sh "mkdir -p #{fake_ruby_extension_source_dir}"
+ 	sh "cp -R #{PhusionPassenger.ruby_extension_source_dir}/* #{fake_ruby_extension_source_dir}"
+ 
+@@ -263,7 +255,6 @@
+ 		f.puts "includedir=/usr/share/phusion-passenger/include"
+ 		f.puts "doc=/usr/share/doc/phusion-passenger"
+ 		f.puts "rubylibdir=/usr/lib/ruby/vendor_ruby"
+-		f.puts "apache2_module=/usr/lib/apache2/modules/mod_passenger.so"
+ 		f.puts "ruby_extension_source=/usr/share/phusion-passenger/ruby_extension_source"
+ 	end
  
