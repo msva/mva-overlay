@@ -460,7 +460,11 @@ src_prepare() {
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-ldflags.patch
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-contenthandler.patch
 
-		sed -i \
+		sed \
+			-e "s:/buildout/agents:/agents:" \
+			-i ext/common/ResourceLocator.h
+
+		sed \
 			-e '/passenger-install-apache2-module/d' \
 			-e "/passenger-install-nginx-module/d" \
 			-i lib/phusion_passenger/packaging.rb || die
