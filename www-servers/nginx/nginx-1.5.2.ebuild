@@ -245,7 +245,7 @@ HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_P}"
 HTTP_UPSTREAM_CHECK_MODULE_A="yaoweibin"
 HTTP_UPSTREAM_CHECK_MODULE_PN="nginx_upstream_check_module"
 HTTP_UPSTREAM_CHECK_MODULE_PV="0.1.8"
-HTTP_UPSTREAM_CHECK_MODULE_NG_PV="_1.2.2+"
+HTTP_UPSTREAM_CHECK_NG_PV="_1.2.2+"
 HTTP_UPSTREAM_CHECK_MODULE_P="${HTTP_UPSTREAM_CHECK_MODULE_PN}-${HTTP_UPSTREAM_CHECK_MODULE_PV}"
 HTTP_UPSTREAM_CHECK_MODULE_URI="mirror://github/${HTTP_UPSTREAM_CHECK_MODULE_A}/${HTTP_UPSTREAM_CHECK_MODULE_PN}/archive/${HTTP_UPSTREAM_CHECK_MODULE_PV}.tar.gz"
 HTTP_UPSTREAM_CHECK_MODULE_WD="../${HTTP_UPSTREAM_CHECK_MODULE_P}"
@@ -519,7 +519,7 @@ src_prepare() {
 
 	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_"${SYSLOG_NG_PV}".patch
 
-	use nginx_modules_http_upstream_check && epatch "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/check"${HTTP_UPSTREAM_CHECK_MODULE_NG_PV}".patch
+	use nginx_modules_http_upstream_check && epatch "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/check"${HTTP_UPSTREAM_CHECK_NG_PV}".patch
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
