@@ -42,7 +42,7 @@
 -	sh "rm -rf #{fakeroot}"
 -	sh "mkdir -p #{fakeroot}"
 -	
-+	fake_rubylibdir = "#{fakeroot}/#{CONFIG['sitedir']}/vendor_ruby"
++	fake_rubylibdir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
 +	fake_libdir = "#{fakeroot}/" + CONFIG['sitedir'].gsub(/(\/.*?\/.*?)\/.*/,"\\1") + "/#{GLOBAL_NAMESPACE_DIRNAME}"
 +	fake_native_support_dir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
 +	fake_agents_dir = "#{fakeroot}/usr/libexec/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
