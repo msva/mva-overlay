@@ -897,7 +897,7 @@ src_install() {
 
 	keepdir /var/www/localhost
 
-	rm "${ED}"/usr/html || die
+	rm -rf "${ED}"/usr/html || die
 
         # this solves a problem with SELinux where nginx doesn't see the directories
         # as root and tries to create them as nginx
