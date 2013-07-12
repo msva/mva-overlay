@@ -22,7 +22,7 @@ RUBY_OPTIONAL="yes"
 SYSLOG_MODULE_A="yaoweibin"
 SYSLOG_MODULE_PN="nginx_syslog_patch"
 SYSLOG_MODULE_PV="0.25"
-SYSLOG_NG_PV="1.3.14"
+SYSLOG_NG_PV="1.4.0"
 SYSLOG_MODULE_P="${SYSLOG_MODULE_PN}-${SYSLOG_MODULE_PV}"
 SYSLOG_MODULE_URI="mirror://github/${SYSLOG_MODULE_A}/${SYSLOG_MODULE_PN}/archive/v${SYSLOG_MODULE_PV}.tar.gz"
 SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
@@ -30,7 +30,7 @@ SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
 # http_passenger (https://github.com/FooBarWidget/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="FooBarWidget"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.5"
+HTTP_PASSENGER_MODULE_PV="4.0.8"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="mirror://github/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -46,7 +46,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_headers_more (https://github.com/agentzh/headers-more-nginx-module/tags, BSD license)
 HTTP_HEADERS_MORE_MODULE_A="agentzh"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.20"
+HTTP_HEADERS_MORE_MODULE_PV="0.21"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="mirror://github/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
@@ -108,7 +108,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.8.3rc1"
+HTTP_LUA_MODULE_PV="0.8.3"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="mirror://github/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -233,8 +233,8 @@ HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 HTTP_SLOWFS_CACHE_MODULE_URI="http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz"
 HTTP_SLOWFS_CACHE_MODULE_WD="../${HTTP_SLOWFS_CACHE_MODULE_P}"
 
-# http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/issues/5 , BSD license)
-HTTP_FANCYINDEX_MODULE_A="alphallc"
+# http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/tags , BSD license)
+HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
 HTTP_FANCYINDEX_MODULE_PV="0.3.2"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
@@ -251,7 +251,7 @@ RRD_MODULE_P="mod_rrd_graph-${RRD_MODULE_PV}"
 RRD_MODULE_URI="http://wiki.nginx.org/images/9/9d/${RRD_MODULE_P/m/M}.tar.gz"
 RRD_MODULE_WD="../${RRD_MODULE_P}"
 
-inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic
+inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 #	http://pushmodule.slact.net/
@@ -408,7 +408,6 @@ pkg_setup() {
 	fi
 
 	if use nginx_modules_http_spdy; then
-		if [[ "${PV}" =~ "1.2" ]]; then die "Sorry. Currently SPDY module doesn't support 1.2 branch"; fi
 		ewarn ""
 		ewarn "!!!"
 		ewarn "You've enabled testing SPDY module. It is known to brake "
@@ -461,17 +460,11 @@ src_prepare() {
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-ldflags.patch
 		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-contenthandler.patch
 
-		sed -r \
-			-e 's:(NATIVELY_PACKAGED_DOC_DIR)[ ]*=.*(.freeze):\1 = "/usr/share/doc/'${P}'/passenger"\2:' \
-			-e 's:(NATIVELY_PACKAGED_AGENTS_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/agents"\2:' \
-			-e 's:(NATIVELY_PACKAGED_RESOURCES_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/resources"\2:' \
-			-e 's:(NATIVELY_PACKAGED_HELPER_SCRIPTS_DIR)[ ]*=.*(.freeze):\1 = "/usr/libexec/passenger/helper-scripts"\2:' \
-			-i lib/phusion_passenger.rb || die
-		sed -r \
-			-e 's:(fake_resources_dir)[ ]*=.*:\1 = "#{fakeroot}/#{NATIVELY_PACKAGED_RESOURCES_DIR}":' \
-			-i build/packaging.rb
-#		sed -i -e "s:/usr/lib/phusion-passenger/agents:/usr/libexec/passenger/agents:" ext/common/ResourceLocator.h || die
-		sed -i -e '/passenger-install-apache2-module/d' -e "/passenger-install-nginx-module/d" lib/phusion_passenger/packaging.rb || die
+		sed -i \
+			-e '/passenger-install-apache2-module/d' \
+			-e "/passenger-install-nginx-module/d" \
+			-i lib/phusion_passenger/packaging.rb || die
+
 		rm -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module || die "Unable to remove unneeded install script."
 
 		_ruby_each_implementation passenger_premake
@@ -764,13 +757,13 @@ passenger_premake() {
 	# workaround on QA issues on passenger
 	export CFLAGS="${CFLAGS} -fno-strict-aliasing -Wno-unused-result"
 	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing -Wno-unused-result"
-	rake nginx
+	rake nginx || die "Passenger premake for ${RUBY} failed!"
 }
 
 passenger_install() {
 	# dirty spike to make passenger installation each-ruby compatible
 	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}/ext/nginx"
-	rake fakeroot
+	rake fakeroot || die "Passenger installation for ${RUBY} failed!"
 }
 
 src_install() {
