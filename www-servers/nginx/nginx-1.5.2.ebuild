@@ -463,7 +463,7 @@ ruby_add_bdepend ">=dev-ruby/rack-1.0.0"
 
 REQUIRED_USE="pcre-jit? ( pcre )"
 
-S="${WORKDIR}/${PN}-${PV}"
+S="${WORKDIR}/${P}"
 
 pkg_setup() {
 	ebegin "Creating nginx user and group"
@@ -506,12 +506,12 @@ pkg_setup() {
 	fi
 }
 
-#src_unpack() {
-#	# prevent ruby-ng.eclass from messing with src_unpack
-#	default
+src_unpack() {
+	# prevent ruby-ng.eclass from messing with src_unpack
+	default
 #	use pam && unpack "${PAM_MODULE_P}.tar.gz"
 #	use rrd && unpack "${RRD_MODULE_P}.tar.gz"
-#}
+}
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-fix-perl-install-path.patch"
