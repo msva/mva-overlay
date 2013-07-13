@@ -68,7 +68,7 @@
  	# Ruby extension sources
  	sh "mkdir -p #{fake_ruby_extension_source_dir}"
  	sh "cp -R #{PhusionPassenger.ruby_extension_source_dir}/* #{fake_ruby_extension_source_dir}"
-@@ -287,17 +278,15 @@
+@@ -287,17 +278,17 @@
  	puts "Creating #{fake_rubylibdir}/phusion_passenger/locations.ini"
  	File.open("#{fake_rubylibdir}/phusion_passenger/locations.ini", "w") do |f|
  		f.puts "[locations]"
@@ -92,6 +92,8 @@
 +		f.puts "includedir=#{fake_include_dir}".gsub(/#{fakeroot}/,"")
 +		f.puts "doc=#{fake_docdir}".gsub(/#{fakeroot}/,"")
 +		f.puts "rubylibdir=#{CONFIG['sitedir']}/vendor_ruby"
++		f.puts "apache2_module=no"
++		f.puts "ruby_extension_source=#{fake_ruby_extension_source_dir}".gsub(/#{fakeroot}/,"")
  	end
  
  	sh "find #{fakeroot} -name .DS_Store -print0 | xargs -0 rm -f"
