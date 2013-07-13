@@ -902,10 +902,10 @@ src_install() {
         # this solves a problem with SELinux where nginx doesn't see the directories
         # as root and tries to create them as nginx
         fperms 0750 "/var/tmp/${PN}"
-        fowners ${HTTPD_USER:-PN}:0 "/var/tmp/${PN}"
+        fowners ${HTTPD_USER:-${PN}}:0 "/var/tmp/${PN}"
 
         fperms 0700 /var/log/nginx "/var/tmp/${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
-        fowners ${HTTPD_USER:-PN}:${HTTPD_GROUP:-PN} /var/log/nginx "/var/tmp/${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
+        fowners ${HTTPD_USER:-${PN}}:${HTTPD_GROUP:-${PN}} /var/log/nginx "/var/tmp/${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
 
  	# logrotate
 	insinto /etc/logrotate.d
