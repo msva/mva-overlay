@@ -244,9 +244,10 @@ HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_P}"
 # http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module/tags, BSD license)
 HTTP_UPSTREAM_CHECK_MODULE_A="yaoweibin"
 HTTP_UPSTREAM_CHECK_MODULE_PN="nginx_upstream_check_module"
-HTTP_UPSTREAM_CHECK_MODULE_PV="0.1.8"
+HTTP_UPSTREAM_CHECK_MODULE_PV="0.1.9"
+HTTP_UPSTREAM_CHECK_NG_PV="_1.2.6+"
 HTTP_UPSTREAM_CHECK_MODULE_P="${HTTP_UPSTREAM_CHECK_MODULE_PN}-${HTTP_UPSTREAM_CHECK_MODULE_PV}"
-HTTP_UPSTREAM_CHECK_MODULE_URI="mirror://github/${HTTP_UPSTREAM_CHECK_MODULE_A}/${HTTP_UPSTREAM_CHECK_MODULE_PN}/archive/${HTTP_UPSTREAM_CHECK_MODULE_PV}.tar.gz"
+HTTP_UPSTREAM_CHECK_MODULE_URI="mirror://github/${HTTP_UPSTREAM_CHECK_MODULE_A}/${HTTP_UPSTREAM_CHECK_MODULE_PN}/archive/v${HTTP_UPSTREAM_CHECK_MODULE_PV}.tar.gz"
 HTTP_UPSTREAM_CHECK_MODULE_WD="../${HTTP_UPSTREAM_CHECK_MODULE_P}"
 
 # http_metrics (https://github.com/madvertise/ngx_metrics/tags, BSD license)
@@ -463,7 +464,7 @@ ruby_add_bdepend ">=dev-ruby/rack-1.0.0"
 
 REQUIRED_USE="pcre-jit? ( pcre )"
 
-S="${WORKDIR}/${PN}-${PV}"
+S="${WORKDIR}/${P}"
 
 pkg_setup() {
 	ebegin "Creating nginx user and group"
@@ -490,8 +491,7 @@ pkg_setup() {
 		ewarn ""
 		ewarn "!!!"
 		ewarn "You've enabled testing SPDY module. It is known to brake "
-		ewarn "compilation when used together with some other modules."
-		ewarn "Also it is heavily developed and can produce unstable work."
+		ewarn "compilation when used together with some 3party modules."
 		ewarn "!!!"
 	fi
 
@@ -507,19 +507,17 @@ pkg_setup() {
 	fi
 }
 
-#src_unpack() {
-#	# prevent ruby-ng.eclass from messing with src_unpack
-#	default
-#	use pam && unpack "${PAM_MODULE_P}.tar.gz"
-#	use rrd && unpack "${RRD_MODULE_P}.tar.gz"
-#}
+src_unpack() {
+	# prevent ruby-ng.eclass from messing with src_unpack
+	default
+}
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-fix-perl-install-path.patch"
 
 	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_"${SYSLOG_NG_PV}".patch
 
-	use nginx_modules_http_upstream_check && epatch "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/check_1.2.6+.patch
+	use nginx_modules_http_upstream_check && epatch "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/check"${HTTP_UPSTREAM_CHECK_NG_PV}".patch
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
@@ -897,15 +895,15 @@ src_install() {
 
 	keepdir /var/www/localhost
 
-	rm "${ED}"/usr/html || die
+	rm -rf "${ED}"/usr/html || die
 
         # this solves a problem with SELinux where nginx doesn't see the directories
         # as root and tries to create them as nginx
         fperms 0750 "/var/tmp/${PN}"
-        fowners ${HTTPD_USER:-PN}:0 "/var/tmp/${PN}"
+        fowners ${HTTPD_USER:-${PN}}:0 "/var/tmp/${PN}"
 
         fperms 0700 /var/log/nginx "/var/tmp/${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
-        fowners ${HTTPD_USER:-PN}:${HTTPD_GROUP:-PN} /var/log/nginx "/var/tmp/${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
+        fowners ${HTTPD_USER:-${PN}}:${HTTPD_GROUP:-${PN}} /var/log/nginx "/var/tmp/${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
 
  	# logrotate
 	insinto /etc/logrotate.d
