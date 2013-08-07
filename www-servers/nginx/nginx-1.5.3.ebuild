@@ -274,9 +274,9 @@ HTTP_DAV_EXT_MODULE_URI="https://github.com/${HTTP_DAV_EXT_MODULE_A}/${HTTP_DAV_
 HTTP_DAV_EXT_MODULE_WD="../${HTTP_DAV_EXT_MODULE_P}"
 
 # nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module/tags, BSD license)
-RTMP_MODULE_A="arut"
+RTMP_MODULE_A="msva"
 RTMP_MODULE_PN="nginx-rtmp-module"
-RTMP_MODULE_PV="1.0.2"
+RTMP_MODULE_PV="1.0.3"
 RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_PV}"
 RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/v${RTMP_MODULE_PV}.tar.gz"
 RTMP_MODULE_WD="../${RTMP_MODULE_P}"
