@@ -1,0 +1,5 @@
+*tcplay-1.1_pre20130629 (27 Jul 2013)
+
+  27 Jul 2013; Manuel Rüger <mrueg@gentoo.org> +metadata.xml,
+  +tcplay-1.1_pre20130629.ebuild:
+  Intitial commit for tcplay-1.x, original version see bug #432914

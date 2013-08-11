@@ -1,0 +1,9 @@
+  05 Aug 2013; Manuel Rüger <mrueg@gentoo.org> metadata.xml,
+  tox-core-9999.ebuild:
+  Various improvements. Thanks to chithanh. See bug #478874
+
+*tox-core-9999 (04 Aug 2013)
+
+  04 Aug 2013; Manuel Rüger <mrueg@gentoo.org> +metadata.xml,
+  +tox-core-9999.ebuild:
+  Initial ebuild

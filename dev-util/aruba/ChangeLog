@@ -1,0 +1,4 @@
+*aruba-0.5.3 (18 Jun 2013)
+
+  18 Jun 2013; Manuel Rüger <gentoo@rueg.eu> +aruba-0.5.3.ebuild, +metadata.xml:
+  dev-util/aruba: Version bump

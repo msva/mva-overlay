@@ -1,0 +1,25 @@
+  22 Jul 2013; Manuel Rueger (mrueg) gentoo@rueg.eu
+  android-studio-130.737825.ebuild:
+  dev-util/android-studio: Fix wrapper
+
+*android-studio-130.737825 (21 Jul 2013)
+
+  21 Jul 2013; Manuel Rüger <mrueg@gentoo.org>
+  +android-studio-130.737825.ebuild, -android-studio-130.687321.ebuild:
+  dev-util/android-studio: Version bump
+
+*android-studio-130.687321 (17 Jun 2013)
+
+  17 Jun 2013; Manuel Rüger <gentoo@rueg.eu> +android-studio-130.687321.ebuild,
+  -android-studio-130.677228.ebuild:
+  dev-util/android-studio: Fix Homepage, Version bump
+
+  17 May 2013; Manuel Rueger (mrueg) gentoo@rueg.eu
+  android-studio-130.677228.ebuild:
+  dev-util/android-studio: Fix description
+
+*android-studio-130.677228 (17 May 2013)
+
+  17 May 2013; Manuel Rueger (mrueg) gentoo@rueg.eu
+  +android-studio-130.677228.ebuild, +metadata.xml:
+  dev-util/android-studio: Initial version, based on idea-community ebuild
