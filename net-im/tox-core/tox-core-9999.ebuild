@@ -20,7 +20,8 @@ RDEPEND="dev-libs/libconfig
 	net-libs/libsodium
 	nacl? ( net-libs/nacl )"
 DEPEND="${RDEPEND}
-	dev-python/sphinx"
+	dev-python/sphinx
+	dev-libs/check"
 
 src_prepare() {
 	# remove -Werror from CFLAGS
