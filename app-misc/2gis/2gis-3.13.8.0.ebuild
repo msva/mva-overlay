@@ -17,7 +17,7 @@ IUSE="+data"
 
 DEPEND="
 	app-arch/unzip
-	media-gfx/imagemagick
+	media-gfx/imagemagick[png]
 	media-gfx/icoutils
 "
 RDEPEND="
