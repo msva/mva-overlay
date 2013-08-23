@@ -4,11 +4,11 @@
 
 EAPI="5"
 
-EGIT_REPO_URI="https://github.com/nurupo/ProjectTox-Qt-GUI"
+EGIT_REPO_URI="https://github.com/Tox/toxic"
 
-inherit cmake-utils git-2
+inherit autotools git-2
 
-DESCRIPTION="A front end for ProjectTox Core written in Qt5 and C++."
+DESCRIPTION="A CLI front end for ProjectTox Core"
 HOMEPAGE="http://tox.im"
 
 LICENSE="GPL-3+"
@@ -18,14 +18,13 @@ IUSE=""
 
 RDEPEND="
 	net-im/tox-core
-	dev-qt/qtcore:5
-	dev-qt/qtdeclarative:5
-	dev-qt/qtwidgets:5
+	sys-libs/ncurses[unicode]
+	net-libs/libsodium
 "
 DEPEND="${RDEPEND}"
 
 src_prepare() {
-	:
+	eautoreconf
 }
 
 pkg_postinst() {
