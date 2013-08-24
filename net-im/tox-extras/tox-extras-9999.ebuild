@@ -13,7 +13,7 @@ HOMEPAGE="http://tox.im"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="-*"
 IUSE="unicode multilib"
 # -nacl (currently, gento nacl package is incompatible with tox shared mode)
 
@@ -22,7 +22,6 @@ RDEPEND="
 	dev-libs/check
 	dev-libs/libconfig
 	net-libs/libsodium
-	sys-libs/ncurses[unicode=]
 "
 
 #	sys-libs/ncurses[unicode=]

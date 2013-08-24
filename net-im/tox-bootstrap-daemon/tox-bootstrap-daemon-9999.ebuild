@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit autotools-multilib git-2
+inherit autotools-utils git-2
 
 EGIT_REPO_URI="https://github.com/irungentoo/ProjectTox-Core"
 
@@ -13,20 +13,19 @@ HOMEPAGE="http://tox.im"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="-*"
 IUSE=""
 
-RDEPEND="net-libs/libsodium[${MULTILIB_USEDEP}]"
+RDEPEND="dev-libs/libconfig"
 DEPEND="${RDEPEND}"
 AUTOTOOLS_AUTORECONF="yes"
 
 src_configure() {
 	local myeconfargs=(
 		--disable-tests
-		--disable-dht-bootstrap-daemon
 		--disable-ntox
 	)
-	autotools-multilib_src_configure
+	autotools-utils_src_configure
 }
 
 pkg_postinst() {
