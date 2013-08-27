@@ -15,7 +15,7 @@ nginx_config="/etc/nginx/nginx.conf"
 
 command="/usr/sbin/nginx"
 command_args="-c ${nginx_config}"
-pidfile="/var/run/nginx.pid"
+pidfile="/run/nginx.pid"
 
 depend() {
 	need net

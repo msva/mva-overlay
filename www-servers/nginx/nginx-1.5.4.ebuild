@@ -400,7 +400,7 @@ REQUIRED_USE="
 "
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog rtmp"
+IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog systemd rtmp"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -885,7 +885,7 @@ src_install() {
 
 	newinitd "${FILESDIR}"/nginx.initd nginx
 
-	systemd_newunit "${FILESDIR}"/nginx.service-r1 nginx.service
+	use systemd && systemd_newunit "${FILESDIR}"/nginx.service-r1 nginx.service
 
 	doman man/nginx.8
 	dodoc CHANGES* README
