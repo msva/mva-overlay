@@ -2,15 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-libs/libassuan/libassuan-2.0.3.ebuild,v 1.2 2012/05/09 15:19:16 aballier Exp $
 
-EAPI=4
+EAPI="5"
 
-inherit git-2
+inherit git-2 eutils autotools
 
 DESCRIPTION="GnuPG's New Portable Threads Library (nPth)"
 HOMEPAGE="http://www.gnupg.org/"
 SRC_URI=""
 EGIT_REPO_URI="git://git.gnupg.org/${PN}.git"
-EGIT_BOOTSTRAP="./autogen.sh"
+#EGIT_BOOTSTRAP="./autogen.sh"
 
 LICENSE="GPL-3 LGPL-2.1"
 SLOT="0"
@@ -22,7 +22,13 @@ DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 
-S="${WORKDIR}"
+#S="${WORKDIR}"
+
+src_prepare() {
+	epatch_user
+	git-2_src_prepare
+	eautoreconf
+}
 
 src_configure() {
 	econf $(use_enable static-libs static) --enable-maintainer-mode

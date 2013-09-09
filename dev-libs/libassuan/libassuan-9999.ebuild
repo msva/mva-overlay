@@ -2,15 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-libs/libassuan/libassuan-2.0.3.ebuild,v 1.2 2012/05/09 15:19:16 aballier Exp $
 
-EAPI=4
+EAPI="5"
 
-inherit git-2
+inherit git-2 eutils autotools
 
 DESCRIPTION="IPC library used by GnuPG and GPGME"
 HOMEPAGE="http://www.gnupg.org/related_software/libassuan/index.en.html"
 SRC_URI=""
 EGIT_REPO_URI="git://git.gnupg.org/libassuan.git"
-EGIT_BOOTSTRAP="./autogen.sh"
+#EGIT_BOOTSTRAP="./autogen.sh"
 #SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-3 LGPL-2.1"
@@ -23,7 +23,12 @@ DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
-S="${WORKDIR}"
+#S="${WORKDIR}"
+
+src_prepare() {
+	epatch_user
+	eautoreconf
+}
 
 src_configure() {
 	econf $(use_enable static-libs static) --enable-maintainer-mode
