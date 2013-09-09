@@ -2,15 +2,19 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from mva overlay $
 
-EAPI="4"
+EAPI="5"
+
+inherit git-2
 
 DESCRIPTION="Drush is a command line shell and scripting interface for Drupal"
 HOMEPAGE="http://drupal.org/project/drush"
-SRC_URI="http://ftp.drupal.org/files/projects/${PN}-7.x-${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI=""
+
+EGIT_REPO_URI="https://github.com/drush-ops/drush"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="examples"
 
 DEPEND="dev-lang/php[cli,simplexml] dev-php/pear"
