@@ -2,15 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-crypt/gnupg/gnupg-2.0.19.ebuild,v 1.5 2012/05/31 03:13:18 zmedico Exp $
 
-EAPI="4"
+EAPI="5"
 
-inherit git-2 eutils flag-o-matic toolchain-funcs
+inherit git-2 eutils flag-o-matic toolchain-funcs autotools
 
 DESCRIPTION="The GNU Privacy Guard, a GPL pgp replacement"
 HOMEPAGE="http://www.gnupg.org/"
 SRC_URI=""
 EGIT_REPO_URI="git://git.gnupg.org/gnupg.git"
-EGIT_BOOTSTRAP="./autogen.sh"
+#EGIT_BOOTSTRAP="./autogen.sh"
 #SRC_URI="mirror://gnupg/gnupg/${P}.tar.bz2"
 # SRC_URI="ftp://ftp.gnupg.org/gcrypt/${PN}/${P}.tar.bz2"
 
@@ -59,6 +59,9 @@ REQUIRED_USE="smartcard? ( !static )"
 
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.0.17-gpgsm-gencert.patch
+	epatch_user
+	git-2_src_prepare
+	eautoreconf
 }
 
 src_configure() {
