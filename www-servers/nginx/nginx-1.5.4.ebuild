@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI="5"
 
 # Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
@@ -19,18 +19,19 @@ USE_RUBY="jruby ruby18 ruby19 ruby20"
 RUBY_OPTIONAL="yes"
 
 # syslog (https://github.com/yaoweibin/nginx_syslog_patch/tags, BSD license)
-SYSLOG_MODULE_A="yaoweibin"
+#SYSLOG_MODULE_A="yaoweibin"
+SYSLOG_MODULE_A="msva"
 SYSLOG_MODULE_PN="nginx_syslog_patch"
-SYSLOG_MODULE_PV="0.25"
+SYSLOG_MODULE_PV="0.25.1"
 SYSLOG_NG_PV="1.4.0"
 SYSLOG_MODULE_P="${SYSLOG_MODULE_PN}-${SYSLOG_MODULE_PV}"
 SYSLOG_MODULE_URI="https://github.com/${SYSLOG_MODULE_A}/${SYSLOG_MODULE_PN}/archive/v${SYSLOG_MODULE_PV}.tar.gz"
 SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
 
-# http_passenger (https://github.com/FooBarWidget/passenger/tags, MIT license)
-HTTP_PASSENGER_MODULE_A="FooBarWidget"
+# http_passenger (https://github.com/phusion/passenger/tags, MIT license)
+HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.10"
+HTTP_PASSENGER_MODULE_PV="4.0.16"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -46,7 +47,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_headers_more (https://github.com/agentzh/headers-more-nginx-module/tags, BSD license)
 HTTP_HEADERS_MORE_MODULE_A="agentzh"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.21"
+HTTP_HEADERS_MORE_MODULE_PV="0.22"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
@@ -108,7 +109,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.8.5"
+HTTP_LUA_MODULE_PV="0.8.6"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -132,7 +133,7 @@ HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 # NginX echo module (https://github.com/agentzh/echo-nginx-module/tags, BSD)
 HTTP_ECHO_MODULE_A="agentzh"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
-HTTP_ECHO_MODULE_PV="0.45"
+HTTP_ECHO_MODULE_PV="0.46"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
@@ -156,7 +157,7 @@ HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module/tags, BSD)
 HTTP_SRCACHE_MODULE_A="agentzh"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
-HTTP_SRCACHE_MODULE_PV="0.21"
+HTTP_SRCACHE_MODULE_PV="0.22"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/v${HTTP_SRCACHE_MODULE_PV}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
@@ -400,7 +401,7 @@ REQUIRED_USE="
 "
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux syslog systemd rtmp"
+IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux -syslog systemd rtmp"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
