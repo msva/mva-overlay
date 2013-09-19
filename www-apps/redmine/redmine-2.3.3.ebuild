@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/www-apps/redmine/redmine-1.4.1.ebuild,v 1.1 2012/04/25 15:02:00 matsuu Exp $
 
 EAPI="5"
-USE_RUBY="ruby18 ree18 jruby ruby19"
+USE_RUBY="ruby18 jruby ruby19 ruby20"
 
 inherit eutils depend.apache ruby-ng
 

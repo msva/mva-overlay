@@ -3,6 +3,8 @@
 # $Header: $
 
 EAPI="5"
+USE_RUBY="ruby18 jruby ruby19 ruby20"
+
 inherit eutils confutils git-2 depend.apache
 
 DESCRIPTION="Redmine is a flexible project management web application written
