@@ -18,20 +18,10 @@ GENTOO_DEPEND_ON_PERL="no"
 USE_RUBY="jruby ruby18 ruby19 ruby20"
 RUBY_OPTIONAL="yes"
 
-# syslog (https://github.com/yaoweibin/nginx_syslog_patch/tags, BSD license)
-#SYSLOG_MODULE_A="yaoweibin"
-SYSLOG_MODULE_A="msva"
-SYSLOG_MODULE_PN="nginx_syslog_patch"
-SYSLOG_MODULE_PV="0.25.1"
-SYSLOG_NG_PV="1.4.0"
-SYSLOG_MODULE_P="${SYSLOG_MODULE_PN}-${SYSLOG_MODULE_PV}"
-SYSLOG_MODULE_URI="https://github.com/${SYSLOG_MODULE_A}/${SYSLOG_MODULE_PN}/archive/v${SYSLOG_MODULE_PV}.tar.gz"
-SYSLOG_MODULE_WD="../${SYSLOG_MODULE_P}"
-
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.16"
+HTTP_PASSENGER_MODULE_PV="4.0.18"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -109,7 +99,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.8.6"
+HTTP_LUA_MODULE_PV="0.8.9"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -117,7 +107,7 @@ HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/drizzle-nginx-module/tags, BSD)
 HTTP_DRIZZLE_MODULE_A="chaoslawful"
 HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
-HTTP_DRIZZLE_MODULE_PV="0.1.5"
+HTTP_DRIZZLE_MODULE_PV="0.1.6"
 HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_PV}"
 HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/v${HTTP_DRIZZLE_MODULE_PV}.tar.gz"
 HTTP_DRIZZLE_MODULE_WD="../${HTTP_DRIZZLE_MODULE_P}"
@@ -133,7 +123,7 @@ HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 # NginX echo module (https://github.com/agentzh/echo-nginx-module/tags, BSD)
 HTTP_ECHO_MODULE_A="agentzh"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
-HTTP_ECHO_MODULE_PV="0.46"
+HTTP_ECHO_MODULE_PV="0.48"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
@@ -141,7 +131,7 @@ HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
 # NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module/tags, BSD)
 HTTP_MEMC_MODULE_A="agentzh"
 HTTP_MEMC_MODULE_PN="memc-nginx-module"
-HTTP_MEMC_MODULE_PV="0.13rc3"
+HTTP_MEMC_MODULE_PV="0.13"
 HTTP_MEMC_MODULE_P="${HTTP_MEMC_MODULE_PN}-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_URI="https://github.com/${HTTP_MEMC_MODULE_A}/${HTTP_MEMC_MODULE_PN}/archive/v${HTTP_MEMC_MODULE_PV}.tar.gz"
 HTTP_MEMC_MODULE_WD="../${HTTP_MEMC_MODULE_P}"
@@ -165,7 +155,7 @@ HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module/tags, BSD)
 HTTP_SET_MISC_MODULE_A="agentzh"
 HTTP_SET_MISC_MODULE_PN="set-misc-nginx-module"
-HTTP_SET_MISC_MODULE_PV="0.22rc8"
+HTTP_SET_MISC_MODULE_PV="0.22"
 HTTP_SET_MISC_MODULE_P="${HTTP_SET_MISC_MODULE_PN}-${HTTP_SET_MISC_MODULE_PV}"
 HTTP_SET_MISC_MODULE_URI="https://github.com/${HTTP_SET_MISC_MODULE_A}/${HTTP_SET_MISC_MODULE_PN}/archive/v${HTTP_SET_MISC_MODULE_PV}.tar.gz"
 HTTP_SET_MISC_MODULE_WD="../${HTTP_SET_MISC_MODULE_P}"
@@ -299,8 +289,8 @@ DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="http://sysoev.ru/nginx/
 	http://www.modrails.com/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
-SRC_URI="http://nginx.org/download/${P}.tar.gz
-	syslog? ( ${SYSLOG_MODULE_URI} -> ${SYSLOG_MODULE_P}.tar.gz )
+SRC_URI="
+	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
@@ -401,7 +391,7 @@ REQUIRED_USE="
 "
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux -syslog systemd rtmp"
+IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux rtmp"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -515,7 +505,6 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${P}-fix-perl-install-path.patch"
-	use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_"${SYSLOG_NG_PV}".patch
 
 	use nginx_modules_http_upstream_check && epatch "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/check"${HTTP_UPSTREAM_CHECK_NG_PV}".patch
 
@@ -568,11 +557,6 @@ src_configure() {
 	use libatomic	&& myconf+=" --with-libatomic"
 	use pcre	&& myconf+=" --with-pcre"
 	use pcre-jit	&& myconf+=" --with-pcre-jit"
-
-	# syslog support
-	if use syslog; then
-		myconf+=" --add-module=${SYSLOG_MODULE_WD}"
-	fi
 
 	# HTTP modules
 	for mod in $NGINX_MODULES_STD; do
@@ -886,7 +870,7 @@ src_install() {
 
 	newinitd "${FILESDIR}"/nginx.initd nginx
 
-	use systemd && systemd_newunit "${FILESDIR}"/nginx.service-r1 nginx.service
+	systemd_newunit "${FILESDIR}"/nginx.service-r1 nginx.service
 
 	doman man/nginx.8
 	dodoc CHANGES* README
@@ -908,11 +892,6 @@ src_install() {
  	# logrotate
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/nginx.logrotate nginx
-
-	if use syslog; then
-		docinto "${SYSLOG_MODULE_P}"
-		dodoc "${SYSLOG_MODULE_WD}"/README
-	fi
 
 
 # http_perl
