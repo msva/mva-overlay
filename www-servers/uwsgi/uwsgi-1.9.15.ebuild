@@ -189,7 +189,7 @@ install_python_lib() {
 
 src_compile() {
 	local lua=lua;
-	use luajit && lua=luajit-5.1;
+	use luajit && lua=luajit;
 
 	python uwsgiconfig.py --build gentoo || die "building uwsgi failed"
 
@@ -202,7 +202,7 @@ src_compile() {
 	if use lua ; then
 		# setting LUALIB explicitly since lua is not slotted on Gentoo
 		# and uwsgi otherwise looks for lua5.1
-		UWSGICONFIG_LUALIB="${lua}" python uwsgiconfig.py --plugin plugins/lua gentoo || die "building plugin for lua failed"
+		UWSGICONFIG_LUAPC="${lua}" python uwsgiconfig.py --plugin plugins/lua gentoo || die "building plugin for lua failed"
 	fi
 
 	if use perl ; then
