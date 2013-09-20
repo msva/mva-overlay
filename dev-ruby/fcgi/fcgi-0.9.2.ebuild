@@ -23,7 +23,7 @@ SLOT="0"
 
 each_ruby_configure() {
 	case ${RUBY} in
-		*ruby18|*ruby19|*rubyee18)
+		*ruby18|*ruby19|*rubyee18|*ruby20)
 			${RUBY} -C ext/fcgi extconf.rb || die "extconf failed"
 			;;
 	esac
@@ -31,7 +31,7 @@ each_ruby_configure() {
 
 each_ruby_compile() {
 	case ${RUBY} in
-		*ruby18|*ruby19|*rubyee18)
+		*ruby18|*ruby19|*rubyee18|*ruby20)
 			emake -C ext/fcgi
 			cp ext/fcgi/fcgi$(get_modname) lib || die "compile failed"
 			;;
