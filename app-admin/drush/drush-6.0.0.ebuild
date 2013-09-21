@@ -15,7 +15,6 @@ IUSE="examples"
 
 DEPEND="dev-lang/php[cli,simplexml] dev-php/pear"
 RDEPEND="${DEPEND}"
-S="${WORKDIR}/${PN}"
 
 src_install() {
 	local docs="README.txt docs"
