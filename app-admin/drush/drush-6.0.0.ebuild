@@ -6,7 +6,7 @@ EAPI="5"
 
 DESCRIPTION="Drush is a command line shell and scripting interface for Drupal"
 HOMEPAGE="http://drupal.org/project/drush"
-SRC_URI="https://github.com/drush-ops/${PN}/releases/tag/${PV}"
+SRC_URI="https://github.com/drush-ops/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
