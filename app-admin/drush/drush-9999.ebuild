@@ -22,7 +22,7 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}"
 
 src_install() {
-	local docs="README.txt docs"
+	local docs="README.md docs"
 
 	insinto /usr/share/drush
 	doins -r .

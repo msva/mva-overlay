@@ -17,7 +17,7 @@ DEPEND="dev-lang/php[cli,simplexml] dev-php/pear"
 RDEPEND="${DEPEND}"
 
 src_install() {
-	local docs="README.txt docs"
+	local docs="README.md docs"
 
 	insinto /usr/share/drush
 	doins -r .
