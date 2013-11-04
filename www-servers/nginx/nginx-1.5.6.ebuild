@@ -21,10 +21,18 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.19"
+HTTP_PASSENGER_MODULE_PV="4.0.23"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
+
+# http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module/tags, BSD-2 license)
+#HTTP_PAGESPEED_MODULE_A="masterzen"
+#HTTP_PAGESPEED_MODULE_PN="nginx-upload-progress-module"
+#HTTP_PAGESPEED_MODULE_PV="0.9.0"
+#HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_PV}"
+#HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/v${HTTP_PAGESPEED_MODULE_PV}.tar.gz"
+#HTTP_PAGESPEED_MODULE_WD="../${HTTP_PAGESPEED_MODULE_P}"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module/tags, BSD-2 license)
 HTTP_UPLOAD_PROGRESS_MODULE_A="masterzen"
