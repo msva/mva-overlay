@@ -1,16 +1,16 @@
 --- build/basics.rb     2013-03-05 16:55:02.000000000 +0700
 +++ build/basics.rb     2013-04-03 12:42:46.012231095 +0700
-@@ -134,6 +134,7 @@
- EXTRA_CXXFLAGS << " #{OPTIMIZATION_FLAGS}" if !OPTIMIZATION_FLAGS.empty?
- EXTRA_CXXFLAGS << " " << string_option('EXTRA_CXXFLAGS').gsub("\n", " ") if string_option('EXTRA_CXXFLAGS')
- EXTRA_CXXFLAGS << " -DPASSENGER_DISABLE_THREAD_LOCAL_STORAGE" if !boolean_option('PASSENGER_THREAD_LOCAL_STORAGE', true)
+@@ -168,6 +168,7 @@
+ 	flags << " -fno-omit-frame-pointers" if USE_ASAN
+ 	flags << " -DPASSENGER_DISABLE_THREAD_LOCAL_STORAGE" if !boolean_option('PASSENGER_THREAD_LOCAL_STORAGE', true)
+ end
 +EXTRA_CXXFLAGS << " #{ENV['CXXFLAGS']}"
 
  # Extra linker flags that should always be passed to the linker.
  # These should be included first in the command string, before anything else.
 --- build/packaging.rb	2013-07-09 12:10:02.000000000 +0400
 +++ build/packaging.rb	2013-07-10 23:59:46.802236526 +0400
-@@ -180,33 +180,28 @@
+@@ -322,34 +322,29 @@
  end
  
  desc "Create a fakeroot, useful for building native packages"
@@ -26,6 +26,7 @@
  	# the files to be installed to /usr, and the Ruby interpreter
  	# on the packaging machine might be in /usr/local.
 -	fake_rubylibdir = "#{fakeroot}/usr/lib/ruby/vendor_ruby"
+-	fake_nodelibdir = "#{fakeroot}/usr/share/#{GLOBAL_NAMESPACE_DIRNAME}/node"
 -	fake_libdir = "#{fakeroot}/usr/lib/#{GLOBAL_NAMESPACE_DIRNAME}"
 -	fake_native_support_dir = "#{fakeroot}/usr/lib/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
 -	fake_agents_dir = "#{fakeroot}/usr/lib/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
@@ -44,6 +45,7 @@
 -	sh "mkdir -p #{fakeroot}"
 -	
 +	fake_rubylibdir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
++	fake_nodelibdir = "#{fakeroot}/usr/libexec/#{GLOBAL_NAMESPACE_DIRNAME}/node"
 +	fake_libdir = "#{fakeroot}/" + CONFIG['sitedir'].gsub(/(\/.*?\/.*?)\/.*/,"\\1") + "/#{GLOBAL_NAMESPACE_DIRNAME}"
 +	fake_native_support_dir = "#{fakeroot}/#{CONFIG['sitedir']}/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
 +	fake_agents_dir = "#{fakeroot}/usr/libexec/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
@@ -59,8 +61,8 @@
  	# Ruby sources
  	sh "mkdir -p #{fake_rubylibdir}"
  	sh "cp #{PhusionPassenger.ruby_libdir}/phusion_passenger.rb #{fake_rubylibdir}/"
-@@ -276,10 +271,6 @@
- 		sh "cp bin/#{exe} #{fake_sbindir}/"
+@@ -430,10 +430,6 @@
+ 		end
  	end
  	
 -	# Apache 2 module
@@ -70,7 +72,7 @@
  	# Ruby extension sources
  	sh "mkdir -p #{fake_ruby_extension_source_dir}"
  	sh "cp -R #{PhusionPassenger.ruby_extension_source_dir}/* #{fake_ruby_extension_source_dir}"
-@@ -287,18 +278,18 @@
+@@ -441,19 +441,19 @@
  	puts "Creating #{fake_rubylibdir}/phusion_passenger/locations.ini"
  	File.open("#{fake_rubylibdir}/phusion_passenger/locations.ini", "w") do |f|
  		f.puts "[locations]"
@@ -83,6 +85,7 @@
 -		f.puts "include_dir=/usr/share/#{GLOBAL_NAMESPACE_DIRNAME}/include"
 -		f.puts "doc_dir=/usr/share/doc/#{GLOBAL_NAMESPACE_DIRNAME}"
 -		f.puts "ruby_libdir=/usr/lib/ruby/vendor_ruby"
+-		f.puts "node_libdir=/usr/share/#{GLOBAL_NAMESPACE_DIRNAME}/node"
 -		f.puts "apache2_module_path=/usr/lib/apache2/modules/mod_passenger.so"
 -		f.puts "ruby_extension_source_dir=/usr/share/#{GLOBAL_NAMESPACE_DIRNAME}/ruby_extension_source"
 -		f.puts "nginx_module_source_dir=/usr/share/#{GLOBAL_NAMESPACE_DIRNAME}/ngx_http_passenger_module"
@@ -95,6 +98,7 @@
 +		f.puts "include_dir=#{fake_include_dir}".gsub(/#{fakeroot}/,"")
 +		f.puts "doc_dir=#{fake_docdir}".gsub(/#{fakeroot}/,"")
 +		f.puts "ruby_libdir=#{CONFIG['sitedir']}/vendor_ruby"
++		f.puts "node_libdir=#{fake_nodelibdir}".gsub(/#{fakeroot}/,"")
 +		f.puts "apache2_module_path=no"
 +		f.puts "ruby_extension_source_dir=#{fake_ruby_extension_source_dir}".gsub(/#{fakeroot}/,"")
 +		f.puts "nginx_module_source_dir=#{fake_nginx_module_source_dir}".gsub(/#{fakeroot}/,"")
