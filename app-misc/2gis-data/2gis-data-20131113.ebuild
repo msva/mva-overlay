@@ -90,6 +90,7 @@ my_add_town Padova 2012 4 "_it"
 my_add_town Penza 2011 4
 my_add_town Perm 2007 12
 my_add_town Petrozavodsk 2012 10
+my_add_town Praha 2013 10 "_cs"
 my_add_town Pskov 2013 4
 my_add_town Rostov 2010 3
 my_add_town Ryazan 2011 4
