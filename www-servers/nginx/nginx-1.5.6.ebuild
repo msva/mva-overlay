@@ -26,13 +26,13 @@ HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MO
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
 
-# http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module/tags, BSD-2 license)
-#HTTP_PAGESPEED_MODULE_A="masterzen"
-#HTTP_PAGESPEED_MODULE_PN="nginx-upload-progress-module"
-#HTTP_PAGESPEED_MODULE_PV="0.9.0"
-#HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_PV}"
-#HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/v${HTTP_PAGESPEED_MODULE_PV}.tar.gz"
-#HTTP_PAGESPEED_MODULE_WD="../${HTTP_PAGESPEED_MODULE_P}"
+# http_uploadprogress (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2 license)
+HTTP_PAGESPEED_MODULE_A="pagespeed"
+HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
+HTTP_PAGESPEED_MODULE_PV="1.7.30.1-beta"
+HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_PV}"
+HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/v${HTTP_PAGESPEED_MODULE_PV}.tar.gz"
+HTTP_PAGESPEED_MODULE_WD="../${HTTP_PAGESPEED_MODULE_P}"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module/tags, BSD-2 license)
 HTTP_UPLOAD_PROGRESS_MODULE_A="masterzen"
@@ -45,7 +45,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_headers_more (https://github.com/agentzh/headers-more-nginx-module/tags, BSD license)
 HTTP_HEADERS_MORE_MODULE_A="agentzh"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.22"
+HTTP_HEADERS_MORE_MODULE_PV="0.23"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
@@ -59,7 +59,7 @@ HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
 # http_headers_more (https://github.com/wandenberg/nginx-push-stream-module/tags, BSD license)
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
 HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
-HTTP_PUSH_STREAM_MODULE_PV="0.3.5"
+HTTP_PUSH_STREAM_MODULE_PV="0.4.0"
 HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODULE_PV}"
 HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_PV}.tar.gz"
 HTTP_PUSH_STREAM_MODULE_WD="../${HTTP_PUSH_STREAM_MODULE_P}"
@@ -107,7 +107,7 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.0"
+HTTP_LUA_MODULE_PV="0.9.2"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
@@ -131,7 +131,7 @@ HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 # NginX echo module (https://github.com/agentzh/echo-nginx-module/tags, BSD)
 HTTP_ECHO_MODULE_A="agentzh"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
-HTTP_ECHO_MODULE_PV="0.48"
+HTTP_ECHO_MODULE_PV="0.49"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
@@ -147,7 +147,7 @@ HTTP_MEMC_MODULE_WD="../${HTTP_MEMC_MODULE_P}"
 # NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module/tags, BSD)
 HTTP_RDS_JSON_MODULE_A="agentzh"
 HTTP_RDS_JSON_MODULE_PN="rds-json-nginx-module"
-HTTP_RDS_JSON_MODULE_PV="0.12rc10"
+HTTP_RDS_JSON_MODULE_PV="0.12"
 HTTP_RDS_JSON_MODULE_P="${HTTP_RDS_JSON_MODULE_PN}-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_URI="https://github.com/${HTTP_RDS_JSON_MODULE_A}/${HTTP_RDS_JSON_MODULE_PN}/archive/v${HTTP_RDS_JSON_MODULE_PV}.tar.gz"
 HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
@@ -155,7 +155,7 @@ HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module/tags, BSD)
 HTTP_SRCACHE_MODULE_A="agentzh"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
-HTTP_SRCACHE_MODULE_PV="0.22"
+HTTP_SRCACHE_MODULE_PV="0.24"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/v${HTTP_SRCACHE_MODULE_PV}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
@@ -171,7 +171,7 @@ HTTP_SET_MISC_MODULE_WD="../${HTTP_SET_MISC_MODULE_P}"
 # NginX XSS module (https://github.com/agentzh/xss-nginx-module/tags, BSD)
 HTTP_XSS_MODULE_A="agentzh"
 HTTP_XSS_MODULE_PN="xss-nginx-module"
-HTTP_XSS_MODULE_PV="0.03"
+HTTP_XSS_MODULE_PV="0.04"
 HTTP_XSS_MODULE_P="${HTTP_XSS_MODULE_PN}-${HTTP_XSS_MODULE_PV}"
 HTTP_XSS_MODULE_URI="https://github.com/${HTTP_XSS_MODULE_A}/${HTTP_XSS_MODULE_PN}/archive/v${HTTP_XSS_MODULE_PV}.tar.gz"
 HTTP_XSS_MODULE_WD="../${HTTP_XSS_MODULE_P}"
@@ -235,9 +235,9 @@ HTTP_SLOWFS_CACHE_MODULE_WD="../${HTTP_SLOWFS_CACHE_MODULE_P}"
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/tags , BSD license)
 HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
-HTTP_FANCYINDEX_MODULE_PV="0.3.2"
+HTTP_FANCYINDEX_MODULE_PV="0.3.3"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_PV}"
-HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
+HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/v${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="../${HTTP_FANCYINDEX_MODULE_P}"
 
 # http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module/tags, BSD license)
@@ -257,11 +257,12 @@ HTTP_METRICS_MODULE_P="${HTTP_METRICS_MODULE_PN}-${HTTP_METRICS_MODULE_PV}"
 HTTP_METRICS_MODULE_URI="https://github.com/${HTTP_METRICS_MODULE_A}/${HTTP_METRICS_MODULE_PN}/archive/v${HTTP_METRICS_MODULE_PV}.tar.gz"
 HTTP_METRICS_MODULE_WD="../${HTTP_METRICS_MODULE_P}"
 
-# naxsi-core (https://code.google.com/p/naxsi/, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.51-1"
-HTTP_NAXSI_MODULE_PN="naxsi-core"
+# naxsi-core (https://github.com/nbs-system/naxsi/tags, GPLv2+)
+HTTP_NAXSI_MODULE_A="nbs-system"
+HTTP_NAXSI_MODULE_PV="0.53-1"
+HTTP_NAXSI_MODULE_PN="naxsi"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_PV}"
-HTTP_NAXSI_MODULE_URI="https://naxsi.googlecode.com/files/${HTTP_NAXSI_MODULE_P}.tgz"
+HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="../${HTTP_NAXSI_MODULE_P}/naxsi_src"
 
 # nginx-dav-ext-module (http://github.com/arut/nginx-dav-ext-module/tags, BSD license)
@@ -275,7 +276,7 @@ HTTP_DAV_EXT_MODULE_WD="../${HTTP_DAV_EXT_MODULE_P}"
 # nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module/tags, BSD license)
 RTMP_MODULE_A="arut"
 RTMP_MODULE_PN="nginx-rtmp-module"
-RTMP_MODULE_PV="1.0.4"
+RTMP_MODULE_PV="1.0.6"
 RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_PV}"
 RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/v${RTMP_MODULE_PV}.tar.gz"
 RTMP_MODULE_WD="../${RTMP_MODULE_P}"
@@ -299,6 +300,7 @@ HOMEPAGE="http://sysoev.ru/nginx/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
 SRC_URI="
 	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
+	nginx_modules_http_pagespeed? ( ${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
@@ -353,6 +355,7 @@ NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
 	http_cache_purge
 	http_headers_more
+	http_pagespeed
 	http_passenger
 	http_push_stream
 	http_ey_balancer
@@ -395,7 +398,9 @@ REQUIRED_USE="
 		nginx_modules_http_spdy? ( ssl )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )
 	        nginx_modules_http_naxsi? ( pcre )
+	        nginx_modules_http_pagespeed? ( pcre )
 	        nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
+		pcre-jit? ( pcre )
 "
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
@@ -425,6 +430,7 @@ CDEPEND="
 	ssl? ( dev-libs/openssl )
 	http-cache? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_geo? ( dev-libs/geoip )
+	nginx_modules_http_pagespeed? ( dev-libs/psol )
         nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
@@ -460,8 +466,6 @@ ruby_add_bdepend ">=dev-ruby/rake-0.8.1"
 ruby_add_bdepend "virtual/rubygems"
 ruby_add_bdepend ">=dev-ruby/fastthread-1.0.1"
 ruby_add_bdepend ">=dev-ruby/rack-1.0.0"
-
-REQUIRED_USE="pcre-jit? ( pcre )"
 
 S="${WORKDIR}/${P}"
 
@@ -660,6 +664,12 @@ src_configure() {
 	if use nginx_modules_http_coolkit; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_COOLKIT_MODULE_WD}"
+	fi
+
+# http_pagespeed
+	if use nginx_modules_http_pagespeed; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_PAGESPEED_MODULE_WD}"
 	fi
 
 # http_passenger
