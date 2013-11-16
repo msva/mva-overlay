@@ -1089,9 +1089,6 @@ src_install() {
         if use nginx_modules_http_naxsi; then
                 insinto /etc/nginx
                 doins "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/naxsi_core.rules
-
-                docinto ${HTTP_NAXSI_MODULE_P}
-                newdoc "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/default_location_config.example nbs.rules
         fi
 
         if use rtmp; then
