@@ -21,7 +21,7 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.23"
+HTTP_PASSENGER_MODULE_PV="4.0.25"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -294,7 +294,6 @@ RRD_MODULE_WD="../${RRD_MODULE_P}"
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
-#	http://pushmodule.slact.net/
 HOMEPAGE="http://sysoev.ru/nginx/
 	http://www.modrails.com/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
