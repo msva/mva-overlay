@@ -5,12 +5,14 @@
 EAPI=5
 inherit eutils
 
+MAGIC_PV="0.3.2"
+
 RESTRICT="strip"
 QA_TEXTRELS="opt/${P}/bin/libbreakgen.so"
 
 DESCRIPTION="A new Android development environment based on IntelliJ IDEA"
 HOMEPAGE="http://developer.android.com/sdk/installing/studio.html"
-SRC_URI="http://dl.google.com/android/studio/${PN}-bundle-${PV}-linux.tgz"
+SRC_URI="http://dl.google.com/android/studio/install/${MAGIC_PV}/${PN}-bundle-${PV}-linux.tgz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
