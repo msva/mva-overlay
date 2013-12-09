@@ -2,18 +2,18 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
-PYTHON_OPTIONAL=yes
+EAPI=5
+DISTUTILS_OPTIONAL=yes
+PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
 RUBY_OPTIONAL=yes
-USE_RUBY="ree18 ruby18 jruby rbx"
+USE_RUBY="ruby19 ruby20 jruby rbx"
 
-inherit python-distutils-ng ruby-ng java-pkg-opt-2 git-2
+inherit autotools-utils distutils-r1 ruby-ng java-pkg-opt-2 eutils git-r3 
 
 DESCRIPTION="Tools for reading and writing Data Matrix barcodes"
 HOMEPAGE="http://www.libdmtx.org/"
 SRC_URI=""
-EGIT_REPO_URI="git://libdmtx.git.sourceforge.net/gitroot/libdmtx/${PN}"
-EGIT_BOOTSTRAP="./autogen.sh"
+EGIT_REPO_URI="https://github.com/dmtx/dmtx-wrappers"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -27,8 +27,14 @@ RDEPEND="
 	java? ( >=virtual/jre-1.6 )
 	php? ( dev-php/php-dmtx[doc=] )
 	ruby? ( virtual/rubygems dev-ruby/rmagick !!=dev-lang/ruby-1.9* )
-	python? ( dev-lang/python )
-	lua? ( dev-lua/lua-dmtx[doc=] )"
+	python? ( ${PYTHON_DEPS} )
+	lua? ( dev-lua/lua-dmtx[doc=] )
+"
+
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
+
+AUTOTOOLS_AUTORECONF=yes
+AUTOTOOLS_IN_SOURCE_BUILD=yes
 
 # Ruby wrapper currently fails to build with 1.9.
 # Mono wrapper currently is Windows-only thing.
@@ -60,14 +66,12 @@ pkg_setup() {
 }
 
 src_prepare() {
-	use java && (
-		rm "${S}/java/Makefile";
-		cp "${FILESDIR}/java.Makefile" "${S}/java/Makefile";
-	)
+	autotools-utils_src_prepare
+
 	use python && (
 		S="${S}/python"
 		cd "${S}"
-		python-distutils-ng_src_prepare
+		distutils-r1_src_prepare
 	)
 	use ruby && (
 		cp -r "${S}/ruby" "${WORKDIR}/all"
@@ -75,7 +79,12 @@ src_prepare() {
 	)
 }
 
+src_configure() {
+	autotools-utils_src_configure
+}
+
 src_compile() {
+	autotools-utils_src_compile
 	use java && (
 		einfo "Compiling wrapper for Java"
 		S="${S}/java"
@@ -91,7 +100,7 @@ src_compile() {
 		einfo "Compiling wrapper for Python"
 		S="${S}/python"
 		cd "${S}"
-		python-distutils-ng_src_compile
+		distutils-r1_src_compile
 	)
 }
 
@@ -118,7 +127,7 @@ src_install() {
 		einfo "Installing wrapper for Python"
 		S="${S}/python"
 		cd "${S}"
-		python-distutils-ng_src_install
+		distutils-r1_src_install
 		use doc && (
 			newdoc "${S}"/README README.python
 		)
@@ -134,4 +143,5 @@ src_install() {
 			newdoc "${S}"/README README.vala
 		)
 	)
+	prune_libtool_files --all
 }
