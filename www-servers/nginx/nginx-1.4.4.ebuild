@@ -450,6 +450,7 @@ CDEPEND="
 			$(ruby_implementation_depend ruby20)
 			$(ruby_implementation_depend jruby)
 		)
+		>=dev-ruby/rake-0.8.1
 		!!www-apache/passenger
 	)
 	perftools? ( dev-util/google-perftools )
@@ -460,11 +461,6 @@ DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
-
-ruby_add_bdepend ">=dev-ruby/rake-0.8.1"
-ruby_add_bdepend "virtual/rubygems"
-ruby_add_bdepend ">=dev-ruby/fastthread-1.0.1"
-ruby_add_bdepend ">=dev-ruby/rack-1.0.0"
 
 S="${WORKDIR}/${P}"
 
