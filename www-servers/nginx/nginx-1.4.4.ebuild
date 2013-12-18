@@ -50,13 +50,21 @@ HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_M
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
 
+# http_encrypted_session (https://github.com/agentzh/encrypted-session-nginx-module/tags, BSD license)
+HTTP_ENCRYPTED_SESSION_MODULE_A="agentzh"
+HTTP_ENCRYPTED_SESSION_MODULE_PN="encrypted-session-nginx-module"
+HTTP_ENCRYPTED_SESSION_MODULE_PV="0.02"
+HTTP_ENCRYPTED_SESSION_MODULE_P="${HTTP_ENCRYPTED_SESSION_MODULE_PN}-${HTTP_ENCRYPTED_SESSION_MODULE_PV}"
+HTTP_ENCRYPTED_SESSION_MODULE_URI="https://github.com/${HTTP_ENCRYPTED_SESSION_MODULE_A}/${HTTP_ENCRYPTED_SESSION_MODULE_PN}/archive/v${HTTP_ENCRYPTED_SESSION_MODULE_PV}.tar.gz"
+HTTP_ENCRYPTED_SESSION_MODULE_WD="../${HTTP_ENCRYPTED_SESSION_MODULE_P}"
+
 # http_push (http://pushmodule.slact.net/, MIT license)
 #HTTP_PUSH_MODULE_PV="0.692"
 #HTTP_PUSH_MODULE_P="nginx_http_push_module-${HTTP_PUSH_MODULE_PV}"
 #HTTP_PUSH_MODULE_URI="http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz"
 #HTTP_PUSH_MODULE_WD="../${HTTP_PUSH_MODULE_P}"
 
-# http_headers_more (https://github.com/wandenberg/nginx-push-stream-module/tags, BSD license)
+# http_push_stream (https://github.com/wandenberg/nginx-push-stream-module/tags, BSD license)
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
 HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
 HTTP_PUSH_STREAM_MODULE_PV="0.4.0"
@@ -151,6 +159,14 @@ HTTP_RDS_JSON_MODULE_PV="0.12"
 HTTP_RDS_JSON_MODULE_P="${HTTP_RDS_JSON_MODULE_PN}-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_URI="https://github.com/${HTTP_RDS_JSON_MODULE_A}/${HTTP_RDS_JSON_MODULE_PN}/archive/v${HTTP_RDS_JSON_MODULE_PV}.tar.gz"
 HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
+
+# NginX RDS-CSV module (https://github.com/agentzh/rds-csv-nginx-module/tags, BSD)
+HTTP_RDS_CSV_MODULE_A="agentzh"
+HTTP_RDS_CSV_MODULE_PN="rds-csv-nginx-module"
+HTTP_RDS_CSV_MODULE_PV="0.05"
+HTTP_RDS_CSV_MODULE_P="${HTTP_RDS_CSV_MODULE_PN}-${HTTP_RDS_CSV_MODULE_PV}"
+HTTP_RDS_CSV_MODULE_URI="https://github.com/${HTTP_RDS_CSV_MODULE_A}/${HTTP_RDS_CSV_MODULE_PN}/archive/v${HTTP_RDS_CSV_MODULE_PV}.tar.gz"
+HTTP_RDS_CSV_MODULE_WD="../${HTTP_RDS_CSV_MODULE_P}"
 
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module/tags, BSD)
 HTTP_SRCACHE_MODULE_A="agentzh"
@@ -302,6 +318,7 @@ SRC_URI="
 	nginx_modules_http_pagespeed? ( ${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
+	nginx_modules_http_encrypted_session? ( ${HTTP_ENCRYPTED_SESSION_MODULE_URI} -> ${HTTP_ENCRYPTED_SESSION_MODULE_P}.tar.gz )
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} -> ${HTTP_CTPP_MODULE_P}.tar.gz )
 	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
@@ -312,6 +329,7 @@ SRC_URI="
 	nginx_modules_http_form_input? ( ${HTTP_FORM_INPUT_MODULE_URI} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
 	nginx_modules_http_echo? ( ${HTTP_ECHO_MODULE_URI} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
 	nginx_modules_http_rds_json? ( ${HTTP_RDS_JSON_MODULE_URI} -> ${HTTP_RDS_JSON_MODULE_P}.tar.gz )
+	nginx_modules_http_rds_csv? ( ${HTTP_RDS_JSON_MODULE_URI} -> ${HTTP_RDS_JSON_MODULE_P}.tar.gz )
 	nginx_modules_http_srcache? ( ${HTTP_SRCACHE_MODULE_URI} -> ${HTTP_SRCACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_set_misc? ( ${HTTP_SET_MISC_MODULE_URI} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )
 	nginx_modules_http_xss? ( ${HTTP_XSS_MODULE_URI} -> ${HTTP_XSS_MODULE_P}.tar.gz )
@@ -354,6 +372,7 @@ NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
 	http_cache_purge
 	http_headers_more
+	http_encrypted_session
 	http_pagespeed
 	http_passenger
 	http_push_stream
@@ -366,6 +385,7 @@ NGINX_MODULES_3RD="
 	http_memc
 	http_drizzle
 	http_rds_json
+	http_rds_csv
 	http_postgres
 	http_coolkit
 	http_auth_request
@@ -378,10 +398,10 @@ NGINX_MODULES_3RD="
 	http_upload_progress
 	http_ctpp
 	http_fancyindex
-        http_upstream_check
-        http_metrics
-        http_naxsi
-        http_dav_ext
+	http_upstream_check
+	http_metrics
+	http_naxsi
+	http_dav_ext
 "
 
 # http_upload
@@ -391,14 +411,16 @@ NGINX_MODULES_3RD="
 REQUIRED_USE="
 		nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_rds_json? ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
+		nginx_modules_http_rds_csv?  ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
 		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
 		nginx_modules_http_spdy? ( ssl )
+		nginx_modules_http_encrypted_session? ( nginx_modules_http_ndk ssl )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )
-	        nginx_modules_http_naxsi? ( pcre )
-	        nginx_modules_http_pagespeed? ( pcre )
-	        nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
+		nginx_modules_http_naxsi? ( pcre )
+		nginx_modules_http_pagespeed? ( pcre )
+		nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 		pcre-jit? ( pcre )
 "
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
@@ -595,7 +617,7 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_SET_MISC_MODULE_WD}"
 	fi
 
-# (**)http_ auth_request
+# (**)http_auth_request
 	if use nginx_modules_http_auth_request; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_AUTH_REQUEST_MODULE_WD}"
@@ -625,6 +647,12 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_LUA_MODULE_WD}"
 	fi
 
+# (**) http_encrypted_session
+	if use nginx_modules_http_encrypted_session; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_ENCRYPTED_SESSION_MODULE_WD}"
+	fi
+
 # (**) http_headers_more
 	if use nginx_modules_http_headers_more; then
 		http_enabled=1
@@ -647,6 +675,12 @@ src_configure() {
 	if use nginx_modules_http_rds_json; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_RDS_JSON_MODULE_WD}"
+	fi
+
+# (**) http_rds_csv
+	if use nginx_modules_http_rds_csv; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_RDS_CSV_MODULE_WD}"
 	fi
 
 # http_postgres
@@ -969,6 +1003,18 @@ src_install() {
 		dodoc "${HTTP_NDK_MODULE_WD}"/README
 	fi
 
+# http_headers_more
+	if use nginx_modules_http_headers_more; then
+		docinto "${HTTP_HEADERS_MORE_MODULE_P}"
+		dodoc "${HTTP_HEADERS_MORE_MODULE_WD}"/README.markdown
+	fi
+
+# http_encrypted_session
+	if use nginx_modules_http_encrypted_session; then
+		docinto "${HTTP_ENCRYPTED_SESSION_MODULE_P}"
+		dodoc "${HTTP_ENCRYPT_SESSION_MODULE_WD}"/README
+	fi
+
 # http_lua
 	if use nginx_modules_http_lua; then
 		docinto "${HTTP_LUA_MODULE_P}"
@@ -1009,6 +1055,12 @@ src_install() {
 	if use nginx_modules_http_rds_json; then
 		docinto "${HTTP_RDS_JSON_MODULE_P}"
 		dodoc "${HTTP_RDS_JSON_MODULE_WD}"/README
+	fi
+
+# http_rds_csv
+	if use nginx_modules_http_rds_csv; then
+		docinto "${HTTP_RDS_CSV_MODULE_P}"
+		dodoc "${HTTP_RDS_CSV_MODULE_WD}"/README
 	fi
 
 # http_postgres
