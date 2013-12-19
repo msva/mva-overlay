@@ -1012,7 +1012,7 @@ src_install() {
 # http_encrypted_session
 	if use nginx_modules_http_encrypted_session; then
 		docinto "${HTTP_ENCRYPTED_SESSION_MODULE_P}"
-		dodoc "${HTTP_ENCRYPT_SESSION_MODULE_WD}"/README
+		dodoc "${HTTP_ENCRYPTED_SESSION_MODULE_WD}"/README
 	fi
 
 # http_lua
