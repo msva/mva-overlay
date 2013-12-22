@@ -1022,7 +1022,7 @@ src_install() {
 # http_lua
 	if use nginx_modules_http_lua; then
 		docinto "${HTTP_LUA_MODULE_P}"
-		dodoc "${HTTP_LUA_MODULE_WD}"/{Changes,README}
+		dodoc "${HTTP_LUA_MODULE_WD}"/{Changes,README.markdown}
 	fi
 
 # http_form_input
