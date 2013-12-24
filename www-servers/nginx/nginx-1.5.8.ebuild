@@ -311,7 +311,7 @@ RRD_MODULE_P="mod_rrd_graph-${RRD_MODULE_PV}"
 RRD_MODULE_URI="http://wiki.nginx.org/images/9/9d/${RRD_MODULE_P/m/M}.tar.gz"
 RRD_MODULE_WD="../${RRD_MODULE_P}"
 
-inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd multilib
+inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd pax-utils multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="http://sysoev.ru/nginx/
@@ -916,6 +916,8 @@ passenger_install() {
 src_install() {
 	cd "${S}"
 	emake DESTDIR="${D}" install
+
+	host-is-pax && pax-mark m "${ED}usr/sbin/${PN}"
 
 	cp "${FILESDIR}"/nginx.conf "${ED}"/etc/nginx/nginx.conf || die
 
