@@ -9,7 +9,7 @@ inherit eutils depend.apache ruby-ng
 
 DESCRIPTION="Redmine is a flexible project management web application written using Ruby on Rails framework"
 HOMEPAGE="http://www.redmine.org/"
-SRC_URI="mirror://rubyforge/${PN}/${P}.tar.gz"
+SRC_URI="http://www.redmine.org/releases/${P}.tar.gz"
 
 KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-2"

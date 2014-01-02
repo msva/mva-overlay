@@ -5,10 +5,9 @@
 EAPI="5"
 USE_RUBY="ruby18 jruby ruby19 ruby20"
 
-inherit eutils confutils git-2 depend.apache
+inherit eutils confutils git-r3 depend.apache
 
-DESCRIPTION="Redmine is a flexible project management web application written
-using Ruby on Rails framework"
+DESCRIPTION="Redmine is a flexible project management web application written using Ruby on Rails framework"
 HOMEPAGE="http://www.redmine.org/"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/redmine/redmine.git"

@@ -3,20 +3,20 @@
 # $Header: /var/cvsroot/gentoo-x86/www-apps/redmine/redmine-1.4.1.ebuild,v 1.1 2012/04/25 15:02:00 matsuu Exp $
 
 EAPI="5"
-USE_RUBY="ruby18 ree18 jruby ruby19"
+USE_RUBY="ruby18 jruby ruby19 ruby20"
 
 inherit eutils depend.apache ruby-ng
 
 DESCRIPTION="Redmine is a flexible project management web application written using Ruby on Rails framework"
 HOMEPAGE="http://www.redmine.org/"
-SRC_URI="mirror://rubyforge/${PN}/${P}.tar.gz"
+SRC_URI="http://www.redmine.org/releases/${P}.tar.gz"
 
 KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion ldap"
 
-RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.6)[ssl] $(ruby_implementation_depend ruby19)[ssl] )"
+RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.6)[ssl] $(ruby_implementation_depend ruby19)[ssl] $(ruby_implementation_depend ruby20)[ssl] )"
 
 ruby_add_rdepend "
 	dev-ruby/bundler
