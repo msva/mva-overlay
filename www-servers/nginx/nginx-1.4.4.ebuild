@@ -21,7 +21,7 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.27"
+HTTP_PASSENGER_MODULE_PV="4.0.36"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -29,7 +29,7 @@ HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
 # http_uploadprogress (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2 license)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
-HTTP_PAGESPEED_MODULE_PV="1.7.30.1-beta"
+HTTP_PAGESPEED_MODULE_PV="1.7.30.3-beta"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_PV}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/v${HTTP_PAGESPEED_MODULE_PV}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="../${HTTP_PAGESPEED_MODULE_P}"
@@ -45,7 +45,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_headers_more (https://github.com/agentzh/headers-more-nginx-module/tags, BSD license)
 HTTP_HEADERS_MORE_MODULE_A="agentzh"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.23"
+HTTP_HEADERS_MORE_MODULE_PV="0.25"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
@@ -53,16 +53,10 @@ HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
 # http_encrypted_session (https://github.com/agentzh/encrypted-session-nginx-module/tags, BSD license)
 HTTP_ENCRYPTED_SESSION_MODULE_A="agentzh"
 HTTP_ENCRYPTED_SESSION_MODULE_PN="encrypted-session-nginx-module"
-HTTP_ENCRYPTED_SESSION_MODULE_PV="0.02"
+HTTP_ENCRYPTED_SESSION_MODULE_PV="0.03"
 HTTP_ENCRYPTED_SESSION_MODULE_P="${HTTP_ENCRYPTED_SESSION_MODULE_PN}-${HTTP_ENCRYPTED_SESSION_MODULE_PV}"
 HTTP_ENCRYPTED_SESSION_MODULE_URI="https://github.com/${HTTP_ENCRYPTED_SESSION_MODULE_A}/${HTTP_ENCRYPTED_SESSION_MODULE_PN}/archive/v${HTTP_ENCRYPTED_SESSION_MODULE_PV}.tar.gz"
 HTTP_ENCRYPTED_SESSION_MODULE_WD="../${HTTP_ENCRYPTED_SESSION_MODULE_P}"
-
-# http_push (http://pushmodule.slact.net/, MIT license)
-#HTTP_PUSH_MODULE_PV="0.692"
-#HTTP_PUSH_MODULE_P="nginx_http_push_module-${HTTP_PUSH_MODULE_PV}"
-#HTTP_PUSH_MODULE_URI="http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz"
-#HTTP_PUSH_MODULE_WD="../${HTTP_PUSH_MODULE_P}"
 
 # http_push_stream (https://github.com/wandenberg/nginx-push-stream-module/tags, BSD license)
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
@@ -116,18 +110,18 @@ HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 # No tagged version with fix for 1.5.8 ATM. Using traballed master.
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.3"
+HTTP_LUA_MODULE_PV="0.9.4"
 HTTP_LUA_MODULE_SHA1="eafad29902803164691c75c49eb508d5f52c0e63"
-#HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA1}"
-#HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
-HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA1}.tar.gz"
+HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
+#HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA1}"
+HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
+#HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA1}.tar.gz"
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
 
 # NginX Lua module (https://github.com/chaoslawful/drizzle-nginx-module/tags, BSD)
 HTTP_DRIZZLE_MODULE_A="chaoslawful"
 HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
-HTTP_DRIZZLE_MODULE_PV="0.1.6"
+HTTP_DRIZZLE_MODULE_PV="0.1.7"
 HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_PV}"
 HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/v${HTTP_DRIZZLE_MODULE_PV}.tar.gz"
 HTTP_DRIZZLE_MODULE_WD="../${HTTP_DRIZZLE_MODULE_P}"
@@ -143,7 +137,7 @@ HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 # NginX echo module (https://github.com/agentzh/echo-nginx-module/tags, BSD)
 HTTP_ECHO_MODULE_A="agentzh"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
-HTTP_ECHO_MODULE_PV="0.49"
+HTTP_ECHO_MODULE_PV="0.51"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
@@ -151,7 +145,7 @@ HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
 # NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module/tags, BSD)
 HTTP_MEMC_MODULE_A="agentzh"
 HTTP_MEMC_MODULE_PN="memc-nginx-module"
-HTTP_MEMC_MODULE_PV="0.13"
+HTTP_MEMC_MODULE_PV="0.14"
 HTTP_MEMC_MODULE_P="${HTTP_MEMC_MODULE_PN}-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_URI="https://github.com/${HTTP_MEMC_MODULE_A}/${HTTP_MEMC_MODULE_PN}/archive/v${HTTP_MEMC_MODULE_PV}.tar.gz"
 HTTP_MEMC_MODULE_WD="../${HTTP_MEMC_MODULE_P}"
@@ -159,7 +153,7 @@ HTTP_MEMC_MODULE_WD="../${HTTP_MEMC_MODULE_P}"
 # NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module/tags, BSD)
 HTTP_RDS_JSON_MODULE_A="agentzh"
 HTTP_RDS_JSON_MODULE_PN="rds-json-nginx-module"
-HTTP_RDS_JSON_MODULE_PV="0.12"
+HTTP_RDS_JSON_MODULE_PV="0.13"
 HTTP_RDS_JSON_MODULE_P="${HTTP_RDS_JSON_MODULE_PN}-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_URI="https://github.com/${HTTP_RDS_JSON_MODULE_A}/${HTTP_RDS_JSON_MODULE_PN}/archive/v${HTTP_RDS_JSON_MODULE_PV}.tar.gz"
 HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
@@ -175,7 +169,7 @@ HTTP_RDS_CSV_MODULE_WD="../${HTTP_RDS_CSV_MODULE_P}"
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module/tags, BSD)
 HTTP_SRCACHE_MODULE_A="agentzh"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
-HTTP_SRCACHE_MODULE_PV="0.24"
+HTTP_SRCACHE_MODULE_PV="0.25"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/v${HTTP_SRCACHE_MODULE_PV}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
@@ -183,7 +177,7 @@ HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module/tags, BSD)
 HTTP_SET_MISC_MODULE_A="agentzh"
 HTTP_SET_MISC_MODULE_PN="set-misc-nginx-module"
-HTTP_SET_MISC_MODULE_PV="0.22"
+HTTP_SET_MISC_MODULE_PV="0.24"
 HTTP_SET_MISC_MODULE_P="${HTTP_SET_MISC_MODULE_PN}-${HTTP_SET_MISC_MODULE_PV}"
 HTTP_SET_MISC_MODULE_URI="https://github.com/${HTTP_SET_MISC_MODULE_A}/${HTTP_SET_MISC_MODULE_PN}/archive/v${HTTP_SET_MISC_MODULE_PV}.tar.gz"
 HTTP_SET_MISC_MODULE_WD="../${HTTP_SET_MISC_MODULE_P}"
@@ -199,7 +193,7 @@ HTTP_XSS_MODULE_WD="../${HTTP_XSS_MODULE_P}"
 # NginX Array-Var module (https://github.com/agentzh/array-var-nginx-module/tags, BSD)
 HTTP_ARRAY_VAR_MODULE_A="agentzh"
 HTTP_ARRAY_VAR_MODULE_PN="array-var-nginx-module"
-HTTP_ARRAY_VAR_MODULE_PV="0.03rc1"
+HTTP_ARRAY_VAR_MODULE_PV="0.03"
 HTTP_ARRAY_VAR_MODULE_P="${HTTP_ARRAY_VAR_MODULE_PN}-${HTTP_ARRAY_VAR_MODULE_PV}"
 HTTP_ARRAY_VAR_MODULE_URI="https://github.com/${HTTP_ARRAY_VAR_MODULE_A}/${HTTP_ARRAY_VAR_MODULE_PN}/archive/v${HTTP_ARRAY_VAR_MODULE_PV}.tar.gz"
 HTTP_ARRAY_VAR_MODULE_WD="../${HTTP_ARRAY_VAR_MODULE_P}"
@@ -211,12 +205,6 @@ HTTP_ICONV_MODULE_PV="0.10"
 HTTP_ICONV_MODULE_P="${HTTP_ICONV_MODULE_PN}-${HTTP_ICONV_MODULE_PV}"
 HTTP_ICONV_MODULE_URI="https://github.com/${HTTP_ICONV_MODULE_A}/${HTTP_ICONV_MODULE_PN}/archive/v${HTTP_ICONV_MODULE_PV}.tar.gz"
 HTTP_ICONV_MODULE_WD="../${HTTP_ICONV_MODULE_P}"
-
-## NginX Set-CConv module (https://github.com/liseen/set-cconv-nginx-module/tags, BSD)
-#HTTP_SET_CCONV_MODULE_PV=""
-#HTTP_SET_CCONV_MODULE_P="set-cconv-nginx-module-${HTTP_SET_CCONV_MODULE_PV}"
-#HTTP_SET_CCONV_MODULE_URI="https://github.com/liseen/set-cconv-nginx-module/archive/${HTTP_SET_CCONV_MODULE_PV}.tar.gz"
-#HTTP_SET_CCONV_MODULE_WD="../${HTTP_SET_CCONV_MODULE_P}"
 
 # NginX postgres module (https://github.com/FRiCKLE/ngx_postgres/tags, BSD-2)
 HTTP_POSTGRES_MODULE_A="FRiCKLE"
@@ -296,7 +284,7 @@ HTTP_DAV_EXT_MODULE_WD="../${HTTP_DAV_EXT_MODULE_P}"
 # nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module/tags, BSD license)
 RTMP_MODULE_A="arut"
 RTMP_MODULE_PN="nginx-rtmp-module"
-RTMP_MODULE_PV="1.0.8"
+RTMP_MODULE_PV="1.1.2"
 RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_PV}"
 RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/v${RTMP_MODULE_PV}.tar.gz"
 RTMP_MODULE_WD="../${RTMP_MODULE_P}"
@@ -1036,19 +1024,19 @@ src_install() {
 # http_echo
 	if use nginx_modules_http_echo; then
 		docinto "${HTTP_ECHO_MODULE_P}"
-		dodoc "${HTTP_ECHO_MODULE_WD}"/README
+		dodoc "${HTTP_ECHO_MODULE_WD}"/README.markdown
 	fi
 
 # http_srcache
 	if use nginx_modules_http_srcache; then
 		docinto "${HTTP_SRCACHE_MODULE_P}"
-		dodoc "${HTTP_SRCACHE_MODULE_WD}"/README
+		dodoc "${HTTP_SRCACHE_MODULE_WD}"/README.markdown
 	fi
 
 # http_memc
 	if use nginx_modules_http_memc; then
 		docinto "${HTTP_MEMC_MODULE_P}"
-		dodoc "${HTTP_MEMC_MODULE_WD}"/README
+		dodoc "${HTTP_MEMC_MODULE_WD}"/README.markdown
 	fi
 
 # http_drizzle
@@ -1146,7 +1134,7 @@ src_install() {
 
         if use rtmp; then
                 docinto ${RTMP_MODULE_P}
-                dodoc "${RTMP_MODULE_WD}"/{AUTHORS,README.md,TODO,stat.xsl}
+                dodoc "${RTMP_MODULE_WD}"/{AUTHORS,README.md,stat.xsl}
         fi
 
         if use nginx_modules_http_dav_ext; then

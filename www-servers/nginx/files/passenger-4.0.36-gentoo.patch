@@ -1,0 +1,107 @@
+--- build/basics.rb     2013-03-05 16:55:02.000000000 +0700
++++ build/basics.rb     2013-04-03 12:42:46.012231095 +0700
+@@ -168,6 +168,7 @@
+ 	flags << " -fno-omit-frame-pointers" if USE_ASAN
+ 	flags << " -DPASSENGER_DISABLE_THREAD_LOCAL_STORAGE" if !boolean_option('PASSENGER_THREAD_LOCAL_STORAGE', true)
+ end
++EXTRA_CXXFLAGS << " #{ENV['CXXFLAGS']}"
+
+ # Extra linker flags that should always be passed to the linker.
+ # These should be included first in the command string, before anything else.
+--- build/packaging.rb	2014-01-25 00:10:25.000000000 +0700
++++ build/packaging.rb	2014-01-26 14:11:21.982964065 +0700
+@@ -396,7 +396,7 @@
+ end
+ 
+ desc "Create a fakeroot, useful for building native packages"
+-task :fakeroot => [:apache2, :nginx, :doc] do
++task :fakeroot => [:nginx] do
+ 	require 'rbconfig'
+ 	require 'fileutils'
+ 	include RbConfig
+@@ -404,29 +404,28 @@
+ 	fs_prefix  = ENV['FS_PREFIX']  || "/usr"
+ 	fs_bindir  = ENV['FS_BINDIR']  || "#{fs_prefix}/bin"
+ 	fs_sbindir = ENV['FS_SBINDIR'] || "#{fs_prefix}/sbin"
+-	fs_datadir = ENV['FS_DATADIR'] || "#{fs_prefix}/share"
+-	fs_docdir  = ENV['FS_DOCDIR']  || "#{fs_datadir}/doc"
++	fs_datadir = ENV['FS_DATADIR'] || "#{fs_prefix}/libexec"
++	fs_docdir  = ENV['FS_DOCDIR']  || "#{fs_prefix}/share/doc/"+ENV['P']
+ 	fs_libdir  = ENV['FS_LIBDIR']  || "#{fs_prefix}/lib"
+ 
+ 	# We don't use CONFIG['archdir'] and the like because we want
+ 	# the files to be installed to /usr, and the Ruby interpreter
+ 	# on the packaging machine might be in /usr/local.
+-	psg_rubylibdir = ENV['RUBYLIBDIR'] || "#{fs_libdir}/ruby/vendor_ruby"
++	psg_rubylibdir = ENV['RUBYLIBDIR'] || "#{CONFIG['archdir']}"
+ 	psg_nodelibdir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/node"
+ 	psg_libdir     = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}"
+-	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{fs_libdir}/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
++	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{CONFIG['archdir']}"
+ 	psg_agents_dir = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
+ 	psg_helper_scripts_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/helper-scripts"
+ 	psg_resources_dir      = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}"
+-	psg_include_dir        = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/include"
++	psg_include_dir        = "#{fs_prefix}/include/#{GLOBAL_NAMESPACE_DIRNAME}"
+ 	psg_docdir     = "#{fs_docdir}/#{GLOBAL_NAMESPACE_DIRNAME}"
+ 	psg_bindir     = "#{fs_bindir}"
+ 	psg_sbindir    = "#{fs_sbindir}"
+-	psg_apache2_module_path       = ENV['APACHE2_MODULE_PATH'] || "#{fs_libdir}/apache2/modules/mod_passenger.so"
+-	psg_ruby_extension_source_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/ruby_extension_source"
+-	psg_nginx_module_source_dir   = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/ngx_http_passenger_module"
++	psg_ruby_extension_source_dir = "#{fs_prefix}/src/#{GLOBAL_NAMESPACE_DIRNAME}/ruby_extension_source"
++	psg_nginx_module_source_dir   = "#{fs_prefix}/src/#{GLOBAL_NAMESPACE_DIRNAME}/ngx_http_passenger_module"
+ 	
+-	fakeroot = "pkg/fakeroot"
++	fakeroot = ENV['D']
+ 	fake_rubylibdir = "#{fakeroot}#{psg_rubylibdir}"
+ 	fake_nodelibdir = "#{fakeroot}#{psg_nodelibdir}"
+ 	fake_libdir     = "#{fakeroot}#{psg_libdir}"
+@@ -438,15 +437,11 @@
+ 	fake_docdir     = "#{fakeroot}#{psg_docdir}"
+ 	fake_bindir     = "#{fakeroot}#{psg_bindir}"
+ 	fake_sbindir    = "#{fakeroot}#{psg_sbindir}"
+-	fake_apache2_module_path       = "#{fakeroot}#{psg_apache2_module_path}"
+ 	fake_ruby_extension_source_dir = "#{fakeroot}#{psg_ruby_extension_source_dir}"
+ 	fake_nginx_module_source_dir   = "#{fakeroot}#{psg_nginx_module_source_dir}"
+ 
+ 	native_packaging_method = ENV['NATIVE_PACKAGING_METHOD'] || "deb"
+ 	
+-	sh "rm -rf #{fakeroot}"
+-	sh "mkdir -p #{fakeroot}"
+-	
+ 	# Ruby sources
+ 	sh "mkdir -p #{fake_rubylibdir}"
+ 	sh "cp #{PhusionPassenger.ruby_libdir}/phusion_passenger.rb #{fake_rubylibdir}/"
+@@ -504,11 +501,6 @@
+ 	sh "mkdir -p #{fake_nginx_module_source_dir}"
+ 	sh "cp ext/nginx/* #{fake_nginx_module_source_dir}/"
+ 	
+-	# Documentation
+-	sh "mkdir -p #{fake_docdir}"
+-	sh "cp doc/*.html #{fake_docdir}/"
+-	sh "cp -R doc/images #{fake_docdir}/"
+-	
+ 	# User binaries
+ 	sh "mkdir -p #{fake_bindir}"
+ 	Packaging::USER_EXECUTABLES.each do |exe|
+@@ -529,10 +519,6 @@
+ 		end
+ 	end
+ 	
+-	# Apache 2 module
+-	sh "mkdir -p #{File.dirname(fake_apache2_module_path)}"
+-	sh "cp #{APACHE2_MODULE} #{fake_apache2_module_path}"
+-
+ 	# Ruby extension sources
+ 	sh "mkdir -p #{fake_ruby_extension_source_dir}"
+ 	sh "cp -R #{PhusionPassenger.ruby_extension_source_dir}/* #{fake_ruby_extension_source_dir}"
+@@ -551,7 +537,7 @@
+ 		f.puts "doc_dir=#{psg_docdir}"
+ 		f.puts "ruby_libdir=#{psg_rubylibdir}"
+ 		f.puts "node_libdir=#{psg_nodelibdir}"
+-		f.puts "apache2_module_path=#{psg_apache2_module_path}"
++		f.puts "apache2_module_path=/dev/null"
+ 		f.puts "ruby_extension_source_dir=#{psg_ruby_extension_source_dir}"
+ 		f.puts "nginx_module_source_dir=#{psg_nginx_module_source_dir}"
+ 	end
