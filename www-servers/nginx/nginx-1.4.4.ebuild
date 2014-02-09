@@ -15,13 +15,13 @@ EAPI="5"
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="jruby ruby18 ruby19 ruby20"
+USE_RUBY="jruby ruby18 ruby19 ruby20 ruby21"
 RUBY_OPTIONAL="yes"
 
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.36"
+HTTP_PASSENGER_MODULE_PV="4.0.37"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -107,11 +107,10 @@ HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_P
 HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module/tags, BSD)
-# No tagged version with fix for 1.5.8 ATM. Using traballed master.
 HTTP_LUA_MODULE_A="chaoslawful"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.5rc1"
-HTTP_LUA_MODULE_SHA1="eafad29902803164691c75c49eb508d5f52c0e63"
+HTTP_LUA_MODULE_PV="0.9.5rc2"
+#HTTP_LUA_MODULE_SHA1="eafad29902803164691c75c49eb508d5f52c0e63"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
 #HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA1}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
