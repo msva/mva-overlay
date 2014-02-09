@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI="5"
-USE_RUBY="ruby18 jruby ruby19 ruby20"
+USE_RUBY="ruby18 jruby ruby19 ruby20 ruby21"
 
 inherit eutils confutils git-r3 depend.apache
 
