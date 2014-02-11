@@ -25,10 +25,10 @@
  	fs_sbindir = ENV['FS_SBINDIR'] || "#{fs_prefix}/sbin"
 -	fs_datadir = ENV['FS_DATADIR'] || "#{fs_prefix}/share"
 -	fs_docdir  = ENV['FS_DOCDIR']  || "#{fs_datadir}/doc"
-- 	fs_libdir  = ENV['FS_LIBDIR']  || "#{fs_prefix}/lib"
+-	fs_libdir  = ENV['FS_LIBDIR']  || "#{fs_prefix}/lib"
 +	fs_datadir = ENV['FS_DATADIR'] || "#{fs_prefix}/libexec"
 +	fs_docdir  = ENV['FS_DOCDIR']  || "#{fs_prefix}/share/doc/"+ENV['P']
-+ 	fs_libdir  = ENV['FS_LIBDIR']  || "#{fs_prefix}/#{CONFIG['libdir']}"
++	fs_libdir  = ENV['FS_LIBDIR']  || "#{fs_prefix}/#{CONFIG['libdir']}"
  
  	# We don't use CONFIG['archdir'] and the like because we want
  	# the files to be installed to /usr, and the Ruby interpreter
@@ -40,12 +40,12 @@
 -	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{fs_libdir}/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
 -	psg_agents_dir = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
 +	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{CONFIG['archdir']}"
-+ 	psg_agents_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
++	psg_agents_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
  	psg_helper_scripts_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/helper-scripts"
-- 	psg_resources_dir      = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}"
+-	psg_resources_dir      = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}"
 -	psg_include_dir        = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/include"
++	psg_resources_dir      = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/resources"
 +	psg_include_dir        = "#{fs_prefix}/include/#{GLOBAL_NAMESPACE_DIRNAME}"
-+ 	psg_resources_dir      = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/resources"
  	psg_docdir     = "#{fs_docdir}/#{GLOBAL_NAMESPACE_DIRNAME}"
  	psg_bindir     = "#{fs_bindir}"
  	psg_sbindir    = "#{fs_sbindir}"
