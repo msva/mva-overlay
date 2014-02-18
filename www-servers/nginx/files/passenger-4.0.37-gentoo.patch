@@ -19,27 +19,11 @@
  	require 'rbconfig'
  	require 'fileutils'
  	include RbConfig
-@@ -404,29 +404,28 @@
- 	fs_prefix  = ENV['FS_PREFIX']  || "/usr"
- 	fs_bindir  = ENV['FS_BINDIR']  || "#{fs_prefix}/bin"
- 	fs_sbindir = ENV['FS_SBINDIR'] || "#{fs_prefix}/sbin"
--	fs_datadir = ENV['FS_DATADIR'] || "#{fs_prefix}/share"
--	fs_docdir  = ENV['FS_DOCDIR']  || "#{fs_datadir}/doc"
--	fs_libdir  = ENV['FS_LIBDIR']  || "#{fs_prefix}/lib"
-+	fs_datadir = ENV['FS_DATADIR'] || "#{fs_prefix}/libexec"
-+	fs_docdir  = ENV['FS_DOCDIR']  || "#{fs_prefix}/share/doc/"+ENV['P']
-+	fs_libdir  = ENV['FS_LIBDIR']  || "#{fs_prefix}/"+CONFIG['libdir'][/[^\/]*$/]
- 
- 	# We don't use CONFIG['archdir'] and the like because we want
- 	# the files to be installed to /usr, and the Ruby interpreter
- 	# on the packaging machine might be in /usr/local.
--	psg_rubylibdir = ENV['RUBYLIBDIR'] || "#{fs_libdir}/ruby/vendor_ruby"
-+	psg_rubylibdir = ENV['RUBYLIBDIR'] || "#{CONFIG['archdir']}"
+@@ -415,18 +415,17 @@
  	psg_nodelibdir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/node"
  	psg_libdir     = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}"
--	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{fs_libdir}/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
+ 	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{fs_libdir}/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
 -	psg_agents_dir = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
-+	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{CONFIG['archdir']}"
 +	psg_agents_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
  	psg_helper_scripts_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/helper-scripts"
 -	psg_resources_dir      = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}"
@@ -99,17 +83,6 @@
  	# Ruby extension sources
  	sh "mkdir -p #{fake_ruby_extension_source_dir}"
  	sh "cp -R #{PhusionPassenger.ruby_extension_source_dir}/* #{fake_ruby_extension_source_dir}"
-@@ -538,8 +523,8 @@
- 	sh "mkdir -p #{fake_ruby_extension_source_dir}"
- 	sh "cp -R #{PhusionPassenger.ruby_extension_source_dir}/* #{fake_ruby_extension_source_dir}"
- 
--	puts "Creating #{fake_rubylibdir}/phusion_passenger/locations.ini"
--	File.open("#{fake_rubylibdir}/phusion_passenger/locations.ini", "w") do |f|
-+	puts "Creating #{fakeroot}/#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/locations.ini"
-+	File.open("#{fakeroot}/#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/locations.ini", "w") do |f|
- 		f.puts "[locations]"
- 		f.puts "natively_packaged=true"
- 		f.puts "native_packaging_method=#{native_packaging_method}"
 @@ -551,7 +537,7 @@
  		f.puts "doc_dir=#{psg_docdir}"
  		f.puts "ruby_libdir=#{psg_rubylibdir}"
@@ -119,12 +92,3 @@
  		f.puts "ruby_extension_source_dir=#{psg_ruby_extension_source_dir}"
  		f.puts "nginx_module_source_dir=#{psg_nginx_module_source_dir}"
  	end
-@@ -543,7 +543,7 @@
- 	end
- 
- 	# Sanity check the locations.ini file
--	options = PhusionPassenger.parse_ini_file("#{fake_rubylibdir}/phusion_passenger/locations.ini")
-+	options = PhusionPassenger.parse_ini_file("#{fakeroot}/#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/locations.ini")
- 	PhusionPassenger::REQUIRED_LOCATIONS_INI_FIELDS.each do |field|
- 		if !options[field.to_s]
- 			raise "Bug in build/packaging.rb: the generated locations.ini is missing the '#{field}' field"

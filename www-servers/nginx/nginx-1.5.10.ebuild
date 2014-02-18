@@ -15,16 +15,16 @@ EAPI="5"
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="jruby ruby18 ruby19 ruby20 ruby21"
-RUBY_OPTIONAL="yes"
+#USE_RUBY="jruby ruby18 ruby19 ruby20 ruby21"
+#RUBY_OPTIONAL="yes"
 
-# http_passenger (https://github.com/phusion/passenger/tags, MIT license)
-HTTP_PASSENGER_MODULE_A="phusion"
-HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.37"
-HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
-HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
-HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
+## http_passenger (https://github.com/phusion/passenger/tags, MIT license)
+#HTTP_PASSENGER_MODULE_A="phusion"
+#HTTP_PASSENGER_MODULE_PN="passenger"
+#HTTP_PASSENGER_MODULE_PV="4.0.37"
+#HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
+#HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
+#HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
 
 # http_uploadprogress (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2 license)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
@@ -301,13 +301,15 @@ RRD_MODULE_WD="../${RRD_MODULE_P}"
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd pax-utils multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
-HOMEPAGE="http://sysoev.ru/nginx/
-	http://www.modrails.com/
-	http://labs.frickle.com/nginx_ngx_cache_purge/"
+HOMEPAGE="
+	http://sysoev.ru/nginx/
+	nginx_modules_http_cache_purge? ( http://labs.frickle.com/nginx_ngx_cache_purge/ )
+	" 
+#	http://www.modrails.com/
+
 SRC_URI="
 	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
 	nginx_modules_http_pagespeed? ( ${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz )
-	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_encrypted_session? ( ${HTTP_ENCRYPTED_SESSION_MODULE_URI} -> ${HTTP_ENCRYPTED_SESSION_MODULE_P}.tar.gz )
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
@@ -341,6 +343,9 @@ SRC_URI="
         rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P}.tar.gz )
 	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )"
+
+#	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
+
 #	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
 #	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 #	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
@@ -365,7 +370,6 @@ NGINX_MODULES_3RD="
 	http_headers_more
 	http_encrypted_session
 	http_pagespeed
-	http_passenger
 	http_push_stream
 	http_ey_balancer
 	http_slowfs_cache
@@ -394,7 +398,7 @@ NGINX_MODULES_3RD="
 	http_naxsi
 	http_dav_ext
 "
-
+# http_passenger
 # http_upload
 # http_push
 # http_set_cconv"
@@ -456,19 +460,19 @@ CDEPEND="
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5 ) )
         nginx_modules_http_metrics? ( dev-libs/yajl )
         nginx_modules_http_dav_ext? ( dev-libs/expat )
-	nginx_modules_http_passenger? (
-		|| (
-			$(ruby_implementation_depend ruby18)
-			$(ruby_implementation_depend ruby19)
-			$(ruby_implementation_depend ruby20)
-			$(ruby_implementation_depend jruby)
-		)
-		>=dev-ruby/rake-0.8.1
-		!!www-apache/passenger
-	)
 	perftools? ( dev-util/google-perftools )
 	rrd? ( >=net-analyzer/rrdtool-1.3.8 )
 "
+#	nginx_modules_http_passenger? (
+#		|| (
+#			$(ruby_implementation_depend ruby18)
+#			$(ruby_implementation_depend ruby19)
+#			$(ruby_implementation_depend ruby20)
+#			$(ruby_implementation_depend jruby)
+#		)
+#		>=dev-ruby/rake-0.8.1
+#		!!www-apache/passenger
+#	)
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
@@ -506,10 +510,10 @@ pkg_setup() {
 		ewarn "!!!"
 	fi
 
-	if use nginx_modules_http_passenger; then
-		ruby-ng_pkg_setup
-		use debug && append-flags -DPASSENGER_DEBUG
-	fi
+#	if use nginx_modules_http_passenger; then
+#		ruby-ng_pkg_setup
+#		use debug && append-flags -DPASSENGER_DEBUG
+#	fi
 
 	if use !http; then
 		ewarn ""
@@ -545,26 +549,26 @@ src_prepare() {
 
 	epatch_user
 
-	if use nginx_modules_http_passenger; then
-		cd ../"${HTTP_PASSENGER_MODULE_P}";
-
-		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-gentoo.patch
-		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-ldflags.patch
-		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-contenthandler.patch
-
-		sed \
-			-e "s:/buildout/agents:/agents:" \
-			-i ext/common/ResourceLocator.h
-
-		sed \
-			-e '/passenger-install-apache2-module/d' \
-			-e "/passenger-install-nginx-module/d" \
-			-i lib/phusion_passenger/packaging.rb || die
-
-		rm -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module || die "Unable to remove unneeded install script."
-
-		_ruby_each_implementation passenger_premake
-	fi
+#	if use nginx_modules_http_passenger; then
+#		cd ../"${HTTP_PASSENGER_MODULE_P}";
+#
+#		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-gentoo.patch
+#		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-ldflags.patch
+#		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-contenthandler.patch
+#
+#		sed \
+#			-e "s:/buildout/agents:/agents:" \
+#			-i ext/common/ResourceLocator.h
+#
+#		sed \
+#			-e '/passenger-install-apache2-module/d' \
+#			-e "/passenger-install-nginx-module/d" \
+#			-i lib/phusion_passenger/packaging.rb || die
+#
+#		rm -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module || die "Unable to remove unneeded install script."
+#
+#		_ruby_each_implementation passenger_premake
+#	fi
 }
 
 src_configure() {
@@ -692,11 +696,11 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_PAGESPEED_MODULE_WD}"
 	fi
 
-# http_passenger
-	if use nginx_modules_http_passenger; then
-		http_enabled=1
-		myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}"
-	fi
+## http_passenger
+#	if use nginx_modules_http_passenger; then
+#		http_enabled=1
+#		myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}"
+#	fi
 
 ## http_push
 #	if use nginx_modules_http_push; then
@@ -880,25 +884,33 @@ src_compile() {
 }
 
 
-passenger_premake() {
-	# dirty spike to make passenger compilation each-ruby compatible
-	mkdir -p "${S}"
-	cp -r "${HTTP_PASSENGER_MODULE_P}" "${S}"
-	cp -r "${PN}-${PV}" "${S}"
-	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}"
-	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i build/ruby_extension.rb
-	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i lib/phusion_passenger/native_support.rb
-	# workaround on QA issues on passenger
-	export CFLAGS="${CFLAGS} -fno-strict-aliasing -Wno-unused-result"
-	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing -Wno-unused-result"
-	rake nginx || die "Passenger premake for ${RUBY} failed!"
-}
+#passenger_premake() {
+#	# dirty spike to make passenger compilation each-ruby compatible
+#	mkdir -p "${S}"
+#	cp -r "${HTTP_PASSENGER_MODULE_P}" "${S}"
+#	cp -r "${PN}-${PV}" "${S}"
+#	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}"
+#	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i build/ruby_extension.rb
+#	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i lib/phusion_passenger/native_support.rb
+#	# workaround on QA issues on passenger
+#	export CFLAGS="${CFLAGS} -fno-strict-aliasing -Wno-unused-result"
+#	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing -Wno-unused-result"
+#	rake nginx || die "Passenger premake for ${RUBY} failed!"
+#}
 
-passenger_install() {
-	# dirty spike to make passenger installation each-ruby compatible
-	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}/ext/nginx"
-	rake fakeroot || die "Passenger installation for ${RUBY} failed!"
-}
+#passenger_install() {
+#	# dirty spike to make passenger installation each-ruby compatible
+#	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}/ext/nginx"
+#	rake fakeroot \
+#		NATIVE_PACKAGING_METHOD=ebuild \
+#		FS_PREFIX="${PREFIX}/usr" \
+#		FS_DATADIR="${PREFIX}/usr/libexec" \
+#		FS_DOCDIR="${PREFIX}/usr/share/doc/${P}" \
+#		FS_LIBDIR="${PREFIX}/usr/$(get_libdir)" \
+#		RUBYLIBDIR="$(ruby_rbconfig_value 'archdir')" \
+#		RUBYARCHDIR="$(ruby_rbconfig_value 'archdir')" \
+#	|| die "Passenger installation for ${RUBY} failed!"
+#}
 
 src_install() {
 	cd "${S}"
@@ -1110,11 +1122,11 @@ src_install() {
 		dodoc "${HTTP_SLOWFS_CACHE_MODULE_WD}"/{CHANGES,README.md}
 	fi
 
-# http_passenger
-	if use nginx_modules_http_passenger; then
-		_ruby_each_implementation passenger_install
-		cd "${S}"
-	fi
+## http_passenger
+#	if use nginx_modules_http_passenger; then
+#		_ruby_each_implementation passenger_install
+#		cd "${S}"
+#	fi
 
         if use nginx_modules_http_upstream_check; then
                 docinto ${HTTP_UPSTREAM_CHECK_MODULE_P}
