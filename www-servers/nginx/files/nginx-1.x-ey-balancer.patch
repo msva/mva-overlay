@@ -1,7 +1,7 @@
 diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
 --- src/http/ngx_http_upstream.c	2009-12-23 10:31:16.000000000 -0500
 +++ src/http/ngx_http_upstream.c	2010-01-20 15:26:24.000000000 -0500
-@@ -24,8 +24,6 @@
+@@ -27,8 +27,6 @@
  static void ngx_http_upstream_wr_check_broken_connection(ngx_http_request_t *r);
  static void ngx_http_upstream_check_broken_connection(ngx_http_request_t *r,
      ngx_event_t *ev);
@@ -10,9 +10,9 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
  static ngx_int_t ngx_http_upstream_reinit(ngx_http_request_t *r,
      ngx_http_upstream_t *u);
  static void ngx_http_upstream_send_request(ngx_http_request_t *r,
-@@ -600,13 +598,12 @@
- 
- found:
+@@ -670,13 +668,12 @@
+         return;
+     }
  
 -    if (uscf->peer.init(r, uscf) != NGX_OK) {
 -        ngx_http_upstream_finalize_request(r, u,
@@ -28,7 +28,7 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
  }
  
  
-@@ -1030,7 +1027,7 @@
+@@ -1185,7 +1182,7 @@
  }
  
  
@@ -40,7 +40,7 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
 diff -Naur src/http/ngx_http_upstream.h src/http/ngx_http_upstream.h
 --- src/http/ngx_http_upstream.h	2009-12-23 09:22:17.000000000 -0500
 +++ src/http/ngx_http_upstream.h	2010-01-20 15:24:36.000000000 -0500
-@@ -321,6 +321,8 @@
+@@ -360,6 +360,8 @@
  
  ngx_int_t ngx_http_upstream_create(ngx_http_request_t *r);
  void ngx_http_upstream_init(ngx_http_request_t *r);
