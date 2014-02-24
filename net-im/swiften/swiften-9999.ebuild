@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="4"
+EAPI="5"
 SCONS_MIN_VERSION="1.2"
 LANGS=" ca de es fr hu nl pl ru se sk"
 
-[[ ${PV} = *9999* ]] && VCS_ECLASS="git-2" || VCS_ECLASS=""
+[[ ${PV} = *9999* ]] && VCS_ECLASS="git-r3" || VCS_ECLASS=""
 
 inherit eutils scons-utils toolchain-funcs ${VCS_ECLASS}
 
@@ -15,9 +15,9 @@ HOMEPAGE="http://swift.im/"
 MY_P="swift-${PV}"
 S="${WORKDIR}/${MY_P}"
 if [[ ${PV} == *9999* ]]; then
-	EGIT_REPO_URI="git://swift.im/swift"
+	EGIT_REPO_URI="https://swift.im/git/swift"
 else
-	SRC_URI="http://swift.im/downloads/releases/${MY_P}/${MY_P}.tar.gz"
+	SRC_URI="https://swift.im/downloads/releases/${MY_P}/${MY_P}.tar.gz"
 fi
 
 LICENSE="GPL-3"
