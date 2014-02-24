@@ -25,7 +25,7 @@ DEPEND="
 	test? ( dev-qt/qttest )
 "
 
-S="${WORKDIR}/lib${P}"
+S="${WORKDIR}/${P}"
 
 src_prepare() {
 	UCHD="${S}"/src/3rdparty/uchardet-0.0.1/uchardet.pri
