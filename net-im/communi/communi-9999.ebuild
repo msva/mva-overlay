@@ -17,6 +17,7 @@ IUSE="icu test examples"
 
 RDEPEND="
 	dev-qt/qtcore
+	dev-qt/qtdeclarative
 	!icu? ( dev-libs/uchardet )
 	icu? ( dev-libs/icu )
 "
