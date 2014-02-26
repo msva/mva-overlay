@@ -15,7 +15,7 @@ HOMEPAGE="http://swift.im/"
 MY_P="swift-${PV}"
 S="${WORKDIR}/${MY_P}"
 if [[ ${PV} == *9999* ]]; then
-	EGIT_REPO_URI="https://swift.im/git/swift"
+	EGIT_REPO_URI="git://swift.im/swift"
 else
 	SRC_URI="https://swift.im/downloads/releases/${MY_P}/${MY_P}.tar.gz"
 fi
