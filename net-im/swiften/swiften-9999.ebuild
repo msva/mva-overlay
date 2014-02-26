@@ -12,7 +12,7 @@ inherit eutils scons-utils toolchain-funcs ${VCS_ECLASS}
 
 DESCRIPTION="Just a perfect C++ XMPP library"
 HOMEPAGE="http://swift.im/"
-MY_P="swift-${PV}"
+#MY_P="swift-${PV}"
 S="${WORKDIR}/${MY_P}"
 if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="git://swift.im/swift"
