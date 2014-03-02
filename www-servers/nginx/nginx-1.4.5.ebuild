@@ -16,7 +16,7 @@ EAPI="5"
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
 USE_RUBY="jruby ruby18 ruby19 ruby20 ruby21"
-#RUBY_OPTIONAL="yes"
+RUBY_OPTIONAL="yes"
 
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
@@ -79,16 +79,6 @@ HTTP_CACHE_PURGE_MODULE_PV="2.1"
 HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODULE_PV}"
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="../${HTTP_CACHE_PURGE_MODULE_P}"
-
-## Incompatible with latest 1.3.x; temporary removed, until new release;
-### HTTP Upload module from Valery Kholodkov
-### (http://www.grid.net.ru/nginx/upload.ru.html (ru) http://www.grid.net.ru/nginx/upload.en.html (en), BSD license)
-##HTTP_UPLOAD_MODULE_A="vkholodkov"
-##HTTP_UPLOAD_MODULE_PN="nginx-upload-module"
-##HTTP_UPLOAD_MODULE_PV="2.2.0"
-##HTTP_UPLOAD_MODULE_P="${HTTP_UPLOAD_MODULE_PN}-${HTTP_UPLOAD_MODULE_PV}"
-##HTTP_UPLOAD_MODULE_URI="https://github.com/${HTTP_UPLOAD_MODULE_A}/${HTTP_UPLOAD_MODULE_PN}/archive/${HTTP_UPLOAD_MODULE_PV}.tar.gz"
-##HTTP_UPLOAD_MODULE_WD="../${HTTP_UPLOAD_MODULE_P}"
 
 # ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer/tags, as-is)
 HTTP_EY_BALANCER_MODULE_A="msva"
@@ -283,7 +273,7 @@ HTTP_DAV_EXT_MODULE_WD="../${HTTP_DAV_EXT_MODULE_P}"
 # nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module/tags, BSD license)
 RTMP_MODULE_A="arut"
 RTMP_MODULE_PN="nginx-rtmp-module"
-RTMP_MODULE_PV="1.1.2"
+RTMP_MODULE_PV="1.1.3"
 RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_PV}"
 RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/v${RTMP_MODULE_PV}.tar.gz"
 RTMP_MODULE_WD="../${RTMP_MODULE_P}"
@@ -346,16 +336,10 @@ SRC_URI="
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 "
 
-
-#	nginx_modules_http_upload? ( ${HTTP_UPLOAD_MODULE_URI} -> ${HTTP_UPLOAD_MODULE_P}.tar.gz )
-#	nginx_modules_http_set_cconv? ( ${HTTP_SET_CCONV_MODULE_URI} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
-#	nginx_modules_http_push? ( ${HTTP_PUSH_MODULE_URI} -> ${HTTP_PUSH_MODULE_P}.tar.gz )
-
 LICENSE="BSD BSD-2 GPL-2 MIT
 	pam? ( as-is )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel"
-RESTRICT="mirror"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_conn limit_req map memcached proxy referer rewrite scgi
@@ -398,11 +382,8 @@ NGINX_MODULES_3RD="
 	http_metrics
 	http_naxsi
 	http_dav_ext
- http_passenger
+	http_passenger
 "
-# http_upload
-# http_push
-# http_set_cconv"
 
 REQUIRED_USE="
 		nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -419,7 +400,6 @@ REQUIRED_USE="
 		nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 		pcre-jit? ( pcre )
 "
-#		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
 IUSE="aio debug +http +http-cache ipv6 libatomic pam +pcre pcre-jit perftools rrd ssl vim-syntax +luajit selinux rtmp"
 
@@ -469,6 +449,7 @@ CDEPEND="
 			$(ruby_implementation_depend ruby18)
 			$(ruby_implementation_depend ruby19)
 			$(ruby_implementation_depend ruby20)
+			$(ruby_implementation_depend ruby21)
 			$(ruby_implementation_depend jruby)
 		)
 		>=dev-ruby/rake-0.8.1
@@ -478,7 +459,8 @@ CDEPEND="
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
-	libatomic? ( dev-libs/libatomic_ops )"
+	libatomic? ( dev-libs/libatomic_ops )
+"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
 S="${WORKDIR}/${P}"
@@ -502,14 +484,6 @@ pkg_setup() {
 		ewarn "This nginx installation is *not supported*!"
 		ewarn "Make sure you can reproduce the bug without those modules"
 		ewarn "_before_ reporting bugs."
-	fi
-
-	if use nginx_modules_http_spdy; then
-		ewarn ""
-		ewarn "!!!"
-		ewarn "You've enabled testing SPDY module. It is known to brake "
-		ewarn "compilation when used together with some 3party modules."
-		ewarn "!!!"
 	fi
 
 	if use nginx_modules_http_passenger; then
@@ -704,12 +678,6 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}"
 	fi
 
-## http_push
-#	if use nginx_modules_http_push; then
-#		http_enabled=1
-#		myconf+=" --add-module=${HTTP_PUSH_MODULE_WD}"
-#	fi
-
 # http_push_stream
 	if use nginx_modules_http_push_stream; then
 		http_enabled=1
@@ -764,23 +732,11 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_UPLOAD_PROGRESS_MODULE_WD}"
 	fi
 
-# http_set-cconv
-#	if use nginx_modules_http_set_cconv; then
-#		http_enabled=1
-#		myconf+=" --add-module=${HTTP_SET_CCONV_MODULE_WD}"
-#	fi
-
 # http_cache_purge
 	if use nginx_modules_http_cache_purge; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_CACHE_PURGE_MODULE_WD}"
 	fi
-
-### http_upload
-##	if use nginx_modules_http_upload; then
-##		http_enabled=1
-##		myconf+=" --add-module=${HTTP_UPLOAD_MODULE_WD}"
-##	fi
 
 # http_ey_balancer
 	if use nginx_modules_http_ey_balancer; then
@@ -863,19 +819,18 @@ src_configure() {
 	./configure \
 		--prefix="${EPREFIX}/usr" \
 		--conf-path="${EPREFIX}/etc/${PN}/${PN}.conf" \
-		--error-log-path="${EPREFIX}/var/log/${PN}/error_log" \
+		--error-log-path="${EPREFIX}/var/log/${PN}/error.log" \
 		--pid-path="${EPREFIX}/run/${PN}.pid" \
 		--lock-path="${EPREFIX}/run/lock/${PN}.lock" \
 		--with-cc-opt="-I${EROOT}usr/include" \
 		--with-ld-opt="-L${EROOT}usr/lib" \
-		--http-log-path="${EPREFIX}/var/log/${PN}/access_log" \
+		--http-log-path="${EPREFIX}/var/log/${PN}/access.log" \
 		--http-client-body-temp-path="${EPREFIX}/var/tmp/${PN}/client" \
 		--http-proxy-temp-path="${EPREFIX}/var/tmp/${PN}/proxy" \
 		--http-fastcgi-temp-path="${EPREFIX}/var/tmp/${PN}/fastcgi" \
 		--http-scgi-temp-path="${EPREFIX}/var/tmp/${PN}/scgi" \
 		--http-uwsgi-temp-path="${EPREFIX}/var/tmp/${PN}/uwsgi" \
 		${myconf} || die "configure failed"
-#		--sbin-path=/usr/sbin/nginx \
 }
 
 src_compile() {
@@ -956,12 +911,6 @@ src_install() {
 		cd "${S}"
 	fi
 
-## http_push
-#	if use nginx_modules_http_push; then
-#		docinto "${HTTP_PUSH_MODULE_P}"
-#		dodoc "${HTTP_PUSH_MODULE_WD}"/{changelog.txt,protocol.txt,README}
-#	fi
-
 # http_push_stream
 	if use nginx_modules_http_push_stream; then
 		docinto "${HTTP_PUSH_STREAM_MODULE_P}"
@@ -979,12 +928,6 @@ src_install() {
 		docinto "${HTTP_CACHE_PURGE_MODULE_P}"
 		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md}
 	fi
-
-### http_upload
-##	if use nginx_modules_http_upload; then
-##		docinto "${HTTP_UPLOAD_MODULE_P}"
-##		dodoc "${HTTP_UPLOAD_MODULE_WD}"/{Changelog,README}
-##	fi
 
 # http_upload_progress
 	if use nginx_modules_http_upload_progress; then
@@ -1105,12 +1048,6 @@ src_install() {
 		docinto "${HTTP_ICONV_MODULE_P}"
 		dodoc "${HTTP_ICONV_MODULE_WD}"/README
 	fi
-
-# http_set_cconv
-#	if use nginx_modules_http_set_cconv; then
-#		docinto "${HTTP_SET_CCONV_MODULE_P}"
-#		dodoc "${HTTP_SET_CCONV_MODULE_WD}"/README
-#	fi
 
 # http_supervisord
 	if use nginx_modules_http_supervisord; then
