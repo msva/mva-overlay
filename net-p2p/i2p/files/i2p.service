@@ -1,0 +1,17 @@
+[Unit]
+Description=Invisible Internet Project
+After=network.target
+RequiresOverridable=tlsdate.service ntpd.service
+
+[Service]
+User=i2p
+PIDFile=/run/i2p.pid
+Environment=WRAPPER_CONF=/opt/i2p/wrapper.config
+ExecStart=/opt/i2p/i2psvc ${WRAPPER_CONF} wrapper.name=i2p wrapper.syslog.ident=i2p wrapper.daemonize=FALSE
+SendSIGKILL=no
+ExecReload=/bin/kill -USR1 $MAINPID
+ExecStop=/bin/kill -TERM $MAINPID
+SuccessExitStatus=0 2 3
+
+[Install]
+WantedBy=multi-user.target
