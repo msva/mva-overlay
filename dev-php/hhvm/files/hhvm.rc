@@ -1,0 +1,46 @@
+#!/sbin/runscript
+# Copyright 1999-2013 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="Virtual Machine, Runtime, and JIT for PHP"
+
+hhvm_config=${hhvm_config:-/etc/hhvm/config.hdf}
+
+hhvm_lib="/usr/lib/hhvm/lib"
+command="/usr/lib/hhvm/bin/hhvm"
+pidfile=${pidfile:-/var/run/hhvm.pid}
+logfile=${logfile:-/var/log/hhvm_server.log}
+
+depend() {
+	need net
+	use dns logger
+}
+
+checkconfig() {
+	if [ ! -f "${hhvm_config}" ] ; then
+		eerror "Please create ${hhvm_config}"
+		eerror "Sample conf: ${hhvm_config}.dist"
+		return 1
+	fi
+	return 0
+}
+
+start() {
+	checkconfig || return $?
+
+	ebegin "Starting HipHop VM"
+	LD_LIBRARY_PATH="${hhvm_lib}" start-stop-daemon --start --background \
+		--exec "${command}" \
+		--pidfile "${pidfile}" \
+		--stdout "${logfile}" \
+		--stderr "${logfile}" \
+		--env HPHP_HOME="${hhvm_lib}/" \
+		-- -m server -c "${hhvm_config}"
+	eend $? "Failed to start HipHop VM"
+}
+
+stop() {
+	ebegin "Stopping HipHop VM"
+	start-stop-daemon --stop --pidfile "${pidfile}"
+	eend $? "Failed to stop HipHop VM"
+}

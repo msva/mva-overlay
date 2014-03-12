@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export HPHP_HOME="/usr/lib/hhvm/lib/"
+LD_LIBRARY_PATH=/usr/lib/hhvm/lib /usr/lib/hhvm/bin/hhvm "$@"
