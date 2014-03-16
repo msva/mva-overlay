@@ -1,1 +1,0 @@
-www-servers/nginx nginx_modules_http_pagespeed
