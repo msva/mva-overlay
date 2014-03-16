@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/www-apps/redmine/redmine-1.4.1.ebuild,v 1.1 2012/04/25 15:02:00 matsuu Exp $
 
 EAPI="5"
-USE_RUBY="ruby18 jruby ruby19 ruby20 ruby21"
+USE_RUBY="ruby18 jruby ruby19 ruby20"
 
 inherit eutils depend.apache ruby-ng
 
@@ -16,7 +16,7 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion ldap"
 
-RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.6)[ssl] $(ruby_implementation_depend ruby19)[ssl] $(ruby_implementation_depend ruby20)[ssl] )"
+RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.7)[ssl] $(ruby_implementation_depend ruby19)[ssl] $(ruby_implementation_depend ruby20)[ssl] )"
 
 ruby_add_rdepend "
 	dev-ruby/bundler
@@ -25,6 +25,9 @@ ruby_add_rdepend "
 	fastcgi? (
 		dev-ruby/fcgi
 		ruby_targets_ruby19? (
+			>=dev-ruby/fcgi-0.9.1
+		)
+		ruby_targets_ruby20? (
 			>=dev-ruby/fcgi-0.9.1
 		)
 	)
@@ -73,9 +76,9 @@ all_ruby_install() {
 		rm app/models/auth_source_ldap.rb
 		epatch "${FILESDIR}/no_ldap-${PV}.patch"
 	)
-	use openid || rm -rf lib/plugins/open_id_authentication
+	use openid || rm -r lib/plugins/open_id_authentication
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
-	rm -fr doc || die
+	rm -r doc || die
 	dodoc README.rdoc || die
 	rm README.rdoc || die
 
@@ -111,9 +114,6 @@ all_ruby_install() {
 	else
 		newconfd "${FILESDIR}/${PN}.confd" ${PN} || die
 		newinitd "${FILESDIR}/${PN}.initd" ${PN} || die
-		keepdir /var/run/${PN} || die
-		fowners -R "${REDMINE_USER}:${REDMINE_GROUP}" /var/run/${PN} || die
-		dosym /var/run/${PN}/ "${REDMINE_DIR}/tmp/pids" || die
 	fi
 	doenvd "${T}/50${PN}" || die
 }
