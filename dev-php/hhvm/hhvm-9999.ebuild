@@ -10,13 +10,13 @@ EGIT_BRANCH="master"
 
 IUSE="+jemalloc devel debug"
 
-#CURL_P="curl-7.35.0"
-#LIBEVENT_P="libevent-1.4.14b-stable"
-#
-#SRC_URI="
-#	http://curl.haxx.se/download/${CURL_P}.tar.bz2
-#	https://github.com/downloads/libevent/libevent/${LIBEVENT_P}.tar.gz
-#"
+CURL_P="curl-7.35.0"
+LIBEVENT_P="libevent-1.4.14b-stable"
+
+SRC_URI="
+	http://curl.haxx.se/download/${CURL_P}.tar.bz2
+	https://github.com/downloads/libevent/libevent/${LIBEVENT_P}.tar.gz
+"
 
 DESCRIPTION="Virtual Machine, Runtime, and JIT for PHP"
 HOMEPAGE="https://github.com/facebook/hhvm"
@@ -42,8 +42,6 @@ RDEPEND="
 		sys-libs/readline
 		dev-libs/libedit
 	)
-	net-misc/curl
-	dev-libs/libevent
 	sys-libs/ncurses
 	dev-libs/libmemcached
 	net-nds/openldap
@@ -51,7 +49,7 @@ RDEPEND="
 	dev-util/google-perftools
 	dev-libs/cloog
 	dev-libs/elfutils
-	dev-libs/libdwarf
+	=dev-libs/libdwarf-20120410
 	app-arch/bzip2
 	sys-devel/binutils
 	>=sys-devel/gcc-4.7
@@ -60,7 +58,9 @@ RDEPEND="
 	dev-libs/libxslt
 	media-gfx/imagemagick
 "
+#	net-misc/curl
 #	media-libs/libvpx
+#	dev-libs/libevent
 
 DEPEND="
 	${RDEPEND}
@@ -83,39 +83,37 @@ pkg_setup() {
 
 src_unpack() {
 	git-r3_src_unpack
-#	unpack ${A}
+	unpack ${A}
 }
 
-#src_prepare() {
+src_prepare() {
 #	git submodule init
 #	git submodule update
 #
-#	epatch "${FILESDIR}/support-curl-7.31.0.patch"
+	epatch "${FILESDIR}/support-curl-7.31.0.patch"
 #	epatch "${FILESDIR}/cmake-findlibmagickwand.patch"
-#
-#	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
-#
-#	einfo "Building custom libevent"
-#	export EPATCH_SOURCE="${S}/hphp/third_party"
-#	EPATCH_OPTS="-d ""${WORKDIR}/${LIBEVENT_P}" epatch libevent-1.4.14.fb-changes.diff
-#	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-#	./autogen.sh
-#	./configure --prefix="${CMAKE_PREFIX_PATH}"
-#	emake
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	einfo "Building custom curl"
-#	EPATCH_OPTS="-d ""${WORKDIR}/${CURL_P} -p1" epatch libcurl.fb-changes.diff
-#	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-#	./buildconf
-#	./configure --prefix="${CMAKE_PREFIX_PATH}"
-#	emake
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	export CMAKE_BUILD_TYPE
-#}
+
+	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
+
+	einfo "Building custom libevent"
+	export EPATCH_SOURCE="${S}/hphp/third_party"
+	EPATCH_OPTS="-d ""${WORKDIR}/${LIBEVENT_P}" epatch libevent-1.4.14.fb-changes.diff
+	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
+	./autogen.sh
+	./configure --prefix="${CMAKE_PREFIX_PATH}"
+	emake
+	emake -j1 install
+	popd > /dev/null
+
+	einfo "Building custom curl"
+	EPATCH_OPTS="-d ""${WORKDIR}/${CURL_P} -p1" epatch libcurl.fb-changes.diff
+	pushd "${WORKDIR}/${CURL_P}" > /dev/null
+	./buildconf
+	./configure --prefix="${CMAKE_PREFIX_PATH}"
+	emake
+	emake -j1 install
+	popd > /dev/null
+}
 
 src_configure() {
 	local CMAKE_BUILD_TYPE="Release"

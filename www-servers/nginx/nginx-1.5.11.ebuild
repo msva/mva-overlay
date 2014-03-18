@@ -584,6 +584,9 @@ src_prepare() {
 	if use nginx_modules_http_pagespeed; then
 		# Sorry. I tired in tries to patch it's buildsystem to just get psol from parentdir and don't fail the build...
 		ln -s "${S}/${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/"
+		sed -r \
+			-e "s/(uname_arch)=.*/\1=${ARCH}/" \
+			-i "${HTTP_PAGESPEED_MODULE_WD}/config"
 	fi
 
 	epatch_user
