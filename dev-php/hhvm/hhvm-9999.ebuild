@@ -1,20 +1,22 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=2
+EAPI="5"
 
-inherit eutils git-2 user
+inherit git-r3 user cmake-utils eutils
 
-EGIT_REPO_URI="git://github.com/facebook/hhvm.git"
+EGIT_REPO_URI="https://github.com/facebook/hhvm.git"
 EGIT_BRANCH="master"
 
 IUSE="+jemalloc devel debug"
 
-CURL_P="curl-7.31.0"
-LIBEVENT_P="libevent-1.4.14b-stable"
-
-SRC_URI="http://curl.haxx.se/download/${CURL_P}.tar.bz2
-         https://github.com/downloads/libevent/libevent/${LIBEVENT_P}.tar.gz"
+#CURL_P="curl-7.35.0"
+#LIBEVENT_P="libevent-1.4.14b-stable"
+#
+#SRC_URI="
+#	http://curl.haxx.se/download/${CURL_P}.tar.bz2
+#	https://github.com/downloads/libevent/libevent/${LIBEVENT_P}.tar.gz
+#"
 
 DESCRIPTION="Virtual Machine, Runtime, and JIT for PHP"
 HOMEPAGE="https://github.com/facebook/hhvm"
@@ -36,7 +38,12 @@ RDEPEND="
 	dev-libs/oniguruma
 	dev-libs/libpcre
 	dev-libs/expat
-	sys-libs/readline
+	|| (
+		sys-libs/readline
+		dev-libs/libedit
+	)
+	net-misc/curl
+	dev-libs/libevent
 	sys-libs/ncurses
 	dev-libs/libmemcached
 	net-nds/openldap
@@ -50,10 +57,10 @@ RDEPEND="
 	>=sys-devel/gcc-4.7
 	dev-cpp/glog
 	jemalloc? ( >=dev-libs/jemalloc-3.0.0[stats] )
-	media-libs/libvpx
 	dev-libs/libxslt
 	media-gfx/imagemagick
 "
+#	media-libs/libvpx
 
 DEPEND="
 	${RDEPEND}
@@ -64,6 +71,8 @@ SLOT="0"
 LICENSE="PHP-3"
 KEYWORDS="~amd64"
 
+CMAKE_IN_SOURCE_BUILD="yes"
+
 pkg_setup() {
 	ebegin "Creating hhvm user and group"
 	enewgroup hhvm
@@ -71,61 +80,71 @@ pkg_setup() {
 	eend $?
 }
 
-src_prepare()
-{
-	git submodule init
-	git submodule update
 
-	epatch "${FILESDIR}/support-curl-7.31.0.patch"
-	epatch "${FILESDIR}/cmake-findlibmagickwand.patch"
+src_unpack() {
+	git-r3_src_unpack
+#	unpack ${A}
+}
 
-	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
+#src_prepare() {
+#	git submodule init
+#	git submodule update
+#
+#	epatch "${FILESDIR}/support-curl-7.31.0.patch"
+#	epatch "${FILESDIR}/cmake-findlibmagickwand.patch"
+#
+#	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
+#
+#	einfo "Building custom libevent"
+#	export EPATCH_SOURCE="${S}/hphp/third_party"
+#	EPATCH_OPTS="-d ""${WORKDIR}/${LIBEVENT_P}" epatch libevent-1.4.14.fb-changes.diff
+#	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
+#	./autogen.sh
+#	./configure --prefix="${CMAKE_PREFIX_PATH}"
+#	emake
+#	emake -j1 install
+#	popd > /dev/null
+#
+#	einfo "Building custom curl"
+#	EPATCH_OPTS="-d ""${WORKDIR}/${CURL_P} -p1" epatch libcurl.fb-changes.diff
+#	pushd "${WORKDIR}/${CURL_P}" > /dev/null
+#	./buildconf
+#	./configure --prefix="${CMAKE_PREFIX_PATH}"
+#	emake
+#	emake -j1 install
+#	popd > /dev/null
+#
+#	export CMAKE_BUILD_TYPE
+#}
 
-	einfo "Building custom libevent"
-	export EPATCH_SOURCE="${S}/hphp/third_party"
-	EPATCH_OPTS="-d ""${WORKDIR}/${LIBEVENT_P}" epatch libevent-1.4.14.fb-changes.diff
-	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-	./autogen.sh
-	./configure --prefix="${CMAKE_PREFIX_PATH}"
-	emake
-	emake -j1 install
-	popd > /dev/null
-
-	einfo "Building custom curl"
-	EPATCH_OPTS="-d ""${WORKDIR}/${CURL_P} -p1" epatch libcurl.fb-changes.diff
-	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-	./buildconf
-	./configure --prefix="${CMAKE_PREFIX_PATH}"
-	emake
-	emake -j1 install
-	popd > /dev/null
-
-	CMAKE_BUILD_TYPE="Release"
+src_configure() {
+	local CMAKE_BUILD_TYPE="Release"
 	if use debug; then
 		CMAKE_BUILD_TYPE="Debug"
 	fi
-	export CMAKE_BUILD_TYPE
-}
-
-src_configure()
-{
+#	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
 	export HPHP_HOME="${S}"
-	econf -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" ${HHVM_OPTS}
+#		-DCMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
+        mycmakeargs=(
+		-DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
+		-DMYSQL_LIB="/usr/$(get_libdir)/mysql/libmysqlclient_r.so"
+        )
+        cmake-utils_src_configure
+#	econf -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" ${HHVM_OPTS}
 }
 
-src_install()
-{
-	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-	emake -j1 install
-	popd > /dev/null
-
-	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-	emake -j1 install
-	popd > /dev/null
-
-	rm -rf "${D}/usr/lib/hhvm/"{bin,include,share}
-	rm -rf "${D}/usr/lib/hhvm/lib/pkgconfig"
-	rm -f "${D}/usr/lib/hhvm/lib/"*.{a,la}
+src_install() {
+#	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
+#	emake -j1 install
+#	popd > /dev/null
+#
+#	pushd "${WORKDIR}/${CURL_P}" > /dev/null
+#	emake -j1 install
+#	popd > /dev/null
+#
+#	rm -rf "${D}/usr/lib/hhvm/"{bin,include,share}
+#	rm -rf "${D}/usr/lib/hhvm/lib/pkgconfig"
+#	rm -f "${D}/usr/lib/hhvm/lib/"*.{a,la}
 
 	exeinto "/usr/lib/hhvm/bin"
 	doexe hphp/hhvm/hhvm
