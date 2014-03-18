@@ -1169,7 +1169,7 @@ src_install() {
 		dodoc "${HTTP_DAV_EXT_MODULE_WD}"/README
 	fi
 
-	if use nginx_modules_http_dav_ext; then
+	if use nginx_modules_http_hls_audio; then
 		docinto "${HTTP_HLS_AUDIO_MODULE_P}"
 		dodoc "${HTTP_HLS_AUDIO_MODULE_WD}"/{README.md,nginx.conf}
 	fi
