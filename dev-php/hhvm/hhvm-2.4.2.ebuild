@@ -10,13 +10,13 @@ EGIT_COMMIT="${PN^^}-${PV}"
 
 IUSE="+jemalloc devel debug"
 
-#CURL_P="curl-7.35.0"
-#LIBEVENT_P="libevent-1.4.14b-stable"
-#
-#SRC_URI="
-#	http://curl.haxx.se/download/${CURL_P}.tar.bz2
-#	https://github.com/downloads/libevent/libevent/${LIBEVENT_P}.tar.gz
-#"
+CURL_P="curl-7.35.0"
+LIBEVENT_P="libevent-1.4.14b-stable"
+
+SRC_URI="
+	http://curl.haxx.se/download/${CURL_P}.tar.bz2
+	https://github.com/downloads/libevent/libevent/${LIBEVENT_P}.tar.gz
+"
 
 DESCRIPTION="Virtual Machine, Runtime, and JIT for PHP"
 HOMEPAGE="https://github.com/facebook/hhvm"
@@ -51,7 +51,7 @@ RDEPEND="
 	dev-util/google-perftools
 	dev-libs/cloog
 	dev-libs/elfutils
-	dev-libs/libdwarf
+	=dev-libs/libdwarf-20120410
 	app-arch/bzip2
 	sys-devel/binutils
 	>=sys-devel/gcc-4.7
@@ -83,68 +83,60 @@ pkg_setup() {
 
 src_unpack() {
 	git-r3_src_unpack
-#	unpack ${A}
+	unpack ${A}
 }
 
-#src_prepare() {
-#	git submodule init
-#	git submodule update
-#
-#	epatch "${FILESDIR}/support-curl-7.31.0.patch"
-#	epatch "${FILESDIR}/cmake-findlibmagickwand.patch"
-#
-#	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
-#
-#	einfo "Building custom libevent"
-#	export EPATCH_SOURCE="${S}/hphp/third_party"
-#	EPATCH_OPTS="-d ""${WORKDIR}/${LIBEVENT_P}" epatch libevent-1.4.14.fb-changes.diff
-#	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-#	./autogen.sh
-#	./configure --prefix="${CMAKE_PREFIX_PATH}"
-#	emake
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	einfo "Building custom curl"
-#	EPATCH_OPTS="-d ""${WORKDIR}/${CURL_P} -p1" epatch libcurl.fb-changes.diff
-#	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-#	./buildconf
-#	./configure --prefix="${CMAKE_PREFIX_PATH}"
-#	emake
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	export CMAKE_BUILD_TYPE
-#}
+src_prepare() {
+	epatch "${FILESDIR}/support-curl-7.31.0.patch"
+
+	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
+
+	einfo "Building custom libevent"
+	export EPATCH_SOURCE="${S}/hphp/third_party"
+	EPATCH_OPTS="-d ""${WORKDIR}/${LIBEVENT_P}" epatch libevent-1.4.14.fb-changes.diff
+	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
+	./autogen.sh
+	./configure --prefix="${CMAKE_PREFIX_PATH}"
+	emake
+	emake -j1 install
+	popd > /dev/null
+
+	einfo "Building custom curl"
+	EPATCH_OPTS="-d ""${WORKDIR}/${CURL_P} -p1" epatch libcurl.fb-changes.diff
+	pushd "${WORKDIR}/${CURL_P}" > /dev/null
+	./buildconf
+	./configure --prefix="${CMAKE_PREFIX_PATH}"
+	emake
+	emake -j1 install
+	popd > /dev/null
+
+	export CMAKE_BUILD_TYPE
+}
 
 src_configure() {
 	local CMAKE_BUILD_TYPE="Release"
 	if use debug; then
 		CMAKE_BUILD_TYPE="Debug"
 	fi
-#	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
 	export HPHP_HOME="${S}"
-#		-DCMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
         mycmakeargs=(
 		-DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
-		-DMYSQL_LIB="/usr/$(get_libdir)/mysql/libmysqlclient_r.so"
         )
         cmake-utils_src_configure
-#	econf -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" ${HHVM_OPTS}
 }
 
 src_install() {
-#	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	rm -rf "${D}/usr/lib/hhvm/"{bin,include,share}
-#	rm -rf "${D}/usr/lib/hhvm/lib/pkgconfig"
-#	rm -f "${D}/usr/lib/hhvm/lib/"*.{a,la}
+	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
+	emake -j1 install
+	popd > /dev/null
+
+	pushd "${WORKDIR}/${CURL_P}" > /dev/null
+	emake -j1 install
+	popd > /dev/null
+
+	rm -rf "${D}/usr/lib/hhvm/"{bin,include,share}
+	rm -rf "${D}/usr/lib/hhvm/lib/pkgconfig"
+	rm -f "${D}/usr/lib/hhvm/lib/"*.{a,la}
 
 	exeinto "/usr/lib/hhvm/bin"
 	doexe hphp/hhvm/hhvm

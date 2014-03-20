@@ -87,11 +87,7 @@ src_unpack() {
 }
 
 src_prepare() {
-#	git submodule init
-#	git submodule update
-#
 	epatch "${FILESDIR}/support-curl-7.31.0.patch"
-#	epatch "${FILESDIR}/cmake-findlibmagickwand.patch"
 
 	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
 
@@ -120,29 +116,25 @@ src_configure() {
 	if use debug; then
 		CMAKE_BUILD_TYPE="Debug"
 	fi
-#	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
 	export HPHP_HOME="${S}"
-#		-DCMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
         mycmakeargs=(
 		-DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
-		-DMYSQL_LIB="/usr/$(get_libdir)/mysql/libmysqlclient_r.so"
         )
         cmake-utils_src_configure
-#	econf -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" ${HHVM_OPTS}
 }
 
 src_install() {
-#	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-#	emake -j1 install
-#	popd > /dev/null
-#
-#	rm -rf "${D}/usr/lib/hhvm/"{bin,include,share}
-#	rm -rf "${D}/usr/lib/hhvm/lib/pkgconfig"
-#	rm -f "${D}/usr/lib/hhvm/lib/"*.{a,la}
+	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
+	emake -j1 install
+	popd > /dev/null
+
+	pushd "${WORKDIR}/${CURL_P}" > /dev/null
+	emake -j1 install
+	popd > /dev/null
+
+	rm -rf "${D}/usr/lib/hhvm/"{bin,include,share}
+	rm -rf "${D}/usr/lib/hhvm/lib/pkgconfig"
+	rm -f "${D}/usr/lib/hhvm/lib/"*.{a,la}
 
 	exeinto "/usr/lib/hhvm/bin"
 	doexe hphp/hhvm/hhvm
