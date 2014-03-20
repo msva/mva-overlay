@@ -10,7 +10,7 @@ EGIT_BRANCH="master"
 
 IUSE="+jemalloc devel debug"
 
-CURL_P="curl-7.35.0"
+CURL_P="curl-7.31.0"
 LIBEVENT_P="libevent-1.4.14b-stable"
 
 SRC_URI="
@@ -58,7 +58,7 @@ RDEPEND="
 	dev-libs/libxslt
 	media-gfx/imagemagick
 "
-#	net-misc/curl
+#	net-misc/curl	
 #	media-libs/libvpx
 #	dev-libs/libevent
 
