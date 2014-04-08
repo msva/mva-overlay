@@ -9,7 +9,7 @@ inherit eutils rpm
 DESCRIPTION="SafeNet (Aladdin) eToken Middleware for eTokenPRO, eTokenNG OTP, eTokenNG Flash, eToken Pro (Java)"
 
 MY_PN="SafenetAuthenticationClient"
-MY_PV="${PV}.0-4"
+MY_PV="${PV/_p/-}"
 MY_P_86="${MY_PN}-${MY_PV}.i386.rpm"
 MY_P_64="${MY_PN}-${MY_PV}.x86_64.rpm"
 MY_COMPAT_P="SAC-32-CompatibilityPack-${MY_PV}.x86_64.rpm"
@@ -28,12 +28,17 @@ REQUIRED_USE="amd64? ( multilib )"
 
 # TODO: minimal useflag (I can't do it now, since
 # it seems like I brake my token and it is uninitialized now)
-RDEPEND=">=sys-apps/pcsc-lite-1.4.99
-	dev-libs/libusb:0
+RDEPEND="
+	>=sys-apps/pcsc-lite-1.4.99
+	|| (
+		dev-libs/libusb-compat
+		dev-libs/libusb:0
+	)
 	sys-apps/dbus
-		media-libs/libpng:1.2
-		media-libs/fontconfig
-	ssl? ( dev-libs/engine_pkcs11 )"
+	media-libs/libpng:1.2
+	media-libs/fontconfig
+	ssl? ( dev-libs/engine_pkcs11 )
+"
 DEPEND="${RDEPEND}"
 
 QA_PREBUILT="*"
@@ -43,8 +48,12 @@ S="${WORKDIR}"
 
 pkg_nofetch() {
 	einfo "Please send mail to Aladdin eToken TS <support.etoken@aladdin-rd.ru> and"
-	einfo "ask them to provide a ${PV} version of eToken driver. Then put RPMs from"
+	einfo "ask them to provide a ${MY_PV} version of eToken driver. Then put RPMs from"
 	einfo "archive, they emailed to you, into ${DISTDIR} ( cp ${A} ${DISTDIR} )"
+	echo
+	einfo "Actually, you can ask them for most actual version, and if they send you"
+	einfo "version, newer then ${MY_PV}, then report it to the bugtracker, please"
+
 }
 
 src_unpack() {
@@ -70,6 +79,15 @@ src_prepare() {
 }
 
 pkg_postinst() {
+	ewarn "!!!!!!!"
+	ewarn "Currently, Gentoo Dev Team has removed libusb:0 from the portage tree"
+	ewarn "(although, it is still in multilib overlay)"
+	ewarn "For now, I added libusb-compat (wrapper) as a dependency,"
+	ewarn "but it can either work or doesn't work for you."
+	echo
+	ewarn "If it'll not — try to emerge libusb:0 from multilib overlay."
+	ewarn "!!!!!!!"
+	echo
 	einfo "Run"
 	einfo "rc-update add eTSrv default"
 	einfo "to add eToken support to default runlevel"
