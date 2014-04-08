@@ -65,7 +65,7 @@ src_unpack() {
 	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib64.txz" | tar xJf - )
 	use amd64 && ( cat "${FILESDIR}/dist/pcsc_amd64.txz" | tar xJf - )
 
-	cp "${FILESDIR}/eTSrv.init-r1" etc/init.d/eTSrv
+	cp "${FILESDIR}/eTSrv.init-r2" etc/init.d/eTSrv
 	cp "${FILESDIR}/dist/Makefile" "${S}"
 }
 
