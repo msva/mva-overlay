@@ -89,8 +89,15 @@ pkg_postinst() {
 	ewarn "!!!!!!!"
 	echo
 	einfo "Run"
+	einfo "rc-update add pcscd default"
 	einfo "rc-update add eTSrv default"
-	einfo "to add eToken support to default runlevel"
+	einfo "to add eToken support daemon to autostart"
 	einfo ""
-	einfo "In some cases the eToken will not work after rebooting your system. This can be due to the fact, that your pcscd is not running. The installation of SA-client does not configure the pcscd to start automatically."
+	einfo "In some cases the eToken will not work after rebooting your system."
+	einfo "This can be due to the fact, that your pcscd is not running."
+	einfo "This may happen if you forgot to add pcscd to default runlevel"
+	einfo "(or because of crash)."
+	echo
+	einfo "If you need some help, you can ask the help in that article:"
+	einfo "http://www.it-lines.ru/blogs/linux/nastrojka-etoken-v-gentoo-linux"
 }
