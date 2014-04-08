@@ -14,7 +14,7 @@ SRC_URI="http://www.redmine.org/releases/${P}.tar.gz"
 KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion ldap"
+IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql passenger postgres sqlite3 subversion ldap"
 
 RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.7)[ssl] $(ruby_implementation_depend ruby19)[ssl] $(ruby_implementation_depend ruby20)[ssl] )"
 
@@ -76,7 +76,6 @@ all_ruby_install() {
 		rm app/models/auth_source_ldap.rb
 		epatch "${FILESDIR}/no_ldap-${PV}.patch"
 	)
-	use openid || rm -r lib/plugins/open_id_authentication
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
 	rm -r doc || die
 	dodoc README.rdoc || die
@@ -155,7 +154,6 @@ pkg_config() {
 	without="--without"
 	use ldap || without="${without} ldap"
 	use mysql || without="${without} mysql"
-	use openid || without="${without} openid"
 	use postgres || without="${without} postgresql"
 	use imagemagick || without="${without} rmagick"
 	use sqlite3 || without="${without} sqlite"

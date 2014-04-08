@@ -16,13 +16,12 @@ EGIT_REPO_URI="git://github.com/redmine/redmine.git"
 KEYWORDS=""
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="cvs darcs git imagemagick mercurial mysql openid passenger postgres sqlite3 subversion mongrel fastcgi"
+IUSE="cvs darcs git imagemagick mercurial mysql passenger postgres sqlite3 subversion mongrel fastcgi"
 
 DEPEND="
 	>=dev-ruby/rails-2.3.4:2.3
 	dev-ruby/activerecord:2.3[mysql?,postgres?,sqlite3?]
 	imagemagick? ( dev-ruby/rmagick )
-	openid? ( dev-ruby/ruby-openid )
 	fastcgi? ( dev-ruby/ruby-fcgi-ng )"
 
 RDEPEND="${DEPEND}
@@ -94,11 +93,6 @@ src_install() {
 
 pkg_postinst() {
 
-	if use openid ; then
-		cp ${FILESDIR}/simple_captcha.patch ${REDMINE_DIR}
-		cp ${FILESDIR}/openid.patch ${REDMINE_DIR}
-	fi
-
 	einfo
 	elog "Execute the following command to initlize environment:"
 	elog
@@ -131,22 +125,6 @@ pkg_config() {
 	echo ${FILESDIR}
 
 	cd "${REDMINE_DIR}"
-
-	if use openid ; then
-		einfo
-		einfo "Install packs special OpenID and Simple Captcha:"
-		ruby script/plugin install svn://rubyforge.org/var/svn/expressica/plugins/simple_captcha || die
-		rake simple_captcha:setup || die
-
-		patch --dry-run -p0 >/dev/null < simple_captcha.patch
-		if [ $? = 0 ] ; then
-			patch -p0 -N -i simple_captcha.patch || die
-		fi
-		patch --dry-run -p0 >/dev/null < openid.patch
-		if [ $? = 0 ] ; then
-			patch -p0 -N -i openid.patch || die
-		fi
-	fi
 
 	if [ -e "${REDMINE_DIR}/config/initializers/session_store.rb" ] ; then
 		einfo
