@@ -26,6 +26,7 @@ start_pre() {
 	if [ "${RC_CMD}" != "restart" ] ; then
 		checkconfig || return 1
 	fi
+	mkdir -p "/var/cache/eToken"
 }
 
 stop_pre() {

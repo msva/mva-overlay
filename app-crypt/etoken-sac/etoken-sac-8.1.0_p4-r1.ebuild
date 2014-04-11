@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: This ebuild is from mva overlay $
 
-EAPI="4"
+EAPI="5"
 
-inherit eutils rpm
+inherit eutils multilib rpm
 
 DESCRIPTION="SafeNet (Aladdin) eToken Middleware for eTokenPRO, eTokenNG OTP, eTokenNG Flash, eToken Pro (Java)"
 
@@ -22,7 +22,7 @@ LICENSE="EULA"
 RESTRICT="fetch"
 SLOT="0"
 KEYWORDS="-* ~x86 ~amd64"
-IUSE="ssl"
+IUSE="ssl multilib"
 
 REQUIRED_USE="amd64? ( multilib )"
 
@@ -64,9 +64,6 @@ src_unpack() {
 	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib32.txz" | tar xJf - )
 	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib64.txz" | tar xJf - )
 	use amd64 && ( cat "${FILESDIR}/dist/pcsc_amd64.txz" | tar xJf - )
-
-	cp "${FILESDIR}/eTSrv.init-r2" etc/init.d/eTSrv
-	cp "${FILESDIR}/dist/Makefile" "${S}"
 }
 
 src_prepare() {
@@ -76,6 +73,9 @@ src_prepare() {
 	EPATCH_FORCE="yes" epatch
 
 	epatch_user
+
+	cp "${FILESDIR}/eTSrv.init-r3" etc/init.d/eTSrv
+	cp "${FILESDIR}/dist/Makefile" "${S}"
 }
 
 pkg_postinst() {
