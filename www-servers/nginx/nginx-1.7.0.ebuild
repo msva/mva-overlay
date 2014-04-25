@@ -137,7 +137,7 @@ HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 # NginX echo module (https://github.com/agentzh/echo-nginx-module/tags, BSD)
 HTTP_ECHO_MODULE_A="agentzh"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
-HTTP_ECHO_MODULE_PV="0.52"
+HTTP_ECHO_MODULE_PV="0.53"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
@@ -285,7 +285,7 @@ RTMP_MODULE_WD="../${RTMP_MODULE_P}"
 # mod_security for nginx (https://modsecurity.org/, Apache-2.0)
 # keep the MODULE_P here consistent with upstream to avoid tarball duplication
 HTTP_SECURITY_MODULE_PN="modsecurity-apache"
-HTTP_SECURITY_MODULE_PV="2.7.7"
+HTTP_SECURITY_MODULE_PV="2.8.0"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}_${HTTP_SECURITY_MODULE_PV}"
 HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
 HTTP_SECURITY_MODULE_WD="../${HTTP_SECURITY_MODULE_P}"
