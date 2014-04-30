@@ -21,9 +21,13 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.41"
-HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
-HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
+#HTTP_PASSENGER_MODULE_PV="4.0.41"
+HTTP_PASSENGER_MODULE_SHA="adcd8e1fd6f6ec9c320fe47e1b7fa55f791da402"
+HTTP_PASSENGER_MODULE_PV="${HTTP_PASSENGER_MODULE_SHA}"
+#HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-release-${HTTP_PASSENGER_MODULE_PV}"
+HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_PV}"
+#HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/release-${HTTP_PASSENGER_MODULE_PV}.tar.gz"
+HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="../${HTTP_PASSENGER_MODULE_P}/ext/nginx"
 
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2 license)
@@ -564,9 +568,9 @@ src_prepare() {
 	if use nginx_modules_http_passenger; then
 		cd ../"${HTTP_PASSENGER_MODULE_P}";
 
-		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-gentoo.patch
-		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-ldflags.patch
-		epatch "${FILESDIR}"/passenger-"${HTTP_PASSENGER_MODULE_PV}"-contenthandler.patch
+		epatch "${FILESDIR}"/passenger-gentoo.patch
+		epatch "${FILESDIR}"/passenger-ldflags.patch
+		epatch "${FILESDIR}"/passenger-contenthandler.patch
 
 		sed \
 			-e "s:/buildout/agents:/agents:" \
