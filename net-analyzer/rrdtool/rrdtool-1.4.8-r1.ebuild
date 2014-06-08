@@ -31,7 +31,10 @@ RDEPEND="
 		>=x11-libs/cairo-1.10.2[svg,static-libs(+)?]
 		>=x11-libs/pango-1.28
 	)
-	lua? ( dev-lang/lua[deprecated] )
+	lua? (
+		!luajit? ( dev-lang/lua[deprecated] )
+		luajit? ( dev-lang/luajit:2 )
+	)
 	perl? ( dev-lang/perl )
 	python? ( ${PYTHON_DEPS} )
 	tcl? ( dev-lang/tcl )
