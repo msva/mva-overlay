@@ -1,13 +1,13 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: /var/cvsroot/gentoo-x86/net-analyzer/rrdtool/rrdtool-1.4.8-r1.ebuild,v 1.1 2014/05/20 06:01:00 graaff Exp $
 
 EAPI="5"
 
+DISTUTILS_OPTIONAL="true"
 GENTOO_DEPEND_ON_PERL="no"
 PYTHON_COMPAT=( python2_7 )
-
-inherit eutils distutils-r1 flag-o-matic multilib perl-module autotools
+inherit eutils distutils-r1 flag-o-matic multilib perl-module autotools toolchain-funcs
 
 DESCRIPTION="A system to store and display time-series data"
 HOMEPAGE="http://oss.oetiker.ch/rrdtool/"
@@ -16,27 +16,31 @@ SRC_URI="http://oss.oetiker.ch/rrdtool/pub/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
-IUSE="dbi doc +graph lua luajit perl python ruby rrdcgi static-libs tcl tcpd"
+IUSE="dbi doc +graph lua perl python ruby rrdcgi static-libs tcl tcpd"
+
+PDEPEND="
+	ruby? ( ~dev-ruby/rrdtool-bindings-${PV} )
+"
 
 RDEPEND="
-	>=dev-libs/glib-2.28.7[static-libs=]
-	>=dev-libs/libxml2-2.7.8[static-libs=]
-	dbi? ( dev-db/libdbi[static-libs=] )
+	>=dev-libs/glib-2.28.7[static-libs(+)?]
+	>=dev-libs/libxml2-2.7.8[static-libs(+)?]
+	dbi? ( dev-db/libdbi[static-libs(+)?] )
 	graph? (
-		>=media-libs/libpng-1.5.10[static-libs=]
-		>=x11-libs/cairo-1.10.2[svg,static-libs=]
-	>=x11-libs/pango-1.28
+		>=media-libs/libpng-1.5.10[static-libs(+)?]
+		>=x11-libs/cairo-1.10.2[svg,static-libs(+)?]
+		>=x11-libs/pango-1.28
 	)
-	lua? ( || ( virtual/lua >=dev-lang/lua-5[deprecated] dev-lang/luajit:2 ) )
-	luajit? ( dev-lang/luajit:2 )
+	lua? ( dev-lang/lua[deprecated] )
 	perl? ( dev-lang/perl )
 	python? ( ${PYTHON_DEPS} )
-	ruby? ( >=dev-lang/ruby-1.8.6_p287-r13 )
 	tcl? ( dev-lang/tcl )
 	tcpd? ( sys-apps/tcp-wrappers )
 "
 
-DEPEND="${RDEPEND}
+DEPEND="
+	${RDEPEND}
+	sys-apps/groff
 	virtual/pkgconfig
 	virtual/awk
 "
@@ -52,20 +56,19 @@ python_install() {
 }
 
 src_prepare() {
-	epatch	"${FILESDIR}"/0001_"${P}"-configure.ac.patch
-	epatch	"${FILESDIR}/${PN}"-1.4.5-automake-1.11.2.patch
+	epatch "${FILESDIR}"/${PN}-1.4.7-configure.ac.patch
 
-	# bug 281694
 	# bug 456810
 	# no time to sleep
 	sed -i \
-		-e '/PERLLD/s:same as PERLCC:same-as-PERLCC:' \
 		-e 's|$LUA_CFLAGS|IGNORE_THIS_BAD_TEST|g' \
 		-e 's|^sleep 1$||g' \
 		configure.ac || die
 
 	# Python bindings are built/installed manually
-	sed -e "/^all-local:/s/ @COMP_PYTHON@//" -i bindings/Makefile.am || die
+	sed -i \
+		-e '/^all-local:/s| @COMP_PYTHON@||' \
+		bindings/Makefile.am || die
 
 	eautoreconf
 }
@@ -95,18 +98,18 @@ src_configure() {
 		$(use_enable perl) \
 		$(use_enable python) \
 		$(use_enable rrdcgi) \
-		$(use_enable ruby ruby-site-install) \
-		$(use_enable ruby) \
 		$(use_enable static-libs static) \
 		$(use_enable tcl) \
 		$(use_with tcl tcllib "${EPREFIX}"/usr/$(get_libdir)) \
 		--with-perl-options=INSTALLDIRS=vendor \
+		--disable-ruby-site-install \
+		--disable-ruby \
 		${myconf[@]}
 }
 
 src_compile() {
-	local lua=lua;
-	use luajit && lua=luajit;
+	local lua="lua";
+	use luajit && lua="luajit";
 	emake LUA_INSTALL_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" LUA_INSTALL_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" || die "make install failed"
 
 	use python && distutils-r1_src_compile
