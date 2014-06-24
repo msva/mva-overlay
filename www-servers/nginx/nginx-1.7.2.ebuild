@@ -540,7 +540,7 @@ src_unpack() {
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-fix-perl-install-path.patch"
 
-	use nginx_modules_http_upstream_check && epatch "${FILESDIR}"/upstream-check-1.5.11.patch
+	use nginx_modules_http_upstream_check && epatch "${FILESDIR}"/upstream-check-1.7.2.patch
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
