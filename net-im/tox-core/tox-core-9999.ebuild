@@ -19,6 +19,7 @@ IUSE=""
 RDEPEND="net-libs/libsodium[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 AUTOTOOLS_AUTORECONF="yes"
+AUTOTOOLS_IN_SOURCE_BUILD="yes"
 
 src_configure() {
 	local myeconfargs=(
