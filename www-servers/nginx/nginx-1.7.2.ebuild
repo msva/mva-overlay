@@ -305,6 +305,18 @@ RRD_MODULE_P="mod_rrd_graph-${RRD_MODULE_PV}"
 RRD_MODULE_URI="http://wiki.nginx.org/images/9/9d/${RRD_MODULE_P/m/M}.tar.gz"
 RRD_MODULE_WD="../${RRD_MODULE_P}"
 
+# sticky-module (https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng, BSD-2)
+HTTP_STICKY_MODULE_PV="1.2.4"
+HTTP_STICKY_MODULE_P="nginx_http_sticky_module_ng-${HTTP_STICKY_MODULE_PV}"
+HTTP_STICKY_MODULE_URI="mirror://bitbucket/nginx-goodies/nginx-sticky-module-ng/get/${HTTP_STICKY_MODULE_PV}.tar.bz2"
+HTTP_STICKY_MODULE_WD="${WORKDIR}/nginx-goodies-nginx-sticky-module-ng-c825ea7c5c91"
+
+# ajp-module (https://github.com/yaoweibin/nginx_ajp_module, BSD-2)
+HTTP_AJP_MODULE_PV="0.3.0"
+HTTP_AJP_MODULE_P="ngx_http_ajp_module-${HTTP_AJP_MODULE_PV}"
+HTTP_AJP_MODULE_URI="https://github.com/yaoweibin/nginx_ajp_module/archive/v${HTTP_AJP_MODULE_PV}.tar.gz"
+HTTP_AJP_MODULE_WD="${WORKDIR}/nginx_ajp_module-${HTTP_AJP_MODULE_PV}"
+
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd pax-utils multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
@@ -352,6 +364,8 @@ SRC_URI="
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
+	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.bz2 )
+	nginx_modules_http_ajp? ( ${HTTP_AJP_MODULE_URI} -> ${HTTP_AJP_MODULE_P}.tar.gz )
 "
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
@@ -407,6 +421,8 @@ NGINX_MODULES_3RD="
 	http_security
 	http_auth_pam
 	http_hls_audio
+	http_sticky
+	http_ajp
 "
 
 REQUIRED_USE="
@@ -858,6 +874,16 @@ src_configure() {
 	use perftools	&& myconf+=" --with-google_perftools_module"
 	use rrd		&& myconf+=" --add-module=${RRD_MODULE_WD}"
 
+	if use nginx_modules_http_sticky ; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_STICKY_MODULE_WD}"
+	fi
+
+	if use nginx_modules_http_ajp ; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_AJP_MODULE_WD}"
+	fi
+
 	# MAIL modules
 	for mod in $NGINX_MODULES_MAIL; do
 		if use nginx_modules_mail_${mod}; then
@@ -1198,6 +1224,17 @@ src_install() {
 		docinto "${HTTP_SECURITY_MODULE_P}"
 		dodoc "${HTTP_SECURITY_MODULE_WD}"/{CHANGES,README.TXT,authors.txt}
 	fi
+
+	if use nginx_modules_http_sticky; then
+		docinto ${HTTP_STICKY_MODULE_P}
+		dodoc "${HTTP_STICKY_MODULE_WD}"/{README.md,Changelog.txt,docs/sticky.pdf}
+	fi
+
+	if use nginx_modules_http_ajp; then
+		docinto ${HTTP_AJP_MODULE_P}
+		dodoc "${HTTP_AJP_MODULE_WD}"/README
+	fi
+
 }
 
 pkg_postinst() {
@@ -1219,8 +1256,26 @@ pkg_postinst() {
 		ewarn "file from this package (i.e. it should be full path)"
 	fi
 
-	# CVE-2013-0337, bug #458726
-	chmod -f o-rwx "${EPREFIX}/var/log/${PN}" "${EPREFIX}/var/tmp/${PN}"/{,client,proxy,fastcgi,scgi,uwsgi}
+	# This is the proper fix for bug #458726/#469094, resp. CVE-2013-0337 for
+	# existing installations
+	local fix_perms=0
+
+	for rv in ${REPLACING_VERSIONS} ; do
+		version_compare ${rv} 1.4.1-r2
+		[[ $? -eq 1 ]] && fix_perms=1
+	done
+
+	if [[ $fix_perms -eq 1 ]] ; then
+		ewarn "To fix a security bug (CVE-2013-0337, bug #458726) had the following"
+		ewarn "directories the world-readable bit removed (if set):"
+		ewarn "  ${EPREFIX}/var/log/nginx"
+		ewarn "  ${EPREFIX}${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi}"
+		ewarn "Check if this is correct for your setup before restarting nginx!"
+		ewarn "This is a one-time change and will not happen on subsequent updates."
+		ewarn "Furthermore nginx' temp directories got moved to ${NGINX_HOME_TMP}"
+		chmod -f o-rwx "${EPREFIX}"/var/log/nginx "${EPREFIX}/${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+	fi
+
 
 	# If the nginx user can't change into or read the dir, display a warning.
 	# If su is not available we display the warning nevertheless since we can't check properly
