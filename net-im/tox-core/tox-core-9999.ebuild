@@ -14,18 +14,24 @@ HOMEPAGE="http://tox.im"
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="ntox test -bootstrap-daemon opus sodium -nacl"
+REQUIRED_USE="sodium? ( !nacl )"
 
-RDEPEND="net-libs/libsodium[${MULTILIB_USEDEP}]"
+RDEPEND="
+		nacl? ( net-libs/nacl[${MULTILIB_USEDEP}] )
+		sodium? ( net-libs/libsodium[${MULTILIB_USEDEP}] )
+		opus? ( media-libs/opus )
+	"
 DEPEND="${RDEPEND}"
 AUTOTOOLS_AUTORECONF="yes"
 AUTOTOOLS_IN_SOURCE_BUILD="yes"
 
 src_configure() {
 	local myeconfargs=(
-		--disable-tests
-		--disable-dht-bootstrap-daemon
-		--disable-ntox
+		$(use_enable test testing)
+		$(use_enable bootstrap-daemon daemon)
+		$(use_enable ntox)
+		$(use_enable opus av)
 	)
 	autotools-multilib_src_configure
 }
