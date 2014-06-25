@@ -6,7 +6,7 @@ EAPI="5"
 
 EGIT_REPO_URI="https://github.com/Tox/toxic"
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="A CLI front end for ProjectTox Core"
 HOMEPAGE="http://tox.im"
@@ -26,6 +26,12 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
+src_prepare() {
+	sed -r \
+		-e "s@(PREFIX) =.*@\1 = /usr@" \
+		-i build/Makefile
+}
+
 src_compile() {
 	cd build
 	emake
@@ -33,7 +39,7 @@ src_compile() {
 
 src_install() {
 	cd build
-	emake DESTDIR="${D}/usr" install
+	emake DESTDIR="${D}" install
 }
 pkg_postinst() {
         elog "DHT node list is available via https://gist.github.com/Proplex/6124860"

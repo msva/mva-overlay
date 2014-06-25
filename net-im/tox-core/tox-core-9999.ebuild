@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit autotools-multilib git-2
+inherit autotools-multilib git-r3
 
 EGIT_REPO_URI="https://github.com/irungentoo/ProjectTox-Core"
 
@@ -24,7 +24,7 @@ RDEPEND="
 	"
 DEPEND="${RDEPEND}"
 AUTOTOOLS_AUTORECONF="yes"
-AUTOTOOLS_IN_SOURCE_BUILD="yes"
+#AUTOTOOLS_IN_SOURCE_BUILD="yes"
 
 src_configure() {
 	local myeconfargs=(
