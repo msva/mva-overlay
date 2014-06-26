@@ -6,7 +6,7 @@ EAPI="5"
 
 EGIT_REPO_URI="https://github.com/nurupo/ProjectTox-Qt-GUI"
 
-inherit cmake-utils git-2
+inherit cmake-utils git-r3
 
 DESCRIPTION="A front end for ProjectTox Core written in Qt5 and C++."
 HOMEPAGE="http://tox.im"
@@ -28,7 +28,10 @@ src_prepare() {
 	:
 }
 
-pkg_postinst() {
-        elog "DHT node list is available via https://gist.github.com/Proplex/6124860"
-        elog "or in #tox @ irc.freenode.org"
+src_configure() {
+        eqmake5 projectfiles/QtCreator/TOX-Qt-GUI.pro
+}
+
+src_install() {
+	dobin TOX-Qt-GUI
 }
