@@ -20,7 +20,7 @@ REQUIRED_USE="nacl? ( static-libs )"
 
 RDEPEND="
 	nacl? ( net-libs/nacl[${MULTILIB_USEDEP}] )
-	!nacl? ( net-libs/libsodium[${MULTILIB_USEDEP}] )
+	!nacl? ( dev-libs/libsodium[${MULTILIB_USEDEP}] )
 	av? (
 		media-libs/opus[${MULTILIB_USEDEP}]
 		media-libs/libvpx[${MULTILIB_USEDEP}]
