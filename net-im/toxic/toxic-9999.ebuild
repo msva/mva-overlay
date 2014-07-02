@@ -14,15 +14,15 @@ HOMEPAGE="http://tox.im"
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
-IUSE="audio"
+IUSE="av"
 
 RDEPEND="
-	net-im/tox-core
+	net-libs/tox
 	sys-libs/ncurses[unicode]
-	audio? (
+	av? (
 		media-libs/openal
-		net-im/tox-core[opus]
-		)
+		net-libs/tox[av]
+	)
 "
 DEPEND="${RDEPEND}"
 
@@ -42,6 +42,5 @@ src_install() {
 	emake DESTDIR="${D}" install
 }
 pkg_postinst() {
-        elog "DHT node list is available via https://gist.github.com/Proplex/6124860"
-        elog "or in #tox @ irc.freenode.org"
+	elog "DHT node list is available in /usr/share/${PN}/DHTnodes"
 }

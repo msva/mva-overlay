@@ -1,9 +1,0 @@
---- src/libsodium/crypto_stream/salsa20/amd64_xmm6/stream_salsa20_amd64_xmm6.s.old	2013-08-04 04:38:52.622328420 +0200
-+++ src/libsodium/crypto_stream/salsa20/amd64_xmm6/stream_salsa20_amd64_xmm6.s	2013-08-04 04:38:52.622328420 +0200
-@@ -945,3 +945,6 @@
- jmp ._bytesbetween1and255
- 
- #endif
-+#if defined(__linux__) && defined(__ELF__)
-+.section .note.GNU-stack,"",%progbits
-+#endif

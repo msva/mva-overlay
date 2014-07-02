@@ -1,0 +1,16 @@
+description="DHT bootstrap daemon for Tox IM network"
+command="/usr/bin/tox_bootstrapd"
+command_args="/etc/tox/DHT_bootstrap.cfg"
+pidfile="/run/tox-dht.pid"
+start_stop_daemon_args="--user tox:tox --retry TERM/3/KILL/5
+user=tox
+
+depend() {
+	need net
+	use dns logger
+}
+
+stop_post() {
+	rm -f ${pidfile}
+}
+

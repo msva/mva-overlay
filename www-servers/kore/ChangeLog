@@ -1,4 +1,0 @@
-*kore-9999 (06 Jul 2013)
-
-  06 Jul 2013; Manuel Rüger <mrueg@gentoo.org> +kore-9999.ebuild, +metadata.xml:
-  www-servers/kore: Initial version

@@ -1,0 +1,12 @@
+diff -Naur a/config.rkt b/config.rkt
+--- a/config.rkt	2014-05-30 17:05:42.212974487 -0700
++++ b/config.rkt	2014-05-30 17:09:20.788966204 -0700
+@@ -26,7 +26,7 @@
+ ; location of sound directory (currently depends on running from same dir
+ ; change to /usr/share/blight/sounds (or something) once a proper
+ ; installer is to be had
+-(define sound-dir (build-path "sounds"))
++(define sound-dir (build-path "/usr/share/blight/sounds"))
+ ; list of sound files
+ (define sounds (list
+                 (build-path sound-dir "New Message.wav")

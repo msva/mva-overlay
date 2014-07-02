@@ -6,7 +6,7 @@ EAPI="5"
 
 EGIT_REPO_URI="https://github.com/nurupo/ProjectTox-Qt-GUI"
 
-inherit cmake-utils git-r3
+inherit qmake-utils git-r3
 
 DESCRIPTION="A front end for ProjectTox Core written in Qt5 and C++."
 HOMEPAGE="http://tox.im"
@@ -14,13 +14,14 @@ HOMEPAGE="http://tox.im"
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="-*"
-IUSE=""
+IUSE="nacl"
 
 RDEPEND="
 	net-im/tox-core
 	dev-qt/qtcore:5
 	dev-qt/qtdeclarative:5
 	dev-qt/qtwidgets:5
+	net-libs/tox[nacl=]
 "
 DEPEND="${RDEPEND}"
 
@@ -29,7 +30,7 @@ src_prepare() {
 }
 
 src_configure() {
-        eqmake5 projectfiles/QtCreator/TOX-Qt-GUI.pro
+	eqmake5 projectfiles/QtCreator/TOX-Qt-GUI.pro
 }
 
 src_install() {

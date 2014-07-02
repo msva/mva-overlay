@@ -1,0 +1,20 @@
+[Unit]
+Description=DHT bootstrap daemon for Tox IM network
+After=network.target
+RequiresOverridable=ntpd.service
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/conf.d/tox-bootstrap-daemon
+User=tox
+GuessMainPID=true
+ExecStart=/usr/bin/tox_bootstrapd /etc/tox/DHT_bootstrap.cfg
+SendSIGKILL=no
+ExecStop=/bin/kill -TERM $MAINPID
+ExecStopPost=/bin/rm -f /run/tox/tox-dht.pid
+SuccessExitStatus=0 2 3
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+

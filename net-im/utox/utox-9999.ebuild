@@ -14,17 +14,14 @@ HOMEPAGE="http://utox.org"
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
-IUSE="audio video"
+IUSE=""
 
 RDEPEND="
 	net-im/tox-core
-	audio? (
-		media-libs/openal
-		net-im/tox-core[opus]
-		)
-	video? (
-		media-libs/libv4l
-		)
+	media-libs/openal
+	net-libs/tox[av]
+	media-libs/libv4l
+	x11-libs/libX11
 "
 DEPEND="${RDEPEND}"
 
