@@ -17,7 +17,6 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	net-im/tox-core
 	media-libs/openal
 	net-libs/tox[av]
 	media-libs/libv4l
