@@ -21,7 +21,7 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.45"
+HTTP_PASSENGER_MODULE_PV="4.0.46"
 #HTTP_PASSENGER_MODULE_SHA="adcd8e1fd6f6ec9c320fe47e1b7fa55f791da402"
 #HTTP_PASSENGER_MODULE_PV="${HTTP_PASSENGER_MODULE_SHA}"
 #HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_PV}"
@@ -309,7 +309,7 @@ RRD_MODULE_WD="../${RRD_MODULE_P}"
 HTTP_STICKY_MODULE_PV="1.2.5"
 HTTP_STICKY_MODULE_P="nginx_http_sticky_module_ng-${HTTP_STICKY_MODULE_PV}"
 HTTP_STICKY_MODULE_URI="mirror://bitbucket/nginx-goodies/nginx-sticky-module-ng/get/${HTTP_STICKY_MODULE_PV}.tar.bz2"
-HTTP_STICKY_MODULE_WD="${WORKDIR}/nginx-goodies-nginx-sticky-module-ng-c825ea7c5c91"
+HTTP_STICKY_MODULE_WD="${WORKDIR}/nginx-goodies-nginx-sticky-module-ng-bd312d586752"
 
 # ajp-module (https://github.com/yaoweibin/nginx_ajp_module/tags, BSD-2)
 HTTP_AJP_MODULE_PV="0.3.0"
