@@ -9,7 +9,6 @@ dev-lua/resty-redis
 dev-lua/resty-upload
 dev-lua/resty-string
 dev-lua/resty-websocket
-dev-lua/iluajit
 dev-lua/resty-template
 dev-lua/resty-lrucache
 dev-lua/resty-core
