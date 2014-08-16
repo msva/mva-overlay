@@ -30,8 +30,8 @@ src_prepare() {
 	local lua=luajit;
 
 	sed -r \
-		-e "1,6s#(PREFIX).*#\1=/usr#" \
-		-e "1,6s#(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})#" \
-		-e "1,6s#(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
+		-e "s#^(PREFIX).*#\1=/usr#" \
+		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})#" \
+		-e "s#^(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
 		-i Makefile
 }
