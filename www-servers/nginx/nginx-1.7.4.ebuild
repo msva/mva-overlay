@@ -15,7 +15,7 @@ EAPI="5"
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="jruby ruby18 ruby19 ruby20 ruby21"
+USE_RUBY="jruby ruby19 ruby20 ruby21"
 RUBY_OPTIONAL="yes"
 
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
@@ -44,8 +44,8 @@ HTTP_PAGESPEED_PSOL_P="${HTTP_PAGESPEED_PSOL_PN}-${HTTP_PAGESPEED_PSOL_PV}"
 HTTP_PAGESPEED_PSOL_URI="https://dl.google.com/dl/page-speed/${HTTP_PAGESPEED_PSOL_PN}/${HTTP_PAGESPEED_PSOL_PV}.tar.gz"
 HTTP_PAGESPEED_PSOL_WD="../${HTTP_PAGESPEED_PSOL_PN}"
 
-# http_hls_audio (https://github.com/globocom/nginx-audio-track-for-hls-module/tags, BSD-2 license)
-HTTP_HLS_AUDIO_MODULE_A="globocom"
+# http_hls_audio (https://github.com/flavioribeiro/nginx-audio-track-for-hls-module/tags, BSD-2 license)
+HTTP_HLS_AUDIO_MODULE_A="flavioribeiro"
 HTTP_HLS_AUDIO_MODULE_PN="nginx-audio-track-for-hls-module"
 HTTP_HLS_AUDIO_MODULE_PV="0.2"
 HTTP_HLS_AUDIO_MODULE_P="${HTTP_HLS_AUDIO_MODULE_PN}-${HTTP_HLS_AUDIO_MODULE_PV}"
@@ -60,16 +60,16 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="${HTTP_UPLOAD_PROGRESS_MODULE_PN}-${HTTP_UPLOAD_P
 HTTP_UPLOAD_PROGRESS_MODULE_URI="https://github.com/${HTTP_UPLOAD_PROGRESS_MODULE_A}/${HTTP_UPLOAD_PROGRESS_MODULE_PN}/archive/v${HTTP_UPLOAD_PROGRESS_MODULE_PV}.tar.gz"
 HTTP_UPLOAD_PROGRESS_MODULE_WD="../${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 
-# http_headers_more (https://github.com/agentzh/headers-more-nginx-module/tags, BSD license)
-HTTP_HEADERS_MORE_MODULE_A="agentzh"
+# http_headers_more (https://github.com/openresty/headers-more-nginx-module/tags, BSD license)
+HTTP_HEADERS_MORE_MODULE_A="openresty"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
 HTTP_HEADERS_MORE_MODULE_PV="0.25"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="../${HTTP_HEADERS_MORE_MODULE_P}"
 
-# http_encrypted_session (https://github.com/agentzh/encrypted-session-nginx-module/tags, BSD license)
-HTTP_ENCRYPTED_SESSION_MODULE_A="agentzh"
+# http_encrypted_session (https://github.com/openresty/encrypted-session-nginx-module/tags, BSD license)
+HTTP_ENCRYPTED_SESSION_MODULE_A="openresty"
 HTTP_ENCRYPTED_SESSION_MODULE_PN="encrypted-session-nginx-module"
 HTTP_ENCRYPTED_SESSION_MODULE_PV="0.03"
 HTTP_ENCRYPTED_SESSION_MODULE_P="${HTTP_ENCRYPTED_SESSION_MODULE_PN}-${HTTP_ENCRYPTED_SESSION_MODULE_PV}"
@@ -115,7 +115,7 @@ HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_P
 HTTP_NDK_MODULE_WD="../${HTTP_NDK_MODULE_P}"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module/tags, BSD)
-HTTP_LUA_MODULE_A="chaoslawful"
+HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
 HTTP_LUA_MODULE_PV="0.9.10"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_PV}"
@@ -123,7 +123,7 @@ HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_P
 HTTP_LUA_MODULE_WD="../${HTTP_LUA_MODULE_P}"
 
 # NginX Lua module (https://github.com/chaoslawful/drizzle-nginx-module/tags, BSD)
-HTTP_DRIZZLE_MODULE_A="chaoslawful"
+HTTP_DRIZZLE_MODULE_A="openresty"
 HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
 HTTP_DRIZZLE_MODULE_PV="0.1.7"
 HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_PV}"
@@ -138,69 +138,85 @@ HTTP_FORM_INPUT_MODULE_P="${HTTP_FORM_INPUT_MODULE_PN}-${HTTP_FORM_INPUT_MODULE_
 HTTP_FORM_INPUT_MODULE_URI="https://github.com/${HTTP_FORM_INPUT_MODULE_A}/${HTTP_FORM_INPUT_MODULE_PN}/archive/v${HTTP_FORM_INPUT_MODULE_PV}.tar.gz"
 HTTP_FORM_INPUT_MODULE_WD="../${HTTP_FORM_INPUT_MODULE_P}"
 
-# NginX echo module (https://github.com/agentzh/echo-nginx-module/tags, BSD)
-HTTP_ECHO_MODULE_A="agentzh"
+# NginX echo module (https://github.com/openresty/echo-nginx-module/tags, BSD)
+HTTP_ECHO_MODULE_A="openresty"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
 HTTP_ECHO_MODULE_PV="0.54"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="../${HTTP_ECHO_MODULE_P}"
 
-# NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module/tags, BSD)
-HTTP_MEMC_MODULE_A="agentzh"
+# NginX Featured mecached module (https://github.com/openresty/memc-nginx-module/tags, BSD)
+HTTP_MEMC_MODULE_A="openresty"
 HTTP_MEMC_MODULE_PN="memc-nginx-module"
 HTTP_MEMC_MODULE_PV="0.15"
 HTTP_MEMC_MODULE_P="${HTTP_MEMC_MODULE_PN}-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_URI="https://github.com/${HTTP_MEMC_MODULE_A}/${HTTP_MEMC_MODULE_PN}/archive/v${HTTP_MEMC_MODULE_PV}.tar.gz"
 HTTP_MEMC_MODULE_WD="../${HTTP_MEMC_MODULE_P}"
 
-# NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module/tags, BSD)
-HTTP_RDS_JSON_MODULE_A="agentzh"
+# NginX RDS-JSON module (https://github.com/openresty/rds-json-nginx-module/tags, BSD)
+HTTP_RDS_JSON_MODULE_A="openresty"
 HTTP_RDS_JSON_MODULE_PN="rds-json-nginx-module"
 HTTP_RDS_JSON_MODULE_PV="0.13"
 HTTP_RDS_JSON_MODULE_P="${HTTP_RDS_JSON_MODULE_PN}-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_URI="https://github.com/${HTTP_RDS_JSON_MODULE_A}/${HTTP_RDS_JSON_MODULE_PN}/archive/v${HTTP_RDS_JSON_MODULE_PV}.tar.gz"
 HTTP_RDS_JSON_MODULE_WD="../${HTTP_RDS_JSON_MODULE_P}"
 
-# NginX RDS-CSV module (https://github.com/agentzh/rds-csv-nginx-module/tags, BSD)
-HTTP_RDS_CSV_MODULE_A="agentzh"
+# NginX RDS-CSV module (https://github.com/openresty/rds-csv-nginx-module/tags, BSD)
+HTTP_RDS_CSV_MODULE_A="openresty"
 HTTP_RDS_CSV_MODULE_PN="rds-csv-nginx-module"
 HTTP_RDS_CSV_MODULE_PV="0.05"
 HTTP_RDS_CSV_MODULE_P="${HTTP_RDS_CSV_MODULE_PN}-${HTTP_RDS_CSV_MODULE_PV}"
 HTTP_RDS_CSV_MODULE_URI="https://github.com/${HTTP_RDS_CSV_MODULE_A}/${HTTP_RDS_CSV_MODULE_PN}/archive/v${HTTP_RDS_CSV_MODULE_PV}.tar.gz"
 HTTP_RDS_CSV_MODULE_WD="../${HTTP_RDS_CSV_MODULE_P}"
 
-# NginX SRCache module (https://github.com/agentzh/srcache-nginx-module/tags, BSD)
-HTTP_SRCACHE_MODULE_A="agentzh"
+# NginX SRCache module (https://github.com/openresty/srcache-nginx-module/tags, BSD)
+HTTP_SRCACHE_MODULE_A="openresty"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
 HTTP_SRCACHE_MODULE_PV="0.28"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/v${HTTP_SRCACHE_MODULE_PV}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="../${HTTP_SRCACHE_MODULE_P}"
 
-# NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module/tags, BSD)
-HTTP_SET_MISC_MODULE_A="agentzh"
+# NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module/tags, BSD)
+HTTP_SET_MISC_MODULE_A="openresty"
 HTTP_SET_MISC_MODULE_PN="set-misc-nginx-module"
 HTTP_SET_MISC_MODULE_PV="0.24"
 HTTP_SET_MISC_MODULE_P="${HTTP_SET_MISC_MODULE_PN}-${HTTP_SET_MISC_MODULE_PV}"
 HTTP_SET_MISC_MODULE_URI="https://github.com/${HTTP_SET_MISC_MODULE_A}/${HTTP_SET_MISC_MODULE_PN}/archive/v${HTTP_SET_MISC_MODULE_PV}.tar.gz"
 HTTP_SET_MISC_MODULE_WD="../${HTTP_SET_MISC_MODULE_P}"
 
-# NginX XSS module (https://github.com/agentzh/xss-nginx-module/tags, BSD)
-HTTP_XSS_MODULE_A="agentzh"
+# NginX XSS module (https://github.com/openresty/xss-nginx-module/tags, BSD)
+HTTP_XSS_MODULE_A="openresty"
 HTTP_XSS_MODULE_PN="xss-nginx-module"
 HTTP_XSS_MODULE_PV="0.04"
 HTTP_XSS_MODULE_P="${HTTP_XSS_MODULE_PN}-${HTTP_XSS_MODULE_PV}"
 HTTP_XSS_MODULE_URI="https://github.com/${HTTP_XSS_MODULE_A}/${HTTP_XSS_MODULE_PN}/archive/v${HTTP_XSS_MODULE_PV}.tar.gz"
 HTTP_XSS_MODULE_WD="../${HTTP_XSS_MODULE_P}"
 
-# NginX Array-Var module (https://github.com/agentzh/array-var-nginx-module/tags, BSD)
-HTTP_ARRAY_VAR_MODULE_A="agentzh"
+# NginX Array-Var module (https://github.com/openresty/array-var-nginx-module/tags, BSD)
+HTTP_ARRAY_VAR_MODULE_A="openresty"
 HTTP_ARRAY_VAR_MODULE_PN="array-var-nginx-module"
 HTTP_ARRAY_VAR_MODULE_PV="0.03"
 HTTP_ARRAY_VAR_MODULE_P="${HTTP_ARRAY_VAR_MODULE_PN}-${HTTP_ARRAY_VAR_MODULE_PV}"
 HTTP_ARRAY_VAR_MODULE_URI="https://github.com/${HTTP_ARRAY_VAR_MODULE_A}/${HTTP_ARRAY_VAR_MODULE_PN}/archive/v${HTTP_ARRAY_VAR_MODULE_PV}.tar.gz"
 HTTP_ARRAY_VAR_MODULE_WD="../${HTTP_ARRAY_VAR_MODULE_P}"
+
+# NginX Lua-Upstream module (https://github.com/openresty/lua-upstream-nginx-module/tags, BSD)
+HTTP_LUA_UPSTREAM_MODULE_A="openresty"
+HTTP_LUA_UPSTREAM_MODULE_PN="lua-upstream-nginx-module"
+HTTP_LUA_UPSTREAM_MODULE_PV="0.02"
+HTTP_LUA_UPSTREAM_MODULE_P="${HTTP_LUA_UPSTREAM_MODULE_PN}-${HTTP_LUA_UPSTREAM_MODULE_PV}"
+HTTP_LUA_UPSTREAM_MODULE_URI="https://github.com/${HTTP_LUA_UPSTREAM_MODULE_A}/${HTTP_LUA_UPSTREAM_MODULE_PN}/archive/v${HTTP_LUA_UPSTREAM_MODULE_PV}.tar.gz"
+HTTP_LUA_UPSTREAM_MODULE_WD="../${HTTP_LUA_UPSTREAM_MODULE_P}"
+
+# NginX replace filter module (https://github.com/openresty/replace-filter-nginx-module/tags, BSD)
+HTTP_REPLACE_FILTER_MODULE_A="openresty"
+HTTP_REPLACE_FILTER_MODULE_PN="replace-filter-nginx-module"
+HTTP_REPLACE_FILTER_MODULE_PV="0.01rc5"
+HTTP_REPLACE_FILTER_MODULE_P="${HTTP_REPLACE_FILTER_MODULE_PN}-${HTTP_REPLACE_FILTER_MODULE_PV}"
+HTTP_REPLACE_FILTER_MODULE_URI="https://github.com/${HTTP_REPLACE_FILTER_MODULE_A}/${HTTP_REPLACE_FILTER_MODULE_PN}/archive/v${HTTP_REPLACE_FILTER_MODULE_PV}.tar.gz"
+HTTP_REPLACE_FILTER_MODULE_WD="../${HTTP_REPLACE_FILTER_MODULE_P}"
 
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module/tags, BSD)
 HTTP_ICONV_MODULE_A="calio"
@@ -213,7 +229,7 @@ HTTP_ICONV_MODULE_WD="../${HTTP_ICONV_MODULE_P}"
 # NginX postgres module (https://github.com/FRiCKLE/ngx_postgres/tags, BSD-2)
 HTTP_POSTGRES_MODULE_A="FRiCKLE"
 HTTP_POSTGRES_MODULE_PN="ngx_postgres"
-HTTP_POSTGRES_MODULE_PV="1.0rc3"
+HTTP_POSTGRES_MODULE_PV="1.0rc4"
 HTTP_POSTGRES_MODULE_P="${HTTP_POSTGRES_MODULE_PN}-${HTTP_POSTGRES_MODULE_PV}"
 HTTP_POSTGRES_MODULE_URI="https://github.com/${HTTP_POSTGRES_MODULE_A}/${HTTP_POSTGRES_MODULE_PN}/archive/${HTTP_POSTGRES_MODULE_PV}.tar.gz"
 HTTP_POSTGRES_MODULE_WD="../${HTTP_POSTGRES_MODULE_P}"
@@ -338,6 +354,8 @@ SRC_URI="
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
+	nginx_modules_http_lua_upstream? ( ${HTTP_LUA_UPSTREAM_MODULE_URI} -> ${HTTP_LUA_UPSTREAM_MODULE_P}.tar.gz )
+	nginx_modules_http_replace_filter? ( ${HTTP_REPLACE_FILTER_MODULE_URI} -> ${HTTP_REPLACE_FILTER_MODULE_P}.tar.gz )
 	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( ${HTTP_FORM_INPUT_MODULE_URI} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
 	nginx_modules_http_echo? ( ${HTTP_ECHO_MODULE_URI} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
@@ -396,6 +414,8 @@ NGINX_MODULES_3RD="
 	http_slowfs_cache
 	http_ndk
 	http_lua
+	http_lua_upstream
+	http_replace_filter
 	http_form_input
 	http_echo
 	http_memc
@@ -427,6 +447,7 @@ NGINX_MODULES_3RD="
 
 REQUIRED_USE="
 		nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
+		nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
 		nginx_modules_http_rds_json? ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
 		nginx_modules_http_rds_csv?  ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
@@ -482,6 +503,7 @@ CDEPEND="
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5 ) )
+	nginx_modules_http_replace_filter? ( dev-libs/sregex )
 	nginx_modules_http_metrics? ( dev-libs/yajl )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_hls_audio? ( >=media-video/ffmpeg-2 )
@@ -495,7 +517,6 @@ CDEPEND="
 
 	nginx_modules_http_passenger? (
 		|| (
-			$(ruby_implementation_depend ruby18)
 			$(ruby_implementation_depend ruby19)
 			$(ruby_implementation_depend ruby20)
 			$(ruby_implementation_depend ruby21)
@@ -687,6 +708,18 @@ src_configure() {
 			export LUA_INC=$(pkg-config --variable includedir lua)
 		fi
 		myconf+=" --add-module=${HTTP_LUA_MODULE_WD}"
+	fi
+
+# (**) http_lua_upstream
+	if use nginx_modules_http_lua_upstream; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_LUA_UPSTREAM_MODULE_WD}"
+	fi
+
+# (**) http_replace_filter
+	if use nginx_modules_http_replace_filter; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_REPLACE_FILTER_MODULE_WD}"
 	fi
 
 # (**) http_encrypted_session
@@ -1082,6 +1115,18 @@ src_install() {
 	if use nginx_modules_http_lua; then
 		docinto "${HTTP_LUA_MODULE_P}"
 		dodoc "${HTTP_LUA_MODULE_WD}"/{Changes,README.markdown}
+	fi
+
+# http_lua_upstream
+	if use nginx_modules_http_lua_upstream; then
+		docinto "${HTTP_LUA_UPSTREAM_MODULE_P}"
+		dodoc "${HTTP_LUA_UPSTREAM_MODULE_WD}"/README.md
+	fi
+
+# http_lua
+	if use nginx_modules_http_replace_filter; then
+		docinto "${HTTP_REPLACE_FILTER_MODULE_P}"
+		dodoc "${HTTP_REPLACE_FILTER_MODULE_WD}"/README.markdown
 	fi
 
 # http_form_input
