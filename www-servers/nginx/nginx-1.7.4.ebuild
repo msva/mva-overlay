@@ -980,7 +980,7 @@ src_configure() {
 		cd "${S}"
 	fi
 
-	econf \
+	./configure \
 		--prefix="${EPREFIX}/usr" \
 		--conf-path="${EPREFIX}/etc/${PN}/${PN}.conf" \
 		--error-log-path="${EPREFIX}/var/log/${PN}/error.log" \
