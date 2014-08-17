@@ -32,7 +32,7 @@ src_prepare() {
 
 	sed -r \
 		-e "s#^(PREFIX).*#\1=/usr#" \
-		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})#" \
+		-e "s#^(LUA_LIB_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})#" \
 		-e "s#^(LUA_INCLUDE_DIR).*#\1=$($(tc-getPKG_CONFIG) --variable includedir ${lua})#" \
 		-i Makefile
 }
