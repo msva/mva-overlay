@@ -303,12 +303,12 @@ RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_SHA:-${RTMP_MODULE_PV}}"
 RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/${RTMP_MODULE_SHA:-v${RTMP_MODULE_PV}}.tar.gz"
 RTMP_MODULE_WD="../${RTMP_MODULE_P}"
 
-# mod_security for nginx (https://modsecurity.org/, Apache-2.0)
-# keep the MODULE_P here consistent with upstream to avoid tarball duplication
-HTTP_SECURITY_MODULE_PN="modsecurity-apache"
+# mod_security for nginx (https://github.com/SpiderLabs/ModSecurity/tags, Apache-2.0)
+HTTP_SECURITY_MODULE_A="SpiderLabs"
+HTTP_SECURITY_MODULE_PN="ModSecurity"
 HTTP_SECURITY_MODULE_PV="2.8.0"
-HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}_${HTTP_SECURITY_MODULE_PV}"
-HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
+HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
+HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
 HTTP_SECURITY_MODULE_WD="../${HTTP_SECURITY_MODULE_P}"
 
 # http_auth_pam (http://web.iti.upv.es/~sto/nginx/, BSD-2 license)
@@ -396,7 +396,7 @@ SRC_URI="
 	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
 	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
-	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.bz2 )
+	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.gz )
 	nginx_modules_http_ajp? ( ${HTTP_AJP_MODULE_URI} -> ${HTTP_AJP_MODULE_P}.tar.gz )
 	nginx_modules_http_mogilefs? ( ${HTTP_MOGILEFS_MODULE_URI} -> ${HTTP_MOGILEFS_MODULE_P}.tar.gz )
 "
@@ -542,6 +542,7 @@ CDEPEND="
 		!!www-apache/passenger
 	)
 "
+
 #	nginx_modules_http_pagespeed? ( dev-libs/psol )
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
@@ -652,7 +653,7 @@ src_prepare() {
 	epatch_user
 
 	if use nginx_modules_http_passenger; then
-		cd ../"${HTTP_PASSENGER_MODULE_P}";
+		cd "${HTTP_PASSENGER_MODULE_WD}";
 		_ruby_each_implementation passenger_premake
 	fi
 }
@@ -965,7 +966,21 @@ src_configure() {
 		myconf+=" --user=${HTTPD_USER:-$PN} --group=${HTTPD_GROUP:-$PN}"
 	fi
 
-	./configure \
+	if use nginx_modules_http_security; then
+		cd "${HTTP_SECURITY_MODULE_WD}"
+		./autogen.sh
+		econf \
+			--enable-standalone-module \
+			--enable-extentions \
+			--enable-request-early \
+			--disable-apache2-module \
+			$(use_enable pcre-jit) \
+			$(use_enable pcre-jit pcre-study) \
+			$(use_enable nginx_modules_http_lua lua-cache) || die "configure failed for mod_security"
+		cd "${S}"
+	fi
+
+	econf \
 		--prefix="${EPREFIX}/usr" \
 		--conf-path="${EPREFIX}/etc/${PN}/${PN}.conf" \
 		--error-log-path="${EPREFIX}/var/log/${PN}/error.log" \
@@ -980,22 +995,13 @@ src_configure() {
 		--http-scgi-temp-path="${EPREFIX}/var/tmp/${PN}/scgi" \
 		--http-uwsgi-temp-path="${EPREFIX}/var/tmp/${PN}/uwsgi" \
 		${myconf} || die "configure failed"
-
-	if use nginx_modules_http_security; then
-		cd "${HTTP_SECURITY_MODULE_WD}"
-		./configure \
-			--enable-standalone-module \
-			$(use_enable pcre-jit) \
-			$(use_with nginx_modules_http_lua lua) || die "configure failed for mod_security"
-		cd "${S}"
-	fi
 }
 
 src_compile() {
 	cd "${S}"
-	use nginx_modules_http_security && emake -C "${HTTP_SECURITY_MODULE_WD}"
 	# https://bugs.gentoo.org/286772
 	export LANG=C LC_ALL=C
+	use nginx_modules_http_security && emake -C "${HTTP_SECURITY_MODULE_WD}"
 	emake LINK="${CC} ${LDFLAGS}" OTHERLDFLAGS="${LDFLAGS}" || die "emake failed"
 }
 
