@@ -4,15 +4,15 @@
 
 EAPI="5"
 
-if [ "$PV" != "9999" ]; then
-	SRC_URI="https://github.com/calmh/${PN}/archive/v${PV}.tar.gz"
-	KEYWORDS="~amd64 ~x86 ~arm ~darwin ~winnt ~fbsd"
-else
+#if [ "$PV" != "9999" ]; then
+#	SRC_URI="https://github.com/calmh/${PN}/archive/v${PV}.tar.gz"
+#	KEYWORDS="~amd64 ~x86 ~arm ~darwin ~winnt ~fbsd"
+#else
 	vcs="git-r3"
 	SRC_URI=""
-	EGIT_REPO_URI="https://github.com/calmh/${PN}"
+	EGIT_REPO_URI="https://github.com/syncthing/${PN}"
 	KEYWORDS=""
-fi
+#fi
 
 inherit eutils base ${vcs}
 
@@ -34,23 +34,17 @@ DOCS=( README.md CONTRIBUTORS LICENSE CONTRIBUTING.md )
 
 export GOPATH="${S}"
 
-GO_PN="github.com/calmh/${PN}"
+GO_PN="github.com/syncthing/${PN}"
 EGIT_CHECKOUT_DIR="${S}/src/${GO_PN}"
 S="${EGIT_CHECKOUT_DIR}"
 
 src_prepare() {
-	ewarn "Sorry, but now we'll cut off 'upgrade' command from the syncthing"
-	ewarn "We're not a Windows©®™ and we can't trust selfupgrades from precompiled binaries"
-
-#	cd "${EGIT_CHECKOUT_DIR}"
-	epatch "${FILESDIR}"/0.8.14_no_bin_upgrades.patch
-#	rm "${EGIT_CHECKOUT_DIR}/cmd/syncthing/upgrade.go"
-	rm cmd/syncthing/upgrade.go
+	ewarn "Please, do NOT use upgrade-mechanism, integradted in this software"
+	ewarn "We can't trust selfupgrades from precompiled binaries"
+	ewarn "That's why we will not provide any support for binary-upgraded installation."
 }
 
 src_compile() {
-#	cd ${EGIT_CHECKOUT_DIR}
-
 	# XXX: All the stuff below needs for "-version" command to show actual info
 	local version="$(git describe --always)";
 	local date="$(git show -s --format=%ct)";
@@ -58,7 +52,6 @@ src_compile() {
 	local host="$(hostname)"; host="${host%%.*}";
 	local lf="-w -X main.Version ${version} -X main.BuildStamp ${date} -X main.BuildUser ${user} -X main.BuildHost ${host}"
 
-#	go vet ./...
 	godep go build -ldflags "${lf}" ./cmd/syncthing
 
 	use tools && (
@@ -69,8 +62,6 @@ src_compile() {
 }
 
 src_install() {
-#	cd ${EGIT_CHECKOUT_DIR}
-
 	dobin syncthing
 	use tools && dobin stcli stpidx discosrv
 	base_src_install_docs
