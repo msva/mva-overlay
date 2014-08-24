@@ -52,6 +52,7 @@ multilib_src_configure() {
 		$(use_with nacl nacl-libs /usr/$(get_libdir)/nacl)
 		$(use_enable logging)
 		$(use_enable static-libs static)
+		--with-pic
 		--disable-ntox
 		--disable-daemon
 	)
