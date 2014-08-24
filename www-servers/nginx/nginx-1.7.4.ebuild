@@ -526,7 +526,6 @@ CDEPEND="
 	nginx_modules_http_security? (
 		>=dev-libs/libxml2-2.7.8
 		dev-libs/apr-util
-		www-servers/apache
 	)
 	perftools? ( dev-util/google-perftools )
 	rrd? ( >=net-analyzer/rrdtool-1.3.8 )
@@ -548,6 +547,9 @@ RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )
+	nginx_modules_http_security? (
+		www-servers/apache
+	)
 "
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
@@ -974,6 +976,7 @@ src_configure() {
 			--enable-extentions \
 			--enable-request-early \
 			--disable-apache2-module \
+			--disable-errors \
 			$(use_enable pcre-jit) \
 			$(use_enable pcre-jit pcre-study) \
 			$(use_enable nginx_modules_http_lua lua-cache) || die "configure failed for mod_security"
