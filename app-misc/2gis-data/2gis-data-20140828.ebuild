@@ -38,6 +38,7 @@ my_add_town() {
 # RU
 
 my_add_town Abakan				2012 6  # Абакан
+#my_add_town Almetyevsk			2014 8  # Альметьевск
 my_add_town Arkhangelsk			2011 8  # Архангельск
 my_add_town Armawir				2014 3  # Армавир
 my_add_town Astrakhan			2005 11 # Астрахань
@@ -84,6 +85,7 @@ my_add_town Lipetsk				2011 11 # Липецк
 my_add_town Magnitogorsk		2010 4  # Магнитогорск
 my_add_town Miass				2013 2  # Миасс
 my_add_town Moscow				2011 4  # Москва
+my_add_town Murmansk			2014 7  # Мурманск
 
 my_add_town Nabchelny			2010 6  # Набережные Челны
 my_add_town Nahodka				2013 2  # Находка
@@ -103,6 +105,7 @@ my_add_town Orenburg			2011 7  # Оренбург
 my_add_town Penza				2011 4  # Пенза
 my_add_town Perm				2007 12 # Пермь
 my_add_town Petrozavodsk		2012 10 # Петрозаводск
+my_add_town P_kamchatskiy		2014 6  # Петропавловск-Камчатский
 my_add_town Pskov				2013 4  # Псков
 my_add_town Minvody				2013 4  # Пятигорск (КМВ)
 
@@ -148,7 +151,7 @@ my_add_town Yaroslavl			2010 6  # Ярославль
 # UA (Ukraine)
 my_add_town Donetsk				2012 11 # Донецк
 my_add_town Odessa				2007 2  # Одесса
-#my_add_town Dnepropetrovsk		2014 4  # Днепропетровск
+my_add_town Dnepropetrovsk		2014 4  # Днепропетровск
 
 # KZ (Kazakhstan)
 my_add_town Almaty				2012 4  # Алматы
@@ -157,7 +160,7 @@ my_add_town Ustkam				2013 5  # Усть-Каменогорск
 
 # CY (Cyprus)
 my_add_town Limassol			2013 6 "_en" # Lemessos
-my_add_town Nicosia				2014 1 "_en" # Lemessos
+my_add_town Nicosia				2014 1 "_en" # Lefkosia
 
 # CZ (Czech)
 my_add_town Praha				2013 10 "_cs" # Praha
@@ -167,6 +170,9 @@ my_add_town Padova				2012 4 "_it" # Venezzia è Padova
 
 # CL (Chile)
 my_add_town Santiago			2014 3 "_es" # Santiago
+
+# AE (UAE)
+my_add_town Dubai				2014 7 "_en" # Dubai
 
 
 src_prepare() {
