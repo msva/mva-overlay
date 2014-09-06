@@ -1342,7 +1342,7 @@ pkg_postinst() {
 	local fix_perms=0
 
 	for rv in ${REPLACING_VERSIONS} ; do
-		version_compare ${rv} 1.4.1-r2
+		version_compare ${rv} 1.7.5
 		[[ $? -eq 1 ]] && fix_perms=1
 	done
 
