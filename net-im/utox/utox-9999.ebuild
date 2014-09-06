@@ -25,6 +25,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
-	emake DESTDIR="${D}/usr" install
+	emake DESTDIR="${D}" PREFIX="/usr" install
 }
 
