@@ -995,11 +995,11 @@ src_configure() {
 		--with-cc-opt="-I${EROOT}usr/include" \
 		--with-ld-opt="-L${EROOT}usr/$(get_libdir)" \
 		--http-log-path="${EPREFIX}/var/log/${PN}/access.log" \
-		--http-client-body-temp-path="${EPREFIX}/${NGINX_HOME_TMP}/client" \
-		--http-proxy-temp-path="${EPREFIX}/${NGINX_HOME_TMP}/proxy" \
-		--http-fastcgi-temp-path="${EPREFIX}/${NGINX_HOME_TMP}/fastcgi" \
-		--http-scgi-temp-path="${EPREFIX}/${NGINX_HOME_TMP}/scgi" \
-		--http-uwsgi-temp-path="${EPREFIX}/${NGINX_HOME_TMP}/uwsgi" \
+		--http-client-body-temp-path="${EPREFIX}${NGINX_HOME_TMP}/client" \
+		--http-proxy-temp-path="${EPREFIX}${NGINX_HOME_TMP}/proxy" \
+		--http-fastcgi-temp-path="${EPREFIX}${NGINX_HOME_TMP}/fastcgi" \
+		--http-scgi-temp-path="${EPREFIX}${NGINX_HOME_TMP}/scgi" \
+		--http-uwsgi-temp-path="${EPREFIX}${NGINX_HOME_TMP}/uwsgi" \
 		${myconf} || die "configure failed"
 
 
