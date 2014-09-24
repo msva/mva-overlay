@@ -46,7 +46,7 @@ src_prepare() {
 
 src_compile() {
 	# XXX: All the stuff below needs for "-version" command to show actual info
-	local version="$(git describe --always)";
+	local version="$(git describe --always | sed 's/-/+/')";
 	local date="$(git show -s --format=%ct)";
 	local user="$(whoami)"
 	local host="$(hostname)"; host="${host%%.*}";
