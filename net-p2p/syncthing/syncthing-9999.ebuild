@@ -38,12 +38,6 @@ GO_PN="github.com/syncthing/${PN}"
 EGIT_CHECKOUT_DIR="${S}/src/${GO_PN}"
 S="${EGIT_CHECKOUT_DIR}"
 
-src_prepare() {
-	ewarn "Please, do NOT use upgrade-mechanism, integradted in this software"
-	ewarn "We can't trust selfupgrades from precompiled binaries"
-	ewarn "That's why we will not provide any support for binary-upgraded installation."
-}
-
 src_compile() {
 	# XXX: All the stuff below needs for "-version" command to show actual info
 	local version="$(git describe --always | sed 's/-/+/')";
@@ -52,7 +46,7 @@ src_compile() {
 	local host="$(hostname)"; host="${host%%.*}";
 	local lf="-w -X main.Version ${version} -X main.BuildStamp ${date} -X main.BuildUser ${user} -X main.BuildHost ${host}"
 
-	godep go build -ldflags "${lf}" ./cmd/syncthing
+	godep go build -ldflags "${lf}" -tags noupgrade ./cmd/syncthing
 
 	use tools && (
 		godep go build ./cmd/stcli
