@@ -21,7 +21,7 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="4.0.48"
+HTTP_PASSENGER_MODULE_PV="4.0.52"
 #HTTP_PASSENGER_MODULE_SHA="adcd8e1fd6f6ec9c320fe47e1b7fa55f791da402"
 #HTTP_PASSENGER_MODULE_PV="${HTTP_PASSENGER_MODULE_SHA}"
 #HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-${HTTP_PASSENGER_MODULE_PV}}"
@@ -33,13 +33,13 @@ HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}/ext/nginx"
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2 license)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
-HTTP_PAGESPEED_MODULE_PV="1.8.31.4-beta"
+HTTP_PAGESPEED_MODULE_PV="1.9.32.1-beta"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
 
 HTTP_PAGESPEED_PSOL_PN="psol"
-HTTP_PAGESPEED_PSOL_PV="1.8.31.4"
+HTTP_PAGESPEED_PSOL_PV="1.9.32.1"
 HTTP_PAGESPEED_PSOL_P="${HTTP_PAGESPEED_PSOL_PN}-${HTTP_PAGESPEED_PSOL_SHA:-${HTTP_PAGESPEED_PSOL_PV}}"
 HTTP_PAGESPEED_PSOL_URI="https://dl.google.com/dl/page-speed/${HTTP_PAGESPEED_PSOL_PN}/${HTTP_PAGESPEED_PSOL_PV}.tar.gz"
 HTTP_PAGESPEED_PSOL_WD="../${HTTP_PAGESPEED_PSOL_PN}"
@@ -117,7 +117,7 @@ HTTP_NDK_MODULE_WD="${WORKDIR}/${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.11"
+HTTP_LUA_MODULE_PV="0.9.12"
 #HTTP_LUA_MODULE_SHA="4c19852c0ded24c367092728a79303525756291e"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -134,7 +134,7 @@ HTTP_DRIZZLE_MODULE_WD="${WORKDIR}/${HTTP_DRIZZLE_MODULE_P}"
 # NginX form-input module (https://github.com/calio/form-input-nginx-module/tags, BSD)
 HTTP_FORM_INPUT_MODULE_A="calio"
 HTTP_FORM_INPUT_MODULE_PN="form-input-nginx-module"
-HTTP_FORM_INPUT_MODULE_PV="0.09"
+HTTP_FORM_INPUT_MODULE_PV="0.10"
 HTTP_FORM_INPUT_MODULE_P="${HTTP_FORM_INPUT_MODULE_PN}-${HTTP_FORM_INPUT_MODULE_SHA:-${HTTP_FORM_INPUT_MODULE_PV}}"
 HTTP_FORM_INPUT_MODULE_URI="https://github.com/${HTTP_FORM_INPUT_MODULE_A}/${HTTP_FORM_INPUT_MODULE_PN}/archive/${HTTP_FORM_INPUT_MODULE_SHA:-v${HTTP_FORM_INPUT_MODULE_PV}}.tar.gz"
 HTTP_FORM_INPUT_MODULE_WD="${WORKDIR}/${HTTP_FORM_INPUT_MODULE_P}"
@@ -142,7 +142,7 @@ HTTP_FORM_INPUT_MODULE_WD="${WORKDIR}/${HTTP_FORM_INPUT_MODULE_P}"
 # NginX echo module (https://github.com/openresty/echo-nginx-module/tags, BSD)
 HTTP_ECHO_MODULE_A="openresty"
 HTTP_ECHO_MODULE_PN="echo-nginx-module"
-HTTP_ECHO_MODULE_PV="0.54"
+HTTP_ECHO_MODULE_PV="0.56"
 HTTP_ECHO_MODULE_P="${HTTP_ECHO_MODULE_PN}-${HTTP_ECHO_MODULE_SHA:-${HTTP_ECHO_MODULE_PV}}"
 HTTP_ECHO_MODULE_URI="https://github.com/${HTTP_ECHO_MODULE_A}/${HTTP_ECHO_MODULE_PN}/archive/${HTTP_ECHO_MODULE_SHA:-v${HTTP_ECHO_MODULE_PV}}.tar.gz"
 HTTP_ECHO_MODULE_WD="${WORKDIR}/${HTTP_ECHO_MODULE_P}"
@@ -182,7 +182,7 @@ HTTP_SRCACHE_MODULE_WD="${WORKDIR}/${HTTP_SRCACHE_MODULE_P}"
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module/tags, BSD)
 HTTP_SET_MISC_MODULE_A="openresty"
 HTTP_SET_MISC_MODULE_PN="set-misc-nginx-module"
-HTTP_SET_MISC_MODULE_PV="0.24"
+HTTP_SET_MISC_MODULE_PV="0.26"
 HTTP_SET_MISC_MODULE_P="${HTTP_SET_MISC_MODULE_PN}-${HTTP_SET_MISC_MODULE_SHA:-${HTTP_SET_MISC_MODULE_PV}}"
 HTTP_SET_MISC_MODULE_URI="https://github.com/${HTTP_SET_MISC_MODULE_A}/${HTTP_SET_MISC_MODULE_PN}/archive/${HTTP_SET_MISC_MODULE_SHA:-v${HTTP_SET_MISC_MODULE_PV}}.tar.gz"
 HTTP_SET_MISC_MODULE_WD="${WORKDIR}/${HTTP_SET_MISC_MODULE_P}"
@@ -250,15 +250,17 @@ HTTP_SUPERVISORD_MODULE_URI="http://labs.frickle.com/files/${HTTP_SUPERVISORD_MO
 HTTP_SUPERVISORD_MODULE_WD="${WORKDIR}/${HTTP_SUPERVISORD_MODULE_P}"
 
 # http_slowfs_cache (http://labs.frickle.com/nginx_ngx_slowfs_cache/, BSD-2 license)
+HTTP_SLOWFS_CACHE_MODULE_A="FRiCKLE"
+HTTP_SLOWFS_CACHE_MODULE_PN="ngx_slowfs_cache"
 HTTP_SLOWFS_CACHE_MODULE_PV="1.10"
-HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
-HTTP_SLOWFS_CACHE_MODULE_URI="http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz"
+HTTP_SLOWFS_CACHE_MODULE_P="${HTTP_SLOWFS_CACHE_MODULE_PN}-${HTTP_SLOWFS_CACHE_MODULE_PV}"
+HTTP_SLOWFS_CACHE_MODULE_URI="https://github.com/${HTTP_SLOWFS_CACHE_MODULE_A}/${HTTP_SLOWFS_CACHE_MODULE_PN}/archive/${HTTP_SLOWFS_CACHE_MODULE_SHA:-${HTTP_SLOWFS_CACHE_MODULE_PV}}.tar.gz"
 HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/${HTTP_SLOWFS_CACHE_MODULE_P}"
 
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/tags , BSD license)
 HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
-HTTP_FANCYINDEX_MODULE_PV="0.3.3"
+HTTP_FANCYINDEX_MODULE_PV="0.3.4"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_SHA:-${HTTP_FANCYINDEX_MODULE_PV}}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/${HTTP_FANCYINDEX_MODULE_P}"
@@ -298,7 +300,7 @@ HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 # nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module/tags, BSD license)
 RTMP_MODULE_A="arut"
 RTMP_MODULE_PN="nginx-rtmp-module"
-RTMP_MODULE_PV="1.1.4"
+RTMP_MODULE_PV="1.1.5"
 RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_SHA:-${RTMP_MODULE_PV}}"
 RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/${RTMP_MODULE_SHA:-v${RTMP_MODULE_PV}}.tar.gz"
 RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
@@ -1003,7 +1005,7 @@ src_configure() {
 		${myconf} || die "configure failed"
 
 
-		sed -i -e "s|${WORKDIR}|external_module|g" objs/ngx_auto_config.h || die
+		sed -i -e "s|${WORKDIR}|ext|g" objs/ngx_auto_config.h || die
 }
 
 src_compile() {
@@ -1058,25 +1060,23 @@ src_install() {
 	doman man/nginx.8
 	dodoc CHANGES* README
 
-	keepdir "/var/log/${PN}" "/var/tmp/${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
-
 	keepdir /var/www/localhost
 
 	rm -rf "${ED}"/usr/html || die
 
 	# set up a list of directories to keep
-	local keepdir_list="/var/tmp/${PN}/client"
+	local keepdir_list="${NGINX_HOME_TMP}/client"
 	local module
 	for module in proxy fastcgi scgi uwsgi; do
-		use nginx_modules_http_${module} && keepdir_list+=" /var/tmp/${PN}/${module}"
+		use nginx_modules_http_${module} && keepdir_list+=" ${NGINX_HOME_TMP}/${module}"
 	done
 
 	keepdir "/var/log/${PN}" ${keepdir_list}
 
 	# this solves a problem with SELinux where nginx doesn't see the directories
 	# as root and tries to create them as nginx
-	fperms 0750 "/var/tmp/${PN}"
-	fowners "${HTTPD_USER:-${PN}}:0" "/var/tmp/${PN}"
+	fperms 0750 "${NGINX_HOME_TMP}"
+	fowners "${HTTPD_USER:-${PN}}:0" "${NGINX_HOME_TMP}"
 
 	fperms 0700 "/var/log/${PN}" ${keepdir_list}
 	fowners "${HTTPD_USER:-${PN}}:${HTTPD_GROUP:-${PN}}" "/var/log/${PN}" ${keepdir_list}
@@ -1336,27 +1336,6 @@ pkg_postinst() {
 		ewarn "should point to exactly location of 'locations.ini'"
 		ewarn "file from this package (i.e. it should be full path)"
 	fi
-
-	# This is the proper fix for bug #458726/#469094, resp. CVE-2013-0337 for
-	# existing installations
-	local fix_perms=0
-
-	for rv in ${REPLACING_VERSIONS} ; do
-		version_compare ${rv} 1.7.5
-		[[ $? -eq 1 ]] && fix_perms=1
-	done
-
-	if [[ $fix_perms -eq 1 ]] ; then
-		ewarn "To fix a security bug (CVE-2013-0337, bug #458726) had the following"
-		ewarn "directories the world-readable bit removed (if set):"
-		ewarn "  ${EPREFIX}/var/log/nginx"
-		ewarn "  ${EPREFIX}${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi}"
-		ewarn "Check if this is correct for your setup before restarting nginx!"
-		ewarn "This is a one-time change and will not happen on subsequent updates."
-		ewarn "Furthermore nginx' temp directories got moved to ${NGINX_HOME_TMP}"
-		chmod -f o-rwx "${EPREFIX}"/var/log/nginx "${EPREFIX}/${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
-	fi
-
 
 	# If the nginx user can't change into or read the dir, display a warning.
 	# If su is not available we display the warning nevertheless since we can't check properly

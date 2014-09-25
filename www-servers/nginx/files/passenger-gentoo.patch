@@ -38,7 +38,7 @@
 -	psg_nginx_module_source_dir   = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/ngx_http_passenger_module"
 +	psg_ruby_extension_source_dir = "#{fs_prefix}/src/#{GLOBAL_NAMESPACE_DIRNAME}/ruby_extension_source"
 +	psg_nginx_module_source_dir   = "#{fs_prefix}/src/#{GLOBAL_NAMESPACE_DIRNAME}/ngx_http_passenger_module"
- 	
+ 
 -	fakeroot = "pkg/fakeroot"
 +	fakeroot = ENV['D']
  	fake_rubylibdir = "#{fakeroot}#{psg_rubylibdir}"
@@ -53,29 +53,29 @@
  	fake_nginx_module_source_dir   = "#{fakeroot}#{psg_nginx_module_source_dir}"
  
  	native_packaging_method = ENV['NATIVE_PACKAGING_METHOD'] || "deb"
- 	
+ 
 -	sh "rm -rf #{fakeroot}"
 -	sh "mkdir -p #{fakeroot}"
--	
+-
  	# Ruby sources
  	sh "mkdir -p #{fake_rubylibdir}"
  	sh "cp #{PhusionPassenger.ruby_libdir}/phusion_passenger.rb #{fake_rubylibdir}/"
 @@ -506,11 +501,6 @@
  	sh "mkdir -p #{fake_nginx_module_source_dir}"
  	sh "cp ext/nginx/* #{fake_nginx_module_source_dir}/"
- 	
+ 
 -	# Documentation
 -	sh "mkdir -p #{fake_docdir}"
 -	sh "cp doc/*.html #{fake_docdir}/"
 -	sh "cp -R doc/images #{fake_docdir}/"
--	
+-
  	# User binaries
  	sh "mkdir -p #{fake_bindir}"
  	Packaging::USER_EXECUTABLES.each do |exe|
 @@ -529,10 +519,6 @@
  		end
  	end
- 	
+ 
 -	# Apache 2 module
 -	sh "mkdir -p #{File.dirname(fake_apache2_module_path)}"
 -	sh "cp #{APACHE2_MODULE} #{fake_apache2_module_path}"

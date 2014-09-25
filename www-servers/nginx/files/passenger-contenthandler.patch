@@ -21,6 +21,6 @@
      }
      u = r->upstream;
 +    u->headers_in.content_length_n = r->headers_out.content_length_n;
-     
+ 
      u->schema = pp_schema_string;
      u->output.tag = (ngx_buf_tag_t) &ngx_http_passenger_module;
