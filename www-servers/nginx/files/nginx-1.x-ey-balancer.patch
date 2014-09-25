@@ -10,9 +10,9 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
  static ngx_int_t ngx_http_upstream_reinit(ngx_http_request_t *r,
      ngx_http_upstream_t *u);
  static void ngx_http_upstream_send_request(ngx_http_request_t *r,
-@@ -670,13 +668,12 @@
-         return;
-     }
+@@ -692,10 +692,9 @@
+     u->ssl_name = uscf->host;
+ #endif
  
 -    if (uscf->peer.init(r, uscf) != NGX_OK) {
 -        ngx_http_upstream_finalize_request(r, u,
@@ -23,9 +23,15 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
 +        case NGX_BUSY: return;
      }
  
+     u->peer.start_time = ngx_current_msec;
+@@ -706,7 +705,7 @@
+         u->peer.tries = u->conf->next_upstream_tries;
+     }
+ 
 -    ngx_http_upstream_connect(r, u);
 +    ngx_http_upstream_finalize_request(r, u, NGX_HTTP_INTERNAL_SERVER_ERROR);
  }
+ 
  
  
 @@ -1185,7 +1182,7 @@
