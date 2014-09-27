@@ -22,7 +22,7 @@ done
 CDEPEND="dbus? ( sys-apps/dbus )
 	idn? ( net-dns/libidn )
 	lua? (
-		!luajit ( dev-lang/lua )
+		!luajit? ( dev-lang/lua )
 		luajit? ( dev-lang/luajit:2 )
 	)
 	conntrack? ( !s390? ( net-libs/libnetfilter_conntrack ) )
