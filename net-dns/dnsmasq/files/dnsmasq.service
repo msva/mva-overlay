@@ -1,11 +1,12 @@
-
 [Unit]
-Description=Small forwarding DNS server with DHCP and tftp support.
+Description=A lightweight DHCP and caching DNS server
 After=network.target
 
 [Service]
-StandardOutput=syslog
-StandardError=syslog
+Type=simple
+ExecStartPre=/usr/sbin/dnsmasq --test
+ExecStart=/usr/sbin/dnsmasq -k --user=dnsmasq --group=dnsmasq
+ExecReload=/bin/kill -HUP $MAINPID
 
-ExecStart=/usr/sbin/dnsmasq -d -k 
-
+[Install]
+WantedBy=multi-user.target
