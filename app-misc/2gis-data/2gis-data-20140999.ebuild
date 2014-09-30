@@ -38,7 +38,7 @@ my_add_town() {
 # RU
 
 my_add_town Abakan				2012 6  # Абакан
-#my_add_town Almetyevsk			2014 8  # Альметьевск
+my_add_town Almetevsk			2014 8  # Альметьевск
 my_add_town Arkhangelsk			2011 8  # Архангельск
 my_add_town Armawir				2014 3  # Армавир
 my_add_town Astrakhan			2005 11 # Астрахань
