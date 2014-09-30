@@ -23,9 +23,6 @@ HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
 HTTP_PASSENGER_MODULE_PV="4.0.52"
 #HTTP_PASSENGER_MODULE_SHA="adcd8e1fd6f6ec9c320fe47e1b7fa55f791da402"
-#HTTP_PASSENGER_MODULE_PV="${HTTP_PASSENGER_MODULE_SHA}"
-#HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-${HTTP_PASSENGER_MODULE_PV}}"
-#HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA}.tar.gz"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -417,7 +414,7 @@ KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_conn limit_req map memcached proxy referer rewrite scgi
-split_clients ssi upstream_ip_hash userid uwsgi"
+split_clients ssi upstream_hash upstream_ip_hash upstream_least_conn upstream_keepalive userid uwsgi"
 
 NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip gzip_static
 image_filter mp4 perl random_index realip secure_link spdy stub_status sub xslt"
