@@ -1,4 +1,6 @@
 dev-lang/luajit
+dev-lua/lua-cjson
+dev-libs/sregex
 dev-lua/redis-parser
 dev-lua/rds-parser
 dev-lua/resty-lock
@@ -12,7 +14,7 @@ dev-lua/resty-websocket
 dev-lua/resty-template
 dev-lua/resty-lrucache
 dev-lua/resty-core
-dev-lua/lua-cjson
-dev-libs/sregex
+dev-lua/resty-random
+dev-lua/resty-session
 www-servers/nginx[nginx_modules_http_array_var,nginx_modules_http_auth_request,nginx_modules_http_coolkit,nginx_modules_http_echo,nginx_modules_http_encrypted_session,nginx_modules_http_form_input,nginx_modules_http_headers_more,nginx_modules_http_iconv,nginx_modules_http_memc,nginx_modules_http_ndk,nginx_modules_http_lua,nginx_modules_http_lua_upstream,nginx_modules_http_postgres,nginx_modules_http_rds_csv,nginx_modules_http_rds_json,nginx_modules_http_set_misc,nginx_modules_http_srcache,nginx_modules_http_xss]
 
