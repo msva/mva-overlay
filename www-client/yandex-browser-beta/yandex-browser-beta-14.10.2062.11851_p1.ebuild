@@ -77,7 +77,8 @@ src_prepare() {
 
 src_install() {
 	mv * "${D}" || die
-	dosym "../../${YANDEX_HOME}/${PN}" /usr/bin/"${PN}"
+	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib"
+#dosym "../../${YANDEX_HOME}/${PN}" /usr/bin/"${PN}"
 	dodir /usr/$(get_libdir)/${PN}/lib
 	dosym /usr/$(get_libdir)/libudev.so /usr/$(get_libdir)/${PN}/lib/libudev.so.0
 	fperms 4711 /${YANDEX_HOME}/yandex_browser-sandbox
