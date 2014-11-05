@@ -1,0 +1,9 @@
+Title: All ToX-related stuff is removed in honour of overlay
+Author: Vadim A. Misbakh-Soloviov <mva@mva.name>
+Content-Type: text/plain
+Posted: 2014-11-06
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: net-libs/tox
+
+All stuff related to Tox is removed, since official Tox overlay now in layman.
