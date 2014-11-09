@@ -530,7 +530,7 @@ CDEPEND="
 		dev-libs/apr-util
 	)
 	perftools? ( dev-util/google-perftools )
-	rrd? ( >=net-analyzer/rrdtool-1.3.8 )
+	rrd? ( >=net-analyzer/rrdtool-1.3.8[graph] )
 
 	nginx_modules_http_passenger? (
 		|| (
