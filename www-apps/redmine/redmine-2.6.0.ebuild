@@ -31,6 +31,7 @@ ruby_add_rdepend "
 			>=dev-ruby/fcgi-0.9.1
 		)
 	)
+	imagemagick? ( media-gfx/imagemagick )
 "
 
 #ruby_add_bdepend ">=dev-ruby/rdoc-2.4.2
