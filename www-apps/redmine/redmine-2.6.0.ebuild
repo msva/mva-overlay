@@ -31,7 +31,6 @@ ruby_add_rdepend "
 			>=dev-ruby/fcgi-0.9.1
 		)
 	)
-	imagemagick? ( media-gfx/imagemagick )
 "
 
 #ruby_add_bdepend ">=dev-ruby/rdoc-2.4.2
@@ -41,7 +40,9 @@ ruby_add_rdepend "
 #		>=dev-ruby/mocha
 #	)"
 
-RDEPEND="${RDEPEND}
+RDEPEND="
+	${RDEPEND}
+	imagemagick? ( media-gfx/imagemagick )
 	postgres? ( dev-db/postgresql-base )
 	sqlite3? ( dev-db/sqlite:3 )
 	mysql? ( virtual/mysql )
@@ -50,7 +51,8 @@ RDEPEND="${RDEPEND}
 	darcs? ( dev-vcs/darcs )
 	git? ( dev-vcs/git )
 	mercurial? ( dev-vcs/mercurial )
-	subversion? ( >=dev-vcs/subversion-1.3 )"
+	subversion? ( >=dev-vcs/subversion-1.3 )
+"
 
 REDMINE_DIR="${REDMINE_DIR:-/var/lib/${PN}}"
 
