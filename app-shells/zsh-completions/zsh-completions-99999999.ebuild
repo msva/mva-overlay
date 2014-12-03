@@ -15,7 +15,7 @@ IUSE=""
 
 DEPEND="
 	app-shells/zsh
-	app-shells/zsh-completion
+	app-shells/gentoo-zsh-completions
 "
 RDEPEND="${DEPEND}"
 
