@@ -23,8 +23,8 @@
  	psg_nodelibdir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/node"
  	psg_libdir     = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}"
  	psg_native_support_dir = ENV["RUBYARCHDIR"] || "#{fs_libdir}/ruby/#{CONFIG['ruby_version']}/#{CONFIG['arch']}"
--	psg_agents_dir = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
-+	psg_agents_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/agents"
+-	psg_support_binaries_dir = "#{fs_libdir}/#{GLOBAL_NAMESPACE_DIRNAME}/support-binaries"
++	psg_support_binaries_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/support-binaries"
  	psg_helper_scripts_dir = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/helper-scripts"
 -	psg_resources_dir      = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}"
 -	psg_include_dir        = "#{fs_datadir}/#{GLOBAL_NAMESPACE_DIRNAME}/include"
@@ -52,7 +52,7 @@
  	fake_ruby_extension_source_dir = "#{fakeroot}#{psg_ruby_extension_source_dir}"
  	fake_nginx_module_source_dir   = "#{fakeroot}#{psg_nginx_module_source_dir}"
  
- 	native_packaging_method = ENV['NATIVE_PACKAGING_METHOD'] || "deb"
+ 	packaging_method = ENV['NATIVE_PACKAGING_METHOD'] || ENV['PACKAGING_METHOD'] || "deb"
  
 -	sh "rm -rf #{fakeroot}"
 -	sh "mkdir -p #{fakeroot}"
