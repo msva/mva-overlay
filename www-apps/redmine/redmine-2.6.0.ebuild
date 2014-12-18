@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/www-apps/redmine/redmine-1.4.1.ebuild,v 1.1 2012/04/25 15:02:00 matsuu Exp $
 
 EAPI="5"
-USE_RUBY="ruby18 jruby ruby19 ruby20"
+USE_RUBY="ruby18 jruby ruby19 ruby20 ruby21"
 
 inherit eutils depend.apache user ruby-ng
 
@@ -16,7 +16,7 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql passenger postgres sqlite3 subversion ldap"
 
-RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.7)[ssl] $(ruby_implementation_depend ruby19)[ssl] $(ruby_implementation_depend ruby20)[ssl] )"
+RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.7)[ssl] $(ruby_implementation_depend ruby19)[ssl] $(ruby_implementation_depend ruby20)[ssl] $(ruby_implementation_depend ruby21)[ssl] )"
 
 ruby_add_rdepend "
 	dev-ruby/bundler
@@ -24,21 +24,8 @@ ruby_add_rdepend "
 	passenger? ( || ( www-apache/passenger www-servers/nginx[nginx_modules_http_passenger] ) )
 	fastcgi? (
 		dev-ruby/fcgi
-		ruby_targets_ruby19? (
-			>=dev-ruby/fcgi-0.9.1
-		)
-		ruby_targets_ruby20? (
-			>=dev-ruby/fcgi-0.9.1
-		)
 	)
 "
-
-#ruby_add_bdepend ">=dev-ruby/rdoc-2.4.2
-#	test? (
-#		>=dev-ruby/shoulda-2.10.3
-#		>=dev-ruby/edavis10-object_daddy
-#		>=dev-ruby/mocha
-#	)"
 
 RDEPEND="
 	${RDEPEND}
