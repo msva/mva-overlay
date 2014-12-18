@@ -1,12 +1,12 @@
 #!/sbin/runscript
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-servers/uwsgi/files/uwsgi.initd-r3,v 1.1 2013/03/01 09:50:06 ultrabug Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-servers/uwsgi/files/uwsgi.initd-r5,v 1.1 2014/12/17 14:18:42 ultrabug Exp $
 
 PROGNAME=${SVCNAME#*.}
 
 UWSGI_EXEC=/usr/bin/uwsgi
-if [ "${SVCNAME}" == "uwsgi" ]; then
+if [ "${SVCNAME}" = "uwsgi" ]; then
 	PIDPATH=/var/run/uwsgi
 else
 	PIDPATH="/var/run/uwsgi_${PROGNAME}"
@@ -17,10 +17,6 @@ extra_started_commands="${opts} reload stats"
 
 depend() {
 	need net
-}
-
-start_pre() {
-	checkpath -d -m 0750 -o "${UWSGI_USER}":"${UWSGI_GROUP}" "${PIDPATH}"
 }
 
 start_emperor() {
@@ -42,6 +38,8 @@ start_emperor() {
 	fi
 
 	ebegin "Starting uWSGI emperor"
+	checkpath -d -m 0750 -o "${UWSGI_USER}":"${UWSGI_EMPEROR_GROUP:-${UWSGI_GROUP}}" "${PIDPATH}"
+
 	cd "${UWSGI_DIR}" && \
 	start-stop-daemon --start --user "${UWSGI_USER}" --exec "${UWSGI_EXEC}" \
 		--group ${UWSGI_EMPEROR_GROUP:-${UWSGI_GROUP}} \
@@ -92,6 +90,8 @@ start_app() {
 	fi
 
 	ebegin "Starting uWSGI application ${PROGNAME}"
+	checkpath -d -m 0750 -o "${UWSGI_USER}":"${UWSGI_GROUP}" "${PIDPATH}"
+
 	cd "${UWSGI_DIR}" && \
 	start-stop-daemon --start --user "${UWSGI_USER}" --group "${UWSGI_GROUP}" \
 		--exec "${UWSGI_EXEC}" -- ${OPTIONS} --pidfile "${PIDFILE}"
@@ -99,11 +99,11 @@ start_app() {
 }
 
 start() {
-	if [ "${SVCNAME}" == "uwsgi" ]; then
-		if [ -n "${UWSGI_EMPEROR_PATH}" ]; then
-			start_emperor
-			eend $?
-		else
+	if [ -n "${UWSGI_EMPEROR_PATH}" ]; then
+		start_emperor
+		eend $?
+	else
+		if [ "${SVCNAME}" = "uwsgi" ]; then
 			eerror "You are not supposed to run this script directly unless you"
 			eerror "want to run in Emperor mode. In that case please set the UWSGI_EMPEROR_PATH."
 			eerror "Otherwise create a symlink for the uwsgi application you want to run as well as"
@@ -114,10 +114,10 @@ start() {
 			eerror "  nano /etc/conf.d/uwsgi.trac"
 			eerror
 			return 1
+		else
+			start_app
+			eend $?
 		fi
-	else
-		start_app
-		eend $?
 	fi
 }
 
