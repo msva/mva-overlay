@@ -21,8 +21,8 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.0.beta1"
-#HTTP_PASSENGER_MODULE_SHA="adcd8e1fd6f6ec9c320fe47e1b7fa55f791da402"
+HTTP_PASSENGER_MODULE_PV="4.0.57"
+HTTP_PASSENGER_MODULE_SHA="cdd650c95faeeed01ad88c199a5f51bd6e03c49e"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}/ext/nginx"
@@ -91,7 +91,7 @@ HTTP_CTPP_MODULE_WD="${WORKDIR}/${HTTP_CTPP_MODULE_P}"
 # http_cache_purge (https://github.com/FRiCKLE/ngx_cache_purge/tags, BSD-2 license)
 HTTP_CACHE_PURGE_MODULE_A="FRiCKLE"
 HTTP_CACHE_PURGE_MODULE_PN="ngx_cache_purge"
-HTTP_CACHE_PURGE_MODULE_PV="2.2"
+HTTP_CACHE_PURGE_MODULE_PV="2.3"
 HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODULE_SHA:-${HTTP_CACHE_PURGE_MODULE_PV}}"
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="${WORKDIR}/${HTTP_CACHE_PURGE_MODULE_P}"
@@ -308,7 +308,7 @@ RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
 # mod_security for nginx (https://github.com/SpiderLabs/ModSecurity/tags, Apache-2.0)
 HTTP_SECURITY_MODULE_A="SpiderLabs"
 HTTP_SECURITY_MODULE_PN="ModSecurity"
-HTTP_SECURITY_MODULE_PV="2.9.0-rc1"
+HTTP_SECURITY_MODULE_PV="2.9.0-rc2"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -943,7 +943,10 @@ src_configure() {
 
 	if use nginx_modules_http_ajp ; then
 		http_enabled=1
-		myconf+=" --add-module=${HTTP_AJP_MODULE_WD}"
+		# Disabled, because of incompatibiity with 1.7.9. Will be fixed on next bump.
+		#myconf+=" --add-module=${HTTP_AJP_MODULE_WD}"
+		ewarn "Sorry, AJP module is currently disabled, because of it's"
+		ewarn "incompatibility with ${P}"
 	fi
 
 	# MAIL modules
@@ -1089,7 +1092,7 @@ src_install() {
 	if use nginx_modules_http_perl; then
 		cd "${S}"/objs/src/http/modules/perl/
 		einstall DESTDIR="${D}" INSTALLDIRS=vendor || die "failed to install perl stuff"
-		fixlocalpod
+		perl_delete_localpod
 		cd "${S}"
 	fi
 
