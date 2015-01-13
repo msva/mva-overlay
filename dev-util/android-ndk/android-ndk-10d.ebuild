@@ -6,20 +6,27 @@ EAPI=5
 
 DESCRIPTION="Open Handset Alliance's Android NDK (Native Dev Kit)"
 HOMEPAGE="http://developer.android.com/sdk/ndk/"
-SRC_URI="x86? ( target-32? ( http://dl.google.com/android/ndk/${PN}-r${PV}-linux-x86.bin -> ${P}-x86.7z )
-		target-64? ( http://dl.google.com/android/ndk/${PN}-r${PV}-linux-x86.bin -> ${P}-x86_64.7z ) )
-		amd64? ( target-32? ( http://dl.google.com/android/ndk/${PN}-r${PV}-linux-x86_64.bin -> ${P}-x86.7z )
-		target-64? (  http://dl.google.com/android/ndk/${PN}-r${PV}-linux-x86_64.bin -> ${P}-x86_64.7z ) )"
+SRC_URI="
+		x86? (
+			http://dl.google.com/android/ndk/${PN}-r${PV}-linux-x86.bin -> ${P}-x86.7z
+		)
+		amd64? (
+			http://dl.google.com/android/ndk/${PN}-r${PV}-linux-x86_64.bin -> ${P}-x86_64.7z
+		)
+"
 
 LICENSE="android"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+target-32 target-64"
+IUSE=""
+#IUSE="+target-32 target-64"
 RESTRICT="mirror strip installsources test"
 
 DEPEND=""
-RDEPEND=">=dev-util/android-sdk-update-manager-10
-	>=sys-devel/make-3.81"
+RDEPEND="
+	>=dev-util/android-sdk-update-manager-10
+	>=sys-devel/make-3.81
+"
 
 S="${WORKDIR}/${PN}-r${PV}"
 
