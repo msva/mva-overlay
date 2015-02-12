@@ -30,7 +30,7 @@ ruby_add_rdepend "
 RDEPEND="
 	${RDEPEND}
 	imagemagick? ( media-gfx/imagemagick )
-	postgres? ( dev-db/postgresql-base )
+	postgres? ( dev-db/postgresql )
 	sqlite3? ( dev-db/sqlite:3 )
 	mysql? ( virtual/mysql )
 	bazaar? ( dev-vcs/bzr )
