@@ -261,9 +261,9 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/${HTTP_SLOWFS_CACHE_MODULE_P}"
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/tags , BSD license)
 HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
-HTTP_FANCYINDEX_MODULE_PV="0.3.4"
+HTTP_FANCYINDEX_MODULE_PV="0.3.5"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_SHA:-${HTTP_FANCYINDEX_MODULE_PV}}"
-HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
+HTTP_FANCYINDEX_MODULE_URI="https://codeload.github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/tar.gz/v${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/${HTTP_FANCYINDEX_MODULE_P}"
 
 # http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module/tags, BSD license)
@@ -1128,7 +1128,7 @@ src_install() {
 # http_fancyindex
 	if use nginx_modules_http_fancyindex; then
 		docinto "${HTTP_FANCYINDEX_MODULE_P}"
-		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/{README,HACKING}.rst
+		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/{README.rst,HACKING.md}
 	fi
 
 # http_ey_balancer
