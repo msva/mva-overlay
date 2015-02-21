@@ -15,6 +15,8 @@ KEYWORDS="~x86 ~amd64"
 DEPEND="app-arch/unzip"
 RDEPEND=">=app-misc/2gis-3.12.0.2"
 
+RESTRICT="mirror"
+
 IUSE=""
 SRC_URI=""
 
