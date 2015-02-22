@@ -1128,7 +1128,7 @@ src_install() {
 # http_fancyindex
 	if use nginx_modules_http_fancyindex; then
 		docinto "${HTTP_FANCYINDEX_MODULE_P}"
-		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/{README.md,HACKING.rst}
+		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/{README.rst,HACKING.md}
 	fi
 
 # http_ey_balancer
