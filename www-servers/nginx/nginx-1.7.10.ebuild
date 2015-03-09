@@ -15,14 +15,14 @@ EAPI="5"
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="jruby ruby19 ruby20 ruby21 ruby22"
+USE_RUBY="jruby ruby20 ruby21 ruby22"
 RUBY_OPTIONAL="yes"
 
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
 #HTTP_PASSENGER_MODULE_PV="4.0.59"
-HTTP_PASSENGER_MODULE_PV="5.0.0.rc2"
+HTTP_PASSENGER_MODULE_PV="5.0.2"
 #HTTP_PASSENGER_MODULE_SHA="cdd650c95faeeed01ad88c199a5f51bd6e03c49e"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -536,7 +536,6 @@ CDEPEND="
 
 	nginx_modules_http_passenger? (
 		|| (
-			$(ruby_implementation_depend ruby19)
 			$(ruby_implementation_depend ruby20)
 			$(ruby_implementation_depend ruby21)
 			$(ruby_implementation_depend ruby22)
