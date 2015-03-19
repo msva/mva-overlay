@@ -16,7 +16,7 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql passenger postgres sqlite3 subversion ldap"
 
-RDEPEND="|| ( $(ruby_implementation_depend ruby18 '>=' -1.8.7)[ssl] $(ruby_implementation_depend ruby19)[ssl] $(ruby_implementation_depend ruby20)[ssl] $(ruby_implementation_depend ruby21)[ssl] )"
+RDEPEND="|| ( $(ruby_implementation_depend ruby20)[ssl] $(ruby_implementation_depend ruby21)[ssl] $(ruby_implementation_depend ruby22)[ssl] )"
 
 ruby_add_rdepend "
 	dev-ruby/bundler
