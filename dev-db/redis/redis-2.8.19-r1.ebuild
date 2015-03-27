@@ -15,7 +15,9 @@ KEYWORDS="~amd64 ~amd64-linux ~hppa ~x86 ~x86-linux ~x86-macos ~x86-solaris"
 IUSE="+jemalloc tcmalloc test luajit"
 SLOT="0"
 
-RDEPEND=">=dev-lang/lua-5.1:*
+RDEPEND="
+	luajit? ( dev-lang/luajit:2 )
+	!luajit? ( >=dev-lang/lua-5.1:* )
 	tcmalloc? ( dev-util/google-perftools )
 	jemalloc? ( >=dev-libs/jemalloc-3.2 )"
 DEPEND="virtual/pkgconfig
