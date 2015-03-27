@@ -38,7 +38,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.8.17-config.patch
 	epatch "${FILESDIR}"/${P}-sharedlua.patch
 	use luajit && sed -r \
-		-e 's#(^FINAL_LIBS+=.*lua)#\1jit#' \
+		-e 's#^(FINAL_LIBS\+=.*lua)#\1jit#' \
 		-i src/Makefile
 
 	# Copy lua modules into build dir
