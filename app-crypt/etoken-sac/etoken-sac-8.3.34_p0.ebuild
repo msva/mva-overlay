@@ -8,21 +8,23 @@ inherit eutils multilib rpm
 
 DESCRIPTION="SafeNet (Aladdin) eToken Middleware for eTokenPRO, eTokenNG OTP, eTokenNG Flash, eToken Pro (Java)"
 
+MAGIC_DATE="10.12.2013"
+
 MY_PN="SafenetAuthenticationClient"
 MY_PV="${PV/_p/-}"
-MY_P_86="${MY_PN}-${MY_PV}.i386.rpm"
-MY_P_64="${MY_PN}-${MY_PV}.x86_64.rpm"
-MY_COMPAT_P="SAC-32-CompatibilityPack-${MY_PV}.x86_64.rpm"
 
-SRC_URI="x86? ( ${MY_P_86} )
-	amd64? ( ${MY_P_64} ${MY_COMPAT_P} )"
+MY_P_CORE="Core/RPM/${MY_PN}-core-${MY_PV}"
+MY_P_STD="Standard/RPM/${MY_PN}-${MY_PV}"
+MY_P_COMPAT="x32 Compatibility/RPM/SAC-32-CompatibilityPack-${MY_PV}"
 
-HOMEPAGE="http://www.etokenonlinux.org"
+SRC_URI="http://online.payment.ru/drivers/SAC_${PV%.*}_Linux_${MAGIC_DATE}.zip"
+
+HOMEPAGE="http://aladdin-rd.ru"
 LICENSE="EULA"
-RESTRICT="fetch"
+RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="-* ~x86 ~amd64"
-IUSE="ssl multilib"
+IUSE="ssl multilib minimal"
 
 REQUIRED_USE="amd64? ( multilib )"
 
@@ -46,24 +48,29 @@ QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
 
 S="${WORKDIR}"
 
-pkg_nofetch() {
-	einfo "Please send mail to Aladdin eToken TS <support.etoken@aladdin-rd.ru> and"
-	einfo "ask them to provide a ${MY_PV} version of eToken driver. Then put RPMs from"
-	einfo "archive, they emailed to you, into ${DISTDIR} ( cp ${A} ${DISTDIR} )"
-	echo
-	einfo "Actually, you can ask them for most actual version, and if they send you"
-	einfo "version, newer then ${MY_PV}, then report it to the bugtracker, please"
-
-}
+#pkg_nofetch() {
+#	einfo "Please send mail to Aladdin eToken TS <support.etoken@aladdin-rd.ru> and"
+#	einfo "ask them to provide a ${MY_PV} version of eToken driver. Then put RPMs from"
+#	einfo "archive, they emailed to you, into ${DISTDIR} ( cp ${A} ${DISTDIR} )"
+#	echo
+#	einfo "Actually, you can ask them for most actual version, and if they send you"
+#	einfo "version, newer then ${MY_PV}, then report it to the bugtracker, please"
+#
+#}
 
 src_unpack() {
+	local arch=x86;
+	use amd64 && arch=x86_64;
+	default;
 	cd "${S}"
-	rpm_src_unpack ${A}
-
-	use x86 && ( cat "${FILESDIR}/dist/libhal_x86.txz" | tar xJf - )
-	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib32.txz" | tar xJf - )
-	use amd64 && ( cat "${FILESDIR}/dist/libhal_amd64_lib64.txz" | tar xJf - )
-	use amd64 && ( cat "${FILESDIR}/dist/pcsc_amd64.txz" | tar xJf - )
+	if use minimal; then
+		rpm_unpack "./Installation/${MY_P_CORE}.${arch}.rpm";
+	else
+		rpm_unpack "./Installation/${MY_P_STD}.${arch}.rpm";
+	fi
+	use amd64 && (
+		rpm_unpack "./Installation/${MY_P_COMPAT}.${arch}.rpm";
+	)
 }
 
 src_prepare() {
@@ -74,7 +81,7 @@ src_prepare() {
 
 	epatch_user
 
-	cp "${FILESDIR}/eTSrv.init-r3" etc/init.d/eTSrv
+	cp "${FILESDIR}/SACSrv.init" etc/init.d/SACSrv
 	cp "${FILESDIR}/dist/Makefile" "${S}"
 }
 
@@ -90,7 +97,7 @@ pkg_postinst() {
 	echo
 	einfo "Run"
 	einfo "rc-update add pcscd default"
-	einfo "rc-update add eTSrv default"
+	einfo "rc-update add SACSrv default"
 	einfo "to add eToken support daemon to autostart"
 	einfo ""
 	einfo "In some cases the eToken will not work after rebooting your system."
