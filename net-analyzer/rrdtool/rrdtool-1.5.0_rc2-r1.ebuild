@@ -58,21 +58,21 @@ python_install() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-1.4.7-configure.ac.patch
-
-	# bug 456810
-	# no time to sleep
-	sed -i \
-		-e 's|$LUA_CFLAGS|IGNORE_THIS_BAD_TEST|g' \
-		-e 's|^sleep 1$||g' \
-		configure.ac || die
-
+#	epatch "${FILESDIR}"/${PN}-1.4.7-configure.ac.patch
+#
+#	# bug 456810
+#	# no time to sleep
+#	sed -i \
+#		-e 's|$LUA_CFLAGS|IGNORE_THIS_BAD_TEST|g' \
+#		-e 's|^sleep 1$||g' \
+#		configure.ac || die
+#
 	# Python bindings are built/installed manually
 	sed -i \
 		-e '/^all-local:/s| @COMP_PYTHON@||' \
 		bindings/Makefile.am || die
 
-	eautoreconf
+#	eautoreconf
 }
 
 src_configure() {
@@ -143,7 +143,7 @@ src_install() {
 
 	use python && distutils-r1_src_install
 
-	dodoc CHANGES CONTRIBUTORS NEWS README THREADS TODO
+	dodoc CHANGES CONTRIBUTORS NEWS THREADS ABOUT-NLS TODO
 
 	find "${ED}"usr -name '*.la' -exec rm -f {} +
 
