@@ -44,3 +44,4 @@ RDEPEND="
 	!!dev-lang/luajit:2
 "
 DEPEND="${RDEPEND}"
+S="${WORKDIR}"
