@@ -6,7 +6,7 @@ EAPI="5"
 
 DISTUTILS_OPTIONAL="true"
 GENTOO_DEPEND_ON_PERL="no"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{2_7,3_4} )
 inherit eutils distutils-r1 flag-o-matic multilib perl-module autotools toolchain-funcs
 
 DESCRIPTION="A system to store and display time-series data"
@@ -44,6 +44,8 @@ DEPEND="
 	virtual/pkgconfig
 	virtual/awk
 "
+
+S="${WORKDIR}/${P/_/-}"
 
 python_compile() {
 	cd bindings/python || die 'can not enter to python bindings directory'
