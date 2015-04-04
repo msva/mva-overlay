@@ -11,7 +11,7 @@ inherit eutils distutils-r1 flag-o-matic multilib perl-module autotools toolchai
 
 DESCRIPTION="A system to store and display time-series data"
 HOMEPAGE="http://oss.oetiker.ch/rrdtool/"
-SRC_URI="http://oss.oetiker.ch/rrdtool/pub/${P}.tar.gz"
+SRC_URI="http://oss.oetiker.ch/rrdtool/pub/${P/_/-}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
