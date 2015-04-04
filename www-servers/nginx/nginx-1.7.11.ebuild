@@ -21,8 +21,7 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-#HTTP_PASSENGER_MODULE_PV="4.0.59"
-HTTP_PASSENGER_MODULE_PV="5.0.5"
+HTTP_PASSENGER_MODULE_PV="5.0.6"
 #HTTP_PASSENGER_MODULE_SHA="cdd650c95faeeed01ad88c199a5f51bd6e03c49e"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -284,7 +283,7 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 
 # naxsi-core (https://github.com/nbs-system/naxsi/tags, GPLv2+)
 HTTP_NAXSI_MODULE_A="nbs-system"
-HTTP_NAXSI_MODULE_PV="0.54rc0"
+HTTP_NAXSI_MODULE_PV="0.54rc1"
 HTTP_NAXSI_MODULE_PN="naxsi"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
@@ -340,7 +339,7 @@ HTTP_STICKY_MODULE_WD="${WORKDIR}/${HTTP_STICKY_MODULE_A}-${HTTP_STICKY_MODULE_P
 # ajp-module (https://github.com/yaoweibin/nginx_ajp_module/tags, BSD-2)
 HTTP_AJP_MODULE_A="yaoweibin"
 HTTP_AJP_MODULE_PN="nginx_ajp_module"
-HTTP_AJP_MODULE_PV="0.3.0"
+#HTTP_AJP_MODULE_PV="0.3.0"
 HTTP_AJP_MODULE_SHA="bf6cd93f2098b59260de8d494f0f4b1f11a84627"
 HTTP_AJP_MODULE_P="${HTTP_AJP_MODULE_PN}-${HTTP_AJP_MODULE_SHA:-${HTTP_AJP_MODULE_PV}}"
 HTTP_AJP_MODULE_URI="https://github.com/yaoweibin/nginx_ajp_module/archive/${HTTP_AJP_MODULE_SHA:-v${HTTP_AJP_MODULE_PV}}.tar.gz"
@@ -524,7 +523,7 @@ CDEPEND="
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
-	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5 ) )
+	nginx_modules_http_lua? ( virtual/lua[luajit=] )
 	nginx_modules_http_replace_filter? ( dev-libs/sregex )
 	nginx_modules_http_metrics? ( dev-libs/yajl )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )

@@ -16,8 +16,7 @@ IUSE="+jemalloc tcmalloc test luajit"
 SLOT="0"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lang/lua-5.1:* )
+	virtual/lua[luajit=]
 	tcmalloc? ( dev-util/google-perftools )
 	jemalloc? ( >=dev-libs/jemalloc-3.2 )"
 DEPEND="virtual/pkgconfig

@@ -7,7 +7,7 @@ EAPI="5"
 PYTHON_COMPAT=( python2_7 python3_{2,3,4} )
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby19 ruby20 ruby21"
+USE_RUBY="ruby20 ruby21 ruby22"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
@@ -104,13 +104,13 @@ CDEPEND="sys-libs/zlib
 	uwsgi_plugins_systemd_logger? ( sys-apps/systemd )
 	uwsgi_plugins_webdav? ( dev-libs/libxml2 )
 	uwsgi_plugins_xslt? ( dev-libs/libxslt )
-	lua? ( !luajit? ( dev-lang/lua ) )
-	luajit? ( dev-lang/luajit:2 )
+	lua? ( virtual/lua[luajit=] )
 	mono? ( =dev-lang/mono-2* )
 	perl? ( dev-lang/perl:= )
 	php? (
 		php_targets_php5-4? ( dev-lang/php:5.4[embed] )
 		php_targets_php5-5? ( dev-lang/php:5.5[embed] )
+		php_targets_php5-6? ( dev-lang/php:5.6[embed] )
 	)
 	python? ( ${PYTHON_DEPS} )
 	python_gevent? ( >=dev-python/gevent-1.0_beta2[$(python_gen_usedep 'python2*')] )
@@ -261,12 +261,12 @@ src_compile() {
 	if use lua ; then
 		# setting the name for the pkg-config file to lua, since we don't have
 		# slotted lua
-		UWSGICONFIG_LUAPC="${lua}" python uwsgiconfig.py --plugin plugins/lua gentoo || die "building plugin for lua failed"
+		UWSGICONFIG_LUAPC="${lua}" ${PYTHON} uwsgiconfig.py --plugin plugins/lua gentoo || die "building plugin for lua failed"
 	fi
 
 	if use php ; then
 		for s in $(php_get_slots); do
-			UWSGICONFIG_PHPDIR="/usr/$(get_libdir)/${s}" python uwsgiconfig.py --plugin plugins/php gentoo ${s/.} || die "building plugin for ${s} failed"
+			UWSGICONFIG_PHPDIR="/usr/$(get_libdir)/${s}" ${PYTHON} uwsgiconfig.py --plugin plugins/php gentoo ${s/.} || die "building plugin for ${s} failed"
 		done
 	fi
 

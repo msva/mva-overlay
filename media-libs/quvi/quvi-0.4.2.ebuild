@@ -13,16 +13,19 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="luajit"
 
-RDEPEND=">=net-misc/curl-7.18.2
-	>=media-libs/libquvi-0.4.0"
+RDEPEND="
+	virtual/lua[luajit=]
+	>=net-misc/curl-7.18.2
+	>=media-libs/libquvi-0.4.0
+"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils
 	virtual/pkgconfig"
 
 src_configure() {
-	LUA="lua"
-	use luajit && LUA="luajit"
-	export CFLAGS="$CFLAGS $(pkg-config --cflags ${LUA})"
+	local lua="lua"
+	use luajit && lua="luajit"
+	export CFLAGS="$CFLAGS $(pkg-config --cflags ${lua})"
 	econf \
 		--with-manual
 }

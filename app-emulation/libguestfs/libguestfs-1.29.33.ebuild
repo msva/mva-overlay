@@ -24,7 +24,7 @@ SLOT="0/${MY_PV_1}"
 
 KEYWORDS="~amd64"
 IUSE="erlang +fuse debug +ocaml doc +perl ruby static-libs
-selinux systemtap introspection inspect-icons test lua"
+selinux systemtap introspection inspect-icons test lua luajit"
 
 # Failires - doc
 # Failures - bash-completion, see GBZ #486306
@@ -74,7 +74,7 @@ COMMON_DEPEND="
 			)
 	virtual/acl
 	sys-libs/libcap
-	lua? ( dev-lang/lua )
+	lua? ( virtual/lua[luajit=] )
 	"
 
 DEPEND="${COMMON_DEPEND}

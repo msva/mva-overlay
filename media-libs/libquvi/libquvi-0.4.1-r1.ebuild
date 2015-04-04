@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit autotools-utils toolchain-funcs
+inherit autotools-utils toolchain-funcs multilib-minimal
 
 DESCRIPTION="Library for parsing video download links"
 HOMEPAGE="http://quvi.sourceforge.net/"
@@ -17,9 +17,8 @@ IUSE="examples static-libs luajit"
 
 RDEPEND=">=net-misc/curl-7.18.2
 	!<media-libs/quvi-0.4.0
-	>=media-libs/libquvi-scripts-0.4.0:0.4
-	!luajit? ( >=dev-lang/lua-5.1[deprecated] )
-	luajit? ( dev-lang/luajit:2 )
+	>=media-libs/libquvi-scripts-0.4.21-r1:0.4[${MULTILIB_USEDEP}]
+	virtual/lua[luajit,${MULTILIB_USEDEP}]
 	!=media-libs/libquvi-0.4*:0"
 DEPEND="${RDEPEND}
 	app-arch/xz-utils
@@ -27,7 +26,7 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS ChangeLog NEWS README )
 
-src_configure() {
+multilib_src_configure() {
 	local lua="lua"
 	use luajit && lua="luajit"
 	export CFLAGS="${CFLAGS} $(pkg-config --cflags ${lua})"
@@ -40,8 +39,9 @@ src_configure() {
 	autotools-utils_src_configure
 }
 
-src_install() {
-	autotools-utils_src_install
+multilib_src_install_all() {
+	einstalldocs
+	prune_libtool_files
 
 	if use examples ; then
 		docinto examples

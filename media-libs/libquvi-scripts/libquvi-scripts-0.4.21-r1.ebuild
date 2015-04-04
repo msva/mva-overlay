@@ -15,8 +15,7 @@ IUSE="offensive luajit"
 
 DEPEND="
 	app-arch/xz-utils
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lua/LuaBitOp-1.0.1 )
+	virtual/lua[bit,luajit=]
 "
 RDEPEND="!=media-libs/libquvi-scripts-0.4*:0"
 

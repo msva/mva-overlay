@@ -14,8 +14,7 @@ KEYWORDS="amd64 ~arm ~hppa ~mips x86"
 IUSE="offensive luajit"
 
 RDEPEND="
-	luajit? ( dev-lang/luajit:2 )
-	!luajit? ( >=dev-lua/LuaBitOp-1.0.1 )
+	virtual/lua[bit,luajit=]
 	>=dev-lua/luaexpat-1.2.0
 	>=dev-lua/luajson-1.1.1
 	>=dev-lua/luasocket-2.0.2

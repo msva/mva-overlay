@@ -16,8 +16,7 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd6
 IUSE="examples luajit qt4"
 
 RDEPEND="
-	luajit?  ( dev-lang/luajit:2 )
-	!luajit? ( dev-lang/lua )
+	virtual/lua[luajit=]
 	qt4? (
 		dev-qt/qtgui:4
 		dev-qt/qtcore:4
@@ -32,10 +31,6 @@ DEPEND="
 src_prepare() {
 	sed -i "/LSB_DOC_DIR/s:doc/${PN}:doc/${PF}:" \
 		src/core/datadir.cpp || die
-
-	if has_version '<dev-lang/lua-5.2'; then
-		sed -i 's/-DUSE_LUA52//' src/makefile || die
-	fi
 }
 
 src_compile() {

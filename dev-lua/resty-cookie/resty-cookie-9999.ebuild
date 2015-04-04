@@ -6,11 +6,11 @@ EAPI="5"
 
 inherit base eutils toolchain-funcs git-r3
 
-DESCRIPTION="Templating Engine (HTML) for Lua and OpenResty."
-HOMEPAGE="https://github.com/bungle/lua-${PN}"
+DESCRIPTION="Library for parsing HTTP Cookie header for Nginx"
+HOMEPAGE="https://github.com/cloudflare/lua-${PN}"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/bungle/lua-${PN}"
+EGIT_REPO_URI="https://github.com/cloudflare/lua-${PN}"
 
 LICENSE="BSD"
 SLOT="0"
@@ -26,6 +26,7 @@ DEPEND="
 	virtual/pkgconfig
 "
 
+
 DOCS=( "README.md" )
 
 src_install() {
@@ -37,3 +38,4 @@ src_install() {
 
 	base_src_install_docs
 }
+

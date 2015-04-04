@@ -6,7 +6,7 @@ EAPI="5"
 
 inherit base eutils toolchain-funcs git-r3
 
-DESCRIPTION="Templating Engine (HTML) for Lua and OpenResty."
+DESCRIPTION="LuaJIT FFI-based Random Library for OpenResty"
 HOMEPAGE="https://github.com/bungle/lua-${PN}"
 SRC_URI=""
 
@@ -15,11 +15,11 @@ EGIT_REPO_URI="https://github.com/bungle/lua-${PN}"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="luajit"
+IUSE=""
 
 RDEPEND="
-	virtual/lua[luajit=]
-	www-servers/nginx[nginx_modules_http_lua]
+	virtual/lua[luajit]
+	www-servers/nginx[nginx_modules_http_lua,ssl]
 "
 DEPEND="
 	${RDEPEND}
@@ -29,10 +29,8 @@ DEPEND="
 DOCS=( "README.md" )
 
 src_install() {
-	local lua=lua;
-	use luajit && lua=luajit;
-
-	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})"
+	insinto "$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD luajit)"
+	mv lib/resty/random.lua lib/resty/resty_random.lua
 	doins -r lib/resty
 
 	base_src_install_docs
