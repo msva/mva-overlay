@@ -123,12 +123,12 @@ HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_P
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 
 # NginX Drizzle module (https://github.com/openresty/drizzle-nginx-module/tags, BSD)
-HTTP_DRIZZLE_MODULE_A="openresty"
-HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
-HTTP_DRIZZLE_MODULE_PV="0.1.8"
-HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_SHA:-${HTTP_DRIZZLE_MODULE_PV}}"
-HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/${HTTP_DRIZZLE_MODULE_SHA:-v${HTTP_DRIZZLE_MODULE_PV}}.tar.gz"
-HTTP_DRIZZLE_MODULE_WD="${WORKDIR}/${HTTP_DRIZZLE_MODULE_P}"
+#HTTP_DRIZZLE_MODULE_A="openresty"
+#HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
+#HTTP_DRIZZLE_MODULE_PV="0.1.8"
+#HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_SHA:-${HTTP_DRIZZLE_MODULE_PV}}"
+#HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/${HTTP_DRIZZLE_MODULE_SHA:-v${HTTP_DRIZZLE_MODULE_PV}}.tar.gz"
+#HTTP_DRIZZLE_MODULE_WD="${WORKDIR}/${HTTP_DRIZZLE_MODULE_P}"
 
 # NginX form-input module (https://github.com/calio/form-input-nginx-module/tags, BSD)
 HTTP_FORM_INPUT_MODULE_A="calio"
@@ -375,7 +375,6 @@ SRC_URI="
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_lua_upstream? ( ${HTTP_LUA_UPSTREAM_MODULE_URI} -> ${HTTP_LUA_UPSTREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_replace_filter? ( ${HTTP_REPLACE_FILTER_MODULE_URI} -> ${HTTP_REPLACE_FILTER_MODULE_P}.tar.gz )
-	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( ${HTTP_FORM_INPUT_MODULE_URI} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
 	nginx_modules_http_echo? ( ${HTTP_ECHO_MODULE_URI} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
 	nginx_modules_http_rds_json? ( ${HTTP_RDS_JSON_MODULE_URI} -> ${HTTP_RDS_JSON_MODULE_P}.tar.gz )
@@ -405,6 +404,7 @@ SRC_URI="
 	nginx_modules_http_ajp? ( ${HTTP_AJP_MODULE_URI} -> ${HTTP_AJP_MODULE_P}.tar.gz )
 	nginx_modules_http_mogilefs? ( ${HTTP_MOGILEFS_MODULE_URI} -> ${HTTP_MOGILEFS_MODULE_P}.tar.gz )
 "
+#	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_security? ( Apache-2.0 )
@@ -439,7 +439,6 @@ NGINX_MODULES_3RD="
 	http_form_input
 	http_echo
 	http_memc
-	http_drizzle
 	http_rds_json
 	http_rds_csv
 	http_postgres
@@ -465,12 +464,14 @@ NGINX_MODULES_3RD="
 	http_ajp
 	http_mogilefs
 "
+#	http_drizzle
+# drizzle module, maybe, working, but drizzle itself doesn't build and dead
 
 REQUIRED_USE="
 		nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
 		nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
-		nginx_modules_http_rds_json? ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
-		nginx_modules_http_rds_csv?  ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
+		nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
+		nginx_modules_http_rds_csv?  ( nginx_modules_http_postgres )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
 		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
@@ -522,7 +523,6 @@ CDEPEND="
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
-	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_lua? ( virtual/lua[luajit=] )
 	nginx_modules_http_replace_filter? ( dev-libs/sregex )
 	nginx_modules_http_metrics? ( dev-libs/yajl )
@@ -546,7 +546,7 @@ CDEPEND="
 		!!www-apache/passenger
 	)
 "
-
+#	nginx_modules_http_drizzle? ( dev-db/drizzle )
 #	nginx_modules_http_pagespeed? ( dev-libs/psol )
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
@@ -774,10 +774,10 @@ src_configure() {
 	fi
 
 # (**) http_drizzle
-	if use nginx_modules_http_drizzle; then
-		http_enabled=1
-		myconf+=" --add-module=${HTTP_DRIZZLE_MODULE_WD}"
-	fi
+#	if use nginx_modules_http_drizzle; then
+#		http_enabled=1
+#		myconf+=" --add-module=${HTTP_DRIZZLE_MODULE_WD}"
+#	fi
 
 # (**) http_rds_json
 	if use nginx_modules_http_rds_json; then
@@ -1202,10 +1202,10 @@ src_install() {
 	fi
 
 # http_drizzle
-	if use nginx_modules_http_drizzle; then
-		docinto "${HTTP_DRIZZLE_MODULE_P}"
-		dodoc "${HTTP_DRIZZLE_MODULE_WD}"/README
-	fi
+#	if use nginx_modules_http_drizzle; then
+#		docinto "${HTTP_DRIZZLE_MODULE_P}"
+#		dodoc "${HTTP_DRIZZLE_MODULE_WD}"/README
+#	fi
 
 # http_rds_json
 	if use nginx_modules_http_rds_json; then
