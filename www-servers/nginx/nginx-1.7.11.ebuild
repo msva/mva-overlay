@@ -625,6 +625,12 @@ src_prepare() {
 		fi
 	done
 
+	if use luajit; then
+		sed -r \
+			-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
+			-i "${HTTP_LUA_MODULE_WD}/config"
+	fi
+
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
@@ -632,8 +638,6 @@ src_prepare() {
 	if use nginx_modules_http_passenger; then
 		cd ../"${HTTP_PASSENGER_MODULE_P}";
 
-#		epatch "${FILESDIR}"/passenger-gentoo.patch
-#		epatch "${FILESDIR}"/passenger-ldflags.patch
 		epatch "${FILESDIR}"/passenger5-gentoo.patch
 		epatch "${FILESDIR}"/passenger5-ldflags.patch
 		epatch "${FILESDIR}"/passenger-contenthandler.patch
@@ -730,11 +734,11 @@ src_configure() {
 	if use nginx_modules_http_lua; then
 		http_enabled=1
 		if use luajit; then
-			export LUAJIT_LIB=$(pkg-config --variable libdir luajit)
-			export LUAJIT_INC=$(pkg-config --variable includedir luajit)
+			export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
+			export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
 		else
-			export LUA_LIB=$(pkg-config --variable libdir lua)
-			export LUA_INC=$(pkg-config --variable includedir lua)
+			export LUA_LIB=$($(tc-getPKG_CONFIG) --variable libdir lua)
+			export LUA_INC=$($(tc-getPKG_CONFIG) --variable includedir lua)
 		fi
 		myconf+=" --add-module=${HTTP_LUA_MODULE_WD}"
 	fi
