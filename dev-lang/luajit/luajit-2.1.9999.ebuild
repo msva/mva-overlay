@@ -121,5 +121,5 @@ multilib_src_install() {
 	host-is-pax && pax-mark m "${ED}usr/bin/${PN}-${SLOT}"
 	newman "etc/${PN}-${SLOT}.1" "luacjit-${SLOT}.1"
 	newbin "${FILESDIR}/luac.jit" "luacjit-${SLOT}"
-	[[ ! -e "/usr/bin/luajit" ]] && dosym "${PN}-${SLOT}" "${ED}usr/bin/${PN}"
+	[[ ! -e "/usr/bin/luajit" ]] && dosym "${PN}-${SLOT}" "${EROOT}usr/bin/${PN}"
 }
