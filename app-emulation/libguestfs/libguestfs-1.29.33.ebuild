@@ -147,7 +147,7 @@ src_install() {
 	strip-linguas -i po
 	autotools-utils_src_install "LINGUAS=""${LINGUAS}"""
 
-	use perl && fixlocalpod
+	use perl && perl_delete_localpod
 }
 
 pkg_postinst() {
