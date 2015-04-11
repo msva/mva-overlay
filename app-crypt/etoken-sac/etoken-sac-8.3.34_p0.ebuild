@@ -45,6 +45,7 @@ DEPEND="${RDEPEND}"
 
 QA_PREBUILT="*"
 QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
+QA_MULTILIB_PATHS="usr/lib32/.* usr/lib64/.* lib32/.* lib64/.*"
 
 S="${WORKDIR}"
 
@@ -70,6 +71,8 @@ src_unpack() {
 	fi
 	use amd64 && (
 		rpm_unpack "./Installation/${MY_P_COMPAT}.${arch}.rpm";
+		cp "${FILESDIR}/dist/libhal_amd64_lib64.txz" "${S}/libhal_amd64_lib64.tar.xz";
+		unpack ./libhal_amd64_lib64.tar.xz
 	)
 }
 
