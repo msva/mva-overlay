@@ -28,8 +28,8 @@ RDEPEND="
 	php? ( dev-php/php-dmtx[doc=] )
 	ruby? ( virtual/rubygems dev-ruby/rmagick !!=dev-lang/ruby-1.9* )
 	python? ( ${PYTHON_DEPS} )
-	lua? ( dev-lua/lua-dmtx[doc=] )
 "
+#	lua? ( dev-lua/lua-dmtx[doc=] )
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
