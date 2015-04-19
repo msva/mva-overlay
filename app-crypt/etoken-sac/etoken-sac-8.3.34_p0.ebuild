@@ -60,7 +60,7 @@ S="${WORKDIR}"
 #}
 
 src_unpack() {
-	local arch=x86;
+	local arch=i386;
 	use amd64 && arch=x86_64;
 	default;
 	cd "${S}"
