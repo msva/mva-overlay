@@ -4,9 +4,11 @@
 
 EAPI="5"
 
+MY_PV="${PV/_rc/-rc}"
+
 DESCRIPTION="Drush is a command line shell and scripting interface for Drupal"
 HOMEPAGE="http://drupal.org/project/drush"
-SRC_URI="https://github.com/drush-ops/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/drush-ops/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -15,6 +17,8 @@ IUSE="examples"
 
 DEPEND="dev-lang/php[cli,simplexml] dev-php/pear"
 RDEPEND="${DEPEND}"
+
+S="${WORKDIR}/${PN}-${MY_PV}"
 
 src_install() {
 	local docs="README.md docs"
