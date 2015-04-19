@@ -17,6 +17,7 @@ SLOT="0"
 
 RDEPEND="
 	virtual/lua[luajit=]
+	dev-lua/lua-cjson
 	tcmalloc? ( dev-util/google-perftools )
 	jemalloc? ( >=dev-libs/jemalloc-3.2 )"
 DEPEND="virtual/pkgconfig
@@ -46,10 +47,6 @@ src_prepare() {
 	# Append cflag for lua_cjson
 	# https://github.com/antirez/redis/commit/4fdcd213#diff-3ba529ae517f6b57803af0502f52a40bL61
 	append-cflags "-DENABLE_CJSON_GLOBAL"
-
-	# Avoid glibc noise
-	# https://github.com/antirez/redis/pull/2189
-	[[ ${CHOST} == *linux* ]] && append-cflags "-D_DEFAULT_SOURCE"
 
 	# now we will rewrite present Makefiles
 	local makefiles=""
