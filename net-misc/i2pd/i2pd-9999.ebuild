@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/PurpleI2P/i2pd"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="cpu_flags_x86_aes pax_kernel library static upnp"
+IUSE="cpu_flags_x86_aes i2p-hardening library static upnp"
 
 RDEPEND="!static? ( >=dev-libs/boost-1.46[threads] )
 	!static? ( dev-libs/crypto++ )
@@ -22,7 +22,7 @@ DEPEND="${RDEPEND}
 	static? ( >=dev-libs/boost-1.46[static-libs,threads] )
 	static? ( dev-libs/crypto++[static-libs] )
 	>=dev-util/cmake-2.8.5
-	pax_kernel? ( >=sys-devel/gcc-4.6[hardened] )
+	i2p-hardening? ( >=sys-devel/gcc-4.6 )
 	upnp? ( >=net-libs/miniupnpc-1.5 )
 	|| ( >=sys-devel/gcc-4.6 >=sys-devel/clang-3.3 )"
 
@@ -34,7 +34,7 @@ CMAKE_USE_DIR="${S}/build"
 multilib_src_configure() {
 	mycmakeargs=(
 		$(cmake-utils_use_with cpu_flags_x86_aes AESNI)
-		$(cmake-utils_use_with pax_kernel HARDENING)
+		$(cmake-utils_use_with i2p-hardening HARDENING)
 		$(cmake-utils_use_with library LIBRARY)
 		$(cmake-utils_use_with static STATIC)
 		$(multilib_is_native_abi && echo -DWITH_BINARY=ON \
