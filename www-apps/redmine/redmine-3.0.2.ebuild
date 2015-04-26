@@ -64,7 +64,7 @@ all_ruby_install() {
 
 	use ldap || (
 		rm app/models/auth_source_ldap.rb
-		epatch "${FILESDIR}/no_ldap-${PV}.patch"
+		epatch "${FILESDIR}/no_ldap.patch"
 	)
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
 	rm -r doc || die
