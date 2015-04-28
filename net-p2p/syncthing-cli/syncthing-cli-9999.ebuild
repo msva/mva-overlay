@@ -4,11 +4,12 @@
 
 EAPI="5"
 
-vcs="git-r3"
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/syncthing/${PN}"
+	vcs="git-r3"
+	SRC_URI=""
+	EGIT_REPO_URI="https://github.com/syncthing/${PN}"
+	KEYWORDS=""
 
-inherit eutils base systemd ${vcs}
+inherit eutils base ${vcs}
 
 DESCRIPTION="Open, trustworthy and decentralized syncing engine (some kind of analog of DropBox and BTSync)"
 HOMEPAGE="http://syncthing.net"
@@ -24,7 +25,7 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-DOCS=( README.md AUTHORS LICENSE CONTRIBUTING.md )
+DOCS=( README.md LICENSE )
 
 export GOPATH="${S}"
 
@@ -40,12 +41,11 @@ src_compile() {
 	local host="$(hostname)"; host="${host%%.*}";
 	local lf="-w -X main.Version ${version} -X main.BuildStamp ${date} -X main.BuildUser ${user} -X main.BuildHost ${host}"
 
-	godep go build -ldflags "${lf}" -tags noupgrade ./cmd/syncthing
+	go get
+	go build
 }
 
 src_install() {
-	dobin syncthing
-	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
-	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
+	dobin syncthing-cli
 	base_src_install_docs
 }

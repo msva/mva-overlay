@@ -4,18 +4,12 @@
 
 EAPI="5"
 
-#if [ "$PV" != "9999" ]; then
-#	SRC_URI="https://github.com/calmh/${PN}/archive/v${PV}.tar.gz"
-#	KEYWORDS="~amd64 ~x86 ~arm ~darwin ~winnt ~fbsd"
-#else
-	vcs="git-r3"
-	SRC_URI=""
-	EGIT_REPO_URI="https://github.com/syncthing/${PN}"
-	EGIT_COMMIT="v${PV}"
-	KEYWORDS=""
-#fi
+vcs="git-r3"
+SRC_URI=""
+EGIT_REPO_URI="https://github.com/syncthing/${PN}"
+EGIT_COMMIT="v${PV}"
 
-inherit eutils base ${vcs}
+inherit eutils base systemd ${vcs}
 
 DESCRIPTION="Open, trustworthy and decentralized syncing engine (some kind of analog of DropBox and BTSync)"
 HOMEPAGE="http://syncthing.net"
@@ -23,7 +17,7 @@ HOMEPAGE="http://syncthing.net"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="tools"
+IUSE=""
 
 DEPEND="
 	dev-lang/go
@@ -48,16 +42,11 @@ src_compile() {
 	local lf="-w -X main.Version ${version} -X main.BuildStamp ${date} -X main.BuildUser ${user} -X main.BuildHost ${host}"
 
 	godep go build -ldflags "${lf}" -tags noupgrade ./cmd/syncthing
-
-	use tools && (
-		godep go build ./cmd/stcli
-		godep go build ./cmd/stpidx
-		godep go build ./discover/cmd/discosrv
-	)
 }
 
 src_install() {
 	dobin syncthing
-	use tools && dobin stcli stpidx discosrv
+	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
+	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
 	base_src_install_docs
 }

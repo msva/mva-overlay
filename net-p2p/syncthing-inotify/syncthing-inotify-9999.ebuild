@@ -4,9 +4,9 @@
 
 EAPI="5"
 
-vcs="git-r3"
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/syncthing/${PN}"
+	vcs="git-r3"
+	SRC_URI=""
+	EGIT_REPO_URI="https://github.com/syncthing/${PN}"
 
 inherit eutils base systemd ${vcs}
 
@@ -24,7 +24,7 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-DOCS=( README.md AUTHORS LICENSE CONTRIBUTING.md )
+DOCS=( README.md LICENSE  )
 
 export GOPATH="${S}"
 
@@ -40,11 +40,13 @@ src_compile() {
 	local host="$(hostname)"; host="${host%%.*}";
 	local lf="-w -X main.Version ${version} -X main.BuildStamp ${date} -X main.BuildUser ${user} -X main.BuildHost ${host}"
 
-	godep go build -ldflags "${lf}" -tags noupgrade ./cmd/syncthing
+	go get
+	go build
 }
 
 src_install() {
-	dobin syncthing
+	cd "${WORKDIR}/${P}"
+	dobin bin/syncthing-inotify
 	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
 	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
 	base_src_install_docs
