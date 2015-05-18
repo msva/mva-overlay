@@ -1,8 +1,8 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-db/redis/redis-2.8.19-r1.ebuild,v 1.1 2015/03/07 03:21:24 mschiff Exp $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI=5
+EAPI="5"
 
 inherit autotools eutils flag-o-matic systemd toolchain-funcs user
 

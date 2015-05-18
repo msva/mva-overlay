@@ -1,8 +1,8 @@
-# Copyright 1999-2009 Tiziano Müller
+# Copyright 1999-2015 Tiziano Müller
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI="2"
+EAPI="5"
 
 DESCRIPTION="Tool & library to produce 2D barcodes often also referenced as DataMatrix."
 HOMEPAGE="http://datenfreihafen.org/projects/iec16022.html"

@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-libs/libksba/libksba-1.2.0.ebuild,v 1.10 2012/05/09 15:18:25 aballier Exp $
+# $Header: This ebuild is from mva overlay; $
 
 EAPI="5"
 

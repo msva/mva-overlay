@@ -1,26 +1,16 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-apps/kmscon/kmscon-7.ebuild,v 1.2 2013/06/01 05:24:03 chithanh Exp $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI=5
+EAPI="5"
 
-if [[ $PV = *9999* ]]; then
-	scm_eclass=git-2
-	EGIT_REPO_URI="
-				git://people.freedesktop.org/~dvdhrm/${PN}
-				git://github.com/dvdhrm/${PN}.git
-				git://github.com/dvdhrm/${PN}.git"
-	SRC_URI=""
-	KEYWORDS=""
-else
-	SRC_URI="http://www.freedesktop.org/software/${PN}/releases/${P}.tar.bz2"
-	KEYWORDS="~amd64 ~x86"
-fi
-
-inherit eutils autotools systemd flag-o-matic ${scm_eclass}
+inherit eutils autotools systemd flag-o-matic
 
 DESCRIPTION="KMS/DRM based virtual Console Emulator"
 HOMEPAGE="http://www.freedesktop.org/wiki/Software/kmscon"
+
+SRC_URI="http://www.freedesktop.org/software/${PN}/releases/${P}.tar.xz"
+KEYWORDS="~amd64 ~x86"
 
 LICENSE="MIT LGPL-2.1 BSD-2"
 SLOT="0"
@@ -31,6 +21,8 @@ COMMON_DEPEND="
 	dev-libs/glib:2
 	>=virtual/udev-172
 	x11-libs/libxkbcommon
+	sys-apps/libtsm
+	sys-kernel/linux-headers
 	dbus? ( sys-apps/dbus )
 	drm? ( x11-libs/libdrm
 		>=media-libs/mesa-8.0.3[egl,gbm] )

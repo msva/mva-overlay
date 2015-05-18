@@ -1,8 +1,8 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI=5
+EAPI="5"
 DISTUTILS_OPTIONAL=yes
 PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
 RUBY_OPTIONAL=yes

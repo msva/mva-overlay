@@ -1,8 +1,8 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI="4"
+EAPI="5"
 inherit cmake-utils qt4-r2
 
 DESCRIPTION="Qt based GUI for sapec-ng (electric circuit analizys program)"

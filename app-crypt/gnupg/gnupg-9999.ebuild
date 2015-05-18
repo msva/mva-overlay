@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-crypt/gnupg/gnupg-2.0.19.ebuild,v 1.5 2012/05/31 03:13:18 zmedico Exp $
+# $Header: This ebuild is from mva overlay; $
 
 EAPI="5"
 

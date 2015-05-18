@@ -1,8 +1,8 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-editors/vim/vim-7.4.670.ebuild,v 1.2 2015/03/31 17:37:10 ulm Exp $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI=5
+EAPI="5"
 VIM_VERSION="7.4"
 PYTHON_COMPAT=( python{2_7,3_3,3_4} )
 PYTHON_REQ_USE=threads

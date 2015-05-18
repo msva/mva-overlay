@@ -1,8 +1,8 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/quvi/quvi-0.9.5.ebuild,v 1.3 2014/02/23 16:31:32 pacho Exp $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI=5
+EAPI="5"
 AUTOTOOLS_AUTORECONF=1
 
 inherit autotools-utils toolchain-funcs

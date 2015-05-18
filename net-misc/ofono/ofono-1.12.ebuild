@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-misc/ofono/ofono-1.10.ebuild,v 1.2 2012/12/03 02:28:30 ssuominen Exp $
+# $Header: This ebuild is from mva overlay; $
 
 EAPI="5"
 

@@ -1,25 +1,17 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay; $
 
 EAPI="5"
 
-if [[ $PV = *9999* ]]; then
-	scm_eclass=git-2
-	EGIT_REPO_URI="
-				git://people.freedesktop.org/~dvdhrm/${PN}
-				git://github.com/dvdhrm/${PN}.git"
-	SRC_URI=""
-	KEYWORDS=""
-else
-	SRC_URI="http://www.freedesktop.org/software/${PN}/releases/${P}.tar.bz2"
-	KEYWORDS="~amd64 ~x86"
-fi
-
-inherit eutils autotools flag-o-matic ${scm_eclass}
+inherit eutils autotools flag-o-matic git-r3
 
 DESCRIPTION="A state machine for DEC VT100-VT520 compatible terminal emulators."
 HOMEPAGE="http://www.freedesktop.org/wiki/Software/kmscon"
+
+EGIT_REPO_URI="git://people.freedesktop.org/~dvdhrm/${PN}"
+SRC_URI=""
+KEYWORDS=""
 
 LICENSE="MIT LGPL-2.1 BSD-2"
 SLOT="0"

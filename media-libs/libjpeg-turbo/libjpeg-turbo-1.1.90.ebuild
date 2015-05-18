@@ -1,8 +1,8 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI="4"
+EAPI="5"
 inherit java-pkg-opt-2 libtool toolchain-funcs
 
 DESCRIPTION="MMX, SSE, and SSE2 SIMD accelerated JPEG library"

@@ -1,8 +1,8 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-mobilephone/dfu-util/dfu-util-0.7.ebuild,v 1.1 2013/08/22 02:23:03 creffett Exp $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI=5
+EAPI="5"
 
 SRC_URI="http://dfu-util.sourceforge.net/releases/${P}.tar.gz"
 KEYWORDS="~amd64 ~x86"

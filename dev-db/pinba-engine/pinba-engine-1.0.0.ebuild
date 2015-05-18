@@ -1,7 +1,7 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=3
+EAPI="5"
 inherit autotools confutils eutils multilib
 DESCRIPTION="Pinba is a MySQL storage engine that acts as a realtime monitoring/statistics server."
 HOMEPAGE="http://pinba.org/"

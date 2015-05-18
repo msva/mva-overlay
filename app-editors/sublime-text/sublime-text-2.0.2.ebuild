@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI="4"
+EAPI="5"
 
 # needed by make_desktop_entry
 inherit eutils

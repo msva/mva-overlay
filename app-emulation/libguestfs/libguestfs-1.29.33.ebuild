@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/libguestfs/libguestfs-1.27.0.ebuild,v 1.2 2014/01/20 17:22:50 maksbotan Exp $
+# $Header: This ebuild is from mva overlay; $
 
 EAPI="5"
 

@@ -1,8 +1,8 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/libquvi/libquvi-0.4.1-r1.ebuild,v 1.3 2014/02/23 16:31:00 pacho Exp $
+# $Header: This ebuild is from mva overlay; $
 
-EAPI=5
+EAPI="5"
 
 inherit autotools-utils toolchain-funcs multilib-minimal
 

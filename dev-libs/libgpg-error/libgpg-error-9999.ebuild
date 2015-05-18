@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-libs/libgpg-error/libgpg-error-1.10-r1.ebuild,v 1.3 2012/04/26 15:57:07 aballier Exp $
+# $Header: This ebuild is from mva overlay; $
 
 EAPI="5"
 
