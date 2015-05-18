@@ -12,7 +12,7 @@ if [ "$PV" != "9999" ]; then
 else
 	inherit git-2
 	SRC_URI=""
-	EGIT_REPO_URI="git://github.com/janvidar/uhub.git https://github.com/janvidar/uhub.git"
+	EGIT_REPO_URI="https://github.com/janvidar/uhub.git"
 	KEYWORDS=""
 fi
 
@@ -49,6 +49,8 @@ src_install() {
 	doman doc/*1
 	dodoc doc/*txt
 	insinto /etc/uhub
+	fperms 0700 "/etc/uhub"
+	fowners ${UHUB_USER}:${UHUB_GROUP} "/etc/uhub"
 	doins doc/uhub.conf
 	doins doc/users.conf
 	insinto /etc/logrotate.d
@@ -57,7 +59,7 @@ src_install() {
 	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
 }
 
-pkg_postinst() {
+pkg_setup() {
 	enewgroup "${UHUB_GROUP}"
 	enewuser "${UHUB_USER}" -1 -1 "/var/lib/run/${PN}" "${UHUB_GROUP}"
 }
