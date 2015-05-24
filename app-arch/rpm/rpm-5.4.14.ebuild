@@ -4,18 +4,14 @@
 
 EAPI="5"
 
-inherit rpm multilib versionator python
-
-MY_MAGIC="0.20101227"
-ISDEVEL="SNAPSHOT/"
-MY_P="${P}-${MY_MAGIC}"
+inherit rpm autotools-multilib versionator python
 
 DESCRIPTION="RPM Package Manager"
 HOMEPAGE="http://rpm5.org/"
-SRC_URI="http://rpm5.org/files/rpm/rpm-$(get_version_component_range 1-2)/${ISDEVEL}${MY_P}.src.rpm"
+SRC_URI="https://github.com/devzero2000/RPM5/archive/${P}-release.tar.gz"
 
 LICENSE="GPL-2 LGPL-2"
-SLOT="0"
+SLOT="5"
 KEYWORDS="~amd64 ~x86"
 IUSE="+berkdb bzip2 dmalloc doc efence keyutils lua magic neon nls pcre perl python readline selinux sqlite xar +xz"
 
@@ -27,7 +23,7 @@ RDEPEND="dmalloc? ( dev-libs/dmalloc )
 	dev-libs/popt
 	berkdb? ( sys-libs/db )
 	bzip2? ( app-arch/bzip2 )
-	lua? ( dev-lang/lua )
+	lua? ( || ( dev-lang/lua dev-lang/luajit ) )
 	neon? ( net-libs/neon )
 	pcre? ( dev-libs/libpcre )
 	perl? ( dev-lang/perl )
@@ -42,6 +38,8 @@ DEPEND="${RDEPEND}
 	doc? ( app-doc/doxygen )
 	nls? ( sys-devel/gettext )"
 
+S="${WORKDIR}/RPM5-${P}-release"
+
 pkg_setup () {
 	python_pkg_setup
 	ewarn "If you are upgrading from an rpm version of 5.0.0 or lower, "
@@ -51,16 +49,19 @@ pkg_setup () {
 }
 
 src_prepare() {
-	rm -rf file xar pcre #db ##crappy, crappy rpm!
-	sed -i \
-		-e '/^pkgconfigdir/s:=.*:=$(libdir)/pkgconfig:' \
-		scripts/Makefile.in || die
+#	sed -e 's/perl-URPM/perl/g' -i configure.ac
+	mkdir lua perl-URPM
+	touch lua/Makefile.in perl-URPM/Makefile.PL.in perl-URPM/Makefile.am
+	eautoreconf
+	multilib_copy_sources
+#	rm -rf file xar pcre #db ##crappy, crappy rpm!
 }
 
 src_configure() {
 	# --with-libelf
 	use python && pld="$(python_get_libdir)"
-	econf \
+#	econf \
+	autotools-multilib_src_configure \
 		$(use_with dmalloc) \
 		$(use_with efence) \
 		$(use_with keyutils) \
@@ -70,7 +71,6 @@ src_configure() {
 		$(use_with xz) \
 		$(use_with doc apidocs) \
 		$(use_with magic file) \
-		$(use_with lua) \
 		$(use_with neon) \
 		$(use_with nls) \
 		$(use_with pcre pcre=external) \
@@ -81,8 +81,9 @@ src_configure() {
 		$(use_with sqlite) \
 		$(use berkdb || use sqlite || echo --with-db) \
 		--with-path-lib="/usr/$(get_libdir)/rpm" \
-		--with-python-lib-dir="${pld}" \
-		|| die "econf failed"
+		--with-python-lib-dir="${pld}" #\
+		#$(use_with lua) \
+##		|| die "econf failed"
 }
 
 src_install() {
