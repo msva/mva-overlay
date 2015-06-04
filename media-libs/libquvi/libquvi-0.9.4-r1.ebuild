@@ -24,7 +24,7 @@ RDEPEND="
 	>=net-libs/libproxy-0.4.11-r1[${MULTILIB_USEDEP}]
 	>=net-misc/curl-7.36.0[${MULTILIB_USEDEP}]
 	nls? ( >=virtual/libintl-0-r1[${MULTILIB_USEDEP}] )
-	virtual/lua[luajit=,${MULTILIB_USEDEP}] )
+	virtual/lua[luajit=,${MULTILIB_USEDEP}]
 	nls? ( virtual/libintl )
 "
 DEPEND="
