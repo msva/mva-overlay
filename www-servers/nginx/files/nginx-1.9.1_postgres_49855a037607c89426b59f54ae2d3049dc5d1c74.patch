@@ -1,0 +1,22 @@
+--- src/ngx_postgres_util.c.orig	2015-06-04 21:36:37.386897455 +0600
++++ src/ngx_postgres_util.c	2015-06-04 21:38:18.727611204 +0600
+@@ -61,10 +61,18 @@
+         u->resolved->ctx = NULL;
+     }
+ 
++#if defined(nginx_version) && (nginx_version >= 1009001)
++    if (u->state && u->state->response_time) {
++#else
+     if (u->state && u->state->response_sec) {
++#endif
+         tp = ngx_timeofday();
++#if defined(nginx_version) && (nginx_version >= 1009001)
++        u->state->response_time = tp->msec - u->state->response_time;
++#else
+         u->state->response_sec = tp->sec - u->state->response_sec;
+         u->state->response_msec = tp->msec - u->state->response_msec;
++#endif
+ 
+         if (u->pipe) {
+             u->state->response_length = u->pipe->read_length;
+

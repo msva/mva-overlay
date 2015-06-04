@@ -21,7 +21,7 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.6"
+HTTP_PASSENGER_MODULE_PV="5.0.8"
 #HTTP_PASSENGER_MODULE_SHA="cdd650c95faeeed01ad88c199a5f51bd6e03c49e"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -78,7 +78,7 @@ HTTP_ENCRYPTED_SESSION_MODULE_WD="${WORKDIR}/${HTTP_ENCRYPTED_SESSION_MODULE_P}"
 # http_push_stream (https://github.com/wandenberg/nginx-push-stream-module/tags, BSD license)
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
 HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
-HTTP_PUSH_STREAM_MODULE_PV="0.5.0"
+HTTP_PUSH_STREAM_MODULE_PV="0.5.1"
 HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}"
 HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_PV}.tar.gz"
 HTTP_PUSH_STREAM_MODULE_WD="${WORKDIR}/${HTTP_PUSH_STREAM_MODULE_P}"
@@ -116,8 +116,8 @@ HTTP_NDK_MODULE_WD="${WORKDIR}/${HTTP_NDK_MODULE_P}"
 # NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.16rc1"
-#HTTP_LUA_MODULE_SHA="25c4bdd6b68e54f241fff9018ec4aa7a65426b31"
+HTTP_LUA_MODULE_PV="0.9.16"
+HTTP_LUA_MODULE_SHA="5b35451cd103bda49873af54d9448587203d51bf"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
@@ -230,7 +230,7 @@ HTTP_ICONV_MODULE_WD="${WORKDIR}/${HTTP_ICONV_MODULE_P}"
 HTTP_POSTGRES_MODULE_A="FRiCKLE"
 HTTP_POSTGRES_MODULE_PN="ngx_postgres"
 HTTP_POSTGRES_MODULE_PV="1.0rc5"
-#HTTP_POSTGRES_MODULE_SHA="f9479fbebe09a7e24ed28833033a0406c4a6f000"
+HTTP_POSTGRES_MODULE_SHA="49855a037607c89426b59f54ae2d3049dc5d1c74"
 HTTP_POSTGRES_MODULE_P="${HTTP_POSTGRES_MODULE_PN}-${HTTP_POSTGRES_MODULE_SHA:-${HTTP_POSTGRES_MODULE_PV}}"
 HTTP_POSTGRES_MODULE_URI="https://github.com/${HTTP_POSTGRES_MODULE_A}/${HTTP_POSTGRES_MODULE_PN}/archive/${HTTP_POSTGRES_MODULE_SHA:-${HTTP_POSTGRES_MODULE_PV}}.tar.gz"
 HTTP_POSTGRES_MODULE_WD="${WORKDIR}/${HTTP_POSTGRES_MODULE_P}"
@@ -535,6 +535,7 @@ REQUIRED_USE="
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )
 		nginx_modules_http_naxsi? ( pcre )
 		nginx_modules_http_pagespeed? ( pcre )
+		nginx_modules_http_postgres? ( nginx_modules_http_rewrite )
 		nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 		nginx_modules_http_hls_audio? ( nginx_modules_http_lua )
 		nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
@@ -693,17 +694,17 @@ src_prepare() {
 		fi
 	done
 
-	if use luajit; then
+	if use luajit && use nginx_modules_http_lua; then
 		sed -r \
 			-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
 			-i "${HTTP_LUA_MODULE_WD}/config"
 	fi
 
-	if use nginx_modules_http_lua; then
-		cd ${HTTP_LUA_MODULE_WD};
-		epatch ${FILESDIR}/${PV}_ngx_lua_v${HTTP_LUA_MODULE_PV}.patch
-		cd "${S}";
-	fi
+#	if use nginx_modules_http_lua; then
+#		cd ${HTTP_LUA_MODULE_WD};
+#		epatch ${FILESDIR}/${PV}_ngx_lua_v${HTTP_LUA_MODULE_PV}.patch
+#		cd "${S}";
+#	fi
 
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
@@ -726,6 +727,12 @@ src_prepare() {
 			-i lib/phusion_passenger/packaging.rb || die
 
 		rm -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module || die "Unable to remove unneeded install script."
+		cd "${S}"
+	fi
+
+	if use nginx_modules_http_postgres; then
+		cd "${HTTP_POSTGRES_MODULE_WD}"
+		epatch "${FILESDIR}/${P}_postgres_${HTTP_POSTGRES_MODULE_SHA}.patch"
 		cd "${S}"
 	fi
 
@@ -880,7 +887,9 @@ src_configure() {
 # http_passenger
 	if use nginx_modules_http_passenger; then
 		http_enabled=1
-		myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}"
+		for pass_wd in $(_ruby_each_implementation get_passenger_wd|grep -v 'Running .* phase for'); do
+			myconf+=" --add-module=${pass_wd}"
+		done
 	fi
 
 # http_push_stream
@@ -1090,9 +1099,9 @@ src_configure() {
 	fi
 
 	if use nginx_modules_http_passenger; then
-		cd "${HTTP_PASSENGER_MODULE_WD}";
+		#cd "${HTTP_PASSENGER_MODULE_WD}";
 		_ruby_each_implementation passenger_premake
-		cd "${S}"
+		cd "${S}";
 	fi
 
 	./configure \
@@ -1111,7 +1120,10 @@ src_configure() {
 		--http-uwsgi-temp-path="${EPREFIX}${NGINX_HOME_TMP}/uwsgi" \
 		${myconf} || die "configure failed"
 
-		sed -i -e "s|${WORKDIR}|ext|g" objs/ngx_auto_config.h || die
+# --add-module fix to take less space
+		sed -i -e "s|${WORKDIR}|ext|g" objs/ngx_auto_config.h
+# passenger --add-module fix to take even less space
+		sed -i -e "s|/${P}/|/|g;s|/ext/nginx||" objs/ngx_auto_config.h
 }
 
 src_compile() {
@@ -1122,12 +1134,15 @@ src_compile() {
 	emake LINK="${CC} ${LDFLAGS}" OTHERLDFLAGS="${LDFLAGS}" || die "emake failed"
 }
 
+get_passenger_wd() {
+	echo ${S}/${HTTP_PASSENGER_MODULE_P}/ext/nginx
+}
 
 passenger_premake() {
 	# dirty spike to make passenger compilation each-ruby compatible
 	mkdir -p "${S}"
+	cp -rl "${PN}-${PV}" "${S}"
 	cp -r "${HTTP_PASSENGER_MODULE_P}" "${S}"
-	cp -r "${PN}-${PV}" "${S}"
 	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}"
 	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i build/ruby_extension.rb
 	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i lib/phusion_passenger/native_support.rb
