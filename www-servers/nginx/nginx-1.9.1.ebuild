@@ -523,6 +523,7 @@ NGINX_MODULES_3RD="
 #	^ maybe, working, but drizzle itself doesn't build and dead
 
 REQUIRED_USE="
+		luajit? ( nginx_modules_http_lua )
 		nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
 		nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
 		nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
@@ -638,6 +639,13 @@ pkg_setup() {
 	enewgroup ${HTTPD_GROUP:-$PN}
 	enewuser ${HTTPD_USER:-$PN} -1 -1 "${NGINX_HOME}" ${HTTPD_GROUP:-$PN}
 	eend ${?}
+
+	if use nginx_modules_http_lua || use luajit; then
+		einfo "You will probably want to add 'lua' overlay"
+		einfo "and emerge @openresty set (only after adding lua repo)"
+		einfo "This is needed because I moved all lua-related packages there"
+		einfo "(to avoid double maintenance work here and there)."
+	fi
 
 	if use libatomic && ! use arm; then
 		ewarn ""
