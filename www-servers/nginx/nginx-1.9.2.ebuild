@@ -21,23 +21,23 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.9"
+HTTP_PASSENGER_MODULE_PV="5.0.10"
 #HTTP_PASSENGER_MODULE_SHA="cdd650c95faeeed01ad88c199a5f51bd6e03c49e"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
-HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}/ext/nginx"
+HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}"
 
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2 license)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
-HTTP_PAGESPEED_MODULE_PV="1.9.32.3-beta"
+HTTP_PAGESPEED_MODULE_PV="1.9.32.4-beta"
 #HTTP_PAGESPEED_MODULE_SHA="1c5b61679cc47716930399516e188e1e896060dd"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
 
 HTTP_PAGESPEED_PSOL_PN="psol"
-HTTP_PAGESPEED_PSOL_PV="1.9.32.3"
+HTTP_PAGESPEED_PSOL_PV="1.9.32.4"
 HTTP_PAGESPEED_PSOL_P="${HTTP_PAGESPEED_PSOL_PN}-${HTTP_PAGESPEED_PSOL_SHA:-${HTTP_PAGESPEED_PSOL_PV}}"
 HTTP_PAGESPEED_PSOL_URI="https://dl.google.com/dl/page-speed/${HTTP_PAGESPEED_PSOL_PN}/${HTTP_PAGESPEED_PSOL_PV}.tar.gz"
 HTTP_PAGESPEED_PSOL_WD="../${HTTP_PAGESPEED_PSOL_PN}"
@@ -97,7 +97,7 @@ HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODU
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="${WORKDIR}/${HTTP_CACHE_PURGE_MODULE_P}"
 
-# ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer/tags, as-is)
+# http_ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer/tags, as-is)
 HTTP_EY_BALANCER_MODULE_A="msva"
 HTTP_EY_BALANCER_MODULE_PN="nginx-ey-balancer"
 HTTP_EY_BALANCER_MODULE_PV="0.0.9"
@@ -105,7 +105,7 @@ HTTP_EY_BALANCER_MODULE_P="${HTTP_EY_BALANCER_MODULE_PN}-${HTTP_EY_BALANCER_MODU
 HTTP_EY_BALANCER_MODULE_URI="https://github.com/${HTTP_EY_BALANCER_MODULE_A}/${HTTP_EY_BALANCER_MODULE_PN}/archive/${HTTP_EY_BALANCER_MODULE_SHA:-v${HTTP_EY_BALANCER_MODULE_PV}}.tar.gz"
 HTTP_EY_BALANCER_MODULE_WD="${WORKDIR}/${HTTP_EY_BALANCER_MODULE_P}"
 
-# NginX DevKit module (https://github.com/simpl/ngx_devel_kit/tags, BSD)
+# http_ndk, NginX DevKit module (https://github.com/simpl/ngx_devel_kit/tags, BSD)
 HTTP_NDK_MODULE_A="simpl"
 HTTP_NDK_MODULE_PN="ngx_devel_kit"
 HTTP_NDK_MODULE_PV="0.2.19"
@@ -113,7 +113,7 @@ HTTP_NDK_MODULE_P="${HTTP_NDK_MODULE_PN}-${HTTP_NDK_MODULE_SHA:-${HTTP_NDK_MODUL
 HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_PN}/archive/${HTTP_NDK_MODULE_SHA:-v${HTTP_NDK_MODULE_PV}}.tar.gz"
 HTTP_NDK_MODULE_WD="${WORKDIR}/${HTTP_NDK_MODULE_P}"
 
-# NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
+# http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
 HTTP_LUA_MODULE_PV="0.9.16"
@@ -230,7 +230,7 @@ HTTP_ICONV_MODULE_WD="${WORKDIR}/${HTTP_ICONV_MODULE_P}"
 HTTP_POSTGRES_MODULE_A="FRiCKLE"
 HTTP_POSTGRES_MODULE_PN="ngx_postgres"
 HTTP_POSTGRES_MODULE_PV="1.0rc5"
-HTTP_POSTGRES_MODULE_SHA="49855a037607c89426b59f54ae2d3049dc5d1c74"
+HTTP_POSTGRES_MODULE_SHA="04e33d179be93c4b7ecd0b1e7d461724262548da"
 HTTP_POSTGRES_MODULE_P="${HTTP_POSTGRES_MODULE_PN}-${HTTP_POSTGRES_MODULE_SHA:-${HTTP_POSTGRES_MODULE_PV}}"
 HTTP_POSTGRES_MODULE_URI="https://github.com/${HTTP_POSTGRES_MODULE_A}/${HTTP_POSTGRES_MODULE_PN}/archive/${HTTP_POSTGRES_MODULE_SHA:-${HTTP_POSTGRES_MODULE_PV}}.tar.gz"
 HTTP_POSTGRES_MODULE_WD="${WORKDIR}/${HTTP_POSTGRES_MODULE_P}"
@@ -291,7 +291,7 @@ HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAX
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
 
-# nginx-dav-ext-module (http://github.com/arut/nginx-dav-ext-module/tags, BSD license)
+# nginx-dav-ext-module (https://github.com/arut/nginx-dav-ext-module/tags, BSD license)
 HTTP_DAV_EXT_MODULE_A="arut"
 HTTP_DAV_EXT_MODULE_PN="nginx-dav-ext-module"
 HTTP_DAV_EXT_MODULE_PV="0.0.3"
@@ -299,7 +299,7 @@ HTTP_DAV_EXT_MODULE_P="${HTTP_DAV_EXT_MODULE_PN}-${HTTP_DAV_EXT_MODULE_SHA:-${HT
 HTTP_DAV_EXT_MODULE_URI="https://github.com/${HTTP_DAV_EXT_MODULE_A}/${HTTP_DAV_EXT_MODULE_PN}/archive/${HTTP_DAV_EXT_MODULE_SHA:-v${HTTP_DAV_EXT_MODULE_PV}}.tar.gz"
 HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 
-# nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module/tags, BSD license)
+# nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module/tags, BSD license)
 RTMP_MODULE_A="arut"
 RTMP_MODULE_PN="nginx-rtmp-module"
 RTMP_MODULE_PV="1.1.7"
@@ -312,6 +312,7 @@ RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
 HTTP_SECURITY_MODULE_A="SpiderLabs"
 HTTP_SECURITY_MODULE_PN="ModSecurity"
 HTTP_SECURITY_MODULE_PV="2.9.0"
+HTTP_SECURITY_MODULE_SHA="2c95bcda566f9b56fb3f7846dee4f7f4607befe8"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -446,12 +447,13 @@ NGINX_MODULES_STD="
 	uwsgi
 "
 NGINX_MODULES_STREAM="
+	access
 	upstream_hash
 	upstream_least_conn
 	upstream_zone
 "
 
-NGINX_MODULES_OPT="
+NGINX_MODULES_HTTP_OPT="
 	addition
 	auth_request
 	dav
@@ -545,13 +547,13 @@ REQUIRED_USE="
 		pcre-jit? ( pcre )
 "
 
-IUSE="debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream vim-syntax luajit selinux rtmp"
+IUSE="aio debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux rtmp"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
 
-for mod in $NGINX_MODULES_OPT; do
+for mod in $NGINX_MODULES_HTTP_OPT; do
 	IUSE="${IUSE} nginx_modules_http_${mod}"
 done
 
@@ -615,6 +617,8 @@ CDEPEND="
 		)
 		>=dev-ruby/rake-0.8.1
 		!!www-apache/passenger
+		dev-libs/libev
+		dev-libs/libuv
 	)
 "
 #	nginx_modules_http_drizzle? ( dev-db/drizzle )
@@ -624,9 +628,16 @@ DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )
 	nginx_modules_http_security? (
-		www-servers/apache
+		www-servers/apache-headers
+		dev-libs/apr
+		dev-libs/apr-util
 	)
 "
+
+# mod_pagespeed issues QA warning.
+QA_EXECSTACK="usr/sbin/nginx"
+QA_WX_LOAD="usr/sbin/nginx"
+
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
 S="${WORKDIR}/${P}"
@@ -641,10 +652,12 @@ pkg_setup() {
 	eend ${?}
 
 	if use nginx_modules_http_lua || use luajit; then
+		einfo ""
 		einfo "You will probably want to add 'lua' overlay"
 		einfo "and emerge @openresty set (only after adding lua repo)"
 		einfo "This is needed because I moved all lua-related packages there"
 		einfo "(to avoid double maintenance work here and there)."
+		einfo ""
 	fi
 
 	if use libatomic && ! use arm; then
@@ -652,6 +665,7 @@ pkg_setup() {
 		ewarn "GCC 4.1+ features built-in atomic operations."
 		ewarn "Using libatomic_ops is only needed if you use"
 		ewarn "a different compiler or GCC <4.1"
+		ewarn ""
 	fi
 
 	if [[ -n $NGINX_ADD_MODULES ]]; then
@@ -660,6 +674,7 @@ pkg_setup() {
 		ewarn "This nginx installation is *not supported*!"
 		ewarn "Make sure you can reproduce the bug without those modules"
 		ewarn "_before_ reporting bugs."
+		ewarn ""
 	fi
 
 	if use nginx_modules_http_passenger; then
@@ -671,6 +686,7 @@ pkg_setup() {
 		ewarn ""
 		ewarn "To actually disable all http-functionality you also have to disable"
 		ewarn "all nginx http modules."
+		ewarn ""
 	fi
 }
 
@@ -742,9 +758,32 @@ src_prepare() {
 		sed \
 			-e '/passenger-install-apache2-module/d' \
 			-e "/passenger-install-nginx-module/d" \
-			-i lib/phusion_passenger/packaging.rb || die
+			-i lib/phusion_passenger/packaging.rb
 
-		rm -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module || die "Unable to remove unneeded install script."
+		sed -r \
+			-e 's#(LIBEV_CFLAGS =).*#\1 "-I/usr/include"#' \
+			-e 's#(LIBUV_CFLAGS =).*#\1 "-I/usr/include"#' \
+			-i build/common_library.rb
+
+		sed \
+			-e 's#local/include#include#' \
+			-i lib/phusion_passenger/platform_info/cxx_portability.rb
+
+############################################################
+## WARNING! That piece is trying to unpatch passenger from it's bundled libev
+## May provide crashes at runtime! If it is a case why you're looking here
+## then report that issue, please.
+##
+## Also you can participate here: http://git.io/vL2In
+############################################################
+		sed \
+			-e '/ev_loop_get_pipe/d' \
+			-e '/ev_backend_fd/d' \
+			-i ext/common/SafeLibev.h ext/common/BackgroundEventLoop.cpp
+############################################################
+
+		rm -r -f bin/passenger-install-apache2-module bin/passenger-install-nginx-module ext/apache2 ext/libuv ext/libev
+
 		cd "${S}"
 	fi
 
@@ -755,7 +794,8 @@ src_prepare() {
 	fi
 
 	if use nginx_modules_http_pagespeed; then
-		# Sorry. I tired in tries to patch it's buildsystem to just get psol from parentdir and don't fail the build...
+		# Sorry. I tired in tries to patch it's buildsystem to just get psol
+		# from parentdir (or even take system-wide one) and don't fail the build...
 		ln -s "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/" || die "Failed to make symlink to psol"
 		local arch=${ARCH};
 		use x86 && arch=x86_32;
@@ -772,11 +812,13 @@ src_configure() {
 	cd "${S}"
 	local myconf= http_enabled= mail_enabled=
 
+	use aio	&& myconf+=" --with-file-aio"
 	use debug	&& myconf+=" --with-debug"
 	use ipv6	&& myconf+=" --with-ipv6"
 	use libatomic	&& myconf+=" --with-libatomic"
 	use pcre	&& myconf+=" --with-pcre"
 	use pcre-jit	&& myconf+=" --with-pcre-jit"
+	use threads	&& myconf+=" --with-threads"
 
 	# HTTP modules
 	for mod in $NGINX_MODULES_STD; do
@@ -787,7 +829,7 @@ src_configure() {
 		fi
 	done
 
-	for mod in $NGINX_MODULES_OPT; do
+	for mod in $NGINX_MODULES_HTTP_OPT; do
 		if use nginx_modules_http_${mod}; then
 			http_enabled=1
 			myconf+=" --with-http_${mod}_module"
@@ -905,9 +947,9 @@ src_configure() {
 # http_passenger
 	if use nginx_modules_http_passenger; then
 		http_enabled=1
-		for pass_wd in $(_ruby_each_implementation get_passenger_wd|grep -v 'Running .* phase for'); do
-			myconf+=" --add-module=${pass_wd}"
-		done
+#		for pass_wd in $(_ruby_each_implementation get_passenger_wd|grep -v 'Running .* phase for'); do
+			myconf+=" --add-module=${HTTP_PASSENGER_MODULE_WD}/ext/nginx"
+#		done
 	fi
 
 # http_push_stream
@@ -1103,6 +1145,7 @@ src_configure() {
 
 	if use nginx_modules_http_security; then
 		cd "${HTTP_SECURITY_MODULE_WD}"
+		export CFLAGS="${CFLAGS} -I/usr/include/apache2";
 		./autogen.sh
 		econf \
 			--enable-standalone-module \
@@ -1117,8 +1160,15 @@ src_configure() {
 	fi
 
 	if use nginx_modules_http_passenger; then
-		#cd "${HTTP_PASSENGER_MODULE_WD}";
-		_ruby_each_implementation passenger_premake
+		# workaround on QA issues on passenger
+		cd "${HTTP_PASSENGER_MODULE_WD}";
+		einfo "Compiling Passenger support binaries"
+		export USE_VENDORED_LIBEV=no USE_VENDORED_LIBUV=no
+		export CFLAGS="${CFLAGS} -fno-strict-aliasing"
+# -Wno-unused-result -Wno-unused-variable"
+		export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing"
+# -Wno-unused-result -Wno-unused-variable"
+		rake nginx || die "Passenger premake for ${RUBY} failed!"
 		cd "${S}";
 	fi
 
@@ -1141,38 +1191,50 @@ src_configure() {
 # --add-module fix to take less space
 		sed -i -e "s|${WORKDIR}|ext|g" objs/ngx_auto_config.h
 # passenger --add-module fix to take even less space
-		sed -i -e "s|/${P}/|/|g;s|/ext/nginx||" objs/ngx_auto_config.h
+		use nginx_modules_http_passenger && \
+			sed -i -e "s|/${P}/|/|g;s|/ext/nginx||g" objs/ngx_auto_config.h
 }
 
 src_compile() {
 	cd "${S}"
 	# https://bugs.gentoo.org/286772
 	export LANG=C LC_ALL=C
-	use nginx_modules_http_security && emake -C "${HTTP_SECURITY_MODULE_WD}"
+
+	if use nginx_modules_http_security; then
+		export CFLAGS="${CFLAGS} -I/usr/include/apache2";
+		emake -C "${HTTP_SECURITY_MODULE_WD}";
+	fi
+
 	emake LINK="${CC} ${LDFLAGS}" OTHERLDFLAGS="${LDFLAGS}" || die "emake failed"
 }
 
-get_passenger_wd() {
-	echo ${S}/${HTTP_PASSENGER_MODULE_P}/ext/nginx
-}
+#get_passenger_wd() {
+#	echo ${S}/${HTTP_PASSENGER_MODULE_P}/ext/nginx
+#}
 
-passenger_premake() {
-	# dirty spike to make passenger compilation each-ruby compatible
-	mkdir -p "${S}"
-	cp -rl "${PN}-${PV}" "${S}"
-	cp -r "${HTTP_PASSENGER_MODULE_P}" "${S}"
-	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}"
-	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i build/ruby_extension.rb
-	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i lib/phusion_passenger/native_support.rb
-	# workaround on QA issues on passenger
-	export CFLAGS="${CFLAGS} -fno-strict-aliasing -Wno-unused-result"
-	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing -Wno-unused-result"
-	rake nginx || die "Passenger premake for ${RUBY} failed!"
-}
+#passenger_premake() {
+#	# dirty spike to make passenger compilation each-ruby compatible
+#	mkdir -p "${S}"
+#	cp -rl "${P}" "${S}"
+#	cp -r "${P}" "${S}"
+#	cp -r "${HTTP_PASSENGER_MODULE_P}" "${S}"
+#	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}"
+#	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i build/ruby_extension.rb
+#	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i lib/phusion_passenger/native_support.rb
+#	sed -e "s% ruby % ${RUBY} %g" -i ext/nginx/config
+#	sed -r \
+#		-e "s%(ngx_addon_name)=.*%\1=ngx_http_passenger_module_${RUBY//*\/}%g" \
+#		-e 's%(HTTP_MODULES)=.*%\1="$HTTP_MODULES $ngx_addon_name"%g' \
+#		-i ext/nginx/config
+#	# workaround on QA issues on passenger
+#	export CFLAGS="${CFLAGS} -fno-strict-aliasing -Wno-unused-result"
+#	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing -Wno-unused-result"
+#	rake nginx || die "Passenger premake for ${RUBY} failed!"
+#}
 
 passenger_install() {
 	# dirty spike to make passenger installation each-ruby compatible
-	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}/ext/nginx"
+	cd "${HTTP_PASSENGER_MODULE_WD}/ext/nginx"
 	rake fakeroot \
 		NATIVE_PACKAGING_METHOD=ebuild \
 		FS_PREFIX="${PREFIX}/usr" \
