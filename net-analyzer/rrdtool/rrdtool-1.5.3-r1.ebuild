@@ -8,7 +8,7 @@ DISTUTILS_OPTIONAL=true
 DISTUTILS_SINGLE_IMPL=true
 GENTOO_DEPEND_ON_PERL=no
 PYTHON_COMPAT=( python2_7 )
-inherit autotools eutils perl-module distutils-r1 flag-o-matic multilib
+inherit autotools eutils perl-module distutils-r1 flag-o-matic multilib toolchain-funcs
 
 DESCRIPTION="A system to store and display time-series data"
 HOMEPAGE="http://oss.oetiker.ch/rrdtool/"
@@ -28,7 +28,17 @@ CDEPEND="
 		>=x11-libs/cairo-1.10.2[svg,static-libs(+)?]
 		>=x11-libs/pango-1.28
 	)
-	lua? ( dev-lang/lua:*[deprecated] )
+	lua? (
+		!luajit? (
+			dev-lang/lua:*[deprecated]
+		)
+	)
+	luajit? (
+		|| (
+			virtual/lua[luajit]
+			dev-lang/luajit:*
+		)
+	)
 	perl? ( dev-lang/perl:= )
 	python? ( ${PYTHON_DEPS} )
 	rados? ( sys-cluster/ceph )
@@ -132,7 +142,16 @@ src_configure() {
 }
 
 src_compile() {
-	default
+	local lua="lua";
+	use luajit && lua="luajit";
+	emake \
+	LUA_INSTALL_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
+	LUA_INSTALL_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
+	LUA="/usr/bin/${lua}" \
+	LUA_LFLAGS="$($(tc-getPKG_CONFIG) --libs ${lua})" \
+	LUA_CFLAGS="$($(tc-getPKG_CONFIG) --cflags ${lua})" \
+	|| die "make install failed"
+
 
 	use python && distutils-r1_src_compile
 }
@@ -169,8 +188,8 @@ src_install() {
 }
 
 pkg_postinst() {
-	ewarn "Since version 1.3, rrdtool dump emits completely legal xml.  Basically this"
-	ewarn "means that it contains an xml header and a DOCTYPE definition.  Unfortunately"
+	ewarn "Since version 1.3, rrdtool dump emits completely legal xml. Basically this"
+	ewarn "means that it contains an xml header and a DOCTYPE definition. Unfortunately"
 	ewarn "this causes older versions of rrdtool restore to be unhappy."
 	ewarn
 	ewarn "To restore a new dump with an old rrdtool restore version, either remove"
@@ -178,6 +197,6 @@ pkg_postinst() {
 	ewarn "or use rrdtool dump --no-header."
 	ewarn
 	ewarn ">=net-analyzer/rrdtool-1.3 does not have any default font bundled. Thus if"
-	ewarn ">you've upgraded from rrdtool-1.2.x and don't have any font installed to make"
-	ewarn ">lables visible, please, install some font, e.g.  media-fonts/dejavu."
+	ewarn "you've upgraded from rrdtool-1.2.x and don't have any font installed to make"
+	ewarn "labels visible, please, install some font, e.g.  media-fonts/dejavu."
 }
