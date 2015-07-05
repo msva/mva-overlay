@@ -1,13 +1,14 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Header: /var/cvsroot/gentoo-x86/net-analyzer/rrdtool/rrdtool-1.5.3-r1.ebuild,v 1.4 2015/05/26 04:56:46 jer Exp $
 
 EAPI="5"
 
-DISTUTILS_OPTIONAL="true"
-GENTOO_DEPEND_ON_PERL="no"
-PYTHON_COMPAT=( python{2_7,3_4} )
-inherit eutils distutils-r1 flag-o-matic multilib perl-module autotools toolchain-funcs
+DISTUTILS_OPTIONAL=true
+DISTUTILS_SINGLE_IMPL=true
+GENTOO_DEPEND_ON_PERL=no
+PYTHON_COMPAT=( python2_7 )
+inherit autotools eutils perl-module distutils-r1 flag-o-matic multilib
 
 DESCRIPTION="A system to store and display time-series data"
 HOMEPAGE="http://oss.oetiker.ch/rrdtool/"
@@ -15,64 +16,82 @@ SRC_URI="http://oss.oetiker.ch/rrdtool/pub/${P/_/-}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
-IUSE="dbi doc +graph lua luajit perl python ruby rrdcgi static-libs tcl tcpd"
+KEYWORDS="~amd64 ~arm ~hppa ~mips ~ppc ~ppc64 ~s390 ~sh ~x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
+IUSE="dbi doc graph lua perl python rados rrdcgi ruby static-libs tcl tcpd"
 
-PDEPEND="
-	ruby? ( ~dev-ruby/rrdtool-bindings-${PV} )
-"
-
-RDEPEND="
-	>=dev-libs/glib-2.28.7[static-libs(+)?]
-	>=dev-libs/libxml2-2.7.8[static-libs(+)?]
+CDEPEND="
+	>=dev-libs/glib-2.28.7:2[static-libs(+)?]
+	>=dev-libs/libxml2-2.7.8:2[static-libs(+)?]
 	dbi? ( dev-db/libdbi[static-libs(+)?] )
 	graph? (
-		>=media-libs/libpng-1.5.10[static-libs(+)?]
+		>=media-libs/libpng-1.5.10:0=[static-libs(+)?]
 		>=x11-libs/cairo-1.10.2[svg,static-libs(+)?]
 		>=x11-libs/pango-1.28
 	)
-	lua? ( virtual/lua[luajit=] )
-	perl? ( dev-lang/perl )
+	lua? ( dev-lang/lua:*[deprecated] )
+	perl? ( dev-lang/perl:= )
 	python? ( ${PYTHON_DEPS} )
-	tcl? ( dev-lang/tcl )
+	rados? ( sys-cluster/ceph )
+	tcl? ( dev-lang/tcl:0= )
 	tcpd? ( sys-apps/tcp-wrappers )
 "
 
 DEPEND="
-	${RDEPEND}
+	${CDEPEND}
 	sys-apps/groff
 	virtual/pkgconfig
 	virtual/awk
 "
+RDEPEND="
+	${CDEPEND}
+"
+PDEPEND="
+	ruby? ( ~dev-ruby/rrdtool-bindings-${PV} )
+"
 
-S="${WORKDIR}/${P/_/-}"
+S=${WORKDIR}/${P/_/-}
 
 python_compile() {
-	cd bindings/python || die 'can not enter to python bindings directory'
+	cd bindings/python || die
 	distutils-r1_python_compile
 }
 
 python_install() {
-	cd bindings/python || die 'can not enter to python bindings directory'
+	cd bindings/python || die
 	distutils-r1_python_install
 }
 
 src_prepare() {
-#	epatch "${FILESDIR}"/${PN}-1.4.7-configure.ac.patch
-#
-#	# bug 456810
-#	# no time to sleep
-#	sed -i \
-#		-e 's|$LUA_CFLAGS|IGNORE_THIS_BAD_TEST|g' \
-#		-e 's|^sleep 1$||g' \
-#		configure.ac || die
-#
+	# At the next version bump, please see if you actually still need these
+	# before adding versions
+	cp "${FILESDIR}"/${P}-rrd_rados.h src/rrd_rados.h || die
+	cp "${FILESDIR}"/${P}-rrdrados.pod doc/rrdrados.pod || die
+
+	epatch \
+		"${FILESDIR}"/${PN}-1.4.7-configure.ac.patch \
+		"${FILESDIR}"/${PN}-1.4.9-disable-rrd_graph-cgi.patch \
+		"${FILESDIR}"/${PN}-1.4.9-disable-rrd_graph-perl.patch \
+		"${FILESDIR}"/${PN}-1.5.0_rc1-disable-rrd_graph-lua.patch \
+		"${FILESDIR}"/${PN}-1.5.0_rc1-disable-rrd_graph-python.patch
+
+	# bug 456810
+	# no time to sleep
+	sed -i \
+		-e 's|$LUA_CFLAGS|IGNORE_THIS_BAD_TEST|g' \
+		-e 's|^sleep 1$||g' \
+		-e '/^dnl.*png/s|^dnl||g' \
+		configure.ac || die
+
 	# Python bindings are built/installed manually
 	sed -i \
 		-e '/^all-local:/s| @COMP_PYTHON@||' \
 		bindings/Makefile.am || die
 
-#	eautoreconf
+	echo ${PV/_rc*/} >> VERSION || die
+
+	export rd_cv_gcc_flag__Werror=no
+
+	eautoreconf
 }
 
 src_configure() {
@@ -90,6 +109,9 @@ src_configure() {
 	fi
 	if ! use dbi; then
 		myconf+=( "--disable-libdbi" )
+	fi
+	if ! use rados; then
+		myconf+=( "--disable-librados" )
 	fi
 
 	econf \
@@ -110,15 +132,7 @@ src_configure() {
 }
 
 src_compile() {
-	local lua="lua";
-	use luajit && lua="luajit";
-	emake \
-		LUA_INSTALL_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-		LUA_INSTALL_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-		LUA="/usr/bin/${lua}" \
-		LUA_LFLAGS="$($(tc-getPKG_CONFIG) --libs ${lua})" \
-		LUA_CFLAGS="$($(tc-getPKG_CONFIG) --cflags ${lua})" \
-	|| die "make install failed"
+	default
 
 	use python && distutils-r1_src_compile
 }
@@ -141,9 +155,7 @@ src_install() {
 		perl_delete_packlist
 	fi
 
-	use python && distutils-r1_src_install
-
-	dodoc CHANGES CONTRIBUTORS NEWS THREADS ABOUT-NLS TODO
+	dodoc CHANGES CONTRIBUTORS NEWS THREADS TODO
 
 	find "${ED}"usr -name '*.la' -exec rm -f {} +
 
@@ -152,6 +164,8 @@ src_install() {
 
 	newconfd "${FILESDIR}"/rrdcached.confd rrdcached
 	newinitd "${FILESDIR}"/rrdcached.init rrdcached
+
+	use python && distutils-r1_src_install
 }
 
 pkg_postinst() {
