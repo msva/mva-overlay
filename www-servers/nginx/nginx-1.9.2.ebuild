@@ -1351,7 +1351,7 @@ src_install() {
 # http_encrypted_session
 	if use nginx_modules_http_encrypted_session; then
 		docinto "${HTTP_ENCRYPTED_SESSION_MODULE_P}"
-		dodoc "${HTTP_ENCRYPTED_SESSION_MODULE_WD}"/README
+		dodoc "${HTTP_ENCRYPTED_SESSION_MODULE_WD}"/README.md
 	fi
 
 # http_lua
@@ -1405,13 +1405,13 @@ src_install() {
 # http_rds_json
 	if use nginx_modules_http_rds_json; then
 		docinto "${HTTP_RDS_JSON_MODULE_P}"
-		dodoc "${HTTP_RDS_JSON_MODULE_WD}"/README
+		dodoc "${HTTP_RDS_JSON_MODULE_WD}"/README.md
 	fi
 
 # http_rds_csv
 	if use nginx_modules_http_rds_csv; then
 		docinto "${HTTP_RDS_CSV_MODULE_P}"
-		dodoc "${HTTP_RDS_CSV_MODULE_WD}"/README
+		dodoc "${HTTP_RDS_CSV_MODULE_WD}"/README.md
 	fi
 
 # http_postgres
@@ -1435,13 +1435,13 @@ src_install() {
 # http_xss
 	if use nginx_modules_http_xss; then
 		docinto "${HTTP_XSS_MODULE_P}"
-		dodoc "${HTTP_XSS_MODULE_WD}"/README
+		dodoc "${HTTP_XSS_MODULE_WD}"/README.md
 	fi
 
 # http_array_var
 	if use nginx_modules_http_array_var; then
 		docinto "${HTTP_ARRAY_VAR_MODULE_P}"
-		dodoc "${HTTP_ARRAY_VAR_MODULE_WD}"/README
+		dodoc "${HTTP_ARRAY_VAR_MODULE_WD}"/README.md
 	fi
 
 # http_iconv
@@ -1521,7 +1521,7 @@ src_install() {
 
 	if use nginx_modules_http_ajp; then
 		docinto ${HTTP_AJP_MODULE_P}
-		dodoc "${HTTP_AJP_MODULE_WD}"/README
+		dodoc "${HTTP_AJP_MODULE_WD}"/README*
 	fi
 
 }
