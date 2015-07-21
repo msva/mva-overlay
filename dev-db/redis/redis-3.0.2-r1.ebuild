@@ -36,7 +36,7 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.8.3-shared.patch
 	epatch "${FILESDIR}"/${PN}-2.8.17-config.patch
-	epatch "${FILESDIR}"/${P}-sharedlua.patch
+	epatch "${FILESDIR}"/${PN}-3.0.0-sharedlua.patch
 	use luajit && sed -r \
 		-e 's#^(FINAL_LIBS\+=.*lua)#\1jit#' \
 		-i src/Makefile
