@@ -11,7 +11,7 @@ HOMEPAGE="http://redis.io/"
 SRC_URI="http://download.redis.io/releases/${P}.tar.gz"
 
 LICENSE="BSD"
-KEYWORDS="~amd64 ~amd64-linux ~hppa ~x86 ~x86-linux ~x86-macos ~x86-solaris"
+KEYWORDS="~amd64 ~hppa ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x86-macos ~x86-solaris"
 IUSE="+jemalloc tcmalloc test luajit"
 SLOT="0"
 
@@ -22,7 +22,7 @@ RDEPEND="
 	jemalloc? ( >=dev-libs/jemalloc-3.2 )"
 DEPEND="virtual/pkgconfig
 	>=sys-devel/autoconf-2.63
-	test? ( dev-lang/tcl )
+	test? ( dev-lang/tcl:0= )
 	${RDEPEND}"
 REQUIRED_USE="?? ( tcmalloc jemalloc )"
 
@@ -102,7 +102,7 @@ src_install() {
 	newconfd "${FILESDIR}/redis.confd" redis
 	newinitd "${FILESDIR}/redis.initd-4" redis
 
-	systemd_dounit "${FILESDIR}/redis.service"
+	systemd_newunit "${FILESDIR}/redis.service-2" redis.service
 	systemd_newtmpfilesd "${FILESDIR}/redis.tmpfiles" redis.conf
 
 	nonfatal dodoc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README
