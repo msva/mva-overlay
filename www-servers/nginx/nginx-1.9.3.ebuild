@@ -21,7 +21,7 @@ RUBY_OPTIONAL="yes"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.13"
+HTTP_PASSENGER_MODULE_PV="5.0.14"
 #HTTP_PASSENGER_MODULE_SHA="cdd650c95faeeed01ad88c199a5f51bd6e03c49e"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -117,7 +117,7 @@ HTTP_NDK_MODULE_WD="${WORKDIR}/${HTTP_NDK_MODULE_P}"
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
 HTTP_LUA_MODULE_PV="0.9.16"
-HTTP_LUA_MODULE_SHA="51a311c04f0562864e068c3bb0e76a8b0a70b892"
+HTTP_LUA_MODULE_SHA="b8fc6c5894b2bbd4db14d05b9af932696ab64aca"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
@@ -229,8 +229,8 @@ HTTP_ICONV_MODULE_WD="${WORKDIR}/${HTTP_ICONV_MODULE_P}"
 # NginX postgres module (https://github.com/FRiCKLE/ngx_postgres/tags, BSD-2)
 HTTP_POSTGRES_MODULE_A="FRiCKLE"
 HTTP_POSTGRES_MODULE_PN="ngx_postgres"
-HTTP_POSTGRES_MODULE_PV="1.0rc6"
-HTTP_POSTGRES_MODULE_SHA="7950a250e9bc99967d83c57fbbadb9d0d6d5c4bf"
+HTTP_POSTGRES_MODULE_PV="1.0rc7"
+#HTTP_POSTGRES_MODULE_SHA="7950a250e9bc99967d83c57fbbadb9d0d6d5c4bf"
 HTTP_POSTGRES_MODULE_P="${HTTP_POSTGRES_MODULE_PN}-${HTTP_POSTGRES_MODULE_SHA:-${HTTP_POSTGRES_MODULE_PV}}"
 HTTP_POSTGRES_MODULE_URI="https://github.com/${HTTP_POSTGRES_MODULE_A}/${HTTP_POSTGRES_MODULE_PN}/archive/${HTTP_POSTGRES_MODULE_SHA:-${HTTP_POSTGRES_MODULE_PV}}.tar.gz"
 HTTP_POSTGRES_MODULE_WD="${WORKDIR}/${HTTP_POSTGRES_MODULE_P}"
@@ -275,8 +275,8 @@ HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/${HTTP_FANCYINDEX_MODULE_P}"
 #HTTP_UPSTREAM_CHECK_MODULE_URI="https://github.com/${HTTP_UPSTREAM_CHECK_MODULE_A}/${HTTP_UPSTREAM_CHECK_MODULE_PN}/archive/${HTTP_UPSTREAM_CHECK_MODULE_SHA:-v${HTTP_UPSTREAM_CHECK_MODULE_PV}}.tar.gz"
 #HTTP_UPSTREAM_CHECK_MODULE_WD="${WORKDIR}/${HTTP_UPSTREAM_CHECK_MODULE_P}"
 
-# http_metrics (https://github.com/madvertise/ngx_metrics/tags, BSD license)
-HTTP_METRICS_MODULE_A="madvertise"
+# http_metrics (https://github.com/zenops/ngx_metrics/tags, BSD license)
+HTTP_METRICS_MODULE_A="zenops"
 HTTP_METRICS_MODULE_PN="ngx_metrics"
 HTTP_METRICS_MODULE_PV="0.1.1"
 HTTP_METRICS_MODULE_P="${HTTP_METRICS_MODULE_PN}-${HTTP_METRICS_MODULE_SHA:-${HTTP_METRICS_MODULE_PV}}"
@@ -583,6 +583,7 @@ CDEPEND="
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
 	nginx_modules_http_ctpp? ( www-apps/ctpp2 >=sys-devel/gcc-4.6 )
+	nginx_modules_http_postgres? ( dev-db/postgresql[threads=] )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
