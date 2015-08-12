@@ -113,6 +113,15 @@ HTTP_NDK_MODULE_P="${HTTP_NDK_MODULE_PN}-${HTTP_NDK_MODULE_SHA:-${HTTP_NDK_MODUL
 HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_PN}/archive/${HTTP_NDK_MODULE_SHA:-v${HTTP_NDK_MODULE_PV}}.tar.gz"
 HTTP_NDK_MODULE_WD="${WORKDIR}/${HTTP_NDK_MODULE_P}"
 
+# http_redis, NginX Redis 2.0 module (https://github.com/openresty/redis2-nginx-module/tags, BSD)
+HTTP_REDIS_MODULE_A="openresty"
+HTTP_REDIS_MODULE_PN="redis2-nginx-module"
+HTTP_REDIS_MODULE_PV="0.12"
+#HTTP_REDIS_MODULE_SHA=""
+HTTP_REDIS_MODULE_P="${HTTP_REDIS_MODULE_PN}-${HTTP_REDIS_MODULE_SHA:-${HTTP_REDIS_MODULE_PV}}"
+HTTP_REDIS_MODULE_URI="https://github.com/${HTTP_REDIS_MODULE_A}/${HTTP_REDIS_MODULE_PN}/archive/${HTTP_REDIS_MODULE_SHA:-v${HTTP_REDIS_MODULE_PV}}.tar.gz"
+HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
+
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
@@ -355,6 +364,10 @@ HTTP_MOGILEFS_MODULE_P="${HTTP_MOGILEFS_MODULE_PN}-${HTTP_MOGILEFS_MODULE_PV}"
 HTTP_MOGILEFS_MODULE_URI="http://www.grid.net.ru/nginx/download/${HTTP_MOGILEFS_MODULE_P}.tar.gz"
 HTTP_MOGILEFS_MODULE_WD="${WORKDIR}/${HTTP_MOGILEFS_MODULE_P}"
 
+HTTP_V2_MODULE_PV="1_1.9.3"
+HTTP_V2_MODULE_URI="http://nginx.org/patches/http2/patch.http2-v${HTTP_V2_MODULE_PV}.txt"
+HTTP_V2_MODULE_PATCHNAME="patch.http2-v${HTTP_V2_MODULE_PV}.patch"
+
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd pax-utils multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
@@ -363,6 +376,7 @@ HOMEPAGE="
 	"
 SRC_URI="
 	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
+	nginx_modules_http_v2? ( ${HTTP_V2_MODULE_URI} -> ${HTTP_V2_MODULE_PATCHNAME} )
 	nginx_modules_http_pagespeed? (
 		${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz
 		${HTTP_PAGESPEED_PSOL_URI} -> ${HTTP_PAGESPEED_PSOL_P}.tar.gz
@@ -375,6 +389,7 @@ SRC_URI="
 	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
+	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} -> ${HTTP_REDIS_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_lua_upstream? ( ${HTTP_LUA_UPSTREAM_MODULE_URI} -> ${HTTP_LUA_UPSTREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_replace_filter? ( ${HTTP_REPLACE_FILTER_MODULE_URI} -> ${HTTP_REPLACE_FILTER_MODULE_P}.tar.gz )
@@ -472,6 +487,7 @@ NGINX_MODULES_HTTP_OPT="
 	stub_status
 	sub
 	xslt
+	v2
 "
 
 NGINX_MODULES_MAIL="
@@ -489,6 +505,7 @@ NGINX_MODULES_3RD="
 	http_ey_balancer
 	http_slowfs_cache
 	http_ndk
+	http_redis
 	http_lua
 	http_lua_upstream
 	http_replace_filter
@@ -526,6 +543,7 @@ NGINX_MODULES_3RD="
 
 REQUIRED_USE="
 		luajit? ( nginx_modules_http_lua )
+		nginx_modules_http_v2? ( ssl !nginx_modules_http_spdy )
 		nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
 		nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
 		nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
@@ -649,6 +667,14 @@ PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
 S="${WORKDIR}/${P}"
 
+custom_econf() {
+	local EXTRA_ECONF=(${EXTRA_ECONF})
+	local ECONF_SOURCE=${ECONF_SOURCE:-.};
+	set -- "$@" "${EXTRA_ECONF[@]}"
+	echo "${ECONF_SOURCE}/configure" "${@}"
+	"${ECONF_SOURCE}/configure" "${@}"
+}
+
 pkg_setup() {
 	NGINX_HOME="/var/lib/${PN}"
 	NGINX_HOME_TMP="${NGINX_HOME}/tmp"
@@ -685,8 +711,8 @@ pkg_setup() {
 	fi
 
 	if use nginx_modules_http_passenger; then
-		ruby-ng_pkg_setup
 		use debug && append-flags -DPASSENGER_DEBUG
+		ruby-ng_pkg_setup
 	fi
 
 	if use !http; then
@@ -699,7 +725,7 @@ pkg_setup() {
 
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
-	default
+	PORTAGE_QUIET=1 default
 }
 
 src_prepare() {
@@ -749,6 +775,10 @@ src_prepare() {
 
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
+	fi
+
+	if use nginx_modules_http_v2; then
+		epatch "${DISTDIR}"/${HTTP_V2_MODULE_PATCHNAME}
 	fi
 
 	if use nginx_modules_http_passenger; then
@@ -1061,6 +1091,11 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_AUTH_PAM_MODULE_WD}"
 	fi
 
+	if use nginx_modules_http_redis; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_REDIS_MODULE_WD}"
+	fi
+
 	if use nginx_modules_http_security ; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_SECURITY_MODULE_WD}/nginx/modsecurity"
@@ -1179,7 +1214,7 @@ src_configure() {
 		cd "${S}";
 	fi
 
-	./configure \
+	custom_econf \
 		--prefix="${EPREFIX}/usr" \
 		--conf-path="${EPREFIX}/etc/${PN}/${PN}.conf" \
 		--error-log-path="${EPREFIX}/var/log/${PN}/error.log" \
@@ -1395,6 +1430,12 @@ src_install() {
 	if use nginx_modules_http_memc; then
 		docinto "${HTTP_MEMC_MODULE_P}"
 		dodoc "${HTTP_MEMC_MODULE_WD}"/README.markdown
+	fi
+
+# http_redis
+	if use nginx_modules_http_redis; then
+		docinto "${HTTP_REDIS_MODULE_P}"
+		dodoc "${HTTP_REDIS_MODULE_WD}"/README.markdown
 	fi
 
 # http_drizzle
