@@ -5,7 +5,7 @@
 EAPI="5"
 
 DESCRIPTION="Open Handset Alliance's Android NDK (Native Dev Kit)"
-HOMEPAGE="http://developer.android.com/sdk/ndk/"
+HOMEPAGE="http://developer.android.com/ndk/"
 SRC_URI="
 		x86? (
 			http://dl.google.com/android/ndk/${PN}-r${PV}-linux-x86.bin -> ${P}-x86.7z

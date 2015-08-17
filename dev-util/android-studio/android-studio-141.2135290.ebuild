@@ -5,7 +5,7 @@
 EAPI="5"
 inherit eutils
 
-MAGIC_PV="1.0.1"
+MAGIC_PV="1.3.1.0"
 
 RESTRICT="strip"
 QA_TEXTRELS="opt/${P}/bin/libbreakgen.so"
