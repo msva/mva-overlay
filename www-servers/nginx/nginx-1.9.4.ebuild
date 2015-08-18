@@ -131,7 +131,7 @@ HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODUL
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 
-# NginX Drizzle module (https://github.com/openresty/drizzle-nginx-module/tags, BSD)
+#NginX Drizzle module (https://github.com/openresty/drizzle-nginx-module/tags, BSD)
 #HTTP_DRIZZLE_MODULE_A="openresty"
 #HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
 #HTTP_DRIZZLE_MODULE_PV="0.1.9"
