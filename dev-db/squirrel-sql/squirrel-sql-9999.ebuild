@@ -59,7 +59,7 @@ src_install() {
 			else
 				jb="${backend}";
 			fi
-			for jar in /usr/share/jdbc-${jb}/lib/*.jar; do
+			for jar in $(find /usr/share/jdbc-${jb}/lib/ -name '*.jar' 2>/dev/null); do
 				java-pkg_regjar "${jar}"
 			done;
 		}
