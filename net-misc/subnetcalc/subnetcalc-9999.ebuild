@@ -4,9 +4,15 @@
 
 EAPI="5"
 
+AUTOTOOLS_AUTORECONF=1
+
+inherit git-r3 autotools-utils
+
 DESCRIPTION="An IPv4/IPv6 Subnet Calculator"
 HOMEPAGE="https://www.uni-due.de/~be0001/subnetcalc/"
-SRC_URI="https://www.uni-due.de/~be0001/${PN}/download/${P}.tar.gz"
+SRC_URI=""
+EGIT_REPO_URI="https://github.com/dreibh/subnetcalc"
+
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -22,8 +28,9 @@ RDEPEND="
 "
 
 src_configure() {
-	econf \
+   local myeconfargs=(
 		$(use_enable colorgcc) \
 		$(use_with   geoip)
-#		--without-geoip
+   )
+   autotools-utils_src_configure
 }
