@@ -3,7 +3,7 @@
 # $Header: This ebuild is from mva overlay; $
 
 EAPI="5"
-USE_RUBY="jruby ruby20 ruby21 ruby22"
+USE_RUBY="ruby20 ruby21 ruby22"
 
 inherit eutils depend.apache user ruby-ng
 
