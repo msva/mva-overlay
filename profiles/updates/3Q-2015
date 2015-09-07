@@ -1,1 +1,1 @@
-slotmove =www-servers/nginx-1.9.4 0 mainline
+slotmove www-servers/nginx 0 mainline
