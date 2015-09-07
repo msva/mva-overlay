@@ -430,7 +430,7 @@ LICENSE="
 	nginx_modules_http_hls_audio? ( GPL-3 )
 	nginx_modules_http_auth_pam? ( as-is )
 "
-SLOT="0"
+SLOT="mainline"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel"
 
 NGINX_MODULES_STD="
