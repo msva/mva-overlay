@@ -36,7 +36,7 @@ src_compile() {
 src_install() {
 #	go install -v -x -work ${GO_PN} || die
 
-dobin ${S}/bin/godep
+dobin ${S}/godep
 #insinto /usr/lib/go/
 #doins -r "${S}/pkg"
 #insinto /usr/lib/go/src/pkg
