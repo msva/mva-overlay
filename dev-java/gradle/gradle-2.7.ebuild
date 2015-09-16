@@ -15,7 +15,7 @@ KEYWORDS=""
 
 DEPEND="
 	app-arch/zip
-	app-admin/eselect-gradle
+	app-eselect/eselect-gradle
 "
 RDEPEND=">=virtual/jdk-1.5"
 IUSE="doc"
