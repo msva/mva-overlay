@@ -17,11 +17,12 @@ EAPI="5"
 GENTOO_DEPEND_ON_PERL="no"
 USE_RUBY="jruby ruby20 ruby21 ruby22"
 RUBY_OPTIONAL="yes"
+LUA_OPTIONAL="yes"
 
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.15"
+HTTP_PASSENGER_MODULE_PV="5.0.18"
 #HTTP_PASSENGER_MODULE_SHA="cdd650c95faeeed01ad88c199a5f51bd6e03c49e"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -364,9 +365,9 @@ HTTP_MOGILEFS_MODULE_P="${HTTP_MOGILEFS_MODULE_PN}-${HTTP_MOGILEFS_MODULE_PV}"
 HTTP_MOGILEFS_MODULE_URI="http://www.grid.net.ru/nginx/download/${HTTP_MOGILEFS_MODULE_P}.tar.gz"
 HTTP_MOGILEFS_MODULE_WD="${WORKDIR}/${HTTP_MOGILEFS_MODULE_P}"
 
-HTTP_V2_MODULE_PV="6_1.9.4"
-HTTP_V2_MODULE_URI="http://nginx.org/patches/http2/patch.http2-v${HTTP_V2_MODULE_PV}.txt"
-HTTP_V2_MODULE_PATCHNAME="patch.http2-v${HTTP_V2_MODULE_PV}.patch"
+#HTTP_V2_MODULE_PV="6_1.9.4"
+#HTTP_V2_MODULE_URI="http://nginx.org/patches/http2/patch.http2-v${HTTP_V2_MODULE_PV}.txt"
+#HTTP_V2_MODULE_PATCHNAME="patch.http2-v${HTTP_V2_MODULE_PV}.patch"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd pax-utils multilib
 
@@ -376,7 +377,6 @@ HOMEPAGE="
 	"
 SRC_URI="
 	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
-	nginx_modules_http_v2? ( ${HTTP_V2_MODULE_URI} -> ${HTTP_V2_MODULE_PATCHNAME} )
 	nginx_modules_http_pagespeed? (
 		${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz
 		${HTTP_PAGESPEED_PSOL_URI} -> ${HTTP_PAGESPEED_PSOL_P}.tar.gz
@@ -483,7 +483,6 @@ NGINX_MODULES_HTTP_OPT="
 	random_index
 	realip
 	secure_link
-	spdy
 	stub_status
 	sub
 	xslt
@@ -543,7 +542,7 @@ NGINX_MODULES_3RD="
 
 REQUIRED_USE="
 		luajit? ( nginx_modules_http_lua )
-		nginx_modules_http_v2? ( ssl !nginx_modules_http_spdy )
+		nginx_modules_http_v2? ( ssl )
 		nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
 		nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
 		nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
@@ -551,7 +550,6 @@ REQUIRED_USE="
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
 		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
-		nginx_modules_http_spdy? ( ssl )
 		nginx_modules_http_encrypted_session? ( nginx_modules_http_ndk ssl )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )
 		nginx_modules_http_naxsi? ( pcre )
@@ -634,18 +632,14 @@ CDEPEND="
 	rrd? ( >=net-analyzer/rrdtool-1.3.8[graph] )
 
 	nginx_modules_http_passenger? (
-		|| (
-			$(ruby_implementation_depend ruby20)
-			$(ruby_implementation_depend ruby21)
-			$(ruby_implementation_depend ruby22)
-			$(ruby_implementation_depend jruby)
-		)
+		$(ruby_implementations_depend)
 		>=dev-ruby/rake-0.8.1
 		!!www-apache/passenger
 		dev-libs/libev
 		dev-libs/libuv
 	)
 "
+# nginx_modules_http_lua? ( $(lua_omplementations_depend) )
 #	nginx_modules_http_drizzle? ( dev-db/drizzle )
 #	nginx_modules_http_pagespeed? ( dev-libs/psol )
 RDEPEND="${CDEPEND}"
@@ -668,7 +662,7 @@ PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 S="${WORKDIR}/${P}"
 
 custom_econf() {
-	local EXTRA_ECONF=(${EXTRA_ECONF})
+	local EXTRA_ECONF=(${EXTRA_ECONF[@]})
 	local ECONF_SOURCE=${ECONF_SOURCE:-.};
 	set -- "$@" "${EXTRA_ECONF[@]}"
 	echo "${ECONF_SOURCE}/configure" "${@}"
@@ -777,9 +771,9 @@ src_prepare() {
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
 
-	if use nginx_modules_http_v2; then
-		epatch "${DISTDIR}"/${HTTP_V2_MODULE_PATCHNAME}
-	fi
+#	if use nginx_modules_http_v2; then
+#		epatch "${DISTDIR}"/${HTTP_V2_MODULE_PATCHNAME}
+#	fi
 
 	if use nginx_modules_http_passenger; then
 		cd ../"${HTTP_PASSENGER_MODULE_P}";
@@ -1576,12 +1570,14 @@ pkg_postinst() {
 		fi
 	fi
 
-	if use nginx_modules_http_lua && use nginx_modules_http_spdy; then
+	if use nginx_modules_http_lua && use nginx_modules_http_v2; then
+		ewarn
 		ewarn "Lua 3rd party module author warns against using ${P} with"
-		ewarn "NGINX_MODULES_HTTP=\"lua spdy\". For more info, see http://git.io/OldLsg"
+		ewarn "NGINX_MODULES_HTTP=\"lua v2\". For more info, see http://git.io/OldLsg"
 	fi
 
 	if use nginx_modules_http_passenger; then
+		ewarn
 		ewarn "Please, keep notice, that 'passenger_root' directive"
 		ewarn "should point to exactly location of 'locations.ini'"
 		ewarn "file from this package (i.e. it should be full path)"
@@ -1591,6 +1587,7 @@ pkg_postinst() {
 	# If su is not available we display the warning nevertheless since we can't check properly
 	su -s /bin/sh -c 'cd /var/log/${PN}/ && ls' "${HTTPD_USER:-$PN}" >&/dev/null
 	if [ $? -ne 0 ] ; then
+		ewarn
 		ewarn "Please make sure that the nginx user (${HTTPD_USER:-$PN}) or group (${HTTPD_GROUP:-$PN}) has at least"
 		ewarn "'rx' permissions on /var/log/${PN} (default on a fresh install)"
 		ewarn "Otherwise you end up with empty log files after a logrotate."
