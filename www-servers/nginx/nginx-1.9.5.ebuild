@@ -19,6 +19,18 @@ USE_RUBY="jruby ruby20 ruby21 ruby22"
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
 
+# http enchanced memcache
+HTTP_ENMEMCACHE_MODULE_V="nginx_1.9.5"
+HTTP_ENMEMCACHE_MODULE_P="ngx_http_enhanced_memcached_module-${HTTP_ENMEMCACHE_MODULE_V}"
+HTTP_ENMEMCACHE_MODULE_URI="https://github.com/dreamcommerce/ngx_http_enhanced_memcached_module/archive/${HTTP_ENMEMCACHE_MODULE_V}.zip"
+HTTP_ENMEMCACHE_MODULE_WD="${WORKDIR}/${HTTP_ENMEMCACHE_MODULE_P}"
+
+# http tcp proxy
+HTTP_TCPPROXY_MODULE_V="nginx_1.9.5"
+HTTP_TCPPROXY_MODULE_P="ngx_tcp_proxy_module-${HTTP_TCPPROXY_MODULE_V}"
+HTTP_TCPPROXY_MODULE_URI="https://github.com/dreamcommerce/nginx_tcp_proxy_module/archive/${HTTP_TCPPROXY_MODULE_V}.zip"
+HTTP_TCPPROXY_MODULE_WD="${WORKDIR}/${HTTP_TCPPROXY_MODULE_P}"
+
 # http_passenger (https://github.com/phusion/passenger/tags, MIT license)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
@@ -381,6 +393,8 @@ SRC_URI="
 		${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz
 		${HTTP_PAGESPEED_PSOL_URI} -> ${HTTP_PAGESPEED_PSOL_P}.tar.gz
 	)
+	nginx_modules_http_enmemcache? ( ${HTTP_ENMEMCACHE_MODULE_URI} -> ${HTTP_ENMEMCACHE_MODULE_P}.zip )
+	nginx_modules_http_tcpproxy? ( ${HTTP_TCPPROXY_MODULE_URI} -> ${HTTP_TCPPROXY_MODULE_P}.zip )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_hls_audio? ( ${HTTP_HLS_AUDIO_MODULE_URI} -> ${HTTP_HLS_AUDIO_MODULE_P}.tar.gz )
 	nginx_modules_http_encrypted_session? ( ${HTTP_ENCRYPTED_SESSION_MODULE_URI} -> ${HTTP_ENCRYPTED_SESSION_MODULE_P}.tar.gz )
@@ -431,7 +445,7 @@ LICENSE="
 	nginx_modules_http_auth_pam? ( as-is )
 "
 SLOT="mainline"
-KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel"
+KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel ~arm"
 
 NGINX_MODULES_STD="
 	access
@@ -496,6 +510,8 @@ NGINX_MODULES_MAIL="
 "
 
 NGINX_MODULES_3RD="
+	http_enmemcache
+	http_tcpproxy
 	http_cache_purge
 	http_headers_more
 	http_encrypted_session
@@ -836,6 +852,10 @@ src_prepare() {
 			-i "${HTTP_PAGESPEED_MODULE_WD}/config";
 	fi
 
+	if use nginx_modules_http_tcpproxy; then
+		epatch "${HTTP_TCPPROXY_MODULE_WD}"/tcp.patch
+	fi
+
 	epatch_user
 }
 
@@ -955,6 +975,18 @@ src_configure() {
 	if use nginx_modules_http_rds_csv; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_RDS_CSV_MODULE_WD}"
+	fi
+
+# http_enmemcache
+	if use nginx_modules_http_enmemcache; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_ENMEMCACHE_MODULE_WD}"
+	fi
+
+# http_tcpproxy
+	if use nginx_modules_http_tcpproxy; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_TCPPROXY_MODULE_WD}"
 	fi
 
 # http_postgres
