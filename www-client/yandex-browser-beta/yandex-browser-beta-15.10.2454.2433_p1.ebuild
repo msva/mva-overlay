@@ -11,7 +11,7 @@ HOMEPAGE="http://browser.yandex.ru/beta/"
 LICENSE="EULA"
 SLOT="0"
 SRC_URI="
-	amd64? ( http://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_15.9.2403.2801-1_amd64.deb -> ${P}.deb )
+	amd64? ( http://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_15.10.2454.2433-1_amd64.deb -> ${P}.deb )
 "
 KEYWORDS="~amd64"
 
