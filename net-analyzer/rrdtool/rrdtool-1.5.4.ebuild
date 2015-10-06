@@ -17,6 +17,7 @@ SRC_URI="http://oss.oetiker.ch/rrdtool/pub/${P/_/-}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~hppa ~mips ~ppc ~ppc64 ~s390 ~sh ~x86 ~x86-fbsd ~amd64-linux ~ia64-linux ~x86-linux ~x86-macos ~x86-solaris"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 IUSE="dbi doc graph lua luajit perl python rados rrdcgi ruby static-libs tcl tcpd"
 
 CDEPEND="
@@ -71,10 +72,14 @@ python_install() {
 	distutils-r1_python_install
 }
 
+pkg_setup() {
+	use python && python-single-r1_pkg_setup
+}
+
+
 src_prepare() {
-	# At the next version bump, please see if you actually still need these
+	# At the next version bump, please see if you actually still need this
 	# before adding versions
-	cp "${FILESDIR}"/${P}-rrd_rados.h src/rrd_rados.h || die
 	cp "${FILESDIR}"/${P}-rrdrados.pod doc/rrdrados.pod || die
 
 	epatch \
@@ -82,7 +87,8 @@ src_prepare() {
 		"${FILESDIR}"/${PN}-1.4.9-disable-rrd_graph-cgi.patch \
 		"${FILESDIR}"/${PN}-1.4.9-disable-rrd_graph-perl.patch \
 		"${FILESDIR}"/${PN}-1.5.0_rc1-disable-rrd_graph-lua.patch \
-		"${FILESDIR}"/${PN}-1.5.0_rc1-disable-rrd_graph-python.patch
+		"${FILESDIR}"/${PN}-1.5.0_rc1-disable-rrd_graph-python.patch \
+		"${FILESDIR}/${P}"-configure.ac-lua.patch
 
 	# bug 456810
 	# no time to sleep
@@ -145,11 +151,11 @@ src_compile() {
 	local lua="lua";
 	use luajit && lua="luajit";
 	emake \
-	LUA_INSTALL_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
-	LUA_INSTALL_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
-	LUA="/usr/bin/${lua}" \
-	LUA_LFLAGS="$($(tc-getPKG_CONFIG) --libs ${lua})" \
-	LUA_CFLAGS="$($(tc-getPKG_CONFIG) --cflags ${lua})" \
+		LUA_LFLAGS="$($(tc-getPKG_CONFIG) --libs ${lua})" \
+		LUA_CFLAGS="$($(tc-getPKG_CONFIG) --cflags ${lua})" \
+		LUA="/usr/bin/${lua}" \
+		LUA_INSTALL_CMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_CMOD ${lua})" \
+		LUA_INSTALL_LMOD="$($(tc-getPKG_CONFIG) --variable INSTALL_LMOD ${lua})" \
 	|| die "make install failed"
 
 
@@ -188,6 +194,7 @@ src_install() {
 }
 
 pkg_postinst() {
+	if [[ ${REPLACING_VERSIONS} -le 1.3 ]]; then
 	ewarn "Since version 1.3, rrdtool dump emits completely legal xml. Basically this"
 	ewarn "means that it contains an xml header and a DOCTYPE definition. Unfortunately"
 	ewarn "this causes older versions of rrdtool restore to be unhappy."
@@ -199,4 +206,5 @@ pkg_postinst() {
 	ewarn ">=net-analyzer/rrdtool-1.3 does not have any default font bundled. Thus if"
 	ewarn "you've upgraded from rrdtool-1.2.x and don't have any font installed to make"
 	ewarn "labels visible, please, install some font, e.g.  media-fonts/dejavu."
+	fi
 }
