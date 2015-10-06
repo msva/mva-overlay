@@ -1,5 +1,5 @@
---- ext/nginx/ContentHandler.c	2011-10-19 22:44:40.000000000 +0400
-+++ ext/nginx/ContentHandler.c	2011-10-30 00:58:06.700129856 +0400
+--- src/nginx_module/ContentHandler.c	2011-10-19 22:44:40.000000000 +0400
++++ src/nginx_module/ContentHandler.c	2011-10-30 00:58:06.700129856 +0400
 @@ -761,6 +761,7 @@
      }
  
