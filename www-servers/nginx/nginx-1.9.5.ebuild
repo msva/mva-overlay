@@ -44,6 +44,22 @@ HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}"
 
+HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_A="phusion"
+HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN="union_station_hooks_core"
+HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV="2.0.1"
+#HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA=""
+HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P="${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV}}"
+HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_A}/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV}}.tar.gz"
+HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P}"
+
+HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_A="phusion"
+HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN="union_station_hooks_rails"
+HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV="2.0.0"
+#HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA=""
+HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P="${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV}}"
+HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_A}/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV}}.tar.gz"
+HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P}"
+
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
@@ -439,7 +455,11 @@ SRC_URI="
 	nginx_modules_http_dav_ext? ( ${HTTP_DAV_EXT_MODULE_URI} -> ${HTTP_DAV_EXT_MODULE_P}.tar.gz )
 	nginx_modules_http_security? ( ${HTTP_SECURITY_MODULE_URI} -> ${HTTP_SECURITY_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_pam? ( ${HTTP_AUTH_PAM_MODULE_URI} -> ${HTTP_AUTH_PAM_MODULE_P}.tar.gz )
-	nginx_modules_http_passenger? ( ${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz )
+	nginx_modules_http_passenger? (
+		${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz
+		${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P}.tar.gz
+		${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P}.tar.gz
+	)
 	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
 	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.gz )
@@ -852,6 +872,10 @@ src_prepare() {
 			src/cxx_supportlib/vendor-copy/libuv \
 			src/cxx_supportlib/vendor-copy/libev
 
+		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}" || die "Failed to insert union_station_hooks_core"
+		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}" || die "Failed to insert union_station_hooks_rails"
+
+
 		cd "${S}"
 	fi
 
@@ -864,7 +888,7 @@ src_prepare() {
 	if use nginx_modules_http_pagespeed; then
 		# Sorry. I tired in tries to patch it's buildsystem to just get psol
 		# from parentdir (or even take system-wide one) and don't fail the build...
-		ln -s "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/" || die "Failed to make symlink to psol"
+		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/" || die "Failed to insert psol"
 		local arch=${ARCH};
 		use x86 && arch=x86_32;
 		use amd64 && arch=x86_64;
@@ -884,13 +908,13 @@ src_configure() {
 	cd "${S}"
 	local myconf= http_enabled= mail_enabled=
 
-	use aio	&& myconf+=" --with-file-aio"
-	use debug	&& myconf+=" --with-debug"
-	use ipv6	&& myconf+=" --with-ipv6"
+	use aio			&& myconf+=" --with-file-aio"
+	use debug		&& myconf+=" --with-debug"
+	use ipv6		&& myconf+=" --with-ipv6"
 	use libatomic	&& myconf+=" --with-libatomic"
-	use pcre	&& myconf+=" --with-pcre"
+	use pcre		&& myconf+=" --with-pcre"
 	use pcre-jit	&& myconf+=" --with-pcre-jit"
-	use threads	&& myconf+=" --with-threads"
+	use threads		&& myconf+=" --with-threads"
 
 	# HTTP modules
 	for mod in $NGINX_MODULES_STD; do
