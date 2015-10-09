@@ -1,8 +1,8 @@
 # Copyright 2013-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI=4
+EAPI="5"
 
 DESCRIPTION="Manage multiple Gradle versions on one system"
 HOMEPAGE="http://www.gentoo.org"

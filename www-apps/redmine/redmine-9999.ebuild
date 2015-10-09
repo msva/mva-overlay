@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 USE_RUBY="ruby20 ruby21 ruby22"
@@ -57,7 +57,6 @@ all_ruby_unpack() {
 }
 
 all_ruby_prepare() {
-	cd ${S};
 	rm -r log files/delete.me || die
 
 	echo "CONFIG_PROTECT=\"${EPREFIX}${REDMINE_DIR}/config\"" > "${T}/50${PN}"

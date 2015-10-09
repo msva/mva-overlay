@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI="5"
 
@@ -11,7 +11,7 @@ SRC_URI="http://services.gradle.org/distributions/${P}-src.zip"
 HOMEPAGE="http://www.gradle.org/"
 LICENSE="Apache-2.0"
 SLOT="${PV}"
-KEYWORDS=""
+KEYWORDS="~x86 ~amd64"
 
 DEPEND="
 	app-arch/zip

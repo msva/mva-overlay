@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -20,5 +20,5 @@ RDEPEND="${DEPEND}"
 
 src_install() {
 	cmake-utils_src_install
-	use static-libs || find "${ED}" -name '*.a' -exec rm '{}' \; 
+	use static-libs || find "${ED}" -name '*.a' -exec rm '{}' \;
 }

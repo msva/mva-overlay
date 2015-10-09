@@ -23,5 +23,6 @@
     <flag name="tcmalloc">
       Use tcmalloc from <pkg>dev-util/google-perftools</pkg> for allocations.
     </flag>
+<flag name='luajit'></flag>
   </use>
 </pkgmetadata>

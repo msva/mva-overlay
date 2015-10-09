@@ -1,12 +1,12 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $
+# $Id$
 
 EAPI="5"
 CHROMIUM_LANGS="cs de en_US es fr it ja kk pt_BR pt_PT ru tr uk zh_CN zh_TW"
 inherit chromium multilib unpacker
 
-DESCRIPTION="Yandex Browser is a browser that combines a minimal design with sophisticated technology to make the web faster, safer, and easier."
+DESCRIPTION="Browser that combines a minimal design with sophisticated technology."
 HOMEPAGE="http://browser.yandex.ru/beta/"
 LICENSE="EULA"
 SLOT="0"

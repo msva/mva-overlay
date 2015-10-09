@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -18,9 +18,14 @@ EBZR_REPO_URI="lp:mysql-proxy"
 
 S=${WORKDIR}/${P}
 
-RDEPEND=">=dev-libs/libevent-1.4
+RDEPEND="
+	>=dev-libs/libevent-1.4
 	>=dev-libs/glib-2.16
-	>=dev-lang/lua-5.1"
+	|| (
+		dev-lang/lua:0
+		virtual/lua
+	)
+"
 DEPEND="${RDEPEND}
 	>=virtual/mysql-5.0
 	virtual/pkgconfig"
@@ -41,7 +46,7 @@ src_install() {
 	newinitd "${FILESDIR}"/${PN}.initd ${PN} || die
 	newconfd "${FILESDIR}"/${PN}.confd-9999 ${PN} || die
 	dodoc ChangeLog NEWS README
-	if useq examples; then
+	if use examples; then
 		docinto examples
 		dodoc examples/*.lua || die
 		dodoc lib/*.lua || die

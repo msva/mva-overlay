@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 inherit cmake-utils qt4-r2
@@ -14,20 +14,21 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc"
 SLOT="0"
 
-RDEPEND="x11-libs/qt-gui:4
+RDEPEND="
+	dev-qt/qtgui:4
 	sci-electronics/sapec-ng
-	>=x11-libs/qwt-5.1.2
+	x11-libs/qwt:5
 "
-#qt-core should arrive with qt-gui deps.
 
-DEPEND="${RDEPEND}
+DEPEND="
+	${RDEPEND}
 	>=dev-libs/boost-1.41.0
 	>=dev-util/cmake-2.6
 	doc? ( app-doc/doxygen )
 "
 
 S="${WORKDIR}/QSapecNG-${PV}-source"
-DOCS=( "${S}/README" "${S}/AUTHOR" "${S}/TODO" )
+DOCS=( README AUTHOR TODO )
 
 src_configure() {
 	cmake-utils_src_configure
@@ -35,9 +36,8 @@ src_configure() {
 
 src_install() {
 	if use doc; then
-		cd "${S}"
 		doxygen doxy.cfg || die "Generating documentation failed"
-		HTML_DOCS=( "${S}/doc/html/*" )
+		HTML_DOCS=( doc/html/. )
 	fi
 
 	cmake-utils_src_install

@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -59,6 +59,8 @@ HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV="2.0.0"
 HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P="${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV}}"
 HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_A}/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV}}.tar.gz"
 HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P}"
+
+# TODO: change passenger URI to: http://s3.amazonaws.com/phusion-passenger/releases/passenger-5.0.20.tar.gz
 
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
@@ -130,7 +132,7 @@ HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODU
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="${WORKDIR}/${HTTP_CACHE_PURGE_MODULE_P}"
 
-# http_ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer/tags, as-is)
+# http_ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer/tags, MIT)
 HTTP_EY_BALANCER_MODULE_A="msva"
 HTTP_EY_BALANCER_MODULE_PN="nginx-ey-balancer"
 HTTP_EY_BALANCER_MODULE_PV="0.0.9"
@@ -476,11 +478,9 @@ LICENSE="
 	nginx_modules_http_security? ( Apache-2.0 )
 	nginx_modules_http_push_stream? ( GPL-3 )
 	nginx_modules_http_hls_audio? ( GPL-3 )
-	nginx_modules_http_auth_pam? ( as-is )
-	nginx_modules_http_ey_balancer? ( as-is )
 "
 SLOT="mainline"
-KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mipsel ~armel ~arm"
+KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mips ~arm"
 
 NGINX_MODULES_STD="
 	access
@@ -642,26 +642,26 @@ CDEPEND="
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
 	selinux? ( sec-policy/selinux-nginx )
-	ssl? ( dev-libs/openssl )
-	http-cache? ( userland_GNU? ( dev-libs/openssl ) )
+	ssl? ( dev-libs/openssl:* )
+	http-cache? ( userland_GNU? ( dev-libs/openssl:* ) )
 	nginx_modules_http_geoip? ( dev-libs/geoip )
 	nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
-	nginx_modules_http_ctpp? ( www-apps/ctpp2 >=sys-devel/gcc-4.6 )
-	nginx_modules_http_postgres? ( dev-db/postgresql[threads=] )
+	nginx_modules_http_ctpp? ( www-apps/ctpp2 >=sys-devel/gcc-4.6:* )
+	nginx_modules_http_postgres? ( dev-db/postgresql:*[threads=] )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
-	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
+	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl:* ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_lua? (
 		|| (
 			virtual/lua[luajit=]
 			!luajit? (
 				|| (
-					virtual/lua[lua]
-					dev-lang/lua
+					virtual/lua
+					dev-lang/lua:0
 				)
 			)
 			luajit? (
@@ -711,7 +711,7 @@ QA_WX_LOAD="usr/sbin/nginx"
 
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
-S="${WORKDIR}/${P}"
+#S="${WORKDIR}/${P}"
 
 custom_econf() {
 	local EXTRA_ECONF=(${EXTRA_ECONF[@]})
@@ -828,7 +828,7 @@ src_prepare() {
 #	fi
 
 	if use nginx_modules_http_passenger; then
-		cd ../"${HTTP_PASSENGER_MODULE_P}";
+		pushd "${HTTP_PASSENGER_MODULE_WD}";
 
 		epatch "${FILESDIR}"/passenger5-gentoo.patch
 		epatch "${FILESDIR}"/passenger5-ldflags.patch
@@ -875,8 +875,7 @@ src_prepare() {
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}" || die "Failed to insert union_station_hooks_core"
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}" || die "Failed to insert union_station_hooks_rails"
 
-
-		cd "${S}"
+		popd
 	fi
 
 #	if use nginx_modules_http_postgres; then
@@ -905,7 +904,6 @@ src_prepare() {
 }
 
 src_configure() {
-	cd "${S}"
 	local myconf= http_enabled= mail_enabled=
 
 	use aio			&& myconf+=" --with-file-aio"
@@ -1263,7 +1261,7 @@ src_configure() {
 	fi
 
 	if use nginx_modules_http_security; then
-		cd "${HTTP_SECURITY_MODULE_WD}"
+		pushd "${HTTP_SECURITY_MODULE_WD}"
 		export CFLAGS="${CFLAGS} -I/usr/include/apache2";
 		./autogen.sh
 		econf \
@@ -1275,12 +1273,12 @@ src_configure() {
 			$(use_enable pcre-jit) \
 			$(use_enable pcre-jit pcre-study) \
 			$(use_enable nginx_modules_http_lua lua-cache) || die "configure failed for mod_security"
-		cd "${S}"
+		popd
 	fi
 
 	if use nginx_modules_http_passenger; then
 		# workaround on QA issues on passenger
-		cd "${HTTP_PASSENGER_MODULE_WD}";
+		pushd "${HTTP_PASSENGER_MODULE_WD}";
 		einfo "Compiling Passenger support binaries"
 		export USE_VENDORED_LIBEV=no USE_VENDORED_LIBUV=no
 		export CFLAGS="${CFLAGS} -fno-strict-aliasing"
@@ -1288,7 +1286,7 @@ src_configure() {
 		export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing"
 # -Wno-unused-result -Wno-unused-variable"
 		rake nginx || die "Passenger premake for ${RUBY} failed!"
-		cd "${S}";
+		popd "${S}";
 	fi
 
 	custom_econf \
@@ -1315,7 +1313,6 @@ src_configure() {
 }
 
 src_compile() {
-	cd "${S}"
 	# https://bugs.gentoo.org/286772
 	export LANG=C LC_ALL=C
 
@@ -1353,7 +1350,7 @@ src_compile() {
 
 passenger_install() {
 	# dirty spike to make passenger installation each-ruby compatible
-	cd "${HTTP_PASSENGER_MODULE_WD}/src/nginx_module"
+	pushd "${HTTP_PASSENGER_MODULE_WD}/src/nginx_module"
 	rake fakeroot \
 		NATIVE_PACKAGING_METHOD=ebuild \
 		FS_PREFIX="${PREFIX}/usr" \
@@ -1363,10 +1360,10 @@ passenger_install() {
 		RUBYLIBDIR="$(ruby_rbconfig_value 'archdir')" \
 		RUBYARCHDIR="$(ruby_rbconfig_value 'archdir')" \
 	|| die "Passenger installation for ${RUBY} failed!"
+	popd
 }
 
 src_install() {
-	cd "${S}"
 	emake DESTDIR="${D}" install
 
 	host-is-pax && pax-mark m "${ED}usr/sbin/${PN}"
@@ -1404,13 +1401,12 @@ src_install() {
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/nginx.logrotate nginx
 
-
 # http_perl
 	if use nginx_modules_http_perl; then
-		cd "${S}"/objs/src/http/modules/perl/
+		pushd "${S}"/objs/src/http/modules/perl/
 		einstall DESTDIR="${D}" INSTALLDIRS=vendor || die "failed to install perl stuff"
 		perl_delete_localpod
-		cd "${S}"
+		popd
 	fi
 
 # http_push_stream
@@ -1584,7 +1580,6 @@ src_install() {
 # http_passenger
 	if use nginx_modules_http_passenger; then
 		_ruby_each_implementation passenger_install
-		cd "${S}"
 	fi
 
 # Don't support 1.9 atm
