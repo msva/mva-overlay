@@ -15,7 +15,7 @@ IUSE="static-libs"
 
 DEPEND="
 	dev-libs/popt
-	sys-libs/zlibi
+	sys-libs/zlib
 "
 RDEPEND="${DEPEND}"
 

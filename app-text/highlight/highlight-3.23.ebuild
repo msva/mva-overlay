@@ -16,7 +16,11 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd6
 IUSE="examples qt4"
 
 RDEPEND="
-	virtual/lua
+	|| (
+		virtual/lua
+		dev-lang/lua:0
+		>=dev-lang/luajit-2
+	)
 	qt4? (
 		dev-qt/qtgui:4
 		dev-qt/qtcore:4

@@ -15,7 +15,8 @@ EGIT_COMMIT="v${PV}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+# No ~x86 keyword on godep in the tree
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="

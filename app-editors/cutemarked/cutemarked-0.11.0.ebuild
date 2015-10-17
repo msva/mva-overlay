@@ -12,7 +12,8 @@ SRC_URI="${HOMEPAGE}/archive/v${PV}.tar.gz"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+# no ~x86 for peg-markdown in the tree
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="

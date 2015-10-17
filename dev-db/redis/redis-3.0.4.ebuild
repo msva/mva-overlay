@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI=5
 
 inherit autotools eutils flag-o-matic systemd toolchain-funcs user
 
@@ -11,13 +11,16 @@ HOMEPAGE="http://redis.io/"
 SRC_URI="http://download.redis.io/releases/${P}.tar.gz"
 
 LICENSE="BSD"
-KEYWORDS="~amd64 ~hppa ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x86-macos ~x86-solaris"
-IUSE="+jemalloc tcmalloc test luajit"
+KEYWORDS="~amd64 ~arm ~hppa ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x86-macos ~x86-solaris"
+IUSE="+jemalloc tcmalloc test"
 SLOT="0"
 
 RDEPEND="
-	virtual/lua[luajit=]
-	dev-lua/lua-cjson
+	|| (
+		virtual/lua
+		dev-lang/lua:0
+		>=dev-lang/luajit-2
+	)
 	tcmalloc? ( dev-util/google-perftools )
 	jemalloc? ( >=dev-libs/jemalloc-3.2 )"
 DEPEND="virtual/pkgconfig
@@ -37,9 +40,6 @@ src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.8.3-shared.patch
 	epatch "${FILESDIR}"/${PN}-2.8.17-config.patch
 	epatch "${FILESDIR}"/${PN}-3.0.0-sharedlua.patch
-	use luajit && sed -r \
-		-e 's#^(FINAL_LIBS\+=.*lua)#\1jit#' \
-		-i src/Makefile
 
 	# Copy lua modules into build dir
 	cp "${S}"/deps/lua/src/{fpconv,lua_bit,lua_cjson,lua_cmsgpack,lua_struct,strbuf}.c "${S}"/src || die
@@ -105,7 +105,7 @@ src_install() {
 	systemd_newunit "${FILESDIR}/redis.service-2" redis.service
 	systemd_newtmpfilesd "${FILESDIR}/redis.tmpfiles" redis.conf
 
-	nonfatal dodoc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README
+	dodoc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README
 
 	dobin src/redis-cli
 	dosbin src/redis-benchmark src/redis-server src/redis-check-aof src/redis-check-dump

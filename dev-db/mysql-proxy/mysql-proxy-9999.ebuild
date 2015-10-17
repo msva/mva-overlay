@@ -16,14 +16,15 @@ IUSE="examples"
 
 EBZR_REPO_URI="lp:mysql-proxy"
 
-S=${WORKDIR}/${P}
+#S=${WORKDIR}/${P}
 
 RDEPEND="
 	>=dev-libs/libevent-1.4
 	>=dev-libs/glib-2.16
 	|| (
-		dev-lang/lua:0
 		virtual/lua
+		dev-lang/lua:0
+		>=dev-lang/luajit-2
 	)
 "
 DEPEND="${RDEPEND}

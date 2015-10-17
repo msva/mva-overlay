@@ -4,18 +4,20 @@
 
 EAPI="5"
 
-inherit base eutils multilib-minimal git-r3
+inherit base eutils multilib-minimal
 
 DESCRIPTION="A non-backtracking regex engine matching on data streams"
 HOMEPAGE="https://github.com/openresty/sregex"
 SRC_URI=""
 
-EGIT_REPO_URI="https://github.com/openresty/sregex"
+SRC_URI="https://github.com/openresty/${PN}/archive/v${PV//_}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~x86 ~arm ~amd64"
 IUSE=""
+
+S="${WORKDIR}/${P//_}"
 
 src_prepare() {
 	multilib_copy_sources
