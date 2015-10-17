@@ -31,5 +31,5 @@ before_script:
 script:
     - ./../spinner.sh "python ../portage-${PORTAGE_VER}/bin/repoman full"
 # You can append own scripts after this line
-sudo: false
+sudo: required
 cache: ccache
