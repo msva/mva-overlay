@@ -711,7 +711,7 @@ QA_WX_LOAD="usr/sbin/nginx"
 
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
-#S="${WORKDIR}/${P}"
+S="${WORKDIR}/${P}"
 
 custom_econf() {
 	local EXTRA_ECONF=(${EXTRA_ECONF[@]})
@@ -828,7 +828,7 @@ src_prepare() {
 #	fi
 
 	if use nginx_modules_http_passenger; then
-		pushd "${HTTP_PASSENGER_MODULE_WD}";
+		pushd "${HTTP_PASSENGER_MODULE_WD}" &>/dev/null
 
 		epatch "${FILESDIR}"/passenger5-gentoo.patch
 		epatch "${FILESDIR}"/passenger5-ldflags.patch
@@ -875,7 +875,7 @@ src_prepare() {
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}" || die "Failed to insert union_station_hooks_core"
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}" || die "Failed to insert union_station_hooks_rails"
 
-		popd
+		popd &>/dev/null
 	fi
 
 #	if use nginx_modules_http_postgres; then
@@ -1261,7 +1261,7 @@ src_configure() {
 	fi
 
 	if use nginx_modules_http_security; then
-		pushd "${HTTP_SECURITY_MODULE_WD}"
+		pushd "${HTTP_SECURITY_MODULE_WD}" &>/dev/nul
 		export CFLAGS="${CFLAGS} -I/usr/include/apache2";
 		./autogen.sh
 		econf \
@@ -1273,12 +1273,12 @@ src_configure() {
 			$(use_enable pcre-jit) \
 			$(use_enable pcre-jit pcre-study) \
 			$(use_enable nginx_modules_http_lua lua-cache) || die "configure failed for mod_security"
-		popd
+		popd &>/dev/null
 	fi
 
 	if use nginx_modules_http_passenger; then
 		# workaround on QA issues on passenger
-		pushd "${HTTP_PASSENGER_MODULE_WD}";
+		pushd "${HTTP_PASSENGER_MODULE_WD}" &>/dev/null
 		einfo "Compiling Passenger support binaries"
 		export USE_VENDORED_LIBEV=no USE_VENDORED_LIBUV=no
 		export CFLAGS="${CFLAGS} -fno-strict-aliasing"
@@ -1286,7 +1286,7 @@ src_configure() {
 		export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing"
 # -Wno-unused-result -Wno-unused-variable"
 		rake nginx || die "Passenger premake for ${RUBY} failed!"
-		popd "${S}";
+		popd &>/dev/null
 	fi
 
 	custom_econf \
@@ -1350,7 +1350,7 @@ src_compile() {
 
 passenger_install() {
 	# dirty spike to make passenger installation each-ruby compatible
-	pushd "${HTTP_PASSENGER_MODULE_WD}/src/nginx_module"
+	pushd "${HTTP_PASSENGER_MODULE_WD}/src/nginx_module" &>/dev/null
 	rake fakeroot \
 		NATIVE_PACKAGING_METHOD=ebuild \
 		FS_PREFIX="${PREFIX}/usr" \
@@ -1360,7 +1360,7 @@ passenger_install() {
 		RUBYLIBDIR="$(ruby_rbconfig_value 'archdir')" \
 		RUBYARCHDIR="$(ruby_rbconfig_value 'archdir')" \
 	|| die "Passenger installation for ${RUBY} failed!"
-	popd
+	popd &>/dev/null
 }
 
 src_install() {
@@ -1403,10 +1403,10 @@ src_install() {
 
 # http_perl
 	if use nginx_modules_http_perl; then
-		pushd "${S}"/objs/src/http/modules/perl/
+		pushd "${S}/objs/src/http/modules/perl" &>/dev/null
 		einstall DESTDIR="${D}" INSTALLDIRS=vendor || die "failed to install perl stuff"
 		perl_delete_localpod
-		popd
+		popd &>/dev/null
 	fi
 
 # http_push_stream
