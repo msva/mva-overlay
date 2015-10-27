@@ -12,7 +12,7 @@ SRC_URI="http://download.redis.io/releases/${P}.tar.gz"
 
 LICENSE="BSD"
 KEYWORDS="~amd64 ~arm ~hppa ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x86-macos ~x86-solaris"
-IUSE="+jemalloc tcmalloc test"
+IUSE="+jemalloc luajit tcmalloc test"
 SLOT="0"
 
 RDEPEND="
@@ -44,6 +44,12 @@ src_prepare() {
 	# Copy lua modules into build dir
 	cp "${S}"/deps/lua/src/{fpconv,lua_bit,lua_cjson,lua_cmsgpack,lua_struct,strbuf}.c "${S}"/src || die
 	cp "${S}"/deps/lua/src/{fpconv,strbuf}.h "${S}"/src || die
+	use luajit && (
+		rm "${S}"/src/lua_bit.c
+		sed -i \
+		-e "/^REDIS_SERVER_OBJ/s# lua_bit.o # #" \
+		"${S}"/src/Makefile
+	)
 	# Append cflag for lua_cjson
 	# https://github.com/antirez/redis/commit/4fdcd213#diff-3ba529ae517f6b57803af0502f52a40bL61
 	append-cflags "-DENABLE_CJSON_GLOBAL"
