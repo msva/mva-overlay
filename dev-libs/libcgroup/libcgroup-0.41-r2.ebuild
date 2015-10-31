@@ -4,20 +4,18 @@
 
 EAPI="5"
 
-AUTOTOOLS_AUTORECONF=1
-
-inherit eutils systemd linux-info pam autotools-utils user versionator
-
-MY_P="${PN}-$(replace_version_separator 2 .)"
+inherit autotools eutils systemd flag-o-matic linux-info pam user versionator
 
 DESCRIPTION="Tools and libraries to configure and manage kernel control groups"
 HOMEPAGE="http://libcg.sourceforge.net/"
+MY_P="${PN}-$(replace_version_separator 2 .)"
+
 SRC_URI="mirror://sourceforge/project/libcg/${PN}/v${PV}/${MY_P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="amd64 ppc ~ppc64 x86"
-IUSE="+daemon debug pam static-libs systemd +tools"
+KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+IUSE="+daemon elibc_musl pam static-libs systemd +tools"
 
 RDEPEND="pam? ( virtual/pam )"
 
@@ -25,6 +23,7 @@ DEPEND="
 	${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex
+	elibc_musl? ( sys-libs/fts-standalone )
 	"
 REQUIRED_USE="daemon? ( tools )"
 
@@ -43,25 +42,30 @@ pkg_setup() {
 }
 
 src_prepare() {
+	epatch "${FILESDIR}"/${P}-replace_DECLS.patch
+	epatch "${FILESDIR}"/${P}-replace_INLCUDES.patch
+	epatch "${FILESDIR}"/${P}-reorder-headers.patch
 
 	# Change rules file location
 	sed -e 's:/etc/cgrules.conf:/etc/cgroup/cgrules.conf:' \
 		-i samples/cgred.conf || die "sed failed"
-	sed -e 's:/etc/cgrules.conf:/etc/cgroup/cgrules.conf:' \
+	sed \
+		-e 's:/etc/cgrules.conf:/etc/cgroup/cgrules.conf:' \
+		-e 's:/etc/cgconfig.conf:/etc/cgroup/cgconfig.conf:' \
 		-i src/libcgroup-internal.h || die "sed failed"
+	sed \
+		-e 's:/etc/cgrules.conf:/etc/cgroup/cgrules.conf:' \
+		-e 's:/etc/cgconfig.conf:/etc/cgroup/cgconfig.conf:' \
+		-i doc/man/*.* README_systemd || die "sed failed"
 	sed -e 's:\(pam_cgroup_la_LDFLAGS.*\):\1\ -avoid-version:' \
 		-i src/pam/Makefile.am || die "sed failed"
 	sed -e 's#/var/run#/run#g' -i configure.in || die "sed failed"
 
-	autotools-utils_src_prepare
+	eautoreconf
 }
 
 src_configure() {
 	local my_conf=()
-
-	if use pam; then
-		my_conf=("--enable-pam-module-dir=$(getpam_mod_dir)")
-	fi
 
 	if use daemon; then
 		my_conf+=("--enable-cgred-socket=/run/cgred.socket")
@@ -71,13 +75,17 @@ src_configure() {
 		my_conf+=("--enable-opaque-hierarchy=name=systemd")
 	fi
 
-	local myeconfargs=(
-		$(use_enable daemon)
-		$(use_enable pam)
-		$(use_enable tools)
-		${my_conf}
-		)
-	autotools-utils_src_configure
+	if use pam; then
+		my_conf+=("--enable-pam-module-dir=$(getpam_mod_dir)")
+	fi
+
+	use elibc_musl && append-ldflags "-lfts"
+	econf \
+		$(use_enable static-libs static) \
+		$(use_enable daemon) \
+		$(use_enable pam) \
+		$(use_enable tools) \
+		${my_conf[@]}
 }
 
 src_test() {
@@ -88,7 +96,7 @@ src_test() {
 }
 
 src_install() {
-	autotools-utils_src_install
+	default
 	prune_libtool_files --all
 
 	insinto /etc/cgroup

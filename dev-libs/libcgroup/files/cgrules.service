@@ -7,11 +7,12 @@ Requires=cgrules.socket
 DefaultDependencies=no
 Conflicts=shutdown.target
 Before=basic.target shutdown.target
+Wants=cgconfig.service
 After=cgconfig.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/cgrulesengd -n -f -
+ExecStart=/usr/sbin/cgrulesengd -n -f -
 
 [Install]
 WantedBy=sysinit.target
