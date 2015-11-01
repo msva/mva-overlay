@@ -70,6 +70,7 @@ multilib_src_install_all() {
 	doenvd "${FILESDIR}/99${PN}"
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
+	host-is-pax && pax-mark m "${ED}usr/sbin/${PN}"
 }
 
 pkg_setup() {

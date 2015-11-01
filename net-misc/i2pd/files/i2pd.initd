@@ -5,9 +5,9 @@
 
 pidfile="${I2PD_PID}"
 command="/usr/bin/i2pd"
-command_args="-- ${I2PDOPTIONS}"
+command_args="${I2PDOPTIONS}"
 description="C++ daemon for accessing the I2P network"
-start_stop_daemon_args="-q -u ${I2PD_USER}:${I2PD_GROUP} -n ${NAME}"
+start_stop_daemon_args="-q -u ${I2PD_USER}:${I2PD_GROUP}"
 start_stop_daemon_stop_args="-R TERM/3/KILL/5"
 
 depend() {
