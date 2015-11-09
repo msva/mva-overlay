@@ -6,7 +6,7 @@ language: python
 python:
     - pypy
 env:
-    - PORTAGE_VER="2.2.23"
+    - PORTAGE_VER="2.2.24"
 before_script:
     - mkdir travis-overlay
     - mv !(travis-overlay) travis-overlay/
@@ -29,7 +29,7 @@ before_script:
     - if ! cmp -n $SIZE -s .travis.yml .travis.yml.upstream; then echo -e "\e[31m !!! .travis.yml outdated! Update available https://github.com/mrueg/repoman-travis \e[0m" > /tmp/update ; fi
     - cd travis-overlay
 script:
-    - ./../spinner.sh "python ../portage-${PORTAGE_VER}/bin/repoman full"
+    - ./../spinner.sh "python ../portage-${PORTAGE_VER}/bin/repoman full -d"
 # You can append own scripts after this line
 sudo: required
 cache: ccache
