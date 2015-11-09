@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 DISTUTILS_OPTIONAL=yes
@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
 RUBY_OPTIONAL=yes
 USE_RUBY="ruby19 ruby20 jruby rbx"
 
-inherit autotools-utils distutils-r1 ruby-ng java-pkg-opt-2 eutils git-r3 
+inherit autotools-utils distutils-r1 ruby-ng java-pkg-opt-2 eutils git-r3
 
 DESCRIPTION="Tools for reading and writing Data Matrix barcodes"
 HOMEPAGE="http://www.libdmtx.org/"
@@ -23,10 +23,10 @@ IUSE="vala java php ruby python lua doc"
 
 RDEPEND="
 	=media-libs/libdmtx-${PV}
-	vala? ( dev-lang/vala )
-	java? ( >=virtual/jre-1.6 )
-	php? ( dev-php/php-dmtx[doc=] )
-	ruby? ( virtual/rubygems dev-ruby/rmagick !!=dev-lang/ruby-1.9* )
+	vala? ( dev-lang/vala:* )
+	java? ( >=virtual/jre-1.6:* )
+	php? ( dev-php/php-dmtx )
+	ruby? ( virtual/rubygems dev-ruby/rmagick )
 	python? ( ${PYTHON_DEPS} )
 "
 #	lua? ( dev-lua/lua-dmtx[doc=] )
@@ -43,9 +43,9 @@ AUTOTOOLS_IN_SOURCE_BUILD=yes
 # Lua wrapper — to be done.
 
 DEPEND="
-	java? ( >=virtual/jdk-1.6 )
+	java? ( >=virtual/jdk-1.6:* )
 	${RDEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 "
 
 S="${WORKDIR}/${P}"

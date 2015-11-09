@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -16,12 +16,13 @@ HOMEPAGE="http://syncthing.net"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+# No ~x86 keyword on godep in the tree
+KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND="
 	dev-lang/go
-	app-misc/godep
+	dev-go/godep
 "
 RDEPEND="${DEPEND}"
 

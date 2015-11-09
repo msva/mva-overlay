@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -16,8 +16,10 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-DEPEND="dev-libs/openssl
-	sys-libs/zlib"
+DEPEND="
+	dev-libs/openssl:*
+	sys-libs/zlib
+"
 RDEPEND="${DEPEND}"
 
 src_prepare() {

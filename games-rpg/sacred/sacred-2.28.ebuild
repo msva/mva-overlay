@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -17,9 +17,10 @@ IUSE="iampirate linguas_ru"
 
 # Do you really have no $15 to buy sacred on LGP? Okay, you can ask me for
 # distfiles, but I recommend you to buy official sacred release from LGP.
-SRC_URI="sacred.tar.bz2
-iampirate? ( sacred_pirate.tar.bz2 )
-linguas_ru? ( sacred_rus.tar.bz2 )
+SRC_URI="
+	sacred.tar.bz2
+	iampirate? ( sacred_pirate.tar.bz2 )
+	linguas_ru? ( sacred_rus.tar.bz2 )
 "
 
 CHECKREQS_DISK_BUILD="2560"
@@ -30,16 +31,8 @@ DEPEND="${RDEPEND}"
 RDEPEND="
 	x11-base/xorg-server
 	>=x11-libs/gtk+-2.0.0
-	amd64? (
-		app-emulation/emul-linux-x86-baselibs
-		app-emulation/emul-linux-x86-compat
-		app-emulation/emul-linux-x86-gtklibs
-		app-emulation/emul-linux-x86-medialibs
-		app-emulation/emul-linux-x86-sdl
-		app-emulation/emul-linux-x86-soundlibs
-		app-emulation/emul-linux-x86-xlibs
-		)
 "
+# TODO: fix deps
 
 pkg_setup() {
 	ewarn ""

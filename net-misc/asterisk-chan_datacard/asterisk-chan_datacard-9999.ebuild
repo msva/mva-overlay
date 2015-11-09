@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 EAPI="5"
 
 inherit eutils subversion
@@ -14,9 +14,11 @@ LICENSE="GPL-3"
 SLOT="0"
 IUSE=""
 
-RDEPEND="net-misc/asterisk
+RDEPEND="
+	net-misc/asterisk
 	dev-libs/libxml2
-	sys-libs/ncurses"
+	sys-libs/ncurses:0
+"
 DEPEND="${RDEPEND}"
 
 src_install() {

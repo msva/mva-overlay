@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 inherit eutils systemd user git-r3 cmake-multilib
@@ -28,8 +28,6 @@ DEPEND="${RDEPEND}
 
 I2PD_USER="${I2PD_USER:-i2pd}"
 I2PD_GROUP="${I2PD_GROUP:-i2pd}"
-
-CMAKE_USE_DIR="${S}/build"
 
 multilib_src_configure() {
 	mycmakeargs=(
@@ -72,6 +70,7 @@ multilib_src_install_all() {
 	doenvd "${FILESDIR}/99${PN}"
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
+	host-is-pax && pax-mark m "${ED}usr/sbin/${PN}"
 }
 
 pkg_setup() {

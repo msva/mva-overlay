@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="elibc_FreeBSD kernel_linux openvz unicode vserver"
 
-RDEPEND="sys-libs/ncurses[unicode?]"
+RDEPEND="sys-libs/ncurses:0[unicode?]"
 DEPEND="${RDEPEND}"
 
 DOCS=( ChangeLog README )

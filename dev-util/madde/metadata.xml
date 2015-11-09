@@ -2,9 +2,9 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer>
- <email>mva@mva.name</email>
+ <email>mva-overlay@mva.name</email>
  <description>
-	If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
+	If you have any issues, please contact me, or try to find me in IRC on Freenode or RusNet.
  </description> 
  <name>Vadim A. Misbakh-Soloviov</name>
 </maintainer>

@@ -10,5 +10,8 @@
 </maintainer>
 <longdescription>FIXME</longdescription> 
 <use>
+	<flag name='area'></flag>
+	<flag name='goto'></flag>
+	<flag name='mapnotes'></flag>
 </use>
 </pkgmetadata>

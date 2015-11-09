@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Tiziano Müller
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -13,8 +13,10 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="static-libs"
 
-DEPEND="dev-libs/popt
-	sys-libs/zlib"
+DEPEND="
+	dev-libs/popt
+	sys-libs/zlib
+"
 RDEPEND="${DEPEND}"
 
 src_configure() {

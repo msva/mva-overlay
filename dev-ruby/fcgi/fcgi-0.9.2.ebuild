@@ -1,9 +1,9 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-#
+# $Id$
 
 EAPI="5"
-USE_RUBY="ruby18 ruby19 ree18 jruby ruby20"
+USE_RUBY="ruby20 ruby21 ruby22"
 
 RUBY_FAKEGEM_EXTRADOC="README.rdoc README.signals"
 
@@ -22,18 +22,10 @@ IUSE=""
 SLOT="0"
 
 each_ruby_configure() {
-	case ${RUBY} in
-		*ruby18|*ruby19|*rubyee18|*ruby20)
-			${RUBY} -C ext/fcgi extconf.rb || die "extconf failed"
-			;;
-	esac
+	${RUBY} -C ext/fcgi extconf.rb
 }
 
 each_ruby_compile() {
-	case ${RUBY} in
-		*ruby18|*ruby19|*rubyee18|*ruby20)
-			emake -C ext/fcgi
-			cp ext/fcgi/fcgi$(get_modname) lib || die "compile failed"
-			;;
-	esac
+	emake -C ext/fcgi
+	cp ext/fcgi/fcgi$(get_modname) lib
 }

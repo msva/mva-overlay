@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -8,8 +8,8 @@ inherit font
 
 SHA1="61cc2afcc4eca96efe7c6ebf178d39df"
 
-DESCRIPTION=""
-HOMEPAGE="http://openfontlibrary.org/font/${PN}"
+DESCRIPTION="Open Font"
+HOMEPAGE="http://openfontlibrary.org/font/consolamono"
 SRC_URI="http://openfontlibrary.org/assets/downloads/${PN}/${SHA1}/${PN}.zip -> ${P}.zip"
 
 LICENSE="OFL"

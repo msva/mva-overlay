@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -18,8 +18,8 @@ IUSE="unicode"
 RDEPEND="app-arch/bzip2
 	dev-db/sqlite:3
 	dev-libs/libpcre[cxx]
-	sys-libs/ncurses[unicode?]
-	sys-libs/readline
+	sys-libs/ncurses:*[unicode?]
+	sys-libs/readline:0
 	sys-libs/zlib"
 DEPEND="${RDEPEND}"
 

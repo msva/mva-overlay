@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -32,14 +32,12 @@ REQUIRED_USE="amd64? ( multilib )"
 # it seems like I brake my token and it is uninitialized now)
 RDEPEND="
 	>=sys-apps/pcsc-lite-1.4.99
-	|| (
-		dev-libs/libusb-compat
-		dev-libs/libusb:0
-	)
+	virtual/libusb:0
 	sys-apps/dbus
 	media-libs/libpng:1.2
 	media-libs/fontconfig
 	ssl? ( dev-libs/engine_pkcs11 )
+	media-libs/hal-flash
 "
 DEPEND="${RDEPEND}"
 
@@ -71,8 +69,6 @@ src_unpack() {
 	fi
 	use amd64 && (
 		rpm_unpack "./Installation/${MY_P_COMPAT}.${arch}.rpm";
-		cp "${FILESDIR}/dist/libhal_amd64_lib64.txz" "${S}/libhal_amd64_lib64.tar.xz";
-		unpack ./libhal_amd64_lib64.tar.xz
 	)
 }
 
@@ -89,15 +85,6 @@ src_prepare() {
 }
 
 pkg_postinst() {
-	ewarn "!!!!!!!"
-	ewarn "Currently, Gentoo Dev Team has removed libusb:0 from the portage tree"
-	ewarn "(although, it is still in multilib overlay)"
-	ewarn "For now, I added libusb-compat (wrapper) as a dependency,"
-	ewarn "but it can either work or doesn't work for you."
-	echo
-	ewarn "If it'll not — try to emerge libusb:0 from multilib overlay."
-	ewarn "!!!!!!!"
-	echo
 	einfo "Run"
 	einfo "rc-update add pcscd default"
 	einfo "rc-update add SACSrv default"

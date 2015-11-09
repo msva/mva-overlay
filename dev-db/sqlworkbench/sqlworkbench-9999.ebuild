@@ -1,18 +1,22 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 inherit eutils subversion java-pkg-2 java-ant-2
 
+DESCRIPTION="Free, DBMS-independent, cross-platform SQL query tool."
+HOMEPAGE="http://www.sql-workbench.net/"
 ESVN_REPO_URI="http://sqlworkbench.mgm-tp.com/sqlworkbench/trunk/sqlworkbench"
 KEYWORDS=""
 SRC_URI=""
 SLOT="0"
+# Actually, modified
+LICENSE="Apache-2.0"
 
 IUSE="firebird informix mssql mysql oracle postgres sybase"
 
-DEPEND=">=virtual/jdk-1.7"
+DEPEND=">=virtual/jdk-1.7:*"
 RDEPEND="
 	${DEPEND}
 	dev-java/log4j

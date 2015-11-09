@@ -1,8 +1,8 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI=5
+EAPI="5"
 
 inherit eutils qmake-utils git-r3
 
@@ -11,7 +11,7 @@ HOMEPAGE="https://github.com/cloose/CuteMarkEd"
 SRC_URI=""
 EGIT_REPO_URI="${HOMEPAGE}"
 
-LICENSE="LGPL-2.0"
+LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS=""
 IUSE=""

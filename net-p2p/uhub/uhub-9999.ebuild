@@ -1,20 +1,13 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
-inherit cmake-utils eutils
-
-if [ "$PV" != "9999" ]; then
-	SRC_URI="http://www.extatic.org/downloads/uhub/${P}-src.tar.bz2"
-	KEYWORDS="~amd64 ~x86"
-else
-	inherit git-2
-	SRC_URI=""
-	EGIT_REPO_URI="https://github.com/janvidar/uhub.git"
-	KEYWORDS=""
-fi
+inherit cmake-utils eutils git-r3
+SRC_URI=""
+EGIT_REPO_URI="https://github.com/janvidar/uhub.git"
+KEYWORDS=""
 
 DESCRIPTION="High performance peer-to-peer hub for the ADC network"
 HOMEPAGE="https://uhub.org/"
@@ -25,11 +18,12 @@ KEYWORDS=""
 IUSE="debug +ssl systemd"
 
 DEPEND="
-	>=dev-util/cmake-2.8.3
-	ssl? ( >=dev-libs/openssl-0.9.8 )
+	ssl? ( >=dev-libs/openssl-0.9.8:* )
 "
-#	=dev-lang/perl-5*
-RDEPEND="${DEPEND}"
+DEPEND="
+	>=dev-util/cmake-2.8.3
+	${RDEPEND}
+"
 
 UHUB_USER="${UHUB_USER:-uhub}"
 UHUB_GROUP="${UHUB_GROUP:-uhub}"

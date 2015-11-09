@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 DESCRIPTION="Sapec-NG is a symbolic analysis program for linear analog circuits"
 HOMEPAGE="http://cirlab.det.unifi.it/sapec_ng/"
