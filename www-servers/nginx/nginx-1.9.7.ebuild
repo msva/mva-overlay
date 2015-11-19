@@ -22,17 +22,17 @@ LUA_OPTIONAL="yes"
 # http_enchanced_memcache_module (https://github.com/dreamcommerce/ngx_http_enhanced_memcached_module/tags, Apache-2.0)
 HTTP_ENMEMCACHE_MODULE_A="dreamcommerce"
 HTTP_ENMEMCACHE_MODULE_PN="ngx_http_enhanced_memcached_module"
-HTTP_ENMEMCACHE_MODULE_V="nginx_1.9.5"
-HTTP_ENMEMCACHE_MODULE_P="${HTTP_ENMEMCACHE_MODULE_PN}-${HTTP_ENMEMCACHE_MODULE_SHA:-${HTTP_ENMEMCACHE_MODULE_V}}"
-HTTP_ENMEMCACHE_MODULE_URI="https://github.com/${HTTP_ENMEMCACHE_MODULE_A}/${HTTP_ENMEMCACHE_MODULE_PN}/archive/${HTTP_ENMEMCACHE_MODULE_SHA:-${HTTP_ENMEMCACHE_MODULE_V}}.tar.gz"
+HTTP_ENMEMCACHE_MODULE_PV="nginx_1.9.5"
+HTTP_ENMEMCACHE_MODULE_P="${HTTP_ENMEMCACHE_MODULE_PN}-${HTTP_ENMEMCACHE_MODULE_SHA:-${HTTP_ENMEMCACHE_MODULE_PV}}"
+HTTP_ENMEMCACHE_MODULE_URI="https://github.com/${HTTP_ENMEMCACHE_MODULE_A}/${HTTP_ENMEMCACHE_MODULE_PN}/archive/${HTTP_ENMEMCACHE_MODULE_SHA:-${HTTP_ENMEMCACHE_MODULE_PV}}.tar.gz"
 HTTP_ENMEMCACHE_MODULE_WD="${WORKDIR}/${HTTP_ENMEMCACHE_MODULE_P}"
 
 # http_tcp_proxy_module (https://github.com/dreamcommerce/nginx_tcp_proxy_module/tags, BSD-2)
 HTTP_TCPPROXY_MODULE_A="dreamcommerce"
 HTTP_TCPPROXY_MODULE_PN="nginx_tcp_proxy_module"
-HTTP_TCPPROXY_MODULE_V="nginx_1.9.5"
-HTTP_TCPPROXY_MODULE_P="${HTTP_TCPPROXY_MODULE_PN}-${HTTP_TCPPROXY_MODULE_SHA:-${HTTP_TCPPROXY_MODULE_V}}"
-HTTP_TCPPROXY_MODULE_URI="https://github.com/${HTTP_TCPPROXY_MODULE_A}/${HTTP_TCPPROXY_MODULE_PN}/archive/${HTTP_TCPPROXY_MODULE_SHA:-${HTTP_TCPPROXY_MODULE_V}}.tar.gz"
+HTTP_TCPPROXY_MODULE_PV="nginx_1.9.5"
+HTTP_TCPPROXY_MODULE_P="${HTTP_TCPPROXY_MODULE_PN}-${HTTP_TCPPROXY_MODULE_SHA:-${HTTP_TCPPROXY_MODULE_PV}}"
+HTTP_TCPPROXY_MODULE_URI="https://github.com/${HTTP_TCPPROXY_MODULE_A}/${HTTP_TCPPROXY_MODULE_PN}/archive/${HTTP_TCPPROXY_MODULE_SHA:-${HTTP_TCPPROXY_MODULE_PV}}.tar.gz"
 HTTP_TCPPROXY_MODULE_WD="${WORKDIR}/${HTTP_TCPPROXY_MODULE_P}"
 
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
@@ -97,7 +97,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_headers_more (https://github.com/openresty/headers-more-nginx-module/tags, BSD)
 HTTP_HEADERS_MORE_MODULE_A="openresty"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.27"
+HTTP_HEADERS_MORE_MODULE_PV="0.28"
 HTTP_HEADERS_MORE_MODULE_SHA="a744defdfac1d6874152a51e3a8a604a85354a2c"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_SHA:-${HTTP_HEADERS_MORE_MODULE_PV}}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/${HTTP_HEADERS_MORE_MODULE_SHA:-v${HTTP_HEADERS_MORE_MODULE_PV}}.tar.gz"
@@ -161,7 +161,7 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.17"
+HTTP_LUA_MODULE_PV="0.9.19"
 #HTTP_LUA_MODULE_SHA="8a0a3e4706cdd58272a8f38e8f09cc5e9db0307b"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -210,7 +210,7 @@ HTTP_RDS_JSON_MODULE_WD="${WORKDIR}/${HTTP_RDS_JSON_MODULE_P}"
 # NginX RDS-CSV module (https://github.com/openresty/rds-csv-nginx-module/tags, BSD)
 HTTP_RDS_CSV_MODULE_A="openresty"
 HTTP_RDS_CSV_MODULE_PN="rds-csv-nginx-module"
-HTTP_RDS_CSV_MODULE_PV="0.06"
+HTTP_RDS_CSV_MODULE_PV="0.07"
 HTTP_RDS_CSV_MODULE_P="${HTTP_RDS_CSV_MODULE_PN}-${HTTP_RDS_CSV_MODULE_SHA:-${HTTP_RDS_CSV_MODULE_PV}}"
 HTTP_RDS_CSV_MODULE_URI="https://github.com/${HTTP_RDS_CSV_MODULE_A}/${HTTP_RDS_CSV_MODULE_PN}/archive/${HTTP_RDS_CSV_MODULE_SHA:-v${HTTP_RDS_CSV_MODULE_PV}}.tar.gz"
 HTTP_RDS_CSV_MODULE_WD="${WORKDIR}/${HTTP_RDS_CSV_MODULE_P}"
@@ -266,7 +266,7 @@ HTTP_REPLACE_FILTER_MODULE_WD="${WORKDIR}/${HTTP_REPLACE_FILTER_MODULE_P}"
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module/tags, BSD)
 HTTP_ICONV_MODULE_A="calio"
 HTTP_ICONV_MODULE_PN="iconv-nginx-module"
-HTTP_ICONV_MODULE_PV="0.12"
+HTTP_ICONV_MODULE_PV="0.13"
 HTTP_ICONV_MODULE_P="${HTTP_ICONV_MODULE_PN}-${HTTP_ICONV_MODULE_SHA:-${HTTP_ICONV_MODULE_PV}}"
 HTTP_ICONV_MODULE_URI="https://github.com/${HTTP_ICONV_MODULE_A}/${HTTP_ICONV_MODULE_PN}/archive/${HTTP_ICONV_MODULE_SHA:-v${HTTP_ICONV_MODULE_PV}}.tar.gz"
 HTTP_ICONV_MODULE_WD="${WORKDIR}/${HTTP_ICONV_MODULE_P}"
@@ -402,10 +402,10 @@ HTTP_MOGILEFS_MODULE_WD="${WORKDIR}/${HTTP_MOGILEFS_MODULE_P}"
 
 # NJS-module (http://hg.nginx.org/njs/, BSD-2)
 HTTP_NJS_MODULE_PN="njs"
-HTTP_NJS_MODULE_SHA="3ed92ffa3f05"
+HTTP_NJS_MODULE_SHA="48d441db0ec8"
 HTTP_NJS_MODULE_P="${HTTP_NJS_MODULE_PN}-${HTTP_NJS_MODULE_SHA:-${HTTP_NJS_MODULE_PV}}"
 HTTP_NJS_MODULE_URI="http://hg.nginx.org/${HTTP_NJS_MODULE_PN}/archive/${HTTP_NJS_MODULE_SHA}.tar.gz"
-HTTP_NJS_MODULE_WD="${WORKDIR}/${HTTP_NJS_MODULE_P}/nginx"
+HTTP_NJS_MODULE_WD="${WORKDIR}/${HTTP_NJS_MODULE_P}"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd pax-utils multilib
 
@@ -1203,7 +1203,7 @@ src_configure() {
 	if use nginx_modules_http_njs ; then
 		http_enabled=1
 		# Disabled, because of incompatibiity with 1.7.9. Will be fixed on next bump.
-		myconf+=" --add-module=${HTTP_NJS_MODULE_WD}"
+		myconf+=" --add-module=${HTTP_NJS_MODULE_WD}/nginx"
 	fi
 
 	if [ $http_enabled ]; then
@@ -1559,7 +1559,7 @@ src_install() {
 # http_iconv
 	if use nginx_modules_http_iconv; then
 		docinto "${HTTP_ICONV_MODULE_P}"
-		dodoc "${HTTP_ICONV_MODULE_WD}"/README
+		dodoc "${HTTP_ICONV_MODULE_WD}"/README.markdown
 	fi
 
 # http_supervisord
@@ -1637,7 +1637,7 @@ src_install() {
 
 	if use nginx_modules_http_njs; then
 		docinto ${HTTP_NJS_MODULE_P}
-		dodoc "${HTTP_NJS_MODULE_WD}"/../README*
+		dodoc "${HTTP_NJS_MODULE_WD}"/README
 	fi
 
 }
