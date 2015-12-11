@@ -10,11 +10,11 @@
 		<name>Anthony G. Basile</name>
 	</maintainer>
 	<use>
-		<flag name="i2p-hardening">
-			Compile with hardening on vanilla compilers/linkers
+		<flag name="daemon">
+			Compile I²P daemon
 		</flag>
-		<flag name="library">
-			Build the libi2pd library
+		<flag name="api">
+			Build the libi2pd libraries (to work with I²P API).
 		</flag>
 	</use>
 	<upstream>
