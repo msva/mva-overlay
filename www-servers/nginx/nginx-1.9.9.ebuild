@@ -869,7 +869,7 @@ src_prepare() {
 			bin/passenger-install-nginx-module \
 			src/apache2_module \
 			src/cxx_supportlib/vendor-copy/libuv \
-			src/cxx_supportlib/vendor-copy/libev
+			src/cxx_supportlib/vendor-modified/libev
 
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}" || die "Failed to insert union_station_hooks_core"
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}" || die "Failed to insert union_station_hooks_rails"
