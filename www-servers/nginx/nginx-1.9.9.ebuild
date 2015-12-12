@@ -511,6 +511,7 @@ NGINX_MODULES_STD="
 "
 NGINX_MODULES_STREAM="
 	access
+	limit_conn
 	upstream_hash
 	upstream_least_conn
 	upstream_zone
@@ -531,6 +532,7 @@ NGINX_MODULES_HTTP_OPT="
 	random_index
 	realip
 	secure_link
+	slice
 	stub_status
 	sub
 	xslt
