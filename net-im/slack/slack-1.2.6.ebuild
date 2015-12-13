@@ -28,7 +28,7 @@ QA_PREBUILT="usr/share/slack/*"
 RDEPEND="
 	dev-libs/atk
 	dev-libs/expat
-	dev-libs/glib
+	dev-libs/glib:2
 	dev-libs/nspr
 	dev-libs/nss
 	gnome-base/gconf
@@ -39,7 +39,7 @@ RDEPEND="
 	sys-apps/dbus
 	x11-libs/cairo
 	x11-libs/gdk-pixbuf
-	x11-libs/gtk+
+	x11-libs/gtk+:2
 	x11-libs/libnotify
 	x11-libs/libX11
 	x11-libs/libXcomposite

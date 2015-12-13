@@ -64,10 +64,12 @@
 <flag name='nginx_modules_http_upstream_zone'></flag>
 <flag name='nginx_modules_http_v2'></flag>
 <flag name='nginx_modules_stream_access'></flag>
+<flag name='nginx_modules_stream_limit_conn'></flag>
 <flag name='nginx_modules_stream_upstream_hash'></flag>
 <flag name='nginx_modules_stream_upstream_least_conn'></flag>
 <flag name='nginx_modules_stream_upstream_zone'></flag>
 <flag name='nginx_modules_http_enmemcache'></flag>
+<flag name='nginx_modules_http_slice'></flag>
 <flag name='nginx_modules_http_tcpproxy'></flag>
 <flag name='nginx_modules_http_encrypted_session'></flag>
 <flag name='nginx_modules_http_pagespeed'></flag>
