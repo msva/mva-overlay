@@ -67,17 +67,17 @@ HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_S
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
-HTTP_PAGESPEED_MODULE_PV="1.9.32.11-beta"
+HTTP_PAGESPEED_MODULE_PV="release-1.10.33.1-beta"
 #HTTP_PAGESPEED_MODULE_SHA="1c5b61679cc47716930399516e188e1e896060dd"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
-HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
+HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
 
 HTTP_PAGESPEED_PSOL_PN="psol"
-HTTP_PAGESPEED_PSOL_PV="1.9.32.10"
+HTTP_PAGESPEED_PSOL_PV="1.10.33.1"
 HTTP_PAGESPEED_PSOL_P="${HTTP_PAGESPEED_PSOL_PN}-${HTTP_PAGESPEED_PSOL_SHA:-${HTTP_PAGESPEED_PSOL_PV}}"
 HTTP_PAGESPEED_PSOL_URI="https://dl.google.com/dl/page-speed/${HTTP_PAGESPEED_PSOL_PN}/${HTTP_PAGESPEED_PSOL_PV}.tar.gz"
-HTTP_PAGESPEED_PSOL_WD="../${HTTP_PAGESPEED_PSOL_PN}"
+HTTP_PAGESPEED_PSOL_WD="${WORKDIR}/${HTTP_PAGESPEED_PSOL_PN}"
 
 # http_hls_audio (https://github.com/flavioribeiro/nginx-audio-track-for-hls-module/tags, BSD-2)
 HTTP_HLS_AUDIO_MODULE_A="flavioribeiro"
@@ -706,9 +706,9 @@ DEPEND="${CDEPEND}
 	)
 "
 
-# mod_pagespeed issues QA warning.
+# mod_pagespeed (precompiled psol static library, actually) issues QA warning
 QA_EXECSTACK="usr/sbin/nginx"
-QA_WX_LOAD="usr/sbin/nginx"
+#QA_WX_LOAD="usr/sbin/nginx"
 
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
@@ -886,8 +886,7 @@ src_prepare() {
 #	fi
 
 	if use nginx_modules_http_pagespeed; then
-		# Sorry. I tired in tries to patch it's buildsystem to just get psol
-		# from parentdir (or even take system-wide one) and don't fail the build...
+		# TODO: replace precompiled psol with that one, built from apache module?
 		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/" || die "Failed to insert psol"
 		local arch=${ARCH};
 		use x86 && arch=x86_32;
