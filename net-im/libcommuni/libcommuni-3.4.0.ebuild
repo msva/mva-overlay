@@ -38,6 +38,13 @@ DEPEND="
 "
 
 src_prepare() {
+
+	use qml || (
+		sed -i \
+			-e '/SUBDIRS/s@ imports@@' \
+			src/src.pro
+	)
+
 	UCHD="${S}"/src/3rdparty/uchardet-0.0.1/uchardet.pri
 	echo "CONFIG *= link_pkgconfig" > "$UCHD"
 	echo "PKGCONFIG += uchardet" >> "$UCHD"
