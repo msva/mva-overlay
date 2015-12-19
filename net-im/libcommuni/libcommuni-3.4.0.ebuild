@@ -18,8 +18,14 @@ IUSE="icu qt4 qt5 test examples +uchardet"
 REQUIRED_USE="^^ ( qt4 qt5 )"
 
 RDEPEND="
-	qt4? ( dev-qt/qtcore:4 )
-	qt5? ( dev-qt/qtcore:5 )
+	qt4? (
+		dev-qt/qtcore:4
+		dev-qt/qtdeclarative:4
+	)
+	qt5? (
+		dev-qt/qtcore:5
+		dev-qt/qtdeclarative:5
+	)
 	icu? ( dev-libs/icu )
 	uchardet? ( dev-libs/uchardet )
 "
