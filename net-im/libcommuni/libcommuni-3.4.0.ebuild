@@ -63,6 +63,6 @@ src_configure() {
 		-config no_rpath \
 		-config "${icu}" \
 		$(use test || echo "-config no_tests") \
-		$(use qml || echo "-config no_install_imports no_install_qml")
+		$(use qml || echo "-config no_install_imports -config no_install_qml")
 }
 
