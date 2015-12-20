@@ -35,7 +35,7 @@ RDEPEND="${DEPEND}"
 pkg_setup() {
 	python-any-r1_pkg_setup
 
-	npm config set python $PYTHON
+	npm config set python "${PYTHON}"
 }
 
 src_unpack() {
@@ -83,25 +83,25 @@ src_compile() {
 
 
 src_install() {
-	insinto ${EPREFIX}/usr/share/${PN}
-	doins -r ${T}/Atom/*
-	insinto ${EPREFIX}/usr/share/applications
+	insinto /usr/share/"${PN}"
+	doins -r "${T}"/Atom/*
+	insinto /usr/share/applications
 	newins resources/linux/Atom.desktop atom.desktop
-	insinto ${EPREFIX}/usr/share/pixmaps
+	insinto /usr/share/pixmaps
 	doins resources/atom.png
-	insinto ${EPREFIX}/usr/share/licenses/${PN}
+	insinto /usr/share/licenses/"${PN}"
 	doins LICENSE.md
 	# Fixes permissions
-	fperms +x ${EPREFIX}/usr/share/${PN}/${PN}
-	fperms +x ${EPREFIX}/usr/share/${PN}/libchromiumcontent.so
-	fperms +x ${EPREFIX}/usr/share/${PN}/libffmpegsumo.so
-	fperms +x ${EPREFIX}/usr/share/${PN}/libgcrypt.so.11
-	fperms +x ${EPREFIX}/usr/share/${PN}/libnotify.so.4
-	fperms +x ${EPREFIX}/usr/share/${PN}/resources/app/atom.sh
-	fperms +x ${EPREFIX}/usr/share/${PN}/resources/app/apm/bin/apm
-	fperms +x ${EPREFIX}/usr/share/${PN}/resources/app/apm/bin/node
-	fperms +x ${EPREFIX}/usr/share/${PN}/resources/app/apm/node_modules/npm/bin/node-gyp-bin/node-gyp
+	fperms +x "${EPREFIX}/usr/share/${PN}/${PN}"
+	fperms +x "${EPREFIX}/usr/share/${PN}/libchromiumcontent.so"
+	fperms +x "${EPREFIX}/usr/share/${PN}/libffmpegsumo.so"
+	fperms +x "${EPREFIX}/usr/share/${PN}/libgcrypt.so.11"
+	fperms +x "${EPREFIX}/usr/share/${PN}/libnotify.so.4"
+	fperms +x "${EPREFIX}/usr/share/${PN}/resources/app/atom.sh"
+	fperms +x "${EPREFIX}/usr/share/${PN}/resources/app/apm/bin/apm"
+	fperms +x "${EPREFIX}/usr/share/${PN}/resources/app/apm/bin/node"
+	fperms +x "${EPREFIX}/usr/share/${PN}/resources/app/apm/node_modules/npm/bin/node-gyp-bin/node-gyp"
 	# Symlinking to /usr/bin
-	dosym ${EPREFIX}/usr/share/${PN}/resources/app/atom.sh /usr/bin/atom
-	dosym ${EPREFIX}/usr/share/${PN}/resources/app/apm/bin/apm /usr/bin/apm
+	dosym "${EPREFIX}/usr/share/${PN}/resources/app/atom.sh" /usr/bin/atom
+	dosym "${EPREFIX}/usr/share/${PN}/resources/app/apm/bin/apm" /usr/bin/apm
 }

@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
@@ -23,24 +23,23 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}/${PN}-${PV/_/-}"
 
 src_prepare() {
-	local -a EXTRA_ECONF;
 	sed \
 		-e '/\tstrip/d' \
 		-i Makefile.in
 	sed \
 		-e 's#/usr/bin/zsh#/bin/zsh#g' \
 		-i \
-			src/man/${PN}.txt \
-			src/${PN}/usage.c \
-			src/${PN}/sandbox.c \
-			src/${PN}/main.c
+			"src/man/${PN}.txt" \
+			"src/${PN}/usage.c" \
+			"src/${PN}/sandbox.c" \
+			"src/${PN}/main.c"
 }
 
 src_configure() {
+	local myeconfargs=();
 	for flag in ${IUSE}; do
-		EXTRA_ECONF+=( $(use_enable "${flag/+}") )
+		myeconfargs+=( $(use_enable "${flag/+}") )
 	done
-	EXTRA_ECONF="${EXTRA_ECONF[@]}"
-	default
+	econf ${myeconfargs[@]}
 }
 

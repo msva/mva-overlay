@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
@@ -17,7 +17,7 @@ IUSE="qt4 qt5"
 REQUIRED_USE="^^ ( qt4 qt5 )"
 
 DEPEND="
-	app-emulation/firejai
+	app-emulation/firejail
 	qt4? (
 		dev-qt/qtcore:4
 		dev-qt/qtgui:4
