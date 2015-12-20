@@ -16,11 +16,12 @@ SLOT="0"
 KEYWORDS=""
 IUSE="+libwebp"
 
-DEPEND="net-im/pidgin
-		dev-libs/openssl
-		virtual/libc
-		libwebp? ( media-libs/libwebp )
-		"
+DEPEND="
+	net-im/pidgin
+	dev-libs/openssl:0
+	virtual/libc
+	libwebp? ( media-libs/libwebp )
+"
 RDEPEND="${DEPEND}"
 
 src_configure() {

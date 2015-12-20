@@ -20,9 +20,8 @@ EGIT_REPO_URI="https://github.com/jgeboski/purple-facebook"
 DEPEND="
 	net-im/pidgin
 	dev-libs/json-glib
-	dev-libs/glib
+	dev-libs/glib:2
 	sys-libs/zlib
-	dev-vcs/mercurial
 "
 RDEPEND="${DEPEND}"
 

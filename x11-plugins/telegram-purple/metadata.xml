@@ -12,6 +12,6 @@
 	Long description of the package
 	</longdescription> 
 	<use>
-		<flag name=''></flag>
+		<flag name='libwebp'></flag>
 	</use>
 </pkgmetadata>

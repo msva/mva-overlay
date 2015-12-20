@@ -33,7 +33,7 @@ RDEPEND="
 	dev-libs/boost
 	net-im/swiften
 	dev-libs/popt
-	dev-libs/openssl
+	dev-libs/openssl:0
 	dev-libs/log4cxx
 	mysql? ( virtual/mysql )
 	postgres? ( dev-libs/libpqxx )
