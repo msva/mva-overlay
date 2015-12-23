@@ -38,20 +38,22 @@ HTTP_TCPPROXY_MODULE_WD="${WORKDIR}/${HTTP_TCPPROXY_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.21"
+HTTP_PASSENGER_MODULE_PV="5.0.22"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}"
 
+# http_passenger (https://github.com/phusion/union_station_hooks_core/tags, MIT)
 HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_A="phusion"
 HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN="union_station_hooks_core"
-HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV="2.0.1"
+HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV="2.0.5"
 #HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA=""
 HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P="${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV}}"
 HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_A}/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV}}.tar.gz"
 HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P}"
 
+# http_passenger (https://github.com/phusion/union_station_hooks_rails/tags, MIT)
 HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_A="phusion"
 HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN="union_station_hooks_rails"
 HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV="2.0.0"
@@ -65,17 +67,17 @@ HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_S
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
-HTTP_PAGESPEED_MODULE_PV="1.9.32.10-beta"
+HTTP_PAGESPEED_MODULE_PV="release-1.10.33.1-beta"
 #HTTP_PAGESPEED_MODULE_SHA="1c5b61679cc47716930399516e188e1e896060dd"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
-HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
+HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
 
 HTTP_PAGESPEED_PSOL_PN="psol"
-HTTP_PAGESPEED_PSOL_PV="1.9.32.10"
+HTTP_PAGESPEED_PSOL_PV="1.10.33.1"
 HTTP_PAGESPEED_PSOL_P="${HTTP_PAGESPEED_PSOL_PN}-${HTTP_PAGESPEED_PSOL_SHA:-${HTTP_PAGESPEED_PSOL_PV}}"
 HTTP_PAGESPEED_PSOL_URI="https://dl.google.com/dl/page-speed/${HTTP_PAGESPEED_PSOL_PN}/${HTTP_PAGESPEED_PSOL_PV}.tar.gz"
-HTTP_PAGESPEED_PSOL_WD="../${HTTP_PAGESPEED_PSOL_PN}"
+HTTP_PAGESPEED_PSOL_WD="${WORKDIR}/${HTTP_PAGESPEED_PSOL_PN}"
 
 # http_hls_audio (https://github.com/flavioribeiro/nginx-audio-track-for-hls-module/tags, BSD-2)
 HTTP_HLS_AUDIO_MODULE_A="flavioribeiro"
@@ -161,7 +163,7 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.19"
+HTTP_LUA_MODULE_PV="0.9.20rc1"
 #HTTP_LUA_MODULE_SHA="8a0a3e4706cdd58272a8f38e8f09cc5e9db0307b"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -509,6 +511,7 @@ NGINX_MODULES_STD="
 "
 NGINX_MODULES_STREAM="
 	access
+	limit_conn
 	upstream_hash
 	upstream_least_conn
 	upstream_zone
@@ -529,6 +532,7 @@ NGINX_MODULES_HTTP_OPT="
 	random_index
 	realip
 	secure_link
+	slice
 	stub_status
 	sub
 	xslt
@@ -702,9 +706,9 @@ DEPEND="${CDEPEND}
 	)
 "
 
-# mod_pagespeed issues QA warning.
+# mod_pagespeed (precompiled psol static library, actually) issues QA warning
 QA_EXECSTACK="usr/sbin/nginx"
-QA_WX_LOAD="usr/sbin/nginx"
+#QA_WX_LOAD="usr/sbin/nginx"
 
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
@@ -867,7 +871,7 @@ src_prepare() {
 			bin/passenger-install-nginx-module \
 			src/apache2_module \
 			src/cxx_supportlib/vendor-copy/libuv \
-			src/cxx_supportlib/vendor-copy/libev
+			src/cxx_supportlib/vendor-modified/libev
 
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}" || die "Failed to insert union_station_hooks_core"
 		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}" || die "Failed to insert union_station_hooks_rails"
@@ -882,8 +886,7 @@ src_prepare() {
 #	fi
 
 	if use nginx_modules_http_pagespeed; then
-		# Sorry. I tired in tries to patch it's buildsystem to just get psol
-		# from parentdir (or even take system-wide one) and don't fail the build...
+		# TODO: replace precompiled psol with that one, built from apache module?
 		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/" || die "Failed to insert psol"
 		local arch=${ARCH};
 		use x86 && arch=x86_32;

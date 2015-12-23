@@ -1,0 +1,29 @@
+#!/sbin/runscript
+# Copyright 1999-2015 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+LOGFILE=EPREFIX/var/log/spectrum2/std.log
+SPECTRUMMANAGER=EPREFIX/usr/bin/spectrum2_manager
+SPECTRUMRUN=EPREFIX/var/run/spectrum2
+
+depend() {
+        need net
+        use jabber-server
+}
+
+start() {
+        ebegin "Starting ${PROTOCOL} Spectrum Transport"
+	mkdir -p "$SPECTRUMRUN"
+	chown jabber:jabber "${SPECTRUMRUN}"
+        start-stop-daemon --start --user jabber --group jabber \
+		--exec "$SPECTRUMMANAGER" start &> "$LOGFILE"
+        eend $?
+}
+
+stop() {
+        ebegin "Stopping ${PROTOCOL} Spectrum Transport"
+        start-stop-daemon --user jabber --group jabber \
+		--exec "$SPECTRUMMANAGER" stop 1>>"$LOGFILE" 2>&1
+        eend $?
+}
