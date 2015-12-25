@@ -72,4 +72,3 @@ src_configure() {
 		$(use test || echo "-config no_tests") \
 		$(use qml || echo "-config no_install_imports -config no_install_qml")
 }
-

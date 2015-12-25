@@ -12,12 +12,12 @@ DESCRIPTION="Spectrum is an XMPP transport/gateway"
 HOMEPAGE="http://spectrum.im"
 
 if [[ ${PV} == *9999* ]]; then
-  #EGIT_REPO_URI="git://github.com/hanzz/libtransport.git"
-  EGIT_REPO_URI="https://github.com/hanzz/spectrum2"
+#EGIT_REPO_URI="git://github.com/hanzz/libtransport.git"
+	EGIT_REPO_URI="https://github.com/hanzz/spectrum2"
 #  EGIT_BRANCH="swiften3"
 else
 #  MY_PV="${PV/_/-}"
-  SRC_URI="https://github.com/downloads/hanzz/spectrum2/spectrum-2.0.0-beta2.tar.gz"
+	SRC_URI="https://github.com/downloads/hanzz/spectrum2/spectrum-2.0.0-beta2.tar.gz"
 #  S="${WORKDIR}/${PN}-${MY_PV}"
 fi
 
