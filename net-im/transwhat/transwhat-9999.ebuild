@@ -21,7 +21,7 @@ IUSE=""
 RDEPEND="
 	net-im/yowsup[encryption,${PYTHON_USEDEP}]
 	dev-python/python-dateutil[${PYTHON_USEDEP}]
-	dev-libs/protobuf[${PYTHON_USEDEP}]
+	dev-libs/protobuf[python,${PYTHON_USEDEP}]
 	dev-python/e4u[${PYTHON_USEDEP}]
 "
 DEPEND="${RDEPEND}
