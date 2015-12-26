@@ -17,7 +17,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	dev-python/beautifulsoup:4
+	<dev-python/beautifulsoup-4[${PYTHON_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}
