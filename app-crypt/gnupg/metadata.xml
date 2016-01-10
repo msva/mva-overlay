@@ -12,19 +12,6 @@
     restrictions. GnuPG is a RFC2440 (OpenPGP) compliant application.
   </longdescription>
   <use>
-    <flag name='idea'>Add support for the IDEA algorithm</flag>
-    <flag name='openct'>
-      Bring in <pkg>dev-libs/openct</pkg> as a dependency; enable
-      scdaemon.
-    </flag>
-    <flag name='pcsc-lite'>
-      Bring in <pkg>sys-apps/pcsc-lite</pkg> as a dependency; enable
-      scdaemon.
-    </flag>
-    <flag name='smartcard' restrict='&lt;app-crypt/gnupg-2.0.17-r1'>
-      Bring in <pkg>dev-libs/libusb</pkg> as a dependency; enable
-      scdaemon.
-    </flag>
     <flag name='smartcard' restrict='&gt;=app-crypt/gnupg-2.0.17-r1'>
       Build scdaemon software. Enables usage of OpenPGP cards. For
       other type of smartcards, try

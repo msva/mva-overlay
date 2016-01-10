@@ -1,8 +1,8 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI=5
+EAPI="5"
 
 # latest gentoo apache files
 GENTOO_PATCHSTAMP="20140731"
@@ -32,11 +32,10 @@ src_prepare() {
 src_compile() { :; }
 
 src_install() {
-	insinto "${EROOT}/usr/include/apache2"
+	insinto /usr/include/apache2
 	doins include/*.h
 	doins os/unix/*.h
 #	doins server/mpm/prefork/*.h
 	doins server/mpm/event/*.h
 	doins modules/*/*.h
 }
-

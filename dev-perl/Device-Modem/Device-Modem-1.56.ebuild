@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -14,5 +14,5 @@ KEYWORDS="alpha amd64 ~arm hppa ia64 ~mips ppc sparc x86"
 IUSE=""
 
 RDEPEND="
-        dev-perl/Device-SerialPort
+	dev-perl/Device-SerialPort
 "

@@ -72,7 +72,7 @@ start() {
 	local default_cgroup
 	if [[ -f ${RULES_FILE} ]]; then
 		local user controller
-		read user controller default_cgroup <<< $(grep -m1 ^\* ${RULES_FILE})
+		read user controller default_cgroup <<< $(grep -m1 '^\*\s' ${RULES_FILE})
 		if [[ $default_cgroup == "*" ]]; then
 			ewarn "${RULES_FILE} incorrect"
 			ewarn "Overriding it"

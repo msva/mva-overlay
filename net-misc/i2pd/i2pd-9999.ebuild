@@ -1,9 +1,9 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
-inherit eutils systemd user git-r3 cmake-multilib
+inherit eutils systemd pax-utils user git-r3 multilib-minimal
 
 DESCRIPTION="A C++ daemon for accessing the I2P anonymous network"
 HOMEPAGE="https://github.com/PurpleI2P/i2pd"
@@ -12,46 +12,66 @@ EGIT_REPO_URI="https://github.com/PurpleI2P/i2pd"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="cpu_flags_x86_aes i2p-hardening library static upnp"
+IUSE="api +daemon static upnp"
 
-RDEPEND="!static? ( >=dev-libs/boost-1.46[threads] )
-	!static? ( dev-libs/crypto++ )
-	library? ( >=dev-libs/boost-1.46[threads,${MULTILIB_USEDEP}] )
-	library? ( dev-libs/crypto++[${MULTILIB_USEDEP}] )"
-DEPEND="${RDEPEND}
-	static? ( >=dev-libs/boost-1.46[static-libs,threads] )
-	static? ( dev-libs/crypto++[static-libs] )
-	>=dev-util/cmake-2.8.5
-	i2p-hardening? ( >=sys-devel/gcc-4.6 )
+RDEPEND="
+	!static? (
+		>=dev-libs/boost-1.46[threads]
+		dev-libs/crypto++
+	)
+"
+DEPEND="
+	${RDEPEND}
+	static? (
+		>=dev-libs/boost-1.46[static-libs,threads]
+		dev-libs/crypto++[static-libs]
+	)
 	upnp? ( >=net-libs/miniupnpc-1.5 )
-	|| ( >=sys-devel/gcc-4.6 >=sys-devel/clang-3.3 )"
+	|| ( >=sys-devel/gcc-4.6 >=sys-devel/clang-3.3 )
+"
 
 I2PD_USER="${I2PD_USER:-i2pd}"
 I2PD_GROUP="${I2PD_GROUP:-i2pd}"
 
-CMAKE_USE_DIR="${S}/build"
+src_prepare() {
+	# support for custom configuration
+	sed -i \
+		-e "1iinclude .config" \
+		-e "s/:=/?=/g" \
+		 Makefile
+	touch .config
+
+	# Fix expr syntax error on multilib builds
+	sed -i -r \
+		-e '/expr match/s@(\$\(CXX\))@"\1"@' \
+		Makefile.linux
+
+	multilib_copy_sources
+}
 
 multilib_src_configure() {
-	mycmakeargs=(
-		$(cmake-utils_use_with cpu_flags_x86_aes AESNI)
-		$(cmake-utils_use_with i2p-hardening HARDENING)
-		$(cmake-utils_use_with library LIBRARY)
-		$(cmake-utils_use_with static STATIC)
-		$(multilib_is_native_abi && echo -DWITH_BINARY=ON \
-					|| echo -DWITH_BINARY=OFF)
+	use static && echo USE_STATIC=yes >> .config
+	use upnp && echo USE_UPNP=1 >> .config
+
+	use api && (
+		# Fix QA warning about missing SONAME
+		echo 'LDFLAGS="-Wl,-soname,$@"' >> .config
 	)
-	use upnp && (
-		append-cppflags -DUSE_UPNP
-	)
-	(multilib_is_native_abi || use library) && cmake-utils_src_configure
 }
 
 multilib_src_compile() {
-	(multilib_is_native_abi || use library) && cmake-utils_src_compile
+	local myemakeargs=();
+	use api && myemakeargs+=("api_client")
+	use daemon && multilib_is_native_abi && myemakeargs+=("i2pd")
+	emake "${myemakeargs[@]}"
 }
 
 multilib_src_install() {
-	(multilib_is_native_abi || use library) && cmake-utils_src_install
+	use daemon && multilib_is_native_abi && dobin i2pd
+	use api && (
+		dolib.so libi2pd{,client}.so
+		use static && dolib.a libi2pd{,client}.a
+	)
 }
 
 multilib_src_install_all() {
@@ -72,6 +92,7 @@ multilib_src_install_all() {
 	doenvd "${FILESDIR}/99${PN}"
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
+	host-is-pax && pax-mark m "${ED}usr/sbin/${PN}"
 }
 
 pkg_setup() {

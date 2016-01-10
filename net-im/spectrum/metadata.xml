@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer>
+		<email>mva@mva.name</email>
+		<description>
+		If you have any issues, please contact me via e-mail, jabber (same), or IRC (Freenode, RusNet, oftc)
+		</description> 
+		<name>Vadim A. Misbakh-Soloviov</name>
+	</maintainer>
+	<longdescription>
+	Long description of the package
+	</longdescription> 
+	<use>
+		<flag name='libev'></flag>
+		<flag name='staticport'></flag>
+		<flag name='symlinks'></flag>
+		<flag name='tools'></flag>
+		<flag name='frotz'></flag>
+		<flag name='irc'></flag>
+		<flag name='purple'></flag>
+		<flag name='skype'></flag>
+		<flag name='smstools'></flag>
+		<flag name='twitter'></flag>
+	</use>
+</pkgmetadata>

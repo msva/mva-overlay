@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -29,10 +29,10 @@ COMMON_DEPEND_LIBS="
 	sys-libs/zlib
 	adns? ( >=net-libs/adns-1.4 )
 	bzip2? ( app-arch/bzip2 )
-	readline? ( sys-libs/readline )
+	readline? ( sys-libs/readline:0 )
 	smartcard? ( usb? ( virtual/libusb:0 ) )
 	ldap? ( net-nds/openldap )"
-COMMON_DEPEND_BINS="|| ( app-crypt/pinentry app-crypt/pinentry-qt )"
+COMMON_DEPEND_BINS="app-crypt/pinentry"
 
 # Existence of executables is checked during configuration.
 DEPEND="${COMMON_DEPEND_LIBS}
@@ -43,7 +43,7 @@ DEPEND="${COMMON_DEPEND_LIBS}
 		~dev-libs/libgpg-error-9999[static-libs]
 		~dev-libs/libksba-9999[static-libs]
 		~dev-libs/npth-9999[static-libs]
-		|| ( sys-libs/zlib[static-libs] <sys-libs/zlib-1.2.5.1-r2 )
+		sys-libs/zlib[static-libs]
 	)
 	nls? ( sys-devel/gettext )
 	doc? ( sys-apps/texinfo media-gfx/transfig )"

@@ -1,18 +1,17 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
-	vcs="git-r3"
-	SRC_URI=""
-	EGIT_REPO_URI="https://github.com/syncthing/${PN}"
-	KEYWORDS=""
-
-inherit eutils base ${vcs}
+inherit eutils base git-r3
 
 DESCRIPTION="Open, trustworthy and decentralized syncing engine (some kind of analog of DropBox and BTSync)"
 HOMEPAGE="http://syncthing.net"
+
+SRC_URI=""
+EGIT_REPO_URI="https://github.com/syncthing/${PN}"
+KEYWORDS=""
 
 LICENSE="MIT"
 SLOT="0"
@@ -21,7 +20,7 @@ IUSE=""
 
 DEPEND="
 	dev-lang/go
-	app-misc/godep
+	dev-go/godep
 "
 RDEPEND="${DEPEND}"
 

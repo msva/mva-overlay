@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: This ebuild is from mva overlay; $
+# $Id$
 
 EAPI="5"
 
@@ -9,7 +9,7 @@ inherit eutils autotools flag-o-matic ${scm_eclass}
 DESCRIPTION="A state machine for DEC VT100-VT520 compatible terminal emulators."
 HOMEPAGE="http://www.freedesktop.org/wiki/Software/kmscon"
 
-SRC_URI="http://www.freedesktop.org/software/${PN}/releases/${P}.tar.xz"
+SRC_URI="http://www.freedesktop.org/software/kmscon/releases/${P}.tar.xz"
 KEYWORDS="~amd64 ~x86"
 
 LICENSE="MIT LGPL-2.1 BSD-2"
