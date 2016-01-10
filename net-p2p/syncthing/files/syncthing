@@ -1,0 +1,29 @@
+#!/sbin/runscript
+# Copyright 1999-2014 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+SVCUSER=${SVCNAME#*.}
+pid_file="/run/syncthing-${SVCUSER}/syncthing.pid"
+
+depend() {
+	need net
+	provide syncthing
+}
+
+start_pre() {
+	checkpath -d -m 0775 -o ${SVCUSER}:${SVCUSER} /run/syncthing-${SVCUSER}
+}
+
+start() {
+	ebegin "Starting Syncthing"
+	start-stop-daemon --start --make-pidfile --pidfile ${pid_file} \
+		--user ${SVCUSER} --group ${SVCUSER} --background --exec /usr/bin/syncthing -- -no-browser
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping Syncthing"
+	start-stop-daemon  --stop --pidfile ${pid_file}
+	eend $?
+}
