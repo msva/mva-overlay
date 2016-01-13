@@ -51,3 +51,10 @@ src_install() {
 	doinitd "${FILESDIR}/syncthing"
 	base_src_install_docs
 }
+
+pkg_postinst() {
+	elog "To run Syncthing for more users, create a symlink to the syncthing init script from a link called"
+	elog "syncthing.username - like so"
+	elog "	cd /etc/init.d"
+	elog "	ln -s syncthing syncthing.username"
+}
