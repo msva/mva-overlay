@@ -17,7 +17,6 @@ LICENSE="MIT"
 SLOT="0"
 # No ~x86 keyword on godep in the tree
 KEYWORDS="~amd64"
-IUSE="systemd"
 
 COMMON_DEPEND="systemd? ( sys-apps/systemd )"
 DEPEND="
@@ -47,11 +46,8 @@ src_compile() {
 
 src_install() {
 	dobin syncthing
-	if use systemd; then
-		systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
-		systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
-	else
-		doinitd "${FILESDIR}/syncthing"
-	fi
+	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
+	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
+	doinitd "${FILESDIR}/syncthing"
 	base_src_install_docs
 }
