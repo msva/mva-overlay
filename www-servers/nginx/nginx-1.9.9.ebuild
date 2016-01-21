@@ -15,7 +15,7 @@ EAPI="5"
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="jruby ruby20 ruby21 ruby22"
+USE_RUBY="jruby ruby20 ruby21 ruby22 ruby23"
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
 
@@ -38,7 +38,7 @@ HTTP_TCPPROXY_MODULE_WD="${WORKDIR}/${HTTP_TCPPROXY_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.22"
+HTTP_PASSENGER_MODULE_PV="5.0.23"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -67,14 +67,14 @@ HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_S
 # http_pagespeed (https://github.com/pagespeed/ngx_pagespeed/tags, BSD-2)
 HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
-HTTP_PAGESPEED_MODULE_PV="release-1.10.33.1-beta"
+HTTP_PAGESPEED_MODULE_PV="release-1.10.33.2-beta"
 #HTTP_PAGESPEED_MODULE_SHA="1c5b61679cc47716930399516e188e1e896060dd"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
 
 HTTP_PAGESPEED_PSOL_PN="psol"
-HTTP_PAGESPEED_PSOL_PV="1.10.33.1"
+HTTP_PAGESPEED_PSOL_PV="1.10.33.2"
 HTTP_PAGESPEED_PSOL_P="${HTTP_PAGESPEED_PSOL_PN}-${HTTP_PAGESPEED_PSOL_SHA:-${HTTP_PAGESPEED_PSOL_PV}}"
 HTTP_PAGESPEED_PSOL_URI="https://dl.google.com/dl/page-speed/${HTTP_PAGESPEED_PSOL_PN}/${HTTP_PAGESPEED_PSOL_PV}.tar.gz"
 HTTP_PAGESPEED_PSOL_WD="${WORKDIR}/${HTTP_PAGESPEED_PSOL_PN}"
@@ -96,10 +96,18 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="${HTTP_UPLOAD_PROGRESS_MODULE_PN}-${HTTP_UPLOAD_P
 HTTP_UPLOAD_PROGRESS_MODULE_URI="https://github.com/${HTTP_UPLOAD_PROGRESS_MODULE_A}/${HTTP_UPLOAD_PROGRESS_MODULE_PN}/archive/${HTTP_UPLOAD_PROGRESS_MODULE_SHA:-v${HTTP_UPLOAD_PROGRESS_MODULE_PV}}.tar.gz"
 HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 
+# http_nchan (https://github.com/slact/nchan/tags, BSD-2)
+HTTP_NCHAN_MODULE_A="slact"
+HTTP_NCHAN_MODULE_PN="nchan"
+HTTP_NCHAN_MODULE_PV="0.98"
+HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
+HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
+HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
+
 # http_headers_more (https://github.com/openresty/headers-more-nginx-module/tags, BSD)
 HTTP_HEADERS_MORE_MODULE_A="openresty"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.28"
+HTTP_HEADERS_MORE_MODULE_PV="0.29rc1"
 HTTP_HEADERS_MORE_MODULE_SHA="a744defdfac1d6874152a51e3a8a604a85354a2c"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_SHA:-${HTTP_HEADERS_MORE_MODULE_PV}}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/${HTTP_HEADERS_MORE_MODULE_SHA:-v${HTTP_HEADERS_MORE_MODULE_PV}}.tar.gz"
@@ -163,7 +171,7 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.9.20rc1"
+HTTP_LUA_MODULE_PV="0.10.0"
 #HTTP_LUA_MODULE_SHA="8a0a3e4706cdd58272a8f38e8f09cc5e9db0307b"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -372,9 +380,13 @@ HTTP_AUTH_PAM_MODULE_P="${HTTP_AUTH_PAM_MODULE_PN}-${HTTP_AUTH_PAM_MODULE_SHA:-$
 HTTP_AUTH_PAM_MODULE_URI="https://github.com/${HTTP_AUTH_PAM_MODULE_A}/${HTTP_AUTH_PAM_MODULE_PN}/archive/v${HTTP_AUTH_PAM_MODULE_SHA:-${HTTP_AUTH_PAM_MODULE_PV}}.tar.gz"
 HTTP_AUTH_PAM_MODULE_WD="${WORKDIR}/${HTTP_AUTH_PAM_MODULE_P}"
 
+# http_rrd (https://github.com/evanmiller/mod_rrd_graph/tags, BSD-2)
+RRD_MODULE_A="evanmiller"
+RRD_MODULE_PN="mod_rrd_graph"
 RRD_MODULE_PV="0.2.0"
-RRD_MODULE_P="mod_rrd_graph-${RRD_MODULE_PV}"
-RRD_MODULE_URI="http://wiki.nginx.org/images/9/9d/${RRD_MODULE_P/m/M}.tar.gz"
+RRD_MODULE_SHA="5d4c1a90d4d67cffb9df241540db1401fae7423c"
+RRD_MODULE_P="${RRD_MODULE_PN}-${RRD_MODULE_SHA:-${RRD_MODULE_PV}}"
+RRD_MODULE_URI="https://github.com/${RRD_MODULE_A}/${RRD_MODULE_PN}/archive/${RRD_MODULE_SHA:-${RRD_MODULE_PV}}.tar.gz"
 RRD_MODULE_WD="${WORKDIR}/${RRD_MODULE_P}"
 
 # sticky-module (https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/downloads#tag-downloads, BSD-2)
@@ -447,6 +459,7 @@ SRC_URI="
 	nginx_modules_http_memc? ( ${HTTP_MEMC_MODULE_URI} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
 	nginx_modules_http_postgres? ( ${HTTP_POSTGRES_MODULE_URI} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
 	nginx_modules_http_coolkit? ( ${HTTP_COOLKIT_MODULE_URI} -> ${HTTP_COOLKIT_MODULE_P}.tar.gz )
+	nginx_modules_http_nchan? ( ${HTTP_NCHAN_MODULE_URI} -> ${HTTP_NCHAN_MODULE_P}.tar.gz )
 	nginx_modules_http_upload_progress? ( ${HTTP_UPLOAD_PROGRESS_MODULE_URI} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
 	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
@@ -563,6 +576,7 @@ NGINX_MODULES_3RD="
 	http_form_input
 	http_echo
 	http_memc
+	http_nchan
 	http_rds_json
 	http_rds_csv
 	http_postgres
@@ -614,9 +628,10 @@ REQUIRED_USE="
 		nginx_modules_http_security? ( pcre )
 		nginx_modules_http_push_stream? ( ssl )
 		pcre-jit? ( pcre )
+		http2? ( nginx_modules_http_v2 )
 "
 
-IUSE="aio debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux rtmp"
+IUSE="aio debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux rtmp http2"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -1106,6 +1121,12 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_FANCYINDEX_MODULE_WD}"
 	fi
 
+# http_nchan
+	if use nginx_modules_http_nchan; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_NCHAN_MODULE_WD}"
+	fi
+
 # http_upload_progress
 	if use nginx_modules_http_upload_progress; then
 		http_enabled=1
@@ -1425,6 +1446,12 @@ src_install() {
 	if use nginx_modules_http_cache_purge; then
 		docinto "${HTTP_CACHE_PURGE_MODULE_P}"
 		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md}
+	fi
+
+# http_nchan
+	if use nginx_modules_http_nchan; then
+		docinto "${HTTP_NCHAN_MODULE_P}"
+		dodoc "${HTTP_NCHAN_MODULE_WD}"/README.md
 	fi
 
 # http_upload_progress
