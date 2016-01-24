@@ -20,7 +20,7 @@ KEYWORDS="~amd64"
 
 COMMON_DEPEND="systemd? ( sys-apps/systemd )"
 DEPEND="
-	dev-lang/go
+	>=dev-lang/go-1.5.1
 	dev-go/godep
 "
 RDEPEND="${DEPEND}"
