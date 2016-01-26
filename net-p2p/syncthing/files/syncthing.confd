@@ -1,0 +1,15 @@
+# /etc/conf.d/syncthing: config file for /etc/init.d/syncthing
+
+#SYNCTHING_USER="syncthing"
+#SYNCTHING_GROUP="nogroup"
+
+# Any options you want you can set them here
+SYNCTHING_OPTS="-logfile=/dev/null"
+
+# I/O nice level of syncthing. Use 3 for idle. For more information
+# see ionice(1).
+#SYNCTHING_IONICE="0"
+
+# Nice level of syncthing. Use 19 for the lowest priority. For more
+# information see nice(1).
+#SYNCTHING_NICE="0"
