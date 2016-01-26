@@ -17,12 +17,13 @@ LICENSE="MIT"
 SLOT="0"
 # No ~x86 keyword on godep in the tree
 KEYWORDS="~amd64"
+IUSE=""
 
-COMMON_DEPEND="systemd? ( sys-apps/systemd )"
 DEPEND="
 	>=dev-lang/go-1.5.1
 	dev-go/godep
 "
+
 RDEPEND="${DEPEND}"
 
 DOCS=( README.md AUTHORS LICENSE CONTRIBUTING.md )
@@ -45,16 +46,30 @@ src_compile() {
 }
 
 src_install() {
+	touch "${T}/${PN}.confd"
+
 	dobin syncthing
+
 	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
 	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
-	doinitd "${FILESDIR}/syncthing"
+
+	newinitd "${FILESDIR}/${PN}.init-r1" "${PN}"
+	newconfd "${T}/${PN}.confd" "${PN}"
+
 	base_src_install_docs
 }
 
 pkg_postinst() {
-	elog "To run Syncthing for more users, create a symlink to the syncthing init script from a link called"
-	elog "syncthing.username - like so"
-	elog "	cd /etc/init.d"
-	elog "	ln -s syncthing syncthing.username"
+	elog "If you want to run Syncthing for more than one user, you can:"
+	elog
+	elog "In case you're using OpenRC:"
+	elog "Create a symlink to the syncthing init script called"
+	elog "syncthing.<username> - like so:"
+	elog "\t# ln -s syncthing /etc/init.d/syncthing.johndoe"
+	elog "and start/rc-update it instead of 'standard' one"
+	elog
+	elog "In case you're using SystemD:"
+	elog "Just start (and 'enable', for autostarting) service like:"
+	elog "\t# systemctl start ${PN}@johndoe"
+	elog "instead of 'standard' one."
 }

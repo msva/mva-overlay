@@ -1,0 +1,29 @@
+#!/sbin/runscript
+# Copyright 1999-2014 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+SYNCTHING_USER="${SVCNAME#syncthing.}"
+SYNCTHING_PID_PATH="/run/suncthing.${SYNCTHING_USER}"
+if [ "${SYNCTHING_USER}" = "syncthing" ] ; then
+	SYNCTHING_USER="${SYNCTHING_USER:-syncthing}"
+	SYNCTHING_PID_PATH="/run/suncthing"
+fi
+SYNCTHING_GROUP=${SYNCTHING_GROUP:-${SYNCTHING_USER}}
+
+NAME=${SVCNAME%.}
+name="SyncThing main daemon"
+command="/usr/bin/${NAME}"
+command_args="${EXTRA_OPTS} -no-browser"
+pidfile="${SYNCTHING_PID_PATH}/pid"
+
+start_stop_daemon_args="-q -u ${SYNCTHING_USER}:${SYNCTHING_GROUP} -n ${NAME}"
+start_stop_daemon_start_args="-k 000"
+start_stop_daemon_stop_args="-R TERM/2/KILL/5"
+
+
+depend() {
+	need net
+	provide syncthing
+}
+
