@@ -39,7 +39,7 @@ pkg_setup() {
 
 src_compile() {
 #	# XXX: All the stuff below needs for "-version" command to show actual info
-#	local version="$(git describe --always | sed 's/\([v\.0-9]*\)\(-\(beta\|alpha\)[0-9]*\)\?-/\1\2+/')";
+	local version="$(git describe --always | sed 's/\([v\.0-9]*\)\(-\(beta\|alpha\)\.[0-9]*\)\?-/\1\2+/')";
 	local date="$(git show -s --format=%ct)";
 	local user="portage"
 	local host="gentoo";
