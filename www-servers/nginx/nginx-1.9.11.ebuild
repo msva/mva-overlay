@@ -915,6 +915,12 @@ src_prepare() {
 		epatch "${HTTP_TCPPROXY_MODULE_WD}"/tcp.patch
 	fi
 
+	if use nginx_modules_http_lua; then
+		pushd "${HTTP_LUA_MODULE_WD}" &>/dev/null
+		epatch "${FILESDIR}"/8a63903c7152b5417e1bf326f6d6ffad0b729945.patch
+		popd &>/dev/null
+	fi
+
 	epatch_user
 }
 
