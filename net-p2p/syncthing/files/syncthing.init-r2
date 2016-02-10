@@ -3,7 +3,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-SYNCTHING_USER="${SVCNAME#syncthing.}"
+SYNCTHING_USER="${RC_SVCNAME#syncthing.}"
 SYNCTHING_PID_PATH="/run/suncthing.${SYNCTHING_USER}"
 if [ "${SYNCTHING_USER}" = "syncthing" ] ; then
 	SYNCTHING_USER="${SYNCTHING_USER:-syncthing}"
@@ -14,7 +14,7 @@ SYNCTHING_IONICE=${SYNCTHING_IONICE:-0}
 SYNCTHING_NICE=${SYNCTHING_NICE:-0}
 
 
-NAME=${SVCNAME%.}
+NAME=${RC_SVCNAME%.*}
 name="Open Source Continuous File Synchronization"
 command="/usr/bin/${NAME}"
 command_args="${EXTRA_OPTS} -no-browser"
