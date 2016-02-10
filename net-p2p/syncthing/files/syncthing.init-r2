@@ -31,3 +31,6 @@ depend() {
 	provide syncthing
 }
 
+start_pre() {
+	checkpath -q -d -m 0750 -o ${SYNCTHING_USER}:${SYNCTHING_GROUP} ${SYNCTHING_PID_PATH}
+}
