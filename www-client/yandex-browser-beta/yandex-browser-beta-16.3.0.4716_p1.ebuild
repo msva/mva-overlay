@@ -6,12 +6,14 @@ EAPI="5"
 CHROMIUM_LANGS="cs de en_US es fr it ja kk pt_BR pt_PT ru tr uk zh_CN zh_TW"
 inherit chromium multilib unpacker
 
+MY_PV="${PV/_p/-}"
+
 DESCRIPTION="Browser that combines a minimal design with sophisticated technology."
 HOMEPAGE="http://browser.yandex.ru/beta/"
 LICENSE="EULA"
 SLOT="0"
 SRC_URI="
-	amd64? ( http://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_16.2.0.1818-1_amd64.deb -> ${P}.deb )
+	amd64? ( http://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_${MY_PV}_amd64.deb -> ${P}.deb )
 "
 KEYWORDS="~amd64"
 
