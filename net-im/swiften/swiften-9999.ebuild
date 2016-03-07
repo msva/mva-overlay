@@ -3,6 +3,8 @@
 # $Id$
 
 EAPI="5"
+EGIT_MIN_CLONE_TYPE="single+tags"
+# ^ spectrum fails to compile otherwise
 SCONS_MIN_VERSION="1.2"
 LANGS=" ca de es fr hu nl pl ru se sk"
 
