@@ -1481,7 +1481,7 @@ src_install() {
 # http_ndk
 	if use nginx_modules_http_ndk; then
 		docinto "${HTTP_NDK_MODULE_P}"
-		dodoc "${HTTP_NDK_MODULE_WD}"/README
+		dodoc "${HTTP_NDK_MODULE_WD}"/README.md
 	fi
 
 # http_headers_more
