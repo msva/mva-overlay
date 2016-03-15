@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+	<email>gentoo@mva.name</email>
+	<name>Vadim Misbakh-Soloviov</name>
+</maintainer>
+<use>
+	<flag name="rdma">RDMA support</flag>
+	<flag name="luajit">Force build against LuaJIT</flag>
+</use>
+</pkgmetadata>

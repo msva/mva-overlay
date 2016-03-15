@@ -1,12 +1,10 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI="5"
 
-USE_RUBY="ruby19"
-
-inherit ruby-ng eutils vcs-snapshot cmake-utils
+inherit eutils vcs-snapshot cmake-utils
 
 COMMIT_ID="b44b1fad854c726dda3ec7bfc96fe2d437d4343f"
 DESCRIPTION="Free and simple TrueCrypt Implementation based on dm-crypt"
@@ -29,11 +27,6 @@ RDEPEND+="
 	sys-fs/lvm2
 "
 DEPEND+=" ${RDEPEND}"
-
-ruby_add_bdepend "test? ( dev-ruby/json
-		dev-util/cucumber
-		dev-ruby/rspec
-		dev-ruby/ffi )"
 
 # without some kernel modules, this isn't going to work
 CONFIG_CHECK="~CRYPTO_RMD160 ~CRYPTO_SHA512 ~CRYPTO_WP512 ~CRYPTO_LRW

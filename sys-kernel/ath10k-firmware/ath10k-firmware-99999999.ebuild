@@ -1,8 +1,8 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI="5"
 inherit savedconfig git-r3
 
 SRC_URI=""
@@ -12,7 +12,7 @@ KEYWORDS=""
 DESCRIPTION="Atheros ath10k firmware files"
 HOMEPAGE="https://github.com/kvalo/ath10k-firmware"
 
-LICENSE="as-is"
+LICENSE="qca-firmware"
 SLOT="0"
 IUSE="savedconfig"
 

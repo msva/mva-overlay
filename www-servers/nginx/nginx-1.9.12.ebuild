@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -492,7 +492,7 @@ LICENSE="
 	nginx_modules_http_hls_audio? ( GPL-3 )
 "
 SLOT="mainline"
-KEYWORDS="~amd64 ~x86 ~x86-fbsd ~mips ~arm"
+KEYWORDS="~amd64 ~x86 ~arm"
 
 NGINX_MODULES_STD="
 	access

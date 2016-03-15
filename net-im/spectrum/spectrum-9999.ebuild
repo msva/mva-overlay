@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -30,7 +30,7 @@ IUSE="debug doc libev mysql postgres sqlite staticport symlinks test tools ${IUS
 
 RDEPEND="
 	net-im/jabber-base
-	dev-libs/boost
+	dev-libs/boost:*
 	net-im/swiften
 	dev-libs/popt
 	dev-libs/openssl:0
