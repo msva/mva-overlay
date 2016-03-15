@@ -4,9 +4,10 @@
 
 EAPI=5
 inherit savedconfig git-r3
-	SRC_URI=""
-	EGIT_REPO_URI="https://github.com/kvalo/ath10k-firmware"
-	KEYWORDS=""
+
+SRC_URI=""
+EGIT_REPO_URI="https://github.com/kvalo/ath10k-firmware"
+KEYWORDS=""
 
 DESCRIPTION="Atheros ath10k firmware files"
 HOMEPAGE="https://github.com/kvalo/ath10k-firmware"
@@ -39,7 +40,7 @@ src_prepare() {
 src_install() {
 	save_config ${PN}.conf
 	rm ${PN}.conf || die
-	insinto /lib/firmware/
+	insinto /lib/firmware/ath10k
 	doins -r *
 }
 
