@@ -6,6 +6,8 @@ EAPI="5"
 CHROMIUM_LANGS="cs de en_US es fr it ja kk pt_BR pt_PT ru tr uk zh_CN zh_TW"
 inherit chromium multilib unpacker
 
+RESTRICT="mirror"
+
 MY_PV="${PV/_p/-}"
 
 DESCRIPTION="Browser that combines a minimal design with sophisticated technology."
