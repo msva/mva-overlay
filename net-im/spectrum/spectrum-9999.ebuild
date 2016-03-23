@@ -25,7 +25,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 
-IUSE_PLUGINS="frotz irc purple skype smstools twitter"
+IUSE_PLUGINS="frotz irc purple skype smstools twitter whatsapp"
 IUSE="debug doc libev mysql postgres sqlite staticport symlinks test tools ${IUSE_PLUGINS}"
 
 RDEPEND="
@@ -43,18 +43,20 @@ RDEPEND="
 	purple? ( >=net-im/pidgin-2.6.0 dev-libs/protobuf )
 	skype? ( x11-plugins/pidgin-skypeweb dev-libs/protobuf )
 	libev? ( dev-libs/libev dev-libs/protobuf )
+	whatsapp? ( net-im/transwhat )
 "
+# TODO:
+#      1) write native telegram transport in transwhat way
+#      2) add it here
 
 DEPEND="${RDEPEND}
 	sys-devel/gettext
 	dev-util/cmake
 	doc? ( app-doc/doxygen )
 	test? ( dev-util/cppunit )
-	"
+"
 
 REQUIRED_USE="|| ( sqlite mysql postgres )"
-
-PROTOCOL_LIST="aim facebook gg icq irc msn msn_pecan myspace qq simple sipe twitter xmpp yahoo"
 
 pkg_setup() {
 	CMAKE_IN_SOURCE_BUILD=1
@@ -81,6 +83,7 @@ src_install() {
 	sed \
 		-e "s:EPREFIX:${EPREFIX}:" \
 		"${FILESDIR}"/spectrum.initd > "${WORKDIR}/initd"
+
 	newinitd "${WORKDIR}/initd" spectrum
 	keepdir "${EPREFIX}"/var/lib/spectrum2
 	keepdir "${EPREFIX}"/var/log/spectrum2
