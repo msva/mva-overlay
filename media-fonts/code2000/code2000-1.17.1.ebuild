@@ -6,11 +6,13 @@ EAPI="5"
 
 inherit font
 
-DESCRIPTION="TrueType font covering all of the CJK ideographs in the Basic Multilingual Plane of Unicode"
+DESCRIPTION="TrueType font covering big piece of Unicode"
 HOMEPAGE="no"
-SRC_URI="code2000.zip
+SRC_URI="
+	code2000.zip
 	code2001.zip
-	code2002.zip"
+	code2002.zip
+"
 
 LICENSE="GPL-3"
 SLOT="0"

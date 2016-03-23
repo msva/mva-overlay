@@ -7,7 +7,7 @@ EAPI="5"
 CMAKE_MIN_VERSION="2.8"
 inherit cmake-utils
 
-DESCRIPTION="CTPP is a tool separating data processing (business logic) from data presentation."
+DESCRIPTION="Tool, separating data processing (business logic) from data presentation"
 HOMEPAGE="http://ctpp.havoc.ru/ http://ctpp.havoc.ru/en/"
 SRC_URI="http://ctpp.havoc.ru/download/${P}.tar.gz"
 

@@ -5,7 +5,7 @@
 EAPI="5"
 inherit eutils
 
-DESCRIPTION="Proprietary freeware multimedia map of several Russian and Ukrainian towns (data)"
+DESCRIPTION="Data-files for ~app-misc/2gis-3 (wine-version)"
 HOMEPAGE="http://2gis.ru"
 
 LICENSE="2Gis-ru"

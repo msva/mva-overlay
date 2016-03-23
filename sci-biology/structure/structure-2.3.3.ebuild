@@ -2,14 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-# sci-biology/structure
-
-EAPI="5"
+EAPI="6"
 inherit eutils
 
-DESCRIPTION="A free software package for using multi-locus genotype data to investigate population structure"
+DESCRIPTION="Package for using multi-locus genotype data to investigate population structure"
 HOMEPAGE="http://pritch.bsd.uchicago.edu/structure.html"
-SRC_URI="http://pritch.bsd.uchicago.edu/structure_software/release_versions/v${PV}/structure_kernel_source.tar.gz
+SRC_URI="
+	http://pritch.bsd.uchicago.edu/structure_software/release_versions/v${PV}/structure_kernel_source.tar.gz
 	java? ( http://pritch.bsd.uchicago.edu/structure_software/release_versions/v${PV}/structure_frontend_source.tar.gz )
 	doc? ( http://pritch.bsd.uchicago.edu/structure_software/release_versions/v${PV}/structure_doc.pdf )"
 

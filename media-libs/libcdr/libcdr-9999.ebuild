@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/git/libreoffice/libcdr/"
-inherit base eutils
-[[ ${PV} == 9999 ]] && inherit autotools git-2
+inherit eutils
+[[ ${PV} == 9999 ]] && inherit autotools git-r3
 
 DESCRIPTION="Library parsing the Corel cdr documents"
 HOMEPAGE="http://www.freedesktop.org/wiki/Software/libcdr"
@@ -33,7 +33,7 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	base_src_prepare
+	default
 	[[ -d m4 ]] || mkdir "m4"
 	[[ ${PV} == 9999 ]] && eautoreconf
 }

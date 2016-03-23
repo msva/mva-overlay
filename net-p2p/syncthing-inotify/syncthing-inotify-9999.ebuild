@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
-inherit eutils base systemd git-r3
+inherit eutils systemd git-r3
 
-DESCRIPTION="Open, trustworthy and decentralized syncing engine (some kind of analog of DropBox and BTSync)"
+DESCRIPTION="Open, trustworthy and decentralized sync engine (like DropBox/BTSync)"
 HOMEPAGE="http://syncthing.net"
 
 SRC_URI=""
@@ -48,5 +48,5 @@ src_install() {
 	dobin bin/syncthing-inotify
 	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
 	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
-	base_src_install_docs
+	default
 }

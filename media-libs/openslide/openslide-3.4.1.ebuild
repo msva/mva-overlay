@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-DESCRIPTION="A C library that provides a simple interface to read whole-slide images, aka virtual slides."
+DESCRIPTION="C library with simple interface to read virtual slides"
 HOMEPAGE="http://openslide.org/"
 SRC_URI="https://github.com/${PN}/${PN}/releases/download/v${PV}/${P}.tar.xz"
 

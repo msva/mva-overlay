@@ -6,7 +6,7 @@ EAPI="5"
 
 inherit eutils multilib rpm
 
-DESCRIPTION="SafeNet (Aladdin) eToken Middleware for eTokenPRO, eTokenNG OTP, eTokenNG Flash, eToken Pro (Java)"
+DESCRIPTION="SafeNet (Aladdin) eTokens Middleware (PRO, NG OTP, Flash, Java)"
 
 MAGIC_DATE="10.12.2013"
 

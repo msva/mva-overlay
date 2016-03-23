@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
 inherit eutils linux-mod
 
-DESCRIPTION="A litte data acquisition tool for the V&A VA18B (and others, e.g. PeakTech 3375) multimeter."
+DESCRIPTION="Data acquisition tool for V&A VA18B and clones (as PeakTech 3375) multimeter"
 HOMEPAGE="http://multimeter.schewe.com/"
 SRC_URI="http://multimeter.schewe.com/${PN}-${PV}.tar.gz"
 LICENSE="GPL-2"
@@ -18,6 +18,8 @@ RESTRICT=""
 DEPEND="dev-lang/perl"
 RDEPEND="${DEPEND}"
 
+DOCS=( README )
+
 pkg_setup() {
 	CONFIG_CHECK="~USB_SERIAL_SPCP8X5"
 	linux-mod_pkg_setup
@@ -25,5 +27,5 @@ pkg_setup() {
 
 src_install() {
 	dobin multimeter
-	dodoc README
+	default
 }

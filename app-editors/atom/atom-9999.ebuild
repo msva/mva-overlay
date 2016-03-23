@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
 PYTHON_COMPAT=( python2_7 )
 inherit git-r3 flag-o-matic python-any-r1 eutils
@@ -20,7 +20,7 @@ IUSE=""
 
 DEPEND="
 	${PYTHON_DEPS}
-	|| ( net-libs/nodejs[npm] net-libs/iojs[npm] )
+	net-libs/nodejs[npm]
 	media-fonts/inconsolata
 	gnome-base/gconf
 	x11-libs/gtk+:2

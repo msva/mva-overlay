@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
-inherit eutils base systemd user git-r3
+inherit eutils systemd user git-r3
 
-DESCRIPTION="Open, trustworthy and decentralized syncing engine (some kind of analog of DropBox and BTSync)"
+DESCRIPTION="Open, trustworthy and decentralized sync engine (like DropBox/BTSync)"
 HOMEPAGE="http://syncthing.net"
 
 SRC_URI=""
@@ -56,7 +56,7 @@ src_install() {
 	newinitd "${FILESDIR}/${PN}.init-r2" "${PN}"
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 
-	base_src_install_docs
+	default
 }
 
 pkg_postinst() {

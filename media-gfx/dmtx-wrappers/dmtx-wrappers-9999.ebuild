@@ -6,7 +6,7 @@ EAPI="5"
 DISTUTILS_OPTIONAL=yes
 PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
 RUBY_OPTIONAL=yes
-USE_RUBY="ruby19 ruby20 jruby rbx"
+USE_RUBY=( ruby2{0,1,2,3} jruby rbx )
 
 inherit autotools-utils distutils-r1 ruby-ng java-pkg-opt-2 eutils git-r3
 

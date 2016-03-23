@@ -6,7 +6,7 @@ EAPI="5"
 
 inherit java-pkg-2
 
-DESCRIPTION="A project automation and build tool similar to Apache Ant and Apache Maven with a Groovy based DSL"
+DESCRIPTION="A project automation and build tool with a Groovy based DSL"
 SRC_URI="http://services.gradle.org/distributions/${P}-src.zip"
 HOMEPAGE="http://www.gradle.org/"
 LICENSE="Apache-2.0"
@@ -24,7 +24,7 @@ src_compile() {
 	local inst_target="install"
 	use doc && inst_target="installAll"
 	cd "${S}";
-	./gradlew --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradel build failed'
+	./gradlew --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradle build failed'
 }
 
 src_install() {

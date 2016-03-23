@@ -18,15 +18,16 @@ LICENSE="android"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-DEPEND="app-arch/tar
-		app-arch/gzip"
-RDEPEND=">=virtual/jdk-1.5
-	>=dev-java/ant-core-1.6.5
-	|| ( dev-java/swt:3.7[cairo] dev-java/swt:3.6[cairo] )
-	sys-libs/zlib
+DEPEND="
+	app-arch/tar
+	app-arch/gzip
 "
-#	sys-libs/zlib[abi_x86_32(-)]
-# repoman cries ^; broken on non-multilib
+RDEPEND="
+	>=virtual/jdk-1.5
+	>=dev-java/ant-core-1.6.5
+	dev-java/swt:3.7[cairo]
+	sys-libs/zlib[abi_x86_32(-)]
+"
 
 ANDROID_SDK_DIR="/opt/${PN}"
 QA_FLAGS_IGNORED_x86="

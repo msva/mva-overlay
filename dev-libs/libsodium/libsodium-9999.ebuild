@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
-inherit base eutils multilib-build git-2
+inherit eutils multilib-minimal git-r3
 
 DESCRIPTION="A portable fork of NaCl, a higher-level cryptographic library"
 HOMEPAGE="https://github.com/jedisct1/libsodium"
@@ -23,7 +23,7 @@ src_prepare() {
 	multilib_copy_sources
 }
 
-sodium_src_configure() {
+multilib_src_configure() {
 	cd "${BUILD_DIR}"
 
 	econf \
@@ -31,25 +31,12 @@ sodium_src_configure() {
 			$(use_enable !urandom blocking-random)
 }
 
-sodium_src_compile() {
+multilib_src_compile() {
 	cd "${BUILD_DIR}"
-	base_src_compile
+	default
 }
 
-sodium_src_install() {
+multilib_src_install() {
 	cd "${BUILD_DIR}"
-	base_src_install
-}
-
-src_configure() {
-	multilib_parallel_foreach_abi sodium_src_configure
-}
-
-src_compile() {
-	multilib_foreach_abi sodium_src_compile
-}
-
-src_install() {
-	multilib_foreach_abi sodium_src_install
-	multilib_check_headers
+	default
 }

@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
-inherit eutils base git-r3
+inherit eutils git-r3
 
-DESCRIPTION="Open, trustworthy and decentralized syncing engine (some kind of analog of DropBox and BTSync)"
+DESCRIPTION="Open, trustworthy and decentralized sync engine (like DropBox/BTSync)"
 HOMEPAGE="http://syncthing.net"
 
 SRC_URI=""
@@ -46,5 +46,5 @@ src_compile() {
 
 src_install() {
 	dobin syncthing-cli
-	base_src_install_docs
+	default
 }

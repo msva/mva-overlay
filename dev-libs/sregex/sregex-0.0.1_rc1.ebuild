@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
-inherit base eutils multilib-minimal
+inherit eutils multilib-minimal
 
 DESCRIPTION="A non-backtracking regex engine matching on data streams"
 HOMEPAGE="https://github.com/openresty/sregex"
@@ -32,10 +32,10 @@ multilib_src_configure() {
 
 multilib_src_compile() {
 	cd "${BUILD_DIR}"
-	base_src_compile PREFIX="/usr"
+	emake PREFIX="/usr"
 }
 
 multilib_src_install() {
 	cd "${BUILD_DIR}"
-	base_src_install PREFIX="/usr"
+	einstall PREFIX="/usr"
 }

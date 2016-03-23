@@ -26,4 +26,3 @@ src_compile(){
 	BUILD_PARAMS="KDIR=${KV_OUT_DIR} M=${S}"
 	linux-mod_src_compile
 }
-
