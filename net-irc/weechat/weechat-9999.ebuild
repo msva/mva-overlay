@@ -24,7 +24,7 @@ NETWORKS="+irc"
 PLUGINS="+alias +charset +exec +fifo +logger +relay +scripts +spell +trigger +xfer"
 #INTERFACES="+ncurses gtk"
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
-SCRIPT_LANGS="guile lua luajit +perl +python ruby tcl"
+SCRIPT_LANGS="guile lua luajit +perl +python python3 ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt_BR ru tr"
 IUSE="doc nls +ssl test ${LANGS// / linguas_} ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 #REQUIRED_USE=" || ( ncurses gtk )"
@@ -78,6 +78,12 @@ src_prepare() {
 
 	epatch "${PATCHES[@]}"
 
+	use luajit && (
+		sed -i \
+			-e 's@\(pkg_search_module(LUA\) \(.*\)@\1 luajit-2.1 luajit-2.0 luajit \2@' \
+			cmake/FindLua.cmake
+	)
+
 	# fix libdir placement
 	sed -i \
 		-e "s:lib/:$(get_libdir)/:g" \
@@ -123,6 +129,7 @@ src_configure() {
 		$(cmake-utils_use_enable irc)
 		$(cmake-utils_use_enable logger)
 		$(cmake-utils_use_enable lua)
+		$(cmake-utils_use_enable luajit lua)
 		$(cmake-utils_use_enable nls)
 		$(cmake-utils_use_enable perl)
 		$(cmake-utils_use_enable python)
