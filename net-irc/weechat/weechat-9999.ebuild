@@ -24,7 +24,7 @@ NETWORKS="+irc"
 PLUGINS="+alias +charset +exec +fifo +logger +relay +scripts +spell +trigger +xfer"
 #INTERFACES="+ncurses gtk"
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
-SCRIPT_LANGS="guile lua luajit +perl +python python3 ruby tcl"
+SCRIPT_LANGS="guile lua luajit +perl +python ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt_BR ru tr"
 IUSE="doc nls +ssl test ${LANGS// / linguas_} ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 #REQUIRED_USE=" || ( ncurses gtk )"
