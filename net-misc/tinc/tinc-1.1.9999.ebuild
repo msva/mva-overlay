@@ -5,32 +5,20 @@
 EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
-[[ ${PV} = *9999* ]] && EXTRA_ECLASS="git-r3 autotools" || EXTRA_ECLASS=""
 
-inherit systemd eutils python-any-r1 ${EXTRA_ECLASS}
-
-MY_P=${P/_/}
+inherit systemd eutils python-any-r1 git-r3 autotools
 
 DESCRIPTION="tinc is an easy to configure VPN implementation"
 HOMEPAGE="http://www.tinc-vpn.org/"
 
-if [[ ${PV} == *9999* ]]; then
-	EGIT_BRANCH="1.1"
-	EGIT_REPO_URI="https://tinc-vpn.org/git/tinc"
-else
-	RELEASE_URI="http://www.tinc-vpn.org/packages/${MY_P}.tar.gz"
-fi
+EGIT_BRANCH="1.1"
+EGIT_REPO_URI="https://tinc-vpn.org/git/tinc"
 
-SRC_URI="${RELEASE_URI}"
+SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
-if [[ ${PV} == *9999* ]]; then
-	KEYWORDS=""
-else
-	KEYWORDS="~amd64"
-	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
-fi
+KEYWORDS=""
 
 IUSE="+lzo +ncurses +openssl gcrypt gui +readline uml vde +zlib"
 #upnp
@@ -51,15 +39,10 @@ RDEPEND="${DEPEND}
 
 REQUIRED_USE="^^ ( openssl gcrypt )"
 
-if [[ ${PV} != *9999* ]]; then
-	S="${WORKDIR}/${MY_P}"
-fi
 
 src_prepare() {
 	default
-	if [[ ${PV} = *9999* ]]; then
-		eautoreconf
-	fi
+	eautoreconf
 }
 
 src_configure() {
