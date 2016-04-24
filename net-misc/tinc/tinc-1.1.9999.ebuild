@@ -39,7 +39,6 @@ RDEPEND="${DEPEND}
 
 REQUIRED_USE="^^ ( openssl gcrypt )"
 
-
 src_prepare() {
 	default
 	eautoreconf

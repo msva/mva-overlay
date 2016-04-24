@@ -917,7 +917,6 @@ src_prepare() {
 
 	if use nginx_modules_http_upload_progress; then
 		pushd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" &>/dev/null
-###		epatch "${FILESDIR}"/upload_multi.patch
 		epatch "${FILESDIR}"/upload_put.patch
 		popd &>/dev/null
 	fi
@@ -988,7 +987,6 @@ src_configure() {
 	if use nginx_modules_http_fastcgi; then
 		myconf+=" --with-http_realip_module"
 	fi
-
 
 # third-party modules
 # WARNING!!! Modules (that checked with "(**)" comment) adding order IS IMPORTANT!

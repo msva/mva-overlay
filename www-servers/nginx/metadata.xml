@@ -36,6 +36,7 @@
 	<flag name='pcre-jit'></flag>
 	<flag name='http2'></flag>
 	<flag name='luajit'></flag>
+	<flag name='nginx_modules_http_drizzle'></flag>
 	<flag name='nginx_modules_http_nchan'></flag>
 	<flag name='nginx_modules_http_ndk'></flag>
 	<flag name='nginx_modules_http_lua'></flag>

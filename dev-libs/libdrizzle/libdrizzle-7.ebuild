@@ -14,7 +14,7 @@ SRC_URI="http://agentzh.org/misc/nginx/${MY_P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86 ~arm"
 IUSE=""
 
 S="${WORKDIR}/${MY_P}"
