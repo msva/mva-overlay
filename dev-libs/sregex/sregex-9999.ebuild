@@ -18,22 +18,10 @@ KEYWORDS=""
 IUSE=""
 
 src_prepare() {
-	multilib_copy_sources
-}
-
-multilib_src_configure() {
-	cd "${BUILD_DIR}"
 	sed -r \
-		-e "/^INSTALL_LIB/s/lib/$(get_libdir)/" \
+		-e '/^PREFIX=/s@(PREFIX)=.*@\1=/usr@' \
+		-e '/^INSTALL_LIB/s@lib@$(LIBDIR_${ABI})@' \
 		-i Makefile
-}
-
-multilib_src_compile() {
-	cd "${BUILD_DIR}"
-	emake PREFIX="/usr"
-}
-
-multilib_src_install() {
-	cd "${BUILD_DIR}"
-	einstall PREFIX="/usr"
+	eapply_user
+	multilib_copy_sources
 }

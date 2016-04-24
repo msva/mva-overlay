@@ -1,0 +1,117 @@
+diff --git a/ngx_http_ajp_handler.c b/ngx_http_ajp_handler.c
+index 8898415..705d0a3 100644
+--- a/ngx_http_ajp_handler.c
++++ b/ngx_http_ajp_handler.c
+@@ -44,6 +44,11 @@ ngx_http_ajp_handler(ngx_http_request_t *r)
+     ngx_http_upstream_t      *u;
+     ngx_http_ajp_ctx_t       *a;
+     ngx_http_ajp_loc_conf_t  *alcf;
++#if (NGX_HTTP_CACHE)
++#if (nginx_version >= 1007009)
++    ngx_http_ajp_main_conf_t *amcf;
++#endif
++#endif
+ 
+     if (r->subrequest_in_memory) {
+         ngx_log_error(NGX_LOG_ALERT, r->connection->log, 0,
+@@ -84,6 +89,11 @@ ngx_http_ajp_handler(ngx_http_request_t *r)
+     u->conf = &alcf->upstream;
+ 
+ #if (NGX_HTTP_CACHE)
++#if (nginx_version >= 1007009)
++    amcf = ngx_http_get_module_main_conf(r, ngx_http_ajp_module);
++
++    u->caches = &amcf->caches;
++#endif
+     u->create_key = ngx_http_ajp_create_key;
+ #endif
+     u->create_request = ngx_http_ajp_create_request;
+diff --git a/ngx_http_ajp_module.c b/ngx_http_ajp_module.c
+index be32459..dd67b53 100644
+--- a/ngx_http_ajp_module.c
++++ b/ngx_http_ajp_module.c
+@@ -27,7 +27,9 @@ static char *ngx_http_ajp_upstream_max_fails_unsupported(ngx_conf_t *cf,
+ static char *ngx_http_ajp_upstream_fail_timeout_unsupported(ngx_conf_t *cf,
+     ngx_command_t *cmd, void *conf);
+ 
+-
++#if (nginx_version >= 1007009)
++static void *ngx_http_ajp_create_main_conf(ngx_conf_t *cf);
++#endif
+ static void *ngx_http_ajp_create_loc_conf(ngx_conf_t *cf);
+ static char *ngx_http_ajp_merge_loc_conf(ngx_conf_t *cf,
+     void *parent, void *child);
+@@ -216,8 +218,13 @@ static ngx_command_t  ngx_http_ajp_commands[] = {
+     { ngx_string("ajp_cache_path"),
+       NGX_HTTP_MAIN_CONF|NGX_CONF_2MORE,
+       ngx_http_file_cache_set_slot,
++#if (nginx_version >= 1007009)
++      NGX_HTTP_MAIN_CONF_OFFSET,
++      offsetof(ngx_http_ajp_main_conf_t, caches),
++#else
+       0,
+       0,
++#endif
+       &ngx_http_ajp_module },
+ 
+     { ngx_string("ajp_cache_valid"),
+@@ -342,7 +349,11 @@ static ngx_http_module_t  ngx_http_ajp_module_ctx = {
+     NULL,                                  /* preconfiguration */
+     NULL,                                  /* postconfiguration */
+ 
++#if (nginx_version >= 1007009)
++    ngx_http_ajp_create_main_conf,         /* create main configuration */
++#else
+     NULL,                                  /* create main configuration */
++#endif
+     NULL,                                  /* init main configuration */
+ 
+     NULL,                                  /* create server configuration */
+@@ -665,6 +676,31 @@ ngx_http_ajp_upstream_fail_timeout_unsupported(ngx_conf_t *cf,
+ }
+ 
+ 
++#if (nginx_version >= 1007009)
++static void *
++ngx_http_ajp_create_main_conf(ngx_conf_t *cf)
++{
++    ngx_http_ajp_main_conf_t  *conf;
++
++    conf = ngx_pcalloc(cf->pool, sizeof(ngx_http_ajp_main_conf_t));
++    if (conf == NULL) {
++        return NULL;
++    }
++
++#if (NGX_HTTP_CACHE)
++    if (ngx_array_init(&conf->caches, cf->pool, 4,
++                       sizeof(ngx_http_file_cache_t *))
++        != NGX_OK)
++    {  
++        return NULL;
++    }
++#endif
++
++    return conf;
++}
++#endif
++
++
+ static void *
+ ngx_http_ajp_create_loc_conf(ngx_conf_t *cf)
+ {
+diff --git a/ngx_http_ajp_module.h b/ngx_http_ajp_module.h
+index 576d48f..4d9d169 100644
+--- a/ngx_http_ajp_module.h
++++ b/ngx_http_ajp_module.h
+@@ -7,6 +7,11 @@
+ #include <ngx_core.h>
+ #include <ngx_http.h>
+ 
++#if (nginx_version >= 1007009)
++typedef struct {
++    ngx_array_t                caches;  /* ngx_http_file_cache_t * */
++} ngx_http_ajp_main_conf_t;
++#endif
+ 
+ typedef struct {
+     ngx_http_upstream_conf_t   upstream;

@@ -20,6 +20,7 @@ IUSE=""
 S="${WORKDIR}/${P//_}"
 
 src_prepare() {
+	eapply_user
 	multilib_copy_sources
 }
 

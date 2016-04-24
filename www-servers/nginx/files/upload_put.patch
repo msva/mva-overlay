@@ -1,0 +1,24 @@
+From fa35231a837b2f8ab58337d51de09414f7c9ce4a Mon Sep 17 00:00:00 2001
+From: wbond <will@wbond.net>
+Date: Wed, 19 Jun 2013 08:47:27 -0400
+Subject: [PATCH] Added support for tracking PUT and PATCH requests
+
+---
+ ngx_http_uploadprogress_module.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ngx_http_uploadprogress_module.c b/ngx_http_uploadprogress_module.c
+index 4ef3322..d713fd8 100644
+--- a/ngx_http_uploadprogress_module.c
++++ b/ngx_http_uploadprogress_module.c
+@@ -754,8 +754,8 @@ ngx_http_uploadprogress_handler(ngx_http_request_t * r)
+     ngx_http_uploadprogress_cleanup_t *upcln;
+     ngx_pool_cleanup_t              *cln;
+ 
+-    /* Is it a POST connection */
+-    if (r->method != NGX_HTTP_POST) {
++    /* Only look for progress IDs on POST, PUT and PATCH */
++    if (!(r->method & (NGX_HTTP_POST | NGX_HTTP_PUT | NGX_HTTP_PATCH))) {
+         return NGX_DECLINED;
+     }
+ 

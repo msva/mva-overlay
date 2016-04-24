@@ -3,6 +3,7 @@
 # $Id$
 
 EAPI="5"
+# ^ ruby eclasses doesn't support EAPI6
 
 # Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
@@ -69,7 +70,7 @@ HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
 HTTP_PAGESPEED_MODULE_PV="1.11.33.0-beta"
 #HTTP_PAGESPEED_MODULE_SHA="1c5b61679cc47716930399516e188e1e896060dd"
-HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}"
+HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
 
@@ -171,19 +172,20 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.2"
-#HTTP_LUA_MODULE_SHA="8a0a3e4706cdd58272a8f38e8f09cc5e9db0307b"
+HTTP_LUA_MODULE_PV="0.10.3"
+HTTP_LUA_MODULE_SHA="d44f8e04db2f6e3d08b9ac6a8aac863c1bd603e8"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 
-#NginX Drizzle module (https://github.com/openresty/drizzle-nginx-module/tags, BSD)
-#HTTP_DRIZZLE_MODULE_A="openresty"
-#HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
-#HTTP_DRIZZLE_MODULE_PV="0.1.9"
-#HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_SHA:-${HTTP_DRIZZLE_MODULE_PV}}"
-#HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/${HTTP_DRIZZLE_MODULE_SHA:-v${HTTP_DRIZZLE_MODULE_PV}}.tar.gz"
-#HTTP_DRIZZLE_MODULE_WD="${WORKDIR}/${HTTP_DRIZZLE_MODULE_P}"
+# http_drizzle NginX Drizzle module (https://github.com/openresty/drizzle-nginx-module/tags, BSD)
+HTTP_DRIZZLE_MODULE_A="openresty"
+HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
+HTTP_DRIZZLE_MODULE_PV="0.1.9"
+HTTP_DRIZZLE_MODULE_SHA="1d7aa7ed8a56fb1ce32c3968700f5ed18aa2a780"
+HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_SHA:-${HTTP_DRIZZLE_MODULE_PV}}"
+HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/${HTTP_DRIZZLE_MODULE_SHA:-v${HTTP_DRIZZLE_MODULE_PV}}.tar.gz"
+HTTP_DRIZZLE_MODULE_WD="${WORKDIR}/${HTTP_DRIZZLE_MODULE_P}"
 
 # NginX form-input module (https://github.com/calio/form-input-nginx-module/tags, BSD)
 HTTP_FORM_INPUT_MODULE_A="calio"
@@ -316,6 +318,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/${HTTP_SLOWFS_CACHE_MODULE_P}"
 HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
 HTTP_FANCYINDEX_MODULE_PV="0.3.6"
+HTTP_FANCYINDEX_MODULE_SHA="ba8b4ece63da157f5eec4df3d8fdc9108b05b3eb"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_SHA:-${HTTP_FANCYINDEX_MODULE_PV}}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/${HTTP_FANCYINDEX_MODULE_P}"
@@ -340,10 +343,11 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 
 # naxsi-core (https://github.com/nbs-system/naxsi/tags, GPLv2+)
 HTTP_NAXSI_MODULE_A="nbs-system"
-HTTP_NAXSI_MODULE_PV="0.55rc1"
 HTTP_NAXSI_MODULE_PN="naxsi"
+HTTP_NAXSI_MODULE_PV="0.55rc1"
+HTTP_NAXSI_MODULE_SHA="bf6c9cba178225d5ff5cf3de2ebda9b0a2f06a66"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
-HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
+HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-v${HTTP_NAXSI_MODULE_PV}}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
 
 # nginx-dav-ext-module (https://github.com/arut/nginx-dav-ext-module/tags, BSD)
@@ -358,7 +362,7 @@ HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 RTMP_MODULE_A="arut"
 RTMP_MODULE_PN="nginx-rtmp-module"
 RTMP_MODULE_PV="1.1.7"
-#RTMP_MODULE_SHA="5fb4c99ca93442c571354af6a40a4f3ef736af57"
+RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
 RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_SHA:-${RTMP_MODULE_PV}}"
 RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/${RTMP_MODULE_SHA:-v${RTMP_MODULE_PV}}.tar.gz"
 RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
@@ -367,7 +371,7 @@ RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
 HTTP_SECURITY_MODULE_A="SpiderLabs"
 HTTP_SECURITY_MODULE_PN="ModSecurity"
 HTTP_SECURITY_MODULE_PV="2.9.1"
-HTTP_SECURITY_MODULE_SHA="8a4999891d272cf8bfbe6c9af3274d7f2b0389fa"
+HTTP_SECURITY_MODULE_SHA="f2467b6715712275b0a4ba148a92437e7f736d1e"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -408,15 +412,17 @@ HTTP_AJP_MODULE_URI="https://github.com/yaoweibin/nginx_ajp_module/archive/${HTT
 HTTP_AJP_MODULE_WD="${WORKDIR}/${HTTP_AJP_MODULE_P}"
 
 # mogilefs-module (http://www.grid.net.ru/nginx/mogilefs.en.html, BSD-2)
-HTTP_MOGILEFS_MODULE_PN="ngx_mogilefs_module"
+HTTP_MOGILEFS_MODULE_A="vkholodkov"
+HTTP_MOGILEFS_MODULE_PN="nginx-mogilefs-module"
 HTTP_MOGILEFS_MODULE_PV="1.0.4"
-HTTP_MOGILEFS_MODULE_P="${HTTP_MOGILEFS_MODULE_PN}-${HTTP_MOGILEFS_MODULE_PV}"
-HTTP_MOGILEFS_MODULE_URI="http://www.grid.net.ru/nginx/download/${HTTP_MOGILEFS_MODULE_P}.tar.gz"
+HTTP_MOGILEFS_MODULE_SHA="020937ff4624fc31928adb51a5c43753bf256b34"
+HTTP_MOGILEFS_MODULE_P="${HTTP_MOGILEFS_MODULE_PN}-${HTTP_MOGILEFS_MODULE_SHA:-${HTTP_MOGILEFS_MODULE_PV}}"
+HTTP_MOGILEFS_MODULE_URI="https://github.com/${HTTP_MOGILEFS_MODULE_A}/${HTTP_MOGILEFS_MODULE_PN}/archive/${HTTP_MOGILEFS_MODULE_SHA:-${HTTP_MOGILEFS_MODULE_PV}}.tar.gz"
 HTTP_MOGILEFS_MODULE_WD="${WORKDIR}/${HTTP_MOGILEFS_MODULE_P}"
 
 # NJS-module (http://hg.nginx.org/njs/, BSD-2)
 HTTP_NJS_MODULE_PN="njs"
-HTTP_NJS_MODULE_SHA="480849ab9e96"
+HTTP_NJS_MODULE_SHA="1c50334fbea6"
 HTTP_NJS_MODULE_P="${HTTP_NJS_MODULE_PN}-${HTTP_NJS_MODULE_SHA:-${HTTP_NJS_MODULE_PV}}"
 HTTP_NJS_MODULE_URI="http://hg.nginx.org/${HTTP_NJS_MODULE_PN}/archive/${HTTP_NJS_MODULE_SHA}.tar.gz"
 HTTP_NJS_MODULE_WD="${WORKDIR}/${HTTP_NJS_MODULE_P}"
@@ -480,9 +486,9 @@ SRC_URI="
 	nginx_modules_http_ajp? ( ${HTTP_AJP_MODULE_URI} -> ${HTTP_AJP_MODULE_P}.tar.gz )
 	nginx_modules_http_mogilefs? ( ${HTTP_MOGILEFS_MODULE_URI} -> ${HTTP_MOGILEFS_MODULE_P}.tar.gz )
 	nginx_modules_http_njs? ( ${HTTP_NJS_MODULE_URI} -> ${HTTP_NJS_MODULE_P}.tar.gz )
+	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 "
 #	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
-#	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_security? ( Apache-2.0 )
@@ -601,11 +607,17 @@ NGINX_MODULES_3RD="
 	http_ajp
 	http_mogilefs
 	http_njs
+	http_drizzle
 "
+
+NGINX_MODULES_DYN="
+	geoip
+	image_filter
+	xslt
+"
+
 #	http_upstream_check
 #	^ Don't support 1.9 atm
-#	http_drizzle
-#	^ maybe, working, but drizzle itself doesn't build and dead
 
 REQUIRED_USE="
 		luajit? ( nginx_modules_http_lua )
@@ -690,6 +702,7 @@ CDEPEND="
 	)
 	nginx_modules_http_replace_filter? ( dev-libs/sregex )
 	nginx_modules_http_metrics? ( dev-libs/yajl )
+	nginx_modules_http_nchan? ( dev-libs/hiredis )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_hls_audio? ( >=media-video/ffmpeg-2 )
 	nginx_modules_http_security? (
@@ -706,9 +719,9 @@ CDEPEND="
 		dev-libs/libev
 		dev-libs/libuv
 	)
+	nginx_modules_http_drizzle? ( dev-libs/libdrizzle )
 "
 # nginx_modules_http_lua? ( $(lua_implementations_depend) )
-#	nginx_modules_http_drizzle? ( dev-db/drizzle )
 #	nginx_modules_http_pagespeed? ( dev-libs/psol )
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
@@ -783,6 +796,10 @@ pkg_setup() {
 		ewarn "all nginx http modules."
 		ewarn ""
 	fi
+
+	if use nginx_modules_http_mogilefs; then
+		die "MogileFS module is currently broken and unmaintained by upstream"
+	fi
 }
 
 src_unpack() {
@@ -813,7 +830,10 @@ src_prepare() {
 	sed -i -e '/koi-/d' -e '/win-/d' auto/install || die
 
 	# Increasing error string (to have possibility to get all modules in nginx -V output)
-	sed -i -e "s|\(NGX_MAX_ERROR_STR\)   2048|\1 ${NGINX_MAX_ERROR_LENGTH:-4096}|" "${S}"/src/core/ngx_log.h
+	sed -i -e "/^#define NGX_MAX_ERROR_STR/s|\(NGX_MAX_ERROR_STR\).*|\1 ${NGINX_MAX_ERROR_LENGTH:-4096}|" "${S}"/src/core/ngx_log.h
+
+	# Increasing maximum dyn modules amount
+	sed -i -e "/^#define NGX_MAX_DYNAMIC_MODULES/s|\(NGX_MAX_DYNAMIC_MODULES\).*|\1 ${NGINX_MAX_DYNAMIC_MODULES:-256}|" "${S}"/src/core/ngx_module.c
 
 	# don't install to /etc/nginx/ if not in use
 	local module
@@ -829,19 +849,9 @@ src_prepare() {
 			-i "${HTTP_LUA_MODULE_WD}/config"
 	fi
 
-#	if use nginx_modules_http_lua; then
-#		cd ${HTTP_LUA_MODULE_WD};
-#		epatch ${FILESDIR}/${PV}_ngx_lua_v${HTTP_LUA_MODULE_PV}.patch
-#		cd "${S}";
-#	fi
-
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
-
-#	if use nginx_modules_http_v2; then
-#		epatch "${DISTDIR}"/${HTTP_V2_MODULE_PATCHNAME}
-#	fi
 
 	if use nginx_modules_http_passenger; then
 		pushd "${HTTP_PASSENGER_MODULE_WD}" &>/dev/null
@@ -894,12 +904,6 @@ src_prepare() {
 		popd &>/dev/null
 	fi
 
-#	if use nginx_modules_http_postgres; then
-#		cd "${HTTP_POSTGRES_MODULE_WD}"
-#		epatch "${FILESDIR}/${P}_postgres_${HTTP_POSTGRES_MODULE_SHA}.patch"
-#		cd "${S}"
-#	fi
-
 	if use nginx_modules_http_pagespeed; then
 		# TODO: replace precompiled psol with that one, built from apache module?
 		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/" || die "Failed to insert psol"
@@ -911,15 +915,37 @@ src_prepare() {
 			-i "${HTTP_PAGESPEED_MODULE_WD}/config";
 	fi
 
+	if use nginx_modules_http_upload_progress; then
+		pushd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" &>/dev/null
+###		epatch "${FILESDIR}"/upload_multi.patch
+		epatch "${FILESDIR}"/upload_put.patch
+		popd &>/dev/null
+	fi
+
+	if use nginx_modules_http_cache_purge; then
+		pushd "${HTTP_CACHE_PURGE_MODULE_WD}" &>/dev/null
+		epatch "${FILESDIR}"/cache_purge_dyn.patch
+		popd &>/dev/null
+	fi
+
+	if use nginx_modules_http_ajp; then
+		pushd "${HTTP_AJP_MODULE_WD}" &>/dev/null
+		epatch "${FILESDIR}"/ajp_issue37.patch
+		epatch "${FILESDIR}"/ajp_dyn.patch
+		popd &>/dev/null
+	fi
+
 	if use nginx_modules_http_tcpproxy; then
 		epatch "${HTTP_TCPPROXY_MODULE_WD}"/tcp.patch
 	fi
 
-#	if use nginx_modules_http_lua; then
-#		pushd "${HTTP_LUA_MODULE_WD}" &>/dev/null
-#		epatch "${FILESDIR}"/8a63903c7152b5417e1bf326f6d6ffad0b729945.patch
-#		popd &>/dev/null
-#	fi
+	if use nginx_modules_http_nchan; then
+		pushd "${HTTP_NCHAN_MODULE_WD}" &>/dev/null
+		sed -r \
+			-e '2,22d;23ingx_feature_libs="-lhiredis"' \
+			-i config
+		popd &>/dev/null
+	fi
 
 	epatch_user
 }
@@ -945,8 +971,16 @@ src_configure() {
 	done
 
 	for mod in $NGINX_MODULES_HTTP_OPT; do
+#		local dyn=
+#		for dm in $NGINX_MODULES_DYN; do
+#			if [ "${mod}" == "${dm}" ]; then
+#				dyn="=dynamic"
+#			fi
+#		done
+
 		if use nginx_modules_http_${mod}; then
 			http_enabled=1
+#			myconf+=" --with-http_${mod}_module${dyn}"
 			myconf+=" --with-http_${mod}_module"
 		fi
 	done
@@ -955,29 +989,42 @@ src_configure() {
 		myconf+=" --with-http_realip_module"
 	fi
 
-	# third-party modules
-	# WARNING!!! Modules (that checked with "(**)" comment) adding order IS IMPORTANT!
+
+# third-party modules
+# WARNING!!! Modules (that checked with "(**)" comment) adding order IS IMPORTANT!
+
+# (**) http_naxsi
+# wants to be the first defined module...
+	if use nginx_modules_http_naxsi; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_NAXSI_MODULE_WD}"
+	fi
+
 # (**) http_ndk
 	if use nginx_modules_http_ndk; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_NDK_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_NDK_MODULE_WD}"
 	fi
 
 # (**) http_set_misc
 	if use nginx_modules_http_set_misc; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_SET_MISC_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_SET_MISC_MODULE_WD}"
 	fi
 
 # (**) http_echo
 	if use nginx_modules_http_echo; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_ECHO_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_ECHO_MODULE_WD}"
 	fi
 
 # (**) http_memc
 	if use nginx_modules_http_memc; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_MEMC_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_MEMC_MODULE_WD}"
 	fi
 # (**) http_lua
@@ -990,12 +1037,14 @@ src_configure() {
 			export LUA_LIB=$($(tc-getPKG_CONFIG) --variable libdir lua)
 			export LUA_INC=$($(tc-getPKG_CONFIG) --variable includedir lua)
 		fi
+#		myconf+=" --add-dynamic-module=${HTTP_LUA_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_LUA_MODULE_WD}"
 	fi
 
 # (**) http_lua_upstream
 	if use nginx_modules_http_lua_upstream; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_LUA_UPSTREAM_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_LUA_UPSTREAM_MODULE_WD}"
 	fi
 
@@ -1008,26 +1057,29 @@ src_configure() {
 # (**) http_encrypted_session
 	if use nginx_modules_http_encrypted_session; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_ENCRYPTED_SESSION_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_ENCRYPTED_SESSION_MODULE_WD}"
 	fi
 
 # (**) http_headers_more
 	if use nginx_modules_http_headers_more; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_HEADERS_MORE_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_HEADERS_MORE_MODULE_WD}"
 	fi
 
 # (**) http_srcache
 	if use nginx_modules_http_srcache; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_SRCACHE_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_SRCACHE_MODULE_WD}"
 	fi
 
 # (**) http_drizzle
-#	if use nginx_modules_http_drizzle; then
-#		http_enabled=1
-#		myconf+=" --add-module=${HTTP_DRIZZLE_MODULE_WD}"
-#	fi
+	if use nginx_modules_http_drizzle; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_DRIZZLE_MODULE_WD}"
+	fi
 
 # (**) http_rds_json
 	if use nginx_modules_http_rds_json; then
@@ -1106,18 +1158,21 @@ src_configure() {
 # http_array_var
 	if use nginx_modules_http_array_var; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_ARRAY_VAR_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_ARRAY_VAR_MODULE_WD}"
 	fi
 
 # http_form_input
 	if use nginx_modules_http_form_input; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_FORM_INPUT_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_FORM_INPUT_MODULE_WD}"
 	fi
 
 # http_iconv
 	if use nginx_modules_http_iconv; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_ICONV_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_ICONV_MODULE_WD}"
 	fi
 
@@ -1130,6 +1185,7 @@ src_configure() {
 # http_nchan
 	if use nginx_modules_http_nchan; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_NCHAN_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_NCHAN_MODULE_WD}"
 	fi
 
@@ -1142,6 +1198,7 @@ src_configure() {
 # http_cache_purge
 	if use nginx_modules_http_cache_purge; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_CACHE_PURGE_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_CACHE_PURGE_MODULE_WD}"
 	fi
 
@@ -1167,11 +1224,6 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_METRICS_MODULE_WD}"
 	fi
 
-	if use nginx_modules_http_naxsi; then
-		http_enabled=1
-		myconf+=" --add-module=${HTTP_NAXSI_MODULE_WD}"
-	fi
-
 	if use nginx_modules_http_dav_ext; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_DAV_EXT_MODULE_WD}"
@@ -1184,6 +1236,7 @@ src_configure() {
 
 	if use nginx_modules_http_auth_pam; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${HTTP_AUTH_PAM_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_AUTH_PAM_MODULE_WD}"
 	fi
 
@@ -1211,6 +1264,7 @@ src_configure() {
 
 	if use rtmp ; then
 		http_enabled=1
+#		myconf+=" --add-dynamic-module=${RTMP_MODULE_WD}"
 		myconf+=" --add-module=${RTMP_MODULE_WD}"
 	fi
 
@@ -1221,18 +1275,19 @@ src_configure() {
 
 	if use nginx_modules_http_mogilefs ; then
 		http_enabled=1
+		# broken
 		myconf+=" --add-module=${HTTP_MOGILEFS_MODULE_WD}"
 	fi
 
 	if use nginx_modules_http_ajp ; then
 		http_enabled=1
-		# Disabled, because of incompatibiity with 1.7.9. Will be fixed on next bump.
+#		myconf+=" --add-dynamic-module=${HTTP_AJP_MODULE_WD}"
 		myconf+=" --add-module=${HTTP_AJP_MODULE_WD}"
 	fi
 
 	if use nginx_modules_http_njs ; then
 		http_enabled=1
-		# Disabled, because of incompatibiity with 1.7.9. Will be fixed on next bump.
+#		myconf+=" --add-dynamic-module=${HTTP_NJS_MODULE_WD}/nginx"
 		myconf+=" --add-module=${HTTP_NJS_MODULE_WD}/nginx"
 	fi
 
@@ -1257,6 +1312,7 @@ src_configure() {
 
 	if [ $mail_enabled ]; then
 		myconf+=" --with-mail"
+#=dynamic"
 		use ssl && myconf+=" --with-mail_ssl_module"
 	fi
 
@@ -1271,6 +1327,7 @@ src_configure() {
 
 	if [ $stream_enabled ]; then
 		myconf+=" --with-stream"
+#=dynamic"
 		use ssl && myconf+=" --with-stream_ssl_module"
 	fi
 
@@ -1288,7 +1345,7 @@ src_configure() {
 	fi
 
 	if use nginx_modules_http_security; then
-		pushd "${HTTP_SECURITY_MODULE_WD}" &>/dev/nul
+		pushd "${HTTP_SECURITY_MODULE_WD}" &>/dev/null
 		export CFLAGS="${CFLAGS} -I/usr/include/apache2";
 		./autogen.sh
 		econf \
@@ -1545,10 +1602,10 @@ src_install() {
 	fi
 
 # http_drizzle
-#	if use nginx_modules_http_drizzle; then
-#		docinto "${HTTP_DRIZZLE_MODULE_P}"
-#		dodoc "${HTTP_DRIZZLE_MODULE_WD}"/README
-#	fi
+	if use nginx_modules_http_drizzle; then
+		docinto "${HTTP_DRIZZLE_MODULE_P}"
+		dodoc "${HTTP_DRIZZLE_MODULE_WD}"/README.markdown
+	fi
 
 # http_rds_json
 	if use nginx_modules_http_rds_json; then

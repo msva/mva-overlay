@@ -1,0 +1,60 @@
+From f8048c0ed31bf61983fae4a6d732ebb6024d542c Mon Sep 17 00:00:00 2001
+From: Sjir Bagmeijer <sbagmeijer@ulyaoth.co.kr>
+Date: Tue, 16 Feb 2016 20:09:09 +0100
+Subject: [PATCH] Dynamic Module Support
+
+---
+ config | 32 +++++++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
+
+diff --git a/config b/config
+index 123f87f..92e319b 100644
+--- a/config
++++ b/config
+@@ -10,18 +10,40 @@ ngx_ajp_src="$ajp_src $ngx_addon_dir/ngx_http_ajp_module.c $ngx_addon_dir/ngx_ht
+ ngx_feature_test="int a;"
+ . auto/feature
+ 
++ngx_addon_name=ngx_ajp_module
++
++if test -n "$ngx_module_link"; then
++    ngx_module_type=HTTP
++    ngx_module_name=ngx_ajp_module
++    ngx_module_incs="$CORE_INCS $ngx_feature_path"
++    ngx_module_deps="$NGX_ADDON_DEPS $ngx_feature_deps"
++    ngx_module_srcs="$NGX_ADDON_SRCS $ngx_ajp_src"
++    ngx_module_libs=
++
+ if [ $ngx_found = yes ]; then
+     have=NGX_HTTP_AJP_TEMP_PATH value="\"ajp_temp\""
+     . auto/define
+     have=NGX_AJP_MODULE . auto/have
+-    CORE_INCS="$CORE_INCS $ngx_feature_path"
+-    ngx_addon_name=ngx_ajp_module
+-    HTTP_MODULES="$HTTP_MODULES ngx_http_ajp_module"
+-    NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_feature_deps"
+-    NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_ajp_src"
+ else 
+     cat << END
+     $0: error: the ngx_ajp_module addon error.
+ END
+     exit 1
+ fi
++else
++if [ $ngx_found = yes ]; then
++    have=NGX_HTTP_AJP_TEMP_PATH value="\"ajp_temp\""
++    . auto/define
++    have=NGX_AJP_MODULE . auto/have
++   HTTP_MODULES="$HTTP_MODULES ngx_ajp_module"
++   CORE_INCS="$CORE_INCS $ngx_feature_path"
++   NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_feature_deps"
++   NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_ajp_src"
++else 
++    cat << END
++    $0: error: the ngx_ajp_module addon error.
++END
++    exit 1
++fi
++
++fi
+\ No newline at end of file
