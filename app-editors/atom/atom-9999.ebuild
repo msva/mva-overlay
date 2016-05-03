@@ -34,7 +34,6 @@ RDEPEND="${DEPEND}"
 
 pkg_setup() {
 	python-any-r1_pkg_setup
-
 	npm config set python "${PYTHON}"
 }
 
@@ -42,7 +41,8 @@ src_unpack() {
 	git-r3_src_unpack
 }
 
-src_prepare() {
+
+src_prepare(){
 	sed -i \
 		-e "1a\nexport PYTHON=${PYTHON}\n" \
 		atom.sh
@@ -54,8 +54,9 @@ src_prepare() {
 
 	sed \
 		-e "s/<%= description %>/$pkgdesc/" \
-		-e "s|<%= executable %>|/usr/bin/atom|" \
-		-e "s|<%= iconName %>|atom|" \
+		-e "s|<%= installDir %>/share/<%= appFileName %>/atom|/usr/bin/atom|" \
+		-e "s|<%= iconPath %>|atom|" \
+		-e "s|<%= appName %>|Atom|" \
 		resources/linux/atom.desktop.in > resources/linux/Atom.desktop
 
 	# Fix atom location guessing
@@ -68,11 +69,7 @@ src_prepare() {
 		-e 's@node script/bootstrap@node script/bootstrap --no-quiet@g' \
 		./script/build || die "Fail fixing verbosity of script/build"
 
-	sed -i \
-		-e 's:/usr/local:/usr:' \
-		src/command-installer.coffee \
-		build/Gruntfile.coffee \
-		script/cibuild-atom-linux
+	default
 }
 
 src_compile() {
@@ -82,13 +79,13 @@ src_compile() {
 }
 
 src_install() {
-	insinto /usr/share/"${PN}"
+	insinto "/usr/share/${PN}"
 	doins -r "${T}"/Atom/*
-	insinto /usr/share/applications
-	newins resources/linux/Atom.desktop atom.desktop
-	insinto /usr/share/pixmaps
-	doins resources/atom.png
-	insinto /usr/share/licenses/"${PN}"
+	insinto "/usr/share/applications"
+	newins "resources/linux/Atom.desktop atom.desktop"
+	insinto "/usr/share/pixmaps"
+	newins "resources/app-icons/stable/png/128.png" "atom.png"
+	insinto "/usr/share/licenses/${PN}"
 	doins LICENSE.md
 	# Fixes permissions
 	fperms +x "${EPREFIX}/usr/share/${PN}/${PN}"
