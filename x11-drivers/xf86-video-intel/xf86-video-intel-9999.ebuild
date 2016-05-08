@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 XORG_DRI=dri
 inherit linux-info xorg-2
 
 DESCRIPTION="X.Org driver for Intel cards"
 
-KEYWORDS="~amd64 ~x86 ~amd64-fbsd -x86-fbsd"
+KEYWORDS=""
 IUSE="dri3 debug +sna +udev uxa xvmc"
 
 REQUIRED_USE="
