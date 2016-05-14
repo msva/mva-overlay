@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-USE_PHP="php5-4 php5-5"
+USE_PHP="php7-0"
 
 PHP_EXT_NAME="dmtx"
 PHP_EXT_ZENDEXT="yes"

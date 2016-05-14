@@ -2,9 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=6
+EAPI=5
 
 XORG_DRI=dri
+XORG_EAUTORECONF=yes
 inherit linux-info xorg-2
 
 DESCRIPTION="X.Org driver for Intel cards"

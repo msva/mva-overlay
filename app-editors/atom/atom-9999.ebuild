@@ -41,7 +41,6 @@ src_unpack() {
 	git-r3_src_unpack
 }
 
-
 src_prepare(){
 	sed -i \
 		-e "1a\nexport PYTHON=${PYTHON}\n" \

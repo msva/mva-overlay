@@ -4,7 +4,7 @@
 
 EAPI="5"
 DISTUTILS_OPTIONAL=yes
-PYTHON_COMPAT=( python{2_6,2_7,3_2,3_3} pypy2_0 )
+PYTHON_COMPAT=( python{2_7,3_{3,4,5}} pypy{,3} )
 RUBY_OPTIONAL=yes
 USE_RUBY=( ruby2{0,1,2,3} jruby rbx )
 
@@ -25,11 +25,9 @@ RDEPEND="
 	=media-libs/libdmtx-${PV}
 	vala? ( dev-lang/vala:* )
 	java? ( >=virtual/jre-1.6:* )
-	php? ( dev-php/php-dmtx )
 	ruby? ( virtual/rubygems dev-ruby/rmagick )
 	python? ( ${PYTHON_DEPS} )
 "
-#	lua? ( dev-lua/lua-dmtx[doc=] )
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 

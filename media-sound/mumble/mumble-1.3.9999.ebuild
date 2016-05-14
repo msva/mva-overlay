@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -33,7 +33,6 @@ RDEPEND="
 		>=dev-qt/qtsvg-4.6:4
 		>=dev-qt/qtxmlpatterns-4.6:4
 		app-crypt/qca:2[qt4(+)]
-		>=dev-libs/qjson-0.5[qt4]
 		dbus? ( >=dev-qt/qtdbus-4.6:4 )
 	)
 	qt5? (
@@ -50,7 +49,6 @@ RDEPEND="
 		>=dev-qt/qtxmlpatterns-5.1:5
 		>=dev-qt/linguist-tools-5.1:5
 		app-crypt/qca:2[qt5(+)]
-		>=dev-libs/qjson-0.5[qt5]
 		dbus? ( >=dev-qt/qtdbus-5.1:5 )
 	)
 
@@ -162,4 +160,3 @@ pkg_postinst() {
 	elog "Run mumble-overlay to start the OpenGL overlay (after starting mumble)."
 	echo
 }
-
