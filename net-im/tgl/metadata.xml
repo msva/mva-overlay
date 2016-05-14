@@ -12,8 +12,7 @@
 	Long description of the package
 	</longdescription> 
 	<use>
-		<flag name='lua'>Enable Lua scripting</flag>
-		<flag name='json'>Enable JSON support</flag>
-		<flag name='python'>Enable Python support</flag>
+		<flag name='gcrypt'>Use <pkg>dev-libs/libgcrypt</pkg> instead of <pkg>dev-libs/openssl</pkg> for crypto operations</flag>
+		<flag name='libevent'>Enable LibEvent support</flag>
 	</use>
 </pkgmetadata>
