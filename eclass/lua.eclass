@@ -77,7 +77,7 @@
 
 inherit base eutils ${multilib} toolchain-funcs flag-o-matic ${VCS}
 
-EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install pkg_setup
+EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install pkg_setup src_test
 
 case ${EAPI} in
 	0|1)
