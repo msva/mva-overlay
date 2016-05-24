@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
 inherit font
 
@@ -22,7 +22,12 @@ DEPEND="
 RDEPEND=""
 
 FONT_SUFFIX="ttf"
-S="${WORKDIR}/Consola Mono"
+S="${WORKDIR}"
 FONT_S="${S}"
 
 RESTRICT="strip binchecks"
+
+src_prepare() {
+	mv "${S}"/'Consola Mono'/* "${S}"
+	eapply_user
+}
