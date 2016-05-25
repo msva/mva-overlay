@@ -8,4 +8,7 @@
 	<upstream>
 		<remote-id type="github">larsenwork/monoid</remote-id>
 	</upstream>
+<use>
+    <flag name='monoisome'>Enable Monoisome font</flag>
+</use>
 </pkgmetadata>
