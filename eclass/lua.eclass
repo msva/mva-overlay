@@ -87,25 +87,25 @@ case ${VCS} in
 		;;
 esac
 
-		[[ -n "${GITHUB_A}" && -n "${BITBUCKET_A}" ]] && die "Only one of GITHUB_A or BITBUCKET_A should be set!"
-		if [[ -n "${GITHUB_A}" ]]; then
-			GITHUB_PN="${GITHUB_PN:-${PN}}"
-			EVCS_URI="https://github.com/${GITHUB_A}/${GITHUB_PN}"
-			DL="archive"
-		elif [[ -n "${BITBUCKET_A}" ]]; then
-			BITBUCKET_PN="${BITBUCKET_PN:-${PN}}"
-			EVCS_URI="https://bitbucket.org/${BITBUCKET_A}/${BITBUCKET_PN}"
-			DL="get"
-		fi
-		if [[ -z "${EGIT_REPO_URI}" && -z "${EHG_REPO_URI}" && -z "${SRC_URI}" && -n "${EVCS_URI}" ]]; then
-			if [[ "${VCS}" = git* ]]; then
-				EGIT_REPO_URI="${EVCS_URI}"
-			elif [[ "${VCS}" = "mercurial" ]]
-				EHG_REPO_URI="${EVCS_URI}"
-			elif [[ -z "${VCS}" && "${PV}" != *9999* ]]; then
-				SRC_URI="${EVCS_URI}/${DL}/${GITHUB_PV:-${PV}}.tar.gz -> ${P}.tar.gz"
-			fi
-		fi
+[[ -n "${GITHUB_A}" && -n "${BITBUCKET_A}" ]] && die "Only one of GITHUB_A or BITBUCKET_A should be set!"
+if [[ -n "${GITHUB_A}" ]]; then
+	GITHUB_PN="${GITHUB_PN:-${PN}}"
+	EVCS_URI="https://github.com/${GITHUB_A}/${GITHUB_PN}"
+	DL="archive"
+elif [[ -n "${BITBUCKET_A}" ]]; then
+	BITBUCKET_PN="${BITBUCKET_PN:-${PN}}"
+	EVCS_URI="https://bitbucket.org/${BITBUCKET_A}/${BITBUCKET_PN}"
+	DL="get"
+fi
+if [[ -z "${EGIT_REPO_URI}" && -z "${EHG_REPO_URI}" && -z "${SRC_URI}" && -n "${EVCS_URI}" ]]; then
+	if [[ "${VCS}" = git* ]]; then
+		EGIT_REPO_URI="${EVCS_URI}"
+	elif [[ "${VCS}" = "mercurial" ]]; then
+		EHG_REPO_URI="${EVCS_URI}"
+	elif [[ -z "${VCS}" && "${PV}" != *9999* ]]; then
+		SRC_URI="${EVCS_URI}/${DL}/${GITHUB_PV:-${PV}}.tar.gz -> ${P}.tar.gz"
+	fi
+fi
 
 inherit eutils ${multilib} toolchain-funcs flag-o-matic ${VCS}
 
@@ -435,7 +435,9 @@ lua_src_unpack() {
 	if type all_lua_unpack &>/dev/null; then
 		_lua_invoke_environment all all_lua_unpack
 	elif [[ -n ${VCS} ]] && declare -f ${VCS}_src_unpack >/dev/null; then
-			_lua_invoke_environment all ${VCS}_src_unpack
+		_lua_invoke_environment all ${VCS}_src_unpack
+	elif declare -f unpacker_src_unpack >/dev/null; then
+		_lua_invoke_environment all unpacker_src_unpack
 	elif [[ -n ${A} ]]; then
 		unpack ${A}
 	elif [[ -z "${GITHUB_A}" && -z "${BITBUCKET_A}" ]]; then
@@ -508,7 +510,7 @@ lua_src_prepare() {
 		_lua_invoke_environment all ${VCS}_src_prepare
 	fi
 
-	_lua_invoke_environment all base_src_prepare
+	_lua_invoke_environment all default_src_prepare
 
 	if ! declare -f all_lua_prepare >/dev/null; then
 		all_lua_prepare() {
@@ -926,11 +928,12 @@ _lua_default_all_prepare() {
 
 _lua_default_all_compile() {
 	local doc_target="${DOC_MAKE_TARGET:=doc}"
+
 	has doc ${IUSE} &&
 	use doc &&
 	grep -qs "${doc_target}[[:space:]]*:" {GNUm,m,M}akefile && (
 		[[ -f ${T}/.lua_ecl_conf ]] && touch .lua_eclass_config
-		base_src_compile "${doc_target[@]}"
+		emake "${doc_target[@]}"
 	)
 }
 
@@ -944,7 +947,7 @@ _lua_default_each_configure() {
 	confargs+=("${myeconfargs[@]}")
 	confargs+=("${@}")
 
-	base_src_configure "${confargs[@]}"
+	[[ -x ${ECONF_SOURCE:-.}/configure ]] && econf "${confargs[@]}"
 
 	if [[ -f ${T}/.lua_ecl_conf ]]; then
 		touch .lua_eclass_config
@@ -972,12 +975,6 @@ _lua_default_each_configure() {
 
 _lua_default_each_compile() {
 	local makeargs=();
-
-	makeargs+=(
-		"${myemakeargs[@]}"
-		"${@}"
-	)
-
 	if has ccache ${FEATURES} && [[ "${NOCCACHE}" = "true" ]]; then
 		export CCACHE_DISABLE=1;
 	fi
@@ -986,18 +983,22 @@ _lua_default_each_compile() {
 		export DISTCC_DISABLE=1;
 	fi
 
-	base_src_compile "${makeargs[@]}"
+	if [[ -f Makefile || -f GNUmakefile || -f makefile ]]; then
+		makeargs+=("${myemakeargs[@]}")
+		makeargs+=("${@}")
+		emake "${makeargs[@]}"
+	fi
+
 }
 
 _lua_default_each_install() {
 	local instargs=();
-	instargs+=(
-		DESTDIR="${D}"
-		"${@}"
-		"${myeinstallargs[@]}"
-		install
-	)
-
-	base_src_make "${instargs[@]}"
+	if [[ -f Makefile || -f GNUmakefile || -f makefile ]]; then
+		instargs+=(DESTDIR="${D}")
+		instargs+=("${@}")
+		instargs+=("${myeinstallargs[@]}")
+		instargs+=("install")
+		emake "${instargs[@]}"
+	fi
 }
 

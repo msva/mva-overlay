@@ -27,6 +27,8 @@ KEYWORDS=""
 IUSE=""
 
 ruby_add_bdepend "dev-ruby/rake"
+ruby_add_rdepend "dev-ruby/treetop"
+ruby_add_rdepend "dev-ruby/git-version-bump"
 
 all_ruby_install() {
 	all_fakegem_install
