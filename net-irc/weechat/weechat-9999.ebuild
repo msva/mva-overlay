@@ -62,7 +62,7 @@ DEPEND="${RDEPEND}
 	test? ( dev-util/cpputest )
 "
 
-DOCS="AUTHORS.asciidoc ChangeLog.asciidoc ReleaseNotes.asciidoc README.asciidoc"
+DOCS=("AUTHORS.adoc" "ChangeLog.adoc" "Contributing.adoc" "ReleaseNotes.adoc" "README.adoc")
 
 # tests need to be fixed to not use system plugins if weechat is already installed
 RESTRICT="test"
