@@ -347,7 +347,7 @@ HTTP_NAXSI_MODULE_PN="naxsi"
 HTTP_NAXSI_MODULE_PV="0.55rc2"
 #HTTP_NAXSI_MODULE_SHA="bf6c9cba178225d5ff5cf3de2ebda9b0a2f06a66"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
-HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-v${HTTP_NAXSI_MODULE_PV}}.tar.gz"
+HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
 
 # nginx-dav-ext-module (https://github.com/arut/nginx-dav-ext-module/tags, BSD)
@@ -358,14 +358,15 @@ HTTP_DAV_EXT_MODULE_P="${HTTP_DAV_EXT_MODULE_PN}-${HTTP_DAV_EXT_MODULE_SHA:-${HT
 HTTP_DAV_EXT_MODULE_URI="https://github.com/${HTTP_DAV_EXT_MODULE_A}/${HTTP_DAV_EXT_MODULE_PN}/archive/${HTTP_DAV_EXT_MODULE_SHA:-v${HTTP_DAV_EXT_MODULE_PV}}.tar.gz"
 HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 
-# nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module/tags, BSD)
-RTMP_MODULE_A="arut"
-RTMP_MODULE_PN="nginx-rtmp-module"
-RTMP_MODULE_PV="1.1.7"
-RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
-RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_SHA:-${RTMP_MODULE_PV}}"
-RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/${RTMP_MODULE_SHA:-v${RTMP_MODULE_PV}}.tar.gz"
-RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
+# Broken on 1.11
+## nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module/tags, BSD)
+#RTMP_MODULE_A="arut"
+#RTMP_MODULE_PN="nginx-rtmp-module"
+#RTMP_MODULE_PV="1.1.7"
+#RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
+#RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_SHA:-${RTMP_MODULE_PV}}"
+#RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/${RTMP_MODULE_SHA:-v${RTMP_MODULE_PV}}.tar.gz"
+#RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
 
 # mod_security for nginx (https://github.com/SpiderLabs/ModSecurity/tags, Apache-2.0)
 HTTP_SECURITY_MODULE_A="SpiderLabs"
@@ -396,8 +397,8 @@ RRD_MODULE_WD="${WORKDIR}/${RRD_MODULE_P}"
 # sticky-module (https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/downloads#tag-downloads, BSD-2)
 HTTP_STICKY_MODULE_A="nginx-goodies"
 HTTP_STICKY_MODULE_PN="nginx-sticky-module-ng"
-HTTP_STICKY_MODULE_PV="1.2.5"
-HTTP_STICKY_MODULE_PV_SHA="bd312d586752"
+HTTP_STICKY_MODULE_PV="1.2.6"
+HTTP_STICKY_MODULE_PV_SHA="c78b7dd79d0d"
 HTTP_STICKY_MODULE_P="${HTTP_STICKY_MODULE_PN}-${HTTP_STICKY_MODULE_PV}"
 HTTP_STICKY_MODULE_URI="https://bitbucket.org/${HTTP_STICKY_MODULE_A}/${HTTP_STICKY_MODULE_PN}/get/${HTTP_STICKY_MODULE_PV}.tar.gz"
 HTTP_STICKY_MODULE_WD="${WORKDIR}/${HTTP_STICKY_MODULE_A}-${HTTP_STICKY_MODULE_PN}-${HTTP_STICKY_MODULE_PV_SHA}"
@@ -480,7 +481,6 @@ SRC_URI="
 		${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P}.tar.gz
 		${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P}.tar.gz
 	)
-	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 	rrd? ( ${RRD_MODULE_URI} -> ${RRD_MODULE_P}.tar.gz )
 	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.gz )
 	nginx_modules_http_ajp? ( ${HTTP_AJP_MODULE_URI} -> ${HTTP_AJP_MODULE_P}.tar.gz )
@@ -488,6 +488,7 @@ SRC_URI="
 	nginx_modules_http_njs? ( ${HTTP_NJS_MODULE_URI} -> ${HTTP_NJS_MODULE_P}.tar.gz )
 	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 "
+#	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 #	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
@@ -643,7 +644,8 @@ REQUIRED_USE="
 		http2? ( nginx_modules_http_v2 )
 "
 
-IUSE="aio debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux rtmp http2"
+IUSE="aio debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2"
+# rtmp
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -787,7 +789,13 @@ pkg_setup() {
 
 	if use nginx_modules_http_passenger; then
 		use debug && append-flags -DPASSENGER_DEBUG
+		append-cflags "-fno-strict-aliasing -Wno-unused-result -Wno-unused-variable"
+		append-cxxflags "-fno-strict-aliasing -Wno-unused-result -Wno-unused-variable"
 		ruby-ng_pkg_setup
+	fi
+
+	if use nginx_modules_http_hls_audio; then
+		append-cflags "-Wno-deprecated-declarations"
 	fi
 
 	if use !http; then
@@ -998,6 +1006,11 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_NAXSI_MODULE_WD}"
 	fi
 
+	if use nginx_modules_http_security ; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_SECURITY_MODULE_WD}/nginx/modsecurity"
+	fi
+
 # (**) http_ndk
 	if use nginx_modules_http_ndk; then
 		http_enabled=1
@@ -1066,6 +1079,12 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_HEADERS_MORE_MODULE_WD}"
 	fi
 
+# http_pagespeed
+	if use nginx_modules_http_pagespeed; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_PAGESPEED_MODULE_WD}"
+	fi
+
 # (**) http_srcache
 	if use nginx_modules_http_srcache; then
 		http_enabled=1
@@ -1113,12 +1132,6 @@ src_configure() {
 	if use nginx_modules_http_coolkit; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_COOLKIT_MODULE_WD}"
-	fi
-
-# http_pagespeed
-	if use nginx_modules_http_pagespeed; then
-		http_enabled=1
-		myconf+=" --add-module=${HTTP_PAGESPEED_MODULE_WD}"
 	fi
 
 # http_passenger
@@ -1243,11 +1256,6 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_REDIS_MODULE_WD}"
 	fi
 
-	if use nginx_modules_http_security ; then
-		http_enabled=1
-		myconf+=" --add-module=${HTTP_SECURITY_MODULE_WD}/nginx/modsecurity"
-	fi
-
 	if use http || use http-cache; then
 		http_enabled=1
 	fi
@@ -1260,11 +1268,11 @@ src_configure() {
 		stream_enabled=1
 	fi
 
-	if use rtmp ; then
-		http_enabled=1
-#		myconf+=" --add-dynamic-module=${RTMP_MODULE_WD}"
-		myconf+=" --add-module=${RTMP_MODULE_WD}"
-	fi
+#	if use rtmp ; then
+#		http_enabled=1
+##		myconf+=" --add-dynamic-module=${RTMP_MODULE_WD}"
+#		myconf+=" --add-module=${RTMP_MODULE_WD}"
+#	fi
 
 	if use nginx_modules_http_sticky ; then
 		http_enabled=1
@@ -1344,7 +1352,7 @@ src_configure() {
 
 	if use nginx_modules_http_security; then
 		pushd "${HTTP_SECURITY_MODULE_WD}" &>/dev/null
-		export CFLAGS="${CFLAGS} -I/usr/include/apache2";
+		append-cflags "-I/usr/include/apache2";
 		./autogen.sh
 		econf \
 			--enable-standalone-module \
@@ -1363,10 +1371,6 @@ src_configure() {
 		pushd "${HTTP_PASSENGER_MODULE_WD}" &>/dev/null
 		einfo "Compiling Passenger support binaries"
 		export USE_VENDORED_LIBEV=no USE_VENDORED_LIBUV=no
-		export CFLAGS="${CFLAGS} -fno-strict-aliasing"
-# -Wno-unused-result -Wno-unused-variable"
-		export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing"
-# -Wno-unused-result -Wno-unused-variable"
 		rake nginx || die "Passenger premake for ${RUBY} failed!"
 		popd &>/dev/null
 	fi
@@ -1387,11 +1391,17 @@ src_configure() {
 		--http-uwsgi-temp-path="${EPREFIX}${NGINX_HOME_TMP}/uwsgi" \
 		${myconf} || die "configure failed"
 
-# --add-module fix to take less space
-		sed -i -e "s|${WORKDIR}|ext|g" objs/ngx_auto_config.h
-# passenger --add-module fix to take even less space
-		use nginx_modules_http_passenger && \
-			sed -i -e "s|/${P}/|/|g;s|/src/nginx_module||g" objs/ngx_auto_config.h
+	local sedargs=();
+	sedargs+=(-e "s|${WORKDIR}|ext|g")
+	use nginx_modules_http_security && \
+		sedargs+=(-e "s|/${P}/|/|g;s|/nginx/modsecurity||g")
+	use nginx_modules_http_njs && \
+		sedargs+=(-e "s|/${P}/|/|g;s|/nginx||g")
+	use nginx_modules_http_naxsi && \
+		sedargs+=(-e "s|/${P}/|/|g;s|/naxsi_src||g")
+	use nginx_modules_http_passenger && \
+		sedargs+=(-e "s|/${P}/|/|g;s|/src/nginx_module||g;s|/src_module||g;s|-release||")
+	sed -i -r "${sedargs[@]}" "${S}/objs/ngx_auto_config.h"
 }
 
 src_compile() {
@@ -1399,36 +1409,12 @@ src_compile() {
 	export LANG=C LC_ALL=C
 
 	if use nginx_modules_http_security; then
-		export CFLAGS="${CFLAGS} -I/usr/include/apache2";
+		append-cflags "-I/usr/include/apache2";
 		emake -C "${HTTP_SECURITY_MODULE_WD}";
 	fi
 
 	emake LINK="${CC} ${LDFLAGS}" OTHERLDFLAGS="${LDFLAGS}" || die "emake failed"
 }
-
-#get_passenger_wd() {
-#	echo ${S}/${HTTP_PASSENGER_MODULE_P}/ext/nginx
-#}
-
-#passenger_premake() {
-#	# dirty spike to make passenger compilation each-ruby compatible
-#	mkdir -p "${S}"
-#	cp -rl "${P}" "${S}"
-#	cp -r "${P}" "${S}"
-#	cp -r "${HTTP_PASSENGER_MODULE_P}" "${S}"
-#	cd "${S}"/"${HTTP_PASSENGER_MODULE_P}"
-#	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i build/ruby_extension.rb
-#	sed -e "s%#{PlatformInfo.ruby_command}%${RUBY}%g" -i lib/phusion_passenger/native_support.rb
-#	sed -e "s% ruby % ${RUBY} %g" -i ext/nginx/config
-#	sed -r \
-#		-e "s%(ngx_addon_name)=.*%\1=ngx_http_passenger_module_${RUBY//*\/}%g" \
-#		-e 's%(HTTP_MODULES)=.*%\1="$HTTP_MODULES $ngx_addon_name"%g' \
-#		-i ext/nginx/config
-#	# workaround on QA issues on passenger
-#	export CFLAGS="${CFLAGS} -fno-strict-aliasing -Wno-unused-result"
-#	export CXXFLAGS="${CXXFLAGS} -fno-strict-aliasing -Wno-unused-result"
-#	rake nginx || die "Passenger premake for ${RUBY} failed!"
-#}
 
 passenger_install() {
 	# dirty spike to make passenger installation each-ruby compatible
@@ -1572,7 +1558,7 @@ src_install() {
 # http_form_input
 	if use nginx_modules_http_form_input; then
 		docinto "${HTTP_FORM_INPUT_MODULE_P}"
-		dodoc "${HTTP_FORM_INPUT_MODULE_WD}"/README
+		dodoc "${HTTP_FORM_INPUT_MODULE_WD}"/README.md
 	fi
 
 # http_echo
@@ -1686,10 +1672,10 @@ src_install() {
 		doins "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/naxsi_core.rules
 	fi
 
-	if use rtmp; then
-		docinto "${RTMP_MODULE_P}"
-		dodoc "${RTMP_MODULE_WD}"/{AUTHORS,README.md,stat.xsl}
-	fi
+#	if use rtmp; then
+#		docinto "${RTMP_MODULE_P}"
+#		dodoc "${RTMP_MODULE_WD}"/{AUTHORS,README.md,stat.xsl}
+#	fi
 
 	if use nginx_modules_http_dav_ext; then
 		docinto "${HTTP_DAV_EXT_MODULE_P}"
