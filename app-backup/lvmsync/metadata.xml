@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer type="person">
- <email>overlay@mva.name</email>
+ <email>gentoo-overlay@mva.name</email>
  <description>
 	If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
  </description> 

@@ -14,8 +14,8 @@
  end
  
  desc "Create a fakeroot, useful for building native packages"
--task :fakeroot => [:apache2, :nginx, :doc] do
-+task :fakeroot => [:nginx] do
+-task :fakeroot => [:apache2, :nginx, 'nginx:as_dynamic_module', :doc] do
++task :fakeroot => [:nginx, 'nginx:as_dynamic_module'] do
    require 'rbconfig'
    require 'fileutils'
    include RbConfig

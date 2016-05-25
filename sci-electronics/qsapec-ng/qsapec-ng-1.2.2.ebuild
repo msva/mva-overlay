@@ -1,8 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI="5"
+EAPI=5
 inherit cmake-utils qt4-r2
 
 DESCRIPTION="Qt based GUI for sapec-ng (electric circuit analizys program)"

@@ -1,82 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer>
-  <email>mva@mva.name</email>
+<maintainer type="person">
+  <email>gentoo-overlay@mva.name</email>
   <name>Vadim A. Misbakh-Soloviov</name>
 </maintainer>
 <use>
 	<flag name='aio'>Enable aio support</flag>
 	<flag name='debug'>Enable the debugging logging</flag>
-	<flag name='rrd'>Enadle 3rd party rrd module</flag>
-	<flag name='libatomic'>Force libatomic_ops library usage:atomic memory update operations</flag>
-	<flag name='perftools'>Use <pkg>dev-util/google-perftools</pkg> for performance tuning</flag>
 	<flag name='http'></flag>
 	<flag name='http-cache'> </flag>
-	<flag name='nginx_modules_http_ey_balancer'>This module adds an upstream connection queue to nginx</flag>
-	<flag name='nginx_modules_http_slowfs_cache'>This module adds the ability to cache static files</flag>	
-	<flag name='pcre-jit'></flag>
-	<flag name='luajit'></flag>
-	<flag name='nginx_modules_http_ndk'></flag>
-	<flag name='nginx_modules_http_lua'></flag>
-	<flag name='nginx_modules_http_form_input'></flag>
-	<flag name='nginx_modules_http_echo'></flag>
-	<flag name='nginx_modules_http_memc'></flag>
-	<flag name='nginx_modules_http_rds_json'></flag>
-	<flag name='nginx_modules_http_postgres'></flag>
-	<flag name='nginx_modules_http_coolkit'></flag>
-	<flag name='nginx_modules_http_auth_request'></flag>
-	<flag name='nginx_modules_http_set_misc'></flag>
-	<flag name='nginx_modules_http_srcache'></flag>
-	<flag name='nginx_modules_http_supervisord'></flag>
-	<flag name='nginx_modules_http_array_var'></flag>
-	<flag name='nginx_modules_http_xss'></flag>
-	<flag name='nginx_modules_http_iconv'></flag>
-	<flag name='nginx_modules_http_ctpp'></flag>
-	<flag name='pcre-jit'></flag>
 	<flag name='http2'></flag>
+	<flag name='libatomic'>Force libatomic_ops library usage:atomic memory update operations</flag>
 	<flag name='luajit'></flag>
+	<flag name='mail'></flag>
+	<flag name='nginx_modules_http_array_var'></flag>
+	<flag name='nginx_modules_http_auth_request'></flag>
+	<flag name='nginx_modules_http_coolkit'></flag>
+	<flag name='nginx_modules_http_ctpp'></flag>
 	<flag name='nginx_modules_http_drizzle'></flag>
+	<flag name='nginx_modules_http_echo'></flag>
+	<flag name='nginx_modules_http_encrypted_session'></flag>
+	<flag name='nginx_modules_http_enmemcache'></flag>
+	<flag name='nginx_modules_http_ey_balancer'>This module adds an upstream connection queue to nginx</flag>
+	<flag name='nginx_modules_http_form_input'></flag>
+	<flag name='nginx_modules_http_hls_audio'></flag>
+	<flag name='nginx_modules_http_iconv'></flag>
+	<flag name='nginx_modules_http_lua'></flag>
+	<flag name='nginx_modules_http_lua_upstream'></flag>
+	<flag name='nginx_modules_http_memc'></flag>
 	<flag name='nginx_modules_http_nchan'></flag>
 	<flag name='nginx_modules_http_ndk'></flag>
-	<flag name='nginx_modules_http_lua'></flag>
-	<flag name='nginx_modules_http_form_input'></flag>
-	<flag name='nginx_modules_http_echo'></flag>
-	<flag name='nginx_modules_http_memc'></flag>
-	<flag name='nginx_modules_http_rds_json'></flag>
+	<flag name='nginx_modules_http_njs'></flag>
+	<flag name='nginx_modules_http_pagespeed'></flag>
 	<flag name='nginx_modules_http_postgres'></flag>
-	<flag name='nginx_modules_http_coolkit'></flag>
-	<flag name='nginx_modules_http_auth_request'></flag>
+	<flag name='nginx_modules_http_rds_csv'></flag>
+	<flag name='nginx_modules_http_rds_json'></flag>
+	<flag name='nginx_modules_http_redis'></flag>
+	<flag name='nginx_modules_http_replace_filter'></flag>
 	<flag name='nginx_modules_http_set_misc'></flag>
+	<flag name='nginx_modules_http_slice'></flag>
+	<flag name='nginx_modules_http_slowfs_cache'>This module adds the ability to cache static files</flag>	
 	<flag name='nginx_modules_http_srcache'></flag>
 	<flag name='nginx_modules_http_supervisord'></flag>
-	<flag name='nginx_modules_http_array_var'></flag>
-	<flag name='nginx_modules_http_xss'></flag>
-	<flag name='nginx_modules_http_iconv'></flag>
-	<flag name='nginx_modules_http_ctpp'></flag>
-	<flag name='mail'></flag>
-	<flag name='stream'></flag>
-	<flag name='rtmp'></flag>
+	<flag name='nginx_modules_http_tcpproxy'></flag>
 	<flag name='nginx_modules_http_upstream_hash'></flag>
 	<flag name='nginx_modules_http_upstream_keepalive'></flag>
 	<flag name='nginx_modules_http_upstream_least_conn'></flag>
 	<flag name='nginx_modules_http_upstream_zone'></flag>
 	<flag name='nginx_modules_http_v2'></flag>
+	<flag name='nginx_modules_http_xss'></flag>
 	<flag name='nginx_modules_stream_access'></flag>
 	<flag name='nginx_modules_stream_limit_conn'></flag>
 	<flag name='nginx_modules_stream_upstream_hash'></flag>
 	<flag name='nginx_modules_stream_upstream_least_conn'></flag>
 	<flag name='nginx_modules_stream_upstream_zone'></flag>
-	<flag name='nginx_modules_http_enmemcache'></flag>
-	<flag name='nginx_modules_http_slice'></flag>
-	<flag name='nginx_modules_http_tcpproxy'></flag>
-	<flag name='nginx_modules_http_encrypted_session'></flag>
-	<flag name='nginx_modules_http_pagespeed'></flag>
-	<flag name='nginx_modules_http_redis'></flag>
-	<flag name='nginx_modules_http_lua_upstream'></flag>
-	<flag name='nginx_modules_http_replace_filter'></flag>
-	<flag name='nginx_modules_http_rds_csv'></flag>
-	<flag name='nginx_modules_http_hls_audio'></flag>
-	<flag name='nginx_modules_http_njs'></flag>
+	<flag name='pcre-jit'></flag>
+	<flag name='perftools'>Use <pkg>dev-util/google-perftools</pkg> for performance tuning</flag>
+	<flag name='rrd'>Enadle 3rd party rrd module</flag>
+<!--	<flag name='rtmp'></flag> -->
+	<flag name='stream'></flag>
 </use>
 </pkgmetadata>

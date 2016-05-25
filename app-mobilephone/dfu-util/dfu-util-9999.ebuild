@@ -1,8 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI="5"
+EAPI=5
 
 inherit autotools git-r3
 EGIT_REPO_URI="https://gitorious.org/dfu-util/dfu-util.git"

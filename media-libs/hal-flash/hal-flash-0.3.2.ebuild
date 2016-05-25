@@ -1,8 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI="5"
+EAPI=5
 inherit autotools multilib-minimal
 
 DESCRIPTION="A libhal stub for flashplayer/adobecp, forwarding specific API parts to UDisks"

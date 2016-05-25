@@ -1,6 +1,5 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 # @ECLASS: lua.eclass
 # @MAINTAINER:
@@ -75,20 +74,55 @@
 
 [[ -n "${IS_MULTILIB}" ]] && multilib="multilib-minimal"
 
-inherit base eutils ${multilib} toolchain-funcs flag-o-matic ${VCS}
+
+case ${VCS} in
+	git)
+		VCS="git-r3"
+		;;
+	hg)
+		VCS="mercurial"
+		;;
+	svn)
+		VCS="subversion"
+		;;
+esac
+
+		[[ -n "${GITHUB_A}" && -n "${BITBUCKET_A}" ]] && die "Only one of GITHUB_A or BITBUCKET_A should be set!"
+		if [[ -n "${GITHUB_A}" ]]; then
+			GITHUB_PN="${GITHUB_PN:-${PN}}"
+			EVCS_URI="https://github.com/${GITHUB_A}/${GITHUB_PN}"
+			DL="archive"
+		elif [[ -n "${BITBUCKET_A}" ]]; then
+			BITBUCKET_PN="${BITBUCKET_PN:-${PN}}"
+			EVCS_URI="https://bitbucket.org/${BITBUCKET_A}/${BITBUCKET_PN}"
+			DL="get"
+		fi
+		if [[ -z "${EGIT_REPO_URI}" && -z "${EHG_REPO_URI}" && -z "${SRC_URI}" && -n "${EVCS_URI}" ]]; then
+			if [[ "${VCS}" = git* ]]; then
+				EGIT_REPO_URI="${EVCS_URI}"
+			elif [[ "${VCS}" = "mercurial" ]]
+				EHG_REPO_URI="${EVCS_URI}"
+			elif [[ -z "${VCS}" && "${PV}" != *9999* ]]; then
+				SRC_URI="${EVCS_URI}/${DL}/${GITHUB_PV:-${PV}}.tar.gz -> ${P}.tar.gz"
+			fi
+		fi
+
+inherit eutils ${multilib} toolchain-funcs flag-o-matic ${VCS}
 
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install pkg_setup src_test
 
-case ${EAPI} in
-	0|1)
-		die "Unsupported EAPI=${EAPI} (too old) for lua.eclass" ;;
-	2|3) ;;
-	4|5)
+case ${EAPI:-0} in
+	0|1|2|3)
+		die "Unsupported EAPI=${EAPI} (too old) for lua.eclass"
+		;;
+	4|5|6)
 		# S is no longer automatically assigned when it doesn't exist.
 		S="${WORKDIR}"
 		;;
 	*)
-		die "Unknown EAPI=${EAPI} for lua.eclass"
+		ewarn "Unknown EAPI=${EAPI} for lua.eclass. Some things may become broken"
+		ewarn "Please, review lua.eclass for compatibility with new EAPI"
+		;;
 esac
 
 lua_implementation_depend() {
@@ -164,7 +198,7 @@ _lua_atoms_samelib_generic() {
 				;;
 			*])
 				echo "${token%[*}[LUATARGET,${token/*[}"
-				#" <= kludge for vim's syntax highlighting engine to don't mess up all
+				#"]}" # <= kludge for vim's syntax highlighting engine to don't mess up all the things below this line
 				;;
 			*)
 				echo "${token}[LUATARGET]"
@@ -309,49 +343,33 @@ IUSE+="$(lua_get_use_targets)"
 if [[ ${LUA_OPTIONAL} != yes ]]; then
 	DEPEND="${DEPEND} $(lua_implementations_depend)"
 	RDEPEND="${RDEPEND} $(lua_implementations_depend)"
-
-	case ${EAPI:-0} in
-		4|5)
-			REQUIRED_USE+=" || ( $(lua_get_use_targets) )"
-			;;
-	esac
+	REQUIRED_USE+=" || ( $(lua_get_use_targets) )"
 fi
 
 _lua_invoke_environment() {
 	old_S=${S}
-	case ${EAPI} in
-		4|5)
-			if [ -z "${LUA_S}" ]; then
-				sub_S=${P}
-			else
-				sub_S=${LUA_S}
-			fi
-			;;
-		*)
-			sub_S=${S#${WORKDIR}/}
-			;;
-	esac
+	if [ -z "${LUA_S}" ]; then
+		sub_S=${P}
+	else
+		sub_S=${LUA_S}
+	fi
 
-	# Special case, for the always-lovely GitHub fetches. With this,
+	# Special case, for GitHub fetches of ancient packages. With this,
 	# we allow the star glob to just expand to whatever directory it's
 	# called.
 	if [[ "${sub_S}" = *"*"* ]]; then
-		case ${EAPI} in
-			2|3)
-				#The old method of setting S depends on undefined package
-				# manager behaviour, so encourage upgrading to EAPI=4.
-				eqawarn "Using * expansion of S is deprecated. Use EAPI and LUA_S instead."
-				;;
-		esac
 		pushd "${WORKDIR}"/all &>/dev/null
 		sub_S=$(eval ls -d "${sub_S}" 2>/dev/null)
 		popd &>/dev/null
 	fi
 
-	environment=$1; shift
+	environment="${1}"; shift
 
-	my_WORKDIR="${WORKDIR}"/${environment}
+	my_WORKDIR="${WORKDIR}"/"${environment}"
 	S="${my_WORKDIR}"/"${sub_S}"
+	EGIT_CHECKOUT_DIR="${S}"
+	EHG_CHECKOUT_DIR="${S}"
+	EBZR_UNPACK_DIR="${S}"
 	BUILD_DIR="${S}"
 	CMAKE_USE_DIR="${S}"
 
@@ -416,15 +434,20 @@ lua_src_unpack() {
 	# We don't support an each-unpack, it's either all or nothing!
 	if type all_lua_unpack &>/dev/null; then
 		_lua_invoke_environment all all_lua_unpack
-	elif [[ -n ${A} ]]; then
-		unpack ${A}
 	elif [[ -n ${VCS} ]] && declare -f ${VCS}_src_unpack >/dev/null; then
 			_lua_invoke_environment all ${VCS}_src_unpack
+	elif [[ -n ${A} ]]; then
+		unpack ${A}
+	elif [[ -z "${GITHUB_A}" && -z "${BITBUCKET_A}" ]]; then
+			eerror "Either GITHUB_A or BITBUCKET_A (author nick) should be set for magic SRC/REPO URI filling to work"
+			eerror "You should either set one of them, or fill the proper URI variable manually!"
+			die "See above eerror messages."
 	fi
 
-	# hack for VCS-eclasses (git-r3 and darcs, for now) which defaults unpack dir to WD/P instead of S
-	if [[ '*9999*' =~ ${PV} ]] && [[ -d ${WORKDIR}/${P} ]] && [[ ! -d ${WORKDIR}/all/${P} ]] ; then
-		mv ${WORKDIR}/${P} ${WORKDIR}/all/${P}
+	# hack for VCS-eclasses (darcs, for example) which defaults unpack dir to WD/P instead of S
+	if [[ "${PV}" = *9999* ]] && [[ -d "${WORKDIR}/${P}" ]] && [[ ! -d "${WORKDIR}/all/${P}" ]] ; then
+		die "darcs-patching :: git test"
+		mv "${WORKDIR}/${P}" "${WORKDIR}/all/${P}"
 	fi
 
 	popd &>/dev/null
