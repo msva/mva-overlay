@@ -1312,7 +1312,6 @@ src_configure() {
 		myconf+=( --add-module=${HTTP_LDAP_MODULE_WD} )
 	fi
 
-
 	if [ $http_enabled ]; then
 		use http-cache || myconf+=" --without-http-cache"
 		use ssl	&& myconf+=" --with-http_ssl_module"
