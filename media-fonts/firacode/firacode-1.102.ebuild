@@ -3,6 +3,7 @@
 
 EAPI=6
 
+S="${WORKDIR}/${P^^[cf]}"
 inherit font
 
 DESCRIPTION="A programming font with ligatures"
@@ -13,6 +14,4 @@ LICENSE="OFL"
 SLOT="0"
 KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86 ~x86-fbsd"
 
-S="${WORKDIR}/${P^^[cf]}"
-FONT_S="${S}"
 FONT_SUFFIX="otf"

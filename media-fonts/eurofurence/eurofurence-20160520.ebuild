@@ -3,6 +3,7 @@
 
 EAPI=6
 
+S="${WORKDIR}"
 inherit font
 
 DESCRIPTION="Eurofurence, a clean sans-serif font"
@@ -19,6 +20,4 @@ RDEPEND=""
 
 RESTRICT="strip binchecks"
 
-S="${WORKDIR}"
 FONT_SUFFIX="ttf"
-FONT_S="${S}"

@@ -3,6 +3,7 @@
 
 EAPI=6
 
+S="${WORKDIR}"
 inherit font
 
 SHA1="61cc2afcc4eca96efe7c6ebf178d39df"
@@ -21,8 +22,6 @@ DEPEND="
 RDEPEND=""
 
 FONT_SUFFIX="ttf"
-S="${WORKDIR}"
-FONT_S="${S}"
 
 RESTRICT="strip binchecks"
 

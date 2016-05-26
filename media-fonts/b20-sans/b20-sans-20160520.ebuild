@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+
+S="${WORKDIR}"
 inherit font
 
 DESCRIPTION="B20 Sans, a sans-serif font"
@@ -18,6 +20,4 @@ RDEPEND=""
 
 RESTRICT="strip binchecks"
 
-S="${WORKDIR}"
 FONT_SUFFIX="ttf"
-FONT_S="${S}"

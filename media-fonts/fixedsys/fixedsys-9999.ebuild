@@ -11,7 +11,7 @@ EGIT_REPO_URI="https://github.com/kika/fixedsys"
 
 LICENSE="OFL"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86 ~x86-fbsd"
+KEYWORDS=""
 
 FONT_SUFFIX="ttf"
 

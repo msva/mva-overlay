@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+
+S="${WORKDIR}"
 inherit font
 
 DESCRIPTION="Monofur, a good fixed width font for development"
@@ -16,8 +18,6 @@ IUSE=""
 DEPEND="app-arch/unzip"
 RDEPEND=""
 
-S="${WORKDIR}"
 FONT_SUFFIX="ttf"
-FONT_S="${S}"
 
 RESTRICT="strip binchecks"

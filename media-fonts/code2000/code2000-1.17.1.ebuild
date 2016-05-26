@@ -3,6 +3,7 @@
 
 EAPI=6
 
+S="${WORKDIR}"
 inherit font
 
 BASE_SRC_URI="http://web.archive.org/web/20110108105420/http://code2000.net/"
@@ -26,8 +27,6 @@ DEPEND="
 RDEPEND=""
 
 FONT_SUFFIX="ttf"
-S="${WORKDIR}"
-FONT_S="${S}"
 
 RESTRICT="strip binchecks mirror"
 
