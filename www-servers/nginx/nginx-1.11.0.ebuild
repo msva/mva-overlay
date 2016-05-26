@@ -322,15 +322,14 @@ HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/${HTTP_FANCYINDEX_MODULE_P}"
 
-# Don't support 1.9 atm
-## http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module/tags, BSD)
-#HTTP_UPSTREAM_CHECK_MODULE_A="yaoweibin"
-#HTTP_UPSTREAM_CHECK_MODULE_PN="nginx_upstream_check_module"
-##HTTP_UPSTREAM_CHECK_MODULE_PV="0.3.0"
-#HTTP_UPSTREAM_CHECK_MODULE_SHA="f484429ac67e1e3307e275a00e87c681c928d1cb"
-#HTTP_UPSTREAM_CHECK_MODULE_P="${HTTP_UPSTREAM_CHECK_MODULE_PN}-${HTTP_UPSTREAM_CHECK_MODULE_SHA:-${HTTP_UPSTREAM_CHECK_MODULE_PV}}"
-#HTTP_UPSTREAM_CHECK_MODULE_URI="https://github.com/${HTTP_UPSTREAM_CHECK_MODULE_A}/${HTTP_UPSTREAM_CHECK_MODULE_PN}/archive/${HTTP_UPSTREAM_CHECK_MODULE_SHA:-v${HTTP_UPSTREAM_CHECK_MODULE_PV}}.tar.gz"
-#HTTP_UPSTREAM_CHECK_MODULE_WD="${WORKDIR}/${HTTP_UPSTREAM_CHECK_MODULE_P}"
+# http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module/tags, BSD)
+HTTP_UPSTREAM_CHECK_MODULE_A="yaoweibin"
+HTTP_UPSTREAM_CHECK_MODULE_PN="nginx_upstream_check_module"
+#HTTP_UPSTREAM_CHECK_MODULE_PV="0.3.0"
+HTTP_UPSTREAM_CHECK_MODULE_SHA="10782eaff51872a8f44e65eed89bbe286004bcb1"
+HTTP_UPSTREAM_CHECK_MODULE_P="${HTTP_UPSTREAM_CHECK_MODULE_PN}-${HTTP_UPSTREAM_CHECK_MODULE_SHA:-${HTTP_UPSTREAM_CHECK_MODULE_PV}}"
+HTTP_UPSTREAM_CHECK_MODULE_URI="https://github.com/${HTTP_UPSTREAM_CHECK_MODULE_A}/${HTTP_UPSTREAM_CHECK_MODULE_PN}/archive/${HTTP_UPSTREAM_CHECK_MODULE_SHA:-v${HTTP_UPSTREAM_CHECK_MODULE_PV}}.tar.gz"
+HTTP_UPSTREAM_CHECK_MODULE_WD="${WORKDIR}/${HTTP_UPSTREAM_CHECK_MODULE_P}"
 
 # http_metrics (https://github.com/zenops/ngx_metrics/tags, BSD)
 HTTP_METRICS_MODULE_A="zenops"
@@ -357,12 +356,12 @@ HTTP_DAV_EXT_MODULE_P="${HTTP_DAV_EXT_MODULE_PN}-${HTTP_DAV_EXT_MODULE_SHA:-${HT
 HTTP_DAV_EXT_MODULE_URI="https://github.com/${HTTP_DAV_EXT_MODULE_A}/${HTTP_DAV_EXT_MODULE_PN}/archive/${HTTP_DAV_EXT_MODULE_SHA:-v${HTTP_DAV_EXT_MODULE_PV}}.tar.gz"
 HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 
-# Broken on 1.11
+# Broken with 1.11
 ## nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module/tags, BSD)
 #RTMP_MODULE_A="arut"
 #RTMP_MODULE_PN="nginx-rtmp-module"
 #RTMP_MODULE_PV="1.1.7"
-#RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
+##RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
 #RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_SHA:-${RTMP_MODULE_PV}}"
 #RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/${RTMP_MODULE_SHA:-v${RTMP_MODULE_PV}}.tar.gz"
 #RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
@@ -427,6 +426,17 @@ HTTP_NJS_MODULE_P="${HTTP_NJS_MODULE_PN}-${HTTP_NJS_MODULE_SHA:-${HTTP_NJS_MODUL
 HTTP_NJS_MODULE_URI="http://hg.nginx.org/${HTTP_NJS_MODULE_PN}/archive/${HTTP_NJS_MODULE_SHA}.tar.gz"
 HTTP_NJS_MODULE_WD="${WORKDIR}/${HTTP_NJS_MODULE_P}"
 
+# nginx-ldap-auth-module (https://github.com/kvspb/nginx-auth-ldap, BSD-2)
+HTTP_LDAP_MODULE_A="kvspb"
+HTTP_LDAP_MODULE_PN="nginx-auth-ldap"
+#HTTP_LDAP_MODULE_PV=""
+HTTP_LDAP_MODULE_SHA="dbcef31bebb2d54b6120422d0b178bbf78bc48f7"
+HTTP_LDAP_MODULE_P="${HTTP_LDAP_MODULE_PN}-${HTTP_LDAP_MODULE_SHA-:${HTTP_LDAP_MODULE_PV}}"
+HTTP_LDAP_MODULE_URI="https://github.com/kvspb/nginx-auth-ldap/archive/${HTTP_LDAP_MODULE_SHA-:${HTTP_LDAP_MODULE_PV}}.tar.gz"
+HTTP_LDAP_MODULE_WD="${WORKDIR}/${HTTP_LDAP_MODULE_P}"
+
+SSL_DEPS_SKIP=1
+
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd pax-utils multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
@@ -486,9 +496,10 @@ SRC_URI="
 	nginx_modules_http_mogilefs? ( ${HTTP_MOGILEFS_MODULE_URI} -> ${HTTP_MOGILEFS_MODULE_P}.tar.gz )
 	nginx_modules_http_njs? ( ${HTTP_NJS_MODULE_URI} -> ${HTTP_NJS_MODULE_P}.tar.gz )
 	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
+	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
+	nginx_modules_http_auth_ldap? ( ${HTTP_LDAP_MODULE_URI} -> ${HTTP_LDAP_MODULE_P}.tar.gz )
 "
-#	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
-#	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
+#rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_security? ( Apache-2.0 )
@@ -608,6 +619,8 @@ NGINX_MODULES_3RD="
 	http_mogilefs
 	http_njs
 	http_drizzle
+	http_upstream_check
+	http_auth_ldap
 "
 
 NGINX_MODULES_DYN="
@@ -615,9 +628,6 @@ NGINX_MODULES_DYN="
 	image_filter
 	xslt
 "
-
-#	http_upstream_check
-#	^ Don't support 1.9 atm
 
 REQUIRED_USE="
 		luajit? ( nginx_modules_http_lua )
@@ -644,7 +654,7 @@ REQUIRED_USE="
 "
 
 IUSE="aio debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2"
-# rtmp
+# rtmp"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -720,6 +730,7 @@ CDEPEND="
 		dev-libs/libev
 		dev-libs/libuv
 	)
+	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	nginx_modules_http_drizzle? ( dev-libs/libdrizzle )
 "
 # nginx_modules_http_lua? ( $(lua_implementations_depend) )
@@ -1223,11 +1234,10 @@ src_configure() {
 		myconf+=" --add-module=${HTTP_SLOWFS_CACHE_MODULE_WD}"
 	fi
 
-# Don't support 1.9 atm
-#	if use nginx_modules_http_upstream_check; then
-#		http_enabled=1
-#		myconf+=" --add-module=${HTTP_UPSTREAM_CHECK_MODULE_WD}"
-#	fi
+	if use nginx_modules_http_upstream_check; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_UPSTREAM_CHECK_MODULE_WD}"
+	fi
 
 	if use nginx_modules_http_metrics; then
 		http_enabled=1
@@ -1267,6 +1277,7 @@ src_configure() {
 		stream_enabled=1
 	fi
 
+# Broken in 1.11
 #	if use rtmp ; then
 #		http_enabled=1
 ##		myconf+=" --add-dynamic-module=${RTMP_MODULE_WD}"
@@ -1295,6 +1306,12 @@ src_configure() {
 #		myconf+=" --add-dynamic-module=${HTTP_NJS_MODULE_WD}/nginx"
 		myconf+=" --add-module=${HTTP_NJS_MODULE_WD}/nginx"
 	fi
+
+	if use nginx_modules_http_auth_ldap; then
+		http_enabled=1
+		myconf+=( --add-module=${HTTP_LDAP_MODULE_WD} )
+	fi
+
 
 	if [ $http_enabled ]; then
 		use http-cache || myconf+=" --without-http-cache"
@@ -1655,11 +1672,10 @@ src_install() {
 		_ruby_each_implementation passenger_install
 	fi
 
-# Don't support 1.9 atm
-#	if use nginx_modules_http_upstream_check; then
-#		docinto "${HTTP_UPSTREAM_CHECK_MODULE_P}"
-#		dodoc "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/{README,CHANGES}
-#	fi
+	if use nginx_modules_http_upstream_check; then
+		docinto "${HTTP_UPSTREAM_CHECK_MODULE_P}"
+		dodoc "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/{README,CHANGES}
+	fi
 
 	if use nginx_modules_http_metrics; then
 		docinto "${HTTP_METRICS_MODULE_P}"
@@ -1716,6 +1732,10 @@ src_install() {
 		dodoc "${HTTP_NJS_MODULE_WD}"/README
 	fi
 
+	if use nginx_modules_http_auth_ldap; then
+		docinto ${HTTP_LDAP_MODULE_P}
+		dodoc "${HTTP_LDAP_MODULE_WD}"/example.conf
+	fi
 }
 
 pkg_postinst() {
