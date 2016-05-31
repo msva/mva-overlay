@@ -13,7 +13,7 @@ SRC_URI=""
 LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="webfonts"
+IUSE="+woff"
 RESTRICT="binchecks strip"
 
 DEPEND="
@@ -21,14 +21,14 @@ DEPEND="
 	media-gfx/fontforge
 	media-gfx/ttfautohint
 	media-gfx/otfcc
-	webfonts? (
+	woff? (
 		media-gfx/sfnt2woff
-		media-gfx/woff2_compress
+		media-gfx/woff2
 	)
 	"
 RDEPEND=""
 
-FONT_S="${S}/distdir"
+FONT_S="${S}/fonts_dist"
 FONT_SUFFIX="ttf"
 
 src_prepare() {
@@ -37,12 +37,20 @@ src_prepare() {
 }
 
 src_compile() {
-	default
-	use webfonts && make webfonts
+	local myemageargs=("default")
+	for f in default term cc slab term-slab cc-slab hooky hooky-term zshaped zshaped-term; do
+		myemageargs+=("fonts-${f}")
+	done
+	use woff && myemageargs+=("webfonts")
+	emake "${myemageargs[@]}"
 }
 
 src_install() {
 	mkdir -p "${FONT_S}"
-	find "${S}" -name '*.ttf' -print0 | xargs -0 mv -t "${FONT_S}"
+	find "${S}"/dist/*${PN}* -name '*.ttf' -print0 | xargs -0 mv -u -t "${FONT_S}"
 	font_src_install
+	use woff && (
+		insinto /usr/share/webfonts/${PN}
+		doins -r dist/webfonts/*
+	)
 }
