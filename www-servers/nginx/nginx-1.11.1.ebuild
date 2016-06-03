@@ -876,6 +876,7 @@ src_prepare() {
 
 		epatch "${FILESDIR}"/passenger5-gentoo.patch
 		epatch "${FILESDIR}"/passenger5-ldflags.patch
+		epatch "${FILESDIR}"/passenger5-isnan.patch
 		epatch "${FILESDIR}"/passenger-contenthandler.patch
 
 		sed -r \
