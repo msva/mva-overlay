@@ -33,6 +33,7 @@
 	<flag name='nginx_modules_http_ndk'></flag>
 	<flag name='nginx_modules_http_njs'></flag>
 	<flag name='nginx_modules_http_pagespeed'></flag>
+	<flag name='nginx_modules_http_passenger'></flag>
 	<flag name='nginx_modules_http_postgres'></flag>
 	<flag name='nginx_modules_http_rds_csv'></flag>
 	<flag name='nginx_modules_http_rds_json'></flag>
