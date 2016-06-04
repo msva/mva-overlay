@@ -9,6 +9,6 @@
 		<remote-id type="github">larsenwork/monoid</remote-id>
 	</upstream>
 <use>
-    <flag name='webfonts'>Build web versions (woff) of the font (and it's variants)</flag>
+    <flag name='woff'>Build web versions (woff) of the font (and it's variants)</flag>
 </use>
 </pkgmetadata>
