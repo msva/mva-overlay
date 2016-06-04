@@ -26,7 +26,7 @@ RDEPEND="
 	dev-perl/DBIx-Custom
 	dev-perl/Text-Markdown-Hoedown
 	dev-perl/Data-Page
-	perl-core/Module-CoreList
+	virtual/perl-Module-CoreList
 	dev-perl/Config-Tiny
 	dev-perl/Time-Moment
 "

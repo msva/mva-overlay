@@ -7,6 +7,7 @@ python:
     - pypy
 env:
     - PORTAGE_VER="2.3.0_rc1"
+install: "pip install lxml"
 before_script:
     - mkdir travis-overlay
     - mv !(travis-overlay) travis-overlay/
