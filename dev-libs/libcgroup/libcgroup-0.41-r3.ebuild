@@ -1,20 +1,19 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
+# $Id$
 
-EAPI=5
+EAPI="5"
 
-inherit autotools eutils systemd flag-o-matic linux-info pam user versionator
+inherit autotools eutils systemd flag-o-matic linux-info pam user
 
 DESCRIPTION="Tools and libraries to configure and manage kernel control groups"
 HOMEPAGE="http://libcg.sourceforge.net/"
-MY_P="${PN}-$(replace_version_separator 2 .)"
-
-SRC_URI="mirror://sourceforge/project/libcg/${PN}/v${PV}/${MY_P}.tar.bz2"
+SRC_URI="mirror://sourceforge/project/libcg/${PN}/v${PV}/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
-IUSE="+daemon elibc_musl pam static-libs systemd +tools"
+IUSE="+daemon elibc_musl debug pam static-libs systemd +tools"
 
 RDEPEND="pam? ( virtual/pam )"
 
@@ -26,17 +25,13 @@ DEPEND="
 	"
 REQUIRED_USE="daemon? ( tools )"
 
-S="${WORKDIR}/${MY_P}"
-
 DOCS=(README_daemon README README_systemd INSTALL)
 pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS"
-
 	if use daemon; then
 		CONFIG_CHECK="${CONFIG_CHECK} ~CONNECTOR ~PROC_EVENTS"
 		enewgroup cgred 160
 	fi
-
 	linux-info_pkg_setup
 }
 
@@ -82,6 +77,7 @@ src_configure() {
 	econf \
 		$(use_enable static-libs static) \
 		$(use_enable daemon) \
+		$(use_enable debug) \
 		$(use_enable pam) \
 		$(use_enable tools) \
 		${my_conf[@]}
@@ -102,30 +98,15 @@ src_install() {
 	doins samples/*.conf || die
 
 	if use tools; then
-		newconfd "${FILESDIR}"/cgconfig.confd cgconfig || die
-		newinitd "${FILESDIR}"/cgconfig.initd cgconfig || die
+		newconfd "${FILESDIR}"/cgconfig.confd-r1 cgconfig || die
+		newinitd "${FILESDIR}"/cgconfig.initd-r1 cgconfig || die
 		systemd_dounit "${FILESDIR}"/cgconfig.service  || die
 	fi
 
 	if use daemon; then
-		newconfd "${FILESDIR}"/cgred.confd cgred || die
-		newinitd "${FILESDIR}"/cgred.initd cgred || die
+		newconfd "${FILESDIR}"/cgred.confd-r1 cgred || die
+		newinitd "${FILESDIR}"/cgred.initd-r1 cgred || die
 		systemd_dounit "${FILESDIR}"/cgrules.service || die
 		systemd_dounit "${FILESDIR}"/cgrules.socket  || die
 	fi
-}
-
-pkg_postinst() {
-	elog "Read the kernel docs on cgroups, related schedulers, and the"
-	elog "block I/O controllers.  The Redhat Resource Management Guide"
-	elog "is also helpful.  DO NOT enable the cgroup namespace subsytem"
-	elog "if you want a custom config, rule processing, etc.  This option"
-	elog "should only be enabled for a VM environment.  The UID wildcard"
-	elog "rules seem to work only without a custom config (since wildcards"
-	elog "don't work in config blocks).  Specific user-id configs *do*"
-	elog "work, but be careful about how the mem limits add up if using"
-	elog "the memory.limit_* directives.  There should be a basic task"
-	elog "partitioning into the default group when running cgred with no"
-	elog "specific config blocks or rules (other than the mount directive)."
-	elog "See the docs for the pam module config, and as always, RTFM..."
 }

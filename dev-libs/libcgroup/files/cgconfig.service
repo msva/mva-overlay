@@ -11,6 +11,7 @@ Before=basic.target shutdown.target
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/sbin/cgconfigparser -l /etc/cgroup/cgconfig.conf -s 1664
+ExecStartPost=sh -c 'for pid in $(ps --no-headers -eL o tid); do /usr/sbin/cgclassify ${pid}; done'
 ExecStop=/usr/sbin/cgclear -l /etc/cgroup/cgconfig.conf -e
 
 [Install]
