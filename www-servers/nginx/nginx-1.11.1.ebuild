@@ -99,7 +99,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="0.99.15"
+HTTP_NCHAN_MODULE_PV="0.99.16"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -181,7 +181,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 HTTP_DRIZZLE_MODULE_A="openresty"
 HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
 HTTP_DRIZZLE_MODULE_PV="0.1.9"
-HTTP_DRIZZLE_MODULE_SHA="5ef6a16bbae1a921b45ae89ae66f8e82271ea834"
+HTTP_DRIZZLE_MODULE_SHA="e37b98d8e5b5eef008a5e77b73343ce2d1aa8df2"
 HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_SHA:-${HTTP_DRIZZLE_MODULE_PV}}"
 HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/${HTTP_DRIZZLE_MODULE_SHA:-v${HTTP_DRIZZLE_MODULE_PV}}.tar.gz"
 HTTP_DRIZZLE_MODULE_WD="${WORKDIR}/${HTTP_DRIZZLE_MODULE_P}"
@@ -316,8 +316,8 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/${HTTP_SLOWFS_CACHE_MODULE_P}"
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/tags , BSD)
 HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
-HTTP_FANCYINDEX_MODULE_PV="0.3.6"
-HTTP_FANCYINDEX_MODULE_SHA="ba8b4ece63da157f5eec4df3d8fdc9108b05b3eb"
+HTTP_FANCYINDEX_MODULE_PV="0.4.0"
+#HTTP_FANCYINDEX_MODULE_SHA="ba8b4ece63da157f5eec4df3d8fdc9108b05b3eb"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_SHA:-${HTTP_FANCYINDEX_MODULE_PV}}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/${HTTP_FANCYINDEX_MODULE_P}"
@@ -370,7 +370,7 @@ HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 HTTP_SECURITY_MODULE_A="SpiderLabs"
 HTTP_SECURITY_MODULE_PN="ModSecurity"
 HTTP_SECURITY_MODULE_PV="2.9.1"
-HTTP_SECURITY_MODULE_SHA="808ea48263f2123ea7b8d56678b16ea42855cfb3"
+HTTP_SECURITY_MODULE_SHA="a2bb610d7c6909cf8c8de259e206c00342eb6c7e"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -799,13 +799,17 @@ pkg_setup() {
 
 	if use nginx_modules_http_passenger; then
 		use debug && append-flags -DPASSENGER_DEBUG
+### QA
 		append-cflags "-fno-strict-aliasing -Wno-unused-result -Wno-unused-variable"
 		append-cxxflags "-fno-strict-aliasing -Wno-unused-result -Wno-unused-variable"
+### /QA
 		ruby-ng_pkg_setup
 	fi
 
 	if use nginx_modules_http_hls_audio; then
+### QA
 		append-cflags "-Wno-deprecated-declarations"
+### /QA
 	fi
 
 	if use !http; then
@@ -1369,8 +1373,10 @@ src_configure() {
 	if use nginx_modules_http_security; then
 		pushd "${HTTP_SECURITY_MODULE_WD}" &>/dev/null
 		append-cflags "-I/usr/include/apache2";
+
 		./autogen.sh
-		econf \
+### QA: append-cflags doesn't work, since it works globbaly (and causes problems with c++ apps)
+		CFLAGS="${CFLAGS} -Wno-implicit-function-declaration" econf \
 			--enable-standalone-module \
 			--enable-extentions \
 			--enable-request-early \
@@ -1412,11 +1418,12 @@ src_configure() {
 	use nginx_modules_http_security && \
 		sedargs+=(-e "s|/${P}/|/|g;s|/nginx/modsecurity||g")
 	use nginx_modules_http_njs && \
-		sedargs+=(-e "s|/${P}/|/|g;s|/nginx||g")
+		sedargs+=(-e "s|/${P}/|/|g;s|(/njs-[^/]*)/nginx |\1 |g")
 	use nginx_modules_http_naxsi && \
 		sedargs+=(-e "s|/${P}/|/|g;s|/naxsi_src||g")
 	use nginx_modules_http_passenger && \
-		sedargs+=(-e "s|/${P}/|/|g;s|/src/nginx_module||g;s|/src_module||g;s|-release||")
+		sedargs+=(-e "s|/${P}/|/|g;s|/src/nginx_module||g;s|/src_module||g;s|(passenger)-release|\1|")
+
 	sed -i -r "${sedargs[@]}" "${S}/objs/ngx_auto_config.h"
 }
 
