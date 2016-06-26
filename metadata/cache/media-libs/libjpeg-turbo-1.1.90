@@ -1,0 +1,22 @@
+!media-libs/jpeg:0 amd64? ( || ( dev-lang/nasm dev-lang/yasm ) ) x86? ( || ( dev-lang/nasm dev-lang/yasm ) ) amd64-linux? ( || ( dev-lang/nasm dev-lang/yasm ) ) x86-linux? ( || ( dev-lang/nasm dev-lang/yasm ) ) java? ( >=virtual/jdk-1.5 ) java? ( >=dev-java/java-config-2.2.0-r3 )
+!media-libs/jpeg:0 java? ( >=virtual/jre-1.5 ) java? ( >=dev-java/java-config-2.2.0-r3 )
+0
+mirror://sourceforge/libjpeg-turbo/libjpeg-turbo-1.1.90.tar.gz mirror://debian/pool/main/libj/libjpeg8/libjpeg8_8c-2.debian.tar.gz
+
+http://libjpeg-turbo.virtualgl.org/ http://sourceforge.net/projects/libjpeg-turbo/
+BSD
+MMX, SSE, and SSE2 SIMD accelerated JPEG library
+~amd64 ~arm ~hppa ~x86 ~amd64-linux ~x86-linux
+eutils java-pkg-opt-2 java-utils-2 libtool multilib toolchain-funcs versionator
+java static-libs pic elibc_FreeBSD java
+
+
+
+5
+
+compile configure install preinst prepare setup test
+
+
+
+
+

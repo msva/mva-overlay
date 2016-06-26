@@ -1,0 +1,22 @@
+
+
+2
+mirror://apache/httpd/httpd-2.4.20.tar.bz2 http://dev.gentoo.org/~polynomial-c/dist/apache/gentoo-apache-2.4.10-r1-20140731.tar.bz2
+
+http://httpd.apache.org/
+Apache-2.0
+Header files from the Apache Web Server
+~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~amd64-linux ~x64-macos ~x86-macos ~m68k-mint ~sparc64-solaris ~x64-solaris
+
+
+
+
+
+5
+
+compile install prepare
+
+
+
+
+

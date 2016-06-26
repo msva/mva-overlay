@@ -1,0 +1,22 @@
+
+x11-base/xorg-server >=x11-libs/gtk+-2.0.0
+0
+sacred.tar.bz2 iampirate? ( sacred_pirate.tar.bz2 ) linguas_ru? ( sacred_rus.tar.bz2 )
+mirror strip test
+http://www.linuxgamepublishing.com/
+EULA
+Linux port of famous RPG-game.
+~amd64 ~x86
+check-reqs eutils multilib toolchain-funcs
+iampirate linguas_ru
+
+
+
+5
+
+install postinst pretend setup
+
+
+
+
+

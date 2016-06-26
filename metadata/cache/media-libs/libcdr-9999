@@ -1,0 +1,22 @@
+app-text/libwpd:0.9 app-text/libwpg:0.2 dev-libs/icu:= media-libs/lcms:2 sys-libs/zlib dev-libs/librevenge dev-libs/boost sys-devel/libtool virtual/pkgconfig doc? ( app-doc/doxygen ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 >=dev-vcs/git-1.8.2.1
+app-text/libwpd:0.9 app-text/libwpg:0.2 dev-libs/icu:= media-libs/lcms:2 sys-libs/zlib dev-libs/librevenge
+0
+
+
+http://www.freedesktop.org/wiki/Software/libcdr
+LGPL-2.1
+Library parsing the Corel cdr documents
+
+autotools eutils git-r3 libtool multilib toolchain-funcs
+doc static-libs
+
+
+
+6
+
+configure install prepare unpack
+
+
+
+
+

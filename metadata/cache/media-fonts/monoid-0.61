@@ -1,0 +1,22 @@
+X? ( x11-apps/mkfontdir media-fonts/encodings )
+
+0
+mirror://gentoo/monoid-0.61.tar.gz monoisome? ( https://github.com/larsenwork/monoid/raw/0abc451aaaa650198c065cd97aea4e7895931227/Monoisome/Monoisome-Regular.ttf -> Monoisome-Regular-0abc451aaaa650198c065cd97aea4e7895931227.ttf )
+binchecks strip
+http://larsenwork.com/monoid https://github.com/larsenwork/monoid
+MIT OFL-1.1
+Open source coding font
+alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86 ~x86-fbsd
+eutils font multilib toolchain-funcs
++monoisome X
+
+
+
+6
+
+install postinst postrm setup unpack
+
+
+
+
+

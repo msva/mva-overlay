@@ -1,0 +1,22 @@
+dev-libs/libgcrypt:0= net-misc/curl[ssl] sys-libs/ncurses:0= sys-libs/zlib charset? ( virtual/libiconv ) guile? ( dev-scheme/guile:12 ) lua? ( !luajit? ( || ( dev-lang/lua:0[deprecated] dev-lang/lua:5.1[deprecated] ) ) luajit? ( >=dev-lang/luajit-2 ) ) nls? ( virtual/libintl ) perl? ( dev-lang/perl ) python? ( python_single_target_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) python_single_target_python3_3? ( >=dev-lang/python-3.3.2-r2:3.3 ) python_single_target_python3_4? ( dev-lang/python:3.4 ) python_single_target_python3_5? ( dev-lang/python:3.5 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,python_targets_python3_3(-)?,python_targets_python3_4(-)?,python_targets_python3_5(-)?,-python_single_target_jython2_7(-),-python_single_target_pypy(-),-python_single_target_pypy3(-),python_single_target_python2_7(+)?,python_single_target_python3_3(+)?,python_single_target_python3_4(+)?,python_single_target_python3_5(+)?] ) ruby? ( || ( dev-lang/ruby:2.3 dev-lang/ruby:2.2 dev-lang/ruby:2.1 dev-lang/ruby:2.0 ) ) ssl? ( net-libs/gnutls ) spell? ( app-text/aspell ) tcl? ( >=dev-lang/tcl-8.4.15:0= ) doc? ( app-text/asciidoc dev-util/source-highlight ) nls? ( >=sys-devel/gettext-0.15 ) test? ( dev-util/cpputest ) sys-devel/make >=dev-util/cmake-2.8.12 >=dev-vcs/git-1.8.2.1
+dev-libs/libgcrypt:0= net-misc/curl[ssl] sys-libs/ncurses:0= sys-libs/zlib charset? ( virtual/libiconv ) guile? ( dev-scheme/guile:12 ) lua? ( !luajit? ( || ( dev-lang/lua:0[deprecated] dev-lang/lua:5.1[deprecated] ) ) luajit? ( >=dev-lang/luajit-2 ) ) nls? ( virtual/libintl ) perl? ( dev-lang/perl ) python? ( python_single_target_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) python_single_target_python3_3? ( >=dev-lang/python-3.3.2-r2:3.3 ) python_single_target_python3_4? ( dev-lang/python:3.4 ) python_single_target_python3_5? ( dev-lang/python:3.5 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,python_targets_python3_3(-)?,python_targets_python3_4(-)?,python_targets_python3_5(-)?,-python_single_target_jython2_7(-),-python_single_target_pypy(-),-python_single_target_pypy3(-),python_single_target_python2_7(+)?,python_single_target_python3_3(+)?,python_single_target_python3_4(+)?,python_single_target_python3_5(+)?] ) ruby? ( || ( dev-lang/ruby:2.3 dev-lang/ruby:2.2 dev-lang/ruby:2.1 dev-lang/ruby:2.0 ) ) ssl? ( net-libs/gnutls ) spell? ( app-text/aspell ) tcl? ( >=dev-lang/tcl-8.4.15:0= )
+0
+
+test
+http://weechat.org/
+GPL-3
+Portable and multi-interface IRC client
+
+cmake-utils eutils flag-o-matic git-r3 multilib python-single-r1 python-utils-r1 toolchain-funcs versionator
+doc nls +ssl test linguas_cs linguas_de linguas_es linguas_fr linguas_hu linguas_it linguas_ja linguas_pl linguas_pt_BR linguas_ru linguas_tr guile lua luajit +perl +python ruby tcl +alias +charset +exec +fifo +logger +relay +scripts +spell +trigger +xfer +irc python_targets_python2_7 python_targets_python3_3 python_targets_python3_4 python_targets_python3_5 python_single_target_python2_7 python_single_target_python3_3 python_single_target_python3_4 python_single_target_python3_5
+
+
+
+5
+
+compile configure install prepare setup test unpack
+
+
+
+
+

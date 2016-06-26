@@ -1,0 +1,22 @@
+dev-lang/perl:=[-build(-)]
+dev-perl/Device-SerialPort dev-lang/perl:=[-build(-)]
+0
+mirror://cpan/authors/id/C/CO/COSIMO/Device-Modem-1.56.tar.gz
+
+http://search.cpan.org/dist/Device-Modem/
+|| ( Artistic GPL-1+ )
+Perl extension to talk to modem devices connected via serial port
+alpha amd64 ~arm hppa ia64 ~mips ppc sparc x86
+eutils multilib multiprocessing perl-functions perl-module toolchain-funcs unpacker
+
+
+
+
+5
+
+compile configure install prepare test unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+virtual/pkgconfig >=sys-devel/autoconf-2.63 test? ( dev-lang/tcl:0= ) || ( virtual/lua dev-lang/lua:0 >=dev-lang/luajit-2 ) tcmalloc? ( dev-util/google-perftools ) jemalloc? ( >=dev-libs/jemalloc-3.2 ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 virtual/pkgconfig
+|| ( virtual/lua dev-lang/lua:0 >=dev-lang/luajit-2 ) tcmalloc? ( dev-util/google-perftools ) jemalloc? ( >=dev-libs/jemalloc-3.2 )
+0
+http://download.redis.io/releases/redis-3.0.4.tar.gz
+
+http://redis.io/
+BSD
+A persistent caching system, key-value and data structures database
+~amd64 ~arm ~hppa ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x86-macos ~x86-solaris
+autotools eutils flag-o-matic libtool multilib systemd toolchain-funcs user
++jemalloc luajit tcmalloc test
+?? ( tcmalloc jemalloc )
+
+
+5
+
+compile configure install prepare setup
+
+
+
+
+

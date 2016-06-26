@@ -1,0 +1,22 @@
+media-libs/libdmtx !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 >=sys-devel/m4-1.4.3 >=sys-devel/libtool-1.5.18 php_targets_php7-0? ( dev-lang/php:7.0 ) >=dev-vcs/git-1.8.2.1
+media-libs/libdmtx php_targets_php7-0? ( dev-lang/php:7.0 )
+0
+
+
+https://github.com/dmtx/php-dmtx
+PHP-3.01
+PHP bindings for the dmtx library
+
+autotools eutils flag-o-matic git-r3 libtool multilib php-ext-source-r2 toolchain-funcs
+php_targets_php7-0
+|| ( php_targets_php7-0 )
+
+
+5
+
+compile configure install prepare unpack
+
+
+
+
+

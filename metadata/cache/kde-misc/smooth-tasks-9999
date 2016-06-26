@@ -1,0 +1,22 @@
+>=kde-base/libtaskmanager-4.8:4[aqua=] >=sys-apps/sed-4 >=dev-vcs/git-1.8.2.1 sys-devel/make >=dev-util/cmake-2.8.12 dev-util/automoc virtual/pkgconfig !aqua? ( >=x11-libs/libXtst-1.1.0 x11-proto/xf86vidmodeproto ) dev-lang/perl >=dev-qt/qt3support-4.8.5:4[accessibility] >=dev-qt/qtcore-4.8.5:4[qt3support,ssl] >=dev-qt/qtdbus-4.8.5:4 >=dev-qt/designer-4.8.5:4 >=dev-qt/qtgui-4.8.5:4[accessibility,dbus(+)] >=dev-qt/qtscript-4.8.5:4 >=dev-qt/qtsql-4.8.5:4[qt3support] >=dev-qt/qtsvg-4.8.5:4 >=dev-qt/qttest-4.8.5:4 >=dev-qt/qtwebkit-4.8.5:4 >=kde-base/kdelibs-4.8:4[aqua=] dev-vcs/mercurial
+>=kde-base/libtaskmanager-4.8:4[aqua=] >=kde-base/plasma-workspace-4.8:4[aqua=] kde-frameworks/oxygen-icons dev-lang/perl >=dev-qt/qt3support-4.8.5:4[accessibility] >=dev-qt/qtcore-4.8.5:4[qt3support,ssl] >=dev-qt/qtdbus-4.8.5:4 >=dev-qt/designer-4.8.5:4 >=dev-qt/qtgui-4.8.5:4[accessibility,dbus(+)] >=dev-qt/qtscript-4.8.5:4 >=dev-qt/qtsql-4.8.5:4[qt3support] >=dev-qt/qtsvg-4.8.5:4 >=dev-qt/qttest-4.8.5:4 >=dev-qt/qtwebkit-4.8.5:4 >=kde-base/kdelibs-4.8:4[aqua=]
+4
+
+
+https://bitbucket.org/flupp/smooth-tasks-fork
+GPL-2
+Alternate taskbar KDE plasmoid, similar to Windows 7
+
+cmake-utils eutils fdo-mime flag-o-matic git-r3 gnome2-utils kde4-base kde4-functions mercurial multilib toolchain-funcs versionator virtualx xdg-utils
+debug aqua
+
+
+
+5
+
+compile configure install postinst postrm preinst prepare setup test unpack
+
+
+
+
+

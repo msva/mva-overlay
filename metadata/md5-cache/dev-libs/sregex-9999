@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile configure install prepare test unpack
+DEPEND=>=dev-vcs/git-1.8.2.1
+DESCRIPTION=A non-backtracking regex engine matching on data streams
+EAPI=6
+HOMEPAGE=https://github.com/openresty/sregex
+IUSE=abi_x86_32 abi_x86_64 abi_x86_x32 abi_mips_n32 abi_mips_n64 abi_mips_o32 abi_ppc_32 abi_ppc_64 abi_s390_32 abi_s390_64
+LICENSE=BSD
+SLOT=0
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	git-r3	00f60a84fc7b499c99edfe99caea9f95	multibuild	742139c87a9fa3766f0c2b155e5522bf	multilib	d062ae4ba2fc40a19c11de2ad89b6616	multilib-build	8fe2e81aeb36cdf8a6cc5f50443879cc	multilib-minimal	0224dee31c0f98405d572e14ad6dee65	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1
+_md5_=1da7af5539e1517c4d3c4f05517226c4

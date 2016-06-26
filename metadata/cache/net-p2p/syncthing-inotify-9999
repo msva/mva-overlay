@@ -1,0 +1,22 @@
+dev-lang/go dev-go/godep virtual/pkgconfig >=dev-vcs/git-1.8.2.1
+dev-lang/go dev-go/godep
+0
+
+
+http://syncthing.net
+MIT
+Open, trustworthy and decentralized sync engine (like DropBox/BTSync)
+
+eutils git-r3 multilib systemd toolchain-funcs
+
+
+
+
+6
+
+compile install unpack
+
+
+
+
+

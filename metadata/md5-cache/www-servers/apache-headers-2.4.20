@@ -1,0 +1,9 @@
+DEFINED_PHASES=compile install prepare
+DESCRIPTION=Header files from the Apache Web Server
+EAPI=5
+HOMEPAGE=http://httpd.apache.org/
+KEYWORDS=~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~amd64-linux ~x64-macos ~x86-macos ~m68k-mint ~sparc64-solaris ~x64-solaris
+LICENSE=Apache-2.0
+SLOT=2
+SRC_URI=mirror://apache/httpd/httpd-2.4.20.tar.bz2 http://dev.gentoo.org/~polynomial-c/dist/apache/gentoo-apache-2.4.10-r1-20140731.tar.bz2
+_md5_=8ac8ffba8ec51e2b6e722411ff32d515

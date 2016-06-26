@@ -1,0 +1,22 @@
+net-misc/ofono virtual/pkgconfig
+net-misc/ofono
+0
+mirror://kernel/linux/network/ofono/phonesim-1.20.tar.xz
+
+http://ofono.org/
+GPL-2
+Phone Simulator for modem testing (oFono)
+~amd64 ~arm ~x86
+multilib toolchain-funcs
+
+
+
+
+5
+
+-
+
+
+
+
+

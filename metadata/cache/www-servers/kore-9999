@@ -1,0 +1,22 @@
+dev-libs/openssl:* sys-libs/zlib dev-vcs/git
+dev-libs/openssl:* sys-libs/zlib
+0
+
+
+https://kore.io/
+ISC
+A fast SPDY capable webserver for web development in C
+
+git-2 multilib toolchain-funcs vcs-snapshot
+
+
+
+
+5
+
+compile install prepare unpack
+
+
+
+
+

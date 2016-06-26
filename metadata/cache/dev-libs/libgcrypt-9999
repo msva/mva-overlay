@@ -1,0 +1,22 @@
+~dev-libs/libgpg-error-9999 doc? ( media-gfx/transfig ) dev-vcs/git !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+~dev-libs/libgpg-error-9999
+0
+
+
+http://www.gnupg.org/
+LGPL-2.1 MIT
+General purpose crypto library based on the code used in GnuPG
+
+autotools eutils git-2 libtool multilib toolchain-funcs
+static-libs +doc
+
+
+
+5
+
+configure install prepare unpack
+
+
+
+
+

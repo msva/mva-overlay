@@ -1,0 +1,22 @@
+app-shells/zsh app-shells/gentoo-zsh-completions >=dev-vcs/git-1.8.2.1
+app-shells/zsh app-shells/gentoo-zsh-completions
+0
+
+
+http://gentoo.org
+ZSH
+Programmable Completion for zsh (includes emerge and ebuild commands)
+
+eutils git-r3 multilib toolchain-funcs
+
+
+
+
+5
+
+install postinst unpack
+
+
+
+
+

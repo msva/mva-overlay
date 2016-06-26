@@ -1,0 +1,22 @@
+net-libs/nodejs media-gfx/fontforge media-gfx/ttfautohint media-gfx/otfcc woff? ( media-gfx/sfnt2woff media-gfx/woff2 ) X? ( x11-apps/mkfontdir media-fonts/encodings ) >=dev-vcs/git-1.8.2.1
+
+0
+
+binchecks strip
+https://be5invis.github.io/Iosevka
+OFL-1.1
+Open source coding font
+
+eutils font git-r3 multilib toolchain-funcs
++woff X
+
+
+
+6
+
+compile install postinst postrm prepare setup unpack
+
+
+
+
+

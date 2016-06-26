@@ -1,0 +1,22 @@
+dev-vcs/git
+
+0
+
+
+http://www.libdmtx.org/
+LGPL-2.1
+Barcode data matrix reading and writing library
+
+git-2
+static-libs
+
+
+
+5
+
+configure install unpack
+
+
+
+
+

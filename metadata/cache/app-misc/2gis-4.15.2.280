@@ -1,0 +1,22 @@
+!!<=app-misc/2gis-4.0 !app-misc/2gis-data !app-misc/2gis-plugins dev-qt/qtcore:5 dev-qt/qtgui:5 dev-qt/qtnetwork:5 dev-qt/qtopengl:5 dev-qt/qtwidgets:5 dev-qt/qtwebkit:5 media-libs/mesa
+!!<=app-misc/2gis-4.0 !app-misc/2gis-data !app-misc/2gis-plugins dev-qt/qtcore:5 dev-qt/qtgui:5 dev-qt/qtnetwork:5 dev-qt/qtopengl:5 dev-qt/qtwidgets:5 dev-qt/qtwebkit:5 media-libs/mesa
+0
+x86? ( http://deb.2gis.ru/pool/non-free/2/2gis/2gis_4.15.2-0trusty1+shv280+r15_i386.deb ) amd64? ( http://deb.2gis.ru/pool/non-free/2/2gis/2gis_4.15.2-0trusty1+shv280+r339_amd64.deb )
+
+http://2gis.ru
+2Gis-ru
+Proprietary freeware multimedia map of several Russian and Ukrainian towns
+~x86 ~amd64
+eutils multilib toolchain-funcs unpacker versionator
++data
+
+
+
+5
+
+install prepare unpack
+
+
+
+
+

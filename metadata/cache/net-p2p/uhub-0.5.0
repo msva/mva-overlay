@@ -1,0 +1,22 @@
+>=dev-util/cmake-2.8.3 ssl? ( >=dev-libs/openssl-0.9.8:* ) sys-devel/make >=dev-util/cmake-2.8.12
+ssl? ( >=dev-libs/openssl-0.9.8:* )
+0
+http://www.extatic.org/downloads/uhub/uhub-0.5.0-src.tar.bz2
+
+https://www.uhub.org/
+GPL-3
+High performance peer-to-peer hub for the ADC network
+~amd64 ~x86
+cmake-utils eutils flag-o-matic multilib toolchain-funcs versionator
+debug +ssl systemd
+
+
+
+5
+
+compile configure install postinst prepare test
+
+
+
+
+

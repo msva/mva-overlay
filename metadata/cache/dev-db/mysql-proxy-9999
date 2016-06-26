@@ -1,0 +1,22 @@
+>=dev-libs/libevent-1.4 >=dev-libs/glib-2.16 || ( virtual/lua dev-lang/lua:0 >=dev-lang/luajit-2 ) >=virtual/mysql-5.0 virtual/pkgconfig >=dev-vcs/bzr-2.0.1
+>=dev-libs/libevent-1.4 >=dev-libs/glib-2.16 || ( virtual/lua dev-lang/lua:0 >=dev-lang/luajit-2 )
+0
+
+test
+http://forge.mysql.com/wiki/MySQL_Proxy
+GPL-2
+A Proxy for the MySQL Client/Server protocol
+~amd64 ~x86
+bzr eutils multilib toolchain-funcs
+examples
+
+
+
+5
+
+configure install postinst prepare unpack
+
+
+
+
+

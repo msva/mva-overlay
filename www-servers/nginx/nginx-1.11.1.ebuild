@@ -38,7 +38,7 @@ HTTP_TCPPROXY_MODULE_WD="${WORKDIR}/${HTTP_TCPPROXY_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.0.28"
+HTTP_PASSENGER_MODULE_PV="5.0.29"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -176,6 +176,15 @@ HTTP_LUA_MODULE_PV="0.10.5"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
+
+# stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
+STREAM_LUA_MODULE_A="openresty"
+STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
+STREAM_LUA_MODULE_PV="0.0.2"
+STREAM_LUA_MODULE_SHA="1ba87eef9761bb0c2b301cbe6957335baa064db3"
+STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
+STREAM_LUA_MODULE_URI="https://github.com/${STREAM_LUA_MODULE_A}/${STREAM_LUA_MODULE_PN}/archive/${STREAM_LUA_MODULE_SHA:-v${STREAM_LUA_MODULE_PV}}.tar.gz"
+STREAM_LUA_MODULE_WD="${WORKDIR}/${STREAM_LUA_MODULE_P}"
 
 # http_drizzle NginX Drizzle module (https://github.com/openresty/drizzle-nginx-module/tags, BSD)
 HTTP_DRIZZLE_MODULE_A="openresty"
@@ -461,6 +470,7 @@ SRC_URI="
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} -> ${HTTP_REDIS_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
+	nginx_modules_stream_lua? ( ${STREAM_LUA_MODULE_URI} -> ${STREAM_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_lua_upstream? ( ${HTTP_LUA_UPSTREAM_MODULE_URI} -> ${HTTP_LUA_UPSTREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_replace_filter? ( ${HTTP_REPLACE_FILTER_MODULE_URI} -> ${HTTP_REPLACE_FILTER_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( ${HTTP_FORM_INPUT_MODULE_URI} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
@@ -588,6 +598,7 @@ NGINX_MODULES_3RD="
 	http_ndk
 	http_redis
 	http_lua
+	stream_lua
 	http_lua_upstream
 	http_replace_filter
 	http_form_input
@@ -632,6 +643,7 @@ NGINX_MODULES_DYN="
 REQUIRED_USE="
 		luajit? ( nginx_modules_http_lua )
 		nginx_modules_http_v2? ( ssl )
+		nginx_modules_stream_lua? ( ssl )
 		nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
 		nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
 		nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
@@ -694,6 +706,23 @@ CDEPEND="
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl:* ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
+	nginx_modules_stream_lua? (
+		|| (
+			virtual/lua[luajit=]
+			!luajit? (
+				|| (
+					( virtual/lua <dev-lang/lua-5.2 )
+					<dev-lang/lua-5.2:0
+				)
+			)
+			luajit? (
+				|| (
+					virtual/lua[luajit]
+					>=dev-lang/luajit-2
+				)
+			)
+		)
+	)
 	nginx_modules_http_lua? (
 		|| (
 			virtual/lua[luajit=]
@@ -864,6 +893,12 @@ src_prepare() {
 			sed -i -e "/${module}/d" auto/install || die
 		fi
 	done
+
+	if use luajit && use nginx_modules_http_lua; then
+		sed -r \
+			-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
+			-i "${STREAM_LUA_MODULE_WD}/config"
+	fi
 
 	if use luajit && use nginx_modules_http_lua; then
 		sed -r \
@@ -1342,6 +1377,21 @@ src_configure() {
 		use ssl && myconf+=" --with-mail_ssl_module"
 	fi
 
+
+# stream_lua
+	if use nginx_modules_stream_lua; then
+		stream_enabled=1
+		if use luajit; then
+			export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
+			export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
+		else
+			export LUA_LIB=$($(tc-getPKG_CONFIG) --variable libdir lua)
+			export LUA_INC=$($(tc-getPKG_CONFIG) --variable includedir lua)
+		fi
+#		myconf+=" --add-dynamic-module=${STREAM_LUA_MODULE_WD}"
+		myconf+=" --add-module=${STREAM_LUA_MODULE_WD}"
+	fi
+
 	# stream modules
 	for mod in $NGINX_MODULES_STREAM; do
 		if use nginx_modules_stream_${mod}; then
@@ -1564,6 +1614,12 @@ src_install() {
 	if use nginx_modules_http_lua; then
 		docinto "${HTTP_LUA_MODULE_P}"
 		dodoc "${HTTP_LUA_MODULE_WD}"/{Changes,README.markdown}
+	fi
+
+# stream_lua
+	if use nginx_modules_stream_lua; then
+		docinto "${STREAM_LUA_MODULE_P}"
+		dodoc "${STREAM_LUA_MODULE_WD}"/{valgrind.suppress,README.md}
 	fi
 
 # http_lua_upstream

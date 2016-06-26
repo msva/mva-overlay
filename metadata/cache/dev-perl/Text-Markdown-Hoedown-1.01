@@ -1,0 +1,22 @@
+dev-perl/File-pushd dev-perl/Module-Build dev-lang/perl:=
+dev-lang/perl:=
+0
+mirror://cpan/authors/id/T/TO/TOKUHIROM/Text-Markdown-Hoedown-1.01.tar.gz
+
+http://search.cpan.org/dist/Text-Markdown-Hoedown/
+|| ( Artistic GPL-1+ )
+Binding library for hoedown
+~amd64 ~x86
+multiprocessing perl-functions perl-module
+
+
+
+
+6
+
+compile configure install prepare test
+
+
+
+
+

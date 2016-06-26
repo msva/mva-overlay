@@ -1,0 +1,12 @@
+DEFINED_PHASES=install
+DESCRIPTION=Plugins for 2gis
+EAPI=5
+HOMEPAGE=http://2gis.ru
+IUSE=area goto mapnotes
+KEYWORDS=~x86 ~amd64
+LICENSE=2Gis-ru
+RDEPEND=app-misc/2gis
+SLOT=0
+SRC_URI=area? ( http://download.2gis.ru/arhives/ComputeAreaPlugin2.zip -> 2GIS_Plugin_ComputeArea.zip ) goto? ( http://download.2gis.ru/arhives/GoTo.zip -> 2GIS_Plugin_GoTo.zip ) mapnotes? ( http://download.2gis.ru/arhives/MapNotes.zip -> 2GIS_Plugin_MapNotes.zip )
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1
+_md5_=0e17dc9fa4db616a17879ff58ac9425f

@@ -1,0 +1,22 @@
+net-im/pidgin dev-libs/json-glib dev-libs/glib:2 sys-libs/zlib !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 dev-vcs/mercurial >=dev-vcs/git-1.8.2.1
+net-im/pidgin dev-libs/json-glib dev-libs/glib:2 sys-libs/zlib
+0
+
+
+https://github.com/jgeboski/purple-facebook
+GPL-2
+Whatsapp plugin for libpurple (Pidgin)
+
+autotools autotools-utils eutils git-r3 libtool mercurial multilib toolchain-funcs
+
+
+
+
+5
+
+compile configure install prepare test unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+net-im/pidgin >=dev-libs/libxml2-2.7 sys-devel/gettext sys-devel/make >=dev-util/cmake-2.8.12 dev-vcs/mercurial
+
+0
+
+
+https://bitbucket.org/olegoandreev/purple-vk-plugin
+GPL-3
+Pidgin plugin for vk.com social network
+
+cmake-utils eutils flag-o-matic mercurial multilib toolchain-funcs versionator
+
+
+
+
+5
+
+compile configure install prepare test unpack
+
+
+
+
+

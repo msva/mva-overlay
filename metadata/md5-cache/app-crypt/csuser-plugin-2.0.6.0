@@ -1,0 +1,14 @@
+DEFINED_PHASES=install prepare unpack
+DEPEND=>=sys-apps/pcsc-lite-1.7 >=app-crypt/asedriveiiie-usb-3.7 virtual/libusb:0 media-libs/hal-flash
+DESCRIPTION=Mozilla-compatible crypto-provider browser plugin for http://gosuslugi.ru/
+EAPI=5
+HOMEPAGE=http://gosuslugi.ru/
+IUSE=multilib
+KEYWORDS=-* ~x86 ~amd64 x86-macos x64-macos
+LICENSE=EULA
+RDEPEND=>=sys-apps/pcsc-lite-1.7 >=app-crypt/asedriveiiie-usb-3.7 virtual/libusb:0 media-libs/hal-flash
+REQUIRED_USE=amd64? ( multilib )
+SLOT=0
+SRC_URI=amd64? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-x86_64.deb ) x86? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-i386.deb ) x86-macos? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-2.0.6.0.pkg ) x64-macos? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-2.0.6.0.pkg )
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1	unpacker	45d07319df5f40ee6af58418b0f930be
+_md5_=1d152bf97053ecf85ce23e41f1c6b9a8

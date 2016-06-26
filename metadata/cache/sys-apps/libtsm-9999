@@ -1,0 +1,22 @@
+dev-libs/glib:2 virtual/pkgconfig !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 >=dev-vcs/git-1.8.2.1
+dev-libs/glib:2
+0
+
+
+http://www.freedesktop.org/wiki/Software/kmscon
+MIT LGPL-2.1 BSD-2
+A state machine for DEC VT100-VT520 compatible terminal emulators.
+
+autotools eutils flag-o-matic git-r3 libtool multilib toolchain-funcs
+debug +optimizations static-libs test
+
+
+
+5
+
+configure install prepare unpack
+
+
+
+
+

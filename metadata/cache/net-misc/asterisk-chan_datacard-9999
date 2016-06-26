@@ -1,0 +1,22 @@
+net-misc/asterisk dev-libs/libxml2 sys-libs/ncurses:0 || ( dev-vcs/subversion[http] dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+net-misc/asterisk dev-libs/libxml2 sys-libs/ncurses:0
+0
+
+
+http://www.makhutov.org/
+GPL-3
+Datacard channel for Asterisk.
+
+eutils multilib subversion toolchain-funcs
+
+
+
+
+5
+
+install preinst prepare unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+net-misc/asterisk || ( dev-vcs/subversion[http] dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+net-misc/asterisk
+0
+
+
+http://www.digium.com/
+GPL-3
+Asterisk's GUI.
+
+eutils multilib subversion toolchain-funcs
+
+
+
+
+5
+
+configure install preinst prepare unpack
+
+
+
+
+

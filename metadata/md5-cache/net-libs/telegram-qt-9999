@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile configure install prepare test unpack
+DEPEND=dev-qt/qtcore:5 dev-qt/qtdbus:5 dev-qt/qtnetwork:5 >=dev-util/cmake-2.8.12 sys-devel/make >=dev-util/cmake-2.8.12 >=dev-vcs/git-1.8.2.1
+DESCRIPTION=Telegram binding for Qt
+EAPI=5
+HOMEPAGE=https://github.com/Kaffeine/telegram-qt
+LICENSE=LGPL-2.1
+RDEPEND=dev-qt/qtcore:5 dev-qt/qtdbus:5 dev-qt/qtnetwork:5
+SLOT=0
+_eclasses_=cmake-utils	ac5bd012586c6cf0d9826400d9de2830	eutils	792f83d5ec9536cb5ccef375469d8bde	flag-o-matic	d270fa247153df66074f795fa42dba3e	git-r3	00f60a84fc7b499c99edfe99caea9f95	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
+_md5_=2e03760ef5678d037388f19e138e5fcb

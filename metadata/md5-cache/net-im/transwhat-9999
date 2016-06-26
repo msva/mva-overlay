@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile configure install prepare test unpack
+DEPEND=net-im/yowsup[encryption,python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-python/python-dateutil[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-libs/protobuf[python,python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-python/e4u[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-python/setuptools[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] >=dev-vcs/git-1.8.2.1
+DESCRIPTION=a WhatsApp XMPP Gateway backend for net-im/spectrum
+EAPI=5
+HOMEPAGE=https://github.com/stv0g/transwhat/
+IUSE=python_targets_python2_7
+LICENSE=GPL-3
+RDEPEND=net-im/yowsup[encryption,python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-python/python-dateutil[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-libs/protobuf[python,python_targets_python2_7(-)?,-python_single_target_python2_7(-)] dev-python/e4u[python_targets_python2_7(-)?,-python_single_target_python2_7(-)] python_targets_python2_7? ( >=dev-lang/python-2.7.5-r2:2.7 ) >=dev-lang/python-exec-2:=[python_targets_python2_7(-)?,-python_single_target_python2_7(-)]
+REQUIRED_USE=|| ( python_targets_python2_7 )
+SLOT=0
+_eclasses_=distutils-r1	3a17743abcc9335483329f33c87b472d	eutils	792f83d5ec9536cb5ccef375469d8bde	git-r3	00f60a84fc7b499c99edfe99caea9f95	multibuild	742139c87a9fa3766f0c2b155e5522bf	multilib	d062ae4ba2fc40a19c11de2ad89b6616	multiprocessing	e32940a7b2a9992ad217eccddb84d548	python-r1	0f6937650a475d673baa5d0c8c0b37b3	python-utils-r1	c0ed2a2f233d3af6dd556048695dc5cb	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1
+_md5_=a5512a9d6cbd13aea8f85e676ac4c2a3

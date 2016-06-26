@@ -1,0 +1,22 @@
+pam? ( virtual/pam ) sys-devel/bison sys-devel/flex elibc_musl? ( sys-libs/fts-standalone ) !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.15:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 virtual/pkgconfig
+pam? ( virtual/pam )
+0
+mirror://sourceforge/project/libcg/libcgroup/v0.41/libcgroup-0.41.tar.bz2
+
+http://libcg.sourceforge.net/
+LGPL-2.1
+Tools and libraries to configure and manage kernel control groups
+~amd64 ~ppc ~ppc64 ~x86
+autotools eutils flag-o-matic libtool linux-info multilib pam systemd toolchain-funcs user versionator
++daemon elibc_musl debug pam static-libs systemd +tools
+daemon? ( tools )
+
+
+5
+
+configure install prepare setup test
+
+
+
+
+

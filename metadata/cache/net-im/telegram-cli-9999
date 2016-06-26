@@ -1,0 +1,22 @@
+sys-libs/zlib sys-libs/readline dev-libs/libconfig dev-libs/openssl dev-libs/libevent lua? ( || ( virtual/lua dev-lang/lua dev-lang/luajit ) ) json? ( dev-libs/jansson ) python? ( dev-lang/python ) >=dev-vcs/git-1.8.2.1
+
+0
+
+
+https://github.com/vysheng/tg
+GPL-2
+Command line interface client for Telegram
+~amd64 ~x86
+eutils git-r3 multilib toolchain-funcs
++lua +json +python
+
+
+
+5
+
+configure install unpack
+
+
+
+
+

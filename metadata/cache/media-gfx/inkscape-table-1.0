@@ -1,0 +1,22 @@
+
+media-gfx/inkscape
+0
+mirror://sourceforge/inkscape-tables/inkscape-table-1.0.tar.gz
+
+http://sourceforge.net/projects/inkscape-tables/
+GPL-2
+Table support for inkscape
+~amd64 ~x86
+eutils multilib toolchain-funcs
+
+
+
+
+5
+
+install
+
+
+
+
+

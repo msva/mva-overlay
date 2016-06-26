@@ -1,0 +1,22 @@
+|| ( >=dev-lang/python-2.7.5-r2:2.7 ) net-libs/nodejs[npm] media-fonts/inconsolata gnome-base/gconf x11-libs/gtk+:2 gnome-base/libgnome-keyring x11-libs/libnotify x11-libs/libXtst dev-libs/nss media-libs/alsa-lib >=dev-vcs/git-1.8.2.1
+|| ( >=dev-lang/python-2.7.5-r2:2.7 ) net-libs/nodejs[npm] media-fonts/inconsolata gnome-base/gconf x11-libs/gtk+:2 gnome-base/libgnome-keyring x11-libs/libnotify x11-libs/libXtst dev-libs/nss media-libs/alsa-lib
+0
+
+
+https://atom.io/
+MIT
+A hackable text editor for the 21st Century
+
+eutils flag-o-matic git-r3 multilib python-any-r1 python-utils-r1 toolchain-funcs
+
+
+
+
+6
+
+compile install prepare setup unpack
+
+
+
+
+

@@ -1,0 +1,13 @@
+DEFINED_PHASES=configure prepare
+DEPEND=net-libs/libpcap !slang? ( sys-libs/ncurses:0 ) slang? ( >=sys-libs/slang-1.4 )
+DESCRIPTION=Full screen visualization of the network traffic
+EAPI=5
+HOMEPAGE=http://soft.risp.ru/trafshow/index_en.shtml
+IUSE=slang ipv6
+KEYWORDS=amd64 hppa ~ppc ppc64 sparc x86
+LICENSE=BSD
+RDEPEND=net-libs/libpcap !slang? ( sys-libs/ncurses:0 ) slang? ( >=sys-libs/slang-1.4 )
+SLOT=3
+SRC_URI=ftp://ftp.nsk.su/pub/RinetSoftware/trafshow-5.2.3.tgz
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1
+_md5_=7bdc277723ef6dd4d53d00c1e45309fa

@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile configure install prepare setup test unpack
+DEPEND=dev-perl/Mojolicious-Plugin-INIConfig dev-perl/Mojolicious dev-perl/Mojolicious-Plugin-AutoRoute dev-perl/Mojolicious-Plugin-BasicAuth dev-perl/Mojolicious-Plugin-DBViewer dev-perl/DBIx-Connector dev-perl/DBIx-Custom dev-perl/Text-Markdown-Hoedown dev-perl/Data-Page virtual/perl-Module-CoreList dev-perl/Config-Tiny dev-perl/Time-Moment dev-lang/perl:= >=dev-vcs/git-1.8.2.1
+DESCRIPTION=Github clone. you can install Github system into your unix/linux machine.
+EAPI=6
+HOMEPAGE=http://gitprep.yukikimoto.com/
+LICENSE=|| ( Artistic GPL-1+ )
+RDEPEND=dev-perl/Mojolicious-Plugin-INIConfig dev-perl/Mojolicious dev-perl/Mojolicious-Plugin-AutoRoute dev-perl/Mojolicious-Plugin-BasicAuth dev-perl/Mojolicious-Plugin-DBViewer dev-perl/DBIx-Connector dev-perl/DBIx-Custom dev-perl/Text-Markdown-Hoedown dev-perl/Data-Page virtual/perl-Module-CoreList dev-perl/Config-Tiny dev-perl/Time-Moment dev-lang/perl:=
+RESTRICT=test
+SLOT=0
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	git-r3	00f60a84fc7b499c99edfe99caea9f95	multilib	d062ae4ba2fc40a19c11de2ad89b6616	multiprocessing	e32940a7b2a9992ad217eccddb84d548	perl-functions	aac50de73be0a80ebe780e0b20850130	perl-module	c584f9e0fe426f3dcc2c46c6f7cb95ce	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1	user	906f3c8eb3a2350a4f1191a89baa3e46	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
+_md5_=da1bfb381bdfcefc7564ba60ed789fe8

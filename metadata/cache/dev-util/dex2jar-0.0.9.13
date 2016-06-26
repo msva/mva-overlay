@@ -1,0 +1,22 @@
+
+|| ( virtual/jre virtual/jdk )
+0
+http://dex2jar.googlecode.com/files/dex2jar-0.0.9.13.zip
+
+http://code.google.com/p/dex2jar/
+Apache-2.0
+Tools to work with android .dex and java .class files
+~x86 ~amd64
+
+
+
+
+
+5
+
+install prepare
+
+
+
+
+

@@ -1,0 +1,22 @@
+dev-lang/perl:=
+dev-lang/perl:=
+0
+mirror://cpan/authors/id/K/KI/KIMOTO/Object-Simple-3.16.tar.gz
+
+http://search.cpan.org/dist/Object-Simple/
+|| ( Artistic GPL-1+ )
+Real-time web framework
+~amd64 ~x86
+multiprocessing perl-functions perl-module
+
+
+
+
+6
+
+compile configure install prepare test
+
+
+
+
+

@@ -1,0 +1,22 @@
+
+
+0
+https://github.com/Distrotech/libdwarf/archive/20120410.tar.gz
+
+https://github.com/Distrotech/libdwarf
+GPL-2 LGPL-2
+Library to deal with DWARF Debugging Information Format
+~amd64 ~x86
+eutils flag-o-matic multilib toolchain-funcs
+
+
+
+
+5
+
+configure install
+
+
+
+
+

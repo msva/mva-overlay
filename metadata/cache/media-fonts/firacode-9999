@@ -1,0 +1,22 @@
+X? ( x11-apps/mkfontdir media-fonts/encodings ) >=dev-vcs/git-1.8.2.1
+
+0
+
+
+https://github.com/tonsky/FiraCode
+OFL
+A programming font with ligatures
+
+eutils font git-r3 multilib toolchain-funcs
+X
+
+
+
+6
+
+install postinst postrm setup unpack
+
+
+
+
+

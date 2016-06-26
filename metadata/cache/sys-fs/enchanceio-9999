@@ -1,0 +1,22 @@
+dev-vcs/git >=dev-vcs/git-1.8.2.1 kernel_linux? ( virtual/modutils ) sys-apps/sed kernel_linux? ( virtual/linux-sources )
+dev-vcs/git kernel_linux? ( virtual/modutils )
+0
+
+
+https://github.com/stec-inc/EnhanceIO
+GPL-2
+SSD caching software, based on Facebook's open source Flashcache project
+
+eutils git-r3 linux-info linux-mod multilib toolchain-funcs versionator
+doc kernel_linux
+
+
+
+5
+
+compile install postinst postrm preinst prepare setup unpack
+
+
+
+
+

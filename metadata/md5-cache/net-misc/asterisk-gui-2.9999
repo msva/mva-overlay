@@ -1,0 +1,10 @@
+DEFINED_PHASES=configure install preinst prepare unpack
+DEPEND=net-misc/asterisk || ( dev-vcs/subversion[http] dev-vcs/subversion[webdav-neon] dev-vcs/subversion[webdav-serf] ) net-misc/rsync
+DESCRIPTION=Asterisk's GUI.
+EAPI=5
+HOMEPAGE=http://www.digium.com/
+LICENSE=GPL-3
+RDEPEND=net-misc/asterisk
+SLOT=0
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	multilib	d062ae4ba2fc40a19c11de2ad89b6616	subversion	4fee0a764150bb4dda27ed4d2c4ed7ce	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1
+_md5_=0edf9cfd4c5146d089465fe846158613

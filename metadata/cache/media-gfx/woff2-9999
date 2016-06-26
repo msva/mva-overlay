@@ -1,0 +1,22 @@
+>=dev-vcs/git-1.8.2.1
+
+0
+
+
+https://github.com/google/woff2
+Apache-2.0
+font compression reference code
+
+eutils git-r3 multilib toolchain-funcs
+
+
+
+
+6
+
+install unpack
+
+
+
+
+

@@ -1,0 +1,22 @@
+x11-libs/libxcb sys-fs/fuse >=dev-vcs/git-1.8.2.1
+x11-libs/libxcb sys-fs/fuse
+0
+
+
+https://github.com/sdhand/x11fs
+BSD
+Self-syncing tree-merging file system based on FUSE
+
+eutils git-r3 multilib toolchain-funcs
+
+
+
+
+6
+
+install postinst unpack
+
+
+
+
+

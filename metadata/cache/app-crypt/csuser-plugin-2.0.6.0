@@ -1,0 +1,22 @@
+>=sys-apps/pcsc-lite-1.7 >=app-crypt/asedriveiiie-usb-3.7 virtual/libusb:0 media-libs/hal-flash
+>=sys-apps/pcsc-lite-1.7 >=app-crypt/asedriveiiie-usb-3.7 virtual/libusb:0 media-libs/hal-flash
+0
+amd64? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-x86_64.deb ) x86? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-i386.deb ) x86-macos? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-2.0.6.0.pkg ) x64-macos? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-2.0.6.0.pkg )
+
+http://gosuslugi.ru/
+EULA
+Mozilla-compatible crypto-provider browser plugin for http://gosuslugi.ru/
+-* ~x86 ~amd64 x86-macos x64-macos
+eutils multilib toolchain-funcs unpacker
+multilib
+amd64? ( multilib )
+
+
+5
+
+install prepare unpack
+
+
+
+
+

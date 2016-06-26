@@ -1,0 +1,22 @@
+sys-devel/make >=dev-util/cmake-2.8.12 >=dev-vcs/git-1.8.2.1
+
+0
+
+
+https://github.com/BYVoid/uchardet
+MPL-1.1
+C port of Mozilla's Automatic Charset Detection algorithm
+
+cmake-utils eutils flag-o-matic git-r3 multilib toolchain-funcs versionator
+static-libs
+
+
+
+5
+
+compile configure install prepare test unpack
+
+
+
+
+

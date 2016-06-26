@@ -1,0 +1,22 @@
+dev-libs/libgpg-error >=dev-libs/libgcrypt-1.5.0:0 sys-apps/util-linux sys-fs/lvm2 sys-devel/make >=dev-util/cmake-2.8.12
+dev-libs/libgpg-error >=dev-libs/libgcrypt-1.5.0:0 sys-apps/util-linux sys-fs/lvm2
+0
+https://github.com/bwalex/tc-play/tarball/b44b1fad854c726dda3ec7bfc96fe2d437d4343f -> tcplay-2.0.tar.gz
+test
+https://github.com/bwalex/tc-play
+BSD-2
+Free and simple TrueCrypt Implementation based on dm-crypt
+~x86 ~amd64
+cmake-utils eutils flag-o-matic multilib toolchain-funcs vcs-snapshot versionator
+static-libs test
+
+
+
+5
+
+compile configure install prepare test unpack
+
+
+
+
+

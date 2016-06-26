@@ -1,0 +1,22 @@
+net-im/pidgin dev-libs/openssl:0 virtual/libc libwebp? ( media-libs/libwebp ) >=dev-vcs/git-1.8.2.1
+net-im/pidgin dev-libs/openssl:0 virtual/libc libwebp? ( media-libs/libwebp )
+0
+
+
+https://github.com/majn/telegram-purple
+LGPL-3
+Libpurple (Pidgin) plugin for using a Telegram account
+
+eutils git-r3 multilib toolchain-funcs
++libwebp
+
+
+
+5
+
+configure unpack
+
+
+
+
+

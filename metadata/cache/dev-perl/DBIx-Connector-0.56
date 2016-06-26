@@ -1,0 +1,22 @@
+dev-perl/Module-Build dev-lang/perl:=
+dev-lang/perl:=
+0
+mirror://cpan/authors/id/D/DW/DWHEELER/DBIx-Connector-0.56.tar.gz
+
+http://search.cpan.org/dist/DBIx-Connector/
+|| ( Artistic GPL-1+ )
+Fast, safe DBI connection and transaction management
+~amd64 ~x86
+multiprocessing perl-functions perl-module
+
+
+
+
+6
+
+compile configure install prepare test
+
+
+
+
+

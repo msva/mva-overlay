@@ -1,0 +1,22 @@
+dev-qt/qtwebkit:5 app-text/discount app-text/hunspell app-text/peg-markdown >=dev-vcs/git-1.8.2.1
+dev-qt/qtwebkit:5 app-text/discount app-text/hunspell app-text/peg-markdown
+0
+
+
+https://github.com/cloose/CuteMarkEd
+GPL-2+
+QT Markdown Editor
+
+eutils git-r3 multilib qmake-utils toolchain-funcs
+
+
+
+
+5
+
+configure install unpack
+
+
+
+
+

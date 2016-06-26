@@ -1,0 +1,22 @@
+app-arch/unzip
+
+5
+https://github.com/premake/premake-core/releases/download/v5.0.0-alpha8/premake-5.0.0-alpha8-src.zip
+
+http://industriousone.com/premake
+BSD
+A makefile generation tool
+~amd64 ~ppc ~x86
+eutils flag-o-matic multilib toolchain-funcs versionator
+debug
+
+
+
+6
+
+compile install prepare
+
+
+
+
+
