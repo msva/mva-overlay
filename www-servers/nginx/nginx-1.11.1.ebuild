@@ -711,7 +711,7 @@ CDEPEND="
 			virtual/lua[luajit=]
 			!luajit? (
 				|| (
-					( virtual/lua <dev-lang/lua-5.2 )
+					( virtual/lua dev-lang/lua:5.1 )
 					<dev-lang/lua-5.2:0
 				)
 			)
@@ -1376,7 +1376,6 @@ src_configure() {
 #=dynamic"
 		use ssl && myconf+=" --with-mail_ssl_module"
 	fi
-
 
 # stream_lua
 	if use nginx_modules_stream_lua; then
