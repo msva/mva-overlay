@@ -51,10 +51,10 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
-	pushd 3rdParty || die
+	pushd 3rdParty &>/dev/null || die
 	# TODO CppUnit, Lua
 	rm -rf Boost CAres DocBook Expat LCov LibIDN OpenSSL SCons SQLite ZLib || die
-	popd || die
+	popd &>/dev/null || die
 	epatch "${FILESDIR}"/*.patch
 }
 
