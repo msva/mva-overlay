@@ -4,18 +4,17 @@
 
 EAPI=6
 
-inherit scons-utils toolchain-funcs multilib git-r3
+inherit scons-utils toolchain-funcs multilib
 
 MY_P="swift-${PV}"
 
 DESCRIPTION="Library for implementing XMPP applications."
 HOMEPAGE="http://swift.im/"
-SRC_URI=""
-EGIT_REPO_URI="git://swift.im/swift"
+SRC_URI="http://swift.im/downloads/releases/${MY_P}/${MY_P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64"
 IUSE="avahi expat gconf icu test upnp"
 
 RDEPEND="
@@ -39,8 +38,6 @@ src_prepare() {
 	# consistency of headers and linked libraries
 	rm -rf 3rdparty || die
 
-	epatch "${FILESDIR}"/swiften-libdir.patch
-
 	eapply_user
 }
 
@@ -49,7 +46,7 @@ src_configure() {
 		cc="$(tc-getCC)"
 		cxx="$(tc-getCXX)"
 		ccflags="${CFLAGS}"
-		cxxflags="${CXXFLAGS}"
+		cxxflags="${CXXFLAGS} -std=c++11"
 		link="$(tc-getCXX)"
 		linkflags="${LDFLAGS}"
 		ar="$(tc-getAR)"
