@@ -6,5 +6,6 @@
   <name>Vadim A. Misbakh-Soloviov</name>
 </maintainer>
 <use>
+	<flag name="gconf"></flag>
 </use>
 </pkgmetadata>
