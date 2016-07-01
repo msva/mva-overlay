@@ -167,6 +167,7 @@ net-im/spectrum:symlinks -
 net-im/spectrum:tools - 
 net-im/spectrum:twitter - 
 net-im/spectrum:whatsapp - 
+net-im/swiften:gconf - 
 net-im/telegram-cli:json - Enable JSON support
 net-im/telegram-cli:lua - Enable Lua scripting
 net-im/telegram-cli:python - Enable Python support
@@ -266,6 +267,7 @@ www-servers/nginx:nginx_modules_http_v2 -
 www-servers/nginx:nginx_modules_http_xss - 
 www-servers/nginx:nginx_modules_stream_access - 
 www-servers/nginx:nginx_modules_stream_limit_conn - 
+www-servers/nginx:nginx_modules_stream_lua - 
 www-servers/nginx:nginx_modules_stream_upstream_hash - 
 www-servers/nginx:nginx_modules_stream_upstream_least_conn - 
 www-servers/nginx:nginx_modules_stream_upstream_zone - 

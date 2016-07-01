@@ -7,5 +7,6 @@
 </maintainer>
 <use>
 	<flag name="gconf"></flag>
+	<flag name="luajit"></flag>
 </use>
 </pkgmetadata>

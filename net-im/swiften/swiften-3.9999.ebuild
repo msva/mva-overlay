@@ -10,6 +10,7 @@ DESCRIPTION="Library for implementing XMPP applications."
 HOMEPAGE="http://swift.im/"
 SRC_URI=""
 EGIT_REPO_URI="git://swift.im/swift"
+EGIT_BRANCH="swift-3.x"
 
 LICENSE="GPL-3"
 SLOT="0"

@@ -1,6 +1,8 @@
+diff --git a/BuildTools/SCons/SConscript.boot b/BuildTools/SCons/SConscript.boot
+index df15937..542511d 100644
 --- a/BuildTools/SCons/SConscript.boot
 +++ b/BuildTools/SCons/SConscript.boot
-@@ -220,7 +220,7 @@ env["TEST_CREATE_LIBRARIES"] = "create_test_libraries" in ARGUMENTS
+@@ -381,7 +381,7 @@ env["TEST_CREATE_LIBRARIES"] = "create_test_libraries" in ARGUMENTS
  
  # Packaging
  env["DIST"] = "dist" in ARGUMENTS or env.GetOption("clean")
@@ -9,15 +11,17 @@
      if ARGUMENTS.get(path, "") :
          if os.path.isabs(ARGUMENTS[path]) :
              env[path] = Dir(ARGUMENTS[path]).abspath
---- a/Swiften/SConscript.orig
+diff --git a/Swiften/SConscript b/Swiften/SConscript
+index 5270ac5..33ae4c6 100644
+--- a/Swiften/SConscript
 +++ b/Swiften/SConscript
-@@ -595,8 +595,9 @@
+@@ -594,8 +594,9 @@ if env["SCONS_STAGE"] == "build" :
  
      # Install swiften
      if swiften_env.get("SWIFTEN_INSTALLDIR", "") :
 -        swiften_env.Install(os.path.join(swiften_env["SWIFTEN_INSTALLDIR"], "lib"), swiften_lib)
 +        libdir = swiften_env.get("SWIFTEN_LIBDIR", os.path.join(swiften_env["SWIFTEN_INSTALLDIR"], "lib"))
-+        swiften_env.Install(libdir, swiften_lib)
++	swiften_env.Install(libdir, swiften_lib)
          for alias in myenv["SWIFTEN_LIBRARY_ALIASES"] :
 -            myenv.Command(myenv.File(os.path.join(swiften_env["SWIFTEN_INSTALLDIR"], "lib", alias)), [env.Value(swiften_lib[0].name), swiften_lib[0]], symlink)
 +            myenv.Command(myenv.File(os.path.join(libdir, alias)), [env.Value(swiften_lib[0].name), swiften_lib[0]], symlink)

@@ -15,7 +15,7 @@ SRC_URI="http://swift.im/downloads/releases/${MY_P}/${MY_P}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="avahi expat gconf icu test upnp"
+IUSE="avahi expat gconf icu luajit test upnp"
 
 RDEPEND="
 	dev-libs/boost:=
@@ -36,16 +36,24 @@ S="${WORKDIR}/${MY_P}"
 src_prepare() {
 	# remove all bundled packages to ensure
 	# consistency of headers and linked libraries
-	rm -rf 3rdparty || die
+	rm -rf 3rdparty
+
+	## temp fix
+	grep -rl boost/optional/optional_fwd.hpp Swiften | xargs sed \
+		-e 's@optional_fwd.hpp@optional.hpp@' -i
+	## /temp fix
 
 	eapply_user
 }
 
 src_configure() {
+	local lua=lua;
+	use luajit && lua=luajit;
+
 	MYSCONS=(
 		cc="$(tc-getCC)"
 		cxx="$(tc-getCXX)"
-		ccflags="${CFLAGS}"
+		ccflags="${CFLAGS} -std=c++11"
 		cxxflags="${CXXFLAGS} -std=c++11"
 		link="$(tc-getCXX)"
 		linkflags="${LDFLAGS}"
@@ -53,6 +61,8 @@ src_configure() {
 		swiften_dll=true
 		zlib_includedir=/usr/include
 		zlib_libdir=/$(get_libdir)
+		lua_includedir=$($(tc-getPKG_CONFIG) --variable includedir ${lua})
+		lua_libdir=$($(tc-getPKG_CONFIG) --variable libdir ${lua})
 		{boost,libidn,zlib}_bundled_enable=false
 		icu=$(usex icu true false)
 		try_avahi=$(usex avahi true false)
@@ -60,11 +70,13 @@ src_configure() {
 		try_expat=$(usex expat true false)
 		try_libxml=$(usex expat false true)
 		experimental_ft=$(usex upnp true false)
+		ccache=1
+		distcc=1
 	)
 }
 
 src_compile() {
-	escons V=1 "${MYSCONS[@]}" Swiften
+	escons "${MYSCONS[@]}" Swiften
 }
 
 src_install() {
