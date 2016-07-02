@@ -26,6 +26,8 @@ RDEPEND="
 	expat? ( dev-libs/expat )
 	!expat? ( dev-libs/libxml2 )
 	gconf? ( gnome-base/gconf dev-libs/glib:2 )
+	luajit? ( || ( dev-lang/luajit virtual/lua[luajit] ) )
+	!luajit? ( dev-lang/lua:* )
 	icu? ( dev-libs/icu:= )
 	upnp? ( net-libs/libnatpmp net-libs/miniupnpc:= )
 "
@@ -70,9 +72,10 @@ src_configure() {
 		try_expat=$(usex expat true false)
 		try_libxml=$(usex expat false true)
 		experimental_ft=$(usex upnp true false)
-		ccache=1
+		ccache=0
 		distcc=1
 	)
+	# ccache working fine on compile phase, but produces AV's on install phase
 }
 
 src_compile() {
@@ -80,5 +83,11 @@ src_compile() {
 }
 
 src_install() {
-	escons "${MYSCONS[@]}" SWIFTEN_INSTALLDIR="${D}/usr" "${D}/usr"
+#	sed -e "/^env_ENV = {/a\\\t'CCACHE_DIR' : '${CCACHE_DIR}'," -i BuildTools/SCons/SConscript.boot
+
+#	^^ ugly hack to semi-fix ccache on install phase (fixes installation,
+#	but it anyway trying to rebuild all files (even with ccache it takes few moments),
+#	althought do not with ccache=0)
+
+	escons "${MYSCONS[@]}" SWIFTEN_INSTALLDIR="${D}/usr" "${D}/usr" Swiften
 }
