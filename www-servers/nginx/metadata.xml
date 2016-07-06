@@ -54,6 +54,8 @@
 	<flag name='nginx_modules_stream_access'></flag>
 	<flag name='nginx_modules_stream_limit_conn'></flag>
 	<flag name='nginx_modules_stream_lua'></flag>
+	<flag name='nginx_modules_stream_map'></flag>
+	<flag name='nginx_modules_stream_return'></flag>
 	<flag name='nginx_modules_stream_upstream_hash'></flag>
 	<flag name='nginx_modules_stream_upstream_least_conn'></flag>
 	<flag name='nginx_modules_stream_upstream_zone'></flag>

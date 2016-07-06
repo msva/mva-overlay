@@ -552,6 +552,8 @@ NGINX_MODULES_STD="
 NGINX_MODULES_STREAM="
 	access
 	limit_conn
+	map
+	return
 	upstream_hash
 	upstream_least_conn
 	upstream_zone
