@@ -22,7 +22,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-QA_PREBUILT="usr/share/slack/*"
+QA_PREBUILT="usr/lib/slack/*"
 
 RDEPEND="
 	dev-libs/atk
@@ -67,6 +67,6 @@ src_prepare() {
 src_install() {
 	insinto /
 	doins -r usr
-	exeinto /usr/share/slack
-	doexe usr/share/slack/slack
+	exeinto /usr/lib/slack
+	doexe usr/lib/slack/slack
 }
