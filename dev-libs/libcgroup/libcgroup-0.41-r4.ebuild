@@ -59,28 +59,34 @@ src_prepare() {
 }
 
 src_configure() {
-	local my_conf=()
+	local myeconfargs=()
 
 	if use daemon; then
-		my_conf+=("--enable-cgred-socket=/run/cgred.socket")
+		myeconfargs+=("--enable-cgred-socket=/run/cgred.socket")
 	fi
 
 	if use systemd; then
-		my_conf+=("--enable-opaque-hierarchy=name=systemd")
+		myeconfargs+=("--enable-opaque-hierarchy=name=systemd")
 	fi
 
 	if use pam; then
-		my_conf+=("--enable-pam-module-dir=$(getpam_mod_dir)")
+		myeconfargs+=("--enable-pam-module-dir=$(getpam_mod_dir)")
+	fi
+
+	if use debug; then
+		myeconfargs+=("--enable-debug")
+		replace-flags "-O*" "-O0"
+		append-flags "-ggdb -DDEBUG"
 	fi
 
 	use elibc_musl && append-ldflags "-lfts"
+
 	econf \
 		$(use_enable static-libs static) \
 		$(use_enable daemon) \
-		$(use_enable debug) \
 		$(use_enable pam) \
 		$(use_enable tools) \
-		${my_conf[@]}
+		${myeconfargs[@]}
 }
 
 src_test() {
