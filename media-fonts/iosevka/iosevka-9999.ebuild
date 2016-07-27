@@ -31,9 +31,15 @@ RDEPEND=""
 FONT_S="${S}/fonts_dist"
 FONT_SUFFIX="ttf"
 
-src_prepare() {
-	default
+src_unpack() {
+	git-r3_src_unpack
+
+### Actually, logically it is src_compile or src_prepare part.
+### But due to FEATURES=network-sandbox it fails there.
+	pushd "${S}" &>/dev/null
 	npm install
+	popd &>/dev/null
+###
 }
 
 src_compile() {
