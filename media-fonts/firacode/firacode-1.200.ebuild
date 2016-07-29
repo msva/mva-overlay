@@ -14,6 +14,8 @@ LICENSE="OFL"
 SLOT="0"
 KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86 ~x86-fbsd"
 
+IUSE="truetype webfonts"
+
 src_install() {
 	local font_s=()
 	font_s+=( "otf")
