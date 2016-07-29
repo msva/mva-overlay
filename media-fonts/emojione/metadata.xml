@@ -10,8 +10,5 @@
 	</maintainer>
 	<longdescription>
 	Long description of the package
-	</longdescription>
-	<use>
-		<flag name="webfonts">Install so called "web" fonts (woff{,2}, eot)</flag>
-	</use>
+	</longdescription> 
 </pkgmetadata>

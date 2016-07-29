@@ -25,7 +25,7 @@ RDEPEND="
 	expat? ( dev-libs/expat )
 	!expat? ( dev-libs/libxml2 )
 	gconf? ( gnome-base/gconf dev-libs/glib:2 )
-	luajit? ( || ( dev-lang/luajit virtual/lua[luajit] ) )
+	luajit? ( || ( dev-lang/luajit:2 virtual/lua[luajit] ) )
 	!luajit? ( dev-lang/lua:* )
 	icu? ( dev-libs/icu:= )
 	upnp? ( net-libs/libnatpmp net-libs/miniupnpc:= )

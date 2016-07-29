@@ -1,9 +1,9 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI=6
 
-inherit eutils autotools git-r3
+inherit eutils git-r3
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/xorg/app/edid-decode"
 

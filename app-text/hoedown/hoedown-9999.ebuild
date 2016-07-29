@@ -20,7 +20,7 @@ IUSE=""
 DEPEND="
 	dev-util/gperf
 "
-RDEPEND="${DEPEND}"
+RDEPEND=""
 
 src_prepare() {
 	sed -r \

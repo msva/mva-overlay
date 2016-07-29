@@ -28,4 +28,3 @@ src_install() {
 		dodoc -r distr/{fira_code.css,specimen.html,woff{,2},eot}
 	)
 }
-

@@ -5,10 +5,10 @@ EAPI=6
 
 inherit font
 
-DESCRIPTION="A color and B&W emoji SVG-in-OpenType font with support for ZWJ, skin tone modifiers and country flags."
+DESCRIPTION="A color and B&W emoji SVG-in-OT font with ZWJ, skin tone mods and country flags"
 HOMEPAGE="https://github.com/eosrei/twemoji-color-font"
 SRC_URI="${HOMEPAGE}/releases/download/v${PV//_/-}/TwitterColorEmoji-SVGinOT-Linux-${PV//_/-}.tar.gz"
-KEYWORDS="~*"
+KEYWORDS="~x86 ~amd64"
 RESTRICT="mirror"
 LICENSE="MIT"
 SLOT="0"

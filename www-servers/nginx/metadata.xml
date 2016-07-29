@@ -52,10 +52,13 @@
 	<flag name='nginx_modules_http_v2'></flag>
 	<flag name='nginx_modules_http_xss'></flag>
 	<flag name='nginx_modules_stream_access'></flag>
+	<flag name='nginx_modules_stream_geo'></flag>
+	<flag name='nginx_modules_stream_geoip'></flag>
 	<flag name='nginx_modules_stream_limit_conn'></flag>
 	<flag name='nginx_modules_stream_lua'></flag>
 	<flag name='nginx_modules_stream_map'></flag>
 	<flag name='nginx_modules_stream_return'></flag>
+	<flag name='nginx_modules_stream_split_clients'></flag>
 	<flag name='nginx_modules_stream_upstream_hash'></flag>
 	<flag name='nginx_modules_stream_upstream_least_conn'></flag>
 	<flag name='nginx_modules_stream_upstream_zone'></flag>

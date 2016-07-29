@@ -13,13 +13,13 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 DEPEND="
 	dev-util/gperf
 "
-RDEPEND="${DEPEND}"
+RDEPEND=""
 
 src_prepare() {
 	sed -r \
