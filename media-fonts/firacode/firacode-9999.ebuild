@@ -13,7 +13,7 @@ EGIT_REPO_URI="https://github.com/tonsky/FiraCode"
 LICENSE="OFL"
 SLOT="0"
 KEYWORDS=""
-IUSE="+truetype +webfonts"
+IUSE="truetype webfonts"
 
 src_install() {
 	local font_s=()
