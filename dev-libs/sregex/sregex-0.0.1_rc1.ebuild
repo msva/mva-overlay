@@ -19,23 +19,11 @@ IUSE=""
 S="${WORKDIR}/${P//_}"
 
 src_prepare() {
+	sed -r \
+		-e '/^PREFIX=/s@(PREFIX)=.*@\1=/usr@' \
+		-e '/^INSTALL_LIB/s@lib@$(LIBDIR_${ABI})@' \
+		-i Makefile
 	eapply_user
 	multilib_copy_sources
 }
 
-multilib_src_configure() {
-	cd "${BUILD_DIR}"
-	sed -r \
-		-e "/^INSTALL_LIB/s/lib/$(get_libdir)/" \
-		-i Makefile
-}
-
-multilib_src_compile() {
-	cd "${BUILD_DIR}"
-	emake PREFIX="/usr"
-}
-
-multilib_src_install() {
-	cd "${BUILD_DIR}"
-	einstall PREFIX="/usr"
-}
