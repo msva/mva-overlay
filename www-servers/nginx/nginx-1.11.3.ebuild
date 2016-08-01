@@ -521,7 +521,7 @@ LICENSE="
 SLOT="mainline"
 KEYWORDS="~amd64 ~x86 ~arm"
 
-NGINX_MODULES_STD="
+NGINX_MODULES_HTTP_STD="
 	access
 	auth_basic
 	autoindex
@@ -549,18 +549,6 @@ NGINX_MODULES_STD="
 	userid
 	uwsgi
 "
-NGINX_MODULES_STREAM="
-	access
-	geo
-	geoip
-	limit_conn
-	map
-	return
-	split_clients
-	upstream_hash
-	upstream_least_conn
-	upstream_zone
-"
 
 NGINX_MODULES_HTTP_OPT="
 	addition
@@ -584,62 +572,81 @@ NGINX_MODULES_HTTP_OPT="
 	v2
 "
 
-NGINX_MODULES_MAIL="
+NGINX_MODULES_STREAM_STD="
+	access
+	geo
+	limit_conn
+	map
+	return
+	split_clients
+	upstream_hash
+	upstream_least_conn
+	upstream_zone
+"
+
+NGINX_MODULES_STREAM_OPT="
+	geoip
+"
+
+NGINX_MODULES_MAIL_STD="
 	imap
 	pop3
 	smtp
 "
 
-NGINX_MODULES_3RD="
-	http_enmemcache
-	http_tcpproxy
-	http_cache_purge
-	http_headers_more
-	http_encrypted_session
-	http_pagespeed
-	http_push_stream
-	http_ey_balancer
-	http_slowfs_cache
-	http_ndk
-	http_redis
-	http_lua
-	stream_lua
-	http_lua_upstream
-	http_replace_filter
-	http_form_input
-	http_echo
-	http_memc
-	http_nchan
-	http_rds_json
-	http_rds_csv
-	http_postgres
-	http_coolkit
-	http_set_misc
-	http_srcache
-	http_supervisord
-	http_array_var
-	http_xss
-	http_iconv
-	http_upload_progress
-	http_ctpp
-	http_fancyindex
-	http_metrics
-	http_naxsi
-	http_dav_ext
-	http_passenger
-	http_security
-	http_auth_pam
-	http_hls_audio
-	http_sticky
-	http_ajp
-	http_mogilefs
-	http_njs
-	http_drizzle
-	http_upstream_check
-	http_auth_ldap
+NGINX_MODULES_HTTP_3RD="
+	enmemcache
+	tcpproxy
+	cache_purge
+	headers_more
+	encrypted_session
+	pagespeed
+	push_stream
+	ey_balancer
+	slowfs_cache
+	ndk
+	redis
+	lua
+	lua_upstream
+	replace_filter
+	form_input
+	echo
+	memc
+	nchan
+	rds_json
+	rds_csv
+	postgres
+	coolkit
+	set_misc
+	srcache
+	supervisord
+	array_var
+	xss
+	iconv
+	upload_progress
+	ctpp
+	fancyindex
+	metrics
+	naxsi
+	dav_ext
+	passenger
+	security
+	auth_pam
+	hls_audio
+	sticky
+	ajp
+	mogilefs
+	njs
+	drizzle
+	upstream_check
+	auth_ldap
 "
 
-NGINX_MODULES_DYN="
+NGINX_MODULES_STREAM_3RD="
+	lua
+"
+
+NGINX_MODULES_HTTP_DYN="
 	geoip
 	image_filter
 	xslt
@@ -673,7 +680,7 @@ REQUIRED_USE="
 IUSE="aio debug +http +http-cache ipv6 libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2"
 # rtmp"
 
-for mod in $NGINX_MODULES_STD; do
+for mod in $NGINX_MODULES_HTTP_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
 
@@ -681,16 +688,24 @@ for mod in $NGINX_MODULES_HTTP_OPT; do
 	IUSE="${IUSE} nginx_modules_http_${mod}"
 done
 
-for mod in $NGINX_MODULES_MAIL; do
+for mod in $NGINX_MODULES_MAIL_STD; do
 	IUSE="${IUSE} nginx_modules_mail_${mod}"
 done
 
-for mod in $NGINX_MODULES_STREAM; do
+for mod in $NGINX_MODULES_STREAM_STD; do
 	IUSE="${IUSE} nginx_modules_stream_${mod}"
 done
 
-for mod in $NGINX_MODULES_3RD; do
-	IUSE="${IUSE} nginx_modules_${mod}"
+for mod in $NGINX_MODULES_STREAM_OPT; do
+	IUSE="${IUSE} nginx_modules_stream_${mod}"
+done
+
+for mod in $NGINX_MODULES_HTTP_3RD; do
+	IUSE="${IUSE} nginx_modules_http_${mod}"
+done
+
+for mod in $NGINX_MODULES_STREAM_3RD; do
+	IUSE="${IUSE} nginx_modules_stream_${mod}"
 done
 
 CDEPEND="
@@ -899,7 +914,7 @@ src_prepare() {
 		fi
 	done
 
-	if use luajit && use nginx_modules_http_lua; then
+	if use luajit && use nginx_modules_stream_lua; then
 		sed -r \
 			-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
 			-i "${STREAM_LUA_MODULE_WD}/config"
@@ -1003,9 +1018,11 @@ src_prepare() {
 
 	if use nginx_modules_http_nchan; then
 		pushd "${HTTP_NCHAN_MODULE_WD}" &>/dev/null
+### Black magic, that will shoot in the leg someday, but I'll be glad to accept PR with proper way of that
 		sed -r \
 			-e '2,22d;23ingx_feature_libs="-lhiredis"' \
 			-i config
+###
 		popd &>/dev/null
 	fi
 
@@ -1024,7 +1041,7 @@ src_configure() {
 	use threads		&& myconf+=" --with-threads"
 
 	# HTTP modules
-	for mod in $NGINX_MODULES_STD; do
+	for mod in $NGINX_MODULES_HTTP_STD; do
 		if use nginx_modules_http_${mod}; then
 			http_enabled=1
 		else
@@ -1034,7 +1051,7 @@ src_configure() {
 
 	for mod in $NGINX_MODULES_HTTP_OPT; do
 #		local dyn=
-#		for dm in $NGINX_MODULES_DYN; do
+#		for dm in $NGINX_MODULES_HTTP_DYN; do
 #			if [ "${mod}" == "${dm}" ]; then
 #				dyn="=dynamic"
 #			fi
@@ -1382,6 +1399,30 @@ src_configure() {
 		use ssl && myconf+=" --with-mail_ssl_module"
 	fi
 
+	# stream modules
+	for mod in $NGINX_MODULES_STREAM_STD; do
+		if use nginx_modules_stream_${mod}; then
+			stream_enabled=1
+		else
+			myconf+=" --without-stream_${mod}_module"
+		fi
+	done
+
+	for mod in $NGINX_MODULES_STREAM_OPT; do
+#		local dyn=
+#		for dm in $NGINX_MODULES_STREAM_DYN; do
+#			if [ "${mod}" == "${dm}" ]; then
+#				dyn="=dynamic"
+#			fi
+#		done
+
+		if use nginx_modules_stream_${mod}; then
+			http_enabled=1
+#			myconf+=" --with-stream_${mod}_module${dyn}"
+			myconf+=" --with-stream_${mod}_module"
+		fi
+	done
+
 # stream_lua
 	if use nginx_modules_stream_lua; then
 		stream_enabled=1
@@ -1395,15 +1436,6 @@ src_configure() {
 #		myconf+=" --add-dynamic-module=${STREAM_LUA_MODULE_WD}"
 		myconf+=" --add-module=${STREAM_LUA_MODULE_WD}"
 	fi
-
-	# stream modules
-	for mod in $NGINX_MODULES_STREAM; do
-		if use nginx_modules_stream_${mod}; then
-			stream_enabled=1
-		else
-			myconf+=" --without-stream_${mod}_module"
-		fi
-	done
 
 	if [ $stream_enabled ]; then
 		myconf+=" --with-stream"
