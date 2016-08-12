@@ -1,13 +1,14 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit cmake-utils git-r3
 
 DESCRIPTION="Telegram connection manager for Telepathy."
 HOMEPAGE="https://projects.kde.org/projects/playground/network/telepathy/telepathy-morse"
-EGIT_REPO_URI="git://anongit.kde.org/telepathy-morse"
+#EGIT_REPO_URI="git://anongit.kde.org/telepathy-morse"
+EGIT_REPO_URI="https://github.com/TelepathyQt/telepathy-morse"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
