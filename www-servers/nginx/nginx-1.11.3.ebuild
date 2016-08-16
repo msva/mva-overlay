@@ -880,6 +880,7 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-fix-perl-install-path.patch"
+	eapply "${FILESDIR}/${PN}-httpoxy-mitigation-r1.patch"
 
 # Don't support 1.9 atm
 #	use nginx_modules_http_upstream_check && (
