@@ -11,7 +11,7 @@ HOMEPAGE="https://librevault.com"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/${PN^}/${PN}"
 
-LICENSE="GPL3"
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 IUSE="+daemon gui qt5"
@@ -26,19 +26,19 @@ DEPEND="
 		dev-qt/qtwidgets:5
 	)
 	daemon? (
-		>=dev-libs/boost-1.58.0
-		>=dev-libs/crypto++-5.6.2
-		>=dev-libs/openssl-1.0.1
-		>=dev-libs/protobuf-3.0
 		dev-db/sqlite:3
 		net-libs/libnatpmp
 		net-libs/miniupnpc
 		dev-libs/jsoncpp
 		dev-cpp/websocketpp
 	)
+	>=dev-libs/boost-1.58.0
+	>=dev-libs/crypto++-5.6.2
+	>=dev-libs/openssl-1.0.1
+	>=dev-libs/protobuf-3.0
 	|| (
-		>=sys-devel/gcc-4.9
-		>=sys-devel/clang-3.4
+		>=sys-devel/gcc-4.9:*
+		>=sys-devel/clang-3.4:*
 	)
 	virtual/libc
 "
