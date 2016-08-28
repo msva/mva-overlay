@@ -1,15 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CHROMIUM_LANGS="cs de en_US es fr it ja kk pt_BR pt_PT ru tr uk zh_CN zh_TW"
-inherit chromium multilib unpacker
+EAPI=6
+CHROMIUM_LANGS="cs de en-US es fr it ja kk pt-BR pt-PT ru tr uk zh-CN zh-TW"
+inherit chromium-2 multilib unpacker
 
 RESTRICT="mirror"
 
 MY_PV="${PV/_p/-}"
 
-DESCRIPTION="Browser that combines a minimal design with sophisticated technology."
+DESCRIPTION="The web browser from Yandex"
 HOMEPAGE="http://browser.yandex.ru/beta/"
 LICENSE="EULA"
 SLOT="0"
@@ -48,6 +48,7 @@ RDEPEND="
 	x11-libs/libXrender
 	x11-libs/libXtst
 	x11-libs/pango[X]
+	x11-misc/xdg-utils
 "
 
 QA_PREBUILT="*"
@@ -71,6 +72,8 @@ src_prepare() {
 	chromium_remove_language_paks
 	popd > /dev/null || die
 
+	eapply_user
+
 	sed -r \
 		-e 's|\[(NewWindow)|\[X-\1|g' \
 		-e 's|\[(NewIncognito)|\[X-\1|g' \
@@ -84,5 +87,14 @@ src_install() {
 #dosym "../../${YANDEX_HOME}/${PN}" /usr/bin/"${PN}"
 	dodir /usr/$(get_libdir)/${PN}/lib
 	dosym /usr/$(get_libdir)/libudev.so /usr/$(get_libdir)/${PN}/lib/libudev.so.0
-	fperms 4711 /${YANDEX_HOME}/yandex_browser-sandbox
+
+	for icon in "/${YANDEX_HOME}/product_logo_"*.png; do
+		size="${icon##*/product_logo_}"
+		size=${size%.png}
+		dodir "/usr/share/icons/hicolor/${size}x${size}/apps"
+		newicon -s "${size}" "$icon" "yandex-browser-beta.png"
+	done
+
+#	https://github.com/msva/mva-overlay/issues/79
+#	fperms 4711 /${YANDEX_HOME}/yandex_browser-sandbox
 }
