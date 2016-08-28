@@ -3,7 +3,7 @@
 
 EAPI=6
 CHROMIUM_LANGS="cs de en-US es fr it ja kk pt-BR pt-PT ru tr uk zh-CN zh-TW"
-inherit chromium-2 multilib unpacker
+inherit chromium-2 unpacker
 
 RESTRICT="mirror"
 
@@ -11,7 +11,7 @@ MY_PV="${PV/_p/-}"
 
 DESCRIPTION="The web browser from Yandex"
 HOMEPAGE="http://browser.yandex.ru/beta/"
-LICENSE="EULA"
+LICENSE="Yandex-EULA"
 SLOT="0"
 SRC_URI="
 	amd64? ( http://repo.yandex.ru/yandex-browser/deb/pool/main/y/yandex-browser-beta/yandex-browser-beta_${MY_PV}_amd64.deb -> ${P}.deb )
@@ -83,9 +83,8 @@ src_prepare() {
 
 src_install() {
 	mv * "${D}" || die
-	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib"
-#dosym "../../${YANDEX_HOME}/${PN}" /usr/bin/"${PN}"
 	dodir /usr/$(get_libdir)/${PN}/lib
+	make_wrapper "${PN}" "./${PN}" "/${YANDEX_HOME}" "/usr/$(get_libdir)/${PN}/lib"
 	dosym /usr/$(get_libdir)/libudev.so /usr/$(get_libdir)/${PN}/lib/libudev.so.0
 
 	for icon in "/${YANDEX_HOME}/product_logo_"*.png; do
@@ -94,7 +93,13 @@ src_install() {
 		dodir "/usr/share/icons/hicolor/${size}x${size}/apps"
 		newicon -s "${size}" "$icon" "yandex-browser-beta.png"
 	done
+}
 
-#	https://github.com/msva/mva-overlay/issues/79
-#	fperms 4711 /${YANDEX_HOME}/yandex_browser-sandbox
+pkg_postinst() {
+	# https://github.com/msva/mva-overlay/issues/79
+	# https://github.com/msva/mva-overlay/pull/80/files#r76529485
+	ewarn "The SUID sandbox helper binary was found, but is not configured correctly."
+	ewarn "You need to make sure that /${YANDEX_HOME}/yandex_browser-sandbox is owned by root and has mode 4755."
+	chown root:root "/${YANDEX_HOME}/yandex_browser-sandbox"
+	chmod 4755 "/${YANDEX_HOME}/yandex_browser-sandbox"
 }
