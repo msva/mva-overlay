@@ -16,7 +16,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS=""
 
-DEPENDS="dev-util/premake:5"
+DEPEND="dev-util/premake:5"
 
 src_prepare() {
 	local a="x32" c="release";
@@ -25,8 +25,8 @@ src_prepare() {
 
 	sed -r -i \
 		-e 's| make | $(MAKE) |' \
-		-e "s|(^default:).*|\1 linux-${c}-${a}|" \
-		"${S}/makefile"
+		-e "1iall: linux-${c}-${a}" \
+		"${S}/quick.make"
 
 	# QA: We'll strip ourselves, do not strip for us!
 	sed -r -i \
@@ -34,8 +34,10 @@ src_prepare() {
 		"${S}"/premake5.lua
 	# ^ QA
 
+
+	ln -s quick.make Makefile
+
 	default
-	append-cflags "-Wno-unused-result -Wno-unused-but-set-variable"
 }
 
 src_install() {
