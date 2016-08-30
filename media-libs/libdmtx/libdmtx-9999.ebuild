@@ -1,16 +1,15 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit git-2
+inherit autotools multilib-minimal git-r3
 
 DESCRIPTION="Barcode data matrix reading and writing library"
 HOMEPAGE="http://www.libdmtx.org/"
 SRC_URI=""
 
-EGIT_REPO_URI="git://libdmtx.git.sourceforge.net/gitroot/libdmtx/${PN}"
-EGIT_BOOTSTRAP="./autogen.sh"
+EGIT_REPO_URI="https://github.com/dmtx/libdmtx"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -20,12 +19,20 @@ IUSE="static-libs"
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-src_configure() {
-	econf \
-		$(use_enable static-libs static)
+src_prepare() {
+	default
+	eautoreconf
+	multilib_copy_sources
 }
 
-src_install() {
+multilib_src_configure() {
+	local myeconfargs=(
+		$(use_enable static-libs static)
+	)
+	econf
+}
+
+multilib_src_install() {
 	default
 	find "${ED}" -name '*.la' -exec rm -f {} +
 }
