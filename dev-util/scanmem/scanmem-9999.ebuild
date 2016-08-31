@@ -32,6 +32,11 @@ pkg_setup() {
 }
 
 src_prepare() {
+	# Temp (I hope) dirty fix for compilation due to broken .po
+	sed -r \
+		-e '96d;95s@\\n@@' \
+		-i po/ru.po
+
 	sed -i "/CFLAGS/d" Makefile.am || die
 	default
 	eautoreconf
