@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/mumble-voip/mumble"
 inherit eutils multilib qmake-utils virtualx git-r3
 
 DESCRIPTION="Mumble is an open source, low-latency, high quality voice chat software"
-HOMEPAGE="http://mumble.sourceforge.net/"
+HOMEPAGE="http://mumble.info/"
 
 LICENSE="BSD MIT"
 SLOT="0"
