@@ -15,14 +15,23 @@ LICENSE="qca-firmware"
 SLOT="0"
 IUSE="savedconfig"
 
-DEPEND=""
-RDEPEND=""
+RDEPEND="sys-kernel/linux-firmware"
+DEPEND="sys-apps/coreutils"
 
-LF_COLLISION=()
-LF_COLLISION+=("QCA6174/hw3.0/board-2.bin")
-LF_COLLISION+=("QCA6174/hw2.1/board-2.bin")
-LF_COLLISION+=("QCA9377/hw1.0/board-2.bin")
-LF_COLLISION+=("QCA9377/hw1.0/board.bin")
+#LF_COLLISION=()
+#LF_COLLISION+=("QCA6174/hw3.0/board-2.bin")
+#LF_COLLISION+=("QCA6174/hw2.1/board-2.bin")
+#LF_COLLISION+=("QCA9377/hw1.0/board-2.bin")
+#LF_COLLISION+=("QCA9377/hw1.0/board.bin")
+#LF_COLLISION+=("QCA988X/hw2.0/board.bin")
+
+get_hash() {
+	sha1sum -b "${1}" | cut -f1 -d' '
+}
+
+is_identical() {
+	test $(get_hash ${1}) == $(get_hash ${2})
+}
 
 src_prepare() {
 	echo "# Remove files that shall not be installed from this list." > ${PN}.conf
@@ -35,15 +44,21 @@ src_prepare() {
 			| sort ${PN}.conf ${PN}.conf - \
 			| uniq -u | xargs -r rm
 		eend $? || die
-		# remove empty directories, bug #396073
-		find -type d -empty -delete || die
 	else
-		for f in ${LF_COLLISION[@]}; do
-			rm -f ${f};
+		find . -type f -wholename './QCA*' |
+		while read f; do
+#		for f in ${LF_COLLISION[@]}; do
+			test -e "/lib/firmware/ath10k/${f}" && {
+				is_identical "/lib/firmware/ath10k/${f}" "${f}" ||
+				echo "${f}" >> "${T}/.collisions";
+				rm -f "${f}"
+			}
 		done
 	fi
 
-	rm Makefile LICENSE.qca_firmware README.md
+	# remove empty directories, bug #396073
+	find -type d -empty -delete || die
+	rm -f Makefile LICENSE.qca_firmware README.md
 }
 
 src_install() {
@@ -54,6 +69,15 @@ src_install() {
 }
 
 pkg_preinst() {
+	if ! use savedconfig && test -e "${T}/.collisions"; then
+		ewarn "USE=savedconfig is not active, but there are existing collisions with sys-kernel/linux-firmware found (and files are differ)."
+		ewarn "You must enable USE=savedconfig here and for sys-kernel/linux-firmware and handle file collisions manually."
+		ewarn "Collided files:"
+		while read f; do
+			eerror "\t\t${f}"
+		done < "${T}/.collisions"
+		ewarn "Collided files was not installed, so consider to follow instructions above if you need them."
+	fi
 	if use savedconfig; then
 		ewarn "USE=savedconfig is active. You must handle file collisions manually."
 	fi
