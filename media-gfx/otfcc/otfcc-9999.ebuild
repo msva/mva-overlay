@@ -34,7 +34,6 @@ src_prepare() {
 		"${S}"/premake5.lua
 	# ^ QA
 
-
 	ln -s quick.make Makefile
 
 	default

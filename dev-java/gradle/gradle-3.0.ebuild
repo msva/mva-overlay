@@ -1,7 +1,7 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI="6"
 
 inherit java-pkg-2
 
@@ -19,31 +19,35 @@ DEPEND="
 RDEPEND=">=virtual/jdk-1.5"
 IUSE="doc"
 
+src_prepare() {
+	default
+	java-pkg-2_src_prepare
+}
+
 src_compile() {
 	local inst_target="install"
 	use doc && inst_target="installAll"
-	cd "${S}";
 	./gradlew --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradle build failed'
 }
 
 src_install() {
-	cd dist
-	dodoc changelog.txt getting-started.html
-
 	local gradle_dir="${EROOT}usr/share/${PN}-${SLOT}"
+
+	cd dist;
+	dodoc changelog.txt getting-started.html
 
 	insinto "${gradle_dir}"
 
 	# jars in lib/
 	# Note that we can't strip the version from the gradle jars,
 	# because then gradle won't find them.
-	cd lib
+	cd lib;
 	for jar in *.jar; do
 		java-pkg_newjar ${jar} ${jar}
 	done
 
 	# plugins in lib/plugins
-	cd plugins
+	cd plugins;
 	java-pkg_jarinto ${JAVA_PKG_JARDEST}/plugins
 	for jar in *.jar; do
 		java-pkg_newjar ${jar} ${jar}
