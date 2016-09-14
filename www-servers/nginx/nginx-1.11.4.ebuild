@@ -351,8 +351,8 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 # naxsi-core (https://github.com/nbs-system/naxsi/tags, GPLv2+)
 HTTP_NAXSI_MODULE_A="nbs-system"
 HTTP_NAXSI_MODULE_PN="naxsi"
-HTTP_NAXSI_MODULE_PV="0.55rc2"
-HTTP_NAXSI_MODULE_SHA="e1ffc4a0f6c28d8bf726e37b0af89e4cc12509b2"
+HTTP_NAXSI_MODULE_PV="0.55"
+#HTTP_NAXSI_MODULE_SHA="e1ffc4a0f6c28d8bf726e37b0af89e4cc12509b2"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
@@ -914,6 +914,12 @@ src_prepare() {
 			sed -i -e "/${module}/d" auto/install || die
 		fi
 	done
+
+	if use nginx_modules_stream_lua; then
+		pushd "${STREAM_LUA_MODULE_WD}" &>/dev/null
+		epatch "${FILESDIR}/${P}-stream_lua-${STREAM_LUA_MODULE_SHA}.patch"
+		popd &>/dev/null
+	fi
 
 	if use luajit && use nginx_modules_stream_lua; then
 		sed -r \
