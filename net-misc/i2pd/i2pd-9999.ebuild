@@ -32,6 +32,8 @@ DEPEND="
 I2PD_USER="${I2PD_USER:-i2pd}"
 I2PD_GROUP="${I2PD_GROUP:-i2pd}"
 
+REQUIRED_USE="|| ( daemon api )"
+
 src_prepare() {
 	# support for custom configuration
 	sed -i \
@@ -59,9 +61,13 @@ multilib_src_configure() {
 }
 
 multilib_src_compile() {
-	local myemakeargs=();
-	use api && myemakeargs+=("api_client")
+	local myemakeargs=("deps");
+	use api && myemakeargs+=("api_client" "api")
 	use daemon && multilib_is_native_abi && myemakeargs+=("i2pd")
+
+	# skip multilib build if we have nothing to build
+	! use api && ! multilib_is_native_abi && return
+
 	emake "${myemakeargs[@]}"
 }
 
