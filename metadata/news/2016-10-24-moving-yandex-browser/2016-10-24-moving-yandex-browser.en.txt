@@ -1,0 +1,11 @@
+Title: Yandex-browser is removed in honour of overlay
+Author: Vadim A. Misbakh-Soloviov <gentoo@mva.name>
+Content-Type: text/plain
+Posted: 2016-10-24
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: www-client/yandex-browser-beta
+
+Yandex browser is removed from here, since it is now "yandex" overlay,
+where all such stuff goes to.
+You can add it through layman.

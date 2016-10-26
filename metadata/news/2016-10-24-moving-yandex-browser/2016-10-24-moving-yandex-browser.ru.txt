@@ -1,0 +1,10 @@
+Title: Удаление Яндекс.Браузера
+Author: Vadim A. Misbakh-Soloviov <gentoo@mva.name>
+Content-Type: text/plain
+Posted: 2016-10-24
+Revision: 1
+News-Item-Format: 1.0
+Display-If-Installed: www-client/yandex-browser-beta
+
+Яндекс.Браузер был перемещён в оверлей "yandex", который Вы можете добавить
+через layman.
