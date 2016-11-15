@@ -1,0 +1,18 @@
+--- a/src/ngx_postgres_module.c	2016-11-16 03:56:54.340430697 +0700
++++ b/src/ngx_postgres_module.c	2016-11-16 03:56:18.561857218 +0700
+@@ -1320,12 +1320,14 @@
+             continue;
+         }
+ 
++#if (nginx_version < 1011006)
+         if (uscfp[i]->default_port && url->default_port
+             && (uscfp[i]->default_port != url->default_port))
+         {
+             dd("default_port doesn't match");
+             continue;
+         }
++#endif
+ 
+         dd("returning");
+         return uscfp[i];
+

@@ -1,0 +1,28 @@
+From c5b2a3397aa30e81e45557a333cdfa8ac024d292 Mon Sep 17 00:00:00 2001
+From: Hiroaki Nakamura <hnakamur@gmail.com>
+Date: Wed, 16 Nov 2016 03:04:53 +0900
+Subject: [PATCH] Fix the build issue with nginx 1.11.6
+
+---
+ src/ngx_http_memc_util.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/ngx_http_memc_util.c b/src/ngx_http_memc_util.c
+index 090bf43..bb8476a 100644
+--- a/src/ngx_http_memc_util.c
++++ b/src/ngx_http_memc_util.c
+@@ -141,12 +141,14 @@ ngx_http_memc_upstream_add(ngx_http_request_t *r, ngx_url_t *url)
+             continue;
+         }
+ 
++#if (nginx_version < 1011006)
+         if (uscfp[i]->default_port && url->default_port
+             && uscfp[i]->default_port != url->default_port)
+         {
+             dd("upstream_add: default_port not match");
+             continue;
+         }
++#endif
+ 
+         return uscfp[i];
+     }

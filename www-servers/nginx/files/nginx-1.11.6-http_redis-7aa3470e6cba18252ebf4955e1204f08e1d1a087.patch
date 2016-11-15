@@ -1,0 +1,31 @@
+From 1be408af8f553a04cd6ea3a92d42dec7bbc10ccc Mon Sep 17 00:00:00 2001
+From: "Charles R. Portwood II" <charlesportwoodii@erianna.com>
+Date: Tue, 15 Nov 2016 10:49:45 -0600
+Subject: [PATCH] Fixes build issue with Nginx 1.11.6
+
+`default_port` is no longer defined in `ngx_http_upstream_srv_conf_s` as of 1.11.6. This simplistic patch checks excludes use of the `default_port` in 1.11.6 and higher.
+---
+ src/ngx_http_redis2_util.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/ngx_http_redis2_util.c b/src/ngx_http_redis2_util.c
+index d7a34d6..249cc81 100644
+--- a/src/ngx_http_redis2_util.c
++++ b/src/ngx_http_redis2_util.c
+@@ -77,6 +77,7 @@ ngx_http_redis2_upstream_add(ngx_http_request_t *r, ngx_url_t *url)
+             continue;
+         }
+ 
++#if (nginx_version < 1011006)
+         if (uscfp[i]->default_port
+             && url->default_port
+             && uscfp[i]->default_port != url->default_port)
+@@ -84,7 +85,7 @@ ngx_http_redis2_upstream_add(ngx_http_request_t *r, ngx_url_t *url)
+             dd("upstream_add: default_port not match");
+             continue;
+         }
+-
++#endif
+         return uscfp[i];
+     }
+ 

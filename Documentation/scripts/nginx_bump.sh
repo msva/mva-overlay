@@ -51,7 +51,7 @@ awk \
 
 #		spaces=$(for i in {1..$(( COLUMNS - (${#pkg_name}) - (COLUMNS/100*90) ))}; do echo -n '\\_'; done)
 		pkg_pv=${pkg_pv//\"};
-		pkg_pv_new=$(curl -Ls ${taglink} 2>/dev/null | awk '/href=.*archive.*.tar.gz/{print gensub(/.*href=".*\/archive\/[^0-9.]*([0-9a-z.-]+).tar.gz".*/,"\\1","g",$0); exit}');
+		pkg_pv_new=$(curl -Ls ${taglink} 2>/dev/null | grep -v 'latest-' | awk '/href=.*archive.*.tar.gz/{print gensub(/.*href=".*\/archive\/[^0-9.]*([0-9a-z.-]+).tar.gz".*/,"\\1","g",$0); exit}');
 
 		[[ "${pkg_name}" == *AJP* && "${pkg_pv_new}" == "0.2.6" ]] && pkg_pv_new="${pkg_pv}" #temp kludge
 		[[ -z "${pkg_pv_new}" ]] && pkg_pv_new="${pkg_pv}" # safety check

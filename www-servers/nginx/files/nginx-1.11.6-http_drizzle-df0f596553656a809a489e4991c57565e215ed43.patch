@@ -1,0 +1,18 @@
+--- a/src/ngx_http_drizzle_upstream.c	2016-11-16 03:43:23.947091071 +0700
++++ b/src/ngx_http_drizzle_upstream.c	2016-11-16 03:44:06.770063202 +0700
+@@ -1027,12 +1027,14 @@
+             continue;
+         }
+ 
++#if (nginx_version < 1011006)
+         if (uscfp[i]->default_port && url->default_port
+             && uscfp[i]->default_port != url->default_port)
+         {
+             dd("upstream_add: default_port not match");
+             continue;
+         }
++#endif
+ 
+         return uscfp[i];
+     }
+
