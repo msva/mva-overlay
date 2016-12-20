@@ -19,4 +19,3 @@ src_install() {
 	dobin ${PN}
 	doman ${PN}.1
 }
-

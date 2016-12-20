@@ -8,10 +8,10 @@ Subject: mksquashfs: ensure value does not overflow a signed int in -mem
 
 Signed-off-by: Phillip Lougher <phillip@squashfs.org.uk>
 
-diff --git a/squashfs-tools/mksquashfs.c b/squashfs-tools/mksquashfs.c
+diff --git a/mksquashfs.c b/mksquashfs.c
 index 5370ecf..9676dc8 100644
---- a/squashfs-tools/mksquashfs.c
-+++ b/squashfs-tools/mksquashfs.c
+--- a/mksquashfs.c
++++ b/mksquashfs.c
 @@ -5193,7 +5193,16 @@ print_compressor_options:
  					 argv[0]);
  				exit(1);

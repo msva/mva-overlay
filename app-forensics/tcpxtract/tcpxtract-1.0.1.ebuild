@@ -14,8 +14,3 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
-
-src_install() {
-	emake install DESTDIR=${D} || die "Failed to install"
-}
-

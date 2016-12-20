@@ -1,6 +1,5 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
 inherit eutils toolchain-funcs
@@ -20,7 +19,7 @@ SRC_URI="
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~x86 ~amd64"
 IUSE="+xz lzma lz4 lzo xattr"
 
 RDEPEND="
@@ -42,13 +41,13 @@ src_prepare() {
 	rm "${WORKDIR}"/debian/patches/0004-unsquashfs-add-support-for-LZMA-magics.patch
 
 	epatch "${WORKDIR}/${PN}-${MY_SHA}/patches/patch0.txt"
-    epatch "${WORKDIR}"/debian/patches/*.patch
-    epatch "${FILESDIR}"/${SP}-sysmacros.patch
-    epatch "${FILESDIR}"/${SP}-aligned-data.patch
-    epatch "${FILESDIR}"/${SP}-2gb.patch
-    epatch "${FILESDIR}"/${SP}-local-cve-fix.patch
-    epatch "${FILESDIR}"/${SP}-mem-overflow.patch
-    epatch "${FILESDIR}"/${SP}-xattrs.patch
+	epatch "${WORKDIR}"/debian/patches/*.patch
+	eapply "${FILESDIR}"/${SP}-sysmacros.patch
+	eapply "${FILESDIR}"/${SP}-aligned-data.patch
+	eapply "${FILESDIR}"/${SP}-2gb.patch
+	eapply "${FILESDIR}"/${SP}-local-cve-fix.patch
+	eapply "${FILESDIR}"/${SP}-mem-overflow.patch
+	eapply "${FILESDIR}"/${SP}-xattrs.patch
 
 	sed -r \
 		-e 's@make -C@$(MAKE) -C@' \

@@ -39,7 +39,7 @@ multilib_src_install() {
 	insinto /usr/include
 
 #	doins dwarf.h # Conflict with elfutils
-	doins libdwarf.h 
+	doins libdwarf.h
 
 	dodoc NEWS README CHANGES
 }

@@ -8,10 +8,10 @@ As posted on https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=804194.
  squashfs-tools/unsquashfs.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/squashfs-tools/unsquashfs.c b/squashfs-tools/unsquashfs.c
+diff --git a/unsquashfs.c b/unsquashfs.c
 index 1323dd6..a5f0117 100644
---- a/squashfs-tools/unsquashfs.c
-+++ b/squashfs-tools/unsquashfs.c
+--- a/unsquashfs.c
++++ b/unsquashfs.c
 @@ -821,8 +821,6 @@ int set_attributes(char *pathname, int mode, uid_t uid, gid_t guid, time_t time,
  {
  	struct utimbuf times = { time, time };

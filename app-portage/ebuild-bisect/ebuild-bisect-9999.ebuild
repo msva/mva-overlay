@@ -18,5 +18,5 @@ RDEPEND=""
 S="${WORKDIR}"
 
 src_install() {
-	dosbin ${FILESDIR}/ebuild-bisect
+	dosbin "${FILESDIR}/ebuild-bisect"
 }
