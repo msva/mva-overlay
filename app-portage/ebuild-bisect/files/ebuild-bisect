@@ -1,0 +1,184 @@
+#!/bin/bash
+
+EMERGE_OPTS="-1av"
+EBDIR="${HOME}/.ebuild-bisect"
+
+determine_cpv() {
+	echo $(portageq best_version / "${1}")
+}
+
+determine_ebuild() {
+	local cpv="${1}"
+	local result=""
+	local c=""
+	local p=""
+	local v=""
+
+	source /etc/make.conf
+
+	if [ ! -z "${cpv}" ];
+	then
+		# TODO: Find ebuilds in overlays
+		c=$(qatom ${cpv} | cut -d" " -f1)
+		p=$(qatom ${cpv} | cut -d" " -f2)
+		v=${cpv#"${c}/${p}-"}
+		for i in "/usr/portage" ${PORTDIR_OVERLAY};
+		do
+			if ls "${i}/${c}/${p}/${p}-${v}.ebuild" 2>/dev/null;
+			then
+				result="${i}/${c}/${p}/${p}-${v}.ebuild"
+			fi
+		done
+	fi
+	echo ${result}
+}
+
+determine_ebuild_scm() {
+	local ebuild="${1}"
+	local scms="subversion git"
+	local scm=""
+
+	for i in ${scms};
+	do
+		if grep inherit ${ebuild} | grep -q ${i} ;
+		then
+			scm="${i}"
+		fi
+	done
+	echo "${scm}"
+}
+
+display_help() {
+	echo ""
+	echo "Usage: ebuild-bisect <atom> start <good> <bad>"
+	echo "       ebuild-bisect <atom> good|bad <good/bad>"
+	echo "       ebuild-bisect <atom>"
+	echo ""
+	echo "Actions:"
+	echo "  start        Initializes a bisection with two starting revisions"
+	echo "  good/bad     Marks the last compiled revision as good or bad"
+	echo "  none         Rebuilds the current revision"
+}
+
+build_current() {
+	local cpv="${1}"
+	local scm="${2}"
+	
+	local current=$(cat ${EBDIR}/${cpv}/current)
+	scm_setrev "${scm}" "${current}"
+	echo "* Running emerge ${EMERGE_OPTS} =${cpv}"
+	emerge "${EMERGE_OPTS}" "=${cpv}"
+}
+
+scm_git_setrev() {
+	export EGIT_COMMIT="${1}"
+}
+
+scm_git_bisect() {
+	local good=${1}
+	local bad=${2}
+	gitdir=$(cat `portageq vdb_path`/${cpv}/environment.bz2 | bunzip2 > /tmp/ebuild-bisect-git-env; source /tmp/ebuild-bisect-git-env; echo ${EGIT_STORE_DIR}/${EGIT_PROJECT})
+	if ! cd ${gitdir} ;
+	then
+		echo "! Git support requires the git ebuild to have been compiled successfully once."
+		exit 1
+	fi
+	echo $(git rev-list --bisect ^${good} ${bad})
+}
+
+scm_subversion_setrev() {
+	export ESVN_REVISION="${1}"
+}
+
+scm_subversion_bisect() {
+	local good="${1}"
+	local bad="${2}"
+	echo $(((${good}+${bad})/2))
+}
+
+scm_setrev() {
+	# Sets the environment up for ebuild a particular revision
+	echo "* Setting ${1} revision at ${2}"
+	scm_${1}_setrev "${2}"
+}
+
+scm_bisect() {
+	# Bisect good/bad cpv
+	# Returns middle revision
+	echo $(scm_${1}_bisect "${2}" "${3}" "${4}")
+}
+
+### Main Program ###
+
+if [ -z "${1}" ];
+then
+	echo "! Please provide at least an ebuild name"
+	display_help
+	exit 2
+fi
+cpv=$(determine_cpv "${1}")
+ebuild=$(determine_ebuild "${cpv}")
+if [ ! -z "${ebuild}" ];
+then
+	scm=$(determine_ebuild_scm ${ebuild})
+else
+	echo "! No ebuild found for ${1}"
+	display_help
+	exit 1
+fi
+if [ ! -z "${scm}" ];
+then
+	case "${2}" in
+		start)
+			if [ -z "${3}" -o -z "${4}" ];
+			then
+				echo "! Start requires a good and bad revision"
+				display_help
+				exit 1
+			fi
+			current=$(scm_bisect "${scm}" "${3}" "${4}" "${cpv}")
+			if [ ! -z "${current}" ];
+			then
+				echo "* Creating ${EBDIR}/${cpv}"
+				rm -fr "${EBDIR}/${cpv}"
+				mkdir -p "${EBDIR}/${cpv}"
+				echo "${3}" > "${EBDIR}/${cpv}/good"
+				echo "${4}" > "${EBDIR}/${cpv}/bad"
+				echo "* Setting current to ${current}"
+				echo "${current}" > "${EBDIR}/${cpv}/current"
+				build_current "${cpv}" "${scm}"
+			else
+				echo "! SCM bisection failed"
+				display_help
+				exit 1
+			fi
+		;;
+		good|bad)
+			echo "* Setting ${2} <= current"
+			echo $(cat ${EBDIR}/${cpv}/current) > "${EBDIR}/${cpv}/${2}"
+			good=$(cat ${EBDIR}/${cpv}/good)
+			bad=$(cat ${EBDIR}/${cpv}/bad)
+			current=$(scm_bisect "${scm}" "${good}" "${bad}" "${cpv}")
+			if [ "${current}" == "${good}" -o "${current}" == "${bad}" ];
+			then
+				echo "All done!"
+				echo "Good revision: ${good}"
+				echo "Bad revision: ${bad}"
+				exit 0
+			fi
+			echo "* Setting current <= ${current}"
+			echo "${current}" > "${EBDIR}/${cpv}/current"
+			build_current "${cpv}" "${scm}"
+		;;
+		help)
+			display_help
+		;;
+		*)
+			# Rebuild the current ebuild
+			build_current ${cpv} ${scm}
+		;;
+	esac
+else
+	echo "! Ebuild ${ebuild} not using a supported scm"
+	display_help
+fi
