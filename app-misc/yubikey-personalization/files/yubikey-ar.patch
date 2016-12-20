@@ -1,0 +1,12 @@
+diff --git a/configure.ac b/configure.ac
+index a5ab47b..f52c0ca 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -42,6 +42,7 @@ AC_SUBST(LT_AGE, 7)
+ 
+ AM_INIT_AUTOMAKE([-Wall -Werror])
+ AM_SILENT_RULES([yes])
++AM_PROG_AR("ar")
+ AC_PROG_CC
+ 
+ ACX_PTHREAD
