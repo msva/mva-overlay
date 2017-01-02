@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 [[ ${PV} = *9999* ]] && VCS_ECLASS="git-r3"
 
@@ -30,7 +30,7 @@ IUSE="debug doc libev mysql postgres sqlite staticport symlinks test tools ${IUS
 RDEPEND="
 	net-im/jabber-base
 	dev-libs/boost:*
-	net-im/swiften
+	=net-im/swiften-3*
 	dev-libs/popt
 	dev-libs/openssl:0
 	dev-libs/log4cxx
@@ -72,6 +72,8 @@ src_prepare() {
 	use purple || { sed -i -e '/find_package(purple)/d' CMakeLists.txt || die; }
 	use libev || { sed -i -e 's/find_package(event)/set(HAVE_EVENT FALSE)/' CMakeLists.txt || die; }
 	use irc || { sed -i -e 's/find_package(Communi)/set(IRC_FOUND, FALSE)/' CMakeLists.txt || die; }
+
+	default
 
 	cmake-utils_src_prepare
 }

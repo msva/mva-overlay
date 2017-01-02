@@ -1,11 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils autotools-utils
-
-AUTOTOOLS_IN_SOURCE_BUILD=1
+inherit eutils
 
 DESCRIPTION="Distributed I/O Daemon - a 9P file server"
 HOMEPAGE="https://github.com/chaos/diod"
@@ -31,7 +29,7 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch_user
+	default
 	./autogen.sh
 }
 
@@ -42,5 +40,5 @@ src_configure() {
 		$(use_with tcmalloc)
 		$(use_with luajit lua-suffix jit-5.1)
 	)
-	autotools-utils_src_configure
+	default
 }

@@ -1,0 +1,11 @@
+--- a/CMakeLists.txt	2011-08-08 15:40:34.000000000 +0300
++++ b/CMakeLists.txt	2011-08-08 15:42:40.000000000 +0300
+@@ -727,7 +727,7 @@
+               man/ctpp2i.1
+               man/ctpp2json.1
+               man/ctpp2vm.1
+-        DESTINATION man/man1
++        DESTINATION share/man/man1
+         PERMISSIONS OWNER_READ OWNER_WRITE
+                     GROUP_READ
+                     WORLD_READ)

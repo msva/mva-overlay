@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit git-2 eutils autotools
+inherit git-r3 eutils autotools
 
 DESCRIPTION="GnuPG's New Portable Threads Library (nPth)"
 HOMEPAGE="http://www.gnupg.org/"
@@ -24,8 +24,7 @@ DOCS=( AUTHORS ChangeLog NEWS README )
 #S="${WORKDIR}"
 
 src_prepare() {
-	epatch_user
-	git-2_src_prepare
+	default
 	eautoreconf
 }
 

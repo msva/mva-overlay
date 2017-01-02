@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit git-2 eutils autotools
+inherit git-r3 eutils autotools
 
 DESCRIPTION="X.509 and CMS (PKCS#7) library"
 HOMEPAGE="http://www.gnupg.org/related_software/libksba"
@@ -21,8 +21,7 @@ DEPEND="~dev-libs/libgpg-error-9999"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch_user
-	git-2_src_prepare
+	default
 	eautoreconf
 }
 

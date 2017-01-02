@@ -1,6 +1,5 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
 
@@ -33,6 +32,8 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
+PATCHES="${FILESDIR}/${PN}-libdir-${PV}.patch"
+
 src_prepare() {
 	# remove all bundled packages to ensure
 	# consistency of headers and linked libraries
@@ -43,9 +44,7 @@ src_prepare() {
 		-e 's@optional_fwd.hpp@optional.hpp@' -i
 	## /temp fix
 
-	eapply "${FILESDIR}"/${PN}-libdir-${PV}.patch
-
-	eapply_user
+	default
 }
 
 src_configure() {

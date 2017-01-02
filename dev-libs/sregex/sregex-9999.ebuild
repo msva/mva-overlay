@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -21,6 +21,6 @@ src_prepare() {
 		-e '/^PREFIX=/s@(PREFIX)=.*@\1=/usr@' \
 		-e '/^INSTALL_LIB/s@lib@$(LIBDIR_${ABI})@' \
 		-i Makefile
-	eapply_user
+	default
 	multilib_copy_sources
 }

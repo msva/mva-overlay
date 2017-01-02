@@ -1,12 +1,12 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE='sqlite'
 EGIT_REPO_URI="https://github.com/icetruckde/${PN}.git"
-inherit git-2 distutils-r1
+inherit git-r3 distutils-r1
 
 DESCRIPTION="A simple code snippet tool"
 HOMEPAGE="http://pysnipps.icetruck.de/"
@@ -16,7 +16,9 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND="dev-python/pygobject:3[${PYTHON_USEDEP}]
-	x11-libs/gtk+:3"
+RDEPEND="
+	dev-python/pygobject:3[${PYTHON_USEDEP}]
+	x11-libs/gtk+:3
+"
 
 DOCS=( README.md )

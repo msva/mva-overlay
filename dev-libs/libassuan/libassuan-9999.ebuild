@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit git-2 eutils autotools
+inherit git-r3 eutils autotools
 
 DESCRIPTION="IPC library used by GnuPG and GPGME"
 HOMEPAGE="http://www.gnupg.org/related_software/libassuan/index.en.html"
@@ -25,7 +25,7 @@ DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 #S="${WORKDIR}"
 
 src_prepare() {
-	epatch_user
+	default
 	eautoreconf
 }
 

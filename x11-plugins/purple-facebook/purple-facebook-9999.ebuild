@@ -1,12 +1,11 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-AUTOTOOLS_AUTORECONF=1
+EAPI=6
 
-inherit autotools-utils mercurial git-r3
+inherit autotools mercurial git-r3
 
-DESCRIPTION="Whatsapp plugin for libpurple (Pidgin)"
+DESCRIPTION="Facebook plugin for libpurple (Pidgin)"
 HOMEPAGE="https://github.com/jgeboski/purple-facebook"
 
 LICENSE="GPL-2"
@@ -36,22 +35,18 @@ src_unpack() {
 src_prepare() {
 	touch $(cat MANIFEST_VOIDS)
 
-	sed -i \
-		-e '/^PLUGIN_CFLAGS/s@`pwd`/@@g' \
-		configure.ac
-
 	for f in $(cat MANIFEST_PIDGIN); do
 		mkdir -p $(dirname "pidgin/${f}")
-		cp ".pidgin/${f}" "pidgin/${f}"
+		cp ".pidgin/${f}" "pidgin/${f}" &>/dev/null
 	done
 
-	EPATCH_OPTS="-d ${S}/pidgin"
-	epatch "${S}"/patches/*.patch
+	eapply -d "${S}/pidgin" -- "${S}"/patches/*.patch
 
-	autotools-utils_src_prepare
+	default
+	eautoreconf
 }
 
 src_install() {
-	prune_libtool_files
-	autotools-utils_src_install
+	default
+	prune_libtool_files --modules
 }

@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils
 
@@ -19,16 +19,17 @@ RDEPEND="
 	!slang? ( sys-libs/ncurses:0 )
 	slang? ( >=sys-libs/slang-1.4 )
 "
-DEPEND="${RDEPEND}"
+DEPEND="
+	virtual/pkgconfig
+	${RDEPEND}
+"
+
+PATCHES=( ${FILESDIR}/${P}-{gcc44,gentoo,tinfo}.patch )
 
 src_prepare() {
 	cat /usr/share/aclocal/pkg.m4 >> aclocal.m4 || die
-	epatch \
-		"${FILESDIR}"/${P}-gcc44.patch \
-		"${FILESDIR}"/${P}-gentoo.patch \
-		"${FILESDIR}"/${P}-tinfo.patch
-
-	use ipv6 && epatch "${FILESDIR}"/${P}-ipv6.patch
+	use ipv6 && eapply "${FILESDIR}/${P}-ipv6.patch"
+	default
 }
 
 src_configure() {

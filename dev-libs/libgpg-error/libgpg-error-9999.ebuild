@@ -1,15 +1,14 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit git-2 eutils autotools
+inherit git-r3 eutils autotools
 
 DESCRIPTION="Contains error handling functions used by GnuPG software"
 HOMEPAGE="http://www.gnupg.org/related_software/libgpg-error"
 SRC_URI=""
 EGIT_REPO_URI="git://git.gnupg.org/${PN}.git"
-#EGIT_BOOTSTRAP="./autogen.sh"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
@@ -19,15 +18,13 @@ IUSE="common-lisp nls static-libs"
 RDEPEND="nls? ( virtual/libintl )"
 DEPEND="nls? ( sys-devel/gettext )"
 
+DOCS=( AUTHORS ChangeLog NEWS README )
+
 src_prepare() {
-	epatch_user
-#	epatch "${FILESDIR}"/${PN}-multilib-syspaths.patch
+	default
 	epunt_cxx
-	git-2-src_prepare
 	eautoreconf
 }
-
-DOCS=( AUTHORS ChangeLog NEWS README )
 
 src_configure() {
 	econf \

@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit git-2 autotools eutils
+inherit git-r3 autotools eutils
 
 DESCRIPTION="General purpose crypto library based on the code used in GnuPG"
 HOMEPAGE="http://www.gnupg.org/"
@@ -23,12 +23,10 @@ DEPEND="${RDEPEND}
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
+PATCHES="${FILESDIR}/${PN}-multilib-syspath.patch"
+
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-multilib-syspath.patch
-#	epatch "${FILESDIR}"/${P}-uscore.patch
-#	epatch "${WORKDIR}"/${P}-idea.patch
-	epatch_user
-	git-2-src_prepare
+	default
 	eautoreconf
 }
 

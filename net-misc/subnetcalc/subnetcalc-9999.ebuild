@@ -1,11 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-AUTOTOOLS_AUTORECONF=1
-
-inherit autotools-utils git-r3
+inherit autotools git-r3
 
 DESCRIPTION="An IPv4/IPv6 Subnet Calculator"
 HOMEPAGE="https://www.uni-due.de/~be0001/subnetcalc/"
@@ -25,10 +23,15 @@ RDEPEND="
 	${DEPEND}
 "
 
+src_prepare() {
+	default
+	eautoreconf
+}
+
 src_configure() {
 	local myeconfargs=(
 		$(use_enable colorgcc) \
 		$(use_with   geoip)
 	)
-	autotools-utils_src_configure
+	default
 }

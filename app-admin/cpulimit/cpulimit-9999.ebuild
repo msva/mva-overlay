@@ -1,30 +1,26 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit eutils toolchain-funcs subversion
+inherit eutils toolchain-funcs git-r3
 
 DESCRIPTION="Limits the CPU usage of a process"
 HOMEPAGE="http://cpulimit.sourceforge.net"
-ESVN_REPO_URI="https://cpulimit.svn.sourceforge.net/svnroot/cpulimit/trunk"
+EGIT_REPO_URI="https://github.com/opsengine/cpulimit"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-DEPEND=""
-
-src_prepare() {
-	epatch "${FILESDIR}/${P}-makefile.patch"
-}
+PATCHES="${FILESDIR}/${P}-makefile.patch"
 
 src_compile() {
 	emake CC="$(tc-getCC)" || die "emake failed"
 }
 
 src_install() {
-	dosbin cpulimit
+	dosbin src/cpulimit
 	doman "${FILESDIR}/cpulimit.8"
 }

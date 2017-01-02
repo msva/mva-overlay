@@ -10,10 +10,10 @@ ext =						\
 	@echo -e " \e[1;35m*\e[0m $(1)\e[0m";
 
 # LibVersion
-PV := 8.3
-P := etoken-sac-$(PV)
+PV ?= 9.1.7
+P ?= etoken-sac-$(PV)
 ARCH := $(shell uname -m)
-DESTDIR := /
+DESTDIR ?= /
 
 ifeq ($(ARCH), x86_64)
 	LIBDIR := lib64
@@ -32,11 +32,11 @@ prepare:
 	@ $(call inf,"Preparing image...")
 ifeq ($(ARCH),x86_64)
 	@ mv lib lib32
+	@ mkdir lib
+	@ mv lib32/udev lib/udev
 	@ mv usr/lib usr/lib32
 	@ sh -c 'find usr/lib32 -type l | while read lib; do nlib=$$(readlink $${lib}); ln -sf $${nlib/\/lib\//\/lib32\/} $${lib}; done'
 endif
-	@ rm -r etc/rc.d
-	@ mv etc/ld.so.conf.d/wwwwetoken-ld.conf etc/ld.so.conf.d/90etoken.conf
 	@ mkdir -p usr/$(LIBDIR)/readers/usb
 	@ ln -s ../../../share/eToken/drivers/aks-ifdh.bundle usr/$(LIBDIR)/readers/usb/aks-ifdh.bundle
 	@ mkdir -p etc/conf.d/ && touch etc/conf.d/SACSrv

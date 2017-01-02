@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -34,5 +34,5 @@ src_prepare() {
 	for n in 0 1 2; do
 		mv "$(find . -name CODE200$n.TTF)" "code200$n.ttf"
 	done
-	eapply_user
+	default
 }

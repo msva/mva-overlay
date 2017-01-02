@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 CMAKE_MIN_VERSION="2.8"
 inherit cmake-utils
@@ -22,14 +22,15 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
-PATCHES=("${FILESDIR}"/*.patch)
+PATCHES="${FILESDIR}/patches/*.patch"
+
 src_configure() {
 	mycmakeargs=(
-		-DENABLE_OPTIMIZATION=ON \
+		-DENABLE_OPTIMIZATION=ON
 		-DSKIP_RELINK_RPATH=ON
-		$(cmake-utils_use debug DEBUG) \
-		$(cmake-utils_use md5 MD5_SUPPORT)\
-		$(cmake-utils_use iconv ICONV_SUPPORT)
+		-DDEBUG_MODE=$(usex debug)
+		-DMD5_SUPPORT=$(usex md5)
+		-DICONV_SUPPORT=$(usex iconv)
 		)
 
 	cmake-utils_src_configure

@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit git-2 eutils flag-o-matic toolchain-funcs autotools
+inherit git-r3 eutils flag-o-matic toolchain-funcs autotools
 
 DESCRIPTION="The GNU Privacy Guard, a GPL pgp replacement"
 HOMEPAGE="http://www.gnupg.org/"
@@ -56,10 +56,10 @@ RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 
 REQUIRED_USE="smartcard? ( !static )"
 
+PATCHES="${FILESDIR}/${PN}-2.0.17-gpgsm-gencert.patch"
+
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-2.0.17-gpgsm-gencert.patch
-	epatch_user
-	git-2_src_prepare
+	default
 	eautoreconf
 }
 

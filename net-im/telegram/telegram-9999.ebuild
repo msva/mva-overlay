@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit git-r3 toolchain-funcs flag-o-matic qmake-utils
 
@@ -15,8 +15,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 
-DEPEND="
-"
+PATCHES="${FILESDIR}/no-calls-to-private-methods.patch"
 
 src_prepare() {
 	local mode=release;
@@ -101,8 +100,7 @@ src_prepare() {
 	)
 	sed -i -r "${sedargs[@]}" "${S}/Telegram/SourceFiles/pspecific_linux.cpp" || die "Can't nuke-unity patch"
 
-	epatch "${FILESDIR}"/no-calls-to-private-methods.patch
-
+	default
 #	sed -i -e '/gf/d' "${S}/Telegram/SourceFiles/ui/text/text.cpp"
 }
 

@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils unpacker
 
@@ -40,17 +40,10 @@ QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
 
 S="${WORKDIR}"
 
+#PATCHES="${FILESDIR}/patches/*.patch"
+
 src_unpack() {
 	unpack_deb ${A}
-}
-
-src_prepare() {
-	default
-	EPATCH_SOURCE="${FILESDIR}/patches" \
-	EPATCH_SUFFIX="patch" \
-	EPATCH_FORCE="yes" epatch
-
-	epatch_user
 }
 
 src_install() {

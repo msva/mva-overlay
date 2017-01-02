@@ -1,11 +1,11 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 DISTUTILS_OPTIONAL=yes
 PYTHON_COMPAT=( python{2_7,3_{3,4,5}} pypy{,3} )
 RUBY_OPTIONAL=yes
-USE_RUBY=( ruby2{0,1,2,3} jruby rbx )
+USE_RUBY="ruby21 ruby22 ruby23 ruby24"
 
 inherit autotools-utils distutils-r1 ruby-ng java-pkg-opt-2 eutils git-r3
 

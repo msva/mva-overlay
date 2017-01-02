@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 inherit java-pkg-opt-2 libtool toolchain-funcs
 
 DESCRIPTION="MMX, SSE, and SSE2 SIMD accelerated JPEG library"
@@ -26,8 +26,8 @@ DEPEND="${COMMON_DEPEND}
 	java? ( >=virtual/jdk-1.5 )"
 
 src_prepare() {
+	default
 	elibtoolize
-
 	java-pkg-opt-2_src_prepare
 }
 

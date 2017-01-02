@@ -1,23 +1,23 @@
---- Makefile	2011-06-01 22:38:08.000000000 +0700
-+++ Makefile.gentoo	2011-07-24 07:38:08.000000000 +0700
-@@ -6,16 +6,16 @@
+--- a/src/Makefile	2011-06-01 22:38:08.000000000 +0700
++++ b/src/Makefile	2017-01-02 01:37:08.000000000 +0700
+@@ -12,16 +12,16 @@
  all::	$(TARGETS)
  
  cpulimit:	cpulimit.c $(LIBS)
 -	$(CC) -o cpulimit cpulimit.c $(LIBS) $(CFLAGS)
 +	$(CC) $(CFLAGS) $(LDFLAGS) -o cpulimit cpulimit.c $(LIBS)
  
- process.o: process.c process.h
--	$(CC) -c process.c $(CFLAGS)
-+	$(CC) $(CFLAGS) $(LDFLAGS) -c process.c
- 
- procutils.o: procutils.c procutils.h
--	$(CC) -c procutils.c $(CFLAGS)
-+	$(CC) $(CFLAGS) $(LDFLAGS) -c procutils.c
+ process_iterator.o: process_iterator.c process_iterator.h
+-	$(CC) -c process_iterator.c $(CFLAGS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -c process_iterator.c
  
  list.o: list.c list.h
 -	$(CC) -c list.c $(CFLAGS)
 +	$(CC) $(CFLAGS) $(LDFLAGS) -c list.c
+ 
+ process_group.o: process_group.c process_group.h process_iterator.o list.o
+-	$(CC) -c process_group.c $(CFLAGS)
++	$(CC) $(CFLAGS) $(LDFLAGS) -c process_group.c
  
  clean:
  	rm -f *~ *.o $(TARGETS)

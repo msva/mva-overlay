@@ -1,15 +1,14 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 DESCRIPTION="Few modules for ACPI debugging"
 HOMEPAGE="https://github.com/Lekensteyn/acpi-stuff"
 
 if [[ ${PV} =~ "9999" ]]; then
-	SCM_ECLASS="git-2"
+	SCM_ECLASS="git-r3"
 	EGIT_REPO_URI="https://github.com/Lekensteyn/${PN}.git"
-	SRC_URI=""
 	KEYWORDS=""
 else
 	SRC_URI="https://github.com/downloads/Lekensteyn/${PN}/${P}.tar.gz"

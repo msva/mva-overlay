@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 inherit autotools multilib-minimal
 
 DESCRIPTION="A libhal stub for flashplayer/adobecp, forwarding specific API parts to UDisks"
@@ -29,6 +29,7 @@ DEPEND="
 DOCS="README"
 
 src_prepare() {
+	default
 	eautoreconf
 	multilib_copy_sources
 }

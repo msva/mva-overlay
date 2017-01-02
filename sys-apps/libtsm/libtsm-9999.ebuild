@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils autotools flag-o-matic git-r3
 
@@ -25,6 +25,7 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
+	default
 	eautoreconf
 }
 

@@ -1,9 +1,9 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
-inherit toolchain-funcs vcs-snapshot git-2
+inherit toolchain-funcs git-r3
 
 EGIT_REPO_URI="https://github.com/jorisvink/${PN}.git"
 
@@ -22,7 +22,10 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	sed  -e 's/CC=gcc/CC?=gcc/' -i Makefile || die
+	sed \
+		-e 's/CC=gcc/CC?=gcc/' \
+		-i Makefile || die
+	default
 }
 
 src_compile() {

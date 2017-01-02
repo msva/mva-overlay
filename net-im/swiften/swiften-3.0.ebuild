@@ -1,6 +1,5 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
 
@@ -45,7 +44,7 @@ src_prepare() {
 		-e 's@optional_fwd.hpp@optional.hpp@' -i
 	## /temp fix
 
-	eapply_user
+	default
 }
 
 src_configure() {

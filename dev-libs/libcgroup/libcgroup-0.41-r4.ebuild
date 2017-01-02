@@ -1,8 +1,7 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI="5"
+EAPI=6
 
 inherit autotools eutils systemd flag-o-matic linux-info pam user
 
@@ -26,6 +25,9 @@ DEPEND="
 REQUIRED_USE="daemon? ( tools )"
 
 DOCS=(README_daemon README README_systemd INSTALL)
+
+PATCHES=( ${FILESDIR}/${P}-{replace_DECLS,replace_INLCUDES,reorder-headers}.patch )
+
 pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS"
 	if use daemon; then
@@ -36,10 +38,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-replace_DECLS.patch
-	epatch "${FILESDIR}"/${P}-replace_INLCUDES.patch
-	epatch "${FILESDIR}"/${P}-reorder-headers.patch
-
 	# Change rules file location
 	sed -e 's:/etc/cgrules.conf:/etc/cgroup/cgrules.conf:' \
 		-i samples/cgred.conf || die "sed failed"
@@ -55,6 +53,7 @@ src_prepare() {
 		-i src/pam/Makefile.am || die "sed failed"
 	sed -e 's#/var/run#/run#g' -i configure.in || die "sed failed"
 
+	default
 	eautoreconf
 }
 

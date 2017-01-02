@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 inherit savedconfig git-r3
 
 SRC_URI=""
@@ -59,6 +59,7 @@ src_prepare() {
 	# remove empty directories, bug #396073
 	find -type d -empty -delete || die
 	rm -f Makefile LICENSE.qca_firmware README.md
+	default
 }
 
 src_install() {

@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -18,8 +18,6 @@ RDEPEND=""
 DEPEND="kernel_linux? ( sys-apps/lsb-release sys-apps/which )"
 
 src_prepare() {
-	eapply_user
-
 	# These bins are not installed, upnpc-static requires building static lib
 	# Reduce APIVERSION used to build SONAME since last API change was
 	# backwards compatible to surprise of all the universe.
@@ -32,6 +30,8 @@ src_prepare() {
 			-e '/$(INSTALL) -m 644 $(LIBRARY) $(DESTDIR)$(INSTALLDIRLIB)/d' \
 			Makefile || die
 	fi
+
+	default
 }
 
 # Upstream cmake causes more trouble than it fixes,

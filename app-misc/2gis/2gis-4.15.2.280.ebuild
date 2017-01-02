@@ -1,7 +1,7 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 
 inherit eutils unpacker versionator multilib
 
@@ -51,6 +51,7 @@ src_prepare() {
 	rm -r usr/lib
 #	mv usr/$(get_libdir)_n usr/$(get_libdir)
 #	rm -r var/cache
+	default
 }
 
 src_install() {

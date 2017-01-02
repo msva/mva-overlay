@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -7,7 +7,6 @@ inherit perl-module user versionator git-r3
 
 DESCRIPTION="Github clone. you can install Github system into your unix/linux machine."
 HOMEPAGE="http://gitprep.yukikimoto.com/"
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/yuki-kimoto/gitprep"
 RESTRICT="test"
 
@@ -56,7 +55,7 @@ src_prepare() {
 
 	sed -i "${sedargs[@]}" script/{gitprep-shell-raw,import_rep}
 
-	eapply_user
+	default
 }
 
 src_compile() {
