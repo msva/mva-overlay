@@ -1,0 +1,25 @@
+#!/sbin/openrc-run
+
+depend() {
+	need net tor
+}
+
+start() {
+	ebegin "Starting Ocat daemon..."
+	start-stop-daemon \
+		--start \
+		--pidfile "${PIDFILE}" \
+		--quiet \
+		--exec /usr/bin/ocat -- -P "${PIDFILE}" ${OCAT_OPTS} >/dev/null 2>&1
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping Ocat daemon..."
+	start-stop-daemon \
+		--stop \
+		--quiet \
+		--pidfile "${PIDFILE}"
+	eend $?
+}
+

@@ -1,0 +1,25 @@
+#!/sbin/openrc-run
+
+depend() {
+	need net i2p i2pd
+}
+
+start() {
+	ebegin "Starting GarliCat daemon..."
+	start-stop-daemon \
+		--start \
+		--pidfile "${PIDFILE}" \
+		--quiet \
+		--exec /usr/bin/gcat -- -P "${PIDFILE}" ${GCAT_OPTS} >/dev/null 2>&1
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping GarliCat daemon..."
+	start-stop-daemon \
+		--stop \
+		--quiet \
+		--pidfile "${PIDFILE}"
+	eend $?
+}
+

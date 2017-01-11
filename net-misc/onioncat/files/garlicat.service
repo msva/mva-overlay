@@ -1,0 +1,18 @@
+[Unit]
+Description=An IP-Transparent Hidden Service Connector
+After=network.target
+
+[Service]
+Type=forking
+Restart=on-abnormal
+PIDFile=/run/gcat.pid
+#User=nobody
+#Group=nobody
+PermissionsStartOnly=yes
+ExecStartPre=/bin/touch /run/gcat.pid /var/log/gcat.log
+ExecStartPre=/bin/chown nobody:nobody /run/gcat.pid /var/log/gcat.log
+ExecStart=/usr/bin/gcat -P /run/gcat.pid -L /var/log/gcat.log -4 -C -I -f /etc/gcat.conf
+
+[Install]
+WantedBy=multi-user.target
+

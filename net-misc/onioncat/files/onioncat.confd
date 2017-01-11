@@ -1,0 +1,12 @@
+# pid file destination
+PIDFILE=/run/ocat.pid
+
+# log file destination
+LOGFILE=/var/log/ocatd.log
+
+# onioncat hidden service hostname file
+OCAT_HOSTNAME_FILE=/var/lib/tor/onioncat/hostname
+
+# options
+OCAT_OPTS="-C -4 -L \"${LOGFILE}\" $(cat ${OCAT_HOSTNAME_FILE})"
+

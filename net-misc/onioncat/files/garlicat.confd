@@ -1,0 +1,12 @@
+# pid file destination
+PIDFILE=/run/gcat.pid
+
+# log file destination
+LOGFILE=/var/log/gcatd.log
+
+# onioncat hidden service hostname file
+GCAT_HOSTNAME=$(hostname)
+
+# options
+GCAT_OPTS="-I -C -4 -L \"${LOGFILE}\" ${GCAT_HOSTNAME}"
+
