@@ -22,7 +22,7 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-DOCS=( README.md LICENSE  )
+DOCS=( 'src/github.com/syncthing/syncthing-inotify/README.md' 'src/github.com/syncthing/syncthing-inotify/LICENSE' )
 
 export GOPATH="${S}"
 
