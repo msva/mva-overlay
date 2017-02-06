@@ -17,7 +17,7 @@ IUSE=""
 
 RDEPEND="
 	>=dev-libs/libevent-2.0.10:=
-	>=net-misc/curl-7.16.3:=[ssl]
+	>=net-misc/curl-7.16.3[ssl]
 	sys-libs/zlib:=
 "
 DEPEND="${RDEPEND}

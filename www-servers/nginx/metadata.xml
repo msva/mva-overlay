@@ -14,6 +14,7 @@
 	<flag name='libatomic'>Force libatomic_ops library usage:atomic memory update operations</flag>
 	<flag name='luajit'></flag>
 	<flag name='mail'></flag>
+	<flag name='nginx_modules_http_ajp'></flag>
 	<flag name='nginx_modules_http_array_var'></flag>
 	<flag name='nginx_modules_http_auth_request'></flag>
 	<flag name='nginx_modules_http_coolkit'></flag>

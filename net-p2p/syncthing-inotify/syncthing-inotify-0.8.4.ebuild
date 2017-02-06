@@ -24,13 +24,13 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-DOCS=( README.md LICENSE  )
-
 export GOPATH="${S}"
 
 GO_PN="github.com/syncthing/${PN}"
-EGIT_CHECKOUT_DIR="${S}/src/${GO_PN}"
+EGIT_CHECKOUT_DIR="${WORKDIR}/${P}/src/${GO_PN}"
 S="${EGIT_CHECKOUT_DIR}"
+
+DOCS=( README.md LICENSE )
 
 src_compile() {
 	# XXX: All the stuff below needs for "-version" command to show actual info
@@ -45,8 +45,7 @@ src_compile() {
 }
 
 src_install() {
-	cd "${WORKDIR}/${P}"
-	dobin bin/syncthing-inotify
+	dobin "${GOPATH}/bin/syncthing-inotify"
 	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
 	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
 	default
