@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>gentoo@mva.name</email>
+    <name>mva</name>
+  </maintainer>
+<longdescription>FIXME</longdescription>
+<use>
+    <flag name="fuse">Add fuse helper</flag>
+    <flag name="gui">Build Qt GUI</flag>
+</use>
+</pkgmetadata>
