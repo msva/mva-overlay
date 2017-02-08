@@ -28,9 +28,9 @@ src_configure() {
 	mycmakeargs=(
 		-DENABLE_OPTIMIZATION=ON
 		-DSKIP_RELINK_RPATH=ON
-		-DDEBUG_MODE=$(usex debug)
-		-DMD5_SUPPORT=$(usex md5)
-		-DICONV_SUPPORT=$(usex iconv)
+		-DDEBUG_MODE=$(usex debug ON OFF)
+		-DMD5_SUPPORT=$(usex md5 ON OFF)
+		-DICONV_SUPPORT=$(usex iconv ON OFF)
 		)
 
 	cmake-utils_src_configure
