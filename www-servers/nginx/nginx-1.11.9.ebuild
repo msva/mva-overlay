@@ -35,6 +35,14 @@ HTTP_TCPPROXY_MODULE_P="${HTTP_TCPPROXY_MODULE_PN}-${HTTP_TCPPROXY_MODULE_SHA:-$
 HTTP_TCPPROXY_MODULE_URI="https://github.com/${HTTP_TCPPROXY_MODULE_A}/${HTTP_TCPPROXY_MODULE_PN}/archive/${HTTP_TCPPROXY_MODULE_SHA:-${HTTP_TCPPROXY_MODULE_PV}}.tar.gz"
 HTTP_TCPPROXY_MODULE_WD="${WORKDIR}/${HTTP_TCPPROXY_MODULE_P}"
 
+# http_rdns_module (https://github.com/dreamcommerce/nginx-http-rdns, Apache-2.0)
+HTTP_RDNS_MODULE_A="dreamcommerce"
+HTTP_RDNS_MODULE_PN="nginx-http-rdns"
+HTTP_RDNS_MODULE_PV="1.0"
+HTTP_RDNS_MODULE_P="${HTTP_RDNS_MODULE_PN}-${HTTP_RDNS_MODULE_SHA:-${HTTP_RDNS_MODULE_PV}}"
+HTTP_RDNS_MODULE_URI="https://github.com/${HTTP_RDNS_MODULE_A}/${HTTP_RDNS_MODULE_PN}/archive/${HTTP_RDNS_MODULE_SHA:-${HTTP_RDNS_MODULE_PV}}.tar.gz"
+HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
+
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
@@ -462,6 +470,7 @@ SRC_URI="
 	)
 	nginx_modules_http_enmemcache? ( ${HTTP_ENMEMCACHE_MODULE_URI} -> ${HTTP_ENMEMCACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_tcpproxy? ( ${HTTP_TCPPROXY_MODULE_URI} -> ${HTTP_TCPPROXY_MODULE_P}.tar.gz )
+	nginx_modules_http_rdns? ( ${HTTP_RDNS_MODULE_URI} -> ${HTTP_RDNS_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_hls_audio? ( ${HTTP_HLS_AUDIO_MODULE_URI} -> ${HTTP_HLS_AUDIO_MODULE_P}.tar.gz )
 	nginx_modules_http_encrypted_session? ( ${HTTP_ENCRYPTED_SESSION_MODULE_URI} -> ${HTTP_ENCRYPTED_SESSION_MODULE_P}.tar.gz )
@@ -599,6 +608,7 @@ NGINX_MODULES_MAIL_STD="
 NGINX_MODULES_HTTP_3RD="
 	enmemcache
 	tcpproxy
+	rdns
 	cache_purge
 	headers_more
 	encrypted_session
@@ -1207,6 +1217,12 @@ src_configure() {
 	if use nginx_modules_http_tcpproxy; then
 		http_enabled=1
 		myconf+=" --add-module=${HTTP_TCPPROXY_MODULE_WD}"
+	fi
+
+# http_rdns
+	if use nginx_modules_http_rdns; then
+		http_enabled=1
+		myconf+=" --add-module=${HTTP_RDNS_MODULE_WD}"
 	fi
 
 # http_postgres
