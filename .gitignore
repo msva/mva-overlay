@@ -1,4 +1,5 @@
 .gitignore
+Documentation/bad/*
 profiles/use.local.desc
 metadata/cache
 metadata/md5-cache
