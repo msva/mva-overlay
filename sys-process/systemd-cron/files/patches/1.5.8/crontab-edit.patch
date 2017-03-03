@@ -1,0 +1,24 @@
+From d9f748146e85b7293607d021fe7815c4cc4a0881 Mon Sep 17 00:00:00 2001
+From: "Vadim A. Misbakh-Soloviov" <msva@users.noreply.github.com>
+Date: Fri, 3 Mar 2017 20:39:24 +0700
+Subject: [PATCH] Fix for #53
+
+There was an issue with content of `tmp` being buffered, so it's content was old after exiting the editor, so all the changes wasn't write in `new` file.
+---
+ src/bin/crontab.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/bin/crontab.py b/src/bin/crontab.py
+index d1b898f..7c7eb78 100755
+--- a/src/bin/crontab.py
++++ b/src/bin/crontab.py
+@@ -195,7 +195,8 @@ def edit(cron_file, args):
+         tmp.close()
+         sys.exit("not replacing crontab, your edit is kept here:%s" % tmp.name)
+ 
+-    tmp.file.seek(0)
++    tmp.file.close()
++    tmp.file = open(tmp.name,"r")
+ 
+     try:
+         new = tempfile.NamedTemporaryFile(mode='w+', encoding='UTF-8', dir=CRONTAB_DIR,
