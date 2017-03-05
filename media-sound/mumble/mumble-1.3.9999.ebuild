@@ -55,7 +55,13 @@ RDEPEND="
 	>=dev-libs/protobuf-2.2.0
 	>=media-libs/libsndfile-1.0.20[-minimal]
 	>=media-libs/opus-1.0.1
-	>=media-libs/speex-1.2_rc1
+	|| (
+		(
+			>=media-libs/speex-1.2.0
+			media-libs/speexdsp
+		)
+		<media-libs/speex-1.2.0
+	)
 	sys-apps/lsb-release
 	virtual/opengl
 	x11-libs/libX11
