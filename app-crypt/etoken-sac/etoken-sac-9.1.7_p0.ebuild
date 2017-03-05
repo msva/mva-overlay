@@ -43,7 +43,7 @@ RDEPEND="
 	sys-apps/dbus
 	media-libs/libpng:0
 	media-libs/fontconfig
-	ssl? ( dev-libs/engine_pkcs11 )
+	ssl? ( >=dev-libs/libp11-0.4.0 )
 	media-libs/hal-flash
 "
 DEPEND="${RDEPEND}"
