@@ -31,7 +31,6 @@ RDEPEND="
 		dev-qt/qtxmlpatterns:4
 	)
 	qt5? (
-		dev-qt/linguist-tools:5
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5
 		dev-qt/qtnetwork:5
@@ -45,6 +44,7 @@ RDEPEND="
 	postgres? ( dev-db/postgresql:* )
 "
 DEPEND="
+	qt5? ( dev-qt/linguist-tools:5 )
 	virtual/pkgconfig
 	${RDEPEND}
 "

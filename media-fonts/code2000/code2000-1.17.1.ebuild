@@ -9,7 +9,7 @@ inherit font
 BASE_SRC_URI="http://web.archive.org/web/20110108105420/http://code2000.net/"
 
 DESCRIPTION="TrueType font covering big piece of Unicode"
-HOMEPAGE="no"
+HOMEPAGE="http://web.archive.org/web/20110108105420/code2000.net"
 SRC_URI="
 	${BASE_SRC_URI}/CODE2000.ZIP
 	${BASE_SRC_URI}/CODE2001.ZIP

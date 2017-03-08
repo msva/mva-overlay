@@ -46,7 +46,6 @@ RDEPEND="
 		>=dev-qt/qtx11extras-5.1:5
 		>=dev-qt/qtxml-5.1:5
 		>=dev-qt/qtxmlpatterns-5.1:5
-		>=dev-qt/linguist-tools-5.1:5
 		app-crypt/qca:2[qt5(+)]
 		dbus? ( >=dev-qt/qtdbus-5.1:5 )
 	)
@@ -79,6 +78,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
+	qt5? ( >=dev-qt/linguist-tools-5.1:5 )
 "
 
 src_configure() {
