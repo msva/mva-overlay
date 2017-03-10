@@ -34,7 +34,7 @@ src_install() {
 	local gradle_dir="${EROOT}usr/share/${PN}-${SLOT}"
 
 	cd dist;
-	dodoc changelog.txt getting-started.html
+	dodoc getting-started.html
 
 	insinto "${gradle_dir}"
 
