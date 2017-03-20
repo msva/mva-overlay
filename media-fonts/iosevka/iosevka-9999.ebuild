@@ -34,7 +34,7 @@ FONT_SUFFIX="ttf"
 src_unpack() {
 	git-r3_src_unpack
 
-### Actually, logically it is src_compile or src_prepare part.
+### Logically it should reside in src_compile or src_prepare part.
 ### But due to FEATURES=network-sandbox it fails there.
 	pushd "${S}" &>/dev/null
 	npm install
@@ -43,11 +43,9 @@ src_unpack() {
 }
 
 src_compile() {
-	local myemageargs=("default")
-	for f in default term cc slab term-slab cc-slab hooky hooky-term zshaped zshaped-term; do
-		myemageargs+=("fonts-${f}")
-	done
-	use woff && myemageargs+=("webfonts")
+	local myemageargs=()
+	myemageargs+=(fonts-{sans,slab,r-{{sans,slab}{,-{term,type,cc}},{hooky,zshaped}{,-term}}{,-{upright,italic,oblique}}})
+	use woff && myemageargs+=(web-{sans,slab,r-{{sans,slab}{,-{term,type,cc}},{hooky,zshaped}{,-term}}})
 	emake "${myemageargs[@]}"
 }
 
@@ -57,6 +55,6 @@ src_install() {
 	font_src_install
 	use woff && (
 		insinto /usr/share/webfonts/${PN}
-		doins -r dist/webfonts/*
+		doins -r dist/iosevka*/web/*
 	)
 }

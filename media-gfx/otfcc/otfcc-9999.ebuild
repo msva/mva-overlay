@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit git-r3 flag-o-matic
+inherit git-r3 toolchain-funcs
 
 DESCRIPTION="Parses & writes SFNT structures."
 HOMEPAGE="https://github.com/caryll/otfcc"
@@ -26,11 +26,12 @@ src_prepare() {
 	sed -r -i \
 		-e 's| make | $(MAKE) |' \
 		-e "1iall: linux-${c}-${a}" \
+		-e "s@(--cc=)[^ ]*@\1$(tc-get-compiler-type)@g" \
 		"${S}/quick.make"
 
 	# QA: We'll strip ourselves, do not strip for us!
 	sed -r -i \
-		-e '/filter "configurations:Release"/aflags { "Symbols" }\r' \
+		-e '/filter "configurations:Release"/aflags { symbols "On" }\r' \
 		"${S}"/premake5.lua
 	# ^ QA
 
@@ -44,5 +45,5 @@ src_install() {
 	use debug && c="debug"
 	(use amd64 || use arm64) && a="x64"
 
-	dobin bin/"${c^}-${a}"/*
+	dobin bin/"${c}-${a}"/*
 }

@@ -24,17 +24,19 @@ src_prepare() {
 
 	sed -r -i \
 		-e 's| make | $(MAKE) |' \
-		-e "s|(^default:).*|\1 linux-${c}-${a}|" \
-		"${S}/makefile"
+		-e "1iall: linux-${c}-${a}" \
+		-e "s@(--cc=)[^ ]*@\1$(tc-get-compiler-type)@g" \
+		"${S}/quick.make"
 
 	# QA: We'll strip ourselves, do not strip for us!
 	sed -r -i \
-		-e '/filter "configurations:Release"/aflags { "Symbols" }\r' \
+		-e '/filter "configurations:Release"/aflags { symbols "On" }\r' \
 		"${S}"/premake5.lua
 	# ^ QA
 
+	ln -s quick.make Makefile
+
 	default
-	append-cflags "-Wno-unused-result -Wno-unused-but-set-variable"
 }
 
 src_install() {
@@ -42,5 +44,5 @@ src_install() {
 	use debug && c="debug"
 	(use amd64 || use arm64) && a="x64"
 
-	dobin bin/"${c^}-${a}"/*
+	dobin bin/"${c}-${a}"/*
 }
