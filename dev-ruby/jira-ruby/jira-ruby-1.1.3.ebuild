@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-ruby_add_rdepend "dev-ruby/activesupport
+ruby_add_rdepend "dev-ruby/activesupport:4.0
 	>=dev-ruby/oauth-0.5.0
 	<dev-ruby/oauth-1"
 
