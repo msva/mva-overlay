@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>gentoo@mva.name</email>
+		<description>
+			If you have any issues, please contact me via e-mail, jabber (mva@), or IRC (FreeNode, RusNet, OFTC)
+		</description>
+		<name>Vadim A. Misbakh-Soloviov</name>
+	</maintainer>
+	<longdescription>
+	Terjira is interactive and easy to use command line interface (or Application) for Jira. You do not need to remember reosurce key or id. Terjira suggests with interactive prompt.
+	</longdescription> 
+	<use>
+		<flag name='console'>Install "jiraconsole" application (intercative ruby interpreter with preloaded terjira classes)</flag>
+	</use>
+</pkgmetadata>
