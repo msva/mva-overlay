@@ -1,15 +1,14 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
 # @ECLASS: nginx.eclass
 # @MAINTAINER:
-# mva <mva@mva.name>
+# mva <eclass.overlay@mva.name>
 # @BLURB: This eclass provides functions to build all submodules for
 # www-servers/nginx package
 # @DESCRIPTION:
 # This eclass provides functions to build all submodules for www-servers/nginx
-# Original Author: mva <mva@mva.name>
+# Original Author: mva <eclass.overlay@mva.name>
 # Purpose:
 
 ###

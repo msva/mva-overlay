@@ -1,0 +1,23 @@
+#!/sbin/openrc-run
+# Copyright 2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="Prometheus SNMP exporter"
+pidfile=${pidfile:-"/run/${SVCNAME}/${SVCNAME}.pid"}
+user=${user:-prometheus-exporter}
+
+command="/usr/bin/${SVCNAME}"
+command_args="${command_args}"
+command_background="true"
+start_stop_daemon_args="--user ${user} \
+	--stdout /var/log/prometheus/${SVCNAME}.log \
+	--stderr /var/log/prometheus/${SVCNAME}.log"
+
+depend() {
+	need net
+	after net
+}
+
+start_pre() {
+	checkpath -d -m 0755 -o "${user}" "${pidfile%/*}"
+}

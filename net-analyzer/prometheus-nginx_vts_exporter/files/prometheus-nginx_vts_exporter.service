@@ -1,0 +1,17 @@
+[Unit]
+Description=Prometheus NginX VTS metrics exporter
+Documentation=https://github.com/prometheus/memcached_exporter
+After=network-online.target
+
+[Service]
+EnvironmentFile=/etc/default/%p
+User=prometheus-exporter
+Restart=on-failure
+ExecStart=/usr/bin/%p $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+

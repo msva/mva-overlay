@@ -1,0 +1,17 @@
+[Unit]
+Description=Prometheus exporter for ephemereal jobs
+Documentation=https://prometheus.io/docs/instrumenting/pushing/
+After=network-online.target
+
+[Service]
+EnvironmentFile=/etc/default/prometheus-pushgateway
+User=prometheus
+Restart=on-failure
+ExecStart=/usr/bin/prometheus-pushgateway $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+

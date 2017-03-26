@@ -1,0 +1,15 @@
+command_args=""
+
+# Prometheus-mysql-exporter supports the following options:
+#
+#	-config.my-cnf string
+#		Path to .my.cnf file to read MySQL credentials from. (default: ~/.my.cnf)
+#	-log.level string
+#		Logging verbosity (default: info)
+#	-log_slow_filter string
+#		Add a log_slow_filter to avoid exessive MySQL slow logging. NOTE: Not supported by Oracle MySQL.
+#	-web.listen-address string
+#		Address to listen on for web interface and telemetry.
+#	-web.telemetry-path string
+#		Path under which to expose metrics.
+

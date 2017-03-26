@@ -1,0 +1,17 @@
+# Set the command-line arguments to pass to the server.
+ARGS=""
+
+# Prometheus-memcached-exporter supports the following options:
+
+#	-memcached.address string
+#		Memcached server address. (Default: "localhost:11211")
+#	-memcached.timeout duration
+#		memcached connect timeout.
+#	-memcached.pid-file string
+#		Optional path to a file containing the memcached PID for additional metrics.
+#	-version
+#		Print version information.
+#	-web.listen-address string
+#		Address to listen on for web interface and telemetry. (Defalt: ":9150")
+#	-web.telemetry-path string
+#		Path under which to expose metrics. (Default: "/metrics")

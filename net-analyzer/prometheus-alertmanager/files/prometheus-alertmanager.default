@@ -1,0 +1,26 @@
+# Set the command-line arguments to pass to the server.
+ARGS=""
+
+# The alert manager supports the following options:
+#  -config.file string
+#    	Alertmanager configuration file name.
+#       (default "/etc/prometheus/alertmanager.yml")
+#  -log.level value
+#    	Only log messages with the given severity or above.
+#       Valid levels: [debug, info, warn, error, fatal]. (default info)
+#  -storage.path string
+#    	Base path for data storage.
+#       (default "/var/lib/prometheus/alertmanager/")
+#  -web.external-url string
+#    	The URL under which Alertmanager is externally reachable (for example,
+#    	if Alertmanager is served via a reverse proxy). Used for generating
+#    	relative and absolute links back to Alertmanager itself. If the URL has
+#    	a path portion, it will be used to prefix all HTTP endpoints served by
+#    	Alertmanager. If omitted, relevant URL components will be derived
+#    	automatically.
+#  -web.listen-address string
+#    	Address to listen on for the web interface and API. (default ":9093")
+#  -web.local-assets string
+#    	Path to static assets/templates directory.
+#       (default "/usr/share/prometheus/alertmanager/")
+

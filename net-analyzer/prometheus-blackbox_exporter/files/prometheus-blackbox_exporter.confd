@@ -1,0 +1,15 @@
+command_args="-config.file /etc/prometheus/blackbox.yml"
+
+# Prometheus-blackbox-exporter supports the following options:
+
+# Usage of prometheus-blackbox-exporter:
+#   -config.file string
+#       Blackbox exporter configuration file. (default "blackbox.yml")
+#   -log.format value
+#       Set the log target and format. Example: "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true" (default "logger:stderr")
+#   -log.level value
+#       Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal] (default "info")
+#   -version
+#       Print version information.
+#   -web.listen-address string
+#       The address to listen on for HTTP requests. (default ":9115")

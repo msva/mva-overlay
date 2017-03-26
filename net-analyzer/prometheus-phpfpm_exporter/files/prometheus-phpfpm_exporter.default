@@ -1,0 +1,28 @@
+# Set the command-line arguments to pass to the server.
+ARGS=""
+
+# Prometheus-phpfpm-exporter supports the following options:
+#
+#	-web.listen-address string
+#		Address to listen on for web interface and telemetry. (Default: ":9101")
+#	-web.telemetry-path string
+#		Path under which to expose metrics. (Default: "/metrics")
+#	-phpfpm.pid-file string
+#		Path to phpfpm's pid file. (Default: "/var/run/php5-fpm.pid")
+#	-phpfpm.config string
+#		Pools conf dir (Default: "/etc/php5/fpm/pool.d/")
+#	-phpfpm.poll-interval int
+#		Poll interval in seconds (Default: 10)
+#	-phpfpm.use-native-client bool
+#		Use a native go client to get status or use external cgi-fcgi command (Default: true)
+#	-nc.connect-timeout int
+#		Native client connect timeout in ms (Default: 500)
+#	-cgi-fcgi.poll-timeout int
+#		Poll timeout in seconds (Default: 2)
+#	-cgi-fcgi.path string
+#		cgi-fcgi program path (Default: "/usr/bin/cgi-fcgi")
+#	-cgi-fcgi.ld-library-path string
+#		LD_LIBRARY_PATH value to run cgi-fcgi
+#	-version
+#		Print version information.
+

@@ -1,0 +1,17 @@
+[Unit]
+Description=Monitoring system and time series database
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+EnvironmentFile=/etc/default/prometheus
+User=prometheus
+Restart=on-failure
+ExecStart=/usr/bin/prometheus $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+

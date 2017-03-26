@@ -1,0 +1,4 @@
+PROMETHEUS_ALERTMANAGER_USER="prometheus"
+PROMETHEUS_ALERTMANAGER_ARGS="-web.listen-address localhost:9093 -config.file /etc/prometheus/alertmanager.conf"
+PROMETHEUS_ALERTMANAGER_LOG_FILE="/var/log/prometheus/alertmanager.log"
+PROMETHEUS_ALERTMANAGER_DATA_DIR="/var/lib/prometheus/alertmanager"
