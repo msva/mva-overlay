@@ -1,6 +1,6 @@
 diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
---- src/http/ngx_http_upstream.c	2014-09-26 13:02:13.496888223 +0700
-+++ src/http/ngx_http_upstream.c	2014-09-26 13:03:17.450202120 +0700
+--- a/src/http/ngx_http_upstream.c	2014-09-26 13:02:13.496888223 +0700
++++ b/src/http/ngx_http_upstream.c	2014-09-26 13:03:17.450202120 +0700
 @@ -29,8 +29,6 @@
  static void ngx_http_upstream_wr_check_broken_connection(ngx_http_request_t *r);
  static void ngx_http_upstream_check_broken_connection(ngx_http_request_t *r,
@@ -43,8 +43,8 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
  {
      ngx_int_t          rc;
 diff -Naur src/http/ngx_http_upstream.h src/http/ngx_http_upstream.h
---- src/http/ngx_http_upstream.h	2009-12-23 09:22:17.000000000 -0500
-+++ src/http/ngx_http_upstream.h	2010-01-20 15:24:36.000000000 -0500
+--- a/src/http/ngx_http_upstream.h	2009-12-23 09:22:17.000000000 -0500
++++ b/src/http/ngx_http_upstream.h	2010-01-20 15:24:36.000000000 -0500
 @@ -360,6 +360,8 @@
  
  ngx_int_t ngx_http_upstream_create(ngx_http_request_t *r);

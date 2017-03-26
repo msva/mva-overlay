@@ -35,6 +35,7 @@
 	<flag name='nginx_modules_http_njs'>This module adds native JavaScript support in NginX</flag>
 	<flag name='nginx_modules_http_pagespeed'>Pagespeed module</flag>
 	<flag name='nginx_modules_http_passenger'>Phusion Passenger Application Server (supporting node.js, ruby, python and so on)</flag>
+	<flag name='nginx_modules_http_passenger_enterprise'>Phusion Passenger Application Server (supporting node.js, ruby, python and so on). Enterprise version.</flag>
 	<flag name='nginx_modules_http_postgres'>This module adds the ability to "talk" to PostgreSQL server</flag>
 	<flag name='nginx_modules_http_rdns'>This module adds hostname based (reverse-dns lookup) acces lists</flag>
 	<flag name='nginx_modules_http_rds_csv'>RDS CSV Module</flag>
@@ -66,8 +67,10 @@
 	<flag name='nginx_modules_stream_upstream_zone'>Upstream Zone Module (stream)</flag>
 	<flag name='pcre-jit'>Add support to PCRE JIT</flag>
 	<flag name='perftools'>Use <pkg>dev-util/google-perftools</pkg> for performance tuning</flag>
+	<flag name='nginx_modules_http_rrd'>Enadle 3rd party rrd module</flag>
 	<flag name='rrd'>Enadle 3rd party rrd module</flag>
 <!--	<flag name='rtmp'></flag> -->
+	<flag name='systemtap'>Install systemtap tapset files for some modules</flag>
 	<flag name='stream'>Enable Stream NginX core module</flag>
 </use>
 </pkgmetadata>

@@ -1,5 +1,5 @@
---- build/basics.rb	2014-01-26 13:41:56.879695794 +0700
-+++ build/basics.rb	2014-01-26 13:46:27.116093311 +0700
+--- a/build/basics.rb	2014-01-26 13:41:56.879695794 +0700
++++ b/build/basics.rb	2014-01-26 13:46:27.116093311 +0700
 @@ -187,6 +187,9 @@
  	compiler_flag_option('EXTRA_CXX_LDFLAGS')
  
