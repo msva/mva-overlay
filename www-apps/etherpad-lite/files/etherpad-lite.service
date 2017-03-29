@@ -1,0 +1,14 @@
+[Unit]
+Description=Etherpad-lite, the collaborative editor.
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=etherpad
+Group=daemon
+WorkingDirectory=/usr/share/etherpad-lite
+ExecStart=/usr/bin/nodejs /usr/share/etherpad-lite/src/node/server.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
