@@ -1,0 +1,13 @@
+--- HTTP/WebDAV/Tools/_parse_propfind_response.php.orig	2015-06-15 22:46:16.736000000 +0200
++++ HTTP/WebDAV/Tools/_parse_propfind_response.php	2015-06-15 22:46:23.841000000 +0200
+@@ -98,9 +98,7 @@
+                 $this->_tmpprop['mtime'] = strtotime($this->_tmpdata);
+                 break;
+             case 'creationdate':
+-                $t = preg_split("/[^[:digit:]]/", $this->_tmpdata);
+-                $this->_tmpprop['ctime'] = mktime($t[3], $t[4], $t[5], $t[1], $t[2], $t[0]);
+-                unset($t);
++                $this->_tmpprop['ctime'] = strtotime($this->_tmpdata);
+                 break;
+             case 'getcontentlength':
+                 $this->_tmpprop['size'] = $this->_tmpdata;

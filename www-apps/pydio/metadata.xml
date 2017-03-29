@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+ <email>gentoo-overlay@mva.name</email>
+ <description>
+        If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
+ </description>
+ <name>Vadim A. Misbakh-Soloviov</name>
+</maintainer>
+<longdescription lang="en">
+</longdescription>
+<use>
+    <flag name='webdav'>Enable support for webdav protocol</flag>
+</use>
+</pkgmetadata>
+
