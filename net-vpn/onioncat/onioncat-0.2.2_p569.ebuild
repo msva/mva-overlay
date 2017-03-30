@@ -16,11 +16,11 @@ KEYWORDS="~amd64 ~x86"
 IUSE="debug +http log +queue relay +rtt i2p"
 
 RDEPEND="
-	net-misc/tor
+	net-vpn/tor
 	i2p? (
 		|| (
-			net-misc/i2pd
-			net-p2p/i2p
+			net-vpn/i2pd
+			net-vpn/i2p
 		)
 	)
 "
