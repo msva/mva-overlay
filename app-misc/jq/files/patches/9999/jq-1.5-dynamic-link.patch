@@ -1,0 +1,13 @@
+diff --git a/Makefile.am b/Makefile.am
+index c3a771f..274c01e 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -107,7 +107,7 @@ src/builtin.o: src/builtin.inc
+ 
+ bin_PROGRAMS = jq
+ jq_SOURCES = src/main.c src/version.h
+-jq_LDFLAGS = -static-libtool-libs
++jq_LDFLAGS = 
+ jq_LDADD = libjq.la -lm
+ 
+ if WIN32
