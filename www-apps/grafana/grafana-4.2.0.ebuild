@@ -30,7 +30,9 @@ DAEMON_USER="grafana"
 LOG_DIR="/var/log/grafana"
 DATA_DIR="/var/lib/grafana"
 
-PATCHES=("${FILESDIR}/${PN}-$(get_version_component_range 1-2)-"*.patch)
+if [[ -d "${FILESDIR}/patches/${PV}" ]]; then
+	PATCHES=("${FILESDIR}/patches/${PV}")
+fi
 
 pkg_setup() {
 	enewuser ${DAEMON_USER} -1 -1 "${DATA_DIR}"
