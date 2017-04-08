@@ -60,14 +60,13 @@ src_compile() {
 }
 
 src_install() {
-	insinto "/usr/share/${PN}"
-	if [[ -e vendor/phantomjs/phantomjs ]]; then
-		rm vendor/phantomjs/phantomjs;
-		dosym /usr/bin/phantomjs vendor/phantomjs/phantomjs;
-	fi
+	local PD="/usr/share/${PN}"
+	rm vendor/phantomjs/phantomjs;
+	insinto "${PD}"
 	doins -r conf vendor
+	dosym /usr/bin/phantomjs "${PD}"/vendor/phantomjs/phantomjs;
 
-	insinto "/usr/share/${PN}/public"
+	insinto "${PD}/public"
 	doins -r public_gen/*
 
 	# Disable MPROTECT to run in hardened kernels
