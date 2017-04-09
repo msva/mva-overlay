@@ -21,9 +21,9 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	>=dev-lang/go-1.5
+	>=dev-lang/go-1.8
 	!www-apps/grafana-plugins-prometheus
-	sys-apps/yarn
+	>=sys-apps/yarn-0.22.0
 "
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
