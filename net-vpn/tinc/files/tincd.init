@@ -1,4 +1,4 @@
-#!/sbin/runscript
+#!/sbin/openrc-run
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
@@ -27,12 +27,12 @@ checkconfig() {
 }
 
 start() {
-	ebegin "Starting tinc VPN"
+	ebegin "Starting tinc VPN networks"
 	checkconfig || return 1
 	for NETNAME in ${ALL_NETNAME}
 	do
 		CONFIG="/etc/tinc/${NETNAME}/tinc.conf"
-		PIDFILE="/var/run/tinc.${NETNAME}.pid"
+		PIDFILE="/run/tinc.${NETNAME}.pid"
 		if [ ! -f "${CONFIG}" ]; then
 			eerror "Cannot start network ${NETNAME}."
 			eerror "Please set up ${CONFIG} !"
@@ -50,11 +50,11 @@ start() {
 }
 
 stop() {
-	ebegin "Stopping tinc VPN"
+	ebegin "Stopping tinc VPN networks"
 	checkconfig || return 1
 	for NETNAME in ${ALL_NETNAME}
 	do
-		PIDFILE="/var/run/tinc.${NETNAME}.pid"
+		PIDFILE="/run/tinc.${NETNAME}.pid"
 		if [ -f "${PIDFILE}" ]; then
 			ebegin "Stopping tinc network ${NETNAME}"
 			start-stop-daemon --stop --pidfile "${PIDFILE}"
@@ -64,11 +64,11 @@ stop() {
 }
 
 reload() {
-	ebegin "Reloading configuration for tinc VPN"
+	ebegin "Reloading configuration for tinc VPN networks"
 	checkconfig || return 1
 	for NETNAME in ${ALL_NETNAME}
 	do
-		PIDFILE="/var/run/tinc.${NETNAME}.pid"
+		PIDFILE="/run/tinc.${NETNAME}.pid"
 		if [ -f "${PIDFILE}" ]; then
 			ebegin "Reloading tinc network ${NETNAME}"
 			start-stop-daemon --signal HUP --pidfile ${PIDFILE}

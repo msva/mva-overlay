@@ -5,79 +5,89 @@ EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit systemd eutils python-any-r1 git-r3 autotools
+inherit systemd eutils python-any-r1 multilib git-r3 autotools
 
 DESCRIPTION="tinc is an easy to configure VPN implementation"
-HOMEPAGE="http://www.tinc-vpn.org/"
+HOMEPAGE="https://tinc-vpn.org/"
 
 EGIT_BRANCH="1.1"
 EGIT_REPO_URI="https://tinc-vpn.org/git/tinc"
-
-SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="+lzo +ncurses +openssl gcrypt gui +readline uml vde +zlib"
-#upnp
-# ^ broken
-DEPEND="dev-libs/openssl:*
+IUSE="gui +legacy libressl +lzo +ncurses +readline +ssl tools uml vde upnp +zlib"
+#gcrypt
+
+DEPEND="
+	ssl? (
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl:0= )
+	)
 	lzo? ( dev-libs/lzo:2 )
-	ncurses? ( sys-libs/ncurses:* )
-	readline? ( sys-libs/readline:* )
-	zlib? ( sys-libs/zlib )"
-#	upnp? ( net-libs/miniupnpc )
-# ^ broken
-RDEPEND="${DEPEND}
+	ncurses? ( sys-libs/ncurses:= )
+	readline? ( sys-libs/readline:= )
+	upnp? ( net-libs/miniupnpc )
+	zlib? ( sys-libs/zlib )
+"
+RDEPEND="
+	${DEPEND}
 	vde? ( net-misc/vde )
 	${PYTHON_DEPS}
 	gui? ( $(python_gen_any_dep '
 		dev-python/wxpython[${PYTHON_USEDEP}]
-		') )"
+	') )
+"
 
-REQUIRED_USE="^^ ( openssl gcrypt )"
+#REQUIRED_USE="^^ ( ssl gcrypt )"
+
+PATCHES=("${FILESDIR}/patches/${PV}")
 
 src_prepare() {
+	use tools && sed -r \
+		-e '1,5s@^(sbin_PROGRAMS.*)@\1 $(EXTRA_PROGRAMS)@' \
+		-i src/Makefile.am
 	default
 	eautoreconf
 }
 
 src_configure() {
-	econf \
-		--enable-jumbograms \
-		--disable-tunemu  \
-		--with-windows2000 \
-		--disable-silent-rules \
-		$(use_enable lzo) \
-		$(use_enable ncurses curses) \
-		$(use_enable readline) \
-		$(use_enable uml) \
-		$(use_enable vde) \
-		$(use_enable zlib) \
-		$(use_with openssl) \
-		${myconf}
-#       $(use_with gcrypt libgcrypt), upstream not ready
-#
-#		$(use_enable upnp miniupnpc) \
-# ^ broken
-}
-
-src_compile() {
-	emake all ChangeLog || die "emake failed"
+	local myconf=(
+		--enable-jumbograms
+		--disable-silent-rules
+		--disable-tunemu
+		--with-systemd=/usr/$(get_libdir)/systemd/system
+#		$(use_with gcrypt libgcrypt) # Broken
+		$(use_enable legacy legacy-protocol)
+		$(use_enable lzo)
+		$(use_enable ncurses curses)
+		$(use_enable readline)
+		$(use_enable uml)
+		$(use_enable vde)
+		$(use_enable upnp miniupnpc)
+		$(use_enable zlib)
+		$(use_with ssl openssl)
+	)
+	econf ${myconf[@]}
 }
 
 src_install() {
 	emake DESTDIR="${D}" install
-	dodir /etc/tinc
-	dodoc AUTHORS ChangeLog COPYING.README NEWS README THANKS
+	dodir /etc/"${PN}"
+	dodoc AUTHORS NEWS README THANKS
 	dodoc doc/{CONNECTIVITY,NETWORKING,PROTOCOL,SECURITY2,SPTPS}
-	dodoc gui/README.gui
 	dodoc -r doc/sample-config
-	newinitd "${FILESDIR}"/tincd-r1 tincd
+	newinitd "${FILESDIR}"/tincd.init tincd
 	doconfd "${FILESDIR}"/tinc.networks
 	newconfd "${FILESDIR}"/tincd.conf tincd
-	systemd_newunit "${FILESDIR}"/tincd_at.service 'tincd@.service'
+
+	if use gui; then
+		python_fix_shebang "${ED}"/usr/bin/"${PN}"-gui
+		dodoc gui/README.gui
+	else
+		rm -f "${ED}"/usr/bin/"${PN}"-gui || die
+	fi
 }
 
 pkg_postinst() {

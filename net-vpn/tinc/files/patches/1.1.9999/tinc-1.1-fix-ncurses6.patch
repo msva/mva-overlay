@@ -1,0 +1,11 @@
+--- a/m4/curses.m4	2016-10-16 01:58:57.739207738 +0700
++++ b/m4/curses.m4	2016-10-16 01:59:04.610959120 +0700
+@@ -32,7 +32,7 @@
+     )
+ 
+     AC_CHECK_LIB(ncurses, initscr,
+-      [CURSES_LIBS="-lncurses"],
++      [CURSES_LIBS="-lncurses -ltinfo"],
+       [AC_CHECK_LIB(curses, initscr,
+         [CURSES_LIBS="-lcurses"],
+         [AC_MSG_ERROR("curses libraries not found.")]
