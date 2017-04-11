@@ -2,6 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
+		<email>kaikaikai@yandex.ru</email>
+		<name>Alexey Korepanov</name>
+	</maintainer>
+	<maintainer type="person">
 		<email>klondike@gentoo.org</email>
 		<name>Francisco Blas Izquierdo Riera</name>
 	</maintainer>
@@ -9,12 +13,28 @@
 		<email>blueness@gentoo.org</email>
 		<name>Anthony G. Basile</name>
 	</maintainer>
+	<maintainer type="person">
+		<email>tomboy64@sina.cn</email>
+		<name>Proxy maintainer. Please subscribe to bugs.</name>
+	</maintainer>
 	<use>
-		<flag name="daemon">
-			Compile I²P daemon
+		<flag name="cjdns">
+			Compile with CJDNS network support
 		</flag>
-		<flag name="api">
-			Build the libi2pd libraries (to work with I²P API).
+		<flag name="i2lua">
+			Compile for i2lua support
+		</flag>
+		<flag name="i2p-hardening">
+			Compile with hardening on vanilla compilers/linkers
+		</flag>
+		<flag name="thread-sanitizer">
+			Compile with Thread Sanitizer Feature
+		</flag>
+		<flag name="addr-sanitizer">
+			Compile with Address Sanitizer Feature
+		</flag>
+		<flag name="websockets">
+			Compile with Websocket UI
 		</flag>
 	</use>
 	<upstream>

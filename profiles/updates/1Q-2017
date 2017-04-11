@@ -1,1 +1,4 @@
 move net-misc/onioncat net-vpn/onioncat
+move net-misc/i2pd net-vpn/i2pd
+move net-misc/tinc net-vpn/tinc
+
