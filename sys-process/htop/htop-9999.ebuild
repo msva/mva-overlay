@@ -25,9 +25,9 @@ DOCS=(README)
 
 CONFIG_CHECK="~TASKSTATS ~TASK_XACCT ~TASK_IO_ACCOUNTING ~CGROUPS"
 
-PATCHES=(
-	"${FILESDIR}/${PN}-2.0.2-tinfo.patch"
-)
+#PATCHES=(
+#	"${FILESDIR}/${PN}-2.0.2-tinfo.patch"
+#)
 
 pkg_setup() {
 	if ! has_version sys-process/lsof; then
