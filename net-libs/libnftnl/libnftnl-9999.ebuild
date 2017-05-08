@@ -13,15 +13,18 @@ EGIT_REPO_URI="git://git.netfilter.org/libnftnl"
 LICENSE="GPL-2"
 SLOT="0/4"
 KEYWORDS=""
-IUSE="examples json static-libs test xml"
+IUSE="examples json static-libs test"
 
-RDEPEND=">=net-libs/libmnl-1.0.0
-	xml? ( >=dev-libs/mini-xml-2.6 )
-	json? ( >=dev-libs/jansson-2.3 )"
-DEPEND="virtual/pkgconfig
-	${RDEPEND}"
+RDEPEND="
+	>=net-libs/libmnl-1.0.0
+	json? ( >=dev-libs/jansson-2.3 )
+"
+DEPEND="
+	virtual/pkgconfig
+	${RDEPEND}
+"
 
-REQUIRED_USE="test? ( json xml )"
+REQUIRED_USE="test? ( json )"
 
 pkg_setup() {
 	if kernel_is ge 3 13; then
@@ -40,7 +43,6 @@ src_prepare() {
 src_configure() {
 	econf \
 		$(use_enable static-libs static) \
-		$(use_with xml xml-parsing) \
 		$(use_with json json-parsing)
 }
 

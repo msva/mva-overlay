@@ -53,8 +53,8 @@ src_install() {
 	cp -p "${FILESDIR}"/libexec/${PN}.sh "${D}"/usr/libexec/${PN}/${PN}.sh
 
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-	newinitd "${FILESDIR}"/${PN}.init-r2 ${PN}
+	newinitd "${FILESDIR}"/${PN}.init ${PN}
 	keepdir /var/lib/nftables
 
-	systemd_dounit "${FILESDIR}"/systemd/${PN}{,-{re,}store}.service
+	systemd_dounit "${FILESDIR}"/systemd/${PN}-restore.service
 }
