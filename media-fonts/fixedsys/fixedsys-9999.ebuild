@@ -15,9 +15,13 @@ KEYWORDS=""
 
 FONT_SUFFIX="ttf"
 
+DEPEND="dev-python/fonttools"
+
 src_prepare() {
 	sed -i \
-		-e '3,$d' \
+		-e '/cp /d' \
+		-e '/rm /d' \
+		-e '/atsutil /d' \
 		Makefile
 	default
 }
