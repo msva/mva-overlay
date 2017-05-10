@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools git-r3
+inherit autotools ltprune git-r3
 
 DESCRIPTION="Command-line JSON processor"
 HOMEPAGE="http://stedolan.github.io/jq/"
