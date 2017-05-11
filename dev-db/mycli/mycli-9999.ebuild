@@ -27,8 +27,3 @@ RDEPEND="
 	>=dev-python/python-sqlparse-0.2.2[${PYTHON_USEDEP}]
 	<dev-python/python-sqlparse-0.3.0[${PYTHON_USEDEP}]
 "
-
-src_prepare() {
-	rm mycli/packages/counter.py || die "Could not remove python 2.6 counter.py"
-	distutils-r1_src_prepare
-}
