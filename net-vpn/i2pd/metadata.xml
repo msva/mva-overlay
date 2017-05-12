@@ -19,7 +19,7 @@
 	</maintainer>
 	<use>
 		<flag name="cjdns">
-			Compile with CJDNS network support
+			Compile I2PD for use with CJDNS ("test") network
 		</flag>
 		<flag name="i2lua">
 			Compile for i2lua support

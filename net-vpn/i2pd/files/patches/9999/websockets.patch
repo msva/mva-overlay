@@ -1,0 +1,13 @@
+diff -NaurBwd a/build/CMakeLists.txt b/build/CMakeLists.txt
+--- a/build/CMakeLists.txt	2017-05-11 23:56:52.502311267 +0700
++++ b/build/CMakeLists.txt	2017-05-11 23:57:13.208507499 +0700
+@@ -110,7 +110,7 @@
+ )
+ 
+ if(WITH_WEBSOCKETS)
+-  list (APPEND CLIENT_SRC "${LIBI2PD_SRC_DIR}/Websocket.cpp")
++  list (APPEND CLIENT_SRC "${LIBI2PD_CLIENT_SRC_DIR}/Websocket.cpp")
+ endif ()
+ add_library(i2pdclient ${CLIENT_SRC})
+ 
+

@@ -8,6 +8,7 @@ inherit eutils systemd pax-utils user git-r3 cmake-utils
 DESCRIPTION="A C++ daemon for accessing the I2P anonymous network"
 HOMEPAGE="https://github.com/PurpleI2P/i2pd"
 EGIT_REPO_URI="https://github.com/PurpleI2P/i2pd"
+EGIT_BRANCH="openssl"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
@@ -45,7 +46,7 @@ DOCS=( README.md contrib/{i2pd,tunnels}.conf )
 #		dolib.so libi2pd{,client}.so
 #		use static && dolib.a libi2pd{,client}.a
 
-PATCHES=( "${FILESDIR}/${PN}-2.5.1-fix_installed_components.patch" )
+PATCHES=( "${FILESDIR}/patches/${PV}" )
 
 src_configure() {
 	mycmakeargs=(
