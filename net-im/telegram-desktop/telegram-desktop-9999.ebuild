@@ -54,7 +54,7 @@ src_prepare() {
 			(
 				echo 'static const int32 ApiId = '"${TELEGRAM_CUSTOM_API_ID}"';'
 				echo 'static const char *ApiHash = "'"${TELEGRAM_CUSTOM_API_HASH}"'";'
-			) > custom-api-id.h
+			) > custom_api_id.h
 		else
 			eerror ""
 			eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
