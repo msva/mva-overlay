@@ -10,6 +10,7 @@
 </maintainer>
 <longdescription>FIXME</longdescription> 
 <use>
+	<flag name="cli">Build cli interface</flag>
 	<flag name="gui">Build GUIs (currently Qt5 only)</flag>
 	<flag name="daemon">Build LibreVault daemon</flag>
 </use>
