@@ -10,6 +10,9 @@
 </maintainer>
 <longdescription>FIXME</longdescription> 
   <use>
+    <flag name="cli">
+      Install stcli (syncthing-cli).
+    </flag>
     <flag name="tools">
       Install stdiscosrv, strelaysrv and other tools to /usr/libexec/syncthing/.
     </flag>

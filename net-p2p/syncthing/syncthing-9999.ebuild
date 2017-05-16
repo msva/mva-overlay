@@ -11,7 +11,7 @@ HOMEPAGE="http://syncthing.net"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="selinux tools"
+IUSE="cli selinux tools"
 
 RDEPEND="selinux? ( sec-policy/selinux-syncthing )"
 
@@ -50,6 +50,10 @@ src_compile() {
 
 	go run build.go -version "${version}" -no-upgrade install \
 		$(usex tools "all" "") || die "build failed"
+
+	if ! use tools && use cli; then
+		go build -o bin/stcli ./cmd/stcli
+	fi
 }
 
 src_test() {
@@ -58,16 +62,22 @@ src_test() {
 
 src_install() {
 	doman man/*.[157]
+
 	dobin "bin/${PN}"
-	einstalldocs
+	rm "bin/${PN}"
+
+	if use cli; then
+		dobin bin/stcli
+		dosym stcli "/usr/bin/${PN}-cli"
+	fi
+	rm bin/stcli
 
 	if use tools ; then
 		exeinto "/usr/libexec/${PN}"
-		local exe
-		for exe in bin/* ; do
-			[[ "${exe}" == "bin/${PN}" ]] || doexe "${exe}"
-		done
+		doexe bin/*
 	fi
+
+	einstalldocs
 
 	systemd_dounit "${S}/etc/linux-systemd/system/${PN}"{@,-resume}.service
 	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}".service
