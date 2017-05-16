@@ -1,0 +1,44 @@
+diff -NaurBwd a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2017-05-16 18:57:44.594522270 +0700
++++ b/CMakeLists.txt	2017-05-16 23:43:23.248363920 +0700
+@@ -215,6 +215,7 @@
+         target_link_libraries(test ${SD_LIBRARIES})
+         target_link_libraries(uhub-passwd ${SD_LIBRARIES})
+         target_link_libraries(uhub-admin ${SD_LIBRARIES})
++        target_link_libraries(adcrush ${SD_LIBRARIES})
+         include_directories(${SD_INCLUDE_DIRS})
+         add_definitions(-DSYSTEMD)
+ endif()
+@@ -237,6 +238,10 @@
+ 
+ if (UNIX)
+ 	install( TARGETS uhub uhub-passwd RUNTIME DESTINATION bin )
++	install( TARGETS uhub-admin RUNTIME DESTINATION bin )
++	if (ADC_STRESS)
++		install( TARGETS adcrush RUNTIME DESTINATION bin )
++	endif()
+ 	install( TARGETS mod_example mod_welcome mod_logging mod_auth_simple mod_auth_sqlite mod_chat_history mod_chat_history_sqlite mod_chat_only mod_topic mod_no_guest_downloads DESTINATION /usr/lib/uhub/ OPTIONAL )
+ 	install( FILES ${CMAKE_SOURCE_DIR}/doc/uhub.conf ${CMAKE_SOURCE_DIR}/doc/plugins.conf ${CMAKE_SOURCE_DIR}/doc/rules.txt ${CMAKE_SOURCE_DIR}/doc/motd.txt DESTINATION /etc/uhub OPTIONAL )
+ endif()
+diff -NaurBwd a/tools/admin.c b/tools/admin.c
+--- a/src/tools/admin.c	2017-05-16 21:10:12.263043270 +0700
++++ b/src/tools/admin.c	2017-05-16 21:10:03.785338231 +0700
+@@ -238,7 +238,7 @@
+ {
+ 	if (argc < 2)
+ 	{
+-		printf("Usage: %s adc[s]://host:port\n", argv[0]);
++		printf("Usage: %s adc[s]://host:port nick description\n", argv[0]);
+ 		return 1;
+ 	}
+ 
+@@ -251,7 +251,7 @@
+ 
+ 	memset(g_usermap, 0, sizeof(g_usermap));
+ 
+-	client = ADC_client_create("uhub-admin", "stresstester", NULL);
++	client = ADC_client_create(argv[2], argv[3], NULL);
+ 	ADC_client_set_callback(client, handle);
+ 	ADC_client_connect(client, argv[1]);
+ 
+

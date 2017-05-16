@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit cmake-utils eutils git-r3
+inherit cmake-utils eutils git-r3 user
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/janvidar/uhub.git"
 KEYWORDS=""
@@ -14,10 +14,19 @@ HOMEPAGE="https://uhub.org/"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
-IUSE="debug +ssl systemd"
+IUSE="debug gnutls libressl sqlite +ssl systemd tools"
 
 DEPEND="
-	ssl? ( >=dev-libs/openssl-0.9.8:* )
+	ssl? (
+		gnutls? ( net-libs/gnutls:* )
+		!gnutls? (
+			libressl? ( dev-libs/libressl:* )
+			!libressl? ( >=dev-libs/openssl-0.9.8:* )
+		)
+	)
+	sqlite? (
+		dev-db/sqlite:3
+	)
 "
 DEPEND="
 	>=dev-util/cmake-2.8.3
@@ -27,11 +36,15 @@ DEPEND="
 UHUB_USER="${UHUB_USER:-uhub}"
 UHUB_GROUP="${UHUB_GROUP:-uhub}"
 
+PATCHES=("${FILESDIR}/patches/${PV}")
+
 src_configure() {
 	mycmakeargs=(
-		$(_use_me_now_inverted "" debug RELEASE)
-		$(cmake-utils_use_use ssl)
-		$(cmake-utils_use_use systemd)
+		-DRELEASE=$(usex debug 'OFF' 'ON')
+		-DSSL_SUPPORT=$(usex ssl 'ON' 'OFF')
+		-DUSE_OPENSSL=$(usex gnutls 'OFF' 'ON')
+		-DSYSTEMD_SUPPORT=$(usex systemd 'ON' 'OFF')
+		-DADC_STRESS=$(usex tools 'ON' 'OFF')
 	)
 	cmake-utils_src_configure
 }

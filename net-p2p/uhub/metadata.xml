@@ -10,5 +10,6 @@
 </maintainer>
 <longdescription>FIXME</longdescription> 
 <use>
+	<flag name="tools">Build and install additional tools (currently, ADCrush (ADC stress tester))</flag>
 </use>
 </pkgmetadata>
