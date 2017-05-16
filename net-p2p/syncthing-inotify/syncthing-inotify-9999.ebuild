@@ -32,14 +32,15 @@ DOCS=( README.md LICENSE )
 
 src_compile() {
 	# XXX: All the stuff below needs for "-version" command to show actual info
-	local version="$(git describe --always | sed 's/\([v\.0-9]*\)\(-\(beta\|alpha\)[0-9]*\)\?-/\1\2+/')";
+	#local version="$(git describe --always | sed 's/\([v\.0-9]*\)\(-\(beta\|alpha\)[0-9]*\)\?-/\1\2+/')";
+	local version="$(git describe --always)";
 	local date="$(git show -s --format=%ct)";
 	local user="$(whoami)"
 	local host="$(hostname)"; host="${host%%.*}";
-	local lf="-w -X main.Version ${version} -X main.BuildStamp ${date} -X main.BuildUser ${user} -X main.BuildHost ${host}"
+	local lf="-w -X main.Version ${version:-9999} -X main.BuildStamp ${date:-date is not set} -X main.BuildUser ${user:-portage} -X main.BuildHost ${host:-localhost}"
 
 	go get
-	go build
+	go build -ldflags "${lf}"
 }
 
 src_install() {
