@@ -3,62 +3,107 @@
 
 EAPI=6
 
-inherit eutils systemd user git-r3
+inherit golang-base git-r3 systemd user
 
-DESCRIPTION="Open, trustworthy and decentralized sync engine (like DropBox/BTSync)"
+DESCRIPTION="Open Source Continuous File Synchronization"
 HOMEPAGE="http://syncthing.net"
-
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/syncthing/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="selinux tools"
 
-DEPEND="
-	>=dev-lang/go-1.5.1
-	dev-go/godep
-"
+RDEPEND="selinux? ( sec-policy/selinux-syncthing )"
 
-RDEPEND="${DEPEND}"
+DOCS=( README.md AUTHORS CONTRIBUTING.md )
 
-DOCS=( README.md AUTHORS LICENSE CONTRIBUTING.md )
-
-export GOPATH="${S}"
-
-GO_PN="github.com/syncthing/${PN}"
-EGIT_CHECKOUT_DIR="${S}/src/${GO_PN}"
+EGO_PN="github.com/${PN}/${PN}"
+EGIT_REPO_URI="https://${EGO_PN}"
+EGIT_CHECKOUT_DIR="${WORKDIR}/${P}/src/${EGO_PN}"
 S="${EGIT_CHECKOUT_DIR}"
 
 pkg_setup() {
-	enewuser ${PN} -1 -1 "${SYNCTHING_HOME}"
+	enewgroup "${PN}"
+	enewuser "${PN}" -1 -1 "/var/lib/${PN}" "${PN}"
+
+	if use tools ; then
+		# separate user for the relay server
+		enewgroup strelaysrv
+		enewuser strelaysrv -1 -1 /var/lib/strelaysrv strelaysrv
+		# and his home folder
+		keepdir /var/lib/strelaysrv
+		fowners strelaysrv:strelaysrv /var/lib/strelaysrv
+	fi
+}
+
+src_prepare() {
+	default
+	sed -i \
+		's|^ExecStart=.*|ExecStart=/usr/libexec/syncthing/strelaysrv|' \
+		"${S}/cmd/strelaysrv/etc/linux-systemd/strelaysrv.service" \
+		|| die
 }
 
 src_compile() {
-#	# XXX: All the stuff below needs for "-version" command to show actual info
-	local version="$(git describe --always | sed 's/\([v\.0-9]*\)\(-\(beta\|alpha\)\.[0-9]*\)\?-/\1\2+/')";
-	local date="$(git show -s --format=%ct)";
-	local user="portage"
-	local host="gentoo";
-	local lf="-w -X main.Version=${version} -X main.BuildStamp=${date} -X main.BuildUser=${user} -X main.BuildHost=${host}"
+	export GOPATH="${WORKDIR}/${P}:$(get_golibdir_gopath)"
+	local version="$(git describe --always)"
 
-	godep go build -ldflags "${lf}" -tags noupgrade ./cmd/syncthing
+	go run build.go -version "${version}" -no-upgrade install \
+		$(usex tools "all" "") || die "build failed"
+}
+
+src_test() {
+	go run build.go test || die "test failed"
 }
 
 src_install() {
-	dobin "${PN}"
+	doman man/*.[157]
+	dobin "bin/${PN}"
+	einstalldocs
 
-	systemd_dounit "${S}/etc/linux-systemd/system/${PN}@.service"
-	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}.service"
+	if use tools ; then
+		exeinto "/usr/libexec/${PN}"
+		local exe
+		for exe in bin/* ; do
+			[[ "${exe}" == "bin/${PN}" ]] || doexe "${exe}"
+		done
+	fi
 
-	newinitd "${FILESDIR}/${PN}.init-r2" "${PN}"
+	systemd_dounit "${S}/etc/linux-systemd/system/${PN}"{@,-resume}.service
+	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}".service
+
+	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
+
+	keepdir /var/{lib,log}/"${PN}"
+	fowners "${PN}:${PN}" /var/{lib,log}/"${PN}"
+	insinto /etc/logrotate.d
+	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
+
+	if use tools ; then
+		systemd_dounit "${S}/cmd/strelaysrv/etc/linux-systemd/strelaysrv.service"
+		newconfd "${FILESDIR}/strelaysrv.confd" strelaysrv
+		newinitd "${FILESDIR}/strelaysrv.initd" strelaysrv
+
+		insinto /etc/logrotate.d
+		newins "${FILESDIR}/strelaysrv.logrotate" strelaysrv
+	fi
 
 	default
 }
 
 pkg_postinst() {
+	# check if user syncthing-relaysrv exists
+	# if yes, warn that it has been moved to strelaysrv
+	if [[ -n "$(egetent passwd syncthing-relaysrv 2>/dev/null)" ]]; then
+		ewarn
+		ewarn "The user and group for the relay server have been changed"
+		ewarn "from syncthing-relaysrv to strelaysrv"
+		ewarn "The old user and group are not deleted automatically. Delete them by running:"
+		ewarn "	userdel -r syncthing-relaysrv"
+		ewarn "	groupdel syncthing-relaysrv"
+	fi
+
 	elog "If you want to run Syncthing for more than one user, you can:"
 	elog
 	elog "In case you're using OpenRC:"

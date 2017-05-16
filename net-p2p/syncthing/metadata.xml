@@ -4,11 +4,18 @@
 <maintainer type="person">
  <email>gentoo-overlay@mva.name</email>
  <description>
-	If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
+   If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
  </description> 
  <name>Vadim A. Misbakh-Soloviov</name>
 </maintainer>
 <longdescription>FIXME</longdescription> 
-<use>
-</use>
+  <use>
+    <flag name="tools">
+      Install stdiscosrv, strelaysrv and other tools to /usr/libexec/syncthing/.
+    </flag>
+  </use>
+  <upstream>
+    <remote-id type="github">syncthing/syncthing</remote-id>
+    <bugs-to>https://github.com/syncthing/syncthing/issues</bugs-to>
+  </upstream>
 </pkgmetadata>
