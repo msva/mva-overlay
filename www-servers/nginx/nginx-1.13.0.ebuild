@@ -48,13 +48,13 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.1.2"
+HTTP_PASSENGER_MODULE_PV="5.1.4"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}/src/nginx_module"
 
-# http_passenger (https://github.com/phusion/passenger/tags, MIT)
+# http_passenger_enterprise (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_E_MODULE_PV="5.1.2"
 HTTP_PASSENGER_E_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-enterprise-${HTTP_PASSENGER_E_MODULE_PV}"
 HTTP_PASSENGER_E_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/enterprise-${HTTP_PASSENGER_E_MODULE_PV}.tar.gz"
@@ -116,7 +116,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="1.1.3"
+HTTP_NCHAN_MODULE_PV="1.1.6"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -188,7 +188,7 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.8"
+HTTP_LUA_MODULE_PV="0.10.9rc5"
 #HTTP_LUA_MODULE_SHA="6b01840dc97887cecbb15853bf1702a4dbe986fb"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -938,12 +938,6 @@ src_prepare() {
 			sed -i -e "/${module}/d" auto/install || die
 		fi
 	done
-
-	if use nginx_modules_http_lua; then
-		pushd "${HTTP_LUA_MODULE_WD}" &>/dev/null
-		eapply "${FILESDIR}/${P}-${HTTP_LUA_MODULE_P}.patch"
-		popd &>/dev/null
-	fi
 
 	if use nginx_modules_stream_lua; then
 		pushd "${STREAM_LUA_MODULE_WD}" &>/dev/null
