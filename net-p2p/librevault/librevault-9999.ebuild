@@ -14,29 +14,29 @@ EGIT_REPO_URI="https://github.com/${PN^}/${PN}"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
-IUSE="cli daemon debug gui static"
+IUSE="cli daemon debug gui static static-libs"
 
-REQUIRED_USE="|| ( cli daemon gui )"
+REQUIRED_USE="|| ( cli daemon gui ) static? ( static-libs )"
 
 DEPEND="
 	gui? (
-		dev-qt/qtcore:5[static-libs(+)]
-		dev-qt/qtgui:5[static-libs(+)]
-		dev-qt/qtnetwork:5[static-libs(+)]
-		dev-qt/qtwebsockets:5[static-libs(+)]
-		dev-qt/qtwidgets:5[static-libs(+)]
+		dev-qt/qtcore:5[static-libs(+)=]
+		dev-qt/qtgui:5[static-libs(+)=]
+		dev-qt/qtnetwork:5[static-libs(+)=]
+		dev-qt/qtwebsockets:5[static-libs(+)=]
+		dev-qt/qtwidgets:5[static-libs(+)=]
 	)
 	daemon? (
-		dev-db/sqlite:3[static-libs(+)]
-		net-libs/libnatpmp[static-libs(+)]
-		net-libs/miniupnpc[static-libs(+)]
-		dev-libs/jsoncpp[static-libs(+)]
-		dev-cpp/websocketpp[static-libs(+)]
+		dev-db/sqlite:3[static-libs(+)=]
+		net-libs/libnatpmp[static-libs(+)=]
+		net-libs/miniupnpc[static-libs(+)=]
+		dev-libs/jsoncpp[static-libs(+)=]
+		dev-cpp/websocketpp[static-libs(+)=]
 	)
-	>=dev-libs/boost-1.58.0[static-libs(+)]
-	>=dev-libs/crypto++-5.6.2[static-libs(+)]
-	>=dev-libs/openssl-1.0.1[static-libs(+)]
-	>=dev-libs/protobuf-3.0[static-libs(+)]
+	>=dev-libs/boost-1.58.0[static-libs(+)=]
+	>=dev-libs/crypto++-5.6.2[static-libs(+)=]
+	>=dev-libs/openssl-1.0.1[static-libs(+)=]
+	>=dev-libs/protobuf-3.0[static-libs(+)=]
 	|| (
 		>=sys-devel/gcc-4.9:*
 		>=sys-devel/clang-3.4:*
