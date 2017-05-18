@@ -31,7 +31,6 @@ DEPEND="
 		net-libs/miniupnpc
 		dev-db/sqlite:3
 		dev-cpp/websocketpp
-		dev-libs/spdlog
 		dev-python/docopt
 	)
 	static? (
@@ -47,10 +46,23 @@ DEPEND="
 	)
 	virtual/libc
 "
+#		dev-libs/spdlog
+# ^ Brake builds with all gentoo versions
 
 RDEPEND="${DEPEND}"
 
 DOCS=( Readme.md )
+
+src_prepare() {
+	default
+
+	sed -r \
+		-e 's@^(if\()(spdlog_FOUND)(\))@\11\22\3@' \
+		-i CMakeLists.txt
+
+	# ^ force fail to found system spdlog installation.
+	# (never builds successfully against all versions gentoo have)
+}
 
 src_configure() {
 	 local mycmakeargs=(
