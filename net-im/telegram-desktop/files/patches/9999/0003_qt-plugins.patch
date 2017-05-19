@@ -1,0 +1,34 @@
+This patch makes telegram-desktop use system-wide qt-plugins, but not static
+## Exclusion from first patch
+#+	// without this Telegram doesn't start on Ubuntu 17.04 due GTK errors
+#+	setenv("QT_STYLE_OVERRIDE", "qwerty", false);
+##
+
+diff --git a/Telegram/SourceFiles/main.cpp b/Telegram/SourceFiles/main.cpp
+--- a/Telegram/SourceFiles/main.cpp
++++ b/Telegram/SourceFiles/main.cpp
+@@ -39,6 +39,8 @@ int main(int argc, char *argv[]) {
+ 	// both are finished in Application::closeApplication
+ 	Logs::start(); // must be started before Platform is started
+ 	Platform::start(); // must be started before QApplication is created
++	QCoreApplication::addLibraryPath("/usr/lib64/qt5/plugins");
++	QCoreApplication::addLibraryPath("/usr/lib/qt5/plugins");
+ 
+ 	int result = 0;
+ 	{
+diff --git a/Telegram/SourceFiles/qt_static_plugins.cpp b/Telegram/SourceFiles/qt_static_plugins.cpp
+--- a/Telegram/SourceFiles/qt_static_plugins.cpp
++++ b/Telegram/SourceFiles/qt_static_plugins.cpp
+@@ -28,12 +28,4 @@ Q_IMPORT_PLUGIN(QWebpPlugin)
+ Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)
+ Q_IMPORT_PLUGIN(QGenericEnginePlugin)
+ #elif defined Q_OS_LINUX // Q_OS_WIN | Q_OS_MAC
+-Q_IMPORT_PLUGIN(QWebpPlugin)
+-Q_IMPORT_PLUGIN(QXcbIntegrationPlugin)
+-Q_IMPORT_PLUGIN(QConnmanEnginePlugin)
+-Q_IMPORT_PLUGIN(QGenericEnginePlugin)
+-Q_IMPORT_PLUGIN(QNetworkManagerEnginePlugin)
+-Q_IMPORT_PLUGIN(QComposePlatformInputContextPlugin)
+-Q_IMPORT_PLUGIN(QIbusPlatformInputContextPlugin)
+-Q_IMPORT_PLUGIN(QFcitxPlatformInputContextPlugin)
+ #endif // Q_OS_WIN | Q_OS_MAC | Q_OS_LINUX

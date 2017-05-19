@@ -1,6 +1,6 @@
 --- /dev/null	2017-05-13 21:16:42.822937665 +0700
 +++ b/Telegram/CMakeLists.txt	2017-05-14 05:50:30.737400259 +0700
-@@ -0,0 +1,157 @@
+@@ -0,0 +1,158 @@
 +cmake_minimum_required(VERSION 3.6)
 +
 +project(TelegramDesktop)
@@ -84,6 +84,7 @@
 +list(REMOVE_ITEM FLAT_SOURCE_FILES ${CMAKE_SOURCE_DIR}/SourceFiles/qt_static_plugins.cpp)
 +
 +file(GLOB_RECURSE SUBDIRS_SOURCE_FILES
++    SourceFiles/qt_functions.cpp
 +    SourceFiles/base/*.cpp SourceFiles/base/*.h
 +    SourceFiles/boxes/*.cpp SourceFiles/boxes/*h
 +    SourceFiles/calls/*.cpp SourceFiles/calls/*.h
@@ -157,7 +158,7 @@
 +set_target_properties(Telegram PROPERTIES AUTOMOC_MOC_OPTIONS -bTelegram_pch/stdafx.h)
 +
 +install(TARGETS Telegram RUNTIME DESTINATION bin)
-+install(PROGRAMS ${CMAKE_SOURCE_DIR}/../lib/xdg/telegramdesktop.desktop DESTINATION share/applications)
++install(PROGRAMS ${CMAKE_SOURCE_DIR}/../lib/xdg/telegram-desktop.desktop DESTINATION share/applications)
 --- /dev/null
 +++ b/Telegram/cmake/FindBreakpad.cmake
 @@ -0,0 +1,20 @@

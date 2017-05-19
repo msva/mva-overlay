@@ -14,6 +14,7 @@ SLOT="0"
 KEYWORDS=""
 IUSE="custom-api-id debug"
 # upstream-api-id"
+# TODO: l10n_*
 
 COMMON_DEPEND="
 	dev-qt/qtcore:5
@@ -32,6 +33,7 @@ COMMON_DEPEND="
 	dev-libs/openssl:0
 	x11-libs/libX11
 	dev-util/google-breakpad
+	!net-im/telegram-desktop-bin
 "
 
 RDEPEND="
@@ -46,6 +48,16 @@ DEPEND="
 CMAKE_USE_DIR="${S}/Telegram"
 
 PATCHES=("${FILESDIR}/patches/${PV}")
+
+src_unpack() {
+	default
+	git-r3_src_unpack
+
+	# TODO: l10n_ru + conditional patch in prepare
+	wget https://tlgrm.ru/files/locales/tdesktop/Russian.strings -O "${S}"/Telegram/Resources/langs/lang_ru.strings
+	# ^ not in SRC_URI, because it is subject to change, just as code in Git.
+	# And it'll be too much maintenace work to bump it constantly.
+}
 
 src_prepare() {
 	default
@@ -66,6 +78,7 @@ src_prepare() {
 			die "You should correctly set TELEGRAM_CUSTOM_API_ID && TELEGRAM_CUSTOM_API_HASH variables if you want custom-api-id USE-flag"
 		fi
 	fi
+	mv "${S}"/lib/xdg/telegram{,-}desktop.desktop || die "Failed to fix .desktop-file name"
 }
 
 src_configure() {
@@ -90,18 +103,16 @@ src_configure() {
 	cmake-utils_src_configure
 }
 
-#src_install() {
-#	newbin "${S}/Telegram" telegram-desktop
-#
-#	local icon_size
-#	for icon_size in 16 32 48 64 128 256 512; do
-#		newicon -s "${icon_size}" \
-#			"${WORKDIR}/tdesktop-${PV}/Telegram/Resources/art/icon${icon_size}.png" \
-#			telegram-desktop.png
-#	done
-#
-#	newmenu "${WORKDIR}/tdesktop-${PV}"/lib/xdg/telegramdesktop.desktop telegram-desktop.desktop
-#}
+src_install() {
+	default
+
+	local icon_size
+	for icon_size in 16 32 48 64 128 256 512; do
+		newicon -s "${icon_size}" \
+			"${S}/Telegram/Resources/art/icon${icon_size}.png" \
+			telegram-desktop.png
+	done
+}
 
 pkg_preinst() {
 	xdg_pkg_preinst
