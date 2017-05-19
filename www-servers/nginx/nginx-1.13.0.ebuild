@@ -460,6 +460,8 @@ HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
 
 SSL_DEPS_SKIP=1
 
+PATCHDIR="${FILESDIR}/patches/${PV}"
+
 inherit eutils ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib
 # ^^^ keep ruby before perl, since ruby sets S=WORKDIR, and perl restores
 
@@ -487,7 +489,6 @@ SRC_URI="
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} -> ${HTTP_REDIS_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
-	nginx_modules_stream_lua? ( ${STREAM_LUA_MODULE_URI} -> ${STREAM_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_lua_upstream? ( ${HTTP_LUA_UPSTREAM_MODULE_URI} -> ${HTTP_LUA_UPSTREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_replace_filter? ( ${HTTP_REPLACE_FILTER_MODULE_URI} -> ${HTTP_REPLACE_FILTER_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( ${HTTP_FORM_INPUT_MODULE_URI} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
@@ -529,6 +530,8 @@ SRC_URI="
 	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_ldap? ( ${HTTP_AUTH_LDAP_MODULE_URI} -> ${HTTP_AUTH_LDAP_MODULE_P}.tar.gz )
+	nginx_modules_stream_lua? ( ${STREAM_LUA_MODULE_URI} -> ${STREAM_LUA_MODULE_P}.tar.gz )
+	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/nginx-1.13.0-dtls-experimental.diff )
 "
 #rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 LICENSE="
@@ -662,6 +665,7 @@ NGINX_MODULES_3P="
 	http_auth_ldap
 	http_rrd
 	stream_lua
+	stream_dtls
 "
 
 NGINX_MODULES_DYN="
@@ -721,9 +725,10 @@ REQUIRED_USE="
 		pcre-jit? ( pcre )
 		http2? ( nginx_modules_http_v2 )
 		rrd? ( nginx_modules_http_rrd )
+		dtls? ( nginx_modules_stream_dtls stream ssl )
 "
 
-IUSE="aio debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2 systemtap +static"
+IUSE="aio debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2 systemtap +static dtls"
 # rtmp"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
@@ -810,6 +815,9 @@ CDEPEND="
 	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	nginx_modules_http_drizzle? ( dev-libs/libdrizzle )
+	nginx_modules_stream_dtls? (
+		>=dev-libs/openssl-1.0.2
+	)
 "
 
 RDEPEND="${CDEPEND}"
@@ -911,11 +919,16 @@ pkg_setup() {
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	PORTAGE_QUIET=1 default
+	use nginx_modules_stream_dtls && cp "${DISTDIR}/nginx-1.13.0-dtls-experimental.diff" "${S}/"
 }
 
 src_prepare() {
-	eapply "${FILESDIR}/${PN}-fix-perl-install-path.patch"
-	eapply "${FILESDIR}/${PN}-httpoxy-mitigation-r1.patch"
+	eapply "${PATCHDIR}/fix-perl-install-path.patch"
+	eapply "${PATCHDIR}/httpoxy-mitigation-r1.patch"
+
+	use nginx_modules_stream_dtls && (
+		eapply "${S}/nginx-1.13.0-dtls-experimental.diff"
+	)
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
@@ -941,13 +954,13 @@ src_prepare() {
 
 	if use nginx_modules_stream_lua; then
 		pushd "${STREAM_LUA_MODULE_WD}" &>/dev/null
-		eapply "${FILESDIR}/${P}-${STREAM_LUA_MODULE_P}.patch"
+		eapply "${PATCHDIR}/${STREAM_LUA_MODULE_P}.patch"
 		popd &>/dev/null
 	fi
 
 	if use nginx_modules_http_postgres; then
 		pushd "${HTTP_POSTGRES_MODULE_WD}" &>/dev/null
-		eapply "${FILESDIR}/${P}-${HTTP_POSTGRES_MODULE_P}.patch"
+		eapply "${PATCHDIR}/${HTTP_POSTGRES_MODULE_P}.patch"
 		popd &>/dev/null
 	fi
 
@@ -964,7 +977,7 @@ src_prepare() {
 	fi
 
 	if use nginx_modules_http_ey_balancer; then
-		eapply "${FILESDIR}"/nginx-1.x-ey-balancer.patch
+		eapply "${PATCHDIR}"/1.x-ey-balancer.patch
 	fi
 
 	if use nginx_modules_http_passenger_enterprise; then
@@ -974,10 +987,10 @@ src_prepare() {
 	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
 		pushd "${HTTP_PASSENGER_MODULE_WD}/../.." &>/dev/null
 
-		eapply "${FILESDIR}"/passenger5-gentoo.patch
-		eapply "${FILESDIR}"/passenger5-ldflags.patch
-		eapply "${FILESDIR}"/passenger5-isnan.patch
-		eapply "${FILESDIR}"/passenger-contenthandler.patch
+		eapply "${PATCHDIR}"/passenger5-gentoo.patch
+		eapply "${PATCHDIR}"/passenger5-ldflags.patch
+		eapply "${PATCHDIR}"/passenger5-isnan.patch
+		eapply "${PATCHDIR}"/passenger-contenthandler.patch
 
 		sed -r \
 			-e "s:/buildout(/support-binaries):\1:" \
@@ -1030,20 +1043,20 @@ src_prepare() {
 
 	if use nginx_modules_http_upload_progress; then
 		pushd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" &>/dev/null
-		eapply "${FILESDIR}"/upload_put.patch
+		eapply "${PATCHDIR}"/upload_put.patch
 		popd &>/dev/null
 	fi
 
 	if use nginx_modules_http_cache_purge; then
 		pushd "${HTTP_CACHE_PURGE_MODULE_WD}" &>/dev/null
-		eapply "${FILESDIR}"/cache_purge_dyn.patch
+		eapply "${PATCHDIR}"/cache_purge_dyn.patch
 		popd &>/dev/null
 	fi
 
 	if use nginx_modules_http_ajp; then
 		pushd "${HTTP_AJP_MODULE_WD}" &>/dev/null
-		eapply "${FILESDIR}"/ajp_issue37.patch
-		eapply "${FILESDIR}"/ajp_dyn.patch
+		eapply "${PATCHDIR}"/ajp_issue37.patch
+		eapply "${PATCHDIR}"/ajp_dyn.patch
 		popd &>/dev/null
 	fi
 

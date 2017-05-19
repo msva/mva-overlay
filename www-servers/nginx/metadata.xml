@@ -14,6 +14,7 @@
 	<flag name='libatomic'>Force libatomic_ops library usage:atomic memory update operations</flag>
 	<flag name='luajit'>Build NginX against LuaJIT, instead of PUC-Rio Lua</flag>
 	<flag name='mail'>Enable Mail NginX core module</flag>
+	<flag name='dtls'>Enable DTLS Support (experimental)</flag>
 	<flag name='nginx_modules_http_ajp'>AJP Module</flag>
 	<flag name='nginx_modules_http_array_var'>Array-Var Module</flag>
 	<flag name='nginx_modules_http_auth_request'>AuthRequest Module</flag>
@@ -65,6 +66,7 @@
 	<flag name='nginx_modules_stream_upstream_hash'>Upstream Hash Module (stream)</flag>
 	<flag name='nginx_modules_stream_upstream_least_conn'>Upstream LeastConn Module (stream)</flag>
 	<flag name='nginx_modules_stream_upstream_zone'>Upstream Zone Module (stream)</flag>
+	<flag name='nginx_modules_stream_dtls'>Enable DTLS Support (experimental)</flag>
 	<flag name='pcre-jit'>Add support to PCRE JIT</flag>
 	<flag name='perftools'>Use <pkg>dev-util/google-perftools</pkg> for performance tuning</flag>
 	<flag name='nginx_modules_http_rrd'>Enadle 3rd party rrd module</flag>
