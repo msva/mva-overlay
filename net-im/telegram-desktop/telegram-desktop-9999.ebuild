@@ -34,6 +34,10 @@ COMMON_DEPEND="
 	x11-libs/libX11
 	dev-util/google-breakpad
 	!net-im/telegram-desktop-bin
+	|| (
+		media-sound/pulseaudio
+		media-sound/apulse
+	)
 "
 
 RDEPEND="

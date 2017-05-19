@@ -33,9 +33,9 @@ index 0a80695..550b9f7 100644
 --- a/lib/xdg/tg.protocol
 +++ b/lib/xdg/tg.protocol
 @@ -1,5 +1,5 @@
-[Protocol]
+ [Protocol]
 -exec=/usr/bin/telegram-desktop -- %u
 +exec=Telegram -- %u
-protocol=tg
-input=none
-output=none
+ protocol=tg
+ input=none
+ output=none
