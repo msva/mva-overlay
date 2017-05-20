@@ -11,3 +11,14 @@ diff -NaurBwd a/build/CMakeLists.txt b/build/CMakeLists.txt
  add_library(i2pdclient ${CLIENT_SRC})
  
 
+@@ -123,6 +123,9 @@
+   "${DAEMON_SRC_DIR}/i2pd.cpp"
+   "${DAEMON_SRC_DIR}/UPnP.cpp"
+ )
++if(WITH_WEBSOCKETS)
++	list (INSERT DAEMON_SRC 0 "${LIBI2PD_CLIENT_SRC_DIR}/Websocket.cpp")
++endif ()
+ 
+ if (WITH_MESHNET)
+   add_definitions(-DMESHNET)
+

@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit eutils systemd pax-utils user git-r3 cmake-utils
+inherit eutils systemd pax-utils user git-r3 qmake-utils
+# cmake-utils
 # multilib-minimal
 
 DESCRIPTION="A C++ daemon for accessing the I2P anonymous network"
@@ -12,14 +13,28 @@ EGIT_BRANCH="openssl"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="cpu_flags_x86_aes cjdns i2lua i2p-hardening libressl pch thread-sanitizer addr-sanitizer static +upnp websockets"
+IUSE="cpu_flags_x86_aes cpu_flags_x86_avx cjdns i2lua i2p-hardening libressl pch thread-sanitizer addr-sanitizer static +upnp websockets gui"
+
 #api daemon
+
+REQUIRED_USE="gui? ( !cjdns !i2lua !i2p-hardening !thread-sanitizer !addr-sanitizer !static !pch upnp websockets )"
+
 RDEPEND="
 	!static? (
 		>=dev-libs/boost-1.49[threads]
 		!libressl? ( dev-libs/openssl:0[-bindist] )
 		libressl? ( dev-libs/libressl )
 		upnp? ( net-libs/miniupnpc )
+	)
+	gui? (
+		net-libs/miniupnpc
+		dev-qt/qtcore:5
+		dev-qt/qtgui:5
+		dev-qt/qtwidgets:5
+		dev-qt/qtxml:5
+	)
+	websockets? (
+		dev-cpp/websocketpp
 	)
 "
 DEPEND="
@@ -37,37 +52,56 @@ DEPEND="
 I2PD_USER="${I2PD_USER:-i2pd}"
 I2PD_GROUP="${I2PD_GROUP:-i2pd}"
 
-CMAKE_USE_DIR="${S}/build"
+#CMAKE_USE_DIR="${S}/build"
 
 DOCS=( README.md contrib/{i2pd,tunnels}.conf )
 
-#		echo 'LDFLAGS="-Wl,-soname,$@"' >> .config
-#	use api && myemakeargs+=("api_client" "api")
-#		dolib.so libi2pd{,client}.so
-#		use static && dolib.a libi2pd{,client}.a
-
-PATCHES=( "${FILESDIR}/patches/${PV}" )
+#PATCHES=( "${FILESDIR}/patches/${PV}" )
+# ^ for cmake
 
 src_configure() {
-	mycmakeargs=(
-		-DWITH_AESNI=$(usex cpu_flags_x86_aes ON OFF)
-		-DWITH_HARDENING=$(usex i2p-hardening ON OFF)
-		-DWITH_PCH=$(usex pch ON OFF)
-		-DWITH_STATIC=$(usex static ON OFF)
-		-DWITH_UPNP=$(usex upnp ON OFF)
-		-DWITH_LIBRARY=ON
-		-DWITH_BINARY=ON
-		-DWITH_MESHNET=$(usex cjdns ON OFF)
-		-DWITH_ADDRSANITIZER=$(usex addr-sanitizer ON OFF)
-		-DWITH_THREADSANITIZER=$(usex thread-sanitizer ON OFF)
-		-DWITH_I2LUA=$(usex i2lua ON OFF)
-		-DWITH_WEBSOCKETS=$(usex websockets ON OFF)
-	)
-	cmake-utils_src_configure
+#	mycmakeargs=(
+#		-DWITH_AESNI=$(usex cpu_flags_x86_aes ON OFF)
+#		-DWITH_HARDENING=$(usex i2p-hardening ON OFF)
+#		-DWITH_PCH=$(usex pch ON OFF)
+#		-DWITH_STATIC=$(usex static ON OFF)
+#		-DWITH_UPNP=$(usex upnp ON OFF)
+#		-DWITH_LIBRARY=ON
+#		-DWITH_BINARY=ON
+#		-DWITH_MESHNET=$(usex cjdns ON OFF)
+#		-DWITH_ADDRSANITIZER=$(usex addr-sanitizer ON OFF)
+#		-DWITH_THREADSANITIZER=$(usex thread-sanitizer ON OFF)
+#		-DWITH_I2LUA=$(usex i2lua ON OFF)
+#		-DWITH_WEBSOCKETS=$(usex websockets ON OFF)
+#	)
+#	cmake-utils_src_configure
+	if use gui; then
+		cd qt/"${PN}"_qt;
+		eqmake5
+	fi
+}
+
+src_compile() {
+	if use gui; then
+		emake -C qt/"${PN}"_qt;
+	else
+		emake USE_AESNI=$(usex cpu_flags_x86_aes) USE_AVX=$(usex cpu_flags_x86_avx) USE_STATIC=$(usex static) USE_MESHNET=$(usex cjdns) USE_UPNP=$(usex upnp)
+	fi
 }
 
 src_install() {
-	cmake-utils_src_install
+	if use gui; then
+		emake -C qt/"${PN}"_qt install
+		newbin "qt/${PN}_qt/${PN}_qt" "${PN}"
+	else
+		dobin "${PN}"
+	fi
+	insinto /usr/include/"${PN}"
+	doins {daemon,libi2pd{,_client}}/*.h
+
+	einstalldocs
+
+#	cmake-utils_src_install
 
 	# config
 	insinto /etc/"${PN}"
@@ -82,6 +116,7 @@ src_install() {
 		/etc/"${PN}"/"${PN}".conf \
 		/etc/"${PN}"/tunnels.conf
 
+	if ! use gui; then
 	# working directory
 	keepdir /var/lib/"${PN}"
 	insinto /var/lib/"${PN}"
@@ -100,17 +135,26 @@ src_install() {
 	# logrotate
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
+	fi
 
 	doman "debian/${PN}.1"
+
 	host-is-pax && pax-mark m "${ED}usr/bin/${PN}"
 }
 
 pkg_setup() {
-	enewgroup "${I2PD_GROUP}"
-	enewuser "${I2PD_USER}" -1 -1 "/var/lib/run/${PN}" "${I2PD_GROUP}"
+		enewgroup "${I2PD_GROUP}"
+	if ! use gui; then
+		enewuser "${I2PD_USER}" -1 -1 "/var/lib/run/${PN}" "${I2PD_GROUP}"
+	fi
 }
 
 pkg_postinst() {
+	if use gui; then
+		ewarn
+		ewarn "You've enabled 'gui' USE-flag. This means, you've installed GUI-ONLY version of ${PN}"
+		ewarn "Actually, currently it is pretty useless (it has only tray icon and two 'quit' buttons (force and graceful)"
+	fi
 	if [[ -f ${EROOT%/}/etc/i2pd/subscriptions.txt ]]; then
 		ewarn
 		ewarn "Configuration of the subscriptions has been moved from"

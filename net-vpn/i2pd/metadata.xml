@@ -2,24 +2,15 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>kaikaikai@yandex.ru</email>
-		<name>Alexey Korepanov</name>
-	</maintainer>
-	<maintainer type="person">
-		<email>klondike@gentoo.org</email>
-		<name>Francisco Blas Izquierdo Riera</name>
-	</maintainer>
-	<maintainer type="person">
-		<email>blueness@gentoo.org</email>
-		<name>Anthony G. Basile</name>
-	</maintainer>
-	<maintainer type="person">
-		<email>tomboy64@sina.cn</email>
-		<name>Proxy maintainer. Please subscribe to bugs.</name>
+		<email>gentoo@mva.name</email>
+		<name>Vadim Misbakh-Soloviov</name>
 	</maintainer>
 	<use>
 		<flag name="cjdns">
 			Compile I2PD for use with CJDNS ("test") network
+		</flag>
+		<flag name="gui">
+			Compile GUI I2PD version (trayicon + window with 2 quit buttons) *instead* of daemon
 		</flag>
 		<flag name="i2lua">
 			Compile for i2lua support
