@@ -20,8 +20,8 @@ COMMON_DEPEND="
 	dev-qt/qtcore:5
 	dev-qt/qtgui:5[xcb,jpeg,png]
 	|| (
-		dev-qt/qtgui:5[gtkstyle]
-		dev-qt/qtgui:5[gtk]
+		<dev-qt/qtgui-5.7:5[gtkstyle]
+		>=dev-qt/qtgui-5.7:5[gtk]
 	)
 	dev-qt/qtwidgets[xcb,png]
 	dev-qt/qtnetwork
