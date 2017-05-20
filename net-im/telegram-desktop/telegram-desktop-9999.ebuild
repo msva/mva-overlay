@@ -18,7 +18,11 @@ IUSE="custom-api-id debug"
 
 COMMON_DEPEND="
 	dev-qt/qtcore:5
-	dev-qt/qtgui:5[xcb,jpeg,png,gtk]
+	dev-qt/qtgui:5[xcb,jpeg,png]
+	|| (
+		dev-qt/qtgui:5[gtkstyle]
+		dev-qt/qtgui:5[gtk]
+	)
 	dev-qt/qtwidgets[xcb,png]
 	dev-qt/qtnetwork
 	dev-qt/qtimageformats
@@ -34,11 +38,10 @@ COMMON_DEPEND="
 	x11-libs/libX11
 	dev-util/google-breakpad
 	!net-im/telegram-desktop-bin
-	|| (
-		media-sound/pulseaudio
-		media-sound/apulse
-	)
+	media-sound/pulseaudio
 "
+#media-sound/apulse
+# ^ wrong library path, and we anyway need pulseaudio headers :'(
 
 RDEPEND="
 	${COMMON_DEPEND}
