@@ -18,9 +18,9 @@ IUSE="+console"
 ruby_add_rdepend "dev-ruby/activesupport:4.0
 	=dev-ruby/jira-ruby-1.1*
 	=dev-ruby/thor-0.19*
-	=dev-ruby/tty-prompt-0.9*
+	=dev-ruby/tty-prompt-0.12*
 	=dev-ruby/tty-spinner-0.4*
-	=dev-ruby/tty-table-0.6*
+	=dev-ruby/tty-table-0.8*
 	console? ( =dev-ruby/pry-0.10* )"
 
 all_ruby_prepare() {
