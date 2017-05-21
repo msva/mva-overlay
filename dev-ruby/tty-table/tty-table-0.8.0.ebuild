@@ -17,8 +17,8 @@ KEYWORDS="~amd64"
 
 ruby_add_rdepend '
 	=dev-ruby/equatable-0.5*
-	=dev-ruby/necromancer-0.3*
-	=dev-ruby/pastel-0.6*
+	=dev-ruby/necromancer-0.4*
+	=dev-ruby/pastel-0.7*
 	=dev-ruby/tty-screen-0.5*
 	=dev-ruby/unicode-display_width-1.1*
 	=dev-ruby/verse-0.5*'

@@ -17,4 +17,4 @@ KEYWORDS="~amd64 ~arm"
 
 ruby_add_rdepend '
 	=dev-ruby/equatable-0.5*
-	=dev-ruby/tty-color-0.3*'
+	=dev-ruby/tty-color-0.4*'
