@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
 KEYWORDS=""
-IUSE="custom-api-id debug"
+IUSE="custom-api-id debug +wide-baloons"
 # upstream-api-id"
 # TODO: l10n_*
 
@@ -54,7 +54,8 @@ DEPEND="
 
 CMAKE_USE_DIR="${S}/Telegram"
 
-PATCHES=("${FILESDIR}/patches/${PV}")
+PATCHES_DIR="${FILESDIR}/patches/${PV}"
+PATCHES=("${PATCHES_DIR}")
 
 src_unpack() {
 	default
@@ -67,6 +68,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	use wide-baloons && PATCHES+=("${PATCHES_DIR}/conditional/wide-baloons")
 	default
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then

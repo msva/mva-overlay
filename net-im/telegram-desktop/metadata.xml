@@ -13,6 +13,10 @@
     <flag name="custom-api-id">
       Use custom API ID and API HASH (you must set it either in make.conf or portage/env/{CAT}/{PN}.
     </flag>
+    <flag name="wide-baloons">
+      Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout,
+      instead of using short ones and keep tons of empty space.
+    </flag>
 <!--
     <flag name="upstream-api-id">
       Use upstream's default API ID ans API HASH (upstream discourages custom builds with same API/HASH that "original" app).
