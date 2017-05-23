@@ -2,8 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit eutils systemd pax-utils user git-r3 qmake-utils
-# cmake-utils
+inherit eutils systemd pax-utils user git-r3 qmake-utils cmake-utils
 # multilib-minimal
 
 DESCRIPTION="A C++ daemon for accessing the I2P anonymous network"
@@ -52,32 +51,34 @@ DEPEND="
 I2PD_USER="${I2PD_USER:-i2pd}"
 I2PD_GROUP="${I2PD_GROUP:-i2pd}"
 
-#CMAKE_USE_DIR="${S}/build"
+CMAKE_USE_DIR="${S}/build"
 
 DOCS=( README.md contrib/{i2pd,tunnels}.conf )
 
-#PATCHES=( "${FILESDIR}/patches/${PV}" )
+PATCHES=( "${FILESDIR}/patches/${PV}" )
 # ^ for cmake
 
 src_configure() {
-#	mycmakeargs=(
-#		-DWITH_AESNI=$(usex cpu_flags_x86_aes ON OFF)
-#		-DWITH_HARDENING=$(usex i2p-hardening ON OFF)
-#		-DWITH_PCH=$(usex pch ON OFF)
-#		-DWITH_STATIC=$(usex static ON OFF)
-#		-DWITH_UPNP=$(usex upnp ON OFF)
-#		-DWITH_LIBRARY=ON
-#		-DWITH_BINARY=ON
-#		-DWITH_MESHNET=$(usex cjdns ON OFF)
-#		-DWITH_ADDRSANITIZER=$(usex addr-sanitizer ON OFF)
-#		-DWITH_THREADSANITIZER=$(usex thread-sanitizer ON OFF)
-#		-DWITH_I2LUA=$(usex i2lua ON OFF)
-#		-DWITH_WEBSOCKETS=$(usex websockets ON OFF)
-#	)
-#	cmake-utils_src_configure
 	if use gui; then
 		cd qt/"${PN}"_qt;
 		eqmake5
+	else
+		mycmakeargs=(
+			-DWITH_AESNI=$(usex cpu_flags_x86_aes ON OFF)
+			-DWITH_AVX=$(usex cpu_flags_x86_avx ON OFF)
+			-DWITH_HARDENING=$(usex i2p-hardening ON OFF)
+			-DWITH_PCH=$(usex pch ON OFF)
+			-DWITH_STATIC=$(usex static ON OFF)
+			-DWITH_UPNP=$(usex upnp ON OFF)
+			-DWITH_LIBRARY=ON
+			-DWITH_BINARY=ON
+			-DWITH_MESHNET=$(usex cjdns ON OFF)
+			-DWITH_ADDRSANITIZER=$(usex addr-sanitizer ON OFF)
+			-DWITH_THREADSANITIZER=$(usex thread-sanitizer ON OFF)
+			-DWITH_I2LUA=$(usex i2lua ON OFF)
+			-DWITH_WEBSOCKETS=$(usex websockets ON OFF)
+		)
+		cmake-utils_src_configure
 	fi
 }
 
@@ -85,7 +86,9 @@ src_compile() {
 	if use gui; then
 		emake -C qt/"${PN}"_qt;
 	else
-		emake USE_AESNI=$(usex cpu_flags_x86_aes) USE_AVX=$(usex cpu_flags_x86_avx) USE_STATIC=$(usex static) USE_MESHNET=$(usex cjdns) USE_UPNP=$(usex upnp)
+#		emake USE_AESNI=$(usex cpu_flags_x86_aes) USE_AVX=$(usex cpu_flags_x86_avx) USE_STATIC=$(usex static) USE_MESHNET=$(usex cjdns) USE_UPNP=$(usex upnp)
+		# ^ in case of activation of no-cmake buildsystem
+		cmake-utils_src_compile
 	fi
 }
 
@@ -93,15 +96,16 @@ src_install() {
 	if use gui; then
 		emake -C qt/"${PN}"_qt install
 		newbin "qt/${PN}_qt/${PN}_qt" "${PN}"
+		insinto /usr/include/"${PN}"
+		doins {daemon,libi2pd{,_client}}/*.h
 	else
-		dobin "${PN}"
+		cmake-utils_src_install
+#		dobin "${PN}"
+#		insinto /usr/include/"${PN}"
+#		doins {daemon,libi2pd{,_client}}/*.h
 	fi
-	insinto /usr/include/"${PN}"
-	doins {daemon,libi2pd{,_client}}/*.h
 
 	einstalldocs
-
-#	cmake-utils_src_install
 
 	# config
 	insinto /etc/"${PN}"
