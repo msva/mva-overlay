@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-PYTHON_COMPAT=( python{2_7,3_4,3_5} )
-inherit eutils python-single-r1 cmake-utils
+PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
+inherit python-single-r1 cmake-utils
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/weechat/weechat.git"
 else
-	SRC_URI="https://weechat.org/files/src/${P}.tar.bz2"
+	SRC_URI="https://weechat.org/files/src/${P}.tar.xz"
 	KEYWORDS="~amd64 ~ppc ~x86 ~amd64-fbsd ~x86-fbsd ~amd64-linux ~x86-linux"
 fi
 
@@ -27,6 +27,7 @@ SCRIPT_LANGS="guile lua luajit +perl +python ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt pt-BR ru tr"
 IUSE="doc nls +ssl test ${LANGS// / l10n_} ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 #REQUIRED_USE=" || ( ncurses gtk )"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND="
 	dev-libs/libgcrypt:0=
@@ -34,7 +35,7 @@ RDEPEND="
 	sys-libs/ncurses:0=
 	sys-libs/zlib
 	charset? ( virtual/libiconv )
-	guile? ( >=dev-scheme/guile-2.0:12 )
+	guile? ( >=dev-scheme/guile-2.0 )
 	lua? (
 		!luajit? ( || (
 			dev-lang/lua:0[deprecated]
@@ -43,7 +44,7 @@ RDEPEND="
 		luajit? ( >=dev-lang/luajit-2 )
 	)
 	nls? ( virtual/libintl )
-	perl? ( dev-lang/perl )
+	perl? ( dev-lang/perl:= )
 	python? ( ${PYTHON_DEPS} )
 	ruby? ( || ( dev-lang/ruby:2.4 dev-lang/ruby:2.3 dev-lang/ruby:2.2 dev-lang/ruby:2.1 ) )
 	ssl? ( net-libs/gnutls )
@@ -94,10 +95,10 @@ src_prepare() {
 		CMakeLists.txt || die "sed failed"
 
 	# install only required translations
-	for i in ${LANGS} ; do
+	for i in ${LANGS//-/_} ; do
 		if ! use l10n_${i} ; then
 			sed -i \
-				-e "/${i/pt-BR/pt_BR}.po/d" \
+				-e "/${i}.po/d" \
 				po/CMakeLists.txt || die
 		fi
 	done
@@ -105,9 +106,9 @@ src_prepare() {
 	# install only required documentation ; en always
 	for i in $(grep add_subdirectory doc/CMakeLists.txt \
 			| sed -e 's/.*add_subdirectory(\(..\)).*/\1/' -e '/en/d'); do
-		if ! use l10n_${i} ; then
+		if ! use l10n_${i//-/_} ; then
 			sed -i \
-				-e '/add_subdirectory('${i/pt-BR/pt_BR}')/d' \
+				-e '/add_subdirectory('${i}')/d' \
 				doc/CMakeLists.txt || die
 		fi
 	done
