@@ -37,6 +37,7 @@ COMMON_DEPEND="
 	dev-libs/openssl:0
 	x11-libs/libX11
 	dev-util/google-breakpad
+	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	media-sound/pulseaudio
 "

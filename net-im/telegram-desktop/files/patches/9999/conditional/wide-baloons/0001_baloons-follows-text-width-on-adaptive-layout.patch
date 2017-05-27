@@ -127,7 +127,7 @@ index be1ba85f1..973e946c1 100644
 +		if (_history) {
 +			_history->setPendingResize();
 +		}
-+		updateListSize(false, false, {ScrollChangeAdd, App::main() ? App::main()->contentScrollAddToY() : 0});
++		updateHistoryGeometry(false, false, {ScrollChangeAdd, App::main() ? App::main()->contentScrollAddToY() : 0});
 +		update();
 +	});
  	subscribe(Global::RefItemRemoved(), [this](HistoryItem *item) {
