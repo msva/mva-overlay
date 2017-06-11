@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a0975b7..a7763d9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -29,7 +29,6 @@
+ 
+ # Download Ring-LRC
+ IF(NOT ringclient_FOUND)
+-   INCLUDE(cmake/FetchRing-LRC.cmake)
+ ENDIF()
+ 
+ INCLUDE(ECMInstallIcons)

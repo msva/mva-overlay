@@ -1,1 +1,2 @@
+net-libs/restbed
 dev-util/android-sdk-update-manager

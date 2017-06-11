@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<longdescription>MessagePack is a binary-based efficient data interchange format</longdescription>
+<use>
+	<flag name="cxx"></flag>
+	<flag name="static-libs"></flag>
+	<flag name="test"></flag>
+</use>
+</pkgmetadata>

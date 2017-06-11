@@ -2,20 +2,22 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit eutils subversion java-pkg-2 java-ant-2
+inherit eutils git-r3 java-pkg-2
 
 DESCRIPTION="Universal Database Manager"
 HOMEPAGE="http://dbeaver.jkiss.org/"
-ESVN_REPO_URI="https://svn.jkiss.org/dev/dbeaver/trunk/"
+EGIT_REPO_URI="https://github.com/serge-rider/dbeaver"
 KEYWORDS=""
-SRC_URI=""
 SLOT="0"
 
 LICENSE="GPL-2"
 
 IUSE="firebird informix mssql mysql oracle postgres sybase"
 
-DEPEND=">=virtual/jdk-1.6:*"
+DEPEND="
+	>=virtual/jdk-1.8:*
+	dev-java/maven-bin:*
+"
 RDEPEND="
 	${DEPEND}
 	postgres? ( dev-java/jdbc-postgresql )
@@ -24,52 +26,25 @@ RDEPEND="
 	sybase? ( dev-java/jtds )
 	informix? ( dev-java/jdbc-informix )
 	firebird? ( dev-java/jdbc-jaybird )
-	oracle? ( dev-java/jdbc-oracle-bin )
 "
-#	viruoso? ( dev-db/virtuoso-jdbc )
+#	oracle? ( dev-java/jdbc-oracle-bin )
+# Banned in gentoo ^^^
 
-#S="${WORKDIR}/${P}/sql12"
+src_compile() {
+	mvn package
+}
 
-EANT_BUILD_TARGET="init"
-
-#src_install() {
-#	cd ${S}/output/dist;
-#	local squirrel_dir="${EROOT}usr/share/${PN}";
-#	insinto "${squirrel_dir}";
-#
-#	doins -r icons log4j.properties plugins
-#
-#	java-pkg_dojar ${PN}.jar;
-#	for jar in lib/*.jar; do
-#		java-pkg_dojar "${jar}"
-#		java-pkg_regjar "${jar}"
-#	done
-#
-#	for backend in ${IUSE}; do
-#		use "${backend}" && {
-#			local jb;
-#			if [ "${backend}" == "postgres" ]; then
-#				jb="postgresql";
-#			elif [ "${backend}" == "mssql" ]; then
-#				jb="mssqlserver";
-#			elif [ "${backend}" == "sybase" ]; then
-#				jb="jtds";
-#			elif [ "${backend}" == "firebird" ]; then
-#				jb="jaybird";
-#			elif [ "${backend}" == "oracle" ]; then
-#				jb="oracle-bin";
-#			else
-#				jb="${backend}";
-#			fi
-#			for jar in /usr/share/jdbc-${jb}/lib/*.jar; do
-#				java-pkg_regjar "${jar}"
-#			done;
-#		}
-#	done
-#
-#	use postgres && (
-#		java-pkg_regjar plugins/postgres/lib/postgis-jdbc-1.3.3.jar
-#	)
-#
-#	java-pkg_dolauncher "${PN}" --main net.sourceforge.squirrel_sql.client.Main --java_args "-splash:${squirrel_dir}/icons/splash.jpg" --pkg_args "--log-config-file ${squirrel_dir}/log4j.properties --squirrel-home ${squirrel_dir}" --pwd "${squirrel_dir}" 
-#}
+src_install() {
+	local dir="/usr/share/${PF}"
+	local arch="${ARCH/amd/x86_}"
+	local ins="product/standalone/target/products/org.jkiss.dbeaver.core.product/linux/gtk/${arch}/${PN}"
+	insinto "${dir}"
+	exeinto "${dir}"
+	doins -r "${ins}"/*
+	doexe "${ins}/${PN}"
+	doicon "${ins}/${PN}.png"
+	newicon "${ins}/icon.xpm" "${PN}.xpm"
+	make_wrapper "${PN}" "./${PN} -data ~/.config/${PN}" "${dir}"
+	make_desktop_entry "${PN}" "${PN}" "${PN}"
+	default
+}

@@ -67,7 +67,9 @@ src_prepare() {
 	eapply_user
 
 	if [[ ${PV} == 9999* ]] ; then
-		sed -i "/^VERSION=/s/=.*/=${PV}/" Config/version.mk || die
+		# git-$(git show -s --format=%h)
+		sed -r -i "/^VERSION=/s/=(.*[0-9])-.*/=${PV}\nZSH_VERSION=\1-git-$(git show -s --format=%h)/" Config/version.mk || die
+		sed -i "/#define ZSH_VERSION/s@(VERSION)@(ZSH_VERSION)@" Src/zsh.mdd || die
 		eautoreconf
 	fi
 }
@@ -134,7 +136,8 @@ src_compile() {
 }
 
 src_test() {
-	addpredict /dev/ptmx
+	# Well it is either way: src_test fail in sandbox or repoman failures.
+#	addpredict /dev/ptmx
 	local i
 	for i in C02cond.ztst V08zpty.ztst X02zlevi.ztst Y01completion.ztst Y02compmatch.ztst Y03arguments.ztst ; do
 		rm "${S}"/Test/${i} || die
@@ -180,7 +183,7 @@ src_install() {
 		docinto html
 		dodoc Doc/*.html
 		insinto /usr/share/doc/${PF}
-		doins Doc/zsh.{dvi,pdf}
+		doins Doc/zsh_us.{dvi,pdf}
 		popd >/dev/null
 	fi
 

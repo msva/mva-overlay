@@ -1,0 +1,53 @@
+Description: Use Gentoo's argon2 library
+Bug: https://github.com/savoirfairelinux/opendht/issues/83
+Author: Alexandre Viau <aviau@debian.org>
+Last-Update: 2016-06-27
+--- ./CMakeLists.txt	2017-02-21 14:31:08.651579119 +0300
++++ ./CMakeLists.txt	2017-02-21 14:42:10.475425173 +0300
+@@ -62,10 +62,4 @@
+     src/securedht.cpp
+     src/dhtrunner.cpp
+-    src/argon2/argon2.c
+-    src/argon2/core.c
+-    src/argon2/blake2/blake2b.c
+-    src/argon2/thread.c
+-    src/argon2/encoding.c
+-    src/argon2/ref.c
+     src/indexation/pht.cpp
+     src/log.cpp
+@@ -123,5 +117,5 @@
+         target_link_libraries(opendht-static -flto -fuse-linker-plugin)
+     endif ()
+-    target_link_libraries(opendht-static gnutls nettle)
++    target_link_libraries(opendht-static gnutls nettle argon2)
+     install (TARGETS opendht-static DESTINATION ${CMAKE_INSTALL_LIBDIR} EXPORT opendht)
+ endif ()
+@@ -138,5 +132,5 @@
+         target_link_libraries(opendht -flto -fuse-linker-plugin)
+     endif ()
+-    target_link_libraries(opendht gnutls nettle)
++    target_link_libraries(opendht gnutls nettle argon2)
+     install (TARGETS opendht DESTINATION ${CMAKE_INSTALL_LIBDIR} EXPORT opendht)
+ endif ()
+ --- ./src/crypto.cpp	2017-02-21 14:31:07.969600917 +0300
++++ ./src/crypto.cpp	2017-02-21 14:47:02.711084414 +0300
+@@ -28,5 +28,5 @@
+ #include <nettle/aes.h>
+
+-#include "argon2/argon2.h"
++#include "argon2.h"
+ }
+ 
+--- ./tools/CMakeLists.txt	2017-02-21 14:31:08.632579726 +0300
++++ ./tools/CMakeLists.txt	2017-02-21 14:49:29.956687421 +0300
+@@ -4,7 +4,7 @@
+ add_executable (dhtchat dhtchat.cpp tools_common.h)
+
+-target_link_libraries (dhtnode LINK_PUBLIC gnutls readline)
+-target_link_libraries (dhtscanner LINK_PUBLIC gnutls readline)
+-target_link_libraries (dhtchat LINK_PUBLIC gnutls readline)
++target_link_libraries (dhtnode LINK_PUBLIC gnutls readline argon2)
++target_link_libraries (dhtscanner LINK_PUBLIC gnutls readline argon2)
++target_link_libraries (dhtchat LINK_PUBLIC gnutls readline argon2)
+
+ if (OPENDHT_SHARED)

@@ -12,7 +12,7 @@ LICENSE="|| ( GPL-2 GPL-3 Transmission-OpenSSL-exception ) GPL-2 MIT"
 
 SRC_URI="http://download.transmissionbt.com/${MY_PN}/files/${MY_P}.tar.xz"
 
-KEYWORDS="~amd64 ~arm ~mips ~ppc ~ppc64 ~x86 ~x86-fbsd ~amd64-linux"
+KEYWORDS="~amd64 ~arm ~mips ~ppc ~ppc64 ~x86 ~amd64-linux"
 IUSE=""
 
 RDEPEND="
