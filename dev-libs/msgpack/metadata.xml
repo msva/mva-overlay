@@ -3,8 +3,10 @@
 <pkgmetadata>
 <longdescription>MessagePack is a binary-based efficient data interchange format</longdescription>
 <use>
+	<flag name="boost"></flag>
 	<flag name="cxx"></flag>
-	<flag name="static-libs"></flag>
+	<flag name="cxx11"></flag>
+<!--	<flag name="static-libs"></flag>-->
 	<flag name="test"></flag>
 </use>
 </pkgmetadata>

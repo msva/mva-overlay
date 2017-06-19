@@ -14,9 +14,11 @@ HOMEPAGE="http://msgpack.org/ https://github.com/msgpack/msgpack-c/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS=""
-IUSE="cxx static-libs test"
+IUSE="+cxx +cxx11 boost test examples"
+# static-libs
 
 DEPEND="
+	boost? ( dev-libs/boost )
 	test? (
 		>=dev-cpp/gtest-1.6.0-r2[${MULTILIB_USEDEP}]
 		sys-libs/zlib[${MULTILIB_USEDEP}]
@@ -25,11 +27,24 @@ DEPEND="
 
 DOCS=( CHANGELOG.md QUICKSTART-C.md QUICKSTART-CPP.md README.md )
 
-src_configure() {
+use_onoff() {
+	usex "${1}" "ON" "OFF"
+}
+
+multilib_src_configure() {
+	local bit="OFF";
+	if use x86 || use arm || use mips || ! multilib_is_native_abi; then
+		# not sure if applies to non-x86 32bit arches. Need tests.
+		bit="ON";
+	fi
 	local mycmakeargs=(
-		$(cmake-utils_use cxx MSGPACK_ENABLE_CXX)
-		$(cmake-utils_use static-libs MSGPACK_STATIC)
-		$(cmake-utils_use test MSGPACK_BUILD_TESTS)
+		-DMSGPACK_32BIT="${bit}"
+		-DMSGPACK_BOOST=$(use_onoff boost)
+		-DMSGPACK_BUILD_EXAMPLES=$(use_onoff examples)
+		-DMSGPACK_BUILD_TESTS=$(use_onoff test)
+		-DMSGPACK_CXX11=$(use_onoff cxx11)
+		-DMSGPACK_ENABLE_CXX=$(use_onoff cxx)
+		#-DMSGPACK_ENABLE_SHARED=$(usex static-libs OFF ON)
 	)
-	cmake-multilib_src_configure
+	cmake-utils_src_configure
 }
