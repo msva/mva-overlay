@@ -5,7 +5,7 @@ EAPI=6
 
 inherit cmake-multilib
 
-SRC_URI="https://github.com/${PN}/${PN}-c/releases/download/cpp-${PV}/${P}.tar.gz"
+SRC_URI="https://github.com/${PN}/${PN}-c/archive/cpp-${PV}.tar.gz -> ${P}.tar.gz"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd ~amd64-linux ~x86-linux"
 
 DESCRIPTION="MessagePack is a binary-based efficient data interchange format"
@@ -25,6 +25,8 @@ DEPEND="
 "
 
 DOCS=( CHANGELOG.md QUICKSTART-C.md QUICKSTART-CPP.md README.md )
+
+S="${WORKDIR}/${PN}-c-cpp-${PV}"
 
 use_onoff() {
 	usex "${1}" "ON" "OFF"
