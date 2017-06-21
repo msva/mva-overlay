@@ -2,7 +2,7 @@ dev-lang/luajit
 dev-lua/lua-cjson
 dev-libs/sregex
 dev-lua/redis-parser
-dev-lua/rds-parser
+dev-lua/lua-rds-parser
 dev-lua/resty-lock
 dev-lua/resty-dns
 dev-lua/resty-memcached
