@@ -8,6 +8,7 @@
 		<email>scarabeus@gentoo.org</email>
 	</maintainer>
 	<use>
+		<flag name="l10n_pt_BR"></flag>
 		<flag name="alias">Enable plugin for alias control.</flag>
 		<flag name="charset">Enable encoding conversions.</flag>
 		<flag name="exec">Enable exec plugin.</flag>
