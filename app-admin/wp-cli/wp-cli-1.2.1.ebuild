@@ -22,4 +22,5 @@ src_unpack() {
 
 src_install() {
 	dobin "${PN}"
+	dosym "${PN}" /usr/bin/wp
 }
