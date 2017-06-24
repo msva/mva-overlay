@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python{2_7,3_4} )
+PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
 EGIT_REPO_URI="https://github.com/dbcli/mycli.git"
 inherit distutils-r1 git-r3
 
