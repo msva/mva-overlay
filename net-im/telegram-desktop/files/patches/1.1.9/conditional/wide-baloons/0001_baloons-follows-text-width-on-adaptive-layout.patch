@@ -52,12 +52,12 @@ diff -NaurBwd a/Telegram/SourceFiles/history/history_media_types.cpp b/Telegram/
 diff -NaurBwd a/Telegram/SourceFiles/history/history_message.cpp b/Telegram/SourceFiles/history/history_message.cpp
 --- a/Telegram/SourceFiles/history/history_message.cpp	2017-05-23 01:26:09.007253615 +0700
 +++ b/Telegram/SourceFiles/history/history_message.cpp	2017-05-23 01:26:16.305983785 +0700
-@@ -881,7 +881,11 @@
+@@ -921,7 +921,11 @@ bool HistoryMessage::drawBubble() const {
  }
  
- void HistoryMessage::countPositionAndSize(int32 &left, int32 &width) const {
--	int32 maxwidth = qMin(int(st::msgMaxWidth), _maxw), hwidth = _history->width;
-+	int32 maxwidth = _maxw, hwidth = _history->width;
+ QRect HistoryMessage::countGeometry() const {
+-	auto maxwidth = qMin(st::msgMaxWidth, _maxw);
++	auto maxwidth = _maxw;
 +	if (!Adaptive::ChatWide()) {
 +		maxwidth = qMin(int(st::msgMaxWidth), maxwidth);
 +	}
@@ -65,38 +65,36 @@ diff -NaurBwd a/Telegram/SourceFiles/history/history_message.cpp b/Telegram/Sour
  	if (_media && _media->currentWidth() < maxwidth) {
  		maxwidth = qMax(_media->currentWidth(), qMin(maxwidth, plainMaxWidth()));
  	}
-@@ -1528,7 +1532,7 @@
- 	width -= st::msgMargin.left() + st::msgMargin.right();
- 	if (width < st::msgPadding.left() + st::msgPadding.right() + 1) {
- 		width = st::msgPadding.left() + st::msgPadding.right() + 1;
--	} else if (width > st::msgMaxWidth) {
-+	} else if (width > st::msgMaxWidth && !Adaptive::ChatWide()) {
- 		width = st::msgMaxWidth;
+@@ -1528,7 +1532,7 @@ int HistoryMessage::performResizeGetHeight() {
+ 	auto contentWidth = width() - (st::msgMargin.left() + st::msgMargin.right());
+ 	if (contentWidth < st::msgPadding.left() + st::msgPadding.right() + 1) {
+ 		contentWidth = st::msgPadding.left() + st::msgPadding.right() + 1;
+-	} else if (contentWidth > st::msgMaxWidth) {
++	} else if (contentWidth > st::msgMaxWidth && !Adaptive::ChatWide()) {
+ 		contentWidth = st::msgMaxWidth;
  	}
  	if (drawBubble()) {
-@@ -2247,11 +2251,7 @@
- 
- void HistoryService::countPositionAndSize(int32 &left, int32 &width) const {
- 	left = st::msgServiceMargin.left();
--	int32 maxwidth = _history->width;
--	if (Adaptive::ChatWide()) {
--		maxwidth = qMin(maxwidth, int32(st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
--	}
--	width = maxwidth - st::msgServiceMargin.left() - st::msgServiceMargin.left();
-+	width = _history->width - st::msgServiceMargin.left() - st::msgServiceMargin.left();
+--- a/Telegram/SourceFiles/history/history_service.cpp
++++ b/Telegram/SourceFiles/history/history_service.cpp
+@@ -413,7 +413,7 @@ bool HistoryService::updateDependencyIte
+ QRect HistoryService::countGeometry() const {
+ 	auto result = QRect(0, 0, width(), _height);
+ 	if (Adaptive::ChatWide()) {
+-		result.setWidth(qMin(result.width(), st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
++		result.setWidth(result.width() - st::msgServiceMargin.left() - st::msgServiceMargin.left());
+ 	}
+ 	return result.marginsRemoved(st::msgServiceMargin);
  }
- 
- TextWithEntities HistoryService::selectedText(TextSelection selection) const {
-@@ -2322,9 +2322,6 @@
+@@ -482,9 +482,6 @@ int HistoryService::resizeContentGetHeig
  		_textHeight = 0;
  	} else {
- 		int32 maxwidth = _history->width;
+ 		auto contentWidth = width();
 -		if (Adaptive::ChatWide()) {
--			maxwidth = qMin(maxwidth, int32(st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
+-			accumulate_min(contentWidth, st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left());
 -		}
- 		if (width > maxwidth) width = maxwidth;
- 		width -= st::msgServiceMargin.left() + st::msgServiceMargin.left(); // two small margins
- 		if (width < st::msgServicePadding.left() + st::msgServicePadding.right() + 1) width = st::msgServicePadding.left() + st::msgServicePadding.right() + 1;
+ 		contentWidth -= st::msgServiceMargin.left() + st::msgServiceMargin.left(); // two small margins
+ 		if (contentWidth < st::msgServicePadding.left() + st::msgServicePadding.right() + 1) {
+ 			contentWidth = st::msgServicePadding.left() + st::msgServicePadding.right() + 1;
 diff --git a/Telegram/SourceFiles/history/history_service_layout.cpp b/Telegram/SourceFiles/history/history_service_layout.cpp
 index 4771f21ff..615056b71 100644
 --- a/Telegram/SourceFiles/history/history_service_layout.cpp
@@ -116,8 +114,8 @@ index 4771f21ff..615056b71 100644
  	int height = st::msgServicePadding.top() + st::msgServiceFont->height + st::msgServicePadding.bottom();
 diff --git a/Telegram/SourceFiles/historywidget.cpp b/Telegram/SourceFiles/historywidget.cpp
 index be1ba85f1..973e946c1 100644
---- a/Telegram/SourceFiles/historywidget.cpp
-+++ b/Telegram/SourceFiles/historywidget.cpp
+--- a/Telegram/SourceFiles/history/history_widget.cpp
++++ b/Telegram/SourceFiles/history/history_widget.cpp
 @@ -623,7 +623,13 @@
  
  	connect(&_updateEditTimeLeftDisplay, SIGNAL(timeout()), this, SLOT(updateField()));

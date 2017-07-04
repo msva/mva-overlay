@@ -1,6 +1,6 @@
 --- /dev/null	2017-05-13 21:16:42.822937665 +0700
 +++ b/Telegram/CMakeLists.txt	2017-05-14 05:50:30.737400259 +0700
-@@ -0,0 +1,158 @@
+@@ -0,0 +1,159 @@
 +cmake_minimum_required(VERSION 3.6)
 +
 +project(TelegramDesktop)
@@ -95,6 +95,7 @@
 +    SourceFiles/history/*.cpp SourceFiles/history/*.h
 +    SourceFiles/inline_bots/*.cpp SourceFiles/inline_bots/*.h
 +    SourceFiles/intro/*.cpp SourceFiles/intro/*.h
++    SourceFiles/lang/*.cpp SourceFiles/lang/*.h
 +    SourceFiles/media/*.cpp SourceFiles/media/*.h
 +    SourceFiles/mtproto/*.cpp SourceFiles/mtproto/*.h
 +    SourceFiles/overview/*.cpp SourceFiles/overview/*.h

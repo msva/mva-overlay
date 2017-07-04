@@ -21,7 +21,6 @@ LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
 IUSE="custom-api-id debug +wide-baloons"
 # upstream-api-id"
-# TODO: l10n_*
 
 COMMON_DEPEND="
 	dev-qt/qtcore:5
@@ -64,16 +63,6 @@ CMAKE_USE_DIR="${S}/Telegram"
 
 PATCHES_DIR="${FILESDIR}/patches/${PV}"
 PATCHES=("${PATCHES_DIR}")
-
-src_unpack() {
-	default
-	git-r3_src_unpack
-
-	# TODO: l10n_ru + conditional patch in prepare
-	wget https://tlgrm.ru/files/locales/tdesktop/Russian.strings -O "${S}"/Telegram/Resources/langs/lang_ru.strings
-	# ^ not in SRC_URI, because it is subject to change, just as code in Git.
-	# And it'll be too much maintenace work to bump it constantly.
-}
 
 src_prepare() {
 	use wide-baloons && PATCHES+=("${PATCHES_DIR}/conditional/wide-baloons")
