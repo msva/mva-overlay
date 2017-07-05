@@ -23,7 +23,10 @@ DEPEND="
 "
 RDEPEND="
 	${DEPEND}
-	x11? ( x11-wm/xpra[client,server] )
+	x11? (
+		x11-base/xorg-server[xcsecurity]
+		x11-wm/xpra[client,server]
+	)
 "
 
 src_prepare() {
