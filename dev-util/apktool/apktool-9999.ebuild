@@ -16,7 +16,7 @@ IUSE=""
 
 RDEPEND=">=virtual/jdk-1.7"
 DEPEND="
-	!!${CATEGORY}/${PN}-bin
+	!${CATEGORY}/${PN}-bin
 	virtual/gradle
 "
 
@@ -32,10 +32,10 @@ src_prepare() {
 	java-pkg-2_src_prepare
 }
 src_compile() {
-	gradle build fatJar proguard
+	gradle build shadowJar proguard
 }
 
 src_install() {
-	java-pkg_newjar "brut.apktool/apktool-cli/build/libs/${PN}-cli.jar"
+	java-pkg_newjar "brut.apktool/apktool-cli/build/libs/${PN}-cli-all.jar"
 	java-pkg_dolauncher ${PN} --java_args "-Xmx512M"
 }
