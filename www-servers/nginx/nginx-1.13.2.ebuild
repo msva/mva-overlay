@@ -952,6 +952,10 @@ src_prepare() {
 		fi
 	done
 
+	if use nginx_modules_stream_lua || use nginx_modules_http_lua; then
+		eapply "${PATCHDIR}/lua-ssl.patch"
+	fi
+
 	if use nginx_modules_stream_lua; then
 		pushd "${STREAM_LUA_MODULE_WD}" &>/dev/null
 		eapply "${PATCHDIR}/${STREAM_LUA_MODULE_P}.patch"
