@@ -4,32 +4,28 @@
 EAPI=6
 
 inherit git-r3
-EGIT_REPO_URI="https://github.com/lukas2511/letsencrypt.sh"
+EGIT_REPO_URI="https://github.com/srvrco/getssl"
 KEYWORDS=""
 
 DESCRIPTION="letsencrypt/acme client implemented as a shell-script"
-HOMEPAGE="https://github.com/lukas2511/letsencrypt.sh"
+HOMEPAGE="https://github.com/srvrco/getssl"
 
-LICENSE="MIT"
+LICENSE="GPL-3"
 SLOT="0"
 IUSE=""
 
 RDEPEND="
+	net-dns/bind-tools
+	sys-apps/grep
+	virtual/awk
+	sys-apps/sed
+	net-misc/openssh
 	sys-apps/coreutils
 	net-misc/curl
 	dev-libs/openssl
 "
-
 DEPEND=""
 
-DOCS=( README.md docs/. )
+DOCS=( README.md )
 
-src_install() {
-	dobin letsencrypt.sh
-	docompress -x /usr/share/doc/${PF}/examples
-	default
-}
-
-src_test() {
-	./test.sh
-}
+src_compile() { :; }
