@@ -2,8 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <maintainer type="person">
-  <email>gentoo-overlay@mva.name</email>
-  <name>Vadim A. Misbakh-Soloviov</name>
+	<email>gentoo-overlay@mva.name</email>
+	<name>Vadim A. Misbakh-Soloviov</name>
 </maintainer>
 <use>
 	<flag name='aio'>Enable aio support</flag>
