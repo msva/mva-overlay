@@ -46,12 +46,9 @@ if [[ ${PV} == 9999* ]] ; then
 fi
 
 src_prepare() {
-	if [[ ${PV} != 9999* ]]; then
-		# fix zshall problem with soelim
-		ln -s Doc man1 || die
-		mv Doc/zshall.1 Doc/zshall.1.soelim || die
-		soelim Doc/zshall.1.soelim > Doc/zshall.1 || die
+	ln -s Doc man1
 
+	if [[ ${PV} != 9999* ]]; then
 		# add openrc specific options for init.d completion
 		eapply "${FILESDIR}"/${PN}-5.3-init.d-gentoo.diff
 	fi
@@ -133,6 +130,9 @@ src_compile() {
 	if [[ ${PV} == 9999* ]] && use doc ; then
 		emake -C Doc everything
 	fi
+
+	mv Doc/zshall.1 Doc/zshall.1.soelim
+	soelim Doc/zshall.1.soelim > Doc/zshall.1
 }
 
 src_test() {
