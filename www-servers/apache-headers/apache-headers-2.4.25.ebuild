@@ -9,7 +9,7 @@ GENTOO_DEVELOPER="polynomial-c"
 GENTOO_PATCHNAME="gentoo-apache-2.4.18-r1"
 
 DESCRIPTION="Header files from the Apache Web Server"
-HOMEPAGE="http://httpd.apache.org/"
+HOMEPAGE="https://httpd.apache.org/"
 
 LICENSE="Apache-2.0"
 SLOT="2"
@@ -18,7 +18,7 @@ IUSE=""
 
 SRC_URI="
 	mirror://apache/httpd/httpd-${PV}.tar.bz2
-	http://dev.gentoo.org/~${GENTOO_DEVELOPER}/dist/apache/${GENTOO_PATCHNAME}-${GENTOO_PATCHSTAMP}.tar.bz2
+	https://dev.gentoo.org/~${GENTOO_DEVELOPER}/dist/apache/${GENTOO_PATCHNAME}-${GENTOO_PATCHSTAMP}.tar.bz2
 "
 
 GENTOO_PATCHDIR="${WORKDIR}/${GENTOO_PATCHNAME}"

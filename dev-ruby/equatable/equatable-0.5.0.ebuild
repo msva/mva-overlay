@@ -8,7 +8,7 @@ USE_RUBY="ruby21 ruby22 ruby23"
 inherit ruby-fakegem
 
 DESCRIPTION="Allows ruby objects to implement equality comparison and inspection methods. "
-HOMEPAGE="http://github.com/peter-murach/equatable"
+HOMEPAGE="https://github.com/peter-murach/equatable"
 LICENSE="MIT"
 
 RESTRICT="test"

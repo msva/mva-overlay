@@ -4,7 +4,7 @@
 EAPI=6
 
 DESCRIPTION="Tool for bisecting live ebuilds"
-HOMEPAGE="http://www.gentoo.org/"
+HOMEPAGE="https://www.gentoo.org/"
 SRC_URI=""
 
 LICENSE="GPL-2"

@@ -1,20 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer type="person">
- <email>gentoo-overlay@mva.name</email>
- <description>
-	If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
- </description> 
- <name>Vadim A. Misbakh-Soloviov</name>
-</maintainer>
-<longdescription>FIXME</longdescription> 
-<use>
-	<flag name="http">enable handling of accidental HTTP requests</flag>
-	<flag name="log">enable packet logging</flag>
-	<flag name="queue">enable queueuing of packets while connecting setup</flag>
-	<flag name="relay">disable source ip checking before forwarding</flag>
-	<flag name="rtt">enable inband RTT measurement</flag>
-	<flag name="i2p">install GarliCat (I2P-version)</flag>
-</use>
+  <maintainer type="person">
+    <email>gentoo-overlay@mva.name</email>
+    <description>If you have any issues, please contact me, or try
+    to find me in IRC on Freenode, OFTC or RusNet.</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>FIXME</longdescription>
+  <use>
+    <flag name="http">enable handling of accidental HTTP
+    requests</flag>
+    <flag name="log">enable packet logging</flag>
+    <flag name="queue">enable queueuing of packets while connecting
+    setup</flag>
+    <flag name="relay">disable source ip checking before
+    forwarding</flag>
+    <flag name="rtt">enable inband RTT measurement</flag>
+    <flag name="i2p">install GarliCat (I2P-version)</flag>
+  </use>
 </pkgmetadata>

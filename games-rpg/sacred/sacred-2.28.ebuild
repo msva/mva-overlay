@@ -47,19 +47,16 @@ pkg_setup() {
 }
 
 src_install() {
-	#TODO: games.eclass (when it will be EAPI4-compatible)
-	dodir /opt/${PN}
-	cd "${S}"
-	chown -R games:games ./*
-	cp -R . "${D}"/opt/${PN}
-	dodir /usr/games/bin
-	dosym /opt/sacred/sacred /usr/games/bin/sacred
+	local dir="/opt/${PN}"
+	insinto "${dir}"
+	doins *
+	make_wrapper "${PN}" "./${PN}" "${dir}"
+# "${dir}/lib"
 	newicon ${S}"/icon.xpm" "${PN}.png"
 	make_desktop_entry "${PN}" "Sacred: Gold Edition" "${PN}" "Games"
 }
 
 pkg_postinst() {
-	elog "Don't forget to add you user in 'games' group."
-	elog "Also, don't forget: if you using Graphical Drivers, that don't support"
+	elog "Don't forget: if you using Graphical Drivers, that don't support"
 	elog "OpenGL acceleration, than game will work SLOWLY."
 }

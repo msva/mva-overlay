@@ -6,7 +6,7 @@ EAPI=6
 inherit eutils autotools flag-o-matic git-r3
 
 DESCRIPTION="A state machine for DEC VT100-VT520 compatible terminal emulators."
-HOMEPAGE="http://www.freedesktop.org/wiki/Software/kmscon"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/kmscon"
 
 EGIT_REPO_URI="git://people.freedesktop.org/~dvdhrm/${PN}"
 SRC_URI=""

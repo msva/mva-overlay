@@ -1,3 +1,0 @@
-www-apps/grafana
-www-apps/etherpad-lite
-sys-apps/yarn

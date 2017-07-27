@@ -5,7 +5,7 @@ EAPI=6
 
 DESCRIPTION="File sharing platform similar to dropbox"
 HOMEPAGE="https://pyd.io/"
-SRC_URI="http://sourceforge.net/projects/ajaxplorer/files/${PN}/stable-channel/${PV}/${PN}-core-${PV}.tar.gz/download -> ${P}.tar.gz"
+SRC_URI="https://sourceforge.net/projects/ajaxplorer/files/${PN}/stable-channel/${PV}/${PN}-core-${PV}.tar.gz/download -> ${P}.tar.gz"
 RESTRICTION="mirror"
 
 LICENSE="AGPL-3"

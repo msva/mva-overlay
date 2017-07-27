@@ -63,16 +63,18 @@ src_compile() {
 }
 
 src_install() {
+	local le="/usr/libexec/${PN}"
+
 	insinto "${VENDOR_LIB}"
 	doins -r lib/*
 
 #	insopts -m0755
-	exeinto "/usr/libexec/${PN}"
+	exeinto "${le}"
 	doexe script/*
 
-	dosym /usr/libexec/"${PN}"/"${PN}" /usr/bin/"${PN}"
-	dosym /usr/libexec/"${PN}"/"${PN}"-shell-raw /usr/bin/"${PN}"-shell
+	dosym "${le}/${PN}" "/usr/bin/${PN}"
+	dosym "${le}/${PN}-shell-raw" "/usr/bin/${PN}-shell"
 
-	insinto /var/lib/"${PN}"
-	doins -r data lock templates tmp "${PN}".conf "${PN}"_image.png public
+	insinto "/var/lib/${PN}"
+	doins -r data lock templates tmp "${PN}.conf" "${PN}_image.png" public
 }

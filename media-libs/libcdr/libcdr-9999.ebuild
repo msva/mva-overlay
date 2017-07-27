@@ -8,7 +8,7 @@ inherit eutils
 [[ ${PV} == 9999 ]] && inherit autotools git-r3
 
 DESCRIPTION="Library parsing the Corel cdr documents"
-HOMEPAGE="http://www.freedesktop.org/wiki/Software/libcdr"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/libcdr"
 [[ ${PV} == 9999 ]] || SRC_URI="http://dev-www.libreoffice.org/src/${P}.tar.xz"
 
 LICENSE="LGPL-2.1"

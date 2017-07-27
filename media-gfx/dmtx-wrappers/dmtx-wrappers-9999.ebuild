@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{2_7,3_{3,4,5}} pypy{,3} )
 RUBY_OPTIONAL=yes
 USE_RUBY="ruby21 ruby22 ruby23 ruby24"
 
-inherit autotools-utils distutils-r1 ruby-ng java-pkg-opt-2 eutils git-r3
+inherit distutils-r1 ruby-ng java-pkg-opt-2 eutils autotools ltprune git-r3
 
 DESCRIPTION="Tools for reading and writing Data Matrix barcodes"
 HOMEPAGE="http://www.libdmtx.org/"
@@ -29,9 +29,6 @@ RDEPEND="
 "
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
-
-AUTOTOOLS_AUTORECONF=yes
-AUTOTOOLS_IN_SOURCE_BUILD=yes
 
 # Ruby wrapper currently fails to build with 1.9.
 # Mono wrapper currently is Windows-only thing.
@@ -63,7 +60,8 @@ pkg_setup() {
 }
 
 src_prepare() {
-	autotools-utils_src_prepare
+	default
+	eautoreconf
 
 	use python && (
 		S="${S}/python"
@@ -76,12 +74,8 @@ src_prepare() {
 	)
 }
 
-src_configure() {
-	autotools-utils_src_configure
-}
-
 src_compile() {
-	autotools-utils_src_compile
+	default
 	use java && (
 		einfo "Compiling wrapper for Java"
 		S="${S}/java"
@@ -102,6 +96,7 @@ src_compile() {
 }
 
 src_install() {
+	default
 	use java && (
 		einfo "Installing wrapper for Java"
 		S="${S}/java"

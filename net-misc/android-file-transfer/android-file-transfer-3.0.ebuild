@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="+fuse +gui"
 
 RDEPEND="
-	fuse? ( sys-fs/fuse )
+	fuse? ( sys-fs/fuse:0 )
 	gui? (
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5

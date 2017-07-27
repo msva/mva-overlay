@@ -35,10 +35,11 @@ src_prepare() {
 }
 
 src_install() {
-	insinto "/etc/${PN}"
+	local etc="/etc/${PN}"
+	insinto "${etc}"
 	doins "settings.json"
 	rm "settings.json"
-	dosym "/etc/${PN}/settings.json" "${ETHERPAD_DEST}/settings.json"
+	dosym "${etc}/settings.json" "${ETHERPAD_DEST}/settings.json"
 
 	mkdir -p "${D}${ETHERPAD_DEST}"
 	cp -a . "${D}${ETHERPAD_DEST}"

@@ -6,7 +6,7 @@ EAPI=6
 inherit eutils
 
 DESCRIPTION="Table support for inkscape"
-HOMEPAGE="http://sourceforge.net/projects/inkscape-tables/"
+HOMEPAGE="https://sourceforge.net/projects/inkscape-tables/"
 SRC_URI="mirror://sourceforge/inkscape-tables/${P}.tar.gz"
 
 LICENSE="GPL-2"

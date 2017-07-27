@@ -6,7 +6,7 @@ EAPI=6
 inherit eutils autotools systemd flag-o-matic git-r3
 
 DESCRIPTION="KMS/DRM based virtual Console Emulator"
-HOMEPAGE="http://www.freedesktop.org/wiki/Software/kmscon"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/kmscon"
 
 EGIT_REPO_URI="git://people.freedesktop.org/~dvdhrm/${PN}"
 SRC_URI=""
@@ -107,7 +107,7 @@ src_configure() {
 		video_enable drm3d
 	fi
 
-	# Font rendering backends 
+	# Font rendering backends
 
 	if use unicode; then
 		fonts_enable unifont

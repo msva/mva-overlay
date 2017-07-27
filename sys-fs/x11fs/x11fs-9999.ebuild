@@ -17,7 +17,7 @@ IUSE=""
 
 DEPEND="
 	x11-libs/libxcb
-	sys-fs/fuse
+	sys-fs/fuse:0
 "
 RDEPEND="${DEPEND}"
 

@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>gentoo@mva.name</email>
-		<description>
-			If you have any issues, please contact me via e-mail, jabber (mva@), or IRC (FreeNode, RusNet, OFTC)
-		</description>
-		<name>Vadim A. Misbakh-Soloviov</name>
-	</maintainer>
-	<longdescription>
-	A tool displaying unicode character properties
-	</longdescription> 
-	<use>
-		<flag name='unihan'>Support for Unihan</flag>
-	</use>
+  <maintainer type="person">
+    <email>gentoo@mva.name</email>
+    <description>If you have any issues, please contact me via
+    e-mail, jabber (mva@), or IRC (FreeNode, RusNet,
+    OFTC)</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>A tool displaying unicode character
+  properties</longdescription>
+  <use>
+    <flag name='unihan'>Support for Unihan</flag>
+  </use>
 </pkgmetadata>

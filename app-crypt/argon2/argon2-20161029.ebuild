@@ -18,9 +18,9 @@ LICENSE="|| ( Apache-2.0 CC0-1.0 )"
 SLOT="0"
 IUSE="doc static-libs"
 
-PATCHES=(
-	"${FILESDIR}/patches/${PV}"
-)
+#PATCHES=(
+#	"${FILESDIR}/patches/${PV}"
+#)
 
 DOCS=("README.md" "${PN}-specs.pdf")
 

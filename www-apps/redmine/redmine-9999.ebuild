@@ -78,6 +78,8 @@ all_ruby_install() {
 	REDMINE_USER="${HTTPD_USER:-redmine}"
 	REDMINE_GROUP="${HTTPD_GROUP:-redmine}"
 
+	local REDMINE_LOGDIR="/var/log/${PN}"
+
 	use ldap || (
 		rm app/models/auth_source_ldap.rb
 		epatch "${FILESDIR}/no_ldap.patch"
@@ -87,8 +89,8 @@ all_ruby_install() {
 	dodoc README.rdoc || die
 	rm README.rdoc || die
 
-	keepdir /var/log/${PN} || die
-	dosym /var/log/${PN}/ "${REDMINE_DIR}/log" || die
+	keepdir "${REDMINE_LOGDIR}" || die
+	dosym "${REDMINE_LOGDIR}" "${REDMINE_DIR}/log" || die
 
 	insinto "${REDMINE_DIR}"
 	doins -r . || die
@@ -100,7 +102,7 @@ all_ruby_install() {
 		"${REDMINE_DIR}/files" \
 		"${REDMINE_DIR}/public/plugin_assets" \
 		"${REDMINE_DIR}/tmp" \
-		/var/log/${PN} || die
+		"${REDMINE_LOGDIR}" || die
 	# for SCM
 	fowners "${REDMINE_USER}:${REDMINE_GROUP}" "${REDMINE_DIR}" || die
 	# bug #406605
@@ -108,7 +110,7 @@ all_ruby_install() {
 		"${REDMINE_DIR}/config" \
 		"${REDMINE_DIR}/files" \
 		"${REDMINE_DIR}/tmp" \
-		/var/log/${PN} || die
+		"${REDMINE_LOGDIR}" || die
 
 	if use passenger ; then
 		has_apache

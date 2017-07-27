@@ -10,7 +10,7 @@ RUBY_FAKEGEM_EXTRAINSTALL="cdata"
 inherit ruby-fakegem
 
 DESCRIPTION="additional Unicode aware functions for Ruby 1.9"
-HOMEPAGE="http://github.com/lang/unicode_utils"
+HOMEPAGE="https://github.com/lang/unicode_utils"
 LICENSE="MIT"
 
 RESTRICT="test"

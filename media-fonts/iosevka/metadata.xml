@@ -1,14 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="project">
-		<email>fonts@gentoo.org</email>
-		<name>Fonts</name>
-	</maintainer>
-	<upstream>
-		<remote-id type="github">larsenwork/monoid</remote-id>
-	</upstream>
-<use>
-    <flag name='woff'>Build web versions (woff) of the font (and it's variants)</flag>
-</use>
+  <maintainer type="project">
+    <email>fonts@gentoo.org</email>
+    <name>Fonts</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="github">larsenwork/monoid</remote-id>
+  </upstream>
+  <use>
+    <flag name='woff'>Build web versions (woff) of the font (and
+    it's variants)</flag>
+  </use>
 </pkgmetadata>

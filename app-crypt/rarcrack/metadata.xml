@@ -1,5 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
     <email>jlec@j-schmitz.net</email>
@@ -10,9 +11,9 @@
     <name>Johann Schmitz</name>
   </maintainer>
   <!--
-	<use>
-		<flag name=''></flag>
-	</use>
+        <use>
+                <flag name=''></flag>
+        </use>
 -->
   <upstream>
     <remote-id type="sourceforge">rarcrack</remote-id>

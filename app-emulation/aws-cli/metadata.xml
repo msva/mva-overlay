@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>gentoo@mva.name</email>
-		<description>
-			If you have any issues, please contact me via e-mail, jabber (mva@), or IRC (FreeNode, RusNet, OFTC)
-		</description>
-		<name>Vadim A. Misbakh-Soloviov</name>
-	</maintainer>
-	<longdescription>
-	Universal Command Line Interface for Amazon Web Services
-	</longdescription> 
+  <maintainer type="person">
+    <email>gentoo@mva.name</email>
+    <description>If you have any issues, please contact me via
+    e-mail, jabber (mva@), or IRC (FreeNode, RusNet,
+    OFTC)</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>Universal Command Line Interface for Amazon Web
+  Services</longdescription>
 </pkgmetadata>

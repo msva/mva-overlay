@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<use>
-		<flag name='encryption'>Pull in dependencies needed for WhatsApp's end-to-end encryption</flag>
-	</use>
+  <use>
+    <flag name='encryption'>Pull in dependencies needed for
+    WhatsApp's end-to-end encryption</flag>
+  </use>
 </pkgmetadata>
