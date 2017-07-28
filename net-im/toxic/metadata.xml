@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>overlay.tox@mva.name</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <use>
+    <flag name="av">Enable audio support</flag>
+    <flag name="libnotify">Enable desktop notification
+    support.</flag>
+    <flag name="sound-notify">Adds support for sound
+    notifications.</flag>
+    <flag name="X">Adds support for X11</flag>
+  </use>
+</pkgmetadata>
