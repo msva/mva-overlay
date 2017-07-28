@@ -1,0 +1,95 @@
+--- a/Telegram/ThirdParty/libtgvoip/audio/AudioInput.cpp
++++ b/Telegram/ThirdParty/libtgvoip/audio/AudioInput.cpp
+@@ -22,7 +22,9 @@
+ #include "../os/windows/AudioInputWASAPI.h"
+ #elif defined(__linux__)
+ #include "../os/linux/AudioInputALSA.h"
++#ifdef TGVOIP_USE_PULSEAUDIO
+ #include "../os/linux/AudioInputPulse.h"
++#endif
+ #else
+ #error "Unsupported operating system"
+ #endif
+@@ -56,6 +58,7 @@ AudioInput *AudioInput::Create(std::string deviceID){
+ #endif
+ 	return new AudioInputWASAPI(deviceID);
+ #elif defined(__linux__)
++#ifdef TGVOIP_USE_PULSEAUDIO
+ 	if(AudioInputPulse::IsAvailable()){
+ 		AudioInputPulse* aip=new AudioInputPulse(deviceID);
+ 		if(!aip->IsInitialized())
+@@ -64,6 +67,7 @@ AudioInput *AudioInput::Create(std::string deviceID){
+ 			return aip;
+ 		LOGW("in: PulseAudio available but not working; trying ALSA");
+ 	}
++#endif
+ 	return new AudioInputALSA(deviceID);
+ #endif
+ }
+@@ -89,8 +93,11 @@ void AudioInput::EnumerateDevices(std::vector<AudioInputDevice>& devs){
+ #endif
+ 	AudioInputWASAPI::EnumerateDevices(devs);
+ #elif defined(__linux__) && !defined(__ANDROID__)
+-	if(!AudioInputPulse::IsAvailable() || !AudioInputPulse::EnumerateDevices(devs))
+-		AudioInputALSA::EnumerateDevices(devs);
++#ifdef TGVOIP_USE_PULSEAUDIO
++	if(AudioInputPulse::IsAvailable() && AudioInputPulse::EnumerateDevices(devs))
++		return;
++#endif
++	AudioInputALSA::EnumerateDevices(devs);
+ #endif
+ }
+ 
+--- a/Telegram/ThirdParty/libtgvoip/audio/AudioOutput.cpp
++++ b/Telegram/ThirdParty/libtgvoip/audio/AudioOutput.cpp
+@@ -23,7 +23,9 @@
+ #include "../os/windows/AudioOutputWASAPI.h"
+ #elif defined(__linux__)
+ #include "../os/linux/AudioOutputALSA.h"
++#ifdef TGVOIP_USE_PULSEAUDIO
+ #include "../os/linux/AudioOutputPulse.h"
++#endif
+ #else
+ #error "Unsupported operating system"
+ #endif
+@@ -54,6 +56,7 @@ AudioOutput *AudioOutput::Create(std::string deviceID){
+ #endif
+ 	return new AudioOutputWASAPI(deviceID);
+ #elif defined(__linux__)
++#ifdef TGVOIP_USE_PULSEAUDIO
+ 	if(AudioOutputPulse::IsAvailable()){
+ 		AudioOutputPulse* aop=new AudioOutputPulse(deviceID);
+ 		if(!aop->IsInitialized())
+@@ -62,6 +65,7 @@ AudioOutput *AudioOutput::Create(std::string deviceID){
+ 			return aop;
+ 		LOGW("out: PulseAudio available but not working; trying ALSA");
+ 	}
++#endif
+ 	return new AudioOutputALSA(deviceID);
+ #endif
+ }
+@@ -103,8 +107,11 @@ void AudioOutput::EnumerateDevices(std::vector<AudioOutputDevice>& devs){
+ #endif
+ 	AudioOutputWASAPI::EnumerateDevices(devs);
+ #elif defined(__linux__) && !defined(__ANDROID__)
+-	if(!AudioOutputPulse::IsAvailable() || !AudioOutputPulse::EnumerateDevices(devs))
+-		AudioOutputALSA::EnumerateDevices(devs);
++#ifdef TGVOIP_USE_PULSEAUDIO
++	if(AudioOutputPulse::IsAvailable() && AudioOutputPulse::EnumerateDevices(devs))
++		return;
++#endif
++	AudioOutputALSA::EnumerateDevices(devs);
+ #endif
+ }
+ 
+--- a/Telegram/ThirdParty/libtgvoip/libtgvoip.gyp
++++ b/Telegram/ThirdParty/libtgvoip/libtgvoip.gyp
+@@ -373,6 +373,7 @@
+           [
+             '"<(OS)" == "linux"', {
+               'defines': [
++                'TGVOIP_USE_PULSEAUDIO',
+                 'WEBRTC_POSIX',
+               ],
+               'cflags_cc': [
+

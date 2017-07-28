@@ -19,7 +19,7 @@ EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id debug +wide-baloons"
+IUSE="custom-api-id debug +wide-baloons +pulseaudio"
 # upstream-api-id"
 
 COMMON_DEPEND="
@@ -45,7 +45,7 @@ COMMON_DEPEND="
 	dev-util/google-breakpad
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
-	media-sound/pulseaudio
+	pulseaudio? ( media-sound/pulseaudio )
 "
 #media-sound/apulse
 # ^ wrong library path, and we anyway need pulseaudio headers :'(
@@ -66,6 +66,7 @@ PATCHES=("${PATCHES_DIR}")
 
 src_prepare() {
 	use wide-baloons && PATCHES+=("${PATCHES_DIR}/conditional/wide-baloons")
+	use pulseaudio || PATCHES+=("${PATCHES_DIR}/conditional/no-pulse")
 	default
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then

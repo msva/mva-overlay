@@ -1,6 +1,6 @@
 --- /dev/null	2017-05-13 21:16:42.822937665 +0700
 +++ b/Telegram/CMakeLists.txt	2017-05-14 05:50:30.737400259 +0700
-@@ -0,0 +1,159 @@
+@@ -0,0 +1,162 @@
 +cmake_minimum_required(VERSION 3.6)
 +
 +project(TelegramDesktop)
@@ -48,6 +48,7 @@
 +
 +set(TGVOIP_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/libtgvoip)
 +set(GSL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/GSL/include)
++set(EMOJI_SUGGESTIONS_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/emoji_suggestions)
 +set(VARIANT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/ThirdParty/variant/include)
 +
 +set(TELEGRAM_SOURCES_DIR ${CMAKE_SOURCE_DIR}/SourceFiles)
@@ -104,7 +105,8 @@
 +    SourceFiles/settings/*.cpp SourceFiles/settings/*.h
 +    SourceFiles/storage/*.cpp SourceFiles/storage/*.h
 +    SourceFiles/ui/*.cpp SourceFiles/ui/*.h
-+    SourceFiles/window/*.cpp SourceFiles/window/*.h)
++    SourceFiles/window/*.cpp SourceFiles/window/*.h
++    ${EMOJI_SUGGESTIONS_INCLUDE_DIR}/*.cpp ${EMOJI_SUGGESTIONS_INCLUDE_DIR}/*.h)
 +
 +add_executable(Telegram WIN32 ${QRC_FILES} ${FLAT_SOURCE_FILES} ${SUBDIRS_SOURCE_FILES})
 +
@@ -137,6 +139,7 @@
 +    ${GTK3_INCLUDE_DIRS}
 +    ${TGVOIP_INCLUDE_DIR}
 +    ${GSL_INCLUDE_DIR}
++    ${EMOJI_SUGGESTIONS_INCLUDE_DIR}
 +    ${VARIANT_INCLUDE_DIR}
 +    ${MINIZIP_INCLUDE_DIRS}
 +    ${OPENAL_INCLUDE_DIR}
@@ -185,7 +188,7 @@
 +set_property(TARGET breakpad PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${BREAKPAD_INCLUDE_DIRS})
 --- /dev/null
 +++ b/Telegram/cmake/TelegramCodegen.cmake
-@@ -0,0 +1,63 @@
+@@ -0,0 +1,66 @@
 +
 +set(TELEGRAM_GENERATED_SOURCES)
 +
@@ -223,12 +226,15 @@
 +
 +add_custom_command(
 +    OUTPUT ${GENERATED_DIR}/emoji.h ${GENERATED_DIR}/emoji.cpp
-+    COMMAND ${CMAKE_BINARY_DIR}/codegen_emoji -o${GENERATED_DIR}
++           ${GENERATED_DIR}/emoji_suggestions_data.h ${GENERATED_DIR}/emoji_suggestions_data.cpp
++    COMMAND ${CMAKE_BINARY_DIR}/codegen_emoji -o${GENERATED_DIR} ${TELEGRAM_RESOURCES_DIR}/emoji_autocomplete.json
 +    DEPENDS codegen_emoji
 +    COMMENT "Codegen emoji"
 +)
 +list(APPEND TELEGRAM_GENERATED_SOURCES ${GENERATED_DIR}/emoji.h)
 +list(APPEND TELEGRAM_GENERATED_SOURCES ${GENERATED_DIR}/emoji.cpp)
++list(APPEND TELEGRAM_GENERATED_SOURCES ${GENERATED_DIR}/emoji_suggestions_data.h)
++list(APPEND TELEGRAM_GENERATED_SOURCES ${GENERATED_DIR}/emoji_suggestions_data.cpp)
 +
 +add_custom_command(
 +    OUTPUT ${GENERATED_DIR}/lang_auto.h ${GENERATED_DIR}/lang_auto.cpp

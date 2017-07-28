@@ -13,6 +13,8 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name="custom-api-id">Use custom API ID and API HASH (you
     must set it either in make.conf or
     portage/env/{CAT}/{PN}.</flag>
+    <flag name="pulseaudio">Disables Pulseaudio support (use
+    ALSA-backend only)</flag>
     <flag name="wide-baloons">Apply custom patch to make text
     baloons in chat journal follow longest line width on adaptive
     widescreen layout, instead of using short ones and keep tons of
