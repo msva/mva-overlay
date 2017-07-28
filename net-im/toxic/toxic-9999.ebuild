@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools eutils git-r3 toolchain-funcs
+inherit eutils git-r3 toolchain-funcs
 
 DESCRIPTION="CLI Frontend for Tox"
 HOMEPAGE="https://wiki.tox.chat/clients/toxic"
@@ -35,38 +35,32 @@ DEPEND="
 	virtual/pkgconfig
 "
 
+u10() {
+	usex ${1} 1 0
+}
+
 src_prepare() {
-	# verbose build
-	sed -i \
+	sed  \
 		-e 's/@$(CC)/$(CC)/' \
-		Makefile || die
+		-e '/global_vars.mk$/a-include $(BASE_DIR)/cfg.mk' \
+		-i Makefile || die
 	default
 }
 
-src_compile() {
-	use av || export AV="DISABLE_AV=1"
-	use libnotify || export NOTIFY="DISABLE_DESKTOP_NOTIFY=1"
-	use sound-notify || export SOUND_NOTIFY="DISABLE_SOUND_NOTIFY=1"
-	use X || export X="DISABLE_X11=1"
-	emake \
-		CC="$(tc-getCC)" \
-		USER_CFLAGS="${CFLAGS}" \
-		USER_LDFLAGS="${LDFLAGS}" \
-		PREFIX="/usr" ${NOTIFY} ${SOUND_NOTIFY} ${X} ${AV}
-}
-
-src_install() {
-	use av || export AV="DISABLE_AV=1"
-	use libnotify || export NOTIFY="DISABLE_DESKTOP_NOTIFY=1"
-	use sound-notify || export SOUND_NOTIFY="DISABLE_SOUND_NOTIFY=1"
-	use X || export X="DISABLE_X11=1"
-
-	# ↑ needed workaround, without it "missing" things may compile again in install() –.–"
-
-	emake \
-		install PREFIX="/usr" DESTDIR="${D}" \
-		${NOTIFY} ${SOUND_NOTIFY} ${X} ${AV} # part of workaround
-
+src_configure() {
+	local myconfigopts=(
+		DISABLE_AV=$(u10 av)
+		DISABLE_DESKTOP_NOTIFY=$(u10 libnotify)
+		DISABLE_SOUND_NOTIFY=$(u10 sound-notify)
+		DISABLE_X11=$(u10 X)
+		CC="$(tc-getCC)"
+		USER_CFLAGS="${CFLAGS}"
+		USER_LDFLAGS="${LDFLAGS}"
+		PREFIX="/usr"
+	)
+	for c in "${myconfigopts[@]}"; do
+		echo "${c}" >> cfg.mk;
+	done
 }
 
 pkg_postinst() {
