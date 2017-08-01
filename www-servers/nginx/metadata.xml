@@ -42,6 +42,10 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='nginx_modules_http_iconv'>Iconv Module</flag>
     <flag name='nginx_modules_http_lua'>This module adds native Lua
     support to NginX</flag>
+    <flag name='nginx_modules_stream_python'>This module adds native
+    Python support to NginX</flag>
+    <flag name='nginx_modules_http_python'>This module adds native
+    Python support to NginX</flag>
     <flag name='nginx_modules_http_lua_upstream'>Lua Upstream
     Module</flag>
     <flag name='nginx_modules_http_memc'>MEMC Module</flag>

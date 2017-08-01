@@ -48,7 +48,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.1.6"
+HTTP_PASSENGER_MODULE_PV="5.1.7"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -185,11 +185,20 @@ HTTP_REDIS_MODULE_P="${HTTP_REDIS_MODULE_PN}-${HTTP_REDIS_MODULE_SHA:-${HTTP_RED
 HTTP_REDIS_MODULE_URI="https://github.com/${HTTP_REDIS_MODULE_A}/${HTTP_REDIS_MODULE_PN}/archive/${HTTP_REDIS_MODULE_SHA:-v${HTTP_REDIS_MODULE_PV}}.tar.gz"
 HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 
+# http_python, NginX Python module (https://github.com/arut/nginx-python-module/tags, BSD-2)
+HTTP_PYTHON_MODULE_A="arut"
+HTTP_PYTHON_MODULE_PN="nginx-python-module"
+HTTP_PYTHON_MODULE_PV="0.1.0"
+HTTP_PYTHON_MODULE_SHA="5ef54c196190ee52554c3917155859c759e4564d"
+HTTP_PYTHON_MODULE_P="${HTTP_PYTHON_MODULE_PN}-${HTTP_PYTHON_MODULE_SHA:-${HTTP_PYTHON_MODULE_PV}}"
+HTTP_PYTHON_MODULE_URI="https://github.com/${HTTP_PYTHON_MODULE_A}/${HTTP_PYTHON_MODULE_PN}/archive/${HTTP_PYTHON_MODULE_SHA:-v${HTTP_PYTHON_MODULE_PV}}.tar.gz"
+HTTP_PYTHON_MODULE_WD="${WORKDIR}/${HTTP_PYTHON_MODULE_P}"
+
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
 HTTP_LUA_MODULE_PV="0.10.9rc8"
-#HTTP_LUA_MODULE_SHA="69d995513b17df9ebb09dd4ea6656e1f78b28a34"
+HTTP_LUA_MODULE_SHA="f170505186ff61af36b3e126772b671793af9428"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
@@ -488,6 +497,8 @@ SRC_URI="
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} -> ${HTTP_REDIS_MODULE_P}.tar.gz )
+	nginx_modules_http_python? ( ${HTTP_PYTHON_MODULE_URI} -> ${HTTP_PYTHON_MODULE_P}.tar.gz )
+	nginx_modules_stream_python? ( ${HTTP_PYTHON_MODULE_URI} -> ${HTTP_PYTHON_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_lua_upstream? ( ${HTTP_LUA_UPSTREAM_MODULE_URI} -> ${HTTP_LUA_UPSTREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_replace_filter? ( ${HTTP_REPLACE_FILTER_MODULE_URI} -> ${HTTP_REPLACE_FILTER_MODULE_P}.tar.gz )
@@ -664,6 +675,8 @@ NGINX_MODULES_3P="
 	http_upstream_check
 	http_auth_ldap
 	http_rrd
+	http_python
+	stream_python
 	stream_lua
 	stream_dtls
 "
@@ -693,6 +706,8 @@ NGINX_MODULES_DYN="
 	http_pagespeed
 	stream_geoip
 	stream_lua
+	stream_python
+	http_python
 "
 
 REQUIRED_USE="
@@ -790,6 +805,8 @@ CDEPEND="
 			)
 		)
 	)
+	nginx_modules_http_python? ( dev-lang/python:2.7 )
+	nginx_modules_stream_python? ( dev-lang/python:2.7 )
 	nginx_modules_http_replace_filter? ( dev-libs/sregex )
 	nginx_modules_http_metrics? ( dev-libs/yajl )
 	nginx_modules_http_nchan? ( dev-libs/hiredis )
@@ -1125,6 +1142,10 @@ src_configure() {
 		fi
 	done
 	for m in $NGINX_MODULES_3P; do
+		# TODO: replace this check with a function, if there will be another http+stream-in-one modules
+		if [[ "${m}" == "stream_python" ]] && use nginx_modules_http_python; then
+			continue
+		fi
 		local e="$(ext_mod ${m})"
 		if [[ -n "${e}" ]]; then
 			local proto="${m//_*}"
@@ -1135,6 +1156,10 @@ src_configure() {
 			myconf+=("${e}")
 		fi
 	done
+
+	if use nginx_modules_http_python || use nginx_modules_stream_python; then
+		export PYTHON_CONFIG="/usr/bin/python2.7-config"
+	fi
 
 	if use nginx_modules_http_lua; then
 		if use luajit; then
@@ -1245,13 +1270,15 @@ src_configure() {
 
 	local sedargs=();
 		sedargs+=(-e "s|${WORKDIR}|ext|g")
-	use nginx_modules_http_njs && \
+		sedargs+=(-e 's@(=ext/[^ ]*-)([0-9a-fA-F]{8})[0-9a-fA-F]{32}@\1\2@g')
+
+	use nginx_modules_http_njs &&
 		sedargs+=(-e "s|/${P}/|/|g;s|(/njs-[^/]*)/nginx |\1 |g")
-	use nginx_modules_http_naxsi && \
+	use nginx_modules_http_naxsi &&
 		sedargs+=(-e "s|/${P}/|/|g;s|/naxsi_src||g")
-	use nginx_modules_http_passenger && \
+	use nginx_modules_http_passenger &&
 		sedargs+=(-e "s|/${P}/|/|g;s|/src/nginx_module||g;s|/src_module||g;s|(passenger)-release|\1|")
-	use nginx_modules_http_passenger_enterprise && \
+	use nginx_modules_http_passenger_enterprise &&
 		sedargs+=(-e "s|/${P}/|/|g;s|/src/nginx_module||g;s|/src_module||g")
 
 	sed -i -r "${sedargs[@]}" "${S}/objs/ngx_auto_config.h"
@@ -1404,6 +1431,12 @@ src_install() {
 	if use nginx_modules_stream_lua; then
 		docinto "${STREAM_LUA_MODULE_P}"
 		dodoc "${STREAM_LUA_MODULE_WD}"/{valgrind.suppress,README.md}
+	fi
+
+# http_python && stream_python
+	if use nginx_modules_stream_python || use nginx_modules_http_python; then
+		docinto "${HTTP_PYTHON_MODULE_P}"
+		dodoc "${HTTP_PYTHON_MODULE_WD}"/{README.rst,TODO}
 	fi
 
 # http_lua_upstream
