@@ -26,8 +26,8 @@ DEPEND="
 		libressl? ( dev-libs/libressl:0= )
 	)
 	lzo? ( dev-libs/lzo:2 )
-	ncurses? ( sys-libs/ncurses:= )
-	readline? ( sys-libs/readline:= )
+	ncurses? ( sys-libs/ncurses:0 )
+	readline? ( sys-libs/readline:0 )
 	upnp? ( net-libs/miniupnpc )
 	zlib? ( sys-libs/zlib )
 "
