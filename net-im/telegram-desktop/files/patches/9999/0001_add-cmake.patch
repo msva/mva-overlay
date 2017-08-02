@@ -1,7 +1,7 @@
 --- /dev/null	2017-05-13 21:16:42.822937665 +0700
 +++ b/Telegram/CMakeLists.txt	2017-05-14 05:50:30.737400259 +0700
 @@ -0,0 +1,162 @@
-+cmake_minimum_required(VERSION 3.6)
++cmake_minimum_required(VERSION 3.8)
 +
 +project(TelegramDesktop)
 +
@@ -281,12 +281,21 @@
      get_filename_component(_name ${_input} NAME)
      set(_pch_header "${CMAKE_CURRENT_SOURCE_DIR}/${_input}")
      set(_pch_binary_dir "${CMAKE_CURRENT_BINARY_DIR}/${_target}_pch")
+@@ -112,7 +111,7 @@ function(add_precompiled_header _target _input)
+       set(_compiler_FLAGS "@${_pch_c_flags_file}")
+       add_custom_command(
+         OUTPUT "${_output_c}"
+-        COMMAND "${CMAKE_C_COMPILER}" ${_compiler_FLAGS} -x c-header -o "${_output_c}" -c "${_pchfile}"
++        COMMAND "${CMAKE_C_COMPILER}" ${_compiler_FLAGS} "$(C_FLAGS)" -x c-header -o "${_output_c}" -c "${_pchfile}"
+         DEPENDS "${_pchfile}" "${_pch_c_flags_file}"
+         IMPLICIT_DEPENDS C "${_pch_header}"
+         COMMENT "Precompiling ${_name} for ${_target} (C)")
 @@ -123,7 +123,7 @@ function(add_precompiled_header _target _input)
        set(_compiler_FLAGS "@${_pch_cpp_flags_file}")
        add_custom_command(
          OUTPUT "${_output_cxx}"
 -        COMMAND "${CMAKE_CXX_COMPILER}" ${_compiler_FLAGS} -x c++-header -o "${_output_cxx}" -c "${_pchfile}"
-+        COMMAND "${CMAKE_CXX_COMPILER}" ${_compiler_FLAGS} -std=gnu++1z -x c++-header -o "${_output_cxx}" -c "${_pchfile}"
++        COMMAND "${CMAKE_CXX_COMPILER}" ${_compiler_FLAGS} "${CXX_FLAGS}" -x c++-header -o "${_output_cxx}" -c "${_pchfile}"
          DEPENDS "${_pchfile}" "${_pch_cpp_flags_file}"
          IMPLICIT_DEPENDS CXX "${_pch_header}"
          COMMENT "Precompiling ${_name} for ${_target} (C++)")
