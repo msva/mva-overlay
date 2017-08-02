@@ -26,8 +26,8 @@ DEPEND="
 		libressl? ( dev-libs/libressl:0= )
 	)
 	lzo? ( dev-libs/lzo:2 )
-	ncurses? ( sys-libs/ncurses:0 )
-	readline? ( sys-libs/readline:0 )
+	ncurses? ( sys-libs/ncurses:0= )
+	readline? ( sys-libs/readline:0= )
 	upnp? ( net-libs/miniupnpc )
 	zlib? ( sys-libs/zlib )
 "
@@ -42,9 +42,13 @@ RDEPEND="
 
 #REQUIRED_USE="^^ ( ssl gcrypt )"
 
-PATCHES=("${FILESDIR}/patches/${PV}")
+PATCHDIR=("${FILESDIR}/patches/${PV}")
+PATCHES=("${PATCHDIR}")
 
 src_prepare() {
+	if has_version 'sys-libs/ncurses:0[tinfo]'; then
+		PATCHES+=("${PATCHDIR}/conditional/tinfo")
+	fi
 	use tools && sed -r \
 		-e '1,5s@^(sbin_PROGRAMS.*)@\1 $(EXTRA_PROGRAMS)@' \
 		-i src/Makefile.am
