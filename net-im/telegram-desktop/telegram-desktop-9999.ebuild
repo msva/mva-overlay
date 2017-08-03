@@ -23,7 +23,6 @@ IUSE="custom-api-id debug +wide-baloons +pulseaudio"
 # upstream-api-id"
 
 COMMON_DEPEND="
-	>=dev-util/cmake-3.8
 	dev-qt/qtcore:5
 	dev-qt/qtgui:5[xcb,jpeg,png]
 	|| (
@@ -56,6 +55,7 @@ RDEPEND="
 "
 
 DEPEND="
+	>=dev-util/cmake-3.8
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
