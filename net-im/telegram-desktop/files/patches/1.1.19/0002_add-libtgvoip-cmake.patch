@@ -1,8 +1,8 @@
 --- a/Telegram/ThirdParty/libtgvoip/CMakeLists.txt	2017-05-13 21:16:42.822937665 +0700
 +++ b/Telegram/ThirdParty/libtgvoip/CMakeLists.txt	2017-05-14 05:27:22.694735012 +0700
 @@ -0,0 +1,204 @@
-+cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
-+cmake_policy(VERSION 2.8.8)
++cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
++cmake_policy(VERSION 3.8)
 +project(libtgvoip)
 +
 +enable_language(ASM)
