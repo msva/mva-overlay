@@ -273,6 +273,8 @@
 +endforeach()
 --- a/Telegram/gyp/PrecompiledHeader.cmake
 +++ b/Telegram/gyp/PrecompiledHeader.cmake
+# "$(C_DEFINES)" "$(C_INCLUDES)"
+# "$(CXX_DEFINES)" "$(CXX_INCLUDES)"
 @@ -79,7 +79,6 @@ function(export_all_flags _filename _source_name_for_flags)
  endfunction()
  
