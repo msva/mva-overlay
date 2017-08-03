@@ -19,16 +19,12 @@ EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id debug +wide-baloons +pulseaudio"
+IUSE="custom-api-id debug +wide-baloons +pulseaudio +gtk3"
 # upstream-api-id"
 
 COMMON_DEPEND="
 	dev-qt/qtcore:5
 	dev-qt/qtgui:5[xcb,jpeg,png]
-	|| (
-		<dev-qt/qtgui-5.7:5[gtkstyle]
-		>=dev-qt/qtgui-5.7:5[gtk]
-	)
 	dev-qt/qtwidgets[xcb,png]
 	dev-qt/qtnetwork
 	dev-qt/qtimageformats
@@ -37,8 +33,20 @@ COMMON_DEPEND="
 	x11-libs/libdrm
 	x11-libs/libva[X,drm]
 	sys-libs/zlib[minizip]
+	gtk3? (
+		x11-libs/gtk+:3
+		dev-libs/libappindicator:3
+		|| (
+			<dev-qt/qtgui-5.7:5[gtkstyle]
+			>=dev-qt/qtgui-5.7:5[gtk]
+		)
+	)
 	x11-libs/gtk+:3
 	dev-libs/libappindicator:3
+	|| (
+		<dev-qt/qtgui-5.7:5[gtkstyle]
+		>=dev-qt/qtgui-5.7:5[gtk]
+	)
 	media-libs/openal
 	dev-libs/openssl:0
 	x11-libs/libX11
@@ -47,8 +55,6 @@ COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	pulseaudio? ( media-sound/pulseaudio )
 "
-#media-sound/apulse
-# ^ wrong library path, and we anyway need pulseaudio headers :'(
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -68,7 +74,10 @@ PATCHES=("${PATCHES_DIR}")
 src_prepare() {
 	use wide-baloons && PATCHES+=("${PATCHES_DIR}/conditional/wide-baloons")
 	use pulseaudio || PATCHES+=("${PATCHES_DIR}/conditional/no-pulse")
+	use gtk3 || PATCHES+=("${PATCHES_DIR}/conditional/no-gtk")
+
 	default
+
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
 			(
