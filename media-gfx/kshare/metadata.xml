@@ -1,18 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>palipalo9@googlemail.com</email>
-		<name>Ingolf Wagner</name>
-	</maintainer>
-	<maintainer type="project">
-		<email>proxy-maint@gentoo.org</email>
-		<name>Proxy Maintainers</name>
-	</maintainer>
-	<longdescription>
-		maim (Make Image) is a utility that takes screenshots of your desktop using imlib2.
-	</longdescription>
-	<upstream>
-		<remote-id type="github">naelstrof/maim</remote-id>
-	</upstream>
+  <maintainer type="person">
+    <email>overlay.kshare@mva.name</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>KShare is a screenshotting utility built using
+  Qt and written in C++. It has many features, including: Area
+  capture, Fullscreen capture, Active window capture, Magnifier, to
+  make those aligments, Drawing on screenshots (blur, shapes, text,
+  ...), Recording, Highly customizable video
+  codecs, Automatic upload/clipboard copying, Hotkeys, Color
+  picker, and last but not least, Custom upload
+  destinations</longdescription>
+  <upstream>
+    <remote-id type="github">ArsenArsen/KShare</remote-id>
+  </upstream>
 </pkgmetadata>
