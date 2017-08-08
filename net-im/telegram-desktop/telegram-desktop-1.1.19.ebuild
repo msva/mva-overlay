@@ -41,8 +41,6 @@ COMMON_DEPEND="
 			>=dev-qt/qtgui-5.7:5[gtk]
 		)
 	)
-	x11-libs/gtk+:3
-	dev-libs/libappindicator:3
 	|| (
 		<dev-qt/qtgui-5.7:5[gtkstyle]
 		>=dev-qt/qtgui-5.7:5[gtk]
