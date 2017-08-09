@@ -18,6 +18,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     PUC-Rio Lua</flag>
     <flag name='mail'>Enable Mail NginX core module</flag>
     <flag name='dtls'>Enable DTLS Support (experimental)</flag>
+    <flag name='nginx_modules_http_mirror'>Mirror Module</flag>
     <flag name='nginx_modules_http_ajp'>AJP Module</flag>
     <flag name='nginx_modules_http_array_var'>Array-Var
     Module</flag>
