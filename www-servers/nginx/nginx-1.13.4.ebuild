@@ -926,7 +926,6 @@ pkg_setup() {
 	fi
 
 	if use nginx_modules_http_pagespeed; then
-		ewarn ""
 		ewarn "Be noticed that PageSpeed module using precompiled (by google) PSOL library."
 		ewarn "And due to way google built it, this build will definitelly follow to QA warning."
 		ewarn "So, take a look on it, please."
