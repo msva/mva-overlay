@@ -7,7 +7,7 @@ diff -NaurBwdp a/Telegram/CMakeLists.txt b/Telegram/CMakeLists.txt
  
 -pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 -pkg_check_modules(APPINDICATOR REQUIRED appindicator3-0.1)
-+add_definitions(-DTDESKTOP_GTK_MUST_DIE)
++add_definitions(-DTDESKTOP_DISABLE_GTK_INTEGRATION)
  
  find_package(ZLIB REQUIRED)
  
