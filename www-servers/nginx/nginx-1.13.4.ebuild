@@ -1057,8 +1057,11 @@ src_prepare() {
 	fi
 
 	if use nginx_modules_http_pagespeed; then
+		pushd "${HTTP_PAGESPEED_MODULE_WD}" &>/dev/null
+		eapply "${PATCHDIR}"/pagespeed-fix-compilation.patch
 		# TODO: replace precompiled psol with that one, built from apache module?
-		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}/" || die "Failed to insert psol"
+		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" ./ || die "Failed to insert psol"
+		popd &>/dev/null
 	fi
 
 	if use nginx_modules_http_upload_progress; then
