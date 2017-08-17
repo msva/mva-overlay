@@ -4,21 +4,19 @@
 EAPI=6
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/git/libreoffice/libcdr/"
-inherit eutils
+inherit eutils ltprune
 [[ ${PV} == 9999 ]] && inherit autotools git-r3
 
 DESCRIPTION="Library parsing the Corel cdr documents"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/libcdr"
 [[ ${PV} == 9999 ]] || SRC_URI="http://dev-www.libreoffice.org/src/${P}.tar.xz"
 
-LICENSE="LGPL-2.1"
+LICENSE="MPL-2.0"
 SLOT="0"
-[[ ${PV} == 9999 ]] || KEYWORDS="~amd64 ~arm ~ppc ~x86"
+[[ ${PV} == 9999 ]] || KEYWORDS="~amd64 ~arm ~ppc ~hppa ~ppc64 ~x86"
 IUSE="doc static-libs"
 
 RDEPEND="
-	app-text/libwpd:0.9
-	app-text/libwpg:0.2
 	dev-libs/icu:=
 	media-libs/lcms:2
 	sys-libs/zlib
