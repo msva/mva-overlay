@@ -3,6 +3,8 @@
 
 EAPI=6
 
+CMAKE_MIN_VERSION="3.8"
+
 inherit eutils gnome2-utils xdg cmake-utils toolchain-funcs flag-o-matic multilib git-r3
 
 DESCRIPTION="Official desktop client for Telegram"
@@ -59,7 +61,6 @@ RDEPEND="
 "
 
 DEPEND="
-	>=dev-util/cmake-3.8
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
