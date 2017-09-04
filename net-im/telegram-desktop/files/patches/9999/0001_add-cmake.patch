@@ -130,6 +130,7 @@
 +    ${LIBLZMA_LIBRARIES}
 +    ${X11_X11_LIB})
 +target_include_directories(Telegram PUBLIC
++    /usr/include/catch
 +    ${QT_PRIVATE_INCLUDE_DIRS}
 +    ${FFMPEG_INCLUDE_DIRS}
 +    ${OPUS_INCLUDE_DIRS}
