@@ -40,18 +40,13 @@ COMMON_DEPEND="
 		dev-libs/libappindicator:3
 		|| (
 			<dev-qt/qtgui-5.7:5[gtkstyle]
-			>=dev-qt/qtgui-5.7:5[gtk]
+			>=dev-qt/qtgui-5.7:5[gtk(+)]
 		)
-	)
-	|| (
-		<dev-qt/qtgui-5.7:5[gtkstyle]
-		>=dev-qt/qtgui-5.7:5[gtk]
 	)
 	media-libs/openal
 	dev-libs/openssl:0
 	x11-libs/libX11
 	dev-util/google-breakpad
-	dev-cpp/catch
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	pulseaudio? ( media-sound/pulseaudio )

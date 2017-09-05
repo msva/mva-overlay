@@ -1,6 +1,6 @@
 --- /dev/null	2017-05-13 21:16:42.822937665 +0700
 +++ b/Telegram/CMakeLists.txt	2017-05-14 05:50:30.737400259 +0700
-@@ -0,0 +1,162 @@
+@@ -0,0 +1,165 @@
 +cmake_minimum_required(VERSION 3.8)
 +
 +project(TelegramDesktop)
@@ -107,6 +107,9 @@
 +    SourceFiles/ui/*.cpp SourceFiles/ui/*.h
 +    SourceFiles/window/*.cpp SourceFiles/window/*.h
 +    ${EMOJI_SUGGESTIONS_INCLUDE_DIR}/*.cpp ${EMOJI_SUGGESTIONS_INCLUDE_DIR}/*.h)
++ # No unit-tests in non-CI builds plz
++file(GLOB_RECURSE NO_TESTS SourceFiles/*/*tests*.cpp)
++list(REMOVE_ITEM SUBDIRS_SOURCE_FILES ${NO_TESTS})
 +
 +add_executable(Telegram WIN32 ${QRC_FILES} ${FLAT_SOURCE_FILES} ${SUBDIRS_SOURCE_FILES})
 +
@@ -130,7 +133,6 @@
 +    ${LIBLZMA_LIBRARIES}
 +    ${X11_X11_LIB})
 +target_include_directories(Telegram PUBLIC
-+    /usr/include/catch
 +    ${QT_PRIVATE_INCLUDE_DIRS}
 +    ${FFMPEG_INCLUDE_DIRS}
 +    ${OPUS_INCLUDE_DIRS}
