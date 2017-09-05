@@ -8,7 +8,7 @@ USE_RUBY="ruby21 ruby22 ruby23"
 inherit ruby-fakegem
 
 DESCRIPTION="Intercative JIRA cli"
-HOMEPAGE="https://github.com/sumoheavy/jira-ruby https://rubygems.org/gems/jira-ruby"
+HOMEPAGE="https://github.com/keepcosmos/terjira https://rubygems.org/gems/terjira"
 
 LICENSE="MIT"
 SLOT="0"
