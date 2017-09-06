@@ -30,12 +30,12 @@ HTTP_ENMEMCACHE_MODULE_URI="https://github.com/${HTTP_ENMEMCACHE_MODULE_A}/${HTT
 HTTP_ENMEMCACHE_MODULE_WD="${WORKDIR}/${HTTP_ENMEMCACHE_MODULE_P}"
 
 # http_tcp_proxy_module (https://github.com/dreamcommerce/nginx_tcp_proxy_module/tags, BSD-2)
-HTTP_TCPPROXY_MODULE_A="dreamcommerce"
-HTTP_TCPPROXY_MODULE_PN="nginx_tcp_proxy_module"
-HTTP_TCPPROXY_MODULE_PV="nginx_1.11.9"
-HTTP_TCPPROXY_MODULE_P="${HTTP_TCPPROXY_MODULE_PN}-${HTTP_TCPPROXY_MODULE_SHA:-${HTTP_TCPPROXY_MODULE_PV}}"
-HTTP_TCPPROXY_MODULE_URI="https://github.com/${HTTP_TCPPROXY_MODULE_A}/${HTTP_TCPPROXY_MODULE_PN}/archive/${HTTP_TCPPROXY_MODULE_SHA:-${HTTP_TCPPROXY_MODULE_PV}}.tar.gz"
-HTTP_TCPPROXY_MODULE_WD="${WORKDIR}/${HTTP_TCPPROXY_MODULE_P}"
+CORE_TCPPROXY_MODULE_A="dreamcommerce"
+CORE_TCPPROXY_MODULE_PN="nginx_tcp_proxy_module"
+CORE_TCPPROXY_MODULE_PV="nginx_1.11.9"
+CORE_TCPPROXY_MODULE_P="${CORE_TCPPROXY_MODULE_PN}-${CORE_TCPPROXY_MODULE_SHA:-${CORE_TCPPROXY_MODULE_PV}}"
+CORE_TCPPROXY_MODULE_URI="https://github.com/${CORE_TCPPROXY_MODULE_A}/${CORE_TCPPROXY_MODULE_PN}/archive/${CORE_TCPPROXY_MODULE_SHA:-${CORE_TCPPROXY_MODULE_PV}}.tar.gz"
+CORE_TCPPROXY_MODULE_WD="${WORKDIR}/${CORE_TCPPROXY_MODULE_P}"
 
 # http_rdns_module (https://github.com/dreamcommerce/nginx-http-rdns, Apache-2.0)
 HTTP_RDNS_MODULE_A="dreamcommerce"
@@ -48,7 +48,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.1.7"
+HTTP_PASSENGER_MODULE_PV="5.1.8"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -85,7 +85,7 @@ HTTP_PAGESPEED_MODULE_A="pagespeed"
 HTTP_PAGESPEED_MODULE_PN="ngx_pagespeed"
 HTTP_PAGESPEED_MODULE_PV="1.12.34.2-stable"
 #HTTP_PAGESPEED_MODULE_PV="1.11.33.4-beta"
-#HTTP_PAGESPEED_MODULE_SHA="f75e891b747ef0b85ab1f296098751cda4ab4e33"
+#HTTP_PAGESPEED_MODULE_SHA="65761a2393cc62197129156eb7d2c9374d1aacfe"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
@@ -207,7 +207,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
 STREAM_LUA_MODULE_PV="0.0.2"
-STREAM_LUA_MODULE_SHA="a3a050bfacfb8d097ee276380c4e606031f2aaf2"
+STREAM_LUA_MODULE_SHA="889ca55600738055262a88697f463fb78f644a1b"
 STREAM_LUA_MODULE_SHA="594a297baf73993aa69f64e93f6b623468eb584c"
 # ^ dynamic module PR
 STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
@@ -355,7 +355,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/${HTTP_SLOWFS_CACHE_MODULE_P}"
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/tags , BSD)
 HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
-HTTP_FANCYINDEX_MODULE_PV="0.4.1"
+HTTP_FANCYINDEX_MODULE_PV="0.4.2"
 #HTTP_FANCYINDEX_MODULE_SHA="ba8b4ece63da157f5eec4df3d8fdc9108b05b3eb"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_SHA:-${HTTP_FANCYINDEX_MODULE_PV}}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
@@ -395,21 +395,20 @@ HTTP_DAV_EXT_MODULE_P="${HTTP_DAV_EXT_MODULE_PN}-${HTTP_DAV_EXT_MODULE_SHA:-${HT
 HTTP_DAV_EXT_MODULE_URI="https://github.com/${HTTP_DAV_EXT_MODULE_A}/${HTTP_DAV_EXT_MODULE_PN}/archive/${HTTP_DAV_EXT_MODULE_SHA:-v${HTTP_DAV_EXT_MODULE_PV}}.tar.gz"
 HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 
-# Broken with 1.11
-## nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module/tags, BSD)
-#RTMP_MODULE_A="arut"
-#RTMP_MODULE_PN="nginx-rtmp-module"
-#RTMP_MODULE_PV="1.1.7"
-##RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
-#RTMP_MODULE_P="${RTMP_MODULE_PN}-${RTMP_MODULE_SHA:-${RTMP_MODULE_PV}}"
-#RTMP_MODULE_URI="https://github.com/${RTMP_MODULE_A}/${RTMP_MODULE_PN}/archive/${RTMP_MODULE_SHA:-v${RTMP_MODULE_PV}}.tar.gz"
-#RTMP_MODULE_WD="${WORKDIR}/${RTMP_MODULE_P}"
+# nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module/tags, BSD)
+CORE_RTMP_MODULE_A="arut"
+CORE_RTMP_MODULE_PN="nginx-rtmp-module"
+CORE_RTMP_MODULE_PV="1.2.0"
+#CORE_RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
+CORE_RTMP_MODULE_P="${CORE_RTMP_MODULE_PN}-${CORE_RTMP_MODULE_SHA:-${CORE_RTMP_MODULE_PV}}"
+CORE_RTMP_MODULE_URI="https://github.com/${CORE_RTMP_MODULE_A}/${CORE_RTMP_MODULE_PN}/archive/${CORE_RTMP_MODULE_SHA:-v${CORE_RTMP_MODULE_PV}}.tar.gz"
+CORE_RTMP_MODULE_WD="${WORKDIR}/${CORE_RTMP_MODULE_P}"
 
 # mod_security for nginx (https://github.com/SpiderLabs/ModSecurity-nginx/tags, Apache-2.0)
 HTTP_SECURITY_MODULE_A="SpiderLabs"
 HTTP_SECURITY_MODULE_PN="ModSecurity-nginx"
 HTTP_SECURITY_MODULE_PV="0"
-HTTP_SECURITY_MODULE_SHA="abbf2c47f6f3205484a1a9db618e067dce213b89"
+HTTP_SECURITY_MODULE_SHA="a2a5858d249222938c2f5e48087a922c63d7f9d8"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -486,7 +485,7 @@ SRC_URI="
 		amd64? ( ${HTTP_PAGESPEED_PSOL_URI/__ARCH__/x64} -> ${HTTP_PAGESPEED_PSOL_P}.amd64.tar.gz )
 	)
 	nginx_modules_http_enmemcache? ( ${HTTP_ENMEMCACHE_MODULE_URI} -> ${HTTP_ENMEMCACHE_MODULE_P}.tar.gz )
-	nginx_modules_http_tcpproxy? ( ${HTTP_TCPPROXY_MODULE_URI} -> ${HTTP_TCPPROXY_MODULE_P}.tar.gz )
+	nginx_modules_core_tcpproxy? ( ${CORE_TCPPROXY_MODULE_URI} -> ${CORE_TCPPROXY_MODULE_P}.tar.gz )
 	nginx_modules_http_rdns? ( ${HTTP_RDNS_MODULE_URI} -> ${HTTP_RDNS_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_hls_audio? ( ${HTTP_HLS_AUDIO_MODULE_URI} -> ${HTTP_HLS_AUDIO_MODULE_P}.tar.gz )
@@ -543,8 +542,8 @@ SRC_URI="
 	nginx_modules_http_auth_ldap? ( ${HTTP_AUTH_LDAP_MODULE_URI} -> ${HTTP_AUTH_LDAP_MODULE_P}.tar.gz )
 	nginx_modules_stream_lua? ( ${STREAM_LUA_MODULE_URI} -> ${STREAM_LUA_MODULE_P}.tar.gz )
 	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/nginx-1.13.0-dtls-experimental.diff )
+	nginx_modules_core_rtmp? ( ${CORE_RTMP_MODULE_URI} -> ${CORE_RTMP_MODULE_P}.tar.gz )
 "
-#rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_enmemcache? ( Apache-2.0 )
@@ -640,7 +639,6 @@ NGINX_MODULES_3P="
 	http_nchan
 	http_coolkit
 	http_enmemcache
-	http_tcpproxy
 	http_rdns
 	http_cache_purge
 	http_headers_more
@@ -680,6 +678,8 @@ NGINX_MODULES_3P="
 	stream_python
 	stream_lua
 	stream_dtls
+	core_tcpproxy
+	core_rtmp
 "
 
 NGINX_MODULES_DYN="
@@ -687,65 +687,80 @@ NGINX_MODULES_DYN="
 	http_image_filter
 	http_xslt
 	http_perl
+	stream_geoip
 	http_njs
-	http_lua
-	http_lua_upstream
+	http_naxsi
+	http_security
 	http_ndk
 	http_set_misc
 	http_echo
 	http_memc
-	http_encrypted_session
+	http_lua
+	http_lua_upstream
+	http_nchan
+	http_enmemcache
+	http_rdns
+	http_cache_purge
 	http_headers_more
+	http_encrypted_session
+	http_pagespeed
+	http_push_stream
+	http_redis
+	http_form_input
 	http_srcache
 	http_array_var
-	http_form_input
 	http_iconv
-	http_nchan
-	http_cache_purge
+	http_upload_progress
+	http_fancyindex
+	http_dav_ext
+	http_passenger
+	http_passenger_enterprise
 	http_auth_pam
 	http_ajp
-	http_pagespeed
-	stream_geoip
-	stream_lua
-	stream_python
+	http_njs
+	http_auth_ldap
 	http_python
+	stream_python
+	stream_lua
+	stream_dtls
+	core_rtmp
 "
 
 REQUIRED_USE="
-		luajit? (
-			|| (
-				nginx_modules_http_lua
-				nginx_modules_stream_lua
-			)
+	luajit? (
+		|| (
+			nginx_modules_http_lua
+			nginx_modules_stream_lua
 		)
-		nginx_modules_http_v2? ( ssl )
-		nginx_modules_stream_lua? ( ssl )
-		nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
-		nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
-		nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
-		nginx_modules_http_rds_csv?  ( nginx_modules_http_postgres )
-		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
-		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
-		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
-		nginx_modules_http_encrypted_session? ( nginx_modules_http_ndk ssl )
-		nginx_modules_http_array_var? ( nginx_modules_http_ndk )
-		nginx_modules_http_fastcgi? ( nginx_modules_http_realip )
-		nginx_modules_http_naxsi? ( pcre )
-		nginx_modules_http_pagespeed? ( pcre )
-		nginx_modules_http_postgres? ( nginx_modules_http_rewrite )
-		nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
-		nginx_modules_http_hls_audio? ( nginx_modules_http_lua )
-		nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
-		nginx_modules_http_push_stream? ( ssl )
-		nginx_modules_http_passenger_enterprise? ( !nginx_modules_http_passenger )
-		pcre-jit? ( pcre )
-		http2? ( nginx_modules_http_v2 )
-		rrd? ( nginx_modules_http_rrd )
-		dtls? ( nginx_modules_stream_dtls stream ssl )
+	)
+	nginx_modules_http_v2? ( ssl )
+	nginx_modules_stream_lua? ( ssl )
+	nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
+	nginx_modules_http_lua_upstream? ( nginx_modules_http_lua )
+	nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
+	nginx_modules_http_rds_csv?  ( nginx_modules_http_postgres )
+	nginx_modules_http_form_input? ( nginx_modules_http_ndk )
+	nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
+	nginx_modules_http_iconv? ( nginx_modules_http_ndk )
+	nginx_modules_http_encrypted_session? ( nginx_modules_http_ndk ssl )
+	nginx_modules_http_array_var? ( nginx_modules_http_ndk )
+	nginx_modules_http_fastcgi? ( nginx_modules_http_realip )
+	nginx_modules_http_naxsi? ( pcre )
+	nginx_modules_http_pagespeed? ( pcre )
+	nginx_modules_http_postgres? ( nginx_modules_http_rewrite )
+	nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
+	nginx_modules_http_hls_audio? ( nginx_modules_http_lua )
+	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
+	nginx_modules_http_push_stream? ( ssl )
+	nginx_modules_http_passenger_enterprise? ( !nginx_modules_http_passenger )
+	pcre-jit? ( pcre )
+	http2? ( nginx_modules_http_v2 )
+	rrd? ( nginx_modules_http_rrd )
+	dtls? ( nginx_modules_stream_dtls stream ssl )
+	rtmp? ( nginx_modules_core_rtmp )
 "
 
-IUSE="aio debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2 systemtap +static dtls"
-# rtmp"
+IUSE="aio debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2 systemtap +static dtls rtmp"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 	f=
@@ -1058,7 +1073,7 @@ src_prepare() {
 
 	if use nginx_modules_http_pagespeed; then
 		pushd "${HTTP_PAGESPEED_MODULE_WD}" &>/dev/null
-		eapply "${PATCHDIR}"/pagespeed-fix-compilation.patch
+		eapply "${PATCHDIR}/pagespeed-fix-compilation.patch"
 		# TODO: replace precompiled psol with that one, built from apache module?
 		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" ./ || die "Failed to insert psol"
 		popd &>/dev/null
@@ -1083,16 +1098,21 @@ src_prepare() {
 		popd &>/dev/null
 	fi
 
-	if use nginx_modules_http_tcpproxy; then
-		eapply "${HTTP_TCPPROXY_MODULE_WD}"/tcp_1_8.patch
+	if use nginx_modules_core_tcpproxy; then
+		eapply "${CORE_TCPPROXY_MODULE_WD}"/tcp_1_8.patch
 	fi
 
 	default
 }
 
+# Kludge to have the possibility to properly check modules
+# (ex: dav_ext in DYN makes false positive on dav in OPT)
+__NG_M_DYN=${NGINX_MODULES_DYN[@]}
+__NG_M_DYN=${__NG_M_DYN// /:}:
+
 opt_mod() {
 	local mod="${1}" dyn=
-	if ! use static && [[ "${NGINX_MODULES_DYN}" =~ "${mod}" ]]; then
+	if ! use static && [[ "${__NG_M_DYN}" =~ "${mod}:" ]]; then
 		dyn="=dynamic"
 	fi
 	use "nginx_modules_${mod}" && echo "--with-${mod}_module${dyn}"
@@ -1105,7 +1125,7 @@ ext_mod() {
 		p="${mod^^}_MODULE_WD";
 		p="${!p}";
 	fi
-	if ! use static && [[ "${NGINX_MODULES_DYN}" =~ "${mod}" ]]; then
+	if ! use static && [[ "${__NG_M_DYN}" =~ "${mod}:" ]]; then
 		dyn="-dynamic"
 	fi
 	use "nginx_modules_${mod}" && echo "--add${dyn}-module=${p}"
@@ -1186,13 +1206,6 @@ src_configure() {
 		export stream_enabled=1
 	fi
 
-# Broken in 1.11
-#	if use rtmp ; then
-#		http_enabled=1
-##		myconf+=" --add-dynamic-module=${RTMP_MODULE_WD}"
-#		myconf+=("--add-module=${RTMP_MODULE_WD}")
-#	fi
-
 	if [[ -n "${http_enabled}" ]]; then
 		use http-cache || myconf+=("--without-http-cache")
 		use ssl	&& myconf+=("--with-http_ssl_module")
@@ -1245,11 +1258,15 @@ src_configure() {
 	fi
 
 	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
+		local passenger_target="nginx"
+		if ! use static; then
+			passenger_target="nginx:as_dynamic_module"
+		fi
 		# workaround on QA issues on passenger
 		pushd "${HTTP_PASSENGER_MODULE_WD}"/../.. &>/dev/null
 		einfo "Compiling Passenger support binaries (needed for ./configure)"
 		export USE_VENDORED_LIBEV=no USE_VENDORED_LIBUV=no
-		rake nginx || die "Passenger premake for ${RUBY} failed!"
+		rake "${passenger_target}" || die "Passenger premake for ${RUBY} failed!"
 		popd &>/dev/null
 	fi
 
@@ -1337,6 +1354,9 @@ src_install() {
 	done
 
 	keepdir "/var/log/${PN}" ${keepdir_list}
+
+	# a little kludge to ease modules enabling (`load_module modules/moo.so`)
+	dosym "../../${NGINX_HOME}/modules" "/etc/${PN}/modules"
 
 	# this solves a problem with SELinux where nginx doesn't see the directories
 	# as root and tries to create them as nginx
@@ -1570,10 +1590,10 @@ src_install() {
 		doins "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/naxsi_core.rules
 	fi
 
-#	if use rtmp; then
-#		docinto "${RTMP_MODULE_P}"
-#		dodoc "${RTMP_MODULE_WD}"/{AUTHORS,README.md,stat.xsl}
-#	fi
+	if use nginx_modules_core_rtmp; then
+		docinto "${CORE_RTMP_MODULE_P}"
+		dodoc "${CORE_RTMP_MODULE_WD}"/{AUTHORS,README.md,stat.xsl}
+	fi
 
 	if use nginx_modules_http_dav_ext; then
 		docinto "${HTTP_DAV_EXT_MODULE_P}"

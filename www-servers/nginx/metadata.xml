@@ -82,7 +82,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='nginx_modules_http_srcache'>SRCache module</flag>
     <flag name='nginx_modules_http_supervisord'>Supervisord
     module</flag>
-    <flag name='nginx_modules_http_tcpproxy'>TCP-Proxy module
+    <flag name='nginx_modules_core_tcpproxy'>TCP-Proxy module
     (legacy alternative to STREAM core module, having some features
     not provided by it)</flag>
     <flag name='nginx_modules_http_upstream_hash'>Upstream Hash
@@ -126,7 +126,8 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='nginx_modules_http_rrd'>Enadle 3rd party rrd
     module</flag>
     <flag name='rrd'>Enadle 3rd party rrd module</flag>
-    <!--    <flag name='rtmp'></flag> -->
+    <flag name='rtmp'>RTMP module</flag>
+    <flag name='nginx_modules_core_rtmp'>RTMP module</flag>
     <flag name='systemtap'>Install systemtap tapset files for some
     modules</flag>
     <flag name='stream'>Enable Stream NginX core module</flag>
