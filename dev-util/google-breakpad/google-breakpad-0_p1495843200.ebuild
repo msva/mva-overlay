@@ -13,7 +13,8 @@ if [[ "${PV}" == 9999 ]]; then
 	KEYWORDS=""
 else
 	KEYWORDS="~x86 ~amd64"
-	EGIT_COMMIT_DATE="$(date -d ${PV##*_p} +%s)"
+#	EGIT_COMMIT_DATE="$(date -d ${PV##*_p} +%s)"
+	EGIT_COMMIT_DATE="${PV##*_p}"
 fi
 
 LICENSE="BSD"
