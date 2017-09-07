@@ -1286,6 +1286,7 @@ src_configure() {
 		--http-scgi-temp-path="tmp/scgi" \
 		--http-uwsgi-temp-path="tmp/uwsgi" \
 		--modules-path="modules" \
+		--with-compat \
 		"${myconf[@]}" || die "configure failed"
 
 	local sedargs=();
@@ -1356,7 +1357,7 @@ src_install() {
 	keepdir "/var/log/${PN}" ${keepdir_list}
 
 	# a little kludge to ease modules enabling (`load_module modules/moo.so`)
-	dosym "../../${NGINX_HOME}/modules" "/etc/${PN}/modules"
+	dosym "../../${NGINX_HOME##/}/modules" "/etc/${PN}/modules"
 
 	# this solves a problem with SELinux where nginx doesn't see the directories
 	# as root and tries to create them as nginx
@@ -1369,8 +1370,8 @@ src_install() {
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
 
-	insinto "/usr/src/${PN}"
-	doins -r "${S}"
+	mkdir -p "${D}/usr/src/${PN}"
+	cp -a "${S}" "${D}/usr/src/${PN}"
 
 # http_perl
 	if use nginx_modules_http_perl; then
@@ -1674,7 +1675,7 @@ pkg_postinst() {
 		ewarn "NGINX_MODULES_HTTP=\"lua v2\". For more info, see http://git.io/OldLsg"
 	fi
 
-	if use nginx_modules_http_passenger || nginx_modules_http_passenger_enterprise; then
+	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
 		ewarn ""
 		ewarn "Please, keep notice, that 'passenger_root' directive"
 		ewarn "should point to exactly location of 'locations.ini'"
