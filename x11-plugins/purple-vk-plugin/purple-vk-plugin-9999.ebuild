@@ -3,12 +3,12 @@
 
 EAPI=6
 
-inherit cmake-utils mercurial
+inherit cmake-utils git-r3
 
 DESCRIPTION="Pidgin plugin for vk.com social network"
-HOMEPAGE="https://bitbucket.org/olegoandreev/purple-vk-plugin"
+HOMEPAGE="https://bitbucket.org/olegoandreev/purple-vk-plugin https://github.com/SergeyDjam/purple-vk-plugin"
 
-EHG_REPO_URI="https://bitbucket.org/olegoandreev/purple-vk-plugin"
+EGIT_REPO_URI="https://github.com/SergeyDjam/purple-vk-plugin"
 
 LICENSE="GPL-3"
 SLOT="0"
