@@ -1,0 +1,47 @@
+From 8ac11e44e0f207a8aac79ff59d8a575b771c6c3f Mon Sep 17 00:00:00 2001
+From: Jay Caines-Gooby <jay@gooby.org>
+Date: Tue, 3 Oct 2017 22:21:34 +0100
+Subject: [PATCH] =?UTF-8?q?Show=20busyness=20and=20access=5Fcount=20on=20t?=
+ =?UTF-8?q?he=20status=20page=20if=20you=E2=80=99re=20using=20the=20upstre?=
+ =?UTF-8?q?am=20fair=20module?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ ngx_http_upstream_check_module.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/ngx_http_upstream_check_module.c b/ngx_http_upstream_check_module.c
+index e3cd12f..d0a41c8 100644
+--- a/ngx_http_upstream_check_module.c
++++ b/ngx_http_upstream_check_module.c
+@@ -2877,6 +2877,8 @@ ngx_http_upstream_check_status_html_format(ngx_buf_t *b,
+             "    <th>Fall counts</th>\n"
+             "    <th>Check type</th>\n"
+             "    <th>Check port</th>\n"
++            "    <th>Busyness</th>\n"
++            "    <th>Access count</th>\n"
+             "  </tr>\n",
+             count, ngx_http_upstream_check_shm_generation);
+ 
+@@ -2905,6 +2909,8 @@ ngx_http_upstream_check_status_html_format(ngx_buf_t *b,
+                 "    <td>%ui</td>\n"
+                 "    <td>%V</td>\n"
+                 "    <td>%ui</td>\n"
++                "    <td>%ui</td>\n"
++                "    <td>%ui</td>\n"
+                 "  </tr>\n",
+                 peer[i].shm->down ? " bgcolor=\"#FF0000\"" : "",
+                 i,
+@@ -2914,7 +2922,9 @@ ngx_http_upstream_check_status_html_format(ngx_buf_t *b,
+                 peer[i].shm->rise_count,
+                 peer[i].shm->fall_count,
+                 &peer[i].conf->check_type_conf->name,
+-                peer[i].conf->port);
++                peer[i].conf->port,
++                peer[i].shm->busyness,
++                peer[i].shm->access_count);
+     }
+ 
+     b->last = ngx_snprintf(b->last, b->end - b->last,

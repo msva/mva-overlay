@@ -1,0 +1,2 @@
+luajit - Enable support for dev-lang/luajit
+systemtap - Install trace files for <pkg>dev-util/systemtap</pkg>

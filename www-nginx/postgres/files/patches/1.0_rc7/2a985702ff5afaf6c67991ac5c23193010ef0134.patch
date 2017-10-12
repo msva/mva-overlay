@@ -1,0 +1,35 @@
+From 2a985702ff5afaf6c67991ac5c23193010ef0134 Mon Sep 17 00:00:00 2001
+From: Anonymous <admin@hda.me>
+Date: Tue, 21 Mar 2017 16:14:20 +0000
+Subject: [PATCH] More accurate build fix with nginx 1.11.6+
+
+---
+ src/ngx_postgres_module.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/ngx_postgres_module.c b/src/ngx_postgres_module.c
+index 3cfaf68..3cb34b2 100644
+--- a/src/ngx_postgres_module.c
++++ b/src/ngx_postgres_module.c
+@@ -1320,6 +1320,7 @@ ngx_postgres_find_upstream(ngx_http_request_t *r, ngx_url_t *url)
+             continue;
+         }
+ 
++  #if (nginx_version < 1011006)
+         if (uscfp[i]->default_port && url->default_port
+             && (uscfp[i]->default_port != url->default_port))
+         {
+@@ -1327,6 +1328,13 @@ pgx_postgres_find_upstream(ngx_http_request_t *r, ngx_url_t *url)
+             continue;
+         }
+ 
++        if (uscfp[i]->default_port && url->default_port
++            && (uscfp[i]->default_port != url->default_port))
++        {
++            dd("default_port doesn't match");
++            continue;
++        }
++  #endif
+         dd("returning");
+         return uscfp[i];
+     }

@@ -1,0 +1,45 @@
+Title: Third-party modules are splitted-out of NginX ebuild since now
+Author: Vadim A. Misbakh-Soloviov <overlay.news.nginx.en@mva.name>
+Posted: 2017-10-12
+Revision: 1
+News-Item-Format: 2.0
+Display-If-Installed: <www-servers/nginx-1.13.6:mainline
+
+Hi there!
+I've splitted all the third-party modules out of the NginX ebuild.
+Since now (>=1.13.6) that modules will be maintained separately.
+Also, it should be easier to contribute new ones.
+
+Although, you should keep few things in mind:
+
+1) Since now, you *MUST* load all the modules you use.
+    As easy option, you can add following command as the first
+    line in your nginx.conf file:
+
+        include modules.d/*.conf;
+
+    If you prefer to manually specify only the modules that you're
+    really use in your configuration, you can use:
+
+        load modules/[module_name].so;
+
+    directive for that.
+
+2) Some modules (the ones that pathces NginX source to call functions
+    from inside themselves, and so *requires* static linking, even
+    despite I made them to be a dynamic module) are currently broken.
+    (For example, it is 'www-nginx/upstream-check').
+
+    Also, some of such modules can miss some functionality (like the
+    support of NginX's internal round-robin upstream) because of the
+    same problem.
+
+    Actually, they shouldn't patch nginx sources in the first place.
+
+    But due to their abandonment (having last commits about 4-10 years
+    ago), there is nobody to fix that problems.
+
+    I'll try to fix that in the future, but I can't promise anything.
+
+    Anyway, if you have any problems - feel free to post the issue on
+    GitHub or write me an email.

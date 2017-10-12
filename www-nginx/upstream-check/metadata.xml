@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>gentoo-overlay@mva.name</email>
+    <description>If you have any issues, please contact me, or try
+    to find me in IRC on Freenode, OFTC or RusNet.</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>FIXME</longdescription>
+  <use>
+    <flag name="upstream-dyups">Enable support for <pkg>www-nginx/upstream-dyups</pkg></flag>
+    <flag name="upstream-fair">Enable support for <pkg>www-nginx/upstream-fair</pkg></flag>
+  </use>
+</pkgmetadata>

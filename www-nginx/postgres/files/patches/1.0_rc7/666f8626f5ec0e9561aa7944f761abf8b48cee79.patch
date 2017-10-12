@@ -1,0 +1,51 @@
+From 666f8626f5ec0e9561aa7944f761abf8b48cee79 Mon Sep 17 00:00:00 2001
+From: Christophe Simonis <christophe@kn.gl>
+Date: Wed, 15 Oct 2014 16:44:59 +0200
+Subject: [PATCH] [FIX] allow postgres_set variables to be reused.
+
+This allow using the same code snippet to be included in multiple `server` directives.
+
+Fixes FRiCKLE/ngx_postgres#17
+---
+ src/ngx_postgres_module.c | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
+
+diff --git a/src/ngx_postgres_module.c b/src/ngx_postgres_module.c
+index 365de00..27c620a 100644
+--- a/src/ngx_postgres_module.c
++++ b/src/ngx_postgres_module.c
+@@ -1079,7 +1079,7 @@ ngx_postgres_conf_set(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+ 
+     pgvar->idx = pglcf->variables->nelts - 1;
+ 
+-    pgvar->var = ngx_http_add_variable(cf, &value[1], 0);
++    pgvar->var = ngx_http_add_variable(cf, &value[1], NGX_HTTP_VAR_CHANGEABLE);
+     if (pgvar->var == NULL) {
+         dd("returning NGX_CONF_ERROR");
+         return NGX_CONF_ERROR;
+@@ -1091,22 +1091,11 @@ ngx_postgres_conf_set(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+         return NGX_CONF_ERROR;
+     }
+ 
+-    /*
+-     * Check if "$variable" was previously defined,
+-     * back-off even if it was marked as "CHANGEABLE".
+-     */
+-    if (pgvar->var->get_handler != NULL) {
+-        ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
+-                           "postgres: variable \"$%V\" is duplicate"
+-                           " in \"%V\" directive", &value[1], &cmd->name);
+-
+-        dd("returning NGX_CONF_ERROR");
+-        return NGX_CONF_ERROR;
++    if (pgvar->var->get_handler == NULL) {
++        pgvar->var->get_handler = ngx_postgres_variable_get_custom;
++        pgvar->var->data = (uintptr_t) pgvar;
+     }
+ 
+-    pgvar->var->get_handler = ngx_postgres_variable_get_custom;
+-    pgvar->var->data = (uintptr_t) pgvar;
+-
+     pgvar->value.row = ngx_atoi(value[2].data, value[2].len);
+     if (pgvar->value.row == NGX_ERROR) {
+         ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,

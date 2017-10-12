@@ -1,0 +1,85 @@
+diff --git a/src/ngx_postgres_keepalive.c b/src/ngx_postgres_keepalive.c
+index 6575338..a73fc5e 100644
+--- a/src/ngx_postgres_keepalive.c
++++ b/src/ngx_postgres_keepalive.c
+@@ -94,8 +94,6 @@ ngx_postgres_keepalive_get_peer_single(ngx_peer_connection_t *pc,
+         pgp->name.data = item->name.data;
+         pgp->name.len = item->name.len;
+ 
+-        pgp->sockaddr = item->sockaddr;
+-
+         pgp->pgconn = item->pgconn;
+ 
+         pc->connection = c;
+@@ -103,9 +101,6 @@ ngx_postgres_keepalive_get_peer_single(ngx_peer_connection_t *pc,
+ 
+         pc->name = &pgp->name;
+ 
+-        pc->sockaddr = &pgp->sockaddr;
+-        pc->socklen = item->socklen;
+-
+         dd("returning NGX_DONE");
+ 
+         return NGX_DONE;
+diff --git a/src/ngx_postgres_keepalive.h b/src/ngx_postgres_keepalive.h
+index 31e024a..4b289d0 100644
+--- a/src/ngx_postgres_keepalive.h
++++ b/src/ngx_postgres_keepalive.h
+@@ -41,7 +41,7 @@ typedef struct {
+     ngx_postgres_upstream_srv_conf_t  *srv_conf;
+     ngx_connection_t                  *connection;
+     PGconn                            *pgconn;
+-    struct sockaddr                    sockaddr;
++    u_char                             sockaddr[NGX_SOCKADDRLEN];
+     socklen_t                          socklen;
+     ngx_str_t                          name;
+ } ngx_postgres_keepalive_cache_t;
+diff --git a/src/ngx_postgres_module.c b/src/ngx_postgres_module.c
+index 365de00..08dbc51 100644
+--- a/src/ngx_postgres_module.c
++++ b/src/ngx_postgres_module.c
+@@ -440,6 +440,16 @@ ngx_postgres_conf_server(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+         return NGX_CONF_ERROR;
+     }
+ 
++    dd("naddrs: %d", (int) u.naddrs);
++
++#if defined(nginx_version) && (nginx_version <= 1003000)
++    if (u.naddrs == 0) {
++        ngx_conf_log_error(NGX_LOG_EMERG, cf, 0,
++                           "postgres: IPv6 literals requires NgX-1.3.1+"
++        return NGX_CONF_ERROR;
++    }
++#endif
++
+     pgs->addrs = u.addrs;
+     pgs->naddrs = u.naddrs;
+     pgs->port = u.port;
+diff --git a/src/ngx_postgres_upstream.c b/src/ngx_postgres_upstream.c
+index 919029b..40d3d5c 100644
+--- a/src/ngx_postgres_upstream.c
++++ b/src/ngx_postgres_upstream.c
+@@ -291,10 +291,8 @@ ngx_postgres_upstream_get_peer(ngx_peer_connection_t *pc, void *data)
+     pgdt->name.len = peer->name.len;
+     pgdt->name.data = peer->name.data;
+ 
+-    pgdt->sockaddr = *peer->sockaddr;
+-
+     pc->name = &pgdt->name;
+-    pc->sockaddr = &pgdt->sockaddr;
++    pc->sockaddr = peer->sockaddr;
+     pc->socklen = peer->socklen;
+     pc->cached = 0;
+ 
+diff --git a/src/ngx_postgres_upstream.h b/src/ngx_postgres_upstream.h
+index 9ad46ed..264dc29 100644
+--- a/src/ngx_postgres_upstream.h
++++ b/src/ngx_postgres_upstream.h
+@@ -53,7 +53,6 @@ typedef struct {
+     ngx_postgres_state_t               state;
+     ngx_str_t                          query;
+     ngx_str_t                          name;
+-    struct sockaddr                    sockaddr;
+     unsigned                           failed;
+ } ngx_postgres_upstream_peer_data_t;
+ 

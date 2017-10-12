@@ -1,0 +1,31 @@
+From 0746f7ee9831dc891996ec4eaab747bede58602a Mon Sep 17 00:00:00 2001
+From: bymaximus <neiderf@gmail.com>
+Date: Sat, 2 Jul 2016 10:34:51 -0300
+Subject: [PATCH] dynamic module changes
+
+---
+ config | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/config b/config
+index ec13e3e..8b56e2c 100644
+--- a/config
++++ b/config
+@@ -1,5 +1,14 @@
+ ngx_addon_name=ngx_http_rds_csv_filter_module
+-HTTP_AUX_FILTER_MODULES="$HTTP_AUX_FILTER_MODULES ngx_http_rds_csv_filter_module"
+-NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/src/ngx_http_rds_csv_filter_module.c $ngx_addon_dir/src/ngx_http_rds_csv_processor.c $ngx_addon_dir/src/ngx_http_rds_csv_util.c $ngx_addon_dir/src/ngx_http_rds_csv_output.c"
+-NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_addon_dir/src/ddebug.h $ngx_addon_dir/src/resty_dbd_stream.h $ngx_addon_dir/src/ngx_http_rds_csv_filter_module.h $ngx_addon_dir/src/ngx_http_rds_csv_processor.h $ngx_addon_dir/src/ngx_http_rds_csv_util.h $ngx_addon_dir/src/ngx_http_rds.h $ngx_addon_dir/src/resty_dbd_stream.h $ngx_addon_dir/src/ngx_http_rds_csv_output.h $ngx_addon_dir/src/ngx_http_rds_utils.h"
+ 
++if test -n "$ngx_module_link"; then
++    ngx_module_type=HTTP_AUX_FILTER
++    ngx_module_name=ngx_http_rds_csv_filter_module
++    ngx_module_srcs="$ngx_addon_dir/src/ngx_http_rds_csv_filter_module.c $ngx_addon_dir/src/ngx_http_rds_csv_processor.c $ngx_addon_dir/src/ngx_http_rds_csv_util.c $ngx_addon_dir/src/ngx_http_rds_csv_output.c"
++    ngx_module_deps="$ngx_addon_dir/src/ddebug.h $ngx_addon_dir/src/resty_dbd_stream.h $ngx_addon_dir/src/ngx_http_rds_csv_filter_module.h $ngx_addon_dir/src/ngx_http_rds_csv_processor.h $ngx_addon_dir/src/ngx_http_rds_csv_util.h $ngx_addon_dir/src/ngx_http_rds.h $ngx_addon_dir/src/resty_dbd_stream.h $ngx_addon_dir/src/ngx_http_rds_csv_output.h $ngx_addon_dir/src/ngx_http_rds_utils.h"
++
++    . auto/module
++else
++    HTTP_AUX_FILTER_MODULES="$HTTP_AUX_FILTER_MODULES ngx_http_rds_csv_filter_module"
++    NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/src/ngx_http_rds_csv_filter_module.c $ngx_addon_dir/src/ngx_http_rds_csv_processor.c $ngx_addon_dir/src/ngx_http_rds_csv_util.c $ngx_addon_dir/src/ngx_http_rds_csv_output.c"
++    NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_addon_dir/src/ddebug.h $ngx_addon_dir/src/resty_dbd_stream.h $ngx_addon_dir/src/ngx_http_rds_csv_filter_module.h $ngx_addon_dir/src/ngx_http_rds_csv_processor.h $ngx_addon_dir/src/ngx_http_rds_csv_util.h $ngx_addon_dir/src/ngx_http_rds.h $ngx_addon_dir/src/resty_dbd_stream.h $ngx_addon_dir/src/ngx_http_rds_csv_output.h $ngx_addon_dir/src/ngx_http_rds_utils.h"    
++fi

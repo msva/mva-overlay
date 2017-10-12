@@ -1,0 +1,34 @@
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+# @ECLASS: patches.eclass
+# @MAINTAINER:
+# mva
+# @AUTHOR:
+# mva
+# @BLURB:
+# @DESCRIPTION:
+# Eclass that checks for patches directories existance and auto-add them into PATCHES=()
+
+EXPORT_FUNCTIONS src_prepare
+
+PATCHDIR="${FILESDIR}/patches/${PV}"
+[[ -z ${PATCHES[@]} ]] && PATCHES=()
+
+patches_src_prepare() {
+	if [[ -d "${PATCHDIR}" ]]; then
+		PATCHES+=("${PATCHDIR}")
+		if [[ -d "${PATCHDIR}/conditional" ]]; then
+			pushd "${PATCHDIR}/conditional" &>/dev/null
+			for d in *; do
+				if [[ "${d##no-}" == ${d} ]]; then
+					use "${d}" && PATCHES+=("${PATCHDIR}/conditional/${d}")
+				else
+					use "${d}" || PATCHES+=("${PATCHDIR}/conditional/${d}")
+				fi
+			done
+			popd &>/dev/null
+		fi
+	fi
+	default
+}

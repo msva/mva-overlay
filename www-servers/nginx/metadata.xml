@@ -34,8 +34,6 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     Sessions Module</flag>
     <flag name='nginx_modules_http_enmemcache'>Enmemcache
     Module</flag>
-    <flag name='nginx_modules_http_ey_balancer'>This module adds an
-    upstream connection queue to nginx</flag>
     <flag name='nginx_modules_http_form_input'>Form-Input
     Module</flag>
     <flag name='nginx_modules_http_hls_audio'>HLS Audio
@@ -85,6 +83,9 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='nginx_modules_core_tcpproxy'>TCP-Proxy module
     (legacy alternative to STREAM core module, having some features
     not provided by it)</flag>
+    <flag name='nginx_modules_http_dyups'>Dynamic Upstreams Module</flag>
+    <flag name='nginx_modules_http_upstream_fair'>Upstream Fair
+    Module</flag>
     <flag name='nginx_modules_http_upstream_hash'>Upstream Hash
     Module</flag>
     <flag name='nginx_modules_http_upstream_keepalive'>Upstream
@@ -128,6 +129,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='rrd'>Enadle 3rd party rrd module</flag>
     <flag name='rtmp'>RTMP module</flag>
     <flag name='nginx_modules_core_rtmp'>RTMP module</flag>
+    <flag name='ssl-cert-cb'>Patch NginX for ssl callback support</flag>
     <flag name='systemtap'>Install systemtap tapset files for some
     modules</flag>
     <flag name='stream'>Enable Stream NginX core module</flag>

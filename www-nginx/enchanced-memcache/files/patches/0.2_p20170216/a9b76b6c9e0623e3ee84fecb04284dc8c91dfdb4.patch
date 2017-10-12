@@ -1,0 +1,54 @@
+From a9b76b6c9e0623e3ee84fecb04284dc8c91dfdb4 Mon Sep 17 00:00:00 2001
+From: Bertrand Paquet <bertrand.paquet@gmail.com>
+Date: Sat, 22 Apr 2017 21:50:39 -0700
+Subject: [PATCH] Fix #5: EXTRACT_HEADERS and Content-Length
+
+---
+ ngx_http_enhanced_memcached_module.c | 11 ++++++++++-
+ tests/ns_test.rb                     | 12 ++++++++++++
+ 2 files changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/ngx_http_enhanced_memcached_module.c b/ngx_http_enhanced_memcached_module.c
+index 6742370..8ba8c93 100644
+--- a/ngx_http_enhanced_memcached_module.c
++++ b/ngx_http_enhanced_memcached_module.c
+@@ -1165,7 +1165,9 @@ ngx_http_enhanced_memcached_process_request_get(ngx_http_request_t *r)
+           ngx_http_upstream_main_conf_t  *umcf;
+           ngx_http_upstream_header_t     *hh;
+           ngx_table_elt_t                *last_modified;
++          ngx_table_elt_t                *content_length;
+ 
++          content_length = NULL;
+           last_modified = NULL;
+           status = 200;
+ 
+@@ -1226,7 +1228,7 @@ ngx_http_enhanced_memcached_process_request_get(ngx_http_request_t *r)
+               if (h->key.len == r->lowcase_index) {
+                 ngx_memcpy(h->lowcase_key, r->lowcase_header, h->key.len);
+               } else {
+-                  ngx_strlow(h->lowcase_key, h->key.data, h->key.len);
++                ngx_strlow(h->lowcase_key, h->key.data, h->key.len);
+               }
+ 
+               hh = ngx_hash_find(&umcf->headers_in_hash, h->hash,
+@@ -1240,6 +1242,10 @@ ngx_http_enhanced_memcached_process_request_get(ngx_http_request_t *r)
+                 last_modified = h;
+               }
+ 
++              if (h->key.len == sizeof("Content-Length") - 1 && ngx_strncmp(h->key.data, "Content-Length", h->key.len) == 0) {
++                content_length = h;
++              }
++
+               ngx_log_debug2(NGX_LOG_DEBUG_HTTP, r->connection->log, 0,
+                            "enhanced memcached: extracted header: \"%V: %V\"",
+                            &h->key, &h->value);
+@@ -1298,6 +1304,9 @@ ngx_http_enhanced_memcached_process_request_get(ngx_http_request_t *r)
+               }
+ 
+               u->headers_in.content_length_n -= 2;
++              if (content_length != NULL) {
++                u->headers_in.content_length_n = ngx_atoi(content_length->value.data, content_length->value.len);
++              }
+ 
+               u->headers_in.status_n = status;
+               u->state->status = status;

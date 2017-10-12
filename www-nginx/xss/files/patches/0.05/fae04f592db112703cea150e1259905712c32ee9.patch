@@ -1,0 +1,30 @@
+From fae04f592db112703cea150e1259905712c32ee9 Mon Sep 17 00:00:00 2001
+From: bymaximus <neiderf@gmail.com>
+Date: Sat, 2 Jul 2016 10:30:12 -0300
+Subject: [PATCH] dynamic module changes
+
+---
+ config | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/config b/config
+index 42ebe33..c7ca41b 100644
+--- a/config
++++ b/config
+@@ -1,5 +1,13 @@
+ ngx_addon_name=ngx_http_xss_filter_module
+-HTTP_AUX_FILTER_MODULES="$HTTP_AUX_FILTER_MODULES ngx_http_xss_filter_module"
+-NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/src/ngx_http_xss_filter_module.c $ngx_addon_dir/src/ngx_http_xss_util.c"
+-NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_addon_dir/src/ddebug.h $ngx_addon_dir/src/ngx_http_xss_filter_module.h $ngx_addon_dir/src/ngx_http_xss_util.h"
+ 
++if test -n "$ngx_module_link"; then
++    ngx_module_type=HTTP_AUX_FILTER
++    ngx_module_name=ngx_http_xss_filter_module
++    ngx_module_srcs="$ngx_addon_dir/src/ngx_http_xss_filter_module.c $ngx_addon_dir/src/ngx_http_xss_util.c"
++    ngx_module_deps="$ngx_addon_dir/src/ddebug.h $ngx_addon_dir/src/ngx_http_xss_filter_module.h $ngx_addon_dir/src/ngx_http_xss_util.h"
++
++    . auto/module
++else
++    HTTP_AUX_FILTER_MODULES="$HTTP_AUX_FILTER_MODULES ngx_http_xss_filter_module"
++    NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/src/ngx_http_xss_filter_module.c $ngx_addon_dir/src/ngx_http_xss_util.c"
++fi

@@ -1,0 +1,37 @@
+From eca8046830e7bfcb26ed5b1f071fe066a345a096 Mon Sep 17 00:00:00 2001
+From: Dmitriy <dims.main@gmail.com>
+Date: Wed, 30 Aug 2017 13:45:16 +0300
+Subject: [PATCH] fix for dynamic module support
+
+---
+ config | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
+
+diff --git a/config b/config
+index bf9bacc..2186f44 100644
+--- a/config
++++ b/config
+@@ -1,6 +1,17 @@
+-ngx_addon_name=ngx_http_sticky_module
+-HTTP_MODULES="$HTTP_MODULES ngx_http_sticky_module"
+-NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/ngx_http_sticky_module.c $ngx_addon_dir/ngx_http_sticky_misc.c"
+-NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_addon_dir/ngx_http_sticky_misc.h"
+-USE_MD5=YES
+-USE_SHA1=YES
++ngx_addon_name="ngx_http_sticky_module"
++
++if test -n "$ngx_module_link"; then
++        ngx_module_type=HTTP
++        ngx_module_name=ngx_http_sticky_module
++        ngx_module_srcs="$ngx_addon_dir/ngx_http_sticky_module.c $ngx_addon_dir/ngx_http_sticky_misc.c"
++        ngx_module_deps="$ngx_addon_dir/ngx_http_sticky_misc.h"
++        USE_MD5=YES
++        USE_SHA1=YES
++    . auto/module
++else
++        HTTP_MODULES="$HTTP_MODULES ngx_http_sticky_module"
++        NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/ngx_http_sticky_module.c $ngx_addon_dir/ngx_http_sticky_misc.c"
++        NGX_ADDON_DEPS="$NGX_ADDON_DEPS $ngx_addon_dir/ngx_http_sticky_misc.h"
++        USE_MD5=YES
++        USE_SHA1=YES
++fi
