@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>gentoo.overlay@mva.name</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription lang="en">
+    PUC-Rio Lua: Interpreter and compiler for the Lua programming language.
+  </longdescription>
+  <longdescription lang="ru">
+    Интерпретатор и компилятор для языка программирования Lua.
+  </longdescription>
+  <use>
+    <flag name='deprecated'>make deprecated data structures/routines available</flag>
+  </use>
+</pkgmetadata>
+

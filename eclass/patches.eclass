@@ -21,10 +21,12 @@ patches_src_prepare() {
 		if [[ -d "${PATCHDIR}/conditional" ]]; then
 			pushd "${PATCHDIR}/conditional" &>/dev/null
 			for d in *; do
-				if [[ "${d##no-}" == ${d} ]]; then
-					use "${d}" && PATCHES+=("${PATCHDIR}/conditional/${d}")
-				else
-					use "${d}" || PATCHES+=("${PATCHDIR}/conditional/${d}")
+				if [[ -d ${d} ]]; then
+					if [[ "${d##no-}" == ${d} ]]; then
+						use "${d}" && PATCHES+=("${PATCHDIR}/conditional/${d}")
+					else
+						use "${d##no-}" || PATCHES+=("${PATCHDIR}/conditional/${d}")
+					fi
 				fi
 			done
 			popd &>/dev/null
