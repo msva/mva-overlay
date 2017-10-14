@@ -1,6 +1,6 @@
 --- /dev/null	2017-05-13 21:16:42.822937665 +0700
 +++ b/Telegram/CMakeLists.txt	2017-05-14 05:50:30.737400259 +0700
-@@ -0,0 +1,165 @@
+@@ -0,0 +1,175 @@
 +cmake_minimum_required(VERSION 3.8)
 +
 +project(TelegramDesktop)
@@ -13,11 +13,18 @@
 +set(CMAKE_AUTOMOC ON)
 +set(CMAKE_AUTORCC ON)
 +
++set(CMAKE_AUTOMOC_MOC_OPTIONS ${CMAKE_AUTOMOC_MOC_OPTIONS} "-b" "Telegram_pch/stdafx.h")
++
++option(GTK "GTK+ (currently, v3) Integration" ON)
++
 +find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets Network)
++
 +get_target_property(QTCORE_INCLUDE_DIRS Qt5::Core INTERFACE_INCLUDE_DIRECTORIES)
 +list(GET QTCORE_INCLUDE_DIRS 0 QT_INCLUDE_DIR)
 +
 +foreach(__qt_module IN ITEMS QtCore QtGui)
++    list(APPEND QT_PRIVATE_INCLUDE_DIRS
++        ${QT_INCLUDE_DIR}/${__qt_module})
 +    list(APPEND QT_PRIVATE_INCLUDE_DIRS
 +        ${QT_INCLUDE_DIR}/${__qt_module}/${Qt5_VERSION})
 +    list(APPEND QT_PRIVATE_INCLUDE_DIRS
@@ -33,8 +40,12 @@
 +pkg_check_modules(LIBVA REQUIRED libva-x11 libva-drm libva)
 +pkg_check_modules(MINIZIP REQUIRED minizip)
 +
-+pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
-+pkg_check_modules(APPINDICATOR REQUIRED appindicator3-0.1)
++if(GTK)
++  pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
++  pkg_check_modules(APPINDICATOR REQUIRED appindicator3-0.1)
++else()
++  set(GTK_INTEGRATION TDESKTOP_DISABLE_GTK_INTEGRATION)
++endif()
 +
 +find_package(ZLIB REQUIRED)
 +
@@ -160,9 +171,8 @@
 +    Q_OS_LINUX64
 +    TDESKTOP_DISABLE_UNITY_INTEGRATION
 +    TDESKTOP_DISABLE_AUTOUPDATE
++    ${GTK_INTEGRATION}
 +    __STDC_FORMAT_MACROS)
-+
-+set_target_properties(Telegram PROPERTIES AUTOMOC_MOC_OPTIONS -bTelegram_pch/stdafx.h)
 +
 +install(TARGETS Telegram RUNTIME DESTINATION bin)
 +install(PROGRAMS ${CMAKE_SOURCE_DIR}/../lib/xdg/telegram-desktop.desktop DESTINATION share/applications)

@@ -5,13 +5,14 @@ EAPI=6
 
 CMAKE_MIN_VERSION="3.8"
 
-inherit eutils gnome2-utils xdg cmake-utils toolchain-funcs flag-o-matic multilib git-r3
+inherit eutils gnome2-utils xdg cmake-utils toolchain-funcs flag-o-matic multilib git-r3 patches
 
 DESCRIPTION="Official desktop client for Telegram"
 HOMEPAGE="https://desktop.telegram.org"
 
 if [[ "${PV}" == 9999 ]]; then
 	KEYWORDS=""
+	EGIT_BRANCH="dev"
 else
 	EGIT_COMMIT="v${PV}"
 	KEYWORDS="~x86 ~amd64"
@@ -26,6 +27,7 @@ IUSE="custom-api-id debug +wide-baloons +pulseaudio +gtk3"
 
 COMMON_DEPEND="
 	dev-qt/qtcore:5
+	dev-qt/qtdbus:5
 	dev-qt/qtgui:5[xcb,jpeg,png]
 	dev-qt/qtwidgets[xcb,png]
 	dev-qt/qtnetwork
@@ -63,15 +65,18 @@ DEPEND="
 
 CMAKE_USE_DIR="${S}/Telegram"
 
-PATCHES_DIR="${FILESDIR}/patches/${PV}"
-PATCHES=("${PATCHES_DIR}")
-
 src_prepare() {
-	use wide-baloons && PATCHES+=("${PATCHES_DIR}/conditional/wide-baloons")
-	use pulseaudio || PATCHES+=("${PATCHES_DIR}/conditional/no-pulse")
-	use gtk3 || PATCHES+=("${PATCHES_DIR}/conditional/no-gtk")
+	patches_src_prepare
+#	cmake-utils_src_prepare
+### cmake-utils_src_prepare emulation {{{
+	_cmake_cleanup_cmake
+	# make ${S} read-only in order to detect broken build-systems
+	if [[ ${CMAKE_UTILS_QA_SRC_DIR_READONLY} && ! ${CMAKE_IN_SOURCE_BUILD} ]]; then
+		chmod -R a-w "${S}"
+	fi
 
-	default
+	_CMAKE_UTILS_SRC_PREPARE_HAS_RUN=1
+### cmake-utils_src_prepare emulation }}}
 
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
@@ -111,6 +116,10 @@ src_configure() {
 		-DBREAKPAD_INCLUDE_DIR="/usr/include/breakpad"
 		-DBREAKPAD_LIBRARY_DIR="/usr/$(get_libdir)/libbreakpad_client.a"
 	)
+
+	use gtk3 || {
+		mycmakeargs+=("-DGTK=OFF")
+	}
 
 	cmake-utils_src_configure
 }
