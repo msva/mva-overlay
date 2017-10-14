@@ -2,8 +2,8 @@ media-libs/hal-flash
 www-client/phantomjs
 dev-java/jdbc-oracle-bin
 
+#travis-hack/start
 
-# Not yet! :'(
 #dev-lang/lua:5.1
 #dev-lang/lua:5.2
 #dev-lang/lua:5.3
@@ -11,3 +11,6 @@ dev-java/jdbc-oracle-bin
 
 #app-eselect/eselect-lua
 #virtual/lua
+#www-servers/nginx
+
+#travis-hack/end

@@ -1,8 +1,8 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-USE_RUBY="ruby21 ruby22 ruby23"
+EAPI=6
+USE_RUBY="ruby22 ruby23 ruby24"
 
 inherit eutils depend.apache user git-r3 ruby-ng
 
@@ -19,9 +19,9 @@ IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql passenger postgre
 
 RDEPEND="
 	|| (
-		$(ruby_implementation_depend ruby21)[ssl]
 		$(ruby_implementation_depend ruby22)[ssl]
 		$(ruby_implementation_depend ruby23)[ssl]
+		$(ruby_implementation_depend ruby24)[ssl]
 )"
 
 ruby_add_rdepend "

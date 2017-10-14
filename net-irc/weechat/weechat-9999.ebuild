@@ -3,6 +3,7 @@
 
 EAPI=6
 PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
+CMAKE_MAKEFILE_GENERATOR=emake
 inherit python-single-r1 cmake-utils
 
 if [[ ${PV} == "9999" ]] ; then
@@ -14,18 +15,18 @@ else
 fi
 
 DESCRIPTION="Portable and multi-interface IRC client"
-HOMEPAGE="http://weechat.org/"
+HOMEPAGE="https://weechat.org/"
 
 LICENSE="GPL-3"
 SLOT="0"
 
 NETWORKS="+irc"
-PLUGINS="+alias +charset +exec +fifo +logger +relay +scripts +spell +trigger +xfer"
+PLUGINS="+alias +buflist +charset +exec +fifo +logger +relay +scripts +spell +trigger +xfer"
 #INTERFACES="+ncurses gtk"
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
 SCRIPT_LANGS="guile lua luajit +perl +python ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt pt_BR ru tr"
-IUSE="doc nls +ssl test ${LANGS// / l10n_} ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
+IUSE="doc nls +ssl test ${LANGS// / linguas_} ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 #REQUIRED_USE=" || ( ncurses gtk )"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -46,7 +47,7 @@ RDEPEND="
 	nls? ( virtual/libintl )
 	perl? ( dev-lang/perl:= )
 	python? ( ${PYTHON_DEPS} )
-	ruby? ( || ( dev-lang/ruby:2.4 dev-lang/ruby:2.3 dev-lang/ruby:2.2 dev-lang/ruby:2.1 ) )
+	ruby? ( || ( dev-lang/ruby:2.4 dev-lang/ruby:2.3 dev-lang/ruby:2.2 ) )
 	ssl? ( net-libs/gnutls )
 	spell? ( app-text/aspell )
 	tcl? ( >=dev-lang/tcl-8.4.15:0= )
@@ -96,7 +97,7 @@ src_prepare() {
 
 	# install only required translations
 	for i in ${LANGS//-/_} ; do
-		if ! use l10n_${i} ; then
+		if ! use linguas_${i} ; then
 			sed -i \
 				-e "/${i}.po/d" \
 				po/CMakeLists.txt || die
@@ -106,7 +107,7 @@ src_prepare() {
 	# install only required documentation ; en always
 	for i in $(grep add_subdirectory doc/CMakeLists.txt \
 			| sed -e 's/.*add_subdirectory(\(..\)).*/\1/' -e '/en/d'); do
-		if ! use l10n_${i//-/_} ; then
+		if ! use linguas_${i//-/_} ; then
 			sed -i \
 				-e '/add_subdirectory('${i}')/d' \
 				doc/CMakeLists.txt || die
@@ -125,6 +126,7 @@ src_configure() {
 		-DENABLE_LARGEFILE=ON
 		-DENABLE_JAVASCRIPT=OFF
 		-DENABLE_ALIAS=$(usex alias)
+		-DENABLE_BUFLIST=$(usex buflist)
 		-DENABLE_DOC=$(usex doc)
 		-DENABLE_CHARSET=$(usex charset)
 		-DENABLE_EXEC=$(usex exec)
