@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit eutils cmake-utils git-r3
+inherit eutils cmake-utils patches git-r3
 
 DESCRIPTION="Peer-to-peer, decentralized and open source file sync."
 HOMEPAGE="https://librevault.com"
@@ -47,14 +47,14 @@ DEPEND="
 	virtual/libc
 "
 #		dev-libs/spdlog
-# ^ Brake builds with all gentoo versions
+# ^ Brakes builds with all gentoo versions
 
 RDEPEND="${DEPEND}"
 
 DOCS=( Readme.md )
 
 src_prepare() {
-	default
+	patches_src_prepare
 
 	sed -r \
 		-e 's@^(if\()(spdlog_FOUND)(\))@\11\22\3@' \
@@ -62,6 +62,8 @@ src_prepare() {
 
 	# ^ force fail to found system spdlog installation.
 	# (never builds successfully against all versions gentoo have)
+	# Well, actually, as of 2017/10/23 it is broken anyway.
+	# see https://github.com/Librevault/librevault/issues/93
 }
 
 src_configure() {

@@ -23,6 +23,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <pkg>dev-python/wxpython</pkg></flag>
     <flag name="uml">Enable support for User Mode Linux
     Sockets</flag>
+    <flag name="tinfo">Compatibility with ncurses' tinfo useflag</flag>
     <flag name="vde">Enable Virtual Distributed Ethernet (VDE)
     based networking</flag>
   </use>

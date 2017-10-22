@@ -67,16 +67,6 @@ CMAKE_USE_DIR="${S}/Telegram"
 
 src_prepare() {
 	patches_src_prepare
-#	cmake-utils_src_prepare
-### cmake-utils_src_prepare emulation {{{
-	_cmake_cleanup_cmake
-	# make ${S} read-only in order to detect broken build-systems
-	if [[ ${CMAKE_UTILS_QA_SRC_DIR_READONLY} && ! ${CMAKE_IN_SOURCE_BUILD} ]]; then
-		chmod -R a-w "${S}"
-	fi
-
-	_CMAKE_UTILS_SRC_PREPARE_HAS_RUN=1
-### cmake-utils_src_prepare emulation }}}
 
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then

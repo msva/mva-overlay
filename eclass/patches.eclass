@@ -32,5 +32,10 @@ patches_src_prepare() {
 			popd &>/dev/null
 		fi
 	fi
-	default
+	if declare -f cmake-utils_src_prepare &>/dev/null; then
+		# cmake-utils_src_prepare support (to decrease kludges in the ebuilds)
+		cmake-utils_src_prepare
+	else
+		default_src_prepare
+	fi
 }

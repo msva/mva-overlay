@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
 IUSE=""
 
 DEPEND="
-	>=dev-lang/go-1.5.1:=
+	>=dev-lang/go-1.5.1:*
 	app-text/ronn
 "
 RDEPEND=">=dev-vcs/git-1.7.3"
