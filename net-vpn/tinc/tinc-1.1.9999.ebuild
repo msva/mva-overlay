@@ -54,10 +54,11 @@ src_prepare() {
 
 src_configure() {
 	local myconf=(
+		--localstatedir="${EPREFIX}"/var
 		--enable-jumbograms
 		--disable-silent-rules
 		--disable-tunemu
-		--with-systemd=/usr/$(get_libdir)/systemd/system
+		--with-systemd="$(systemd_get_systemunitdir)"
 #		$(use_with gcrypt libgcrypt) # Broken
 		$(use_enable legacy legacy-protocol)
 		$(use_enable lzo)
