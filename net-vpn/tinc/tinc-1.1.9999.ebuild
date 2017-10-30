@@ -58,7 +58,7 @@ src_configure() {
 		--enable-jumbograms
 		--disable-silent-rules
 		--disable-tunemu
-		--with-systemd="$(systemd_get_systemunitdir)"
+		--with-systemd="${EPREFIX}/$(systemd_get_systemunitdir)"
 #		$(use_with gcrypt libgcrypt) # Broken
 		$(use_enable legacy legacy-protocol)
 		$(use_enable lzo)
