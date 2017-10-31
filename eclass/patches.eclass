@@ -17,15 +17,34 @@ PATCHDIR="${FILESDIR}/patches/${PV}"
 
 patches_src_prepare() {
 	if [[ -d "${PATCHDIR}" ]]; then
-		PATCHES+=("${PATCHDIR}")
+		_patchdir_not_empty() {
+			local has_files
+			local LC_ALL=POSIX
+			local prev_shopt=$(shopt -p nullglob)
+			shopt -s nullglob
+			local f
+			for f in "${1:-${PATCHDIR}}"/*; do
+				if [[ "${f}" == *.diff || "${f}" == *.patch ]] && [[ -f "${f}" || -L "${f}" ]]; then
+					has_files=1
+				elif [[ -d "${f}" ]]; then
+					# recursion
+					_patchdir_not_empty "${f}" && has_files=1
+				fi
+			done
+			${prev_shopt}
+			[[ -n "${has_files}" ]]; return $?
+		}
+
+		_patchdir_not_empty && PATCHES+=("${PATCHDIR}")
+
 		if [[ -d "${PATCHDIR}/conditional" ]]; then
 			pushd "${PATCHDIR}/conditional" &>/dev/null
 			for d in *; do
 				if [[ -d ${d} ]]; then
 					if [[ "${d##no-}" == ${d} ]]; then
-						use "${d}" && PATCHES+=("${PATCHDIR}/conditional/${d}")
+						(use "${d}" && _patchdir_not_empty "${d}") && PATCHES+=("${PATCHDIR}/conditional/${d}")
 					else
-						use "${d##no-}" || PATCHES+=("${PATCHDIR}/conditional/${d}")
+						(use "${d##no-}" && _patchdir_not_empty "${d}") || PATCHES+=("${PATCHDIR}/conditional/${d}")
 					fi
 				fi
 			done

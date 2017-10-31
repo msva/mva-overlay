@@ -12,12 +12,13 @@ HOMEPAGE="https://tinc-vpn.org/"
 
 EGIT_BRANCH="1.1"
 EGIT_REPO_URI="https://tinc-vpn.org/git/tinc"
+EGIT_MIN_CLONE_TYPE="single"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="gui +legacy libressl +lzo +ncurses +readline +ssl tinfo tools uml vde upnp +zlib"
+IUSE="gui +legacy libressl +lzo +ncurses +readline +ssl tools uml vde upnp +zlib"
 #gcrypt
 
 DEPEND="
@@ -26,7 +27,7 @@ DEPEND="
 		libressl? ( dev-libs/libressl:0= )
 	)
 	lzo? ( dev-libs/lzo:2 )
-	ncurses? ( sys-libs/ncurses:0[tinfo=] )
+	ncurses? ( sys-libs/ncurses:0 )
 	readline? ( sys-libs/readline:0 )
 	upnp? ( net-libs/miniupnpc )
 	zlib? ( sys-libs/zlib )
