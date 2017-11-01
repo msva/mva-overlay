@@ -9,7 +9,7 @@ DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="https://luajit.org/"
 EGIT_REPO_URI="https://luajit.org/git/luajit-2.0.git"
 EGIT_BRANCH="v2.1"
-EGIT_CLONE_TYPE="single"
+EGIT_MIN_CLONE_TYPE="single"
 
 SLOT="2"
 
