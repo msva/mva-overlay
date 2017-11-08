@@ -280,15 +280,15 @@ PDEPEND="
 	nginx_modules_http_ctpp? ( www-nginx/ctpp )
 	nginx_modules_core_tcpproxy? ( www-nginx/tcp-proxy )
 	nginx_modules_http_rdns? ( www-nginx/http-rdns )
+	vim-syntax? ( app-vim/nginx-syntax )
 "
+
 
 RDEPEND="${CDEPEND}"
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )
 "
-
-PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
 custom_econf() {
 	local EXTRA_ECONF=(${EXTRA_ECONF[@]})
