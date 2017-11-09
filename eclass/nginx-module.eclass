@@ -118,13 +118,19 @@ nginx-module_src_prepare() {
 				-i config || die
 			NG_MOD_DEFS+=("NDK")
 			NG_MOD_DEPS+=("ndk")
+			NG_MOD_LINK_DMODS+=("ndk_http_module.so")
 		fi
 		if declare -f nginx-module-prepare &>/dev/null; then
 			nginx-module-prepare
 		fi
 		for pk in ${NG_MOD_DEPS[@]}; do
-			append-cflags "-I/usr/include/nginx/${pk}"
+			append-cflags "-I${EROOT}usr/include/nginx/${pk}"
 		done;
+		for lm in ${NG_MOD_LINK_DMODS[@]}; do
+			sed -r \
+				-e "/. auto\/module/ingx_module_libs=\"\$ngx_module_libs -L${NGINX_MOD_PATH} -Wl,--no-as-needed -Wl,-rpath,${NGINX_MOD_PATH} -l:${lm}\"\n" \
+				-i config
+		done
 		for def in ${NG_MOD_DEFS[@]}; do
 			append-cflags "-D${def}"
 		done

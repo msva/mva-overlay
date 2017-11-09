@@ -30,7 +30,7 @@ PDEPEND="
 	virtual/lua[luajit]
 "
 
-HTML_DOCS=( "doc/" )
+HTML_DOCS=( "doc/." )
 
 MULTILIB_WRAPPED_HEADERS=(
 	"/usr/include/luajit-${SLOT}/luaconf.h"
@@ -53,34 +53,14 @@ pkg_setup() {
 
 src_prepare() {
 	patches_src_prepare
-	# fixing prefix and version
-#	sed -r \
-#		-e 's|^(VERSION)=.*|\1=$(MAJVER).$(MINVER)|' \
-#		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
-#		-e 's|^(FILE_MAN)=.*|\1=${PN}-$(VERSION).1|' \
-#		-e 's|^(INSTALL_PCNAME)=.*|\1=${PN}-$(VERSION).pc|' \
-#		-e 's|^(INSTALL_SOSHORT)=.*|\1=lib${PN}-${SLOT}.so|' \
-#		-e 's|^(INSTALL_ANAME)=.*|\1=lib${PN}-${SLOT}.a|' \
-#		-e 's|^(INSTALL_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
-#		-e 's|( PREFIX)=.*|\1=/usr|' \
-#		-e '/\$\(SYMLINK\)\ \$\(INSTALL_TNAME\)\ \$\(INSTALL_TSYM\)/d' \
-#		-i Makefile || die "failed to fix prefix in Makefile"
 
 	sed -r \
 		-e 's|^(VERSION)=.*|\1=${PV}|' \
 		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
 		-e 's|^(INSTALL_PCNAME)=.*|\1=${P}.pc|' \
-		-e 's|( PREFIX)=.*|\1=/usr|' \
+		-e 's|( PREFIX)=.*|\1=${EROOT}usr|' \
 		-e 's|^(FILE_MAN)=.*|\1=${P}.1|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
-
-#	sed -r \
-#		-e 's|^(libname=.*-)\$\{abiver\}|\1${majver}.${minver}|' \
-#		-i "etc/${PN}.pc" || die "Failed to slottify"
-
-#	sed -r \
-#		-e 's|^(TARGET_SONAME)=.*|\1=lib${PN}-${SLOT}.so.${PV}|' \
-#		-i src/Makefile || die "Failed to slottify"
 
 	sed -r \
 		-e 's|^(#define LUA_LJDIR).*|\1 "/'${P}'/"|' \
@@ -88,7 +68,7 @@ src_prepare() {
 
 	use debug && (
 		sed -r \
-			-e 's/#(CCDEBUG= -g)/\1 -ggdb/' \
+			-e 's/#(CCDEBUG= -g)/\1 -OO/' \
 			-i src/Makefile || die "Failed to enable debug"
 	)
 	mv "${S}"/etc/${PN}.1 "${S}"/etc/${P}.1
@@ -98,7 +78,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	sed -r \
-		-e "s|^(prefix)=.*|\1=/usr|" \
+		-e "s|^(prefix)=.*|\1=${EROOT}usr|" \
 		-e "s|^(multilib)=.*|\1=$(get_libdir)|" \
 		-i "etc/${PN}.pc" || die "Failed to slottify"
 }
@@ -121,7 +101,7 @@ multilib_src_compile() {
 		HOST_CC="$(tc-getCC)" \
 		CC="${CC}" \
 		TARGET_STRIP="true" \
-		XCFLAGS="${xcflags[*]}" "${opt}"
+		XCFLAGS="${xcflags[*]}" ${opt}
 }
 
 multilib_src_install() {
@@ -136,10 +116,10 @@ multilib_src_install() {
 }
 
 pkg_postinst() {
-	if [[ ! -n $(readlink "${ROOT}"usr/bin/luajit) ]] ; then
+	if [[ ! -n $(readlink "${EROOT}"usr/bin/luajit) ]] ; then
 		eselect luajit set luajit-${PV}
 	fi
-	if [[ ! -n $(readlink "${ROOT}"usr/bin/lua) ]] ; then
+	if [[ ! -n $(readlink "${EROOT}"usr/bin/lua) ]] ; then
 		eselect lua set jit-${PV}
 	fi
 }

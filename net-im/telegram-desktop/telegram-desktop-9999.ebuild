@@ -40,10 +40,7 @@ COMMON_DEPEND="
 	gtk3? (
 		x11-libs/gtk+:3
 		dev-libs/libappindicator:3
-		|| (
-			<dev-qt/qtgui-5.7:5[gtkstyle]
-			>=dev-qt/qtgui-5.7:5[gtk(+)]
-		)
+		>=dev-qt/qtgui-5.7:5[gtk(+)]
 	)
 	media-libs/openal
 	dev-libs/openssl:0

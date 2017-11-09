@@ -70,7 +70,6 @@ src_prepare() {
 		-e "s:^R=.*:R= ${PV}:" \
 		-e "s:/,lib,:/$(get_libdir):g" \
 		-e "/^Libs:/s,((-llua)($| )),\2${SLOT}\3," \
-		-e "/^Cflags:/s,((-I..includedir.)($| )),\2/lua${SLOT}\3," \
 		"${S}"/lua.pc
 }
 

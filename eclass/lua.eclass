@@ -904,8 +904,6 @@ _lua_default_all_prepare() {
 		"${@}"
 	)
 
-
-	[[ "${EAPI}" -lt 6 ]] && epatch_user
 	patches_src_prepare
 
 	[[ -x "${BOOTSTRAP}" ]] && ${BOOTSTRAP} "${prepargs[@]}"
