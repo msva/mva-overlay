@@ -34,7 +34,7 @@ LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 "
 SLOT="mainline"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86 ~arm"
 
 NGINX_MODULES_STD="
 	http_mirror
