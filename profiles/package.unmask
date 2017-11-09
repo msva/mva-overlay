@@ -8,9 +8,12 @@ dev-java/jdbc-oracle-bin
 #dev-lang/lua:5.2
 #dev-lang/lua:5.3
 #dev-lang/luajit:2
+#virtual/lua
 
 #app-eselect/eselect-lua
-#virtual/lua
+#app-eselect/eselect-luajit
+
 #www-servers/nginx
+#www-nginx/*
 
 #travis-hack/end
