@@ -506,7 +506,7 @@ src_configure() {
 	custom_econf \
 		--prefix="${EPREFIX}${NGINX_HOME}" \
 		--sbin-path="${EPREFIX}/usr/sbin/${PN}" \
-		--conf-path="${EPREFIX}/${NGINX_CONF_PATH}/${PN}.conf" \
+		--conf-path="${EPREFIX}${NGINX_CONF_PATH}/${PN}.conf" \
 		--pid-path="${EPREFIX}/run/${PN}.pid" \
 		--lock-path="${EPREFIX}/run/lock/${PN}.lock" \
 		--with-cc-opt="-I${EROOT}usr/include" \

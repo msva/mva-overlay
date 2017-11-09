@@ -4,7 +4,7 @@
  	flags << " -fno-omit-frame-pointers" if USE_ASAN
  	flags << " -DPASSENGER_DISABLE_THREAD_LOCAL_STORAGE" if !boolean_option('PASSENGER_THREAD_LOCAL_STORAGE', true)
  end
-+EXTRA_CXXFLAGS << " #{ENV['CXXFLAGS']}"
++EXTRA_PRE_CXXFLAGS << " #{ENV['CXXFLAGS']}"
  
  # Extra linker flags that should always be passed to the linker.
  # These should be included first in the command string.
@@ -41,7 +41,7 @@
    psg_ruby       = ENV['RUBY'] || "#{fs_bindir}/ruby"
    psg_free_ruby  = ENV['FREE_RUBY'] || "/usr/bin/env ruby"
  
--  fakeroot = "pkg/fakeroot"
+-  fakeroot = "#{PKG_DIR}/fakeroot"
 +  fakeroot = ENV['D']
    fake_rubylibdir = "#{fakeroot}#{psg_rubylibdir}"
    fake_nodelibdir = "#{fakeroot}#{psg_nodelibdir}"
@@ -62,18 +62,6 @@
    # Ruby sources
    sh "mkdir -p #{fake_rubylibdir}"
    sh "cp #{PhusionPassenger.ruby_libdir}/phusion_passenger.rb #{fake_rubylibdir}/"
-@@ -506,11 +501,6 @@
-   sh "mkdir -p #{fake_nginx_module_source_dir}"
-   sh "cp ext/nginx/* #{fake_nginx_module_source_dir}/"
- 
--  # Documentation
--  sh "mkdir -p #{fake_docdir}"
--  sh "cp doc/*.html #{fake_docdir}/"
--  sh "cp -R doc/images #{fake_docdir}/"
--
-   # User binaries
-   sh "mkdir -p #{fake_bindir}"
-   Packaging::USER_EXECUTABLES.each do |exe|
 @@ -529,10 +519,6 @@
      change_shebang("#{fake_sbindir}/#{exe}", shebang)
    end
