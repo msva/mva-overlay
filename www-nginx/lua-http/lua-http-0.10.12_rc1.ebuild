@@ -7,7 +7,7 @@ NG_MOD_LIST=("ngx_http_lua_module.so")
 
 GITHUB_A="openresty"
 GITHUB_PN="lua-nginx-module"
-GITHUB_PV="v${PV}"
+GITHUB_PV="v${PV/_rc/rc}"
 NDK=1
 
 inherit nginx-module

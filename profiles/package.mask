@@ -78,4 +78,4 @@ app-eselect/lua
 app-eselect/luajit
 dev-lang/luajit
 
-=www-servers/nginx-1.13.6-r100
+=www-servers/nginx-1.13.7-r100
