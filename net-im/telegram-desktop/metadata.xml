@@ -8,8 +8,9 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     to find me in IRC on Freenode, OFTC or RusNet.</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>FIXME</longdescription>
+  <longdescription>Telegram Desktop Client</longdescription>
   <use>
+    <flag name="crash-report">Enable Crash Reporter</flag>
     <flag name="custom-api-id">Use custom API ID and API HASH (you
     must set it either in make.conf or
     portage/env/{CAT}/{PN}.</flag>

@@ -1,6 +1,6 @@
 diff -NaurBwd a/Telegram/SourceFiles/history/history_item.cpp b/Telegram/SourceFiles/history/history_item.cpp
---- a/Telegram/SourceFiles/history/history_item.cpp	2017-05-23 01:26:09.007253615 +0700
-+++ b/Telegram/SourceFiles/history/history_item.cpp	2017-05-23 01:26:16.305983785 +0700
+--- a/Telegram/SourceFiles/history/history_item_components.cpp	2017-05-23 01:26:09.007253615 +0700
++++ b/Telegram/SourceFiles/history/history_item_components.cpp	2017-05-23 01:26:16.305983785 +0700
 @@ -519,13 +519,6 @@
  	p.setFont(st::historyUnreadBarFont);
  	p.setPen(st::historyUnreadBarFg);
@@ -128,21 +128,21 @@ index be1ba85f1..973e946c1 100644
 +		updateHistoryGeometry(false, false, {ScrollChangeAdd, App::main() ? App::main()->contentScrollAddToY() : 0});
 +		update();
 +	});
- 	subscribe(Global::RefItemRemoved(), [this](HistoryItem *item) {
- 		itemRemoved(item);
- 	});
+ 	Auth().data().itemRemoved(
+ 	) | rpl::start_with_next(
+ 		[this](auto item) { itemRemoved(item); },
 diff --git a/Telegram/SourceFiles/profile/profile_info_widget.cpp b/Telegram/SourceFiles/profile/profile_info_widget.cpp
 index bbb62d9e2..579243e75 100644
---- a/Telegram/SourceFiles/profile/profile_block_info.cpp
-+++ b/Telegram/SourceFiles/profile/profile_block_info.cpp
-@@ -72,7 +72,9 @@ int InfoWidget::resizeGetHeight(int newWidth) {
- 		int availableWidth = newWidth - left - st::profileBlockMarginRight;
- 		int maxWidth = st::msgMaxWidth;
- 		accumulate_min(textWidth, availableWidth);
--		accumulate_min(textWidth, st::msgMaxWidth);
-+		if (!Adaptive::ChatWide()) {
-+			accumulate_min(textWidth, st::msgMaxWidth);
-+		}
- 		_about->resizeToWidth(textWidth + marginLeft + marginRight);
- 		_about->moveToLeft(left - marginLeft, newHeight - st::profileBlockTextPart.margin.top());
- 		newHeight += _about->height();
+--- a/Telegram/SourceFiles/settings/settings_info_widget.cpp
++++ b/Telegram/SourceFiles/settings/settings_info_widget.cpp
+@@ -219,7 +219,9 @@ int InfoWidget::LabeledWidget::resizeGet
+ 	int availableWidth = newWidth - textLeft;
+ 	bool doesNotFit = (textWidth > availableWidth);
+ 	accumulate_min(textWidth, availableWidth);
+-	accumulate_min(textWidth, st::msgMaxWidth);
++	if (!Adaptive::ChatWide()) {
++		accumulate_min(textWidth, st::msgMaxWidth);
++	}
+ 	if (textWidth < 0) {
+ 		textWidth = 0;
+ 	}

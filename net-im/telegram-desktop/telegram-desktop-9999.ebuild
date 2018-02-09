@@ -22,7 +22,7 @@ EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id debug +wide-baloons +pulseaudio +gtk3"
+IUSE="crash-report custom-api-id debug +wide-baloons +pulseaudio +gtk3"
 # upstream-api-id"
 
 COMMON_DEPEND="
@@ -45,10 +45,11 @@ COMMON_DEPEND="
 	media-libs/openal
 	dev-libs/openssl:0
 	x11-libs/libX11
-	dev-util/google-breakpad
+	crash-report? ( dev-util/google-breakpad )
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	pulseaudio? ( media-sound/pulseaudio )
+	dev-cpp/range-v3
 "
 
 RDEPEND="
@@ -63,6 +64,22 @@ DEPEND="
 CMAKE_USE_DIR="${S}/Telegram"
 
 src_prepare() {
+	local CMAKE_MODULES_DIR="${S}/Telegram/cmake"
+	local THIRD_PARTY_DIR="${S}/Telegram/ThirdParty"
+	local LIBTGVOIP_DIR="${THIRD_PARTY_DIR}/libtgvoip"
+
+	cp "${FILESDIR}/cmake/Telegram.cmake" "${S}/Telegram/CMakeLists.txt"
+	cp "${FILESDIR}/cmake/ThirdParty-crl.cmake" "${THIRD_PARTY_DIR}/crl/CMakeLists.txt"
+	cp "${FILESDIR}/cmake/ThirdParty-libtgvoip.cmake" "${LIBTGVOIP_DIR}/CMakeLists.txt"
+	cp "${FILESDIR}/cmake/ThirdParty-libtgvoip-webrtc.cmake" \
+		"${LIBTGVOIP_DIR}/webrtc_dsp/webrtc/CMakeLists.txt"
+
+	mkdir "${CMAKE_MODULES_DIR}" || die
+	use crash-report && cp "${FILESDIR}/cmake/FindBreakpad.cmake" "${CMAKE_MODULES_DIR}"
+	cp "${FILESDIR}/cmake/TelegramCodegen.cmake" "${CMAKE_MODULES_DIR}"
+	cp "${FILESDIR}/cmake/TelegramCodegenTools.cmake" "${CMAKE_MODULES_DIR}"
+	cp "${FILESDIR}/cmake/TelegramTests.cmake" "${CMAKE_MODULES_DIR}"
+
 	patches_src_prepare
 
 	if use custom-api-id; then
@@ -100,14 +117,15 @@ src_configure() {
 
 	local mycmakeargs=(
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
-		-DBREAKPAD_INCLUDE_DIR="/usr/include/breakpad"
-		-DBREAKPAD_LIBRARY_DIR="/usr/$(get_libdir)/libbreakpad_client.a"
+		-DENABLE_CRASH_REPORTS="$(usex crash-report ON OFF)"
+		-DENABLE_GTK_INTEGRATION="$(usex gtk3 ON OFF)"
+		-DBUILD_TESTS="OFF"
+		# ^ $(usex test)?
 	)
-
-	use gtk3 || {
-		mycmakeargs+=("-DGTK=OFF")
-	}
-
+	use crash-report && mycmakeargs+=(
+		-DBREAKPAD_CLIENT_INCLUDE_DIR="/usr/include/breakpad"
+		-DBREAKPAD_CLIENT_LIBRARY="/usr/$(get_libdir)/libbreakpad_client.a"
+	)
 	cmake-utils_src_configure
 }
 

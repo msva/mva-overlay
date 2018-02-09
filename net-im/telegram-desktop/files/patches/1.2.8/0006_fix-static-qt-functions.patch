@@ -98,17 +98,3 @@ index 0000000..4a722b8
 +    if (f->d->strikeOut || charFormat.fontStrikeOut())
 +        flags |= QTextItem::StrikeOut;
 +}
-diff --git a/Telegram/SourceFiles/ui/text/text_block.cpp b/Telegram/SourceFiles/ui/text/text_block.cpp
-index f89644e..35230cf 100644
---- a/Telegram/SourceFiles/ui/text/text_block.cpp
-+++ b/Telegram/SourceFiles/ui/text/text_block.cpp
-@@ -330,7 +330,7 @@ TextBlock::TextBlock(const style::font &font, const QString &str, QFixed minResi
- 		SignalHandlers::setCrashAnnotationRef("CrashString", &part);
- 
- 		QStackTextEngine engine(part, blockFont->f);
--		QTextLayout layout(&engine);
-+		QTextLayout layout(part, blockFont->f);
- 		layout.beginLayout();
- 		layout.createLine();
- 
-
