@@ -26,7 +26,7 @@ PLUGINS="+alias +buflist +charset +exec +fifo +logger +relay +scripts +spell +tr
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
 SCRIPT_LANGS="guile lua luajit +perl +python ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt pt_BR ru tr"
-IUSE="doc nls +ssl test ${LANGS// / linguas_} ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
+IUSE="doc nls +ssl test ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 #REQUIRED_USE=" || ( ncurses gtk )"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -47,7 +47,7 @@ RDEPEND="
 	nls? ( virtual/libintl )
 	perl? ( dev-lang/perl:= )
 	python? ( ${PYTHON_DEPS} )
-	ruby? ( || ( dev-lang/ruby:2.4 dev-lang/ruby:2.3 dev-lang/ruby:2.2 ) )
+	ruby? ( dev-lang/ruby:* )
 	ssl? ( net-libs/gnutls )
 	spell? ( app-text/aspell )
 	tcl? ( >=dev-lang/tcl-8.4.15:0= )
@@ -73,9 +73,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	local i
-
-	default
+	cmake-utils_src_prepare
 
 	use ruby && (
 		sed -i \
@@ -96,8 +94,9 @@ src_prepare() {
 		CMakeLists.txt || die "sed failed"
 
 	# install only required translations
-	for i in ${LANGS//-/_} ; do
-		if ! use linguas_${i} ; then
+	local i
+	for i in ${LANGS} ; do
+		if ! has ${i} ${LINGUAS-${i}} ; then
 			sed -i \
 				-e "/${i}.po/d" \
 				po/CMakeLists.txt || die
@@ -107,7 +106,7 @@ src_prepare() {
 	# install only required documentation ; en always
 	for i in $(grep add_subdirectory doc/CMakeLists.txt \
 			| sed -e 's/.*add_subdirectory(\(..\)).*/\1/' -e '/en/d'); do
-		if ! use linguas_${i//-/_} ; then
+		if ! has ${i} ${LINGUAS-${i}} ; then
 			sed -i \
 				-e '/add_subdirectory('${i}')/d' \
 				doc/CMakeLists.txt || die
@@ -116,6 +115,15 @@ src_prepare() {
 
 	# install docs in correct directory
 	sed -i "s#\${SHAREDIR}/doc/\${PROJECT_NAME}#\0-${PV}/html#" doc/*/CMakeLists.txt || die
+
+	if [[ ${CHOST} == *-darwin* ]]; then
+		# fix linking error on Darwin
+		sed -i "s/+ get_config_var('LINKFORSHARED')//" \
+			cmake/FindPython.cmake || die
+		# allow to find the plugins by default
+		sed -i 's/".so,.dll"/".bundle,.so,.dll"/' \
+			src/core/wee-config.c || die
+	fi
 }
 
 src_configure() {

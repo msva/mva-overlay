@@ -9,7 +9,6 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <email>scarabeus@gentoo.org</email>
   </maintainer>
   <use>
-    <flag name="linguas_pt_BR"></flag>
     <flag name="alias">Enable plugin for alias control.</flag>
     <flag name="buflist">Enable buffer list plugin.</flag>
     <flag name="charset">Enable encoding conversions.</flag>
