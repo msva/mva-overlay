@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+
 USE_RUBY="ruby22 ruby23 ruby24"
 
 inherit eutils depend.apache user git-r3 ruby-ng
 
 DESCRIPTION="Flexible project management webapp written using Ruby on Rails framework"
-HOMEPAGE="http://www.redmine.org/"
-SRC_URI=""
+HOMEPAGE="https://www.redmine.org/"
 
 EGIT_REPO_URI="https://github.com/redmine/redmine.git"
 
@@ -22,7 +22,8 @@ RDEPEND="
 		$(ruby_implementation_depend ruby22)[ssl]
 		$(ruby_implementation_depend ruby23)[ssl]
 		$(ruby_implementation_depend ruby24)[ssl]
-)"
+	)
+"
 
 ruby_add_rdepend "
 	dev-ruby/bundler
