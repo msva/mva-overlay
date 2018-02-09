@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit eutils multilib-minimal git-r3
+inherit eutils multilib-minimal toolchain-funcs flag-o-matic git-r3
 
 DESCRIPTION="A non-backtracking regex engine matching on data streams"
 HOMEPAGE="https://github.com/openresty/sregex"
@@ -20,7 +20,8 @@ src_prepare() {
 	sed -r \
 		-e '/^PREFIX=/s@(PREFIX)=.*@\1=/usr@' \
 		-e '/^INSTALL_LIB/s@lib@$(LIBDIR_${ABI})@' \
-		-i Makefile
+		-e '/^CC=/d' \
+		-i "${S}"/Makefile
 	default
 	multilib_copy_sources
 }
