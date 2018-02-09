@@ -26,5 +26,4 @@ pkg_setup() {
 
 src_install() {
 	dobin multimeter
-	default
 }
