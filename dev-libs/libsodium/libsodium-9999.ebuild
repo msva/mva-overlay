@@ -11,7 +11,7 @@ HOMEPAGE="https://github.com/jedisct1/libsodium"
 EGIT_REPO_URI="https://github.com/jedisct1/libsodium"
 
 LICENSE="ISC"
-SLOT="0/18"
+SLOT="0/23"
 KEYWORDS=""
 IUSE="+asm minimal static-libs +urandom cpu_flags_x86_sse4_1 cpu_flags_x86_aes"
 
