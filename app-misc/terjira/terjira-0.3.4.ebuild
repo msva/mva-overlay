@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-USE_RUBY="ruby21 ruby22 ruby23"
+USE_RUBY="ruby22 ruby23"
 
 inherit ruby-fakegem
 
@@ -21,7 +21,8 @@ ruby_add_rdepend "dev-ruby/activesupport:4.0
 	=dev-ruby/tty-prompt-0.12*
 	=dev-ruby/tty-spinner-0.4*
 	=dev-ruby/tty-table-0.8*
-	console? ( =dev-ruby/pry-0.10* )"
+	console? ( dev-ruby/pry )"
+#	console? ( =dev-ruby/pry-0.10* )"
 
 all_ruby_prepare() {
 	sed -i -e '/git ls-files/d' ${PN}.gemspec || die
