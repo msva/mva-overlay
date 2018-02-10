@@ -20,7 +20,12 @@ DEPEND="
 	media-gfx/icoutils
 "
 RDEPEND="
-	app-emulation/wine
+	|| (
+		app-emulation/wine-any
+		app-emulation/wine-d3d9
+		app-emulation/wine-staging
+		app-emulation/wine-vanilla
+	)
 	data? ( app-misc/2gis-data )
 "
 
