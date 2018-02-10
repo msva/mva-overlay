@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python{2_7,3_{4,5}} )
+PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
 inherit distutils-r1
 
 DESCRIPTION="Universal Command Line Interface for Amazon Web Services"
@@ -15,15 +15,20 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
 
-RDEPEND="=dev-python/botocore-1.4*[${PYTHON_USEDEP}]
-	>=dev-python/colorama-0.2.5[${PYTHON_USEDEP}]
-	>=dev-python/docutils-0.10[${PYTHON_USEDEP}]
-	dev-python/requests[${PYTHON_USEDEP}]
-	>=dev-python/rsa-3.1.2[${PYTHON_USEDEP}]
-	dev-python/six[${PYTHON_USEDEP}]
-	dev-python/wheel[${PYTHON_USEDEP}]
+RDEPEND="
 	dev-python/tox[${PYTHON_USEDEP}]
-	dev-python/s3transfer[${PYTHON_USEDEP}]"
+	dev-python/docutils[${PYTHON_USEDEP}]
+	dev-python/botocore[${PYTHON_USEDEP}]
+	dev-python/s3transfer[${PYTHON_USEDEP}]
+	dev-python/jmespath[${PYTHON_USEDEP}]
+	dev-python/colorama[${PYTHON_USEDEP}]
+	dev-python/rsa[${PYTHON_USEDEP}]
+	dev-python/wheel[${PYTHON_USEDEP}]
+	dev-python/pyyaml[${PYTHON_USEDEP}]
+"
+#	<=dev-python/colorama-0.3.7[${PYTHON_USEDEP}]
+##	dev-python/six[${PYTHON_USEDEP}]
+##	dev-python/requests[${PYTHON_USEDEP}]
 DEPEND="${RDEPEND}
 	test? (
 		dev-python/mock[${PYTHON_USEDEP}]
