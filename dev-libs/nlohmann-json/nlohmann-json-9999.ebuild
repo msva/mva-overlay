@@ -8,6 +8,7 @@ inherit eutils flag-o-matic toolchain-funcs cmake-utils multilib-minimal git-r3
 DESCRIPTION="C++ class library of cryptographic schemes"
 HOMEPAGE="https://github.com/nlohmann/json"
 EGIT_REPO_URI="https://github.com/nlohmann/json"
+EGIT_BRANCH="develop"
 
 LICENSE="MIT"
 SLOT="0"
@@ -19,7 +20,7 @@ DEPEND="doc? ( app-doc/doxygen )"
 DOCS=( doc/index.md )
 
 src_prepare() {
-	default
+	cmake-utils_src_prepare
 	multilib_copy_sources
 }
 

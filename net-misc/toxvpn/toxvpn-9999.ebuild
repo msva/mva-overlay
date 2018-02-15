@@ -17,5 +17,14 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	dev-libs/nlohman-json
+	dev-libs/nlohmann-json
 "
+
+src_prepare() {
+	cmake-utils_src_prepare
+
+	# https://github.com/cleverca22/toxvpn/issues/15
+	# https://github.com/cleverca22/toxvpn/pull/16
+	sed -r 's@^(#include <)(json.hpp>)$@\1nlohmann/\2@' \
+	-i src/main.h
+}
