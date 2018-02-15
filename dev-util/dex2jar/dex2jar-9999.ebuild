@@ -18,9 +18,20 @@ RDEPEND="
 	dev-java/antlr:3.5
 	|| ( virtual/jre virtual/jdk )
 "
+#	dev-util/android-sdk-update-manager
+
+#pkg_setup() {
+#
+#}
 
 src_prepare() {
 	default
+	sed -r \
+		-e '/com.google.android.tools:dx:23.0.0/d' \
+		-i dex-tools/build.gradle
+	# TODO:
+	# 1) try to use dx.jar from android-sdk-update-manager's downloaded android tools
+	# 2) migrate to some fork with fixed issues
 }
 
 src_compile() {
