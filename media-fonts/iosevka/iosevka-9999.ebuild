@@ -13,7 +13,7 @@ SRC_URI=""
 LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="+woff"
+IUSE="web"
 RESTRICT="binchecks strip"
 
 DEPEND="
@@ -21,7 +21,7 @@ DEPEND="
 	media-gfx/fontforge
 	media-gfx/ttfautohint
 	media-gfx/otfcc
-	woff? (
+	web? (
 		media-gfx/sfnt2woff
 		media-gfx/woff2
 	)
@@ -44,17 +44,17 @@ src_unpack() {
 
 src_compile() {
 	local myemageargs=()
-	myemageargs+=(fonts-{sans,slab,r-{{sans,slab}{,-{term,type,cc}},{hooky,zshaped}{,-term}}{,-{upright,italic,oblique}}})
-	use woff && myemageargs+=(web-{sans,slab,r-{{sans,slab}{,-{term,type,cc}},{hooky,zshaped}{,-term}}})
+	myemageargs+=(start)
+	use web && myemageargs+=(web)
 	emake "${myemageargs[@]}"
 }
 
 src_install() {
 	mkdir -p "${FONT_S}"
-	find "${S}"/dist/*${PN}* -name '*.ttf' -print0 | xargs -0 mv -u -t "${FONT_S}"
+	find "${S}"/dist/*${PN}*/ttf/ -name '*.ttf' -print0 | xargs -0 mv -u -t "${FONT_S}"
 	font_src_install
-	use woff && (
+	use web && (
 		insinto /usr/share/webfonts/${PN}
-		doins -r dist/iosevka*/web/*
+		doins -r dist/iosevka*/woff{,2}/*
 	)
 }
