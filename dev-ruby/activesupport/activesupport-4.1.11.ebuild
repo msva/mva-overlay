@@ -33,7 +33,7 @@ ruby_add_rdepend "
 	>=dev-ruby/minitest-4.2:0
 	>=dev-ruby/thread_safe-0.1:0"
 
-PATCHES=( "${FILESDIR}/4-1-xml_depth.patch" )
+#PATCHES=( "${FILESDIR}/4-1-xml_depth.patch" )
 
 all_ruby_prepare() {
 	# Set the secure permissions that tests expect.

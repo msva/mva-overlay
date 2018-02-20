@@ -3,29 +3,31 @@
 
 EAPI=6
 
-USE_RUBY="ruby22 ruby23"
+USE_RUBY="ruby23"
+# ruby24 ruby25"
 
 inherit ruby-fakegem git-r3
 
 DESCRIPTION="Intercative JIRA cli"
 HOMEPAGE="https://github.com/keepcosmos/terjira https://rubygems.org/gems/terjira"
 
+SRC_URI=""
+KEYWORDS=""
+
 EGIT_REPO_URI="https://github.com/keepcosmos/terjira"
 EGIT_CHECKOUT_DIR="${WORKDIR}/all"
-SRC_URI=""
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="+console"
 
-ruby_add_rdepend "dev-ruby/activesupport:4.0
-	=dev-ruby/jira-ruby-1.1*
-	=dev-ruby/thor-0.19*
-	=dev-ruby/tty-prompt-0.12*
-	=dev-ruby/tty-spinner-0.4*
-	=dev-ruby/tty-table-0.8*
-	console? ( dev-ruby/pry )"
+#ruby_add_rdepend "dev-ruby/activesupport:4.11"
+ruby_add_rdepend "=dev-ruby/jira-ruby-1.5.0"
+ruby_add_rdepend "=dev-ruby/thor-0.19*"
+ruby_add_rdepend "=dev-ruby/tty-prompt-0.12*"
+ruby_add_rdepend "=dev-ruby/tty-spinner-0.4*"
+ruby_add_rdepend "=dev-ruby/tty-table-0.8*"
+ruby_add_rdepend "console? ( dev-ruby/pry )"
 #	console? ( =dev-ruby/pry-0.10* )"
 
 all_ruby_prepare() {
@@ -37,6 +39,4 @@ all_ruby_prepare() {
 	use console &&
 	mv bin/{,jira-}console ||
 	rm bin/console
-
-#	mv bin/{,ter}jira
 }
