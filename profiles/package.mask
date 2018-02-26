@@ -1,3 +1,4 @@
+# Splitted NginX (depends on non-static ebuild, which needs some more work and not ready yet)
 www-nginx/ajp
 www-nginx/array-var
 www-nginx/audio-hls
@@ -50,6 +51,7 @@ www-nginx/upstream-fair
 www-nginx/upstream-sticky
 www-nginx/xss
 
+# Can't remember why
 dev-lua/bit32
 dev-lua/LuaBitOp
 dev-lua/lua-cjson
@@ -70,6 +72,7 @@ dev-lua/resty-template
 dev-lua/resty-upload
 dev-lua/resty-websocket
 
+# Don't break users system until they decide to use slotted lua themselves
 dev-lang/lua:5.1
 dev-lang/lua:5.2
 dev-lang/lua:5.3
@@ -78,4 +81,8 @@ app-eselect/lua
 app-eselect/luajit
 dev-lang/luajit
 
+# May be not ready
+net-voip/trueconf
+
+# Splitted NgX (non-static). Not ready yet.
 =www-servers/nginx-1.13.9-r100
