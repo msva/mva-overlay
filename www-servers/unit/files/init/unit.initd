@@ -1,0 +1,34 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="NginX Unit"
+extra_started_commands="reload save"
+
+description_save="Save configuration"
+description_reload="(Re)load configuration"
+
+command="/usr/bin/unitd"
+command_args="${UNITD_OPTIONS}"
+
+start_stop_daemon_args="--pidfile=/run/unit.pid --progress --retry 'SIGTERM/20/SIGKILL/20'"
+
+save() {
+	/usr/bin/unit-saveconfig
+}
+
+reload() {
+	/usr/bin/unit-loadconfig
+}
+
+start_post() {
+	reload
+}
+
+stop_pre() {
+	save
+}
+
+depend() {
+	use logger netmount
+}

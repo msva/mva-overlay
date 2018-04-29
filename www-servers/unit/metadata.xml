@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>gentoo-overlay@mva.name</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <use>
+    <flag name='unix-sockets'>Enable support of unix sockets</flag>
+    <flag name='unit_modules_go'>Enable support for applications written in <pkg>dev-lang/go</pkg></flag>
+    <flag name='unit_modules_perl'>Enable support for applications written in <pkg>dev-lang/perl</pkg></flag>
+    <flag name='unit_modules_php'>Enable support for applications written in <pkg>dev-lang/php</pkg></flag>
+    <flag name='unit_modules_python'>Enable support for applications written in <pkg>dev-lang/python</pkg></flag>
+    <flag name='unit_modules_ruby'>Enable support for applications written in <pkg>dev-lang/ruby</pkg></flag>
+  </use>
+</pkgmetadata>
