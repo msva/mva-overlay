@@ -22,8 +22,10 @@ EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="crash-report custom-api-id debug +wide-baloons +pulseaudio +gtk3"
+IUSE="crash-report custom-api-id debug +gtk3 +pulseaudio libressl wide-baloons"
 # upstream-api-id"
+
+# ^ libav support?
 
 COMMON_DEPEND="
 	dev-qt/qtcore:5
@@ -32,7 +34,7 @@ COMMON_DEPEND="
 	dev-qt/qtwidgets[xcb,png]
 	dev-qt/qtnetwork
 	dev-qt/qtimageformats
-	virtual/ffmpeg
+	media-video/ffmpeg:=
 	media-libs/opus
 	x11-libs/libdrm
 	x11-libs/libva[X,drm]
@@ -43,7 +45,8 @@ COMMON_DEPEND="
 		>=dev-qt/qtgui-5.7:5[gtk(+)]
 	)
 	media-libs/openal
-	dev-libs/openssl:0
+	libressl? ( dev-libs/libressl:= )
+	!libressl? ( dev-libs/openssl:0= )
 	x11-libs/libX11
 	crash-report? ( dev-util/google-breakpad )
 	!net-im/telegram
@@ -85,8 +88,8 @@ src_prepare() {
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
 			(
-				echo 'static const int32 ApiId = '"${TELEGRAM_CUSTOM_API_ID}"';'
-				echo 'static const char *ApiHash = "'"${TELEGRAM_CUSTOM_API_HASH}"'";'
+				echo "static const int32 ApiId = ${TELEGRAM_CUSTOM_API_ID};"
+				echo "static const char *ApiHash = ${TELEGRAM_CUSTOM_API_HASH};"
 			) > custom_api_id.h
 		else
 			eerror ""
