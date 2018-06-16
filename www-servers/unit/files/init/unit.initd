@@ -8,10 +8,11 @@ extra_started_commands="reload save"
 description_save="Save configuration"
 description_reload="(Re)load configuration"
 
-command="/usr/bin/unitd"
+command="/usr/sbin/unitd"
 command_args="${UNITD_OPTIONS}"
+pidfile="/run/unit.pid"
 
-start_stop_daemon_args="--pidfile=/run/unit.pid --progress --retry 'SIGTERM/20/SIGKILL/20'"
+start_stop_daemon_args=""
 
 save() {
 	/usr/bin/unit-saveconfig
