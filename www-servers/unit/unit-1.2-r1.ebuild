@@ -129,8 +129,8 @@ src_compile() {
 src_install() {
 	default
 	use examples && {
-		local exdir="ecompressdir --ignore /usr/share/doc/${PF}/examples"
-		"ecompressdir" --ignore "${exdir}"
+		local exdir="/usr/share/doc/${PF}/examples"
+		"ecompressdir" --ignore "${exdir}" # quotes is QA-hack
 		insinto "${exdir}"
 		doins pkg/rpm/rpmbuild/SOURCES/*example*
 	}

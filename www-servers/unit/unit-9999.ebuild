@@ -113,9 +113,9 @@ src_configure() {
 		--pid="/run/${PN}.pid" \
 		--log="/var/log/${PN}.log" \
 		--control="unix:/run/control.${PN}.sock" \
-		$(usex ipv6 '' "--no-ipv6")
-		$(usex unix-sockets '' "--no-unix-sockets")
-		$(usex debug "debug" "")
+		$(usex ipv6 '' "--no-ipv6") \
+		$(usex unix-sockets '' "--no-unix-sockets") \
+		$(usex debug "--debug" "")
 
 	for mod in $UNIT_MODULES; do
 		use "unit_modules_${mod}" && "_unit_${mod}_configure"
@@ -129,8 +129,8 @@ src_compile() {
 src_install() {
 	default
 	use examples && {
-		local exdir="ecompressdir --ignore /usr/share/doc/${PF}/examples"
-		"ecompressdir" --ignore "${exdir}"
+		local exdir="/usr/share/doc/${PF}/examples"
+		"ecompressdir" --ignore "${exdir}" # quotes is QA-hack
 		insinto "${exdir}"
 		doins pkg/rpm/rpmbuild/SOURCES/*example*
 	}
@@ -139,4 +139,7 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/init/"${PN}".service
 	newconfd "${FILESDIR}"/init/"${PN}".confd "${PN}"
 	newinitd "${FILESDIR}"/init/"${PN}".initd "${PN}"
+	dodir "/etc/${PN}/"
+	insinto "/etc/${PN}/"
+	newins "${FILESDIR}/config/config.json" "config.json"
 }
