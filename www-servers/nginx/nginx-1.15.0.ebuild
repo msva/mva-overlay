@@ -21,6 +21,8 @@ USE_RUBY="ruby22 ruby23 ruby24"
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
 
+DTLS_V=1.13.9
+
 # http_enchanced_memcache_module (https://github.com/dreamcommerce/ngx_http_enhanced_memcached_module/tags, Apache-2.0)
 HTTP_ENMEMCACHE_MODULE_A="dreamcommerce"
 HTTP_ENMEMCACHE_MODULE_PN="ngx_http_enhanced_memcached_module"
@@ -48,7 +50,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="5.2.3"
+HTTP_PASSENGER_MODULE_PV="5.3.2"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -116,7 +118,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="1.1.14"
+HTTP_NCHAN_MODULE_PV="1.1.15"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -541,7 +543,7 @@ SRC_URI="
 	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_ldap? ( ${HTTP_AUTH_LDAP_MODULE_URI} -> ${HTTP_AUTH_LDAP_MODULE_P}.tar.gz )
 	nginx_modules_stream_lua? ( ${STREAM_LUA_MODULE_URI} -> ${STREAM_LUA_MODULE_P}.tar.gz )
-	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/nginx-1.13.0-dtls-experimental.diff )
+	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/nginx-${DTLS_V}-dtls-experimental.diff )
 	nginx_modules_core_rtmp? ( ${CORE_RTMP_MODULE_URI} -> ${CORE_RTMP_MODULE_P}.tar.gz )
 "
 LICENSE="
@@ -951,7 +953,7 @@ pkg_setup() {
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	PORTAGE_QUIET=1 default
-	use nginx_modules_stream_dtls && cp "${DISTDIR}/nginx-1.13.0-dtls-experimental.diff" "${S}/"
+	use nginx_modules_stream_dtls && cp "${DISTDIR}/nginx-${DTLS_V}-dtls-experimental.diff" "${S}/"
 }
 
 src_prepare() {
@@ -959,7 +961,8 @@ src_prepare() {
 	eapply "${PATCHDIR}/httpoxy-mitigation-r1.patch"
 
 	use nginx_modules_stream_dtls && (
-		eapply "${S}/nginx-1.13.0-dtls-experimental.diff"
+		die "DTLS patch is currently broken (incompatible with >=1.15.0)"
+#		eapply "${S}/nginx-${DTLS_V}-dtls-experimental.diff"
 	)
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
@@ -1059,8 +1062,8 @@ src_prepare() {
 			src/cxx_supportlib/vendor-copy/libuv \
 			src/cxx_supportlib/vendor-modified/libev
 
-		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/../../src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}" || die "Failed to insert union_station_hooks_core"
-		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/../../src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}" || die "Failed to insert union_station_hooks_rails"
+#		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/../../src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}" || die "Failed to insert union_station_hooks_core"
+#		cp -rl "${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD}"/* "${HTTP_PASSENGER_MODULE_WD}/../../src/ruby_supportlib/phusion_passenger/vendor/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}" || die "Failed to insert union_station_hooks_rails"
 
 		popd &>/dev/null
 	fi
