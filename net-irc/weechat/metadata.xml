@@ -21,6 +21,6 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name="trigger">Enable trigger plugin.</flag>
     <flag name="xfer">Enable xfer plugin support.</flag>
     <flag name="irc">Enable IRC protocol support.</flag>
-	<flag name="headless">Enable headless binary</flag> 
+    <flag name="headless">Enable headless binary</flag> 
   </use>
 </pkgmetadata>
