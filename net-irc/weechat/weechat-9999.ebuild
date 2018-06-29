@@ -22,18 +22,18 @@ SLOT="0"
 
 NETWORKS="+irc"
 PLUGINS="+alias +buflist +charset +exec +fifo +logger +relay +scripts +spell +trigger +xfer"
-#INTERFACES="+ncurses gtk"
+INTERFACES="+ncurses headless"
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
 SCRIPT_LANGS="guile lua luajit +perl php +python ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt pt_BR ru tr"
 IUSE="doc nls +ssl test ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 #REQUIRED_USE=" || ( ncurses gtk )"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} ) test? ( headless )"
 
 RDEPEND="
 	dev-libs/libgcrypt:0=
 	net-misc/curl[ssl]
-	sys-libs/ncurses:0=
+	ncurses? ( sys-libs/ncurses:0= )
 	sys-libs/zlib
 	charset? ( virtual/libiconv )
 	guile? ( >=dev-scheme/guile-2.0 )
@@ -131,7 +131,8 @@ src_configure() {
 	local needlua=$( (use lua || use luajit) && echo "yes" || echo "no");
 
 	local mycmakeargs=(
-		-DENABLE_NCURSES=ON
+		-DENABLE_NCURSES=$(usex ncurses)
+		-DENABLE_HEADLESS=$(usex headless)
 		-DENABLE_LARGEFILE=ON
 		-DENABLE_JAVASCRIPT=OFF
 		-DENABLE_ALIAS=$(usex alias)
