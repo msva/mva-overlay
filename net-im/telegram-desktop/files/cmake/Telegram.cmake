@@ -8,6 +8,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+include(GNUInstallDirs)
+
 list(APPEND CMAKE_MODULE_PATH
 	${CMAKE_SOURCE_DIR}/gyp
 	${CMAKE_SOURCE_DIR}/cmake
@@ -88,6 +90,7 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/lang/*.cpp
 	SourceFiles/mtproto/*.cpp
 	SourceFiles/overview/*.cpp
+	SourceFiles/passport/*.cpp
 	SourceFiles/platform/linux/*.cpp
 	SourceFiles/profile/*.cpp
 	SourceFiles/settings/*.cpp
@@ -98,21 +101,20 @@ file(GLOB FLAT_EXTRA_FILES
 	SourceFiles/qt_static_plugins.cpp
 	SourceFiles/base/*_tests.cpp
 	SourceFiles/base/tests_main.cpp
+	SourceFiles/passport/passport_edit_identity_box.cpp
+	SourceFiles/passport/passport_form_row.cpp
 )
 list(REMOVE_ITEM FLAT_SOURCE_FILES ${FLAT_EXTRA_FILES})
 
 file(GLOB_RECURSE SUBDIRS_SOURCE_FILES
 	SourceFiles/boxes/*.cpp
+	SourceFiles/export/*.cpp
 	SourceFiles/history/*.cpp
 	SourceFiles/info/*.cpp
 	SourceFiles/media/*.cpp
 	SourceFiles/ui/*.cpp
 	SourceFiles/window/*.cpp
 )
-file(GLOB SUBDIRS_EXTRA_FILES
-	SourceFiles/ui/effects/widget_slide_wrap.cpp
-)
-list(REMOVE_ITEM SUBDIRS_SOURCE_FILES ${SUBDIRS_EXTRA_FILES})
 
 add_executable(Telegram WIN32 ${QRC_FILES} ${FLAT_SOURCE_FILES} ${SUBDIRS_SOURCE_FILES})
 
@@ -200,5 +202,5 @@ if(BUILD_TESTS)
 	include(TelegramTests)
 endif()
 
-install(TARGETS Telegram RUNTIME DESTINATION bin)
-install(PROGRAMS ${CMAKE_SOURCE_DIR}/../lib/xdg/telegram-desktop.desktop DESTINATION share/applications)
+install(TARGETS Telegram RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(PROGRAMS ${CMAKE_SOURCE_DIR}/../lib/xdg/telegram-desktop.desktop DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)

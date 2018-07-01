@@ -13,7 +13,12 @@ file(GLOB TGVOIP_SOURCE_FILES
 	os/linux/*.cpp
 	os/posix/*.cpp
 )
-
+file(GLOB TGVOIP_EXTRA_FILES
+	BufferInputStream.cpp
+	BufferOutputStream.cpp
+	BufferPool.cpp
+)
+list(REMOVE_ITEM TGVOIP_SOURCE_FILES ${TGVOIP_EXTRA_FILES})
 set(TGVOIP_COMPILE_DEFINITIONS TGVOIP_USE_DESKTOP_DSP)
 
 if(ENABLE_PULSEAUDIO)
