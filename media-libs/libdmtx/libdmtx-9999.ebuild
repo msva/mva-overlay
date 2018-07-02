@@ -29,7 +29,7 @@ multilib_src_configure() {
 	local myeconfargs=(
 		$(use_enable static-libs static)
 	)
-	econf
+	econf ${myeconfargs}
 }
 
 multilib_src_install() {
