@@ -6,4 +6,8 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <email>overlay.tox@mva.name</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
+  <use>
+    <flag name="zeromq">Use net-libs/zeromq for queues
+    management</flag>
+  </use>
 </pkgmetadata>
