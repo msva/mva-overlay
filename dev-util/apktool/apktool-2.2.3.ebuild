@@ -32,7 +32,7 @@ src_prepare() {
 	java-pkg-2_src_prepare
 }
 src_compile() {
-	gradle build shadowJar proguard release
+	gradle --console=plain build shadowJar proguard release
 }
 
 src_install() {
