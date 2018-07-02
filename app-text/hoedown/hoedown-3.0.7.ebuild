@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit multilib-minimal
+inherit multilib-minimal patches
 
 DESCRIPTION="Standards compliant, fast, secure markdown processing library in C"
 
@@ -21,10 +21,10 @@ DEPEND="
 RDEPEND=""
 
 src_prepare() {
+	patches_src_prepare
 	sed -r \
 		-e '/^PREFIX/s@(=).*@\1/usr@' \
+		-e "/^LIBDIR/s@/lib\$@$(get_libdir)@" \
 		-i Makefile
-
-	default
 	multilib_copy_sources
 }

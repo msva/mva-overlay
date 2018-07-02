@@ -1,0 +1,55 @@
+From dfef70c13b4bbfc6939f1e8bbb1d0c8f2e0145be Mon Sep 17 00:00:00 2001
+From: Ben LeMasurier <ben.lemasurier@gmail.com>
+Date: Tue, 24 Apr 2018 09:53:57 -0600
+Subject: [PATCH 1/2] Fixes -Wmisleading-indentation compiler warning
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+```
+src/document.c: In function ‘char_link’:
+src/document.c:1194:5: warning: this ‘else’ clause does not guard... [-Wmisleading-indentation]
+     else nb_p--; i++;
+     ^~~~
+src/document.c:1194:18: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘else’
+     else nb_p--; i++;
+```
+---
+ src/document.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/document.c b/src/document.c
+index a9cb42c8..7c5c80c1 100644
+--- a/src/document.c
++++ b/src/document.c
+@@ -1191,7 +1191,7 @@ char_link(hoedown_buffer *ob, hoedown_document *doc, uint8_t *data, size_t offse
+ 			}
+ 			else if (data[i] == ')') {
+ 				if (nb_p == 0) break;
+-				else nb_p--; i++;
++				else { nb_p--; i++; }
+ 			} else if (i >= 1 && _isspace(data[i-1]) && (data[i] == '\'' || data[i] == '"')) break;
+ 			else i++;
+ 		}
+
+From 5e713600e06e7179b3c7c358102dac86183131ac Mon Sep 17 00:00:00 2001
+From: Ben LeMasurier <ben.lemasurier@gmail.com>
+Date: Tue, 24 Apr 2018 09:57:50 -0600
+Subject: [PATCH 2/2] compile with std=c99, not ansi
+
+We're using c99 functions such as vsnprintf and snprintf and also
+specifiying in the README that hoedown is c99.
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index ebfab0bd..6a331582 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,4 +1,4 @@
+-CFLAGS = -g -O3 -ansi -pedantic -Wall -Wextra -Wno-unused-parameter
++CFLAGS = -g -O3 -std=c99 -pedantic -Wall -Wextra -Wno-unused-parameter
+ PREFIX = /usr/local
+ BINDIR = $(PREFIX)/bin
+ LIBDIR = $(PREFIX)/lib

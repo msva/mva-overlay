@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit git-r3 multilib-minimal
+inherit git-r3 multilib-minimal patches
 
 DESCRIPTION="Standards compliant, fast, secure markdown processing library in C"
 EGIT_REPO_URI="https://github.com/hoedown/hoedown"
@@ -22,10 +22,10 @@ DEPEND="
 RDEPEND=""
 
 src_prepare() {
+	patches_src_prepare
 	sed -r \
-		-e '/^PREFIX/s@(=).*@\1/usr@' \
+		-e "/^PREFIX/s@(=).*@\1/usr@" \
+		-e "/^LIBDIR/s@/lib\$@$(get_libdir)@" \
 		-i Makefile
-
-	default
 	multilib_copy_sources
 }

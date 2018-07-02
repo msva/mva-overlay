@@ -1,0 +1,23 @@
+From c0c5a9d6e8275071c594fde9fa9b4cc33c59a323 Mon Sep 17 00:00:00 2001
+From: Ximin Luo <infinity0@pwned.gg>
+Date: Tue, 25 Jul 2017 23:12:38 +0200
+Subject: [PATCH] Support gperf 3.1
+
+gperf 3.1 will output `register size_t n` instead of `register unsigned int n` like [here](https://github.com/hoedown/hoedown/blob/2508c4b/src/html_blocks.c#L62). This requires `stddef.h`; giving `-I` to the `gperf` invocation will include `string.h` which includes `stddef.h`.
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index ebfab0bd..a4948eaf 100644
+--- a/Makefile
++++ b/Makefile
+@@ -51,7 +51,7 @@ smartypants: bin/smartypants.o $(HOEDOWN_SRC)
+ # Perfect hashing
+ 
+ src/html_blocks.c: html_block_names.gperf
+-	gperf -L ANSI-C -N hoedown_find_block_tag -c -C -E -S 1 --ignore-case -m100 $^ > $@
++	gperf -I -L ANSI-C -N hoedown_find_block_tag -c -C -E -S 1 --ignore-case -m100 $^ > $@
+ 
+ # Testing
+ 
