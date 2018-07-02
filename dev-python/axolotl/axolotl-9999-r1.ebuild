@@ -2,9 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-#PYTHON_COMPAT=( python{2_7,3_4,3_5} )
-PYTHON_COMPAT=( python2_7 )
-# protobuf ^
+PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
 
 inherit distutils-r1 git-r3
 
@@ -17,10 +15,13 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-RDEPEND=">=dev-libs/protobuf-2.6[python,${PYTHON_USEDEP}]
+RDEPEND="
+	dev-python/protobuf-python[${PYTHON_USEDEP}]
 	dev-python/pycrypto[${PYTHON_USEDEP}]
-	dev-python/axolotl-curve25519[${PYTHON_USEDEP}]"
+	dev-python/axolotl-curve25519[${PYTHON_USEDEP}]
+"
 DEPEND="${RDEPEND}
-	dev-python/setuptools[${PYTHON_USEDEP}]"
+	dev-python/setuptools[${PYTHON_USEDEP}]
+"
 
 DOCS=( README.md )
