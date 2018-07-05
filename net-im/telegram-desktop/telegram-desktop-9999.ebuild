@@ -60,6 +60,7 @@ RDEPEND="
 "
 
 DEPEND="
+	|| ( >=sys-devel/gcc-7.3.0 sys-devel/clang )
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
