@@ -12,18 +12,10 @@ SRC_URI="https://github.com/communi/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="icu qt4 qt5 qml test examples +uchardet"
-
-REQUIRED_USE="^^ ( qt4 qt5 )"
+IUSE="icu qml test examples +uchardet"
 
 RDEPEND="
-	qt4? (
-		dev-qt/qtcore:4
-		qml? ( dev-qt/qtdeclarative:4 )
-	)
-	qt5? (
-		dev-qt/qtcore:5
-	)
+	dev-qt/qtcore:5=
 	icu? ( dev-libs/icu )
 	uchardet? ( app-i18n/uchardet )
 "
@@ -31,8 +23,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	test? (
-		qt4? ( dev-qt/qttest:4 )
-		qt5? ( dev-qt/qttest:5 )
+		dev-qt/qttest:5=
 	)
 "
 
@@ -58,13 +49,10 @@ src_configure() {
 	local ex="examples";
 	local eqmake;
 
-	use qt4 && eqmake="eqmake4"
-	use qt5 && eqmake="eqmake5"
-
 	use icu || icu="no_icu";
 	use examples || ex="no_examples"
 
-	${eqmake} libcommuni.pro \
+	eqmake5 libcommuni.pro \
 		-config "${ex}" \
 		-config no_rpath \
 		-config "${icu}" \
