@@ -36,7 +36,7 @@ RDEPEND="${COMMON_DEPEND}
 	x11-misc/xkeyboard-config"
 DEPEND="${COMMON_DEPEND}
 	virtual/pkgconfig
-	x11-proto/xproto
+	x11-base/xorg-proto
 	doc? ( dev-util/gtk-doc )"
 
 REQUIRED_USE="gles2? ( drm )
