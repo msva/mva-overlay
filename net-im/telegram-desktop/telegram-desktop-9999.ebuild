@@ -28,12 +28,12 @@ IUSE="crash-report custom-api-id debug +gtk3 +pulseaudio libressl wide-baloons"
 # ^ libav support?
 
 COMMON_DEPEND="
-	dev-qt/qtcore:5
-	dev-qt/qtdbus:5
-	dev-qt/qtgui:5[xcb,jpeg,png]
-	dev-qt/qtwidgets[xcb,png]
-	dev-qt/qtnetwork
-	dev-qt/qtimageformats
+	dev-qt/qtcore:5=
+	dev-qt/qtdbus:5=
+	dev-qt/qtgui:5=[xcb,jpeg,png]
+	dev-qt/qtwidgets:5=[xcb,png]
+	dev-qt/qtnetwork:5=
+	dev-qt/qtimageformats:5=
 	media-video/ffmpeg:=
 	media-libs/opus
 	x11-libs/libdrm
