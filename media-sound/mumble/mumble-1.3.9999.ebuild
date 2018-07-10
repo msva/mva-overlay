@@ -42,7 +42,7 @@ RDEPEND="
 	virtual/opengl
 	x11-libs/libX11
 	x11-libs/libXi
-	x11-proto/inputproto
+	x11-base/xorg-proto
 	alsa? ( media-libs/alsa-lib )
 	g15? ( app-misc/g15daemon )
 	!libressl? ( >=dev-libs/openssl-1.0.0b:0 )
