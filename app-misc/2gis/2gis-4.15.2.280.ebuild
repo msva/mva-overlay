@@ -1,15 +1,15 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils unpacker versionator multilib
+inherit eutils unpacker multilib
 
 magic32=15
 magic64=339
 
-MY_PV="$(get_version_component_range 1-3)"
-MY_PBV=$(get_version_component_range 4)
+MY_PV="$(ver_cut 1-3)"
+MY_PBV=$(ver_cut 4)
 
 DESCRIPTION="Proprietary freeware multimedia map of several Russian and Ukrainian towns"
 HOMEPAGE="http://2gis.ru"
