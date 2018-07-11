@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit perl-module user versionator git-r3
+inherit perl-module user git-r3
 
 DESCRIPTION="Github clone. you can install Github system into your unix/linux machine."
 HOMEPAGE="http://gitprep.yukikimoto.com/"

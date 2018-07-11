@@ -3,14 +3,14 @@
 
 EAPI=6
 
-inherit versionator eutils flag-o-matic
+inherit eutils flag-o-matic
 
 DESCRIPTION="A makefile generation tool"
 HOMEPAGE="http://industriousone.com/premake"
 SRC_URI="https://github.com/premake/premake-core/releases/download/v${PV/_/-}/${P/_/-}-src.zip"
 
 LICENSE="BSD"
-SLOT=$(get_major_version)
+SLOT=5
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE="debug"
 

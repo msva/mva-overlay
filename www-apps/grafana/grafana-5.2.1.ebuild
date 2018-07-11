@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit golang-base user eutils versionator systemd pax-utils
+inherit golang-base user eutils systemd pax-utils patches
 
 DESCRIPTION="Gorgeous metric viz, dashboards & editors for Graphite, InfluxDB & OpenTSDB"
 HOMEPAGE="http://grafana.org"
@@ -34,10 +34,6 @@ DAEMON_USER="grafana"
 LOG_DIR="/var/log/grafana"
 DATA_DIR="/var/lib/grafana"
 
-if [[ -d "${FILESDIR}/patches/${PV}" ]]; then
-	PATCHES=("${FILESDIR}/patches/${PV}")
-fi
-
 QA_PREBUILT="usr/share/${PN}/vendor/phantomjs/phantomjs"
 
 pkg_setup() {
@@ -51,7 +47,7 @@ pkg_setup() {
 }
 
 src_unpack() {
-	default
+	patches_src_prepare
 	mkdir -p temp/src/${EGO_PN%/*} || die
 	mv ${P} temp/src/${EGO_PN} || die
 	mv temp ${P} || die
