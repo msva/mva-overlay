@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-PYTHON_COMPAT=( python2_7 pypy )
+PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
+#pypy{,3} )
 
 inherit distutils-r1 git-r3
 
@@ -16,7 +17,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	<dev-python/beautifulsoup-4:python-2[${PYTHON_USEDEP}]
+	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}

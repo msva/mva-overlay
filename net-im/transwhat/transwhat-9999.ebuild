@@ -3,6 +3,8 @@
 
 EAPI=6
 PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
+#pypy{,3} )
+# ^ protobuf
 
 inherit distutils-r1 git-r3
 
