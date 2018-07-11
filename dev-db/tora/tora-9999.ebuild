@@ -15,8 +15,7 @@ fi
 
 DESCRIPTION="TOra - Toolkit For Oracle"
 HOMEPAGE="http://torasql.com/"
-IUSE="debug mysql oracle oci8-instant-client postgres qt4 qt5 +experimental"
-REQUIRED_USE="^^ ( qt4 qt5 )"
+IUSE="debug mysql oracle oci8-instant-client postgres +experimental"
 
 SLOT="0"
 LICENSE="GPL-2"
@@ -24,27 +23,20 @@ KEYWORDS=""
 
 RDEPEND="
 	dev-libs/ferrisloki
-	x11-libs/qscintilla:=[qt4=,qt5=]
-	qt4? (
-		dev-qt/qtgui:4
-		dev-qt/qtsql:4[mysql?,postgres?]
-		dev-qt/qtxmlpatterns:4
-	)
-	qt5? (
-		dev-qt/qtcore:5
-		dev-qt/qtgui:5
-		dev-qt/qtnetwork:5
-		dev-qt/qtprintsupport:5
-		dev-qt/qtsql:5[mysql?,postgres?]
-		dev-qt/qtwidgets:5
-		dev-qt/qtxml:5
-		dev-qt/qtxmlpatterns:5
-	)
+	x11-libs/qscintilla:=
+	dev-qt/qtcore:5=
+	dev-qt/qtgui:5=
+	dev-qt/qtnetwork:5=
+	dev-qt/qtprintsupport:5=
+	dev-qt/qtsql:5=[mysql?,postgres?]
+	dev-qt/qtwidgets:5=
+	dev-qt/qtxml:5=
+	dev-qt/qtxmlpatterns:5=
 	oci8-instant-client? ( dev-db/oracle-instantclient-basic )
 	postgres? ( dev-db/postgresql:* )
 "
 DEPEND="
-	qt5? ( dev-qt/linguist-tools:5 )
+	dev-qt/linguist-tools:5
 	virtual/pkgconfig
 	${RDEPEND}
 "
@@ -97,7 +89,7 @@ src_configure() {
 		-DLOKI_LIBRARY="$(pkg-config --variable=libdir ferrisloki)/libferrisloki.so"
 		-DLOKI_INCLUDE_DIR="$(pkg-config --variable=includedir ferrisloki)/FerrisLoki"
 		-DENABLE_PGSQL=$(usex postgres)
-		-DQT5_BUILD=$(usex qt5)
+		-DQT5_BUILD=ON
 		-DUSE_EXPERIMENTAL=$(usex experimental)
 	)
 	cmake-utils_src_configure
