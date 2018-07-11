@@ -38,7 +38,7 @@ RDEPEND="
 	postgres? ( dev-libs/libpqxx )
 	sqlite? ( dev-db/sqlite:3 )
 	frotz? ( dev-libs/protobuf )
-	irc? ( net-im/libcommuni[qt4] dev-libs/protobuf )
+	irc? ( net-im/libcommuni dev-libs/protobuf )
 	purple? ( >=net-im/pidgin-2.6.0 dev-libs/protobuf )
 	skype? ( x11-plugins/pidgin-skypeweb dev-libs/protobuf )
 	libev? ( dev-libs/libev dev-libs/protobuf )
