@@ -26,7 +26,7 @@ RDEPEND="
 	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/configargparse[${PYTHON_USEDEP}]
 	encryption? (
-		dev-libs/protobuf[python,${PYTHON_USEDEP}]
+		dev-python/protobuf-python[${PYTHON_USEDEP}]
 		dev-python/pycrypto[${PYTHON_USEDEP}]
 		dev-python/axolotl-curve25519[${PYTHON_USEDEP}]
 	)
