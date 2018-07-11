@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-inherit ltprune eutils multilib-minimal
+inherit eutils multilib-minimal
 
 DESCRIPTION="A libhal stub for flashplayer/adobecp, forwarding specific API parts to UDisks"
 HOMEPAGE="https://github.com/cshorler/hal-flash"
@@ -32,5 +32,5 @@ ECONF_SOURCE="${S}"
 
 src_install() {
 	multilib-minimal_src_install
-	prune_libtool_files
+	find "${D}" -name '*.la' -delete || die
 }

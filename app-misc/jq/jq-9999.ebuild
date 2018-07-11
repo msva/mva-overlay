@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools ltprune git-r3
+inherit autotools git-r3 patches
 
 DESCRIPTION="Command-line JSON processor"
 HOMEPAGE="http://stedolan.github.io/jq/"
@@ -28,9 +28,6 @@ RDEPEND="
 
 EGIT_SUBMODULES=( '*' '-*oniguruma' )
 
-if [[ -d "${FILESDIR}/patches/${PV}" ]]; then
-	PATCHES=("${FILESDIR}/patches/${PV}")
-fi
 DOCS=( AUTHORS README.md )
 
 src_prepare() {
@@ -41,7 +38,7 @@ src_prepare() {
 #		-e "1im4_define\([jq_version],[${PV}]\)" \
 #		-e "/m4_define\(\[jq_version\],/,+4d" \
 
-	default
+	patches_src_prepare
 	eautoreconf
 }
 
@@ -57,5 +54,7 @@ src_configure() {
 
 src_install() {
 	default
-	use static-libs || prune_libtool_files
+	use static-libs || (
+		find "${D}" -name '*.la' -delete || die
+	)
 }

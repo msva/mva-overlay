@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{2_7,3_{3,4,5}} pypy{,3} )
 RUBY_OPTIONAL=yes
 USE_RUBY="ruby21 ruby22 ruby23 ruby24"
 
-inherit distutils-r1 ruby-ng java-pkg-opt-2 eutils autotools ltprune git-r3
+inherit distutils-r1 ruby-ng java-pkg-opt-2 eutils autotools git-r3
 
 DESCRIPTION="Tools for reading and writing Data Matrix barcodes"
 HOMEPAGE="http://www.libdmtx.org/"
@@ -135,5 +135,5 @@ src_install() {
 			newdoc "${S}"/README README.vala
 		)
 	)
-	prune_libtool_files --all
+	find "${D}" -name '*.la' -delete || die
 }

@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit ltprune flag-o-matic git-r3
+inherit flag-o-matic git-r3
 
 DESCRIPTION="An open-source multi-platform crash reporting system"
 HOMEPAGE="http://code.google.com/p/google-breakpad/"
@@ -37,7 +37,7 @@ src_compile() {
 src_install() {
 	default
 	einstalldocs
-	prune_libtool_files
+	find "${D}" -name '*.la' -delete || die
 
 	insinto /usr/include/breakpad
 	doins src/client/linux/handler/exception_handler.h
