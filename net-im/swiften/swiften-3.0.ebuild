@@ -19,7 +19,7 @@ IUSE="avahi expat gconf icu luajit test upnp"
 RDEPEND="
 	dev-libs/boost:=
 	dev-libs/openssl:0
-	net-dns/libidn
+	net-dns/libidn:0
 	sys-libs/zlib
 	avahi? ( net-dns/avahi )
 	expat? ( dev-libs/expat )
