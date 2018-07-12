@@ -21,7 +21,7 @@ diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
      rfb/rfbproto.h
      rfb/rfbregion.h
 -)
-+  DESTINATION include)
++  DESTINATION include/rfb)
  
 -install_files(/lib/pkgconfig FILES
 -    libvncserver.pc

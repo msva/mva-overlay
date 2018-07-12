@@ -10,7 +10,7 @@ MY_PN="LibVNCServer"
 DESCRIPTION="library for creating vnc servers"
 HOMEPAGE="https://libvnc.github.io/"
 MY_P="${MY_PN}-${PV}"
-MY_P="5c0ff7e072d682330508fc1593265e805327ca55"
+MY_P="1781ecda341fb06fd414a4d84bb363b070958ea4"
 SRC_URI="https://github.com/LibVNC/${PN}/archive/${MY_P}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
@@ -88,5 +88,5 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	einstalldocs
-	prune_libtool_files
+	find "${D}" -name '*.la' -delete || die
 }
