@@ -5,6 +5,8 @@ EAPI="6"
 
 inherit cmake-utils eutils patches multilib-minimal git-r3
 
+MY_PN="LibVNCServer"
+
 DESCRIPTION="library for creating vnc servers"
 HOMEPAGE="https://libvnc.github.io/"
 EGIT_REPO_URI="https://github.com/LibVNC/${PN}"
@@ -82,5 +84,5 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	einstalldocs
-	prune_libtool_files
+	find "${D}" -name '*.la' -delete || die
 }

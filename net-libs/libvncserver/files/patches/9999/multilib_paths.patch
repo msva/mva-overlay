@@ -1,0 +1,55 @@
+diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2018-05-02 23:22:41.608490519 +0700
++++ b/CMakeLists.txt	2018-05-02 23:29:56.308515918 +0700
+@@ -613,18 +613,20 @@ get_link_libraries(PRIVATE_LIBS vncclien
+ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/libvncclient.pc.cmakein ${CMAKE_CURRENT_BINARY_DIR}/libvncclient.pc @ONLY)
+ 
+ 
+-install_targets(/lib vncserver)
+-install_targets(/lib vncclient)
+-install_files(/include/rfb FILES
++install(TARGETS vncserver vncclient
++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++)
++install(FILES
+     rfb/keysym.h
+     rfb/rfb.h
+     rfb/rfbclient.h
+-    rfb/rfbconfig.h
++    ${CMAKE_CURRENT_BINARY_DIR}/rfb/rfbconfig.h
+     rfb/rfbproto.h
+     rfb/rfbregion.h
+-)
++  DESTINATION include/rfb)
+ 
+-install_files(/lib/pkgconfig FILES
+-    libvncserver.pc
+-    libvncclient.pc
+-)
++install(FILES
++    ${CMAKE_CURRENT_BINARY_DIR}/libvncserver.pc
++    ${CMAKE_CURRENT_BINARY_DIR}/libvncclient.pc
++  DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+diff -NaurBwdp a/libvncclient.pc.cmakein b/libvncclient.pc.cmakein
+--- a/libvncclient.pc.cmakein	2018-05-02 23:36:12.234701267 +0700
++++ b/libvncclient.pc.cmakein	2018-05-02 23:35:06.704109404 +0700
+@@ -1,6 +1,6 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@CMAKE_INSTALL_PREFIX@/lib
++libdir=@CMAKE_INSTALL_LIBDIR@
+ includedir=@CMAKE_INSTALL_PREFIX@/include
+ 
+ Name: LibVNCClient
+diff -NaurBwdp a/libvncserver.pc.cmakein b/libvncserver.pc.cmakein
+--- a/libvncserver.pc.cmakein	2018-05-02 23:36:12.061707623 +0700
++++ b/libvncserver.pc.cmakein	2018-05-02 23:35:06.704109404 +0700
+@@ -1,6 +1,6 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=@CMAKE_INSTALL_PREFIX@
+-libdir=@CMAKE_INSTALL_PREFIX@/lib
++libdir=@CMAKE_INSTALL_LIBDIR@
+ includedir=@CMAKE_INSTALL_PREFIX@/include
+ 
+ Name: LibVNCServer
