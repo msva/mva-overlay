@@ -20,6 +20,7 @@ DOCS=( README.md AUTHORS CONTRIBUTING.md )
 EGO_PN="github.com/${PN}/${PN}"
 EGIT_REPO_URI="https://${EGO_PN}"
 EGIT_CHECKOUT_DIR="${WORKDIR}/${P}/src/${EGO_PN}"
+EGIT_MIN_CLONE_TYPE="single+tags"
 S="${EGIT_CHECKOUT_DIR}"
 
 pkg_setup() {
@@ -61,20 +62,20 @@ src_test() {
 }
 
 src_install() {
-	doman man/*.[157]
+	doman man/*.[0-9]
 
 	dobin "bin/${PN}"
-	rm "bin/${PN}"
 
 	if use cli; then
 		dobin bin/stcli
 		dosym stcli "/usr/bin/${PN}-cli"
 	fi
-	rm bin/stcli
 
 	if use tools ; then
 		exeinto "/usr/libexec/${PN}"
-		doexe bin/*
+		for f in $(find bin -type f -not -name syncthing -and -not -name stcli); do
+			doexe "${f}"
+		done
 	fi
 
 	einstalldocs
