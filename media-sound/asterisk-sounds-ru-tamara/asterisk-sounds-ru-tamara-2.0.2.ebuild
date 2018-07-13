@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -7,7 +7,10 @@ inherit eutils
 
 DESCRIPTION="Asterisk's russian sounds. \"Tamara\" pack."
 HOMEPAGE="http://asteriskforum.ru/"
-SRC_URI="ftp://ftp.dvgu.ru/pub/Network/VoIP/SIP/Asterisk/Russian-Tamara-2.0.2-ulaw.tar.gz"
+SRC_URI="
+http://val.bmstu.ru/unix/voip/Russian-Tamara-2.0.2-ulaw.tar.gz
+http://nettips.ru/files/asterisk/Russian-Tamara-2.0.2-ulaw.tar.gz
+"
 
 KEYWORDS="~x86 ~amd64"
 

@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -7,9 +7,9 @@ inherit eutils
 DESCRIPTION="Package for using multi-locus genotype data to investigate population structure"
 HOMEPAGE="http://pritchardlab.stanford.edu/structure.html"
 SRC_URI="
-	http://pritchardlab.stanford.edu/structure_software/release_versions/v${PV}/${PN}_kernel_source.tar.gz -> ${PN}_kernel_source-${PV}.tar.gz
-	java? ( http://pritchardlab.stanford.edu/structure_software/release_versions/v${PV}/${PN}_frontend_source.tar.gz -> ${PN}_frontend_source-${PV}.tar.gz )
-	doc? ( http://pritchardlab.stanford.edu/structure_software/release_versions/v${PV}/${PN}_doc.pdf -> ${PN}_doc-${PV}.pdf )
+	http://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}_kernel_source.tar.gz -> ${PN}_kernel_source-${PV}.tar.gz
+	java? ( http://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}_frontend_source.tar.gz -> ${PN}_frontend_source-${PV}.tar.gz )
+	doc? ( http://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}_doc.pdf -> ${PN}_doc-${PV}.pdf )
 "
 
 KEYWORDS="~amd64 ~x86"

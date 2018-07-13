@@ -1,26 +1,26 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-inherit eutils unpacker
+inherit eutils unpacker patches
 
 DESCRIPTION="Mozilla-compatible crypto-provider browser plugin for http://gosuslugi.ru/"
 
 SRC_URI="
-	amd64? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-x86_64.deb )
-	x86? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-i386.deb )
-	x86-macos? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-2.0.6.0.pkg )
-	x64-macos? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-2.0.6.0.pkg )
+	amd64? ( https://ds-plugin.gosuslugi.ru/plugin/upload/assets/distrib/IFCPlugin-x86_64.deb -> ${P}_amd64.deb )
+	x86? ( https://ds-plugin.gosuslugi.ru/plugin/upload/assets/distrib/IFCPlugin-i386.deb -> ${P}_x86.deb )
+	x86-macos? ( https://ds-plugin.gosuslugi.ru/plugin/upload/assets/distrib/IFCPlugin.pkg -> ${P}_mac.pkg )
+	x64-macos? ( https://ds-plugin.gosuslugi.ru/plugin/upload/assets/distrib/IFCPlugin.pkg -> ${P}_mac.pkg )
 "
 #	x86-winnt? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin.msi )
 #	x64-winnt? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-x64.msi )
 
 HOMEPAGE="http://gosuslugi.ru/"
 LICENSE="EULA"
-RESTRICT=""
+RESTRICT="mirror"
 SLOT="0"
-KEYWORDS="-* ~x86 ~amd64 x86-macos x64-macos"
+KEYWORDS="~x86 ~amd64 x86-macos x64-macos"
 IUSE="multilib"
 
 REQUIRED_USE="amd64? ( multilib )"
@@ -39,8 +39,6 @@ QA_PREBUILT="*"
 QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
 
 S="${WORKDIR}"
-
-#PATCHES="${FILESDIR}/patches/*.patch"
 
 src_unpack() {
 	unpack_deb ${A}
