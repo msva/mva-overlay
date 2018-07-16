@@ -27,7 +27,13 @@ src_prepare() {
 
 	sed -i -e 's|-O2 -g|$(CFLAGS)|g;s|-g -O2|$(CFLAGS)|g' util/Makefile.am* || die
 	sed -i -e 's|which rpm |which we_are_gentoo_rpm_is_a_guest |' configure.ac || die
-	sed -i -e '/^prefix/d;1iprefix = @prefix@' Makefile.in doc/Makefile.in || die
+	sed -i -e "s@=/var@=${EROOT}var@;s@=/usr@=${EROOT}usr@;s@=/etc@=${EROOT}etc@" "scripts/${PN}.env" || die
+	sed -i \
+		-e '1iprefix = @prefix@' \
+		-e '/^prefix/d' \
+		-e '/^etcdir/s|/etc|@sysconfdir@|' \
+		-e '/^varto/s|/var/lib|@localstatedir@|' \
+		Makefile.in doc/Makefile.in doc/Makefile.am scripts/Makefile.in scripts/Makefile.am || die
 
 	eautoreconf
 }
@@ -49,11 +55,13 @@ src_compile() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" sysdto="${D}/$(systemd_get_systemunitdir)" install
+	emake DESTDIR="${D}" sysdto="${D}/$(systemd_get_systemunitdir)" initto="${ED}/etc/init.d" install
 	dodoc -r AUTHORS ChangeLog NEWS README TODO doc/UserGuide
 
 	# Init scripts are only for Fedora
 	rm -r "${ED%/}"/etc/init.d || die 'remove initscripts failed'
+
+	keepdir /var/lib /var/lib/"${PN}"
 
 	if ! use static-libs ; then
 		find "${ED}" -name '*.a' -delete || die
