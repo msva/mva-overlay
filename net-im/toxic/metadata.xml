@@ -8,11 +8,11 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
   </maintainer>
   <use>
     <flag name="qrcode">Enable support for QR codes</flag>
-    <flag name="av">Enable audio support</flag>
-    <flag name="libnotify">Enable desktop notification
+    <flag name="video">Enable video support</flag>
+    <flag name="notifications">Enable desktop notification
     support.</flag>
-    <flag name="sound-notify">Adds support for sound
-    notifications.</flag>
+    <flag name="audio">Adds support for audio
+    (including sound notifications).</flag>
     <flag name="X">Adds support for X11</flag>
   </use>
 </pkgmetadata>
