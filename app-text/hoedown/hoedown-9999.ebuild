@@ -25,7 +25,7 @@ src_prepare() {
 	patches_src_prepare
 	sed -r \
 		-e "/^PREFIX/s@(=).*@\1/usr@" \
-		-e "/^LIBDIR/s@/lib\$@$(get_libdir)@" \
+		-e "/^LIBDIR/s@/lib\$@/$(get_libdir)@" \
 		-i Makefile
 	multilib_copy_sources
 }
