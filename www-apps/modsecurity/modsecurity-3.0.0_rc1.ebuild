@@ -15,7 +15,7 @@ EGIT_COMMIT="v${PV/_/-}"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~x86 ~amd64 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="afl +geoip"
 RDEPEND="
 	afl? ( amd64? ( app-forensics/afl ) )

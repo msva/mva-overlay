@@ -554,7 +554,7 @@ LICENSE="
 	nginx_modules_http_hls_audio? ( GPL-3 )
 "
 SLOT="mainline"
-KEYWORDS="~amd64 ~x86 ~arm"
+KEYWORDS="~amd64 ~arm ~x86"
 
 NGINX_MODULES_STD="
 	http_mirror

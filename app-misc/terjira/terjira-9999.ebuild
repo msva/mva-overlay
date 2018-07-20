@@ -4,6 +4,7 @@
 EAPI=6
 
 USE_RUBY="ruby23"
+# jira-ruby ^^^^
 # ruby24 ruby25"
 
 inherit ruby-fakegem git-r3
@@ -22,7 +23,7 @@ SLOT="0"
 IUSE="+console"
 
 #ruby_add_rdepend "dev-ruby/activesupport:4.11"
-ruby_add_rdepend "=dev-ruby/jira-ruby-1.5.0"
+ruby_add_rdepend "~dev-ruby/jira-ruby-1.5.0"
 ruby_add_rdepend "=dev-ruby/thor-0.19*"
 ruby_add_rdepend "=dev-ruby/tty-prompt-0.12*"
 ruby_add_rdepend "=dev-ruby/tty-spinner-0.4*"

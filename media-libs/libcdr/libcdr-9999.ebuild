@@ -13,7 +13,7 @@ HOMEPAGE="https://www.freedesktop.org/wiki/Software/libcdr"
 
 LICENSE="MPL-2.0"
 SLOT="0"
-[[ ${PV} == 9999 ]] || KEYWORDS="~amd64 ~arm ~ppc ~hppa ~ppc64 ~x86"
+[[ ${PV} == 9999 ]] || KEYWORDS="~amd64 ~arm ~hppa ~ppc ~ppc64 ~x86"
 IUSE="doc static-libs"
 
 RDEPEND="

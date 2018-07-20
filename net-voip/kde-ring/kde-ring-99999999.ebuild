@@ -40,7 +40,7 @@ RDEPEND="
 	$(add_qt_dep qtsvg)
 	$(add_qt_dep qtwidgets)
 	akonadi? ( $(add_kdeapps_dep akonadi) $(add_kdeapps_dep akonadi-contacts) $(add_kdeapps_dep kcontacts) )
-	=net-libs/libringclient-${PV}[video?]
+	~net-libs/libringclient-${PV}[video?]
 "
 
 DEPEND="${RDEPEND}

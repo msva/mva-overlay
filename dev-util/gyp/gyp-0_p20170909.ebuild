@@ -16,7 +16,7 @@ if [[ ${PV} == 9999 ]]; then
 else
 	MY_TS="${PV##*_p}"
 	EGIT_COMMIT_DATE="${MY_TS:0:4}-${MY_TS:4:2}-${MY_TS:6:2}"
-	KEYWORDS="~x86 ~amd64 ~arm ~arm64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
 LICENSE="BSD"

@@ -45,7 +45,7 @@ src_compile() {
 }
 
 src_install() {
-	dobin "${PN}"
+	dobin "${PN}/${MY_PN}"
 	dodoc README.md
 
 	keepdir /var/lib/prometheus/"${MY_PN}" /var/log/prometheus

@@ -15,7 +15,7 @@ if [[ "${PV}" == 9999 ]]; then
 	EGIT_BRANCH="dev"
 else
 	EGIT_COMMIT="v${PV}"
-	KEYWORDS="~x86 ~amd64"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"

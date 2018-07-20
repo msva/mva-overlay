@@ -12,7 +12,7 @@ http://val.bmstu.ru/unix/voip/Russian-Tamara-2.0.2-ulaw.tar.gz
 http://nettips.ru/files/asterisk/Russian-Tamara-2.0.2-ulaw.tar.gz
 "
 
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 
 LICENSE="GPL-3"
 SLOT="0"

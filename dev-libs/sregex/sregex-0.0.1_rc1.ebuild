@@ -13,7 +13,7 @@ SRC_URI="https://github.com/openresty/${PN}/archive/v${PV//_}.tar.gz -> ${P}.tar
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~x86 ~arm ~amd64"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE=""
 
 S="${WORKDIR}/${P//_}"

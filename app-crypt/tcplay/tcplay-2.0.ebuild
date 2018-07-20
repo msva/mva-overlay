@@ -12,7 +12,7 @@ SRC_URI="https://github.com/bwalex/tc-play/tarball/${COMMIT_ID} -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE="static-libs test"
 S="${WORKDIR}"/${P}
 

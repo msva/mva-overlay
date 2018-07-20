@@ -8,7 +8,7 @@ HOMEPAGE="https://github.com/pxb1988/dex2jar"
 SRC_URI="https://github.com/pxb1988/${PN}/archive/${PV/_pre/-nightly-}.tar.gz -> ${P}.tar.gz"
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="virtual/gradle"

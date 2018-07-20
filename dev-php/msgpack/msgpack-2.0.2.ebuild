@@ -15,7 +15,7 @@ if [[ ${PV} == 9999 ]]; then
 	KEYWORDS=""
 else
 	PHP_ECL_PREF="pecl"
-	KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
 inherit php-ext-${PHP_ECL_PREF}-r3 ${VCS}

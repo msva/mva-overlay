@@ -18,8 +18,8 @@ SLOT="0"
 IUSE="doc +dbus +video static-libs"
 
 DEPEND="
-	=net-voip/ring-daemon-${PVR}[dbus?,video]
-	dev-qt/qtdbus:5
+	~net-voip/ring-daemon-${PV}[dbus?,video]
+	dev-qt/qtdbus:5=
 "
 
 RDEPEND="${DEPEND}"

@@ -14,7 +14,7 @@ LICENSE="MIT"
 
 RESTRICT="test"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 each_ruby_configure() {
 	${RUBY} -C "ext/${PN}" extconf.rb

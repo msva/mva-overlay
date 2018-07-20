@@ -12,7 +12,7 @@ SRC_URI="http://ctpp.havoc.ru/download/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="2"
-KEYWORDS="~x86 ~arm ~amd64 ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="debug md5 iconv"
 
 DEPEND="

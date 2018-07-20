@@ -25,7 +25,7 @@ HOMEPAGE="http://aladdin-rd.ru"
 LICENSE="EULA"
 RESTRICT="mirror"
 SLOT="0"
-KEYWORDS="-* ~x86 ~amd64"
+KEYWORDS="-* ~amd64 ~x86"
 IUSE="ssl multilib minimal"
 
 REQUIRED_USE="amd64? ( multilib )"

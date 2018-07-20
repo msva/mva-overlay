@@ -19,7 +19,7 @@ SRC_URI="http://s3.amazonaws.com/phusion-passenger/releases/${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="debug"
 
 DEPEND="

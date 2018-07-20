@@ -17,7 +17,7 @@ KEYWORDS="~amd64"
 IUSE="+console"
 
 #ruby_add_rdepend "=dev-ruby/activesupport-4.1.11"
-ruby_add_rdepend "=dev-ruby/jira-ruby-1.5.0"
+ruby_add_rdepend "~dev-ruby/jira-ruby-1.5.0"
 ruby_add_rdepend "=dev-ruby/thor-0.19*"
 ruby_add_rdepend "=dev-ruby/tty-prompt-0.12*"
 ruby_add_rdepend "=dev-ruby/tty-spinner-0.4*"

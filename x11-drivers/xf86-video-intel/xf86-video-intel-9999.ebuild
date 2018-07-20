@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
+#    ^ fucking xorg-2.eclass :'(
 
 XORG_DRI=dri
 XORG_EAUTORECONF=yes
@@ -34,10 +35,8 @@ RDEPEND="
 	)
 "
 DEPEND="${RDEPEND}
-	>=x11-proto/dri2proto-2.6
-	x11-proto/dri3proto
-	x11-proto/presentproto
-	x11-proto/resourceproto"
+	x11-base/xorg-proto
+"
 
 src_configure() {
 	XORG_CONFIGURE_OPTIONS=(

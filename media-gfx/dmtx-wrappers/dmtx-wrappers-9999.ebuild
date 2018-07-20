@@ -1,11 +1,12 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 DISTUTILS_OPTIONAL=yes
-PYTHON_COMPAT=( python{2_7,3_{3,4,5}} pypy{,3} )
+PYTHON_COMPAT=( python2_7 pypy )
+#PYTHON_COMPAT=( python{2_7,3_{4,5,6,7}} pypy{,3} )
 RUBY_OPTIONAL=yes
-USE_RUBY="ruby21 ruby22 ruby23 ruby24"
+USE_RUBY="ruby22 ruby23 ruby24"
 
 inherit distutils-r1 ruby-ng java-pkg-opt-2 eutils autotools git-r3
 
@@ -21,7 +22,7 @@ KEYWORDS=""
 IUSE="vala java php ruby python lua doc"
 
 RDEPEND="
-	=media-libs/libdmtx-${PV}
+	~media-libs/libdmtx-${PV}
 	vala? ( dev-lang/vala:* )
 	java? ( >=virtual/jre-1.6:* )
 	ruby? ( virtual/rubygems dev-ruby/rmagick )
@@ -30,7 +31,6 @@ RDEPEND="
 
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
-# Ruby wrapper currently fails to build with 1.9.
 # Mono wrapper currently is Windows-only thing.
 # Cocoa wrapper is for iOS.
 # Bundled PHP wrapper is deprecated. Recommended to use external.

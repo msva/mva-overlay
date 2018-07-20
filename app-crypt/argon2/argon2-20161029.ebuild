@@ -11,7 +11,7 @@ if [[ "${PV}" == 99999999 ]]; then
 	KEYWORDS=""
 else
 	SRC_URI="${EGIT_REPO_URI}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	S="${WORKDIR}/phc-winner-${P}"
 fi
 LICENSE="|| ( Apache-2.0 CC0-1.0 )"

@@ -13,7 +13,7 @@ IUSE="debug"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~x86 ~amd64 ~arm ~mips"
+KEYWORDS="~amd64 ~arm ~mips ~x86"
 
 DEPENDS="dev-util/premake:5"
 

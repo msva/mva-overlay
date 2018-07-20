@@ -13,7 +13,7 @@ SRC_URI="http://services.gradle.org/distributions/${MY_P}-all.zip"
 HOMEPAGE="http://www.gradle.org/"
 LICENSE="Apache-2.0"
 SLOT="${PV}"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 
 DEPEND="app-arch/zip
 	app-eselect/eselect-gradle"

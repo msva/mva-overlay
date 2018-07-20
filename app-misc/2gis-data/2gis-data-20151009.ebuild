@@ -9,7 +9,7 @@ HOMEPAGE="http://2gis.ru"
 
 LICENSE="2Gis-ru"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 
 DEPEND="app-arch/unzip"
 RDEPEND=">=app-misc/2gis-3.12.0.2"

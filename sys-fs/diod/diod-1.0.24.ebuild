@@ -11,7 +11,7 @@ SRC_URI="https://github.com/chaos/${PN}/archive/${PV}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64 ~arm"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE="rdma tcmalloc luajit"
 
 DEPEND="

@@ -4,7 +4,7 @@
 EAPI=6
 
 SRC_URI="https://github.com/srvrco/getssl/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 DESCRIPTION="letsencrypt/acme client implemented as a shell-script"
 HOMEPAGE="https://github.com/srvrco/getssl"

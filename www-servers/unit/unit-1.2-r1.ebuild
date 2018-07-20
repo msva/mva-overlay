@@ -27,7 +27,7 @@ if [[ "${PV}" = 9999 ]]; then
 	KEYWORDS=""
 else
 	SRC_URI="https://unit.nginx.org/download/${P}.tar.gz"
-	KEYWORDS="~x86 ~amd64 ~arm ~arm64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
 LICENSE="Apache-2.0"

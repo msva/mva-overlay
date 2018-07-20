@@ -9,7 +9,7 @@ SRC_URI="mirror://sourceforge/freetype/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="amd64 x86 ~arm"
+KEYWORDS="amd64 ~arm x86"
 IUSE="gui"
 
 DEPEND="

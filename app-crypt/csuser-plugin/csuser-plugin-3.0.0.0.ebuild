@@ -20,7 +20,7 @@ HOMEPAGE="http://gosuslugi.ru/"
 LICENSE="EULA"
 RESTRICT="mirror"
 SLOT="0"
-KEYWORDS="~x86 ~amd64 x86-macos x64-macos"
+KEYWORDS="~amd64 ~x86 x64-macos x86-macos"
 IUSE="multilib"
 
 REQUIRED_USE="amd64? ( multilib )"

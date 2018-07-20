@@ -14,7 +14,7 @@ if [[ "${PV}" == 9999 ]]; then
 	KEYWORDS=""
 else
 	QHOTKEY_SHA="91f3542b5d11a6df8e5735ef03f336c399ceab93"
-	KEYWORDS="~x86 ~amd64 ~arm64 ~arm"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	SRC_URI="
 		https://github.com/ArsenArsen/KShare/archive/v${PV}.tar.gz -> ${P}.tar.gz
 		https://github.com/Skycoder42/QHotkey/archive/${QHOTKEY_SHA}.tar.gz -> ${PN}_qhotkey-${PV}.tar.gz
