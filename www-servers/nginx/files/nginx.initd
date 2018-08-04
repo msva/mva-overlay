@@ -1,5 +1,5 @@
 #!/sbin/openrc-run
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 extra_commands="configtest"
@@ -10,13 +10,15 @@ description_configtest="Run nginx' internal config check."
 description_upgrade="Upgrade the nginx binary without losing connections."
 description_reload="Reload the nginx configuration without losing connections."
 
-nginx_config=${nginx_config:-/etc/nginx/nginx.conf}
+NGINX_CONFIGFILE=${NGINX_CONFIGFILE:-/etc/nginx/nginx.conf}
 
 command="/usr/sbin/nginx"
-command_args="-c ${nginx_config}"
-pidfile=${pidfile:-/run/nginx.pid}
-user=${user:-nginx}
-group=${group:-nginx}
+command_args="-c \"${NGINX_CONFIGFILE}\""
+start_stop_daemon_args=${NGINX_SSDARGS:-"--wait 1000"}
+pidfile=${NGINX_PIDFILE:-/run/nginx.pid}
+user=${NGINX_USER:-nginx}
+group=${NGINX_GROUP:-nginx}
+retry=${NGINX_TERMTIMEOUT:-"TERM/60/KILL/5"}
 
 depend() {
 	need net
@@ -42,7 +44,7 @@ stop_post() {
 reload() {
 	configtest || return 1
 	ebegin "Refreshing nginx' configuration"
-	kill -HUP `cat ${pidfile}` >/dev/null 2>&1
+	start-stop-daemon --signal SIGHUP --pidfile "${pidfile}"
 	eend $? "Failed to reload nginx"
 }
 
@@ -51,26 +53,28 @@ upgrade() {
 	ebegin "Upgrading nginx"
 
 	einfo "Sending USR2 to old binary"
-	kill -USR2 `cat ${pidfile}` >/dev/null 2>&1
+	start-stop-daemon --signal SIGUSR2 --pidfile "${pidfile}"
 
 	einfo "Sleeping 3 seconds before pid-files checking"
 	sleep 3
 
-	if [ ! -f ${pidfile}.oldbin ]; then
+	if [ ! -f "${pidfile}.oldbin" ]; then
 		eerror "File with old pid not found"
 		return 1
 	fi
 
-	if [ ! -f ${pidfile} ]; then
+	if [ ! -f "${pidfile}" ]; then
 		eerror "New binary failed to start"
 		return 1
 	fi
 
 	einfo "Sleeping 3 seconds before WINCH"
-	sleep 3 ; kill -WINCH `cat ${pidfile}.oldbin`
+	sleep 3
+	# Cannot send "WINCH" using start-stop-daemon yet, https://bugs.gentoo.org/604986
+	kill -WINCH $(cat "${pidfile}.oldbin")
 
 	einfo "Sending QUIT to old binary"
-	kill -QUIT `cat ${pidfile}.oldbin`
+	start-stop-daemon --signal SIGQUIT --pidfile "${pidfile}.oldbin"
 
 	einfo "Upgrade completed"
 	eend $? "Upgrade failed"
@@ -78,10 +82,10 @@ upgrade() {
 
 configtest() {
 	ebegin "Checking nginx' configuration"
-	${command} -c ${nginx_config} -t -q
+	${command} -c "${NGINX_CONFIGFILE}" -t -q
 
 	if [ $? -ne 0 ]; then
-		${command} -c ${nginx_config} -t
+		${command} -c "${NGINX_CONFIGFILE}" -t
 	fi
 
 	eend $? "failed, please correct errors above"

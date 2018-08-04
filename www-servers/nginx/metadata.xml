@@ -133,6 +133,8 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='systemtap'>Install systemtap tapset files for some
     modules</flag>
     <flag name='stream'>Enable Stream NginX core module</flag>
-    <flag name='nginx_modules_http_ey_balancer'>[ey balancer]</flag>
+    <flag name='nginx_modules_http_ey_balancer'>TODO</flag>
+    <flag name='nginx_modules_stream_traffic_status'>TODO</flag>
+    <flag name='nginx_modules_core_stream_traffic_status'>TODO</flag>
   </use>
 </pkgmetadata>

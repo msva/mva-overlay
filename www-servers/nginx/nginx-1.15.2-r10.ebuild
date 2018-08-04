@@ -21,7 +21,50 @@ USE_RUBY="ruby22 ruby23 ruby24"
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
 
-DTLS_V=1.13.9
+# ngx_brotli (https://github.com/eustas/ngx_brotli/tags, BSD-2)
+HTTP_BROTLI_MODULE_A="eustas"
+HTTP_BROTLI_MODULE_PN="ngx_brotli"
+HTTP_BROTLI_MODULE_PV="0.1.2"
+HTTP_BROTLI_MODULE_P="${HTTP_BROTLI_MODULE_PN}-${HTTP_BROTLI_MODULE_SHA:-${HTTP_BROTLI_MODULE_PV}}"
+HTTP_BROTLI_MODULE_URI="https://github.com/${HTTP_BROTLI_MODULE_A}/${HTTP_BROTLI_MODULE_PN}/archive/${HTTP_BROTLI_MODULE_SHA:-v${HTTP_BROTLI_MODULE_PV}}.tar.gz"
+HTTP_BROTLI_MODULE_WD="${WORKDIR}/${HTTP_BROTLI_MODULE_P}"
+
+# http_vhost_traffic_status (https://github.com/vozlt/nginx-module-vts/tags, BSD license)
+HTTP_VHOST_TRAFFIC_STATUS_MODULE_A="vozlt"
+HTTP_VHOST_TRAFFIC_STATUS_MODULE_PN="nginx-module-vts"
+#HTTP_VHOST_TRAFFIC_STATUS_MODULE_PV="v0.1.19"
+HTTP_VHOST_TRAFFIC_STATUS_MODULE_SHA="46d85558e344dfe2b078ce757fd36c69a1ec2dd3"
+HTTP_VHOST_TRAFFIC_STATUS_MODULE_P="${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PN}-${HTTP_VHOST_TRAFFIC_STATUS_MODULE_SHA:-${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PV}}"
+HTTP_VHOST_TRAFFIC_STATUS_MODULE_URI="https://github.com/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_A}/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PN}/archive/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_SHA:-v${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PV}}.tar.gz"
+HTTP_VHOST_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_P}"
+
+# http_vhost_traffic_status (https://github.com/vozlt/nginx-module-sts/tags, BSD license)
+STREAM_TRAFFIC_STATUS_MODULE_A="vozlt"
+STREAM_TRAFFIC_STATUS_MODULE_PN="nginx-module-sts"
+#STREAM_TRAFFIC_STATUS_MODULE_PV="v0.1.2"
+STREAM_TRAFFIC_STATUS_MODULE_SHA="06ea32162654401b08e5e486155b9a2981623298"
+STREAM_TRAFFIC_STATUS_MODULE_P="${STREAM_TRAFFIC_STATUS_MODULE_PN}-${STREAM_TRAFFIC_STATUS_MODULE_SHA:-${STREAM_TRAFFIC_STATUS_MODULE_PV}}"
+STREAM_TRAFFIC_STATUS_MODULE_URI="https://github.com/${STREAM_TRAFFIC_STATUS_MODULE_A}/${STREAM_TRAFFIC_STATUS_MODULE_PN}/archive/${STREAM_TRAFFIC_STATUS_MODULE_SHA:-v${STREAM_TRAFFIC_STATUS_MODULE_PV}}.tar.gz"
+STREAM_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${STREAM_TRAFFIC_STATUS_MODULE_P}"
+
+# http_vhost_traffic_status (https://github.com/vozlt/nginx-module-stream-sts/tags, BSD license)
+CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_A="vozlt"
+CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PN="nginx-module-stream-sts"
+CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PV="0.1.1"
+#CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_SHA=""
+CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P="${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PN}-${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_SHA:-${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PV}}"
+CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_URI="https://github.com/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_A}/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PN}/archive/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_SHA:-v${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PV}}.tar.gz"
+CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P}"
+
+# geoip2 (https://github.com/leev/ngx_http_geoip2_module/tags, BSD-2)
+HTTP_GEOIP2_MODULE_A="leev"
+HTTP_GEOIP2_MODULE_PN="ngx_http_geoip2_module"
+HTTP_GEOIP2_MODULE_PV="3.0"
+#HTTP_GEOIP2_MODULE_SHA="3.0"
+HTTP_GEOIP2_MODULE_P="${HTTP_GEOIP2_MODULE_PN}-${HTTP_GEOIP2_MODULE_SHA:-${HTTP_GEOIP2_MODULE_PV}}"
+HTTP_GEOIP2_MODULE_URI="https://github.com/${HTTP_GEOIP2_MODULE_A}/${HTTP_GEOIP2_MODULE_PN}/archive/${HTTP_GEOIP2_MODULE_SHA:-${HTTP_GEOIP2_MODULE_PV}}.tar.gz"
+HTTP_GEOIP2_MODULE_WD="${WORKDIR}/${HTTP_GEOIP2_MODULE_P}"
+STREAM_GEOIP2_MODULE_WD="${HTTP_GEOIP2_MODULE_WD}"
 
 # http_enchanced_memcache_module (https://github.com/dreamcommerce/ngx_http_enhanced_memcached_module/tags, Apache-2.0)
 HTTP_ENMEMCACHE_MODULE_A="dreamcommerce"
@@ -39,7 +82,7 @@ CORE_TCPPROXY_MODULE_P="${CORE_TCPPROXY_MODULE_PN}-${CORE_TCPPROXY_MODULE_SHA:-$
 CORE_TCPPROXY_MODULE_URI="https://github.com/${CORE_TCPPROXY_MODULE_A}/${CORE_TCPPROXY_MODULE_PN}/archive/${CORE_TCPPROXY_MODULE_SHA:-${CORE_TCPPROXY_MODULE_PV}}.tar.gz"
 CORE_TCPPROXY_MODULE_WD="${WORKDIR}/${CORE_TCPPROXY_MODULE_P}"
 
-# http_rdns_module (https://github.com/dreamcommerce/nginx-http-rdns, Apache-2.0)
+# http_rdns_module (https://github.com/dreamcommerce/nginx-http-rdns/tags, Apache-2.0)
 HTTP_RDNS_MODULE_A="dreamcommerce"
 HTTP_RDNS_MODULE_PN="nginx-http-rdns"
 HTTP_RDNS_MODULE_PV="1.0"
@@ -118,7 +161,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="1.2.0"
+HTTP_NCHAN_MODULE_PV="1.2.1"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -195,6 +238,7 @@ HTTP_PYTHON_MODULE_PV="0.2.0"
 HTTP_PYTHON_MODULE_P="${HTTP_PYTHON_MODULE_PN}-${HTTP_PYTHON_MODULE_SHA:-${HTTP_PYTHON_MODULE_PV}}"
 HTTP_PYTHON_MODULE_URI="https://github.com/${HTTP_PYTHON_MODULE_A}/${HTTP_PYTHON_MODULE_PN}/archive/${HTTP_PYTHON_MODULE_SHA:-v${HTTP_PYTHON_MODULE_PV}}.tar.gz"
 HTTP_PYTHON_MODULE_WD="${WORKDIR}/${HTTP_PYTHON_MODULE_P}"
+STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
@@ -452,12 +496,13 @@ HTTP_AJP_MODULE_URI="https://github.com/yaoweibin/nginx_ajp_module/archive/${HTT
 HTTP_AJP_MODULE_WD="${WORKDIR}/${HTTP_AJP_MODULE_P}"
 
 # NJS-module (http://hg.nginx.org/njs/, BSD-2)
-HTTP_NJS_MODULE_PN="njs"
-HTTP_NJS_MODULE_PV="0.1.10"
-#HTTP_NJS_MODULE_SHA="5a5b70cbbde9"
-HTTP_NJS_MODULE_P="${HTTP_NJS_MODULE_PN}-${HTTP_NJS_MODULE_SHA:-${HTTP_NJS_MODULE_PV}}"
-HTTP_NJS_MODULE_URI="http://hg.nginx.org/${HTTP_NJS_MODULE_PN}/archive/${HTTP_NJS_MODULE_SHA:-${HTTP_NJS_MODULE_PV}}.tar.gz"
-HTTP_NJS_MODULE_WD="${WORKDIR}/${HTTP_NJS_MODULE_P}/nginx"
+HTTP_JAVASCRIPT_MODULE_PN="njs"
+HTTP_JAVASCRIPT_MODULE_PV="0.2.3"
+#HTTP_JAVASCRIPT_MODULE_SHA="5a5b70cbbde9"
+HTTP_JAVASCRIPT_MODULE_P="${HTTP_JAVASCRIPT_MODULE_PN}-${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}"
+HTTP_JAVASCRIPT_MODULE_URI="http://hg.nginx.org/${HTTP_JAVASCRIPT_MODULE_PN}/archive/${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}.tar.gz"
+HTTP_JAVASCRIPT_MODULE_WD="${WORKDIR}/${HTTP_JAVASCRIPT_MODULE_P}/nginx"
+STREAM_JAVASCRIPT_MODULE_WD="${HTTP_JAVASCRIPT_MODULE_WD}"
 
 # nginx-ldap-auth-module (https://github.com/kvspb/nginx-auth-ldap/tags, BSD-2)
 HTTP_AUTH_LDAP_MODULE_A="kvspb"
@@ -538,13 +583,19 @@ SRC_URI="
 	nginx_modules_http_rrd? ( ${HTTP_RRD_MODULE_URI} -> ${HTTP_RRD_MODULE_P}.tar.gz )
 	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.gz )
 	nginx_modules_http_ajp? ( ${HTTP_AJP_MODULE_URI} -> ${HTTP_AJP_MODULE_P}.tar.gz )
-	nginx_modules_http_njs? ( ${HTTP_NJS_MODULE_URI} -> ${HTTP_NJS_MODULE_P}.tar.gz )
+	nginx_modules_http_javascript? ( ${HTTP_JAVASCRIPT_MODULE_URI} -> ${HTTP_JAVASCRIPT_MODULE_P}.tar.gz )
+	nginx_modules_stream_javascript? ( ${HTTP_JAVASCRIPT_MODULE_URI} -> ${HTTP_JAVASCRIPT_MODULE_P}.tar.gz )
 	nginx_modules_http_drizzle? ( ${HTTP_DRIZZLE_MODULE_URI} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_ldap? ( ${HTTP_AUTH_LDAP_MODULE_URI} -> ${HTTP_AUTH_LDAP_MODULE_P}.tar.gz )
 	nginx_modules_stream_lua? ( ${STREAM_LUA_MODULE_URI} -> ${STREAM_LUA_MODULE_P}.tar.gz )
-	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/nginx-${DTLS_V}-dtls-experimental.diff )
 	nginx_modules_core_rtmp? ( ${CORE_RTMP_MODULE_URI} -> ${CORE_RTMP_MODULE_P}.tar.gz )
+	nginx_modules_http_vhost_traffic_status? ( ${HTTP_VHOST_TRAFFIC_STATUS_MODULE_URI} -> ${HTTP_VHOST_TRAFFIC_STATUS_MODULE_P}.tar.gz )
+	nginx_modules_stream_traffic_status? ( ${STREAM_TRAFFIC_STATUS_MODULE_URI} -> ${STREAM_TRAFFIC_STATUS_MODULE_P}.tar.gz )
+	nginx_modules_core_stream_traffic_status? ( ${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_URI} -> ${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P}.tar.gz )
+	nginx_modules_http_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
+	nginx_modules_stream_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
+	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.tar.gz )
 "
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
@@ -557,7 +608,6 @@ SLOT="mainline"
 KEYWORDS="~amd64 ~arm ~x86"
 
 NGINX_MODULES_STD="
-	http_mirror
 	http_access
 	http_auth_basic
 	http_autoindex
@@ -566,11 +616,13 @@ NGINX_MODULES_STD="
 	http_empty_gif
 	http_fastcgi
 	http_geo
+	http_grpc
 	http_gzip
 	http_limit_conn
 	http_limit_req
 	http_map
 	http_memcached
+	http_mirror
 	http_proxy
 	http_referer
 	http_rewrite
@@ -630,6 +682,7 @@ NGINX_MODULES_OPT="
 # http_ndk: before modules that using it
 
 NGINX_MODULES_3P="
+	http_brotli
 	http_naxsi
 	http_security
 	http_ndk
@@ -671,17 +724,22 @@ NGINX_MODULES_3P="
 	http_hls_audio
 	http_sticky
 	http_ajp
-	http_njs
+	http_javascript
 	http_drizzle
 	http_upstream_check
 	http_auth_ldap
 	http_rrd
 	http_python
+	http_vhost_traffic_status
+	http_geoip2
+	stream_geoip2
+	stream_traffic_status
 	stream_python
+	stream_javascript
 	stream_lua
-	stream_dtls
 	core_tcpproxy
 	core_rtmp
+	core_stream_traffic_status
 "
 
 NGINX_MODULES_DYN="
@@ -690,7 +748,7 @@ NGINX_MODULES_DYN="
 	http_xslt
 	http_perl
 	stream_geoip
-	http_njs
+	http_javascript
 	http_naxsi
 	http_security
 	http_ndk
@@ -719,16 +777,16 @@ NGINX_MODULES_DYN="
 	http_passenger_enterprise
 	http_auth_pam
 	http_ajp
-	http_njs
+	stream_javascript
 	http_auth_ldap
 	http_python
 	stream_python
 	stream_lua
-	stream_dtls
 	core_rtmp
 "
 
 REQUIRED_USE="
+	nginx_modules_http_grpc? ( nginx_modules_http_v2 )
 	luajit? (
 		|| (
 			nginx_modules_http_lua
@@ -758,11 +816,12 @@ REQUIRED_USE="
 	pcre-jit? ( pcre )
 	http2? ( nginx_modules_http_v2 )
 	rrd? ( nginx_modules_http_rrd )
-	dtls? ( nginx_modules_stream_dtls stream ssl )
 	rtmp? ( nginx_modules_core_rtmp )
+	nginx_modules_stream_traffic_status? ( nginx_modules_core_stream_traffic_status )
+	nginx_modules_core_stream_traffic_status? ( nginx_modules_stream_traffic_status )
 "
 
-IUSE="aio debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl stream threads vim-syntax luajit selinux http2 systemtap +static dtls rtmp"
+IUSE="aio debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl libressl stream threads vim-syntax luajit selinux http2 systemtap +static rtmp userland_GNU"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 	f=
@@ -775,10 +834,24 @@ CDEPEND="
 	pam? ( virtual/pam )
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
-	selinux? ( sec-policy/selinux-nginx )
-	ssl? ( dev-libs/openssl:* )
-	http-cache? ( userland_GNU? ( dev-libs/openssl:* ) )
+	ssl? (
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl:= )
+	)
+	http2? (
+		!libressl? ( >=dev-libs/openssl-1.0.1c:0= )
+		libressl? ( dev-libs/libressl:= )
+	)
+	http-cache? (
+		userland_GNU? (
+			!libressl? ( dev-libs/openssl:0= )
+			libressl? ( dev-libs/libressl:= )
+		)
+	)
+	nginx_modules_http_brotli? ( app-arch/brotli:= )
 	nginx_modules_http_geoip? ( dev-libs/geoip )
+	nginx_modules_http_geoip2? ( dev-libs/libmaxminddb:= )
+	nginx_modules_stream_geoip2? ( dev-libs/libmaxminddb:= )
 	nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
@@ -850,13 +923,16 @@ CDEPEND="
 	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	nginx_modules_http_drizzle? ( dev-libs/libdrizzle )
-	nginx_modules_stream_dtls? (
-		>=dev-libs/openssl-1.0.2
-	)
 "
 
-RDEPEND="${CDEPEND}"
-DEPEND="${CDEPEND}
+RDEPEND="
+	${CDEPEND}
+	selinux? ( sec-policy/selinux-nginx )
+"
+DEPEND="
+	${CDEPEND}
+	nginx_modules_http_brotli? ( virtual/pkgconfig )
+	nginx_modules_http_security? ( www-apps/modsecurity )
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )
 "
@@ -865,7 +941,7 @@ DEPEND="${CDEPEND}
 #QA_EXECSTACK="usr/sbin/nginx"
 ##QA_WX_LOAD="usr/sbin/nginx"
 
-PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
+PDEPEND="vim-syntax? ( ~app-vim/nginx-syntax-${PV} )"
 
 custom_econf() {
 	local EXTRA_ECONF=(${EXTRA_ECONF[@]})
@@ -876,8 +952,8 @@ custom_econf() {
 }
 
 pkg_setup() {
-	NGINX_HOME="/var/lib/${PN}"
-	NGINX_HOME_TMP="${NGINX_HOME}/tmp"
+	export NGINX_HOME="/var/lib/${PN}"
+	export NGINX_HOME_TMP="${NGINX_HOME}/tmp"
 
 	ebegin "Creating nginx user and group"
 	enewgroup ${HTTPD_GROUP:-$PN}
@@ -953,17 +1029,11 @@ pkg_setup() {
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	PORTAGE_QUIET=1 default
-	use nginx_modules_stream_dtls && cp "${DISTDIR}/nginx-${DTLS_V}-dtls-experimental.diff" "${S}/"
 }
 
 src_prepare() {
 	eapply "${PATCHDIR}/fix-perl-install-path.patch"
 	eapply "${PATCHDIR}/httpoxy-mitigation-r1.patch"
-
-	use nginx_modules_stream_dtls && (
-		die "DTLS patch is currently broken (incompatible with >=1.15.0)"
-#		eapply "${S}/nginx-${DTLS_V}-dtls-experimental.diff"
-	)
 
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):'
 
@@ -989,6 +1059,12 @@ src_prepare() {
 
 	if use nginx_modules_stream_lua || use nginx_modules_http_lua; then
 		eapply "${PATCHDIR}/lua-ssl.patch"
+	fi
+
+	if use nginx_modules_http_postgres; then
+		pushd "${HTTP_BROTLI_MODULE_WD}" &>/dev/null
+		eapply "${PATCHDIR}/brotli_pkgconfig.patch"
+		popd &>/dev/null
 	fi
 
 	if use nginx_modules_http_postgres; then
@@ -1078,13 +1154,19 @@ src_prepare() {
 	if use nginx_modules_http_upload_progress; then
 		pushd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" &>/dev/null
 		eapply "${PATCHDIR}"/upload_put.patch
+		eapply "${PATCHDIR}"/upload_issue50.patch
 		popd &>/dev/null
 	fi
 
 	if use nginx_modules_http_cache_purge; then
 		pushd "${HTTP_CACHE_PURGE_MODULE_WD}" &>/dev/null
 		eapply "${PATCHDIR}"/cache_purge_dyn.patch
+		eapply "${PATCHDIR}"/http_cache_purge-1.11.6+.patch
 		popd &>/dev/null
+	fi
+
+	if use nginx_modules_http_upstream_check; then
+		eapply -p0 "${PATCHDIR}"/http_upstream_check-nginx-1.11.5+.patch
 	fi
 
 	if use nginx_modules_http_ajp; then
@@ -1163,6 +1245,12 @@ src_configure() {
 	for m in $NGINX_MODULES_3P; do
 		# TODO: replace this check with a function, if there will be another http+stream-in-one modules
 		if [[ "${m}" == "stream_python" ]] && use nginx_modules_http_python; then
+			continue
+		fi
+		if [[ "${m}" == "stream_javascript" ]] && use nginx_modules_http_javascript; then
+			continue
+		fi
+		if [[ "${m}" == "stream_geoip2" ]] && use nginx_modules_http_geoip2; then
 			continue
 		fi
 		local e="$(ext_mod ${m})"
@@ -1289,7 +1377,7 @@ src_configure() {
 		sedargs+=(-e "s|${WORKDIR}|ext|g")
 		sedargs+=(-e 's@(=ext/[^ ]*-)([0-9a-fA-F]{8})[0-9a-fA-F]{32}@\1\2@g')
 
-	use nginx_modules_http_njs &&
+	( use nginx_modules_http_javascript || use nginx_modules_stream_javascript ) &&
 		sedargs+=(-e "s|/${P}/|/|g;s|(/njs-[^/]*)/nginx |\1 |g")
 	use nginx_modules_http_naxsi &&
 		sedargs+=(-e "s|/${P}/|/|g;s|/naxsi_src||g")
@@ -1331,6 +1419,7 @@ src_install() {
 
 	cp "${FILESDIR}/${PN}.conf" "${ED}/etc/${PN}/${PN}.conf" || die
 
+	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
 
 	systemd_newunit "${FILESDIR}/${PN}.service-r1" "${PN}.service"
@@ -1361,8 +1450,11 @@ src_install() {
 	fperms 0750 "${NGINX_HOME_TMP}"
 	fowners "${HTTPD_USER:-${PN}}:0" "${NGINX_HOME_TMP}"
 
-	fperms 0700 "/var/log/${PN}" ${keepdir_list}
-	fowners "${HTTPD_USER:-${PN}}:${HTTPD_GROUP:-${PN}}" "/var/log/${PN}" ${keepdir_list}
+	fperms 0700 ${keepdir_list}
+	fowners "${HTTPD_USER:-${PN}}:${HTTPD_GROUP:-${PN}}" ${keepdir_list}
+
+	fperms 0710 "/var/log/${PN}" ${keepdir_list}
+	fowners "0:${HTTPD_GROUP:-${PN}}" "/var/log/${PN}" ${keepdir_list}
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
@@ -1647,9 +1739,9 @@ src_install() {
 		dodoc "${HTTP_AJP_MODULE_WD}"/README*
 	fi
 
-	if use nginx_modules_http_njs; then
-		docinto ${HTTP_NJS_MODULE_P}
-		dodoc "${HTTP_NJS_MODULE_WD}"/../README
+	if ( use nginx_modules_http_javascript || use nginx_modules_stream_javascript ); then
+		docinto ${HTTP_JAVASCRIPT_MODULE_P}
+		dodoc "${HTTP_JAVASCRIPT_MODULE_WD}"/../README
 	fi
 
 	if use nginx_modules_http_auth_ldap; then
@@ -1679,13 +1771,224 @@ pkg_postinst() {
 		ewarn "file from this package (it should be full path, including 'locations.ini' itself)"
 	fi
 
-	# If the nginx user can't change into or read the dir, display a warning.
-	# If su is not available we display the warning nevertheless since we can't check properly
-	su -s /bin/sh -c 'cd /var/log/${PN}/ && ls' "${HTTPD_USER:-$PN}" >&/dev/null
-	if [ $? -ne 0 ] ; then
+	local _n_permission_layout_checks=0
+	local _has_to_adjust_permissions=0
+	local _has_to_show_permission_warning=0
+
+	# Defaults to 1 to inform people doing a fresh installation
+	# that we ship modified {scgi,uwsgi,fastcgi}_params files
+	local _has_to_show_httpoxy_mitigation_notice=1
+
+	local _replacing_version=
+	for _replacing_version in ${REPLACING_VERSIONS}; do
+		_n_permission_layout_checks=$((${_n_permission_layout_checks}+1))
+
+		if [[ ${_n_permission_layout_checks} -gt 1 ]]; then
+			# Should never happen:
+			# Package is abusing slots but doesn't allow multiple parallel installations.
+			# If we run into this situation it is unsafe to automatically adjust any
+			# permission...
+			_has_to_show_permission_warning=1
+
+			ewarn "Replacing multiple ${PN}' versions is unsupported! " \
+				"You will have to adjust permissions on your own."
+
+			break
+		fi
+
+		local _replacing_version_branch=$(get_version_component_range 1-2 "${_replacing_version}")
+		debug-print "Updating an existing installation (v${_replacing_version}; branch '${_replacing_version_branch}') ..."
+
+		# Do we need to adjust permissions to fix CVE-2013-0337 (bug #458726, #469094)?
+		# This was before we introduced multiple nginx versions so we
+		# do not need to distinguish between stable and mainline
+		local _need_to_fix_CVE2013_0337=1
+
+		if version_is_at_least "1.4.1-r2" "${_replacing_version}"; then
+			# We are updating an installation which should already be fixed
+			_need_to_fix_CVE2013_0337=0
+			debug-print "Skipping CVE-2013-0337 ... existing installation should not be affected!"
+		else
+			_has_to_adjust_permissions=1
+			debug-print "Need to adjust permissions to fix CVE-2013-0337!"
+		fi
+
+		# Do we need to inform about HTTPoxy mitigation?
+		# In repository since commit 8be44f76d4ac02cebcd1e0e6e6284bb72d054b0f
+		if ! version_is_at_least "1.10" "${_replacing_version_branch}"; then
+			# Updating from <1.10
+			_has_to_show_httpoxy_mitigation_notice=1
+			debug-print "Need to inform about HTTPoxy mitigation!"
+		else
+			# Updating from >=1.10
+			local _fixed_in_pvr=
+			case "${_replacing_version_branch}" in
+				"1.10")
+					_fixed_in_pvr="1.10.1-r2"
+					;;
+				"1.11")
+					_fixed_in_pvr="1.11.3-r1"
+					;;
+				*)
+					# This should be any future branch.
+					# If we run this code it is safe to assume that the user has
+					# already seen the HTTPoxy mitigation notice because he/she is doing
+					# an update from previous version where we have already shown
+					# the warning. Otherwise, we wouldn't hit this code path ...
+					_fixed_in_pvr=
+			esac
+
+			if [[ -z "${_fixed_in_pvr}" ]] || version_is_at_least "${_fixed_in_pvr}" "${_replacing_version}"; then
+				# We are updating an installation where we already informed
+				# that we are mitigating HTTPoxy per default
+				_has_to_show_httpoxy_mitigation_notice=0
+				debug-print "No need to inform about HTTPoxy mitigation ... information was already shown for existing installation!"
+			else
+				_has_to_show_httpoxy_mitigation_notice=1
+				debug-print "Need to inform about HTTPoxy mitigation!"
+			fi
+		fi
+
+		# Do we need to adjust permissions to fix CVE-2016-1247 (bug #605008)?
+		# All branches up to 1.11 are affected
+		local _need_to_fix_CVE2016_1247=1
+
+		if ! version_is_at_least "1.10" "${_replacing_version_branch}"; then
+			# Updating from <1.10
+			_has_to_adjust_permissions=1
+			debug-print "Need to adjust permissions to fix CVE-2016-1247!"
+		else
+			# Updating from >=1.10
+			local _fixed_in_pvr=
+			case "${_replacing_version_branch}" in
+				"1.10")
+					_fixed_in_pvr="1.10.2-r3"
+					;;
+				"1.11")
+					_fixed_in_pvr="1.11.6-r1"
+					;;
+				*)
+					# This should be any future branch.
+					# If we run this code it is safe to assume that we have already
+					# adjusted permissions or were never affected because user is
+					# doing an update from previous version which was safe or did
+					# the adjustments. Otherwise, we wouldn't hit this code path ...
+					_fixed_in_pvr=
+			esac
+
+			if [[ -z "${_fixed_in_pvr}" ]] || version_is_at_least "${_fixed_in_pvr}" "${_replacing_version}"; then
+				# We are updating an installation which should already be adjusted
+				# or which was never affected
+				_need_to_fix_CVE2016_1247=0
+				debug-print "Skipping CVE-2016-1247 ... existing installation should not be affected!"
+			else
+				_has_to_adjust_permissions=1
+				debug-print "Need to adjust permissions to fix CVE-2016-1247!"
+			fi
+		fi
+	done
+
+	if [[ ${_has_to_adjust_permissions} -eq 1 ]]; then
+		# We do not DIE when chmod/chown commands are failing because
+		# package is already merged on user's system at this stage
+		# and we cannot retry without losing the information that
+		# the existing installation needs to adjust permissions.
+		# Instead we are going to a show a big warning ...
+
+		if [[ ${_has_to_show_permission_warning} -eq 0 ]] && [[ ${_need_to_fix_CVE2013_0337} -eq 1 ]]; then
+			ewarn ""
+			ewarn "The world-readable bit (if set) has been removed from the"
+			ewarn "following directories to mitigate a security bug"
+			ewarn "(CVE-2013-0337, bug #458726):"
+			ewarn ""
+			ewarn "  ${EPREFIX%/}/var/log/${PN}"
+			ewarn "  ${EPREFIX%/}${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi}"
+			ewarn ""
+			ewarn "Check if this is correct for your setup before restarting nginx!"
+			ewarn "This is a one-time change and will not happen on subsequent updates."
+			ewarn "Furthermore nginx' temp directories got moved to '${EPREFIX%/}${NGINX_HOME_TMP}'"
+			chmod o-rwx \
+				"${EPREFIX%/}"/var/log/"${PN}" \
+				"${EPREFIX%/}"${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi} || \
+				_has_to_show_permission_warning=1
+		fi
+
+		if [[ ${_has_to_show_permission_warning} -eq 0 ]] && [[ ${_need_to_fix_CVE2016_1247} -eq 1 ]]; then
+			ewarn ""
+			ewarn "The permissions on the following directory have been reset in"
+			ewarn "order to mitigate a security bug (CVE-2016-1247, bug #605008):"
+			ewarn ""
+			ewarn "  ${EPREFIX%/}/var/log/nginx"
+			ewarn ""
+			ewarn "Check if this is correct for your setup before restarting nginx!"
+			ewarn "Also ensure that no other log directory used by any of your"
+			ewarn "vhost(s) is not writeable for nginx user. Any of your log files"
+			ewarn "used by nginx can be abused to escalate privileges!"
+			ewarn "This is a one-time change and will not happen on subsequent updates."
+			chown 0:"${HTTPD_USER:-$PN}" "${EPREFIX%/}"/var/log/"${PN}" || _has_to_show_permission_warning=1
+			chmod 710 "${EPREFIX%/}"/var/log/"${PN}" || _has_to_show_permission_warning=1
+		fi
+
+		if [[ ${_has_to_show_permission_warning} -eq 1 ]]; then
+			# Should never happen ...
+			ewarn ""
+			ewarn "*************************************************************"
+			ewarn "***************         W A R N I N G         ***************"
+			ewarn "*************************************************************"
+			ewarn "The one-time only attempt to adjust permissions of the"
+			ewarn "existing nginx installation failed. Be aware that we will not"
+			ewarn "try to adjust the same permissions again because now you are"
+			ewarn "using a nginx version where we expect that the permissions"
+			ewarn "are already adjusted or that you know what you are doing and"
+			ewarn "want to keep custom permissions."
+			ewarn ""
+		fi
+	fi
+
+	# Sanity check for CVE-2016-1247
+	# Required to warn users who received the warning above and thought
+	# they could fix it by unmerging and re-merging the package or have
+	# unmerged a affected installation on purpose in the past leaving
+	# /var/log/nginx on their system due to keepdir/non-empty folder
+	# and are now installing the package again.
+	local _sanity_check_testfile=$(mktemp --dry-run "${EPREFIX%/}"/var/log/"${PN}"/.CVE-2016-1247.XXXXXXXXX)
+	su -s /bin/sh -c "touch ${_sanity_check_testfile}" "${HTTPD_USER:-$PN}" >&/dev/null
+	if [ $? -eq 0 ] ; then
+		# Cleanup -- no reason to die here!
+		rm -f "${_sanity_check_testfile}"
+
 		ewarn ""
-		ewarn "Please make sure that the nginx user (${HTTPD_USER:-$PN}) or group (${HTTPD_GROUP:-$PN}) has at least"
-		ewarn "'rx' permissions on /var/log/${PN} (default on a fresh install)"
-		ewarn "Otherwise you end up with empty log files after a logrotate."
+		ewarn "*************************************************************"
+		ewarn "***************         W A R N I N G         ***************"
+		ewarn "*************************************************************"
+		ewarn "Looks like your installation is vulnerable to CVE-2016-1247"
+		ewarn "(bug #605008) because nginx user is able to create files in"
+		ewarn ""
+		ewarn "  ${EPREFIX%/}/var/log/nginx"
+		ewarn ""
+		ewarn "Also ensure that no other log directory used by any of your"
+		ewarn "vhost(s) is not writeable for nginx user. Any of your log files"
+		ewarn "used by nginx can be abused to escalate privileges!"
+	fi
+
+	if [[ ${_has_to_show_httpoxy_mitigation_notice} -eq 1 ]]; then
+		# HTTPoxy mitigation
+		ewarn ""
+		ewarn "This nginx installation comes with a mitigation for the HTTPoxy"
+		ewarn "vulnerability for FastCGI, SCGI and uWSGI applications by setting"
+		ewarn "the HTTP_PROXY parameter to an empty string per default when you"
+		ewarn "are sourcing one of the default"
+		ewarn ""
+		ewarn "  - 'fastcgi_params' or 'fastcgi.conf'"
+		ewarn "  - 'scgi_params'"
+		ewarn "  - 'uwsgi_params'"
+		ewarn ""
+		ewarn "files in your server block(s)."
+		ewarn ""
+		ewarn "If this is causing any problems for you make sure that you are sourcing the"
+		ewarn "default parameters _before_ you set your own values."
+		ewarn "If you are relying on user-supplied proxy values you have to remove the"
+		ewarn "correlating lines from the file(s) mentioned above."
+		ewarn ""
 	fi
 }
