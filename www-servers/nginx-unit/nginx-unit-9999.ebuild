@@ -2,18 +2,19 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+# golang-base
 
-PYTHON_COMPAT=( python2_7 python3_{4,5,6} pypy{,3} )
+PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} pypy{,3} )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby22 ruby23 ruby24"
+USE_RUBY="ruby22 ruby23 ruby24 ruby25"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php5-6 php7-0 php7-1 php7-2" # deps must be registered separately below
+USE_PHP="php5-6 php7-0 php7-1 php7-2" # php7-3" # deps must be registered separately below
 
 [[ "${PV}" = 9999 ]] && vcs=git-r3
 
@@ -33,11 +34,13 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 
-IUSE="+ipv6 +unix-sockets debug examples"
 UNIT_MODULES="go perl php python ruby"
+IUSE="+ipv6 +unix-sockets debug examples ${UNIT_MODULES}"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 for mod in $UNIT_MODULES; do
 	IUSE="${IUSE} +unit_modules_${mod}"
+	REQUIRED_USE="${REQUIRED_USE} ${mod}? ( unit_modules_${mod} )"
 done
 
 DEPEND="
@@ -57,7 +60,7 @@ DEPEND="
 "
 RDEPEND="${DEPEND} ${RDEPEND}"
 
-MY_P="${P}"
+MY_P="${P//nginx-}"
 S="${WORKDIR}/${MY_P}"
 
 src_unpack() {
@@ -112,7 +115,7 @@ src_configure() {
 		--state="/var/lib/${PN}" \
 		--pid="/run/${PN}.pid" \
 		--log="/var/log/${PN}.log" \
-		--control="unix:/run/control.${PN}.sock" \
+		--control="unix:/run/${PN}.sock" \
 		$(usex ipv6 '' "--no-ipv6") \
 		$(usex unix-sockets '' "--no-unix-sockets") \
 		$(usex debug "--debug" "")
@@ -128,6 +131,7 @@ src_compile() {
 
 src_install() {
 	default
+	diropts -m 0770
 	use examples && {
 		local exdir="/usr/share/doc/${PF}/examples"
 		"ecompressdir" --ignore "${exdir}" # quotes is QA-hack
@@ -135,7 +139,7 @@ src_install() {
 		doins pkg/rpm/rpmbuild/SOURCES/*example*
 	}
 	keepdir /var/lib/"${PN}"
-	dobin "${FILESDIR}"/util/unit-{save,load}config
+	dobin "${FILESDIR}"/util/"${PN}"-{save,load}config
 	systemd_dounit "${FILESDIR}"/init/"${PN}".service
 	newconfd "${FILESDIR}"/init/"${PN}".confd "${PN}"
 	newinitd "${FILESDIR}"/init/"${PN}".initd "${PN}"

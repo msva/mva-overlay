@@ -7,6 +7,8 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
+    <flag name='go'>meta-flag for complement with gentoo repo naming. Use unit_modules_go instead</flag>
+    <flag name='ipv6'>Enable IPv6 support</flag>
     <flag name='unix-sockets'>Enable support of unix sockets</flag>
     <flag name='unit_modules_go'>Enable support for applications written in <pkg>dev-lang/go</pkg></flag>
     <flag name='unit_modules_perl'>Enable support for applications written in <pkg>dev-lang/perl</pkg></flag>
