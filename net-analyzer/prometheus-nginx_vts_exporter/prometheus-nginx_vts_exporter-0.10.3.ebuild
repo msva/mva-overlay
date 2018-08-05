@@ -13,9 +13,9 @@ COMMIT="c894c71"
 SRC_URI="https://${EGO_PN}/archive/${COMMIT}.tar.gz -> ${P}.tar.gz"
 KEYWORDS="~amd64"
 
-DESCRIPTION="Prometheus exporter for PostgreSQL metrics"
-HOMEPAGE="https://github.com/wrouesnel/postgres_exporter"
-LICENSE="Apache-2.0"
+DESCRIPTION="Prometheus exporter for NginX vts stats"
+HOMEPAGE="https://github.com/hnlq715/nginx-vts-exporter"
+LICENSE="MIT"
 SLOT="0"
 IUSE=""
 
@@ -57,4 +57,8 @@ src_install() {
 
 	insinto /etc/default
 	newins "${FILESDIR}/${PN}.default" "${PN}"
+}
+
+pkg_postinst() {
+	einfo "This package requires www-servers/nginx[nginx_modules_http_vhost_traffic_status] for it's work (althoughm it can be installed on another instance)"
 }
