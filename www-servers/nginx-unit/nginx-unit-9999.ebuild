@@ -26,7 +26,9 @@ HOMEPAGE="https://unit.nginx.org/"
 if [[ "${PV}" = 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/nginx/unit"
 	KEYWORDS=""
+	MY_P="${P}"
 else
+	MY_P="${P//nginx-}"
 	SRC_URI="https://unit.nginx.org/download/${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
@@ -60,7 +62,6 @@ DEPEND="
 "
 RDEPEND="${DEPEND} ${RDEPEND}"
 
-MY_P="${P//nginx-}"
 S="${WORKDIR}/${MY_P}"
 
 src_unpack() {
@@ -73,6 +74,9 @@ src_unpack() {
 }
 
 src_prepare() {
+	sed -r \
+		-e 's@-Werror@@g' \
+		-i auto/cc/test
 	default
 	tc-env_build
 }
