@@ -35,7 +35,7 @@ src_prepare() {
 }
 
 src_compile() {
-	gradle assemble
+	gradle --console=plain assemble
 }
 
 src_install() {

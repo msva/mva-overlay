@@ -8,6 +8,7 @@ inherit java-utils-2 git-r3
 DESCRIPTION="Android Dex to Java Decompiler"
 HOMEPAGE="https://github.com/skylot/jadx"
 EGIT_REPO_URI="https://github.com/skylot/${PN}"
+EGIT_SUBMODULES=( '*' '-*test*' )
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -19,10 +20,11 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
+	virtual/gradle
 "
 
 src_compile() {
-	./gradlew dist || die 'Failed to build'
+	gradle --console=plain dist || die 'Failed to build'
 }
 
 src_install() {

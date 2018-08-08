@@ -3,12 +3,12 @@
 
 EAPI=6
 
-inherit git-r3 bash-completion-r1 readme.gentoo-r1
+inherit golang-vcs bash-completion-r1 readme.gentoo-r1
 
 DESCRIPTION="Command-line wrapper for git that makes you better at GitHub"
 HOMEPAGE="https://github.com/github/hub"
 
-EGIT_REPO_URI="https://github.com/github/hub"
+EGO_PN="github.com/github/hub"
 
 LICENSE="MIT"
 SLOT="0"
@@ -23,7 +23,7 @@ RDEPEND=">=dev-vcs/git-1.7.3"
 
 DOC_CONTENTS="You may want to add 'alias git=hub' to your .{csh,bash}rc"
 
-S="${WORKDIR}/${P//_/-}"
+S="${WORKDIR}/${P}/src/${EGO_PN}"
 
 src_prepare() {
 	sed -r \
@@ -31,11 +31,13 @@ src_prepare() {
 		-e 's@^(%.1: %.1.ronn) bin/ronn@\1@' \
 		-e 's@bin/(ronn --organization)@\1@' \
 		-i Makefile
+
 	default
+	export GOPATH="${S}:${WORKDIR}/${P}:${EPREFIX}/usr/lib/go-gentoo"
 }
 
 src_compile() {
-	emake all man-pages
+	emake man-pages
 }
 
 #src_test() {

@@ -19,4 +19,8 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <email>proxy-maint@gentoo.org</email>
     <name>Proxy Maintainers</name>
   </maintainer>
+  <use>
+    <flag name="json"></flag>
+    <flag name="xtables"></flag>
+  </use>
 </pkgmetadata>

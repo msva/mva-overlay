@@ -8,21 +8,27 @@ inherit autotools linux-info eutils systemd git-r3
 DESCRIPTION="Linux kernel (3.13+) firewall, NAT and packet mangling tools"
 HOMEPAGE="http://netfilter.org/projects/nftables/"
 SRC_URI=""
-EGIT_REPO_URI="git://git.netfilter.org/nftables/"
+EGIT_REPO_URI="https://git.netfilter.org/nftables/"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="debug gmp +readline"
+IUSE="debug gmp +readline json xtables"
 
-RDEPEND=">=net-libs/libmnl-1.0.3
-	>net-libs/libnftnl-1.0.5
+RDEPEND="
+	>=net-libs/libmnl-1.0.3
+	>net-libs/libnftnl-1.1.1
 	gmp? ( dev-libs/gmp:0= )
-	readline? ( sys-libs/readline:0= )"
-DEPEND="${RDEPEND}
+	readline? ( sys-libs/readline:0= )
+	json? ( dev-libs/jansson )
+	xtables? ( net-firewall/iptables )
+"
+DEPEND="
+	${RDEPEND}
 	>=app-text/docbook2X-0.8.8-r4
 	sys-devel/bison
-	sys-devel/flex"
+	sys-devel/flex
+"
 
 pkg_setup() {
 	if kernel_is ge 3 13; then
@@ -43,7 +49,9 @@ src_configure() {
 		--sbindir="${EPREFIX}"/sbin \
 		$(use_enable debug) \
 		$(use_with readline cli) \
-		$(use_with !gmp mini_gmp)
+		$(use_with !gmp mini_gmp) \
+		$(use_with json) \
+		$(use_with xtables)
 }
 
 src_install() {

@@ -20,7 +20,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_compile() {
-	./gradlew dist || die 'Failed to build'
+	./gradlew --console=plain dist || die 'Failed to build'
 }
 
 src_install() {
