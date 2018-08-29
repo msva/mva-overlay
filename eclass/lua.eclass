@@ -61,12 +61,12 @@
 # When set this argument is passed to "grep -E" to remove reporting of
 # these shared objects.
 
-: ${GLOBAL_CFLAGS-${CFLAGS}}
-: ${GLOBAL_CXXFLAGS-${CXXFLAGS}}
-: ${GLOBAL_LDFLAGS-${LDFLAGS}}
+: ${GLOBAL_CFLAGS:=${CFLAGS}}
+: ${GLOBAL_CXXFLAGS:=${CXXFLAGS}}
+: ${GLOBAL_LDFLAGS:=${LDFLAGS}}
 
-: ${NOCCACHE-false}
-: ${NODISTCC-false}
+: ${NOCCACHE:=false}
+: ${NODISTCC:=false}
 
 [[ -n "${IS_MULTILIB}" ]] && multilib="multilib-minimal"
 
@@ -111,7 +111,7 @@ case ${EAPI:-0} in
 	0|1|2|3)
 		die "Unsupported EAPI=${EAPI} (too old) for lua.eclass"
 		;;
-	4|5|6)
+	4|5|6|7)
 		# S is no longer automatically assigned when it doesn't exist.
 		S="${WORKDIR}"
 		;;
@@ -162,7 +162,7 @@ lua_implementation_command() {
 			;;
 	esac
 
-	local lua=$(readlink -fs $(type -p $(basename ${_lua_name} 2>/dev/null)) 2>/dev/null)
+	local lua=$(readlink -fs $(type -p $(basename ${_lua_name:-lua} 2>/dev/null)) 2>/dev/null)
 	[[ -x ${lua} ]] || die "Unable to locate executable Lua interpreter"
 	echo "${lua}"
 }
@@ -405,7 +405,7 @@ _lua_each_implementation() {
 			_lua_invoke_environment ${_lua_implementation} "$@"
 		fi
 
-		unset LUA TARGET lua_impl
+		unset LUA TARGET
 	done
 
 	if [[ ${invoked} == "no" ]]; then
@@ -465,9 +465,18 @@ _lua_source_copy() {
 		|| die "Unable to copy ${_lua_implementation} environment"
 }
 
-_lua_setFLAGS() {
-	local lua=$(readlink -fs $(type -p $(basename ${LUA:-lua} 2>/dev/null)) 2>/dev/null)
+_lua_get_lf() {
+#	local lua=$(readlink -fs $(type -p $(basename ${LUA:-lua} 2>/dev/null)) 2>/dev/null)
+	local lf;
+	lf=$(sed -r -e "s@-llua @-l$(lua_get_lua) @" -e "s@(-L[^ ]*)lib[0-9]*([^ ]*)@\1$(get_libdir)\2@" <<< "$(${PKG_CONFIG} --libs ${lua_impl})")
+	echo "${lf}"
+}
 
+_lua_get_cf() {
+	echo "$(${PKG_CONFIG} --cflags ${lua_impl})"
+}
+
+_lua_setFLAGS() {
 	unset PKG_CONFIG LD
 # CC CXX CFLAGS CXXFLAGS LDFLAGS LUA_CF LUA_LF
 
@@ -476,9 +485,8 @@ _lua_setFLAGS() {
 	CXX="$(tc-getCXX)"
 	LD="$(tc-getLD)"
 
-	LUA_CF="$(${PKG_CONFIG} --cflags $(basename ${lua}))"
-	LUA_LF="$(${PKG_CONFIG} --libs $(basename ${lua}))"
-	LUA_LF="${LUA_LF//-llua /-l$(lua_get_lua) }"
+	LUA_CF="$(_lua_get_cf)"
+	LUA_LF="$(_lua_get_lf)"
 
 	CFLAGS="${GLOBAL_CFLAGS} ${LUA_CF} -fPIC -DPIC"
 	CXXFLAGS="${GLOBAL_CXXFLAGS} ${LUA_CF} -fPIC -DPIC"
@@ -814,7 +822,7 @@ _lua_install_cmod() {
 _lua_jit_insopts() {
 	[[ "${LUA}" =~ "luajit" ]] || die "Calling dolua_jit for non-jit targets isn't supported"
 	local insdir=$(${LUA} -e 'print(package.path:match(";(/[^;]+luajit[^;]+)/%?.lua;"))')
-	insinto ${insdir}/${_dolua_jit_insdir}
+	insinto ${insdir#${EPREFIX}}/${_dolua_jit_insdir}
 	insopts -m 0644
 }
 
@@ -968,7 +976,7 @@ _lua_default_each_configure() {
 			CXXFLAGS="${CXXFLAGS}"
 			PKG_CONFIG="${PKG_CONFIG}"
 			LUA_IMPL="$(lua_get_lua)"
-			LUA_LINK_LIB="${LUA_LF}"
+			LUA_LINK_LIB="$(_lua_get_lf)"
 		)
 
 		ecl_confargs+=("${confargs[@]}")
