@@ -85,4 +85,4 @@ dev-lang/luajit
 net-voip/trueconf
 
 # Splitted NgX (non-static). Not ready yet.
-=www-servers/nginx-1.15.2-r100
+=www-servers/nginx-1.15.3-r100
