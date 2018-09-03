@@ -19,6 +19,7 @@ else
 fi
 
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
+EGIT_SUBMODULES=( '*' -Telegram/ThirdParty/{xxHash,Catch} )
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
@@ -34,6 +35,8 @@ COMMON_DEPEND="
 	dev-qt/qtwidgets:5=[xcb,png]
 	dev-qt/qtnetwork:5=
 	dev-qt/qtimageformats:5=
+	dev-cpp/range-v3
+	dev-libs/xxhash
 	media-video/ffmpeg:=
 	media-libs/opus
 	x11-libs/libdrm
@@ -52,7 +55,6 @@ COMMON_DEPEND="
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	pulseaudio? ( media-sound/pulseaudio )
-	dev-cpp/range-v3
 "
 
 RDEPEND="

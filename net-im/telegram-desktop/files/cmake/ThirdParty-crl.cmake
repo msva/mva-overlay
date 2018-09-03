@@ -3,9 +3,11 @@ project(crl)
 find_package(Qt5 REQUIRED COMPONENTS Core)
 
 file(GLOB CRL_SOURCE_FILES
+	src/crl/*.cpp
 	src/crl/common/*.cpp
 	src/crl/dispatch/*.cpp
 	src/crl/qt/*.cpp
+	src/crl/linux/*.cpp
 	src/crl/winapi/*.cpp
 )
 

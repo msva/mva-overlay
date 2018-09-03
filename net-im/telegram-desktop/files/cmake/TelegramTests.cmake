@@ -31,6 +31,12 @@ add_executable(tests_rpl
 	SourceFiles/base/tests_main.cpp
 )
 
+add_executable(tests_storage_set
+	SourceFiles/storage/storage_encrypted_file_tests.cpp
+	SourceFiles/storage/cache/storage_cache_database_tests.cpp
+	SourceFiles/base/tests_main.cpp
+)
+
 target_link_libraries(tests_algorithm Qt5::Core)
 target_link_libraries(tests_flags Qt5::Core)
 target_link_libraries(tests_flat_map Qt5::Core)
@@ -55,6 +61,11 @@ target_include_directories(tests_rpl PUBLIC
 	${catch_INCLUDE}
 	${THIRD_PARTY_DIR}/GSL/include
 	${THIRD_PARTY_DIR}/variant/include
+)
+
+target_include_directories(tests_storage_set PUBLIC
+	${catch_INCLUDE}
+	${THIRD_PARTY_DIR}/variant/test/include
 )
 
 enable_testing()
