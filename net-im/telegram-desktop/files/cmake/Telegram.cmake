@@ -18,6 +18,7 @@ list(APPEND CMAKE_MODULE_PATH
 option(BUILD_TESTS "Build all available test suites" OFF)
 option(ENABLE_CRASH_REPORTS "Enable crash reports" ON)
 option(ENABLE_GTK_INTEGRATION "Enable GTK integration" ON)
+option(ENABLE_PULSEAUDIO "Enable pulseaudio" ON)
 
 find_package(LibLZMA REQUIRED)
 find_package(OpenAL REQUIRED)

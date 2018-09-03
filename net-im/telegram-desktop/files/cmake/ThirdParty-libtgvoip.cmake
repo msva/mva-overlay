@@ -27,6 +27,7 @@ else()
 	file(GLOB PULSEAUDIO_SOURCE_FILES
 		os/linux/AudioInputPulse.cpp
 		os/linux/AudioOutputPulse.cpp
+		os/linux/AudioPulse.cpp
 		os/linux/PulseAudioLoader.cpp
 	)
 	list(REMOVE_ITEM TGVOIP_SOURCE_FILES ${PULSEAUDIO_SOURCE_FILES})

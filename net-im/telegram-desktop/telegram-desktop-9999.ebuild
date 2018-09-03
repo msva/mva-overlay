@@ -114,7 +114,7 @@ src_configure() {
 		$(usex custom-api-id '-DCUSTOM_API_ID' '')
 		-DLIBDIR="$(get_libdir)"
 		# If you will copy this ebuild from my overlay, please don't forget to uncomment -DGENTOO_API_ID definition here and fix the patch (and manifest).
-		# And also, don't forget to get your (or Gentoo's, in case you'll move ot to the portage tree) unique ID and HASH
+		# And also, don't forget to get your (or Gentoo's, in case you'll move it to the portage repo ("the tree)) unique ID and HASH
 
 #		-DTDESKTOP_DISABLE_CRASH_REPORTS
 #		-DTDESKTOP_DISABLE_REGISTER_CUSTOM_SCHEME
@@ -125,6 +125,7 @@ src_configure() {
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 		-DENABLE_CRASH_REPORTS="$(usex crash-report ON OFF)"
 		-DENABLE_GTK_INTEGRATION="$(usex gtk3 ON OFF)"
+		-DENABLE_PULSEAUDIO=$(usex pulseaudio ON OFF)
 		-DBUILD_TESTS="OFF"
 		# ^ $(usex test)?
 	)
