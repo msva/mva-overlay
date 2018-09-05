@@ -1,9 +1,9 @@
-# @GENTOO_PORTAGE_EPREFIX@/etc/zsh/zprofile
+# /etc/zsh/zprofile
 
 # Load environment settings from profile.env, which is created by
 # env-update from the files in /etc/env.d
-if [ -e "@GENTOO_PORTAGE_EPREFIX@"/etc/profile.env ] ; then
-	. "@GENTOO_PORTAGE_EPREFIX@"/etc/profile.env
+if [ -e /etc/profile.env ] ; then
+	. /etc/profile.env
 fi
 
 # You should override these in your ~/.zprofile (or equivalent) for per-user
@@ -23,18 +23,18 @@ umask 022
 # This way the evaluation can be short-circuited and calling whoami is
 # avoided.
 if [ "$EUID" = "0" ] || [ "$USER" = "root" ] ; then
-	@ZSH_NOPREFIX@PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${ROOTPATH}"
-	@ZSH_PREFIX@PATH="@GENTOO_PORTAGE_EPREFIX@/usr/sbin:@GENTOO_PORTAGE_EPREFIX@/usr/bin:@GENTOO_PORTAGE_EPREFIX@/sbin:@GENTOO_PORTAGE_EPREFIX@/bin:${ROOTPATH}:/usr/sbin:/usr/bin:/sbin:/bin"
-else
-	@ZSH_NOPREFIX@PATH="/usr/local/bin:/usr/bin:/bin:${PATH}"
-	@ZSH_PREFIX@PATH="@GENTOO_PORTAGE_EPREFIX@/usr/bin:@GENTOO_PORTAGE_EPREFIX@/bin:${PATH}:/usr/bin:/bin"
+	# Check to make sure ROOTPATH is sane before we use it.
+	# https://bugs.gentoo.org/656400
+	if [[ :${ROOTPATH}: == *:@GENTOO_PORTAGE_EPREFIX@/usr/sbin:* ]]; then
+		PATH="${ROOTPATH}"
+	fi
 fi
 export PATH
 unset ROOTPATH
 
 shopts=$-
 setopt nullglob
-for sh in "@GENTOO_PORTAGE_EPREFIX@"/etc/profile.d/*.sh ; do
+for sh in /etc/profile.d/*.sh ; do
 	[ -r "$sh" ] && . "$sh"
 done
 unsetopt nullglob
