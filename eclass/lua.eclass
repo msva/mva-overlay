@@ -436,16 +436,21 @@ lua_src_unpack() {
 	# We don't support an each-unpack, it's either all or nothing!
 	if type all_lua_unpack &>/dev/null; then
 		_lua_invoke_environment all all_lua_unpack
-	elif [[ -n ${VCS} ]] && declare -f ${VCS}_src_unpack >/dev/null; then
-		_lua_invoke_environment all ${VCS}_src_unpack
-	elif declare -f unpacker_src_unpack >/dev/null; then
-		_lua_invoke_environment all unpacker_src_unpack
-	elif [[ -n ${A} ]]; then
-		unpack ${A}
-	elif [[ -z "${GITHUB_A}" && -z "${BITBUCKET_A}" ]]; then
-			eerror "Either GITHUB_A or BITBUCKET_A (author nick) should be set for magic SRC/REPO URI filling to work"
-			eerror "You should either set one of them, or fill the proper URI variable manually!"
-			die "See above eerror messages."
+	else
+		if [[ -n ${A} ]]; then
+			if declare -f unpacker_src_unpack >/dev/null; then
+				_lua_invoke_environment all unpacker_src_unpack
+			else
+				unpack ${A}
+			fi
+		fi
+		if [[ -n ${VCS} ]] && declare -f ${VCS}_src_unpack >/dev/null; then
+			_lua_invoke_environment all ${VCS}_src_unpack
+		elif [[ -z "${GITHUB_A}" && -z "${BITBUCKET_A}" && -z "${A}" ]]; then
+				eerror "Either GITHUB_A or BITBUCKET_A (author nick) should be set for magic SRC/REPO URI filling to work"
+				eerror "You should either set one of them, or fill the proper URI variable manually!"
+				die "See above eerror messages."
+		fi
 	fi
 
 	# hack for VCS-eclasses (darcs, for example) which defaults unpack dir to WD/P instead of S
