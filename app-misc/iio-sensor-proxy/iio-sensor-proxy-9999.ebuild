@@ -18,7 +18,7 @@ IUSE=""
 RDEPEND="
 	sys-apps/systemd
 	virtual/libgudev
-	app-misc/geoclue
+	app-misc/geoclue:*
 "
 DEPEND="
 	${RDEPEND}
