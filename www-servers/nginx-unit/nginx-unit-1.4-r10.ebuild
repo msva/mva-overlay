@@ -29,7 +29,7 @@ if [[ "${PV}" = 9999 ]]; then
 	MY_P="${P}"
 else
 	MY_P="${P//nginx-}"
-	SRC_URI="https://unit.nginx.org/download/${P}.tar.gz"
+	SRC_URI="https://unit.nginx.org/download/${MY_P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
@@ -136,12 +136,12 @@ src_compile() {
 src_install() {
 	default
 	diropts -m 0770
-	use examples && {
-		local exdir="/usr/share/doc/${PF}/examples"
-		"ecompressdir" --ignore "${exdir}" # quotes is QA-hack
-		insinto "${exdir}"
-		doins pkg/rpm/rpmbuild/SOURCES/*example*
-	}
+#	use examples && (
+#		local exdir="/usr/share/doc/${PF}/examples"
+#		"ecompressdir" --ignore "${exdir}" # quotes is QA-hack
+#		insinto "${exdir}"
+#		doins pkg/rpm/rpmbuild/SOURCES/*example*
+#	)
 	keepdir /var/lib/"${PN}"
 	dobin "${FILESDIR}"/util/"${PN}"-{save,load}config
 	systemd_dounit "${FILESDIR}"/init/"${PN}".service
