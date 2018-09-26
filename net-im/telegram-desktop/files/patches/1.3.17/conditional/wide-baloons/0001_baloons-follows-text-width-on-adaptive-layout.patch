@@ -101,19 +101,6 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegr
  	if (mediaDisplayed) {
  		media->resizeGetHeight(contentWidth);
  		if (media->width() < contentWidth) {
-diff --git a/Telegram/SourceFiles/settings/settings_info_widget.cpp b/Telegram/SourceFiles/settings/settings_info_widget.cpp
---- a/Telegram/SourceFiles/settings/settings_info_widget.cpp	2018-04-30 20:53:10.110149336 +0700
-+++ b/Telegram/SourceFiles/settings/settings_info_widget.cpp	2018-05-01 16:47:40.370136773 +0700
-@@ -217,7 +217,9 @@ int InfoWidget::LabeledWidget::resizeGet
- 	int availableWidth = newWidth - textLeft;
- 	bool doesNotFit = (textWidth > availableWidth);
- 	accumulate_min(textWidth, availableWidth);
-+	if (!Adaptive::ChatWide()) {
- 	accumulate_min(textWidth, st::msgMaxWidth);
-+	}
- 	if (textWidth < 0) {
- 		textWidth = 0;
- 	}
 diff --git i/Telegram/SourceFiles/history/view/history_view_service_message.cpp w/Telegram/SourceFiles/history/view/history_view_service_message.cpp
 --- a/Telegram/SourceFiles/history/view/history_view_service_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_service_message.cpp

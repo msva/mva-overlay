@@ -106,6 +106,7 @@ file(GLOB FLAT_EXTRA_FILES
 	SourceFiles/storage/storage_encrypted_file_tests.cpp
 	SourceFiles/storage/cache/storage_cache_database_tests.cpp
 	SourceFiles/storage/storage_file_lock_win.cpp
+	SourceFiles/storage/storage_clear_legacy_win.cpp
 
 	# As of 1.3.15 Passport still doesn't work. TODO: remove that, when it'll be fixed
 	SourceFiles/passport/passport_edit_identity_box.cpp
