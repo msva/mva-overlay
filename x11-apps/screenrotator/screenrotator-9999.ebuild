@@ -28,5 +28,3 @@ RDEPEND="
 	virtual/libc
 "
 DEPEND="${RDEPEND}"
-
-
