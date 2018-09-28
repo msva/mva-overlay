@@ -1061,7 +1061,7 @@ src_prepare() {
 		eapply "${PATCHDIR}/lua-ssl.patch"
 	fi
 
-	if use nginx_modules_http_postgres; then
+	if use nginx_modules_http_brotli; then
 		pushd "${HTTP_BROTLI_MODULE_WD}" &>/dev/null
 		eapply "${PATCHDIR}/brotli_pkgconfig.patch"
 		popd &>/dev/null
