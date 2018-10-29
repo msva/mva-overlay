@@ -36,7 +36,7 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 
-UNIT_MODULES="go perl php python ruby"
+UNIT_MODULES="go perl php python ruby nodejs"
 IUSE="+ipv6 +unix-sockets debug examples ${UNIT_MODULES}"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -58,6 +58,9 @@ DEPEND="
 	)
 	unit_modules_ruby? (
 		$(ruby_implementations_depend)
+	)
+	unit_modules_nodejs? (
+		net-libs/nodejs
 	)
 "
 RDEPEND="${DEPEND} ${RDEPEND}"
@@ -85,12 +88,15 @@ _unit_go_configure() {
 	./configure go --go-path="$(get_golibdir_gopath)" # multislot?
 }
 
+_unit_nodejs_configure() {
+	./configure nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
+}
 _unit_perl_configure() {
 	./configure perl # multislot?
 }
 _unit_php_configure() {
 	for impl in $(php_get_slots); do
-		./configure php --config="/usr/lib64/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/lib/${impl}/lib64"
+		./configure php --config="/usr/$(get_libdir)/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/lib/${impl}/$(get_libdir)"
 	done
 }
 _unit_python_configure() {

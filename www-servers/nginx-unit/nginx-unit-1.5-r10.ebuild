@@ -36,7 +36,7 @@ fi
 LICENSE="Apache-2.0"
 SLOT="0"
 
-UNIT_MODULES="go perl php python ruby"
+UNIT_MODULES="go perl php python ruby nodejs"
 IUSE="+ipv6 +unix-sockets debug examples ${UNIT_MODULES}"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -58,6 +58,9 @@ DEPEND="
 	)
 	unit_modules_ruby? (
 		$(ruby_implementations_depend)
+	)
+	unit_modules_nodejs? (
+		net-libs/nodejs
 	)
 "
 RDEPEND="${DEPEND} ${RDEPEND}"

@@ -15,5 +15,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='unit_modules_php'>Enable support for applications written in <pkg>dev-lang/php</pkg></flag>
     <flag name='unit_modules_python'>Enable support for applications written in <pkg>dev-lang/python</pkg></flag>
     <flag name='unit_modules_ruby'>Enable support for applications written in <pkg>dev-lang/ruby</pkg></flag>
+    <flag name='unit_modules_nodejs'>Enable support for applications written in <pkg>net-libs/nodejs</pkg></flag>
+    <flag name='nodejs'>Enable support for applications written in <pkg>net-libs/nodejs</pkg></flag>
   </use>
 </pkgmetadata>
