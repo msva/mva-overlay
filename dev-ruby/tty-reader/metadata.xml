@@ -9,10 +9,5 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     OFTC)</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>Terjira is interactive and easy to use command
-  line interface (or Application) for Jira. You do not need to
-  remember reosurce key or id. Terjira suggests with interactive
-  prompt.</longdescription>
-  <use>
-  </use>
+  <longdescription>API for JIRA</longdescription>
 </pkgmetadata>

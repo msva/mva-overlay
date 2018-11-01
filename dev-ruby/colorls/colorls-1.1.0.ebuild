@@ -6,7 +6,7 @@ EAPI=6
 RUBY_FAKEGEM_EXTRAINSTALL="zsh"
 RUBY_FAKEGEM_BINDIR="exe"
 
-USE_RUBY="ruby22 ruby23 ruby24"
+USE_RUBY="ruby23 ruby24 ruby25"
 
 inherit ruby-fakegem
 
@@ -16,13 +16,12 @@ LICENSE="MIT"
 
 RESTRICT="test"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 # ~arm   - missing in rainbow
-# ~x86   - missing in filesize
 # ~arm64 - missing everywhere
 
 ruby_add_rdepend '
-	dev-ruby/filesize
+	dev-ruby/filesize:*
 	dev-ruby/rainbow:3
 	dev-ruby/clocale
 	dev-ruby/manpages

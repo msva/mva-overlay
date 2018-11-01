@@ -7,8 +7,8 @@ USE_RUBY="ruby23 ruby24 ruby25"
 
 inherit ruby-fakegem
 
-DESCRIPTION="manpages wrapper for rubygems"
-HOMEPAGE="https://github.com/bitboxer/manpages"
+DESCRIPTION="Terminal color capabilities detection"
+HOMEPAGE="http://peter-murach.github.io/tty"
 LICENSE="MIT"
 
 RESTRICT="test"

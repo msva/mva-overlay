@@ -4,11 +4,12 @@
 EAPI=6
 
 USE_RUBY="ruby23 ruby24 ruby25"
+RUBY_FAKEGEM_BINWRAP=""
 
 inherit ruby-fakegem
 
-DESCRIPTION="manpages wrapper for rubygems"
-HOMEPAGE="https://github.com/bitboxer/manpages"
+DESCRIPTION="Methods for processing ANSI escape codes in strings."
+HOMEPAGE="https://rubygems.org/gems/strings-ansi"
 LICENSE="MIT"
 
 RESTRICT="test"
