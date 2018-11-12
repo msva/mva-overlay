@@ -23,7 +23,7 @@ EGIT_SUBMODULES=( '*' -Telegram/ThirdParty/{xxHash,Catch} )
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="crash-report custom-api-id debug +gtk3 +pulseaudio libressl wide-baloons"
+IUSE="crash-report custom-api-id debug +gtk3 openal-eff +pulseaudio libressl wide-baloons"
 # upstream-api-id"
 
 # ^ libav support?
@@ -54,6 +54,7 @@ COMMON_DEPEND="
 	crash-report? ( dev-util/google-breakpad )
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
+	openal-eff? ( >=media-libs/openal-1.19.1 )
 	pulseaudio? ( media-sound/pulseaudio )
 "
 
@@ -90,10 +91,8 @@ src_prepare() {
 
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
-			(
-				echo "static const int32 ApiId = ${TELEGRAM_CUSTOM_API_ID};"
-				echo "static const char *ApiHash = ${TELEGRAM_CUSTOM_API_HASH};"
-			) > custom_api_id.h
+			echo "Your custom ApiId is ${TELEGRAM_CUSTOM_API_ID}"
+			echo "Your custom ApiHash is ${TELEGRAM_CUSTOM_API_HASH}"
 		else
 			eerror ""
 			eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
@@ -110,11 +109,14 @@ src_prepare() {
 
 src_configure() {
 	local mycxxflags=(
-#		$(usex custom-api-id '-DCUSTOM_API_ID' "$(usex upstream-api-id '' '-DGENTOO_API_ID')") # Variant for moving ebuild in the tree.
-		$(usex custom-api-id '-DCUSTOM_API_ID' '')
+		# ApiId and ApiHash are from Debian repository:
+		# https://salsa.debian.org/debian/telegram-desktop/blob/debian/master/debian/patches/Debian-API-ID.patch#L16
+		# The Telegram desktop developer John Preston thinks that Debian id/hash pair can be used in Gentoo ebuild:
+		# https://github.com/telegramdesktop/tdesktop/issues/4717#issuecomment-438152135
+		# The test pair from Telegram desktop repository: TDESKTOP_API_ID=17349 and TDESKTOP_API_HASH=344583e45741c457fe1862106095a5eb
+		$(usex custom-api-id "-DTDESKTOP_API_ID=${TELEGRAM_CUSTOM_API_ID}" "-DTDESKTOP_API_ID=50322")
+		$(usex custom-api-id "-DTDESKTOP_API_HASH=${TELEGRAM_CUSTOM_API_HASH}" "-DTDESKTOP_API_HASH=9ff1a639196c0779c86dd661af8522ba")
 		-DLIBDIR="$(get_libdir)"
-		# If you will copy this ebuild from my overlay, please don't forget to uncomment -DGENTOO_API_ID definition here and fix the patch (and manifest).
-		# And also, don't forget to get your (or Gentoo's, in case you'll move it to the portage repo ("the tree)) unique ID and HASH
 
 #		-DTDESKTOP_DISABLE_CRASH_REPORTS
 #		-DTDESKTOP_DISABLE_REGISTER_CUSTOM_SCHEME
@@ -125,6 +127,7 @@ src_configure() {
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 		-DENABLE_CRASH_REPORTS="$(usex crash-report ON OFF)"
 		-DENABLE_GTK_INTEGRATION="$(usex gtk3 ON OFF)"
+		-DENABLE_OPENAL_EFFECTS="$(usex openal-eff)"
 		-DENABLE_PULSEAUDIO=$(usex pulseaudio ON OFF)
 		-DBUILD_TESTS="OFF"
 		# ^ $(usex test)?

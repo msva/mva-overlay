@@ -18,6 +18,7 @@ list(APPEND CMAKE_MODULE_PATH
 option(BUILD_TESTS "Build all available test suites" OFF)
 option(ENABLE_CRASH_REPORTS "Enable crash reports" ON)
 option(ENABLE_GTK_INTEGRATION "Enable GTK integration" ON)
+option(ENABLE_OPENAL_EFFECTS "Enable OpenAL effects" ON)
 option(ENABLE_PULSEAUDIO "Enable pulseaudio" ON)
 
 find_package(LibLZMA REQUIRED)
@@ -197,6 +198,16 @@ else()
 	list(APPEND TELEGRAM_COMPILE_DEFINITIONS
 		TDESKTOP_DISABLE_GTK_INTEGRATION
 	)
+endif()
+
+if(ENABLE_OPENAL_EFFECTS)
+    list(APPEND TELEGRAM_COMPILE_DEFINITIONS
+	AL_ALEXT_PROTOTYPES
+    )
+else()
+    list(APPEND TELEGRAM_COMPILE_DEFINITIONS
+	TDESKTOP_DISABLE_OPENAL_EFFECTS
+    )
 endif()
 
 target_sources(Telegram PRIVATE ${TELEGRAM_GENERATED_SOURCES})
