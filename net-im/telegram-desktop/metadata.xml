@@ -15,6 +15,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     must set it either in make.conf or
     portage/env/{CAT}/{PN}.</flag>
     <flag name="gtk3">Keeps GTK3 stuff enabled</flag>
+    <flag name="openal-eff">Double playback speed</flag>
     <flag name="pulseaudio">Keeps Pulseaudio support enabled
     (ALSA-only backend will be used if you disable this)</flag>
     <flag name="wide-baloons">Apply custom patch to make text
