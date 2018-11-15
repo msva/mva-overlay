@@ -127,7 +127,7 @@ src_configure() {
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 		-DENABLE_CRASH_REPORTS="$(usex crash-report ON OFF)"
 		-DENABLE_GTK_INTEGRATION="$(usex gtk3 ON OFF)"
-		-DENABLE_OPENAL_EFFECTS="$(usex openal-eff)"
+		-DENABLE_OPENAL_EFFECTS="$(usex openal-eff ON OFF)"
 		-DENABLE_PULSEAUDIO=$(usex pulseaudio ON OFF)
 		-DBUILD_TESTS="OFF"
 		# ^ $(usex test)?
