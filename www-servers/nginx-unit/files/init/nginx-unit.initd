@@ -10,16 +10,20 @@ description_reload="(Re)load configuration"
 
 command="/usr/sbin/unitd"
 command_args="${UNITD_OPTIONS}"
-pidfile="/run/unit.pid"
+pidfile="/run/nginx-unit.pid"
 
 start_stop_daemon_args=""
 
 save() {
-	/usr/bin/unit-saveconfig
+	/usr/bin/mginx-unit-saveconfig
 }
 
 reload() {
-	/usr/bin/unit-loadconfig
+	/usr/bin/nginx-unit-loadconfig
+}
+
+start_pre() {
+    checkpath -d /var/lib/nginx-unit -o root:root 0770
 }
 
 start_post() {

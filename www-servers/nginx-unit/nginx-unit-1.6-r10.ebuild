@@ -80,6 +80,9 @@ src_prepare() {
 	sed -r \
 		-e 's@-Werror@@g' \
 		-i auto/cc/test
+	use unit_modules_nodejs && sed -r \
+		-e '/(\$\{NXT_NPM\} install)/s@@\1 --unsafe@g' \
+		-i auto/modules/nodejs
 	default
 	tc-env_build
 }
@@ -87,13 +90,15 @@ src_prepare() {
 _unit_go_configure() {
 	./configure go --go-path="$(get_golibdir_gopath)" # multislot?
 }
-
+_unit_nodejs_configure() {
+	./configure nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
+}
 _unit_perl_configure() {
 	./configure perl # multislot?
 }
 _unit_php_configure() {
 	for impl in $(php_get_slots); do
-		./configure php --config="/usr/lib64/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/lib/${impl}/lib64"
+		./configure php --config="/usr/$(get_libdir)/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/lib/${impl}/$(get_libdir)"
 	done
 }
 _unit_python_configure() {
@@ -103,11 +108,11 @@ _unit_python_configure() {
 	python_foreach_impl _unit_python_configure_each
 }
 _unit_ruby_configure() {
-	_ruby_each_implementation_each() {
+	_unit_ruby_configure_each() {
 		cd "${WORKDIR}/${MY_P}"
 		./configure ruby --ruby="${RUBY}" --module="$(basename ${RUBY})"
 	}
-	_ruby_each_implementation _ruby_each_implementation_each
+	_ruby_each_implementation _unit_ruby_configure_each
 }
 
 src_configure() {
