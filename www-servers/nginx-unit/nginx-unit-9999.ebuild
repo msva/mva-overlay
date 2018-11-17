@@ -37,7 +37,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 
 UNIT_MODULES="go perl php python ruby nodejs"
-IUSE="+ipv6 +unix-sockets debug examples ${UNIT_MODULES}"
+IUSE="debug examples +ipv6 ssl +unix-sockets ${UNIT_MODULES}"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 for mod in $UNIT_MODULES; do
@@ -62,6 +62,9 @@ DEPEND="
 	unit_modules_nodejs? (
 		net-libs/nodejs
 	)
+	ssl? (
+		dev-libs/openssl:0=
+	)
 "
 RDEPEND="${DEPEND} ${RDEPEND}"
 
@@ -81,7 +84,7 @@ src_prepare() {
 		-e 's@-Werror@@g' \
 		-i auto/cc/test
 	use unit_modules_nodejs && sed -r \
-		-e '/(\$\{NXT_NPM\} install)/s@@\1 --unsafe@g' \
+		-e '/(\$\{NXT_NPM\} install)/s@@\1 --user=root@g' \
 		-i auto/modules/nodejs
 	default
 	tc-env_build
@@ -130,6 +133,7 @@ src_configure() {
 		--control="unix:/run/${PN}.sock" \
 		$(usex ipv6 '' "--no-ipv6") \
 		$(usex unix-sockets '' "--no-unix-sockets") \
+		$(usex ssl "--openssl" "") \
 		$(usex debug "--debug" "")
 
 	for mod in $UNIT_MODULES; do
