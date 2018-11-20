@@ -25,8 +25,8 @@ ruby_add_rdepend "dev-ruby/activesupport:*
 
 ruby_add_bdepend "test? (
 	dev-ruby/railties
-	>=dev-ruby/webmock-1.18.0:0
 	dev-ruby/rake )"
+#	>=dev-ruby/webmock-1.18.0:0 # builds fine without it for me (and also masked in gentoo now)
 
 DEPEND="${DEPEND} test? ( dev-libs/openssl:0 )"
 
