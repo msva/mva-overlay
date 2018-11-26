@@ -5,10 +5,11 @@ EAPI=6
 
 inherit systemd
 
-MY_P=${P/_p/.r}
+C_SHA="8e7f6eb655e342d14c2f06411d9c0c459b8f6f8f"
+
 DESCRIPTION="An IP-Transparent Tor Hidden Service Connector"
 HOMEPAGE="https://www.onioncat.org/"
-SRC_URI="https://www.cypherpunk.at/ocat/download/Source/current/${MY_P}.tar.gz"
+SRC_URI="https://github.com/rahra/onioncat/archive/${C_SHA}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -25,7 +26,7 @@ RDEPEND="
 	)
 "
 
-S=${WORKDIR}/${MY_P}
+S="${WORKDIR}/${PN}-${C_SHA}"
 
 src_prepare() {
 	sed -i \
