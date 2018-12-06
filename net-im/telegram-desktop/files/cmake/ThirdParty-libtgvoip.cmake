@@ -2,7 +2,7 @@ project(tgvoip)
 
 option(ENABLE_PULSEAUDIO "Enable pulseaudio" ON)
 
-add_subdirectory("${PROJECT_SOURCE_DIR}/webrtc_dsp/webrtc")
+add_subdirectory("${PROJECT_SOURCE_DIR}/webrtc_dsp")
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(OPUS REQUIRED opus)
@@ -15,7 +15,7 @@ file(GLOB TGVOIP_SOURCE_FILES
 	video/*.cpp
 )
 
-set(TGVOIP_COMPILE_DEFINITIONS TGVOIP_USE_DESKTOP_DSP)
+set(TGVOIP_COMPILE_DEFINITIONS TGVOIP_USE_DESKTOP_DSP WEBRTC_NS_FLOAT WEBRTC_POSIX WEBRTC_LINUX)
 
 if(ENABLE_PULSEAUDIO)
 	pkg_check_modules(LIBPULSE REQUIRED libpulse)
@@ -35,7 +35,6 @@ target_compile_definitions(${PROJECT_NAME} PUBLIC ${TGVOIP_COMPILE_DEFINITIONS})
 target_include_directories(${PROJECT_NAME} PUBLIC
 	"${OPUS_INCLUDE_DIRS}"
 	"${CMAKE_CURRENT_LIST_DIR}/webrtc_dsp"
-	"${CMAKE_CURRENT_LIST_DIR}/webrtc_dsp/webrtc"
 	"${CMAKE_CURRENT_LIST_DIR}/audio"
 )
 target_link_libraries(${PROJECT_NAME} dl ${OPUS_LIBRARIES})

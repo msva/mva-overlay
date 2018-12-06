@@ -1,8 +1,8 @@
 This patch makes telegram-desktop use system-wide qt-plugins, but not static
-diff --git a/Telegram/SourceFiles/main.cpp b/Telegram/SourceFiles/main.cpp
+diff --git a/Telegram/SourceFiles/core/launcher.cpp b/Telegram/SourceFiles/core/launcher.cpp
 --- a/Telegram/SourceFiles/core/launcher.cpp
 +++ b/Telegram/SourceFiles/core/launcher.cpp
-@@ -50,6 +50,13 @@ int main(int argc, char *argv[]) {
+@@ -58,6 +58,13 @@ int Launcher::exec() {
  	// both are finished in Application::closeApplication
  	Logs::start(this); // must be started before Platform is started
  	Platform::start(); // must be started before QApplication is created
@@ -15,11 +15,11 @@ diff --git a/Telegram/SourceFiles/main.cpp b/Telegram/SourceFiles/main.cpp
 +	unsetenv("QT_QPA_PLATFORMTHEME");
  
  	auto result = executeApplication();
- 	{
+ 
 diff --git a/Telegram/SourceFiles/qt_static_plugins.cpp b/Telegram/SourceFiles/qt_static_plugins.cpp
 --- a/Telegram/SourceFiles/qt_static_plugins.cpp
 +++ b/Telegram/SourceFiles/qt_static_plugins.cpp
-@@ -28,13 +28,4 @@ Q_IMPORT_PLUGIN(QWebpPlugin)
+@@ -15,14 +15,4 @@ Q_IMPORT_PLUGIN(QWebpPlugin)
  Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin)
  Q_IMPORT_PLUGIN(QGenericEnginePlugin)
  #elif defined Q_OS_LINUX // Q_OS_WIN | Q_OS_MAC
@@ -32,4 +32,5 @@ diff --git a/Telegram/SourceFiles/qt_static_plugins.cpp b/Telegram/SourceFiles/q
 -Q_IMPORT_PLUGIN(QIbusPlatformInputContextPlugin)
 -Q_IMPORT_PLUGIN(QFcitxPlatformInputContextPlugin)
 -Q_IMPORT_PLUGIN(QHimePlatformInputContextPlugin)
+-Q_IMPORT_PLUGIN(NimfInputContextPlugin)
  #endif // Q_OS_WIN | Q_OS_MAC | Q_OS_LINUX
