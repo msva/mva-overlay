@@ -79,7 +79,7 @@ src_prepare() {
 	cp "${FILESDIR}/cmake/ThirdParty-crl.cmake" "${THIRD_PARTY_DIR}/crl/CMakeLists.txt"
 	cp "${FILESDIR}/cmake/ThirdParty-libtgvoip.cmake" "${LIBTGVOIP_DIR}/CMakeLists.txt"
 	cp "${FILESDIR}/cmake/ThirdParty-libtgvoip-webrtc.cmake" \
-		"${LIBTGVOIP_DIR}/webrtc_dsp/webrtc/CMakeLists.txt"
+		"${LIBTGVOIP_DIR}/webrtc_dsp/CMakeLists.txt"
 
 	mkdir "${CMAKE_MODULES_DIR}" || die
 	use crash-report && cp "${FILESDIR}/cmake/FindBreakpad.cmake" "${CMAKE_MODULES_DIR}"
