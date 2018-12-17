@@ -22,7 +22,7 @@ CMAKE_MIN_VERSION="2.8.10"
 
 RDEPEND="
 	>=dev-cpp/asio-1.10
-	dev-cpp/catch
+	dev-cpp/catch:0
 	ssl? ( dev-libs/openssl:= )
 	virtual/pam
 	sys-libs/zlib
