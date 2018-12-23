@@ -1,25 +1,7 @@
-diff --git a/Telegram/SourceFiles/history/history_media_types.cpp b/Telegram/SourceFiles/history/history_media_types.cpp
---- a/Telegram/SourceFiles/history/history_media_types.cpp	2018-04-30 20:53:10.109149373 +0700
-+++ b/Telegram/SourceFiles/history/history_media_types.cpp	2018-05-01 06:31:29.929780855 +0700
-@@ -251,7 +251,7 @@ QSize HistoryPhoto::countOptimalSize() {
- 	if (!tw || !th) {
- 		tw = th = 1;
- 	}
--	if (tw > st::maxMediaSize) {
-+	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
- 		th = (st::maxMediaSize * th) / tw;
- 		tw = st::maxMediaSize;
- 	}
-@@ -279,7 +279,7 @@ QSize HistoryPhoto::countOptimalSize() {
- 
- QSize HistoryPhoto::countCurrentSize(int newWidth) {
- 	int tw = ConvertScale(_data->full->width()), th = ConvertScale(_data->full->height());
--	if (tw > st::maxMediaSize) {
-+	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
- 		th = (st::maxMediaSize * th) / tw;
- 		tw = st::maxMediaSize;
- 	}
-@@ -1261,8 +1261,12 @@ QSize HistoryDocument::countOptimalSize(
+diff --git a/Telegram/SourceFiles/history/media/history_media_document.cpp b/Telegram/SourceFiles/history/media/history_media_document.cpp
+--- a/Telegram/SourceFiles/history/media/history_media_document.cpp	2018-12-23 18:28:09.650271271 +0700
++++ b/Telegram/SourceFiles/history/media/history_media_document.cpp	2018-12-23 18:29:50.277655273 +0700
+@@ -144,8 +144,12 @@ QSize HistoryDocument::countOptimalSize(
  
  	if (auto named = Get<HistoryDocumentNamed>()) {
  		accumulate_max(maxWidth, tleft + named->_namew + tright);
@@ -32,6 +14,28 @@ diff --git a/Telegram/SourceFiles/history/history_media_types.cpp b/Telegram/Sou
  
  	auto minHeight = 0;
  	if (thumbed) {
+diff --git a/Telegram/SourceFiles/history/media/history_media_photo.cpp b/Telegram/SourceFiles/history/media/history_media_photo.cpp
+--- a/Telegram/SourceFiles/history/media/history_media_photo.cpp	2018-12-23 18:27:43.605205061 +0700
++++ b/Telegram/SourceFiles/history/media/history_media_photo.cpp	2018-12-23 18:39:26.335789671 +0700
+@@ -78,7 +78,7 @@ QSize HistoryPhoto::countOptimalSize() {
+ 	if (!tw || !th) {
+ 		tw = th = 1;
+ 	}
+-	if (tw > st::maxMediaSize) {
++	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
+ 		th = (st::maxMediaSize * th) / tw;
+ 		tw = st::maxMediaSize;
+ 	}
+@@ -106,7 +106,7 @@ QSize HistoryPhoto::countOptimalSize() {
+ 
+ QSize HistoryPhoto::countCurrentSize(int newWidth) {
+ 	int tw = ConvertScale(_data->full->width()), th = ConvertScale(_data->full->height());
+-	if (tw > st::maxMediaSize) {
++	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
+ 		th = (st::maxMediaSize * th) / tw;
+ 		tw = st::maxMediaSize;
+ 	}
+
 diff --git a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFiles/history/history_widget.cpp
 --- a/Telegram/SourceFiles/history/history_widget.cpp	2018-04-30 20:53:10.109149373 +0700
 +++ b/Telegram/SourceFiles/history/history_widget.cpp	2018-05-01 16:45:58.527903175 +0700
