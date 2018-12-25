@@ -83,9 +83,9 @@ src_prepare() {
 	sed -r \
 		-e 's@-Werror@@g' \
 		-i auto/cc/test
-	use unit_modules_nodejs && sed -r \
-		-e '/(\$\{NXT_NPM\} install)/s@@\1 --user=root@g' \
-		-i auto/modules/nodejs
+#	use unit_modules_nodejs && sed -r \
+#		-e '/(\$\{NXT_NPM\} install)/s@@\1 --user=root@g' \
+#		-i auto/modules/nodejs
 	default
 	tc-env_build
 }
