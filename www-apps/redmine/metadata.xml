@@ -10,8 +10,6 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
   </maintainer>
   <longdescription lang="en"></longdescription>
   <use>
-    <flag name='passenger'>Enable support for Phusion Passenger
-    (aka mod_rails)</flag>
     <flag name='bazaar'></flag>
     <flag name='darcs'></flag>
     <flag name='mercurial'></flag>

@@ -3,7 +3,7 @@
 
 EAPI=6
 
-USE_RUBY="ruby23 ruby24"
+USE_RUBY="ruby23 ruby24 ruby25"
 
 inherit eutils depend.apache user git-r3 ruby-ng
 
@@ -15,27 +15,19 @@ EGIT_REPO_URI="https://github.com/redmine/redmine.git"
 KEYWORDS=""
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="bazaar cvs darcs fastcgi git imagemagick mercurial mysql passenger postgres sqlite3 subversion ldap"
+IUSE="bazaar cvs darcs git imagemagick mercurial mysql  postgres sqlite3 subversion ldap"
 
 RDEPEND="
 	|| (
 		$(ruby_implementation_depend ruby23)[ssl]
 		$(ruby_implementation_depend ruby24)[ssl]
+		$(ruby_implementation_depend ruby25)[ssl]
 	)
 "
 
 ruby_add_rdepend "
 	dev-ruby/bundler
 	virtual/rubygems
-	passenger? (
-		|| (
-			www-apache/passenger
-			www-servers/nginx[nginx_modules_http_passenger]
-		)
-	)
-	fastcgi? (
-		dev-ruby/fcgi
-	)
 "
 
 RDEPEND="
@@ -82,7 +74,7 @@ all_ruby_install() {
 
 	use ldap || (
 		rm app/models/auth_source_ldap.rb
-		epatch "${FILESDIR}/no_ldap.patch"
+		eapply "${FILESDIR}/no_ldap.patch"
 	)
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
 	rm -r doc || die
@@ -94,6 +86,12 @@ all_ruby_install() {
 
 	insinto "${REDMINE_DIR}"
 	doins -r . || die
+
+	keepdir "${REDMINE_DIR}"/app/views/previews
+	keepdir "${REDMINE_DIR}"/test/{fixtures/{files/2016/12,mailer},mocks/{development,test},unit/lib/redmine/syntax_highlighting}
+	keepdir "${REDMINE_DIR}"/tmp/{cache,imports,sessions,sockets}
+	keepdir "${REDMINE_DIR}"/vendor
+
 	keepdir "${REDMINE_DIR}/files" || die
 	keepdir "${REDMINE_DIR}/public/plugin_assets" || die
 
@@ -112,16 +110,8 @@ all_ruby_install() {
 		"${REDMINE_DIR}/tmp" \
 		"${REDMINE_LOGDIR}" || die
 
-	if use passenger ; then
-		has_apache
-		if [[ $APACHE_VERSION -gt 0 ]]; then
-			insinto "${APACHE_VHOSTS_CONFDIR}"
-			doins "${FILESDIR}/10_redmine_vhost.conf" || die
-		fi
-	else
-		newconfd "${FILESDIR}/${PN}.confd" ${PN} || die
-		newinitd "${FILESDIR}/${PN}.initd" ${PN} || die
-	fi
+	newconfd "${FILESDIR}/${PN}.confd" ${PN} || die
+	newinitd "${FILESDIR}/${PN}.initd" ${PN} || die
 	doenvd "${T}/50${PN}" || die
 }
 

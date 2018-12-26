@@ -1,5 +1,5 @@
---- lib/redmine.rb.old	2013-02-03 19:09:11.267220350 +0400
-+++ lib/redmine.rb	2013-02-03 19:09:17.992220522 +0400
+--- a/lib/redmine.rb	2013-02-03 19:09:11.267220350 +0400
++++ b/lib/redmine.rb	2013-02-03 19:09:17.992220522 +0400
 @@ -242,8 +242,6 @@
              :html => {:class => 'icon icon-list'}
    menu.push :settings, {:controller => 'settings'},
