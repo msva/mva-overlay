@@ -24,8 +24,10 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	x11? (
-		x11-base/xorg-server[xcsecurity]
 		x11-wm/xpra[client,server]
+		x11-base/xorg-server[xephyr]
+		x11-base/xorg-server[xvfb]
+		x11-base/xorg-server[xcsecurity]
 	)
 "
 
