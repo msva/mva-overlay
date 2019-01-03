@@ -17,7 +17,8 @@ EAPI=6
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="ruby22 ruby23 ruby24"
+USE_RUBY="ruby23 ruby24 ruby25"
+# ruby26"
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
 
