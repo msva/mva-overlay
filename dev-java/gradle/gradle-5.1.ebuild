@@ -16,7 +16,7 @@ DEPEND="
 	app-arch/zip
 	app-eselect/eselect-gradle
 "
-RDEPEND=">=virtual/jdk-1.5"
+RDEPEND=">=virtual/jdk-9"
 IUSE="doc"
 
 src_prepare() {
@@ -27,21 +27,21 @@ src_prepare() {
 src_compile() {
 	local inst_target="install"
 	use doc && inst_target="installAll"
-	./gradlew --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradle build failed'
+	TERM=dumb ./gradlew --console=plain --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradle build failed'
 }
 
 src_install() {
 	local gradle_dir="${EROOT}usr/share/${PN}-${SLOT}"
 
-	cd dist;
-	dodoc getting-started.html
+#	cd dist;
+#	dodoc getting-started.html
 
 	insinto "${gradle_dir}"
 
 	# jars in lib/
 	# Note that we can't strip the version from the gradle jars,
 	# because then gradle won't find them.
-	cd lib;
+	cd dist/lib;
 	for jar in *.jar; do
 		java-pkg_newjar ${jar} ${jar}
 	done
