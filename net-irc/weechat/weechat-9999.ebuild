@@ -167,7 +167,7 @@ src_configure() {
 			-DPYTHON_EXECUTABLE="${PYTHON}"
 			-DPYTHON_LIBRARY="${PYTHON_LIBPATH}"
 		)
-		[[ ${EPYTHON} == python3* ]] && mycmakeargs+=( -DENABLE_PYTHON3 )
+		[[ ${EPYTHON} == python3* ]] && mycmakeargs+=( -DENABLE_PYTHON3=yes )
 	fi
 
 	cmake-utils_src_configure
