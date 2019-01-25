@@ -80,6 +80,18 @@ virtual/lua
 app-eselect/lua
 app-eselect/luajit
 dev-lang/luajit
+dev-lua/alt-getopt
+dev-lua/lanes
+dev-lua/lpeg
+dev-lua/lua-fann
+dev-lua/luacheck
+dev-lua/luadoc
+dev-lua/luautf8
+dev-lua/mpack
+dev-lua/profi
+dev-lua/srlua
+dev-lua/tekui
+net-analyzer/prometheus-nginx_exporter
 
 # May be not ready
 net-voip/trueconf

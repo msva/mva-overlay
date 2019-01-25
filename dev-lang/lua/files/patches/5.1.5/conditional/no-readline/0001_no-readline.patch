@@ -1,0 +1,10 @@
+--- a/src/luaconf.h	2006-04-10 20:27:23.000000000 +0200
++++ b/src/luaconf.h	2006-11-15 14:53:07.000000000 +0100
+@@ -36,7 +36,6 @@
+ #if defined(LUA_USE_LINUX)
+ #define LUA_USE_POSIX
+ #define LUA_USE_DLOPEN		/* needs an extra library: -ldl */
+-#define LUA_USE_READLINE	/* needs some extra libraries */
+ #endif
+ 
+ #if defined(LUA_USE_MACOSX)

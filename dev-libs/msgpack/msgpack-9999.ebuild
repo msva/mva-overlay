@@ -13,7 +13,6 @@ HOMEPAGE="http://msgpack.org/ https://github.com/msgpack/msgpack-c/"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS=""
 IUSE="+cxx +cxx11 boost test examples"
 # static-libs
 

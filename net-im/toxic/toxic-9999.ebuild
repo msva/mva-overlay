@@ -27,7 +27,7 @@ RDEPEND="
 		media-libs/libvpx:=
 		x11-libs/libX11
 	)
-	net-libs/tox:0/0.1
+	net-libs/tox:0
 	dev-libs/libconfig
 	net-misc/curl:0=
 	sys-libs/ncurses:0=

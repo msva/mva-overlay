@@ -10,14 +10,14 @@ SRC_URI="https://github.com/ether/etherpad-lite/archive/${PV}.tar.gz -> ${P}.tar
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x64-macos"
 IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-DEPEND=">=net-libs/nodejs-0.10.40"
-RDEPEND="${DEPEND}"
+RDEPEND="net-libs/nodejs"
+DEPEND="${RDEPEND}"
 
 ETHERPAD_DEST="/usr/share/${PN}"
 ETHERPAD_LOG="/var/log/${PN}"

@@ -3,5 +3,7 @@ www-client/phantomjs
 dev-java/jdbc-oracle-bin
 
 #travis-hack/start
-
+#dev-lang/lua
+#app-eselect/eselect-lua
+#virtual/lua
 #travis-hack/end

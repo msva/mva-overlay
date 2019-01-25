@@ -19,6 +19,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 # ~arm   - missing in rainbow
 # ~arm64 - missing everywhere
+# 2019: still the issue...
 
 ruby_add_rdepend '
 	dev-ruby/filesize:*

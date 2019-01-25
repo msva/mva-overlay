@@ -11,7 +11,7 @@ SRC_URI="https://github.com/premake/premake-core/releases/download/v${PV/_/-}/${
 
 LICENSE="BSD"
 SLOT=5
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="debug"
 
 S="${WORKDIR}/${P/_/-}"

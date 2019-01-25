@@ -1,0 +1,90 @@
+#!/usr/bin/luajit --
+
+-- Hide the shebang, since we don't hope env to be in /usr/bin, so just
+-- executing LuaJIT from the PATH, and make a pokerface, like we called
+-- it from env
+arg[-1]=arg[-2];
+arg[-2]=nil;
+
+local function run(cmd)
+    local f = io.popen(cmd..' 2>&1; echo "-retcode:$?"', 'r') -- XXX: Windows compat?
+    local l = f:read('*a')
+    f:close()
+    local i1,i2,ret = l:gsub("\n%-retcode","-retcode"):find('%-retcode:(%d+)\n$')
+    l = l:sub(1,i1-1)
+    return l,tonumber(ret)
+end
+
+local function exists(name)
+    if type(name)~="string" then return false end
+    return os.rename(name,name) and true or false
+end
+
+local ignore_argc=0;
+local force_interactive = false;
+local interactive = true;
+for i,v in pairs(arg) do
+	if ignore_argc>0 then
+		ignore_argc=-1;
+	elseif (v:match("^-l")) then
+		local req;
+		if (#v>2) then
+			req=v:match("^-l(.*)");
+		else
+			local nextarg=arg[i+1];
+			if (type(nextarg)=="string") then
+				ignore_argc=ignore_argc+1;
+				req=nextarg;
+			end
+		end
+		require(req);
+	elseif (v:match("^-e")) then
+		local ex;
+		if (#v>2) then
+			ex=v:match("^-e(.*)");
+		else
+			local nextarg=arg[i+1];
+			if (type(nextarg)=="string") then
+				ignore_argc=ignore_argc+1;
+				ex=nextarg;
+			end
+		end
+		loadstring(ex)();
+	elseif (v:match("^-i")) then
+		force_interactive=true;
+	elseif (v:match("^-b")) then
+		ignore_argc=math.huge; -- working with bytecode is incompatible with other options
+		local argv=arg;
+		for k,v in ipairs(argv) do
+			if v:match("^-[b]?[^ ]*e") then
+				argv[k+1]=[[']]..argv[k+1]:gsub([['(.*)']],[["%1"]])..[[']]
+				print(argv[k+1])
+			end
+		end
+		local args=table.concat(argv,' ')
+		local res,err=run("luajit "..args);
+		if (err==0) then
+			print(res);
+		else
+			local err_msg;
+			if res:find("\n") then
+				err_msg="\n"..res;
+			else
+				err_msg=res;
+			end
+			print("Error! Exit code: "..err.."; Message: "..(err_msg or "<no message>"))
+		end
+	elseif (i>0) then
+		interactive=false;
+		if (exists(v)) then
+			loadfile(v)();
+		end
+	end
+end
+if (force_interactive) then
+	interactive=true;
+end
+
+if (interactive and ignore_argc<math.huge) then
+	require("iluajit")
+end

@@ -1,0 +1,116 @@
+--- a/vendor/compat-5.3/c-api/compat-5.3.h	2017-05-10 19:43:02.701992608 +0700
++++ b/vendor/compat-5.3/c-api/compat-5.3.h	2017-05-10 19:42:51.026426540 +0700
+@@ -128,8 +128,10 @@ COMPAT53_API void lua_arith (lua_State *
+ #define lua_compare COMPAT53_CONCAT(COMPAT53_PREFIX, _compare)
+ COMPAT53_API int lua_compare (lua_State *L, int idx1, int idx2, int op);
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define lua_copy COMPAT53_CONCAT(COMPAT53_PREFIX, _copy)
+ COMPAT53_API void lua_copy (lua_State *L, int from, int to);
++#endif
+ 
+ #define lua_getuservalue(L, i) \
+   (lua_getfenv((L), (i)), lua_type((L), -1))
+@@ -167,8 +169,10 @@ COMPAT53_API void lua_rawsetp(lua_State
+ 
+ #define lua_tointeger(L, i) lua_tointegerx((L), (i), NULL)
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define lua_tonumberx COMPAT53_CONCAT(COMPAT53_PREFIX, _tonumberx)
+ COMPAT53_API lua_Number lua_tonumberx (lua_State *L, int i, int *isnum);
++#endif
+ 
+ #define luaL_checkversion COMPAT53_CONCAT(COMPAT53_PREFIX, L_checkversion)
+ COMPAT53_API void luaL_checkversion (lua_State *L);
+@@ -191,6 +195,7 @@ COMPAT53_API int luaL_getsubtable (lua_S
+ #define luaL_len COMPAT53_CONCAT(COMPAT53_PREFIX, L_len)
+ COMPAT53_API lua_Integer luaL_len (lua_State *L, int i);
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define luaL_setfuncs COMPAT53_CONCAT(COMPAT53_PREFIX, L_setfuncs)
+ COMPAT53_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup);
+ 
+@@ -199,6 +204,7 @@ COMPAT53_API void luaL_setmetatable (lua
+ 
+ #define luaL_testudata COMPAT53_CONCAT(COMPAT53_PREFIX, L_testudata)
+ COMPAT53_API void *luaL_testudata (lua_State *L, int i, const char *tname);
++#endif
+ 
+ #define luaL_traceback COMPAT53_CONCAT(COMPAT53_PREFIX, L_traceback)
+ COMPAT53_API void luaL_traceback (lua_State *L, lua_State *L1, const char *msg, int level);
+@@ -296,8 +302,10 @@ COMPAT53_API int lua_geti (lua_State *L,
+ #define lua_isinteger COMPAT53_CONCAT(COMPAT53_PREFIX, _isinteger)
+ COMPAT53_API int lua_isinteger (lua_State *L, int index);
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ #define lua_tointegerx COMPAT53_CONCAT(COMPAT53_PREFIX, _tointegerx_53)
+ COMPAT53_API lua_Integer lua_tointegerx (lua_State *L, int i, int *isnum);
++#endif
+ 
+ #define lua_numbertointeger(n, p) \
+   ((*(p) = (lua_Integer)(n)), 1)
+--- a/vendor/compat-5.3/c-api/compat-5.3.c	2017-05-10 19:58:14.246778970 +0700
++++ b/vendor/compat-5.3/c-api/compat-5.3.c	2017-05-10 19:58:07.354038934 +0700
+@@ -160,12 +160,14 @@ COMPAT53_API int lua_compare (lua_State
+ }
+ 
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ COMPAT53_API void lua_copy (lua_State *L, int from, int to) {
+   int abs_to = lua_absindex(L, to);
+   luaL_checkstack(L, 1, "not enough stack slots");
+   lua_pushvalue(L, from);
+   lua_replace(L, abs_to);
+ }
++#endif
+ 
+ 
+ COMPAT53_API void lua_len (lua_State *L, int i) {
+@@ -204,6 +206,7 @@ COMPAT53_API void lua_rawsetp (lua_State
+ }
+ 
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ COMPAT53_API lua_Number lua_tonumberx (lua_State *L, int i, int *isnum) {
+   lua_Number n = lua_tonumber(L, i);
+   if (isnum != NULL) {
+@@ -211,6 +214,7 @@ COMPAT53_API lua_Number lua_tonumberx (l
+   }
+   return n;
+ }
++#endif
+ 
+ 
+ COMPAT53_API void luaL_checkversion (lua_State *L) {
+@@ -259,6 +263,7 @@ COMPAT53_API lua_Integer luaL_len (lua_S
+ }
+ 
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ COMPAT53_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
+   luaL_checkstack(L, nup+1, "too many upvalues");
+   for (; l->name != NULL; l++) {  /* fill the table with given functions */
+@@ -295,6 +300,7 @@ COMPAT53_API void *luaL_testudata (lua_S
+   }
+   return p;
+ }
++#endif
+ 
+ 
+ static int compat53_countlevels (lua_State *L) {
+@@ -731,6 +737,7 @@ COMPAT53_API int lua_isinteger (lua_Stat
+ }
+ 
+ 
++#ifndef COMPAT53_IS_LUAJIT
+ COMPAT53_API lua_Integer lua_tointegerx (lua_State *L, int i, int *isnum) {
+   int ok = 0;
+   lua_Number n = lua_tonumberx(L, i, &ok);
+@@ -745,6 +752,7 @@ COMPAT53_API lua_Integer lua_tointegerx
+     *isnum = 0;
+   return 0;
+ }
++#endif
+ 
+ 
+ static void compat53_reverse (lua_State *L, int a, int b) {

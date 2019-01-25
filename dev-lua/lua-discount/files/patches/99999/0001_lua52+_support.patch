@@ -1,0 +1,21 @@
+diff --git a/ldiscount.c b/ldiscount.c
+index 063ae55..5e45198 100644
+--- a/ldiscount.c	2017-11-19 01:35:45.812631259 +0700
++++ b/ldiscount.c	2017-11-19 01:35:38.342881222 +0700
+@@ -6,6 +6,15 @@
+ 
+ #include "mkdio.h"
+ 
++#ifndef luaL_reg
++/* Taken from Lua5.1's lauxlib.h */
++#define luaL_reg    luaL_Reg
++#endif
++
++#if LUA_VERSION_NUM > 501
++#define luaL_register(L,n,f) luaL_setfuncs(L,f,0)
++#endif
++
+ static const char *const discount_opts[] = {
+   "nolinks",
+   "noimages",
+

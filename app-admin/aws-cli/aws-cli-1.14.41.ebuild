@@ -12,7 +12,8 @@ SRC_URI="https://github.com/aws/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~arm64 ~x86"
+# ^ ~arm = too much unavailable python stuff
 IUSE="test"
 
 RDEPEND="

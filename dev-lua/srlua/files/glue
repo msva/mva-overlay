@@ -1,0 +1,120 @@
+#!/usr/bin/env lua
+
+--[[
+Copyright (c) 2017 Vadim "mva" Misbakh-Soloviov
+This file is distributed under terms of MIT license (just as most Lua Programs).
+--]]
+
+local expert
+local libexec="/usr/libexec/srlua"
+
+if os.getenv("IKNOWWHATIAMDOING") then
+	expert=true
+end
+
+local function p(...)
+	io.stderr:write(...)
+	io.stderr:write("\n")
+end
+
+local function getabis(abi)
+	local ret={}
+	local abistr
+	local abi=abi or "*"
+	local arch
+
+	if abi=="default" then
+		arch=io.popen("uname -m"):read()
+		abi="lua"..(_VERSION:match("Lua (%S+)$") or "")..(arch or "")
+		if jit and jit.version then
+			local jit_v=jit.version:match("LuaJIT (%d.%d)")
+			abi="luajit"..(jit_v and "-"..jit_v.."*" or "")..(arch and "."..arch or "")
+		end
+	end
+
+	abistr=(io.popen(("echo %s/%s/srlua*"):format(libexec,abi)):read() or "")
+
+	if abistr:match("%*") then abistr="" end -- failed matching -> nothing found
+
+	if #abistr>8 then
+		for abi in abistr:gmatch(libexec.."/(%S*)/srlua") do
+			table.insert(ret,abi)
+		end
+	end
+
+	return ret
+end
+
+local function help(err,msg)
+	if err then
+		p("Invalid command syntax"..((msg and (#msg>0)) and (": "..msg) or "!").."\n")
+		p""
+	end
+	p"Description:"
+	p"This is a wrapper on original `srglue` program from `srlua` package"
+	p"The only difference is that you should pass 'ABI' string instead of path to `srlua`"
+	p""
+	p"Usage:"
+	p("\t"..arg[0].." [<ABI>] <prorgam.lua> [<out_program_name>]")
+	p""
+	p"\tWhere <ABI> is <lua_interpreter>.<multilib_abi>."
+	p"\tIf you see 'default' value in the list below, then <ABI> can be an optional argument. Otherwise it is mandatory."
+	p"\tAlso, if you see '<none>' value, it means this installation is broken and this program will not work at all."
+	p""
+	p"List of ABIs supported on tis system:"
+	local abilist=getabis()
+	if #abilist>0 then
+		for _,abi in ipairs(abilist) do
+			p("\t"..abi)
+		end
+		local defabi=getabis("default")
+		if #defabi==1 then
+			p("\tdefault (will be expanded to '"..defabi[1].."')")
+		end
+	else
+		p"\t<none>"
+	end
+	os.exit(err and 1 or 0)
+end
+
+local function argparse(argv)
+	local srlua=argv[1]
+	local script=argv[2]
+	local out=argv[3] or "a.out"
+
+	if srlua:match(".*%.lua") and (not expert) then
+		out=script or out
+		script=srlua
+		srlua="default"
+	end
+
+	local abi=getabis(srlua)
+	if #abi==0 then
+		help(true,"There is no such ABI that you specified.")
+	elseif #abi>1 then
+		help(true,("Multiple ABIs (%d) matched your ABI selection. Please, be more specific."):format(#abi))
+		--local interpreter, multilib = k:match("(%S*)%.(%w-)$")
+	else
+		abi=abi[1]
+	end
+
+	if not script:match(".*%.lua") and not expert then
+		help(true,"Invalid Lua Program name. Only '*.lua' files are allowed (to prevent unexpected results).\nIf you're sure you want to continue anyway, set IKNOWWHATIAMDOING environment variable.")
+	end
+
+	local chmod, chmod_mod
+	chmod="chmod" -- TODO: setfacl support
+	chmod_mod="755"
+
+	local abidir=libexec.."/"..abi
+
+	os.exit(os.execute(("%s/glue %s/srlua %s %s && %s %s %s"):format(abidir,abidir,script,out,chmod,chmod_mod,out)))
+end
+
+if #arg>3 or #arg==0 then
+	-- TODO: maybe add support to squish
+	help(#arg~=0, "wrong paramaters count (maximum: 3)\nIf you need to glue more then one Lua Program, then squish them in single file first.")
+else
+	argparse(arg)
+end
+

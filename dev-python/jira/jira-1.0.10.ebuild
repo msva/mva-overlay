@@ -17,6 +17,7 @@ SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+# requests-oauthlib have no arm
 IUSE="filemagic ipython oauth"
 
 DEPEND="

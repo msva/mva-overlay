@@ -12,7 +12,8 @@ SRC_URI="https://gist.github.com/raw/7ffbab5b23b35207525a7a05295cf67e -> bip_fon
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="amd64 arm arm64 x86"
+KEYWORDS="~amd64 ~arm ~x86"
+# ^ ~arm64: pillow
 IUSE=""
 
 RDEPEND="

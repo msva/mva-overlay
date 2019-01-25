@@ -917,7 +917,8 @@ _lua_default_all_prepare() {
 		"${@}"
 	)
 
-	patches_src_prepare
+	[[ -z "${__PATCHES_PREPARE_CALLED}" ]] && patches_src_prepare
+	export __PATCHES_PREPARE_CALLED=1
 
 	[[ -x "${BOOTSTRAP}" ]] && ${BOOTSTRAP} "${prepargs[@]}"
 

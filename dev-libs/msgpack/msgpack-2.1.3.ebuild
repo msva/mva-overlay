@@ -6,7 +6,7 @@ EAPI=6
 inherit cmake-multilib
 
 SRC_URI="https://github.com/${PN}/${PN}-c/archive/cpp-${PV}.tar.gz -> ${P}.tar.gz"
-KEYWORDS="~amd64 ~x86 ~x86-fbsd ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86 ~x86-fbsd ~amd64-linux ~x86-linux"
 
 DESCRIPTION="MessagePack is a binary-based efficient data interchange format"
 HOMEPAGE="http://msgpack.org/ https://github.com/msgpack/msgpack-c/"

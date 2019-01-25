@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>gentoo.overlay@mva.name</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription lang="en">
+    LuaJIT is a Just-In-Time Compiler for the Lua programming language.
+  </longdescription>
+  <longdescription lang="ru">
+    LuaJIT — это Just-In-Time компилятор для языка программирования Lua.
+  </longdescription>
+  <use>
+    <flag name="valgrind">Enable support for debugging under Valgrind</flag>
+    <flag name="lua52compat">Enable some Lua:5.2+ features</flag>
+    <flag name="optimization">Use "Amalgamation" compilation mode</flag>
+  </use>
+</pkgmetadata>
+

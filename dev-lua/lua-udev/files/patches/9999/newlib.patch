@@ -1,0 +1,15 @@
+--- a/lua-udev.c	2018-09-25 18:34:57.043484722 +0700
++++ b/lua-udev.c	2018-09-25 18:38:32.437294642 +0700
+@@ -584,10 +584,9 @@ static luaL_Reg udev_methods[] = {
+ 
+ };
+ 
+-#if LUA_VERSION_NUM < 503
++#ifndef luaL_newlib
+ #define luaL_newlib(L, methods)\
+-    lua_createtable(L, 0, sizeof(methods) / sizeof(luaL_Reg) - 1);\
++    lua_createtable(L, 0, sizeof(methods) / sizeof(luaL_Reg) - 1);
+-    luaL_register(L, NULL, methods);
+ #endif
+ 
+ #define lua_pushcfunctionfield(field, method)\
