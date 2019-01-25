@@ -231,7 +231,7 @@ CDEPEND="
 	perftools? ( dev-util/google-perftools )
 
 	nginx_modules_stream_dtls? (
-		>=dev-libs/openssl-1.0.2
+		>=dev-libs/openssl-1.0.2:0
 	)
 "
 

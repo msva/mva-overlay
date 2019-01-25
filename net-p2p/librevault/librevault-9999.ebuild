@@ -38,7 +38,7 @@ DEPEND="
 	)
 	>=dev-libs/boost-1.58.0
 	>=dev-libs/crypto++-5.6.2
-	>=dev-libs/openssl-1.0.1
+	>=dev-libs/openssl-1.0.1:0
 	>=dev-libs/protobuf-3.0
 	|| (
 		>=sys-devel/gcc-4.9:*
