@@ -14,7 +14,7 @@ HOMEPAGE="http://snayke.net/ https://love2d.org/forums/viewtopic.php?f=5&t=2841"
 # ^ unavailable on the internets ATM
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE=""
 RESTRICT=""
 

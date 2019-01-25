@@ -17,7 +17,8 @@ RUBY_S="${PN}-ruby-${PV}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86 ~x86-macos"
+KEYWORDS="~amd64 ~arm ~ppc ~x86 ~x86-macos"
+# ~arm64 (dev profile)
 IUSE=""
 
 ruby_add_bdepend "test? (

@@ -11,7 +11,7 @@ SRC_URI="http://sience.schattenkind.net/devmania/piratebay.love -> ${P}.zip"
 LICENSE="ZLIB"
 SLOT="0"
 # Temporary broken. When I fix it — i'll unmask it
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE=""
 RESTRICT=""
 

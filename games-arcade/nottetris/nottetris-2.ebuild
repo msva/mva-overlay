@@ -13,7 +13,7 @@ SLOT="0"
 
 # Currently not usable with love-0.8.0.
 # Waiting for fixes from upstream.
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm ~x86"
 
 IUSE=""
 RESTRICT=""

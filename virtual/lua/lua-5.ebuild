@@ -24,7 +24,7 @@ RDEPEND="
 	)
 	bit? (
 		|| (
-			dev-lang/luajit:2[${MULTILIB_USEDEP}]
+			dev-lang/luajit:2
 			dev-lua/LuaBitOp[${MULTILIB_USEDEP}]
 		)
 	)
@@ -36,7 +36,7 @@ RDEPEND="
 		)
 	)
 	luajit? (
-		dev-lang/luajit:2[${MULTILIB_USEDEP}]
+		dev-lang/luajit:2
 		app-eselect/eselect-luajit
 	)
 	app-eselect/eselect-lua

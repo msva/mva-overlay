@@ -13,7 +13,8 @@ LICENSE="MIT"
 
 RESTRICT="test"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm ~x86"
+# ~arm64
 
 ruby_add_rdepend '
 	=dev-ruby/necromancer-0.4*

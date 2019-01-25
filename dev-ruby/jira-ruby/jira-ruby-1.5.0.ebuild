@@ -15,7 +15,8 @@ HOMEPAGE="https://github.com/sumoheavy/jira-ruby https://rubygems.org/gems/jira-
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm ~x86"
+# ~arm64 (unavailable in dev profile)
 IUSE=""
 
 ruby_add_rdepend "dev-ruby/activesupport:*
