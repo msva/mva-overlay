@@ -2,10 +2,10 @@ This patch makes telegram-desktop use system-wide qt-plugins, but not static
 diff --git a/Telegram/SourceFiles/core/launcher.cpp b/Telegram/SourceFiles/core/launcher.cpp
 --- a/Telegram/SourceFiles/core/launcher.cpp
 +++ b/Telegram/SourceFiles/core/launcher.cpp
-@@ -58,6 +58,13 @@ int Launcher::exec() {
- 	// both are finished in Application::closeApplication
+@@ 226,7 +226,14 @@ int Launcher::exec() {
+ 	// both are finished in Sandbox::closeApplication
  	Logs::start(this); // must be started before Platform is started
- 	Platform::start(); // must be started before QApplication is created
+ 	Platform::start(); // must be started before Sandbox is created
 +#if defined(Q_OS_LINUX64)
 +	QCoreApplication::addLibraryPath("/usr/lib64/qt5/plugins");
 +#else

@@ -3,22 +3,27 @@ Author: Nicholas Guriev <guriev-ns@ya.ru>
 Forwarded: no
 Last-Update: 2017-03-31
 
-diff --git a/Telegram/SourceFiles/main.cpp b/Telegram/SourceFiles/main.cpp
+diff --git a/Telegram/SourceFiles/core/launcher.cpp b/Telegram/SourceFiles/core/launcher.cpp
+index 6cadc7ca0..3c30fe4ea 100644
 --- a/Telegram/SourceFiles/core/launcher.cpp
 +++ b/Telegram/SourceFiles/core/launcher.cpp
-@@ -31,7 +31,7 @@ void Launcher::init() {
+@@ -208,9 +208,9 @@ void Launcher::init() {
  
- 	QCoreApplication::setApplicationName(qsl("TelegramDesktop"));
+ 	QApplication::setApplicationName(qsl("TelegramDesktop"));
  
 -#ifndef OS_MAC_OLD
 +#if !defined(OS_MAC_OLD) && QT_VERSION >= QT_VERSION_CHECK(5, 6, 0)
- 	QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling, true);
- #endif // OS_MAC_OLD
+ 	QApplication::setAttribute(Qt::AA_DisableHighDpiScaling, true);
+-#endif // OS_MAC_OLD
++#endif
  
+ 	initHook();
+ }
 diff --git a/Telegram/SourceFiles/ui/text/text.cpp b/Telegram/SourceFiles/ui/text/text.cpp
+index bc4d3d57b..370e5fe85 100644
 --- a/Telegram/SourceFiles/ui/text/text.cpp
 +++ b/Telegram/SourceFiles/ui/text/text.cpp
-@@ -1692,11 +1692,11 @@ private:
+@@ -1760,11 +1760,11 @@ private:
  		if (item == -1)
  			return;
  
@@ -31,12 +36,13 @@ diff --git a/Telegram/SourceFiles/ui/text/text.cpp b/Telegram/SourceFiles/ui/tex
 -#endif // OS_MAC_OLD
 +#endif
  
- 		int blockIndex = _lineStartBlock;
- 		ITextBlock *currentBlock = _t->_blocks[blockIndex];
+ 		auto blockIndex = _lineStartBlock;
+ 		auto currentBlock = _t->_blocks[blockIndex].get();
 diff --git a/Telegram/SourceFiles/ui/twidget.cpp b/Telegram/SourceFiles/ui/twidget.cpp
+index d105f78c2..9a6ad1a96 100644
 --- a/Telegram/SourceFiles/ui/twidget.cpp
 +++ b/Telegram/SourceFiles/ui/twidget.cpp
-@@ -107,9 +107,9 @@ void sendSynteticMouseEvent(QWidget *widget, QEvent::Type type, Qt::MouseButton
+@@ -249,9 +249,9 @@ void sendSynteticMouseEvent(QWidget *widget, QEvent::Type type, Qt::MouseButton
  			, button
  			, QGuiApplication::mouseButtons() | button
  			, QGuiApplication::keyboardModifiers()
