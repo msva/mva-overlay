@@ -63,7 +63,13 @@ RDEPEND="
 "
 
 DEPEND="
-	|| ( >=sys-devel/gcc-7.3.0 sys-devel/clang )
+	|| (
+			>=sys-devel/gcc-7.3.0
+			(
+				sys-devel/clang
+				sys-devel/clang-runtime[libcxx,compiler-rt]
+			)
+	)
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
