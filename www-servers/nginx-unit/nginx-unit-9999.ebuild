@@ -14,7 +14,7 @@ PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php5-6 php7-0 php7-1 php7-2" # php7-3" # deps must be registered separately below
+USE_PHP="php5-6 php7-1 php7-2 php7-3" # deps must be registered separately below
 
 [[ "${PV}" = 9999 ]] && vcs=git-r3
 
