@@ -2,16 +2,16 @@ diff --git a/prosody.cfg.lua.dist b/prosody.cfg.lua.dist
 index e513b11..08ebca6 100644
 --- a/prosody.cfg.lua.dist
 +++ b/prosody.cfg.lua.dist
-@@ -105,6 +105,8 @@ ssl = {
- -- default provider stores passwords in plaintext. If you do not trust your
- -- server please see http://prosody.im/doc/modules/mod_auth_internal_hashed
- -- for information about using the hashed backend.
+@@ -123,6 +123,8 @@ s2s_secure_auth = false
+ 
+ -- Select the authentication backend to use. The 'internal' providers
+ -- use Prosody's configured data storage to store the authentication data.
 +-- See http://prosody.im/doc/authentication for other possibilities including
 +-- Cyrus SASL.
  
- authentication = "internal_plain"
+ authentication = "internal_hashed"
  
-@@ -123,12 +125,19 @@ authentication = "internal_plain"
+@@ -153,12 +155,19 @@ archive_expires_after = "1w" -- Remove a
  -- Logging configuration
  -- For advanced logging see https://prosody.im/doc/logging
  log = {
@@ -34,7 +34,3 @@ index e513b11..08ebca6 100644
  -- Uncomment to enable statistics
  -- For more info see https://prosody.im/doc/statistics
  -- statistics = "internal"
-
- ----------- Virtual hosts -----------
- -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
- -- Settings under each VirtualHost entry apply *only* to that host.
