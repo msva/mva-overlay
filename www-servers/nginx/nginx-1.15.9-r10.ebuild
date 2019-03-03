@@ -94,7 +94,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="6.0.0"
+HTTP_PASSENGER_MODULE_PV="6.0.2"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -162,7 +162,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="1.2.3"
+HTTP_NCHAN_MODULE_PV="1.2.4"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -244,7 +244,7 @@ STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.14rc3"
+HTTP_LUA_MODULE_PV="0.10.14"
 #HTTP_LUA_MODULE_SHA="f170505186ff61af36b3e126772b671793af9428"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -253,7 +253,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 # stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
-STREAM_LUA_MODULE_PV="0.0.6rc3"
+STREAM_LUA_MODULE_PV="0.0.6"
 #STREAM_LUA_MODULE_SHA="889ca55600738055262a88697f463fb78f644a1b"
 #STREAM_LUA_MODULE_SHA="594a297baf73993aa69f64e93f6b623468eb584c"
 # ^ dynamic module PR
@@ -533,7 +533,6 @@ SRC_URI="
 		amd64? ( ${HTTP_PAGESPEED_PSOL_URI/__ARCH__/x64} -> ${HTTP_PAGESPEED_PSOL_P}.amd64.tar.gz )
 	)
 	nginx_modules_http_enmemcache? ( ${HTTP_ENMEMCACHE_MODULE_URI} -> ${HTTP_ENMEMCACHE_MODULE_P}.tar.gz )
-	nginx_modules_core_tcpproxy? ( ${CORE_TCPPROXY_MODULE_URI} -> ${CORE_TCPPROXY_MODULE_P}.tar.gz )
 	nginx_modules_http_rdns? ( ${HTTP_RDNS_MODULE_URI} -> ${HTTP_RDNS_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_hls_audio? ( ${HTTP_HLS_AUDIO_MODULE_URI} -> ${HTTP_HLS_AUDIO_MODULE_P}.tar.gz )
@@ -598,6 +597,8 @@ SRC_URI="
 	nginx_modules_stream_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
 	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.tar.gz )
 "
+#	nginx_modules_core_tcpproxy? ( ${CORE_TCPPROXY_MODULE_URI} -> ${CORE_TCPPROXY_MODULE_P}.tar.gz )
+# ^ broken strating from 1.15.9
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_enmemcache? ( Apache-2.0 )
@@ -738,10 +739,11 @@ NGINX_MODULES_3P="
 	stream_python
 	stream_javascript
 	stream_lua
-	core_tcpproxy
 	core_rtmp
 	core_stream_traffic_status
 "
+#	core_tcpproxy
+# ^ broken strating at 1.15.9
 
 NGINX_MODULES_DYN="
 	http_geoip
@@ -1177,9 +1179,9 @@ src_prepare() {
 		popd &>/dev/null
 	fi
 
-	if use nginx_modules_core_tcpproxy; then
-		eapply "${CORE_TCPPROXY_MODULE_WD}"/tcp_1_8.patch
-	fi
+#	if use nginx_modules_core_tcpproxy; then
+#		eapply "${CORE_TCPPROXY_MODULE_WD}"/tcp_1_8.patch
+#	fi
 
 	default
 }

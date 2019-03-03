@@ -97,4 +97,4 @@ net-analyzer/prometheus-nginx_exporter
 net-voip/trueconf
 
 # Splitted NgX (non-static). Not ready yet.
-=www-servers/nginx-1.15.8-r100
+=www-servers/nginx-1.15.9-r100
