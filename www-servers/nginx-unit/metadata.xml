@@ -11,6 +11,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <flag name='ipv6'>Enable IPv6 support</flag>
     <flag name='unix-sockets'>Enable support of unix sockets</flag>
     <flag name='unit_modules_go'>Enable support for applications written in <pkg>dev-lang/go</pkg></flag>
+    <flag name='unit_modules_java'>Enable support for applications written in Java</flag>
     <flag name='unit_modules_perl'>Enable support for applications written in <pkg>dev-lang/perl</pkg></flag>
     <flag name='unit_modules_php'>Enable support for applications written in <pkg>dev-lang/php</pkg></flag>
     <flag name='unit_modules_python'>Enable support for applications written in <pkg>dev-lang/python</pkg></flag>
