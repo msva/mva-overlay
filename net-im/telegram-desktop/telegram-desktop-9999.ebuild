@@ -64,7 +64,7 @@ RDEPEND="
 
 DEPEND="
 	|| (
-			>=sys-devel/gcc-7.3.0
+			>=sys-devel/gcc-8.2.0-r6
 			(
 				sys-devel/clang
 				sys-devel/clang-runtime[libcxx,compiler-rt]
