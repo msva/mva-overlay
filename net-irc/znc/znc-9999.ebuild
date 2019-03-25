@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python{3_3,3_4} )
+PYTHON_COMPAT=( python3_{5,6,7} )
 inherit autotools eutils python-single-r1 user
 
 MY_PV=${PV/_/-}
