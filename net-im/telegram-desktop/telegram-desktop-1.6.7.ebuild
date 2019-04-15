@@ -129,6 +129,10 @@ src_configure() {
 #		-DTDESKTOP_DISABLE_DESKTOP_FILE_GENERATION
 	)
 
+	if [[ "${CXX}" =~ clang ]]; then
+		mycxxflags+=("-stdlib=libc++")
+	fi
+
 	local mycmakeargs=(
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 		-DENABLE_CRASH_REPORTS="$(usex crash-report ON OFF)"
