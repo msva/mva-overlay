@@ -58,7 +58,7 @@ src_prepare() {
 		-e 's|^(VERSION)=.*|\1=${PV}|' \
 		-e 's|\$\(MAJVER\)\.\$\(MINVER\)\.\$\(RELVER\)|$(VERSION)|' \
 		-e 's|^(INSTALL_PCNAME)=.*|\1=${P}.pc|' \
-		-e 's|( PREFIX)=.*|\1=${EROOT}usr|' \
+		-e 's|( PREFIX)=.*|\1='${EROOT:-/}'usr|' \
 		-e 's|^(FILE_MAN)=.*|\1=${P}.1|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
 
@@ -78,7 +78,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	sed -r \
-		-e "s|^(prefix)=.*|\1=${EROOT}usr|" \
+		-e "s|^(prefix)=.*|\1=${EROOT:-/}usr|" \
 		-e "s|^(multilib)=.*|\1=$(get_libdir)|" \
 		-i "etc/${PN}.pc" || die "Failed to slottify"
 }
@@ -109,17 +109,17 @@ multilib_src_install() {
 
 	einstalldocs
 
-	host-is-pax && pax-mark m "${ED}usr/bin/${P}"
+	host-is-pax && pax-mark m "${D}/usr/bin/${P}"
 	newman "etc/${P}.1" "luacjit-${PV}.1"
 	newbin "${FILESDIR}/luac.jit" "luacjit-${PV}"
-	ln -fs "${P}" "${ED}usr/bin/${PN}-${SLOT}"
+	ln -fs "${P}" "${D}/usr/bin/${PN}-${SLOT}"
 }
 
 pkg_postinst() {
-	if [[ ! -n $(readlink "${EROOT}"usr/bin/luajit) ]] ; then
+	if [[ ! -n $(readlink "${EROOT:-/}"usr/bin/luajit) ]] ; then
 		eselect luajit set luajit-${PV}
 	fi
-	if [[ ! -n $(readlink "${EROOT}"usr/bin/lua) ]] ; then
+	if [[ ! -n $(readlink "${EROOT:-/}"usr/bin/lua) ]] ; then
 		eselect lua set jit-${PV}
 	fi
 }

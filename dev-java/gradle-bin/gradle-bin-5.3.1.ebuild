@@ -24,9 +24,9 @@ IUSE="source doc examples"
 S="${WORKDIR}/${MY_P}"
 
 src_install() {
-	local gradle_dir="${EROOT}usr/share/${PN}-${SLOT}"
+	local gradle_dir="${EROOT:-}usr/share/${PN}-${SLOT}"
 
-	dodoc changelog.txt getting-started.html
+	dodoc getting-started.html
 
 	insinto "${gradle_dir}"
 

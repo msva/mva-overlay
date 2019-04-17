@@ -33,6 +33,10 @@ all_lua_prepare() {
 		-e '/^COMMON_CFLAGS/s# -ansi##' \
 		Makefile
 
+	sed -i -r \
+		-e 's@static (void luaL_setfuncs)@LUALIB_API \1@' \
+		src/lxplib.c
+
 	lua_default
 }
 

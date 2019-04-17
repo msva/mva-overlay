@@ -17,7 +17,7 @@ IUSE=""
 
 RDEPEND="
 	dev-python/protobuf-python[${PYTHON_USEDEP}]
-	dev-python/pycrypto[${PYTHON_USEDEP}]
+	dev-python/cryptography[${PYTHON_USEDEP}]
 	dev-python/axolotl-curve25519[${PYTHON_USEDEP}]
 "
 DEPEND="${RDEPEND}

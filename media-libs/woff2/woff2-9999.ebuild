@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit git-r3
+inherit git-r3 cmake-utils
 
 DESCRIPTION="font compression reference code"
 HOMEPAGE="https://github.com/google/woff2"
@@ -16,8 +16,16 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS=""
 
-DEPENDS=""
+RDEPEND="app-arch/brotli"
+DEPENDS="${RDEPEND}
+	virtual/pkgconfig
+"
 
-src_install() {
-	dobin ${PN}_*
+src_configure() {
+	local mycmakeargs=(
+		-DCANONICAL_PREFIXES=ON
+		-DNOISY_LOGGING=OFF
+		-DCMAKE_SKIP_RPATH=ON
+	)
+	cmake-utils_src_configure
 }

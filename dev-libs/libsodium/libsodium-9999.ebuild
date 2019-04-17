@@ -9,6 +9,7 @@ DESCRIPTION="A portable fork of NaCl, a higher-level cryptographic library"
 HOMEPAGE="https://github.com/jedisct1/libsodium"
 
 EGIT_REPO_URI="https://github.com/jedisct1/libsodium"
+EGIT_BRANCH="stable"
 
 LICENSE="ISC"
 SLOT="0/23"

@@ -10,17 +10,22 @@ SRC_URI="http://services.gradle.org/distributions/${P}-src.zip"
 HOMEPAGE="http://www.gradle.org/"
 LICENSE="Apache-2.0"
 SLOT="${PV}"
-KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
 
+KEYWORDS=""
 RDEPEND="virtual/jre:*"
+
+#KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
+#RDEPEND=">=virtual/jre-9:*"
+# ^ actually, it REQUIRES jdk/jre-9+ for build, but currently
+# corresponding virtuals are masked (and gentoo-vm flag on
+# jre/jdk ebuilds of 9+ versions is also masked)
+
+
 DEPEND="
 	${RDEPEND}
 	app-arch/zip
 	app-eselect/eselect-gradle
 "
-# ^ actually, it REQUIRES jdk/jre-9+ for build, but currently
-# corresponding virtuals are masked (and gentoo-vm flag on
-# jre/jdk ebuilds of 9+ versions is also masked)
 
 IUSE="doc"
 

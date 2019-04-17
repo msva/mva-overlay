@@ -17,13 +17,12 @@ KEYWORDS=""
 IUSE=""
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 RDEPEND="
-	>=dev-python/click-4.1[${PYTHON_USEDEP}]
-	>=dev-python/configobj-5.0.6[${PYTHON_USEDEP}]
-	>=dev-python/prompt_toolkit-1.0.0[${PYTHON_USEDEP}]
-	<dev-python/prompt_toolkit-1.1.0[${PYTHON_USEDEP}]
-	>=dev-python/pycrypto-2.6.1[${PYTHON_USEDEP}]
-	>=dev-python/pygments-2.0[${PYTHON_USEDEP}]
-	>=dev-python/pymysql-0.6.6[${PYTHON_USEDEP}]
+	>=dev-python/click-7.0[${PYTHON_USEDEP}]
+	>=dev-python/configobj-5.0.5[${PYTHON_USEDEP}]
+	>=dev-python/prompt_toolkit-2.0.6[${PYTHON_USEDEP}]
+	>=dev-python/cryptography-1.0.0[${PYTHON_USEDEP}]
+	>=dev-python/pygments-1.6[${PYTHON_USEDEP}]
+	>=dev-python/pymysql-0.9.2[${PYTHON_USEDEP}]
 	>=dev-python/python-sqlparse-0.2.2[${PYTHON_USEDEP}]
 	<dev-python/python-sqlparse-0.3.0[${PYTHON_USEDEP}]
 "

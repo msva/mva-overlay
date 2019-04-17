@@ -19,9 +19,10 @@ EXAMPLES=( demo.lua )
 
 all_lua_prepare() {
 	sed -r \
-		-e "s#(require.*)(proc.*)#\1${PN}.\2#" \
+		-e "s@(require.*)(proc.*)@\1${PN}.\2@" \
 		-i init.lua
 
+	lua_default
 	mkdir -p ${PN}
 	mv {init,proc}.lua ${PN}
 }
