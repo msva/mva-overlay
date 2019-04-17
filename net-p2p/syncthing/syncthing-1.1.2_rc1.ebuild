@@ -122,7 +122,7 @@ src_install() {
 	einstalldocs
 
 	dobin bin/syncthing
-	dobin bin/stcli
+	use cli && dobin bin/stcli
 	if use tools ; then
 		exeinto /usr/libexec/syncthing
 		local exe
