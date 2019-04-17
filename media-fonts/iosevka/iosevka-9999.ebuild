@@ -23,7 +23,7 @@ DEPEND="
 	media-gfx/otfcc
 	web? (
 		media-gfx/sfnt2woff
-		media-gfx/woff2
+		media-libs/woff2
 	)
 	"
 RDEPEND=""
