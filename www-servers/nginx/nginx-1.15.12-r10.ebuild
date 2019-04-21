@@ -244,7 +244,7 @@ STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.14"
+HTTP_LUA_MODULE_PV="0.10.15rc1"
 #HTTP_LUA_MODULE_SHA="f170505186ff61af36b3e126772b671793af9428"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -253,7 +253,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 # stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
-STREAM_LUA_MODULE_PV="0.0.6"
+STREAM_LUA_MODULE_PV="0.0.7rc1"
 #STREAM_LUA_MODULE_SHA="889ca55600738055262a88697f463fb78f644a1b"
 #STREAM_LUA_MODULE_SHA="594a297baf73993aa69f64e93f6b623468eb584c"
 # ^ dynamic module PR
