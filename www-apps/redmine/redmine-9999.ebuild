@@ -3,7 +3,7 @@
 
 EAPI=6
 
-USE_RUBY="ruby23 ruby24 ruby25"
+USE_RUBY="ruby24 ruby25 ruby26"
 
 inherit eutils depend.apache user git-r3 ruby-ng
 
@@ -19,9 +19,9 @@ IUSE="bazaar cvs darcs git imagemagick mercurial mysql  postgres sqlite3 subvers
 
 RDEPEND="
 	|| (
-		$(ruby_implementation_depend ruby23)[ssl]
 		$(ruby_implementation_depend ruby24)[ssl]
 		$(ruby_implementation_depend ruby25)[ssl]
+		$(ruby_implementation_depend ruby26)[ssl]
 	)
 "
 

@@ -3,9 +3,7 @@
 
 EAPI=6
 
-USE_RUBY="ruby23"
-# jira-ruby ^^^^
-# ruby24 ruby25"
+USE_RUBY="ruby24 ruby25"
 
 inherit ruby-fakegem git-r3
 

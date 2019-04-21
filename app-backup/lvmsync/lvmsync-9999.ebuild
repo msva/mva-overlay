@@ -1,9 +1,10 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
+# ^ ruby-fakegem only supports 6 ATM
 
-USE_RUBY="ruby21 ruby22 ruby23"
+USE_RUBY="ruby24 ruby25 ruby26"
 
 EGIT_REPO_URI="https://github.com/mpalmer/lvmsync"
 EGIT_CHECKOUT_DIR="${WORKDIR}/all"

@@ -16,7 +16,7 @@ EGIT_REPO_URI="git://git.gnupg.org/gnupg.git"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
-IUSE="adns bzip2 doc ldap nls readline static selinux smartcard usb"
+IUSE="bzip2 doc ldap nls readline static selinux smartcard usb"
 
 COMMON_DEPEND_LIBS="
 	~dev-libs/libassuan-9999
@@ -26,7 +26,6 @@ COMMON_DEPEND_LIBS="
 	~dev-libs/npth-9999
 	>=net-misc/curl-7.10
 	sys-libs/zlib
-	adns? ( >=net-libs/adns-1.4 )
 	bzip2? ( app-arch/bzip2 )
 	readline? ( sys-libs/readline:0 )
 	smartcard? ( usb? ( virtual/libusb:0 ) )
@@ -86,7 +85,6 @@ src_configure() {
 		--enable-gpg2-is-gpg \
 		--enable-maintainer-mode \
 		${myconf} \
-		$(use_with adns) \
 		$(use_enable bzip2) \
 		$(use_enable doc) \
 		$(use_enable !elibc_SunOS symcryptrun) \
@@ -94,6 +92,7 @@ src_configure() {
 		$(use_enable ldap) \
 		$(use_with readline) \
 		CC_FOR_BUILD="$(tc-getBUILD_CC)"
+#		$(use_with adns) \
 }
 
 src_compile() {
