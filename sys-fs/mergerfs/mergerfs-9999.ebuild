@@ -15,7 +15,6 @@ else
 	KEYWORDS="~amd64 ~arm64 ~x86"
 fi
 
-
 LICENSE="ISC"
 SLOT="0"
 IUSE=""

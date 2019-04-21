@@ -96,5 +96,8 @@ net-analyzer/prometheus-nginx_exporter
 # May be not ready
 net-voip/trueconf
 
+# Requires >=jre-9[gentoo-vm], which (both) are still masked in gentoo
+dev-java/gradle
+
 # Splitted NgX (non-static). Not ready yet.
 =www-servers/nginx-1.15.12-r100

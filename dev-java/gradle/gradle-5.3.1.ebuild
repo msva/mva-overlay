@@ -11,7 +11,7 @@ HOMEPAGE="http://www.gradle.org/"
 LICENSE="Apache-2.0"
 SLOT="${PV}"
 
-KEYWORDS=""
+KEYWORDS="~amd64"
 RDEPEND="virtual/jre:*"
 
 #KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
@@ -19,7 +19,6 @@ RDEPEND="virtual/jre:*"
 # ^ actually, it REQUIRES jdk/jre-9+ for build, but currently
 # corresponding virtuals are masked (and gentoo-vm flag on
 # jre/jdk ebuilds of 9+ versions is also masked)
-
 
 DEPEND="
 	${RDEPEND}

@@ -3,7 +3,9 @@
 
 EAPI=6
 
-USE_RUBY="ruby24 ruby25"
+USE_RUBY="ruby24"
+# ruby25"
+# ^ thor
 
 inherit ruby-fakegem git-r3
 
