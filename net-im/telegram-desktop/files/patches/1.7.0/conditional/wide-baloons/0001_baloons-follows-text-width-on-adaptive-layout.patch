@@ -1,7 +1,14 @@
+From 6064e7a10f24418a828ffa854503a2e92f03fb47 Mon Sep 17 00:00:00 2001
+From: Klimentyev VP <vklimentyev@gmail.com>
+Date: Thu, 9 May 2019 18:45:53 +0300
+Subject: patch
+
+
 diff --git a/Telegram/SourceFiles/history/media/history_media_document.cpp b/Telegram/SourceFiles/history/media/history_media_document.cpp
+index 8ac464c44..28a9424a9 100644
 --- a/Telegram/SourceFiles/history/media/history_media_document.cpp
 +++ b/Telegram/SourceFiles/history/media/history_media_document.cpp
-@@ -145,8 +145,12 @@ QSize HistoryDocument::countOptimalSize() {
+@@ -150,8 +150,12 @@ QSize HistoryDocument::countOptimalSize() {
  
  	if (auto named = Get<HistoryDocumentNamed>()) {
  		accumulate_max(maxWidth, tleft + named->_namew + tright);
@@ -15,6 +22,7 @@ diff --git a/Telegram/SourceFiles/history/media/history_media_document.cpp b/Tel
  	auto minHeight = 0;
  	if (thumbed) {
 diff --git a/Telegram/SourceFiles/history/media/history_media_photo.cpp b/Telegram/SourceFiles/history/media/history_media_photo.cpp
+index da03e345b..c1be836a7 100644
 --- a/Telegram/SourceFiles/history/media/history_media_photo.cpp
 +++ b/Telegram/SourceFiles/history/media/history_media_photo.cpp
 @@ -78,7 +78,7 @@ QSize HistoryPhoto::countOptimalSize() {
@@ -35,37 +43,11 @@ diff --git a/Telegram/SourceFiles/history/media/history_media_photo.cpp b/Telegr
  		th = (st::maxMediaSize * th) / tw;
  		tw = st::maxMediaSize;
  	}
-
-diff --git a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFiles/history/history_widget.cpp
---- a/Telegram/SourceFiles/history/history_widget.cpp
-+++ b/Telegram/SourceFiles/history/history_widget.cpp
-@@ -360,7 +360,20 @@ HistoryWidget::HistoryWidget(
- 		ActivateWindow(this->controller());
- 	});
- 
--	subscribe(Adaptive::Changed(), [this] { update(); });
-+	subscribe(Adaptive::Changed(), [this] {
-+/*
-+		if (_history) {
-+			_history->setHasPendingResizedItems();
-+		}
-+		updateHistoryGeometry(false, false, {ScrollChangeAdd, App::main() ? App::main()->contentScrollAddToY() : 0});
-+*/
-+		/*
-+		 * Previously, similar code (there was `_history->setPendingResize();`, and now it is only setHasPendingResizedItems)
-+		 * used to work properly (baloons was resized not only by width, but also by height). For now this behaviour is broken
-+		 * and I have totally no idea how to fix this (I tried many hacks with no luck). So, if you can fix it - contributions are welcome.
-+		 */
-+		update();
-+	});
- 	Auth().data().itemRemoved(
- 	) | rpl::start_with_next(
- 		[this](auto item) { itemRemoved(item); },
-
 diff --git a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
+index b9b888b87..0a6835029 100644
 --- a/Telegram/SourceFiles/history/view/history_view_element.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_element.cpp
-@@ -93,17 +93,6 @@ void UnreadBar::paint(Painter &p, int y, int w) const {
+@@ -112,17 +112,6 @@ void UnreadBar::paint(Painter &p, int y, int w) const {
  	p.setFont(st::historyUnreadBarFont);
  	p.setPen(st::historyUnreadBarFg);
  
@@ -84,9 +66,10 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegr
  		- 2 * st::lineWidth
  		- st::historyUnreadBarFont->height;
 diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegram/SourceFiles/history/view/history_view_message.cpp
+index c0a047f2b..2705ce41d 100644
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
-@@ -1563,7 +1563,9 @@ QRect Message::countGeometry() const {
+@@ -1603,7 +1603,9 @@ QRect Message::countGeometry() const {
  	//	contentLeft += st::msgPhotoSkip - (hmaxwidth - hwidth);
  	}
  	accumulate_min(contentWidth, maxWidth());
@@ -96,7 +79,7 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegr
  	if (mediaWidth < contentWidth) {
  		const auto textualWidth = plainMaxWidth();
  		if (mediaWidth < textualWidth
-@@ -1605,7 +1607,9 @@ int Message::resizeContentGetHeight(int newWidth) {
+@@ -1645,7 +1647,9 @@ int Message::resizeContentGetHeight(int newWidth) {
  		contentWidth -= st::msgPhotoSkip;
  	}
  	accumulate_min(contentWidth, maxWidth());
@@ -107,6 +90,7 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegr
  		media->resizeGetHeight(contentWidth);
  		if (media->width() < contentWidth) {
 diff --git a/Telegram/SourceFiles/history/view/history_view_service_message.cpp b/Telegram/SourceFiles/history/view/history_view_service_message.cpp
+index d9c0e4773..c46b391ee 100644
 --- a/Telegram/SourceFiles/history/view/history_view_service_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_service_message.cpp
 @@ -161,11 +161,7 @@ void paintBubblePart(Painter &p, int x, int y, int width, int height, SideStyle
