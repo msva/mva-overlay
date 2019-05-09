@@ -104,20 +104,22 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/support/*cpp
 	${THIRD_PARTY_DIR}/emoji_suggestions/*.cpp
 )
+
 file(GLOB FLAT_EXTRA_FILES
 	SourceFiles/qt_static_plugins.cpp
 	SourceFiles/base/*_tests.cpp
 	SourceFiles/base/tests_main.cpp
+	SourceFiles/data/data_feed_messages.cpp
 	SourceFiles/storage/cache/storage_cache_database_tests.cpp
 	SourceFiles/storage/storage_clear_legacy_win.cpp
 	SourceFiles/storage/storage_encrypted_file_tests.cpp
+	SourceFiles/storage/storage_feed_messages.cpp
 	SourceFiles/storage/storage_file_lock_win.cpp
 
 	# As of 1.3.15 Passport still doesn't work. TODO: remove that, when it'll be fixed
 	SourceFiles/passport/passport_edit_identity_box.cpp
 	SourceFiles/passport/passport_form_row.cpp
 )
-list(REMOVE_ITEM FLAT_SOURCE_FILES ${FLAT_EXTRA_FILES})
 
 file(GLOB_RECURSE SUBDIRS_SOURCE_FILES
 	SourceFiles/boxes/*.cpp
@@ -128,6 +130,19 @@ file(GLOB_RECURSE SUBDIRS_SOURCE_FILES
 	SourceFiles/ui/*.cpp
 	SourceFiles/window/*.cpp
 )
+
+file(GLOB FLAT_EXTRA_SUBDIRS_SOURCE_FILES
+	SourceFiles/history/feed/history_feed_section.cpp
+	SourceFiles/info/channels/info_channels_widget.cpp
+	SourceFiles/info/feed/info_feed_channels.cpp
+	SourceFiles/info/feed/info_feed_channels_controllers.cpp
+	SourceFiles/info/feed/info_feed_cover.cpp
+	SourceFiles/info/feed/info_feed_profile_inner_widget.cpp
+	SourceFiles/info/feed/info_feed_profile_widget.cpp
+)
+
+list(REMOVE_ITEM FLAT_SOURCE_FILES ${FLAT_EXTRA_FILES})
+list(REMOVE_ITEM SUBDIRS_SOURCE_FILES ${FLAT_EXTRA_SUBDIRS_SOURCE_FILES})
 
 add_executable(Telegram WIN32 ${QRC_FILES} ${FLAT_SOURCE_FILES} ${SUBDIRS_SOURCE_FILES})
 
