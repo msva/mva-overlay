@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit unpacker
+inherit unpacker eutils
 
 MY_PN=zoom
 
@@ -36,8 +36,6 @@ RDEPEND="${DEPEND}
 	dev-qt/qtwebengine
 	dev-qt/qtsvg
 	media-libs/fontconfig
-	media-libs/gstreamer:0.10
-	media-libs/gst-plugins-base:0.10
 	media-libs/mesa
 	x11-libs/libxcb
 	x11-libs/libXcomposite
@@ -47,12 +45,22 @@ RDEPEND="${DEPEND}
 
 S="${WORKDIR}/${MY_PN}"
 
+QA_PREBUILT="opt/zoom/*"
+
 src_prepare() {
 	default
-	rm -r libQt5* libicu* libfaac* libquazip* libturbojpeg* audio egldeviceintegrations generic iconengines imageformats platforminputcontexts platforms platformthemes Qt QtQml QtQuick QtQuick.2 QtWebChannel QtWebEngine xcbglintegrations
+	rm -r libQt5* libicu* libfaac* libquazip* libturbojpeg* audio \
+	egldeviceintegrations generic iconengines imageformats \
+	platforminputcontexts platforms platformthemes Qt QtQml QtQuick \
+	QtQuick.2 QtWebChannel QtWebEngine xcbglintegrations QtWebEngineProcess \
+	qtdiag
 }
 
 src_install() {
 	insinto /opt/"${MY_PN}"
+	exeinto /opt/"${MY_PN}"
 	doins -r *
+	doexe "${MY_PN}"{,.sh,linux} zopen ZoomLauncher
+	make_wrapper "${MY_PN}" ./"${MY_PN}" /opt/"${MY_PN}"
+	make_desktop_entry "${MY_PN}" "${MY_PN}" headset
 }
