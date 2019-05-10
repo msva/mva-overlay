@@ -28,10 +28,9 @@ REQUIRED_USE="amd64? ( multilib )"
 # TODO: minimal useflag (I can't do it now, since
 # it seems like I brake my token and it is uninitialized now)
 RDEPEND="
-	>=sys-apps/pcsc-lite-1.7
-	>=app-crypt/asedriveiiie-usb-3.7
+	dev-libs/libxml2-2.9.9-r1:2
+	sys-apps/pcsc-lite-1.8.24:0
 	virtual/libusb:0
-	media-libs/hal-flash
 "
 DEPEND="${RDEPEND}"
 
