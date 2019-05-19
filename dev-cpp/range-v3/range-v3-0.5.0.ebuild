@@ -13,7 +13,17 @@ KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
 
 LICENSE="Boost-1.0"
 SLOT="0"
-IUSE=""
+IUSE="-examples -test"
 
 RDEPEND=""
 DEPEND="${RDEPEND}"
+
+src_configure() {
+    local mycmakeargs=(
+	-DBUILD_TESTING=$(usex test)
+	-DRANGE_V3_TESTS=$(usex test)
+	-DRANGE_V3_EXAMPLES=$(usex examples)
+	-DRANGE_V3_PERF=no
+    )
+    cmake-utils_src_configure
+}
