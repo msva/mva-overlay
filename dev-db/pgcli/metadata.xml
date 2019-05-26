@@ -7,8 +7,9 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <name>Python</name>
   </maintainer>
   <upstream>
-    <remote-id type="google-code">python-sqlparse</remote-id>
-    <remote-id type="pypi">python-sqlparse</remote-id>
-    <remote-id type="github">andialbrecht/sqlparse</remote-id>
+    <remote-id type="github">dbcli/pgcli</remote-id>
   </upstream>
+  <use>
+    <flag name="keyring">Add support for keyrings feature</flag>
+  </use>
 </pkgmetadata>
