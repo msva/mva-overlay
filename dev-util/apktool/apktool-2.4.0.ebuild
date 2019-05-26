@@ -27,12 +27,11 @@ RESTRICT="test"
 src_prepare() {
 	rm -r brut.apktool/apktool-lib/src/test
 	# ^ wants to connect to X11 -> fails -> brakes build
-
 	default
 	java-pkg-2_src_prepare
 }
 src_compile() {
-	gradle --console=plain build shadowJar proguard release
+	TERM=dumb gradle --console=rich build shadowJar proguard release
 }
 
 src_install() {

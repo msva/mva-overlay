@@ -35,7 +35,7 @@ src_prepare() {
 }
 
 src_compile() {
-	gradle --console=plain assemble
+	TERM=dumb gradle --console=rich assemble
 }
 
 src_install() {

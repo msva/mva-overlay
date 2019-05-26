@@ -32,7 +32,7 @@ src_prepare() {
 	java-pkg-2_src_prepare
 }
 src_compile() {
-	gradle build shadowJar proguard
+	TERM=dumb gradle --console=rich build shadowJar proguard
 }
 
 src_install() {
