@@ -180,7 +180,7 @@ src_install() {
 		docinto html
 		dodoc Doc/*.html
 		insinto /usr/share/doc/${PF}
-		doins Doc/zsh.{dvi,pdf}
+		doins Doc/zsh_{a4,us}.{dvi,pdf}
 		popd >/dev/null
 	fi
 
