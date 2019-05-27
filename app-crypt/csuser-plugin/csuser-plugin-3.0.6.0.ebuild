@@ -28,8 +28,8 @@ REQUIRED_USE="amd64? ( multilib )"
 # TODO: minimal useflag (I can't do it now, since
 # it seems like I brake my token and it is uninitialized now)
 RDEPEND="
-	dev-libs/libxml2-2.9.9-r1:2
-	sys-apps/pcsc-lite-1.8.24:0
+	dev-libs/libxml2:2
+	sys-apps/pcsc-lite:0
 	virtual/libusb:0
 "
 DEPEND="${RDEPEND}"
@@ -45,5 +45,13 @@ src_unpack() {
 
 src_install() {
 	insinto /
-	doins -r usr etc
+	doins -r usr etc opt
+	dobin usr/bin/ifc_chrome_host
+	keepdir /var/log/ifc
+	fperms 777 /var/log/ifc
+}
+
+pkg_postinst() {
+	cd /etc/update_ccid_boundle
+	sh ./update_ccid_boundle.sh
 }
