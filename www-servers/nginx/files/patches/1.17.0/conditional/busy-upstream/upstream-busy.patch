@@ -1,7 +1,7 @@
-diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
---- a/src/http/ngx_http_upstream.c	2014-09-26 13:02:13.496888223 +0700
-+++ b/src/http/ngx_http_upstream.c	2014-09-26 13:03:17.450202120 +0700
-@@ -29,8 +29,6 @@
+diff -Naur a/src/http/ngx_http_upstream.c b/src/http/ngx_http_upstream.c
+--- a/src/http/ngx_http_upstream.c	2017-10-12 07:54:06.000000000 +0700
++++ b/src/http/ngx_http_upstream.c	2017-10-12 07:54:06.000000000 +0700
+@@ -35,8 +35,6 @@
  static void ngx_http_upstream_wr_check_broken_connection(ngx_http_request_t *r);
  static void ngx_http_upstream_check_broken_connection(ngx_http_request_t *r,
      ngx_event_t *ev);
@@ -10,7 +10,7 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
  static ngx_int_t ngx_http_upstream_reinit(ngx_http_request_t *r,
      ngx_http_upstream_t *u);
  static void ngx_http_upstream_send_request(ngx_http_request_t *r,
-@@ -692,10 +690,9 @@
+@@ -778,21 +776,20 @@
      u->ssl_name = uscf->host;
  #endif
  
@@ -19,12 +19,15 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
 -                                           NGX_HTTP_INTERNAL_SERVER_ERROR);
 -        return;
 +    switch(uscf->peer.init(r, uscf)) {
-+        case NGX_OK:   ngx_http_upstream_connect(r, u);
-+        case NGX_BUSY: return;
++      case NGX_OK:   ngx_http_upstream_connect(r, u);
++      case NGX_BUSY: return;
      }
  
      u->peer.start_time = ngx_current_msec;
-@@ -706,7 +703,7 @@
+ 
+     if (u->conf->next_upstream_tries
+         && u->peer.tries > u->conf->next_upstream_tries)
+     {
          u->peer.tries = u->conf->next_upstream_tries;
      }
  
@@ -33,7 +36,7 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
  }
  
  
-@@ -1215,7 +1212,7 @@
+@@ -1479,7 +1476,7 @@
  }
  
  
@@ -42,17 +45,31 @@ diff -Naur src/http/ngx_http_upstream.c src/http/ngx_http_upstream.c
  ngx_http_upstream_connect(ngx_http_request_t *r, ngx_http_upstream_t *u)
  {
      ngx_int_t          rc;
-diff -Naur src/http/ngx_http_upstream.h src/http/ngx_http_upstream.h
---- a/src/http/ngx_http_upstream.h	2009-12-23 09:22:17.000000000 -0500
-+++ b/src/http/ngx_http_upstream.h	2010-01-20 15:24:36.000000000 -0500
-@@ -360,6 +360,8 @@
+@@ -4145,6 +4142,15 @@
+         return;
+     }
  
- ngx_int_t ngx_http_upstream_create(ngx_http_request_t *r);
++    if (ft_type == NGX_HTTP_UPSTREAM_FT_NOLIVE) {
++        switch(u->conf->upstream->peer.init(r, u->conf->upstream)) {
++            case NGX_OK:   ngx_http_upstream_connect(r, u);
++            case NGX_BUSY: return;
++        }
++        ngx_http_upstream_finalize_request(r, u, NGX_HTTP_INTERNAL_SERVER_ERROR);
++        return;
++    }
++
+     u->state->status = status;
+ 
+     timeout = u->conf->next_upstream_timeout;
+diff -Naur a/src/http/ngx_http_upstream.h b/src/http/ngx_http_upstream.h
+--- a/src/http/ngx_http_upstream.h	2017-10-12 07:54:06.000000000 +0700
++++ b/src/http/ngx_http_upstream.h	2017-10-12 07:54:06.000000000 +0700
+@@ -406,6 +406,8 @@
+ 
+ 
  void ngx_http_upstream_init(ngx_http_request_t *r);
 +#define NGX_HTTP_UPSTREAM_INIT_BUSY_PATCH_VERSION  1
 +void ngx_http_upstream_connect(ngx_http_request_t *r, ngx_http_upstream_t *u);
  ngx_http_upstream_srv_conf_t *ngx_http_upstream_add(ngx_conf_t *cf,
      ngx_url_t *u, ngx_uint_t flags);
  char *ngx_http_upstream_bind_set_slot(ngx_conf_t *cf, ngx_command_t *cmd,
-
-

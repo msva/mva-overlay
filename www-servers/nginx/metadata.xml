@@ -8,6 +8,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
   </maintainer>
   <use>
     <flag name='aio'>Enable aio support</flag>
+    <flag name='busy-upstream'>Apply the "Busy Upstream" Patch (required for some modules)</flag>
     <flag name='debug'>Enable the debugging logging</flag>
     <flag name='http'>Enable HTTP NginX core module</flag>
     <flag name='http-cache'>Enable HTTP cache support</flag>
