@@ -11,8 +11,8 @@ before_install:
     - sudo apt-get -qq update
     - pip install lxml pyyaml
 before_script:
-    - sudo chmod a+rwX /etc/passwd /etc/group /etc /usr
-    - mkdir -p travis-overlay /etc/portage /usr/portage/distfiles
+    - sudo chmod a+rwX /etc/passwd /etc/group /etc /var /var/cache
+    - mkdir -p travis-overlay /etc/portage  /var/cache/distfiles /var/db/repos/gentoo
     - mv !(travis-overlay) travis-overlay/
     - mv .git travis-overlay/
 #    - wget "https://raw.githubusercontent.com/mrueg/repoman-travis/master/.travis.yml" -O .travis.yml.upstream
