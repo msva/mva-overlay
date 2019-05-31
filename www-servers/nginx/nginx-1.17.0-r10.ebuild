@@ -1102,6 +1102,10 @@ src_prepare() {
 			-e 's#local/include#include#' \
 			-i "${HTTP_PASSENGER_SRC_WD}"/src/ruby_supportlib/phusion_passenger/platform_info/cxx_portability.rb || die "cxx_portability.rb"
 
+		sed -r \
+			-e '/is_nan_helper/s@(return) (::isnan)@\1 std\2@' \
+			-i "${HTTP_PASSENGER_SRC_WD}"/src/cxx_supportlib/vendor-modified/boost/math/special_functions/fpclassify.hpp
+
 ############################################################
 ## WARNING! That piece is trying to unpatch passenger from it's bundled libev
 ## May provide crashes at runtime! If it is a case why you're looking here
