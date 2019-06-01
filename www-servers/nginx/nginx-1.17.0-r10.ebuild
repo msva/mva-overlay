@@ -145,7 +145,8 @@ HTTP_HLS_AUDIO_MODULE_P="${HTTP_HLS_AUDIO_MODULE_PN}-${HTTP_HLS_AUDIO_MODULE_SHA
 HTTP_HLS_AUDIO_MODULE_URI="https://github.com/${HTTP_HLS_AUDIO_MODULE_A}/${HTTP_HLS_AUDIO_MODULE_PN}/archive/${HTTP_HLS_AUDIO_MODULE_SHA:-${HTTP_HLS_AUDIO_MODULE_PV}}.tar.gz"
 HTTP_HLS_AUDIO_MODULE_WD="${WORKDIR}/${HTTP_HLS_AUDIO_MODULE_P}"
 
-# http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module/tags, BSD-2)
+# http_uploadprogress (https://github.com/msva/nginx-upload-progress-module/tags, BSD-2)
+# originally: masterzen; TODO: check it's destiny sometimes
 HTTP_UPLOAD_PROGRESS_MODULE_A="msva"
 HTTP_UPLOAD_PROGRESS_MODULE_PN="nginx-upload-progress-module"
 HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.3"
