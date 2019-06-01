@@ -53,6 +53,8 @@ list(APPEND THIRD_PARTY_INCLUDE_DIRS
 	${THIRD_PARTY_DIR}/emoji_suggestions
 	${THIRD_PARTY_DIR}/libtgvoip
 	${THIRD_PARTY_DIR}/variant/include
+	${THIRD_PARTY_DIR}/qtlottie/src/bodymovin
+	${THIRD_PARTY_DIR}/qtlottie/src/imports
 )
 
 add_subdirectory(${THIRD_PARTY_DIR}/crl)
@@ -102,7 +104,10 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/storage/*.cpp
 	SourceFiles/storage/cache/*.cpp
 	SourceFiles/support/*cpp
+	SourceFiles/lottie/*.cpp
 	${THIRD_PARTY_DIR}/emoji_suggestions/*.cpp
+	${THIRD_PARTY_DIR}/qtlottie/src/bodymovin/*.cpp
+	${THIRD_PARTY_DIR}/qtlottie/src/imports/rasterrenderer/*.cpp
 )
 
 file(GLOB FLAT_EXTRA_FILES
@@ -208,6 +213,9 @@ if(ENABLE_GTK_INTEGRATION)
 	list(APPEND TELEGRAM_LINK_LIBRARIES
 		${APPINDICATOR_LIBRARIES}
 		${GTK3_LIBRARIES}
+	)
+	list(APPEND TELEGRAM_COMPILE_DEFINITIONS
+		TDESKTOP_FORCE_GTK_FILE_DIALOG
 	)
 else()
 	list(APPEND TELEGRAM_COMPILE_DEFINITIONS
