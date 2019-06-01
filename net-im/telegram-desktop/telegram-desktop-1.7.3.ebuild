@@ -29,33 +29,35 @@ IUSE="crash-report custom-api-id debug +gtk3 openal-eff +pulseaudio libressl wid
 # ^ libav support?
 
 COMMON_DEPEND="
+	app-arch/xz-utils:=
 	dev-qt/qtcore:5=
 	dev-qt/qtdbus:5=
 	dev-qt/qtgui:5=[xcb,jpeg,png]
-	dev-qt/qtwidgets:5=[xcb,png]
 	dev-qt/qtnetwork:5=
+	dev-qt/qtwidgets:5=[xcb,png]
 	dev-qt/qtimageformats:5=
-	dev-cpp/range-v3
-	dev-libs/xxhash
+	dev-cpp/range-v3:=
+	dev-libs/rapidjson:=
+	dev-libs/xxhash:=
 	media-video/ffmpeg:=
-	media-libs/opus
-	x11-libs/libdrm
-	x11-libs/libva[X,drm]
-	sys-libs/zlib[minizip]
+	media-libs/opus:=
+	x11-libs/libdrm:=
+	x11-libs/libva:=[X,drm]
+	sys-libs/zlib:=[minizip]
 	gtk3? (
 		x11-libs/gtk+:3
 		dev-libs/libappindicator:3
 		>=dev-qt/qtgui-5.7:5[gtk(+)]
 	)
-	media-libs/openal
+	media-libs/openal:=
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
-	x11-libs/libX11
-	crash-report? ( dev-util/google-breakpad )
+	x11-libs/libX11:=
+	crash-report? ( dev-util/google-breakpad:= )
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
-	openal-eff? ( >=media-libs/openal-1.19.1 )
-	pulseaudio? ( media-sound/pulseaudio )
+	openal-eff? ( >=media-libs/openal-1.19.1:= )
+	pulseaudio? ( media-sound/pulseaudio:= )
 "
 
 RDEPEND="
