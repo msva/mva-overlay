@@ -18,14 +18,15 @@ IUSE="truetype webfonts"
 src_install() {
 	local font_s=()
 	font_s+=( "otf")
-	use truetype && font_s+=( "ttf" )
+	use truetype && font_s+=( "ttf" "variable_ttf:ttf" )
 
 	for f in ${font_s[@]}; do
-		FONT_S="${S}/distr/${f}" FONT_SUFFIX="${f}" font_src_install
+		FONT_S="${S}/distr/${f%%:*}" FONT_SUFFIX="${f#*:}" font_src_install
 	done
 
 	use webfonts && (
 		docinto html
-		dodoc -r distr/{fira_code.css,specimen.html,woff{,2},eot}
+		dodoc -r distr/{fira_code.css,specimen.html,woff{,2}}
+#,eot}
 	)
 }
