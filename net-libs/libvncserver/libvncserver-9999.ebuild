@@ -42,7 +42,7 @@ DEPEND="
 	zlib? ( >=sys-libs/zlib-1.2.8-r1:0=[${MULTILIB_USEDEP}] )"
 RDEPEND="${DEPEND}"
 
-DOCS=( AUTHORS ChangeLog NEWS README TODO )
+DOCS=( AUTHORS ChangeLog NEWS README.md TODO )
 
 multilib_src_configure() {
 	mycmakeargs=(
@@ -50,7 +50,6 @@ multilib_src_configure() {
 		-DWITH_JPEG=$(usex jpeg ON OFF)
 		-DWITH_PNG=$(usex png ON OFF)
 		-DWITH_SDL=$(usex sdl ON OFF)
-		-DWITH_X11=$(usex X ON OFF)
 		-DWITH_THREADS=$(usex threads ON OFF)
 		-DWITH_GNUTLS=$(usex gnutls ON OFF)
 		-DWITH_OPENSSL=$(usex gnutls OFF $(usex ssl ON OFF))
