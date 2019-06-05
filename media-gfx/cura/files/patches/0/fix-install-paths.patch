@@ -1,0 +1,24 @@
+--- Cura-4.1.0/CMakeLists.txt  2017-12-04 18:05:38.000000000 +0200
++++ Cura-4.1.0/CMakeLists.txt   2017-12-29 18:11:19.508034087 +0200
+@@ -63,7 +63,7 @@
+ install(DIRECTORY resources
+         DESTINATION ${CMAKE_INSTALL_DATADIR}/cura)
+ install(DIRECTORY plugins
+-        DESTINATION lib${LIB_SUFFIX}/cura)
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cura)
+ 
+ if(NOT APPLE AND NOT WIN32)
+     install(FILES cura_app.py
+@@ -78,10 +78,10 @@
+             DESTINATION lib${LIB_SUFFIX}/python${Python3_VERSION_MAJOR}/dist-packages/cura)
+     else()
+         install(DIRECTORY cura
+-            DESTINATION lib${LIB_SUFFIX}/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages
++            DESTINATION ${Python3_SITELIB}
+             FILES_MATCHING PATTERN *.py)
+         install(FILES ${CMAKE_BINARY_DIR}/CuraVersion.py
+-            DESTINATION lib${LIB_SUFFIX}/python${Python3_VERSION_MAJOR}.${Python3_VERSION_MINOR}/site-packages/cura)
++            DESTINATION ${Python3_SITELIB}/cura)
+     endif()
+     install(FILES ${CMAKE_BINARY_DIR}/cura.desktop
+             DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
