@@ -22,7 +22,6 @@ lua_add_rdepend "dev-lua/dkjson"
 lua_add_rdepend "dev-lua/lpeglabel"
 lua_add_rdepend "dev-lua/inspect"
 
-
 each_lua_install() {
 	dolua "${PN}"
 }

@@ -11,4 +11,8 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
   </maintainer>
   <longdescription>Long description of the
   package</longdescription>
+  <use>
+    <flag name="lint">Support for linting</flag>
+    <flag name="format">Support for formatting</flag>
+  </use>
 </pkgmetadata>
