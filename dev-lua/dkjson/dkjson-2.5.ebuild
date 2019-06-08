@@ -11,7 +11,8 @@ SRC_URI="http://dkolf.de/src/dkjson-lua.fsl/tarball/${P}.tar.gz?uuid=release_2_5
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86"
+#KEYWORDS="~amd64 ~arm ~ppc ~ppc64 ~x86" # ppc64 is dropped from luajit in gentoo repo
+KEYWORDS="~amd64 ~arm ~ppc ~x86"
 IUSE=""
 
 DOCS_FORCE=(readme.txt)
