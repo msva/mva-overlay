@@ -970,6 +970,8 @@ pkg_setup() {
 	if use nginx_modules_http_lua || use luajit; then
 		einfo ""
 		einfo "You will probably want to emerge @openresty set"
+		use luajit &&
+		ewarn "Also, upstream insists you should use their luajit fork (emerge luajit[openresty])"
 		einfo ""
 	fi
 

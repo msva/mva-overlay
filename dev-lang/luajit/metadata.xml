@@ -14,6 +14,7 @@
   <use>
     <flag name="valgrind">Enable support for debugging under Valgrind</flag>
     <flag name="lua52compat">Enable some Lua:5.2+ features</flag>
+    <flag name="openresty">Build OpenResty's fork</flag>
     <flag name="optimization">Use "Amalgamation" compilation mode</flag>
   </use>
 </pkgmetadata>

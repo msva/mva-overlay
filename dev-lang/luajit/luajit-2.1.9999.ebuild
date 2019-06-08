@@ -15,7 +15,7 @@ SLOT="2"
 
 LICENSE="MIT"
 KEYWORDS=""
-IUSE="debug valgrind lua52compat +optimization"
+IUSE="debug valgrind lua52compat openresty +optimization"
 
 RDEPEND="
 	valgrind? ( dev-util/valgrind )
@@ -51,8 +51,22 @@ pkg_setup() {
 	check_req setup
 }
 
+src_unpack() {
+	if use openresty; then
+		EGIT_REPO_URI="https://github.com/openresty/luajit2"
+		EGIT_BRANCH="v2.1-agentzh"
+	fi
+	git-r3_src_unpack
+}
+
 src_prepare() {
 	patches_src_prepare
+
+	use openresty && (
+		sed -r \
+			-e '/\$\(SYMLINK\) \$\(INSTALL_TNAME\) \$\(INSTALL_TSYM\)/d' \
+			-i Makefile
+	)
 
 	# fixing prefix and version
 	sed -r \
