@@ -95,6 +95,7 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/inline_bots/*.cpp
 	SourceFiles/intro/*.cpp
 	SourceFiles/lang/*.cpp
+	SourceFiles/main/*.cpp
 	SourceFiles/mtproto/*.cpp
 	SourceFiles/overview/*.cpp
 	SourceFiles/passport/*.cpp
