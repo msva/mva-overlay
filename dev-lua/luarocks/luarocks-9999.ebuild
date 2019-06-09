@@ -32,10 +32,18 @@ all_lua_prepare() {
 	sed -r \
 		-e "/die.*Unknown flag:/d" \
 		-i configure
+
+#	sed -r \
+#		-e "s@(.*)/lib/luarocks(/rocks)@\1\2@" \
+#		-i	src/luarocks/luarocks/cmd/init.lua \
+#			src/luarocks/core/cfg.lua \
+#			src/luarocks/util.lua
+#
 	lua_default
 }
 
 each_lua_configure() {
+	local abi="$(lua_get_abi)"
 	local md5 downloader lua incdir
 	md5="md5sum"
 	downloader="wget"
@@ -48,15 +56,13 @@ each_lua_configure() {
 	myeconfargs=()
 	myeconfargs+=(
 		--prefix=/usr
-		--with-lua=/usr
 		--with-lua-lib="/usr/$(get_libdir)"
-		--rocks-tree=/usr
+		--rocks-tree="/usr/$(get_libdir)/lua/luarocks"
 		--with-downloader="${downloader}"
 		--with-md5-checker="${md5}"
-		--lua-suffix="${lua//lua}"
 		--lua-version="$(lua_get_abi)"
 		--with-lua-include="${incdir}"
-		--sysconfdir=/etc/${PN}
+		--sysconfdir=/etc
 	)
 	lua_default
 }
@@ -65,11 +71,19 @@ each_lua_compile() {
 	lua_default build
 }
 
+each_lua_install() {
+	local abi="$(lua_get_abi)"
+	lua_default
+	for l in luarocks{,-admin}; do
+		mv "${D}/usr/bin/${l}" "${D}/usr/bin/${l}-${abi}"
+	done
+	keepdir /usr/"$(get_libdir)"/lua/luarocks/lib/luarocks/rocks-"${abi}"
+}
+
 pkg_preinst() {
 	local abi="$(lua_get_abi)"
 	find "${D}" -type f | xargs sed -e "s:${D}::g" -i || die "sed failed"
 	for l in luarocks{,-admin}; do
-		rm "${D}/usr/bin/${l}"
 		dosym "${l}-${abi}" "/usr/bin/${l}"
 	done
 }
