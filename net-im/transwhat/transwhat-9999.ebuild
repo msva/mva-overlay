@@ -1,43 +1,32 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
+EAPI=7
+PYTHON_COMPAT=( python2_7 )
+# python3_{4,5,6} )
+# ^ e4u
 #pypy{,3} )
 # ^ protobuf
-
 inherit distutils-r1 git-r3
 
-DESCRIPTION="a WhatsApp XMPP Gateway backend for net-im/spectrum"
-HOMEPAGE="https://github.com/stv0g/transwhat/"
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/stv0g/transwhat/"
+DESCRIPTION="A WhatsApp XMPP Gateway based on Spectrum 2 and Yowsup 2"
+HOMEPAGE="https://github.com/stv0g/transwhat"
+EGIT_REPO_URI="https://github.com/stv0g/transwhat.git"
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	net-im/yowsup[encryption,${PYTHON_USEDEP}]
-	dev-python/python-dateutil[${PYTHON_USEDEP}]
-	dev-python/protobuf-python[${PYTHON_USEDEP}]
 	dev-python/e4u[${PYTHON_USEDEP}]
+	dev-python/pillow[${PYTHON_USEDEP}]
+	dev-python/protobuf-python[${PYTHON_USEDEP}]
+	dev-python/python-dateutil[${PYTHON_USEDEP}]
+	net-im/yowsup[encryption,${PYTHON_USEDEP}]
 "
-DEPEND="${RDEPEND}
-	dev-python/setuptools[${PYTHON_USEDEP}]"
+DEPEND="${RDEPEND}"
 
-DOCS=( README.md )
+BDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
 
-src_prepare() {
-	cp "${FILESDIR}"/setup.py "${S}"/
-	distutils-r1_src_prepare
-}
-
-src_install() {
-	insinto "/usr/lib/${PN}"
-	doins *.py
-	exeinto "/usr/lib/${PN}"
-	doexe "${PN}".py
-	distutils-r1_src_install
-}
+DOCS=( "INSTALL.rst" "README.rst" "USAGE.rst" )
