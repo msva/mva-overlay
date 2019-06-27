@@ -572,6 +572,9 @@ lua_src_configure() {
 	else
 		_lua_each_implementation each_lua_configure
 	fi
+	if declare -f all_lua_configure >/dev/null; then
+		_lua_invoke_environment all all_lua_configure
+	fi
 }
 
 # @FUNCTION: lua_src_compile
