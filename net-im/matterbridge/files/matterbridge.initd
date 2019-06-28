@@ -1,0 +1,27 @@
+#!/sbin/openrc-run
+
+command="/usr/bin/matterbridge"
+
+depend() {
+    need net
+}
+
+start() {
+    ebegin "Starting matterbridge"
+    start-stop-daemon --start \
+            --make-pidfile \
+            --background \
+            --user matterbridge \
+            --group matterbridge \
+            --pidfile /var/run/matterbridge.pid \
+            -- $command -conf /etc/matterbridge.toml
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping matterbridge"
+    start-stop-daemon --stop \
+            --pidfile /var/run/matterbridge.pid \
+            -- $command -conf /etc/matterbridge.toml
+    eend $?
+}

@@ -1,0 +1,15 @@
+[Unit]
+Description=MatterBridge
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=matterbridge
+Group=matterbridge
+Type=simple
+Restart=on-failure
+PIDFile=/run/matterbridge.pid
+ExecStart=/usr/bin/matterbridge -conf /etc/matterbridge.toml
+
+[Install]
+WantedBy=multi-user.target
