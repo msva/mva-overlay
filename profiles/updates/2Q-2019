@@ -1,1 +1,3 @@
 move media-gfx/woff2 media-libs/woff2
+move dev-python/axolotl dev-python/python-axolotl
+move dev-python/axolotl-curve25519 dev-python/python-axolotl-curve25519
