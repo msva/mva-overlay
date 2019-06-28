@@ -19,10 +19,7 @@ DEPEND="
 	net-im/jabber-base
 	!icu? ( >=net-dns/libidn-1.1:0 )
 	icu? ( dev-libs/icu )
-	|| (
-		>=dev-libs/openssl-0.9.8z:0.9.8
-		>=dev-libs/openssl-1.0.1j:0
-	)
+	>=dev-libs/openssl-1.0.1j:*
 "
 
 RDEPEND="

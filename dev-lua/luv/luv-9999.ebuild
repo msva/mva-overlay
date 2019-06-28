@@ -72,7 +72,6 @@ all_lua_install() {
 	cmake-utils_src_install
 }
 
-
 pkg_postinst() {
 	einfo "Be aware of the fact, that you'll need to rebuild ${CATEGORY}/${PN}"
 	einfo "if you'll decide to switch default lua implementation to another value"

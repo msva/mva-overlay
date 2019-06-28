@@ -23,7 +23,7 @@ RDEPEND="
 	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/protobuf-python[${PYTHON_USEDEP}]
 	dev-python/python-dateutil[${PYTHON_USEDEP}]
-	net-im/yowsup[encryption,${PYTHON_USEDEP}]
+	net-im/yowsup[${PYTHON_USEDEP}]
 "
 DEPEND="${RDEPEND}"
 
