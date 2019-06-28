@@ -16,7 +16,7 @@ EXPORT_FUNCTIONS src_prepare
 patches_src_prepare() {
 	[[ -z ${PATCHES[@]} ]] && PATCHES=()
 	PATCHDIR_BASE="${FILESDIR}/patches"
-	PATCHDIRS=("${CUSTOM_PATCHDIR:-non-existant-dir}" "${SLOT}" "${PV}" "${PV}-${PR}")
+	PATCHDIRS=("${CUSTOM_PATCHDIR:-non-existant-dir}" "${SLOT//\/*}" "${PV}" "${PV}-${PR}")
 	for PATCHDIR in ${PATCHDIRS[@]/#/${PATCHDIR_BASE}/}; do
 		if [[ -d "${PATCHDIR}" ]]; then
 			_patchdir_not_empty() {
