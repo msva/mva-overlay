@@ -16,7 +16,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS=""
 
-IUSE_PLUGINS="frotz irc purple skype sms twitter whatsapp"
+IUSE_PLUGINS="frotz irc purple skype sms twitter whatsapp xmpp"
 IUSE="debug doc mysql postgres sqlite test ${IUSE_PLUGINS}"
 
 RDEPEND="
