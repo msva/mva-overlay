@@ -5,7 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit cmake-utils python-single-r1 systemd git-r3
+inherit cmake-utils python-single-r1 user systemd git-r3
 
 DESCRIPTION="An open source instant messaging transport"
 HOMEPAGE="https://spectrum.im"
@@ -99,6 +99,7 @@ src_configure() {
 		-DENABLE_TWITTER="$(usex twitter)"
 		-DENABLE_XMPP="$(usex xmpp)"
 		-DLIB_INSTALL_DIR="$(get_libdir)"
+		$(usex postgres '-DCMAKE_CXX_STANDARD=14' '')
 	)
 
 	cmake-utils_src_configure
