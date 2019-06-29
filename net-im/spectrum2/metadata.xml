@@ -1,27 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <maintainer type="person">
-    <email>gentoo-overlay@mva.name</email>
-    <description>If you have any issues, please contact me via
-    e-mail, jabber (mva@), or IRC (Freenode, RusNet,
-    oftc)</description>
-    <name>Vadim A. Misbakh-Soloviov</name>
-  </maintainer>
-  <longdescription>Long description of the
-  package</longdescription>
-  <use>
-    <flag name='libev'></flag>
-    <flag name='staticport'></flag>
-    <flag name='symlinks'></flag>
-    <flag name='tools'></flag>
-    <flag name='frotz'></flag>
-    <flag name='irc'></flag>
-    <flag name='purple'></flag>
-    <flag name='skype'></flag>
-    <flag name='smstools'></flag>
-    <flag name='twitter'></flag>
-    <flag name='whatsapp'></flag>
-  </use>
+	<maintainer type="person">
+		<email>ck+gentoo@bl4ckb0x.de</email>
+		<name>Conrad Kostecki</name>
+	</maintainer>
+	<maintainer type="project">
+		<email>proxy-maint@gentoo.org</email>
+		<name>Proxy Maintainers</name>
+	</maintainer>
+	<maintainer type="person">
+		<email>andrey_utkin@gentoo.org</email>
+		<name>Andrey Utkin</name>
+	</maintainer>
+	<longdescription>
+		Spectrum is an open source instant messaging transport.
+		It allows users to chat together even when they are using
+		different IM networks. It acts as a transport layer between
+		the users as showed in the animation above.
+	</longdescription>
+	<use>
+		<flag name="frotz">Enables the Z-Engine backend.</flag>
+		<flag name="irc">Enables the IRC backend, based on <pkg>net-im/libcommuni</pkg>.</flag>
+		<flag name="purple">Enables the libpurple backend, based on <pkg>net-im/pidgin</pkg>.</flag>
+		<flag name="sms">Enables the SMS backend, based on <pkg>app-mobilephone/smstools</pkg>.</flag>
+		<flag name="whatsapp">Enables the WhatsApp backend, based on <pkg>net-im/transwhat</pkg>.</flag>
+		<flag name="twitter">Enables the Twitter backend.</flag>
+	</use>
 </pkgmetadata>

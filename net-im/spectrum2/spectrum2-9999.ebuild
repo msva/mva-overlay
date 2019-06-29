@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,8 +16,8 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS=""
 
-IUSE_PLUGINS="frotz irc purple skype smstools twitter whatsapp"
-IUSE="debug doc mysql postgres sqlite staticport symlinks test tools ${IUSE_PLUGINS}"
+IUSE_PLUGINS="frotz irc purple skype sms twitter whatsapp"
+IUSE="debug doc mysql postgres sqlite test ${IUSE_PLUGINS}"
 
 RDEPEND="
 	dev-libs/boost:=[nls]
