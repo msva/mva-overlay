@@ -1079,10 +1079,10 @@ src_prepare() {
 	fi
 
 	if use nginx_modules_http_lua; then
-		sed -r \
-			-e '/#if.*NGX_HTTP_V2/,/#endif/s@return.*luaL_error.*http2 requests.*@(int)0;@' \
-			-i "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_subrequest.c \
-			   "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_headers.c
+#		sed -r \
+#			-e '/#if.*NGX_HTTP_V2/,/#endif/s@return.*luaL_error.*http2 requests.*@(int)0;@' \
+#			-i "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_subrequest.c \
+#			   "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_headers.c
 		if use luajit; then
 			sed -r \
 				-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
