@@ -9,8 +9,8 @@ PIDFile=/run/nginx-unit.pid
 #EnvironmentFile=-/etc/conf.d/unit
 ExecStart=/usr/sbin/unitd
 # $UNITD_OPTIONS
-ExecReload=-/usr/bin/nginx-unit-loadconfig
-ExecStop=-/usr/bin/nginx-unit-saveconfig
+#ExecReload=-/usr/bin/nginx-unit-loadconfig
+#ExecStop=-/usr/bin/nginx-unit-saveconfig
 
 [Install]
 WantedBy=multi-user.target

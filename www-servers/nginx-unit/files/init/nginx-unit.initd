@@ -3,35 +3,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 description="NginX Unit"
-extra_started_commands="reload save"
-
 description_save="Save configuration"
 description_reload="(Re)load configuration"
-
 command="/usr/sbin/unitd"
 command_args="${UNITD_OPTIONS}"
 pidfile="/run/nginx-unit.pid"
 
-start_stop_daemon_args=""
-
-save() {
-	/usr/bin/mginx-unit-saveconfig
-}
-
-reload() {
-	/usr/bin/nginx-unit-loadconfig
-}
-
 start_pre() {
     checkpath -d /var/lib/nginx-unit -o root:root 0770
-}
-
-start_post() {
-	reload
-}
-
-stop_pre() {
-	save
 }
 
 depend() {
