@@ -31,29 +31,31 @@ PROSODY_MODULES="
 	cloud_notify compact_resource compat_bind compat_dialback
 	compat_muc_admin compat_vcard component_client component_http
 	component_roundrobin compression_unsafe conformance_restricted
-	conversejs couchdb csi csi_battery_saver csi_compat csi_pump data_access
-	default_bookmarks default_vcard delay delegation deny_omemo devices
-	disable_tls discoitems dwd e2e_policy email_pass extdisco fallback_vcard
-	filter_chatstates filter_words firewall flash_policy graceful_shutdown
-	group_bookmarks host_blacklist host_guard host_status_check
-	host_status_heartbeat http_altconnect http_auth_check
-	http_authentication http_avatar http_dir_listing http_dir_listing2
-	http_favicon http_host_status_check http_hostaliases http_index
-	http_logging http_muc_log http_pep_avatar http_rest http_roster_admin
-	http_stats_stream http_upload http_upload_external http_user_count
-	idlecompat ignore_host_chatstates incidents_handling inject_ecaps2
-	inotify_reload invite ipcheck isolate_host jid_prep json_streams lastlog
-	latex lib_ldap limit_auth limits list_active list_inactive listusers
-	log_auth log_events log_http log_mark log_messages_sql log_rate
+	conversejs couchdb csi csi_battery_saver csi_compat csi_grace_period
+	csi_muc_priorities data_access default_bookmarks default_vcard
+	delegation deny_omemo devices disable_tls discoitems dwd e2e_policy
+	email_pass extdisco fallback_vcard filter_chatstates filter_words
+	firewall flash_policy graceful_shutdown group_bookmarks host_blacklist
+	host_guard host_status_check host_status_heartbeat http_altconnect
+	http_auth_check http_authentication http_avatar http_dir_listing
+	http_dir_listing2 http_favicon http_host_status_check http_hostaliases
+	http_index http_logging http_muc_log http_pep_avatar http_rest
+	http_roster_admin http_stats_stream http_upload http_upload_external
+	http_user_count idlecompat ignore_host_chatstates incidents_handling
+	inject_ecaps2 inotify_reload invite ipcheck isolate_host jid_prep
+	json_streams lastlog latex lib_ldap limit_auth limits list_active
+	list_inactive listusers log_auth log_events log_events_by_cpu_usage
+	log_events_by_memory log_http log_mark log_messages_sql log_rate
 	log_sasl_mech log_slow_events mam mam_adhoc mam_archive mam_muc mamsub
-	manifesto measure_client_features measure_client_identities
+	manifesto map measure_client_features measure_client_identities
 	measure_client_presence measure_cpu measure_malloc measure_memory
 	measure_message_e2ee measure_message_length measure_stanza_counts
 	measure_storage message_logging migrate minimix motd_sequential
 	muc_access_control muc_badge muc_ban_ip muc_block_pm muc_cloud_notify
-	muc_config_restrict muc_eventsource muc_gc10 muc_intercom muc_lang
-	muc_limits muc_log muc_log_http muc_ping muc_restrict_rooms munin
-	net_dovecotauth net_proxy offline_email omemo_all_access onhold onions
+	muc_config_restrict muc_defaults muc_eventsource muc_gc10 muc_intercom
+	muc_lang muc_limits muc_log muc_log_http muc_mam_hints muc_mam_markers
+	muc_notifications muc_ping muc_restrict_rooms munin net_dovecotauth
+	net_proxy offline_email offline_hints omemo_all_access onhold onions
 	openid password_policy password_reset pastebin pep_vcard_avatar
 	pep_vcard_png_avatar persisthosts pinger poke_strangers post_msg
 	presence_cache presence_dedup privacy_lists private_adhoc privilege
@@ -80,8 +82,8 @@ PROSODY_MODULES="
 	streamstats strict_https support_contact support_room swedishchef
 	tcpproxy telnet_tlsinfo test_data throttle_presence throttle_unsolicited
 	tls_policy traceback track_muc_joins turncredentials twitter
-	uptime_presence vcard_command vcard_muc vjud watchuntrusted webpresence
-	xhtmlim
+	uptime_presence vcard_command vcard_muc vjud watchuntrusted web_push
+	webpresence xhtmlim
 "
 
 for x in ${PROSODY_MODULES}; do
