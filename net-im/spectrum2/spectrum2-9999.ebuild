@@ -47,7 +47,7 @@ RDEPEND="
 	)
 	sms? ( app-mobilephone/smstools )
 	sqlite? ( dev-db/sqlite:3 )
-	skype? ( x11-plugins/pidgin-skypeweb dev-libs/protobuf )
+	skype? ( x11-plugins/pidgin-skypeweb )
 	whatsapp? ( net-im/transwhat )
 "
 # TODO:
