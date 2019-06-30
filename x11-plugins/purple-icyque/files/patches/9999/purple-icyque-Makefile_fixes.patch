@@ -1,0 +1,47 @@
+From 66683df4f683d04338d6ded2893fe491b3657172 Mon Sep 17 00:00:00 2001
+From: Lars Wendler <polynomial-c@gentoo.org>
+Date: Wed, 20 Mar 2019 22:23:28 +0100
+Subject: [PATCH] Makefile fixes
+
+---
+ Makefile | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 7de695a..f30b405 100644
+--- a/Makefile
++++ b/Makefile
+@@ -50,13 +50,13 @@ else
+ 	  ICYQUE_ICONS_DEST =
+     else
+       ICYQUE_TARGET = libicyque.so
+-      ICYQUE_DEST = $(DESTDIR)`$(PKG_CONFIG) --variable=plugindir purple`
+-	  ICYQUE_ICONS_DEST = $(DESTDIR)`$(PKG_CONFIG) --variable=datadir purple`/pixmaps/pidgin/protocols
++      ICYQUE_DEST = $(DESTDIR)$(shell $(PKG_CONFIG) --variable=plugindir purple)
++	  ICYQUE_ICONS_DEST = $(DESTDIR)$(shell $(PKG_CONFIG) --variable=datadir purple)/pixmaps/pidgin/protocols
+     endif
+   else
+     ICYQUE_TARGET = libicyque3.so
+-    ICYQUE_DEST = $(DESTDIR)`$(PKG_CONFIG) --variable=plugindir purple-3`
+-	ICYQUE_ICONS_DEST = $(DESTDIR)`$(PKG_CONFIG) --variable=datadir purple-3`/pixmaps/pidgin/protocols
++    ICYQUE_DEST = $(DESTDIR)$(shell $(PKG_CONFIG) --variable=plugindir purple-3)
++	ICYQUE_ICONS_DEST = $(DESTDIR)$(shell $(PKG_CONFIG) --variable=datadir purple-3)/pixmaps/pidgin/protocols
+   endif
+ endif
+ 
+@@ -79,10 +79,10 @@ TEST_C_FILES := icyque_test.c $(C_FILES)
+ all: $(ICYQUE_TARGET)
+ 
+ libicyque.so: $(PURPLE_C_FILES) $(PURPLE_COMPAT_FILES)
+-	$(CC) -fPIC $(CFLAGS) -shared -o $@ $^ $(LDFLAGS) `$(PKG_CONFIG) purple glib-2.0 json-glib-1.0 zlib --libs --cflags` -ldl $(INCLUDES) -Ipurple2compat -g -ggdb
++	$(CC) -fPIC $(CFLAGS) -shared -o $@ $^ $(LDFLAGS) $(shell $(PKG_CONFIG) purple glib-2.0 json-glib-1.0 zlib --libs --cflags) -ldl $(INCLUDES) -Ipurple2compat -g -ggdb
+ 
+ libicyque3.so: $(PURPLE_C_FILES)
+-	$(CC) -fPIC $(CFLAGS) -shared -o $@ $^ $(LDFLAGS) `$(PKG_CONFIG) purple-3 glib-2.0 json-glib-1.0 zlib --libs --cflags` -ldl $(INCLUDES) -g -ggdb
++	$(CC) -fPIC $(CFLAGS) -shared -o $@ $^ $(LDFLAGS) $(shell $(PKG_CONFIG) purple-3 glib-2.0 json-glib-1.0 zlib --libs --cflags) -ldl $(INCLUDES) -g -ggdb
+ 
+ libicyque.dll: $(PURPLE_C_FILES) $(PURPLE_COMPAT_FILES)
+ 	$(WIN32_CC) -shared -o $@ $^ $(WIN32_PIDGIN2_CFLAGS) $(WIN32_PIDGIN2_LDFLAGS) -Ipurple2compat
+-- 
+2.21.0
+
