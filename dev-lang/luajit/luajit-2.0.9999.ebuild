@@ -101,11 +101,13 @@ multilib_src_compile() {
 		HOST_CC="$(tc-getCC)" \
 		CC="${CC}" \
 		TARGET_STRIP="true" \
+		MULTILIB="$(get_libdir)" \
+		LMULTILIB="$(get_libdir)" \
 		XCFLAGS="${xcflags[*]}" ${opt}
 }
 
 multilib_src_install() {
-	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" install
+	emake DESTDIR="${D}" MULTILIB="$(get_libdir)" LMULTILIB="$(get_libdir)" install
 
 	einstalldocs
 
