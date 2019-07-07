@@ -9,5 +9,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <longdescription>FIXME</longdescription>
-  <use></use>
+  <use>
+    <flag name="clickhouse"></flag>
+  </use>
 </pkgmetadata>

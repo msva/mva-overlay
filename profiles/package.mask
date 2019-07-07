@@ -76,6 +76,7 @@ dev-lua/resty-websocket
 dev-lang/lua:5.1
 dev-lang/lua:5.2
 dev-lang/lua:5.3
+dev-lang/lua:5.4
 virtual/lua
 app-eselect/lua
 app-eselect/luajit
@@ -92,6 +93,9 @@ dev-lua/profi
 dev-lua/srlua
 dev-lua/tekui
 net-analyzer/prometheus-nginx_exporter
+
+# Not ready (broken buildsystem)
+dev-db/proxysql
 
 # May be not ready
 net-voip/trueconf
