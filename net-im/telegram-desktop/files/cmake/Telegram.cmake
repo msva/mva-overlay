@@ -53,8 +53,11 @@ list(APPEND THIRD_PARTY_INCLUDE_DIRS
 	${THIRD_PARTY_DIR}/emoji_suggestions
 	${THIRD_PARTY_DIR}/libtgvoip
 	${THIRD_PARTY_DIR}/variant/include
-	${THIRD_PARTY_DIR}/qtlottie/src/bodymovin
-	${THIRD_PARTY_DIR}/qtlottie/src/imports
+	${THIRD_PARTY_DIR}/rlottie/inc
+	${THIRD_PARTY_DIR}/rlottie/src/lottie
+	${THIRD_PARTY_DIR}/rlottie/src/vector
+	${THIRD_PARTY_DIR}/rlottie/src/vector/pixman
+	${THIRD_PARTY_DIR}/rlottie/src/vector/freetype
 )
 
 add_subdirectory(${THIRD_PARTY_DIR}/crl)
@@ -91,6 +94,7 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/core/*.cpp
 	SourceFiles/data/*.cpp
 	SourceFiles/dialogs/*.cpp
+	SourceFiles/ffmpeg/*.cpp
 	SourceFiles/history/*.cpp
 	SourceFiles/inline_bots/*.cpp
 	SourceFiles/intro/*.cpp
@@ -107,8 +111,10 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/support/*cpp
 	SourceFiles/lottie/*.cpp
 	${THIRD_PARTY_DIR}/emoji_suggestions/*.cpp
-	${THIRD_PARTY_DIR}/qtlottie/src/bodymovin/*.cpp
-	${THIRD_PARTY_DIR}/qtlottie/src/imports/rasterrenderer/*.cpp
+	${THIRD_PARTY_DIR}/rlottie/src/lottie/*.cpp
+	${THIRD_PARTY_DIR}/rlottie/src/vector/*.cpp
+	${THIRD_PARTY_DIR}/rlottie/src/vector/freetype/*.cpp
+	${THIRD_PARTY_DIR}/rlottie/src/vector/pixman/*.cpp
 )
 
 file(GLOB FLAT_EXTRA_FILES
@@ -125,6 +131,8 @@ file(GLOB FLAT_EXTRA_FILES
 	# As of 1.3.15 Passport still doesn't work. TODO: remove that, when it'll be fixed
 	SourceFiles/passport/passport_edit_identity_box.cpp
 	SourceFiles/passport/passport_form_row.cpp
+	
+	${THIRD_PARTY_DIR}/rlottie/src/vector/pixman/pixman-arm-neon-asm.S
 )
 
 file(GLOB_RECURSE SUBDIRS_SOURCE_FILES
@@ -176,6 +184,7 @@ set(TELEGRAM_INCLUDE_DIRS
 set(TELEGRAM_LINK_LIBRARIES
 	xxhash
 	crl
+	lz4
 	tgvoip
 	OpenSSL::Crypto
 	OpenSSL::SSL
