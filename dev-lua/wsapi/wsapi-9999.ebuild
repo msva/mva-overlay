@@ -37,7 +37,7 @@ EAMPLES=(samples/.)
 
 all_lua_prepare() {
 	sed -r \
-		-e "s///g" \
+		-e "s/\r//g" \
 		-i src/launcher/wsapi{,.cgi,.fcgi}
 	lua_default
 	rm configure
