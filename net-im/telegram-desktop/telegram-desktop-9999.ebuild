@@ -39,6 +39,7 @@ COMMON_DEPEND="
 	dev-cpp/range-v3:=
 	dev-libs/rapidjson:=
 	dev-libs/xxhash:=
+	app-arch/lz4:=
 	media-video/ffmpeg:=
 	media-libs/opus:=
 	x11-libs/libdrm:=
