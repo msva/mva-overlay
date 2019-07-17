@@ -92,8 +92,6 @@ pkg_pretend() {
 			die "Building ${PN} with clang requires 'clang' USE-flag to be enabled"
 		fi
 	fi
-
-	default
 }
 
 src_prepare() {
