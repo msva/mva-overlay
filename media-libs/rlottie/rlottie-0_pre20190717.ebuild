@@ -24,18 +24,21 @@ BDEPEND="
 		sys-devel/clang
 		sys-devel/clang-runtime[libcxx]
 	)
+	>=dev-util/meson-0.50.1
 "
 
 S="${WORKDIR}/${PN}-${MY_SHA}"
 
+_isclang() {
+	[[ "${CXX}" =~ clang ]]
+}
+
 src_configure() {
 	if use libcxx; then
-		export CC=clang CXX=clang++
+		_isclang || export CC=clang CXX=clang++
 		append-cxxflags "-stdlib=libc++"
 	fi
-	if [[ "${CXX}" =~ clang ]]; then
-		append-cxxflags "-Wno-error" # https://github.com/Samsung/rlottie/issues/217
-	fi
+	_isclang && append-cxxflags "-Wno-error" # https://github.com/Samsung/rlottie/issues/217
 	local emesonargs=(
 		$(meson_use threads thread)
 		$(meson_use cache)
