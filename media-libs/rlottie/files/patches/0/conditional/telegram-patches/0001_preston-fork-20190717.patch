@@ -1,0 +1,251 @@
+From 477fd79efe10a51edbd2f6c71de51f749ebd9416 Mon Sep 17 00:00:00 2001
+From: John Preston <johnprestonmail@gmail.com>
+Date: Tue, 25 Jun 2019 16:03:54 +0200
+Subject: [PATCH 1/4] Fix build for Windows.
+
+---
+ src/lottie/lottieparser.cpp |  1 +
+ src/vector/config.h         | 16 ++++++++++++++++
+ src/vector/vglobal.h        |  8 ++++----
+ 3 files changed, 21 insertions(+), 4 deletions(-)
+ create mode 100644 src/vector/config.h
+
+diff --git a/src/lottie/lottieparser.cpp b/src/lottie/lottieparser.cpp
+index 08dbf60..003d10c 100644
+--- a/src/lottie/lottieparser.cpp
++++ b/src/lottie/lottieparser.cpp
+@@ -52,6 +52,7 @@
+ // the parse.
+ 
+ #include <array>
++#include <string>
+ 
+ #include "lottiemodel.h"
+ #include "rapidjson/document.h"
+From 40ccf084445c60a32d72d4811edf0efd0580dcaa Mon Sep 17 00:00:00 2001
+From: John Preston <johnprestonmail@gmail.com>
+Date: Tue, 25 Jun 2019 17:18:56 +0200
+Subject: [PATCH 2/4] Fix build for macOS with static Qt.
+
+---
+ src/vector/vcompositionfunctions.cpp | 23 +++++++++++++++++++++++
+ src/vector/vdrawhelper_sse2.cpp      |  8 ++++++++
+ 2 files changed, 31 insertions(+)
+
+diff --git a/src/vector/vcompositionfunctions.cpp b/src/vector/vcompositionfunctions.cpp
+index 52ac0db..29305f0 100644
+--- a/src/vector/vcompositionfunctions.cpp
++++ b/src/vector/vcompositionfunctions.cpp
+@@ -18,6 +18,8 @@
+ 
+ #include "vdrawhelper.h"
+ 
++#ifndef RLOTTIE_WITH_STATIC_QT
++
+ /*
+   result = s
+   dest = s * ca + d * cia
+@@ -163,6 +165,27 @@ void comp_func_DestinationOut(uint *dest, const uint *src, int length,
+     }
+ }
+ 
++#else // RLOTTIE_WITH_STATIC_QT
++
++static void comp_func_solid_Source(uint32_t *dest, int length, uint32_t color,
++                            uint32_t const_alpha);
++static void comp_func_solid_SourceOver(uint32_t *dest, int length, uint32_t color,
++                                uint32_t const_alpha);
++static void comp_func_solid_DestinationIn(uint *dest, int length, uint color,
++                                          uint const_alpha);
++static void comp_func_solid_DestinationOut(uint *dest, int length, uint color,
++                                           uint const_alpha);
++static void comp_func_Source(uint32_t *dest, const uint32_t *src, int length,
++                      uint32_t const_alpha);
++static void comp_func_SourceOver(uint32_t *dest, const uint32_t *src, int length,
++                          uint32_t const_alpha);
++static void comp_func_DestinationIn(uint *dest, const uint *src, int length,
++                             uint const_alpha);
++static void comp_func_DestinationOut(uint *dest, const uint *src, int length,
++                              uint const_alpha);
++
++#endif // RLOTTIE_WITH_STATIC_QT
++
+ CompositionFunctionSolid COMP_functionForModeSolid_C[] = {
+     comp_func_solid_Source, comp_func_solid_SourceOver,
+     comp_func_solid_DestinationIn, comp_func_solid_DestinationOut};
+diff --git a/src/vector/vdrawhelper_sse2.cpp b/src/vector/vdrawhelper_sse2.cpp
+index c2133d3..f0946c9 100644
+--- a/src/vector/vdrawhelper_sse2.cpp
++++ b/src/vector/vdrawhelper_sse2.cpp
+@@ -210,6 +210,8 @@ void comp_func_solid_Source_sse2(uint32_t* dest, int length, uint32_t color,
+     }
+ }
+ 
++#ifndef RLOTTIE_WITH_STATIC_QT
++
+ void comp_func_solid_SourceOver_sse2(uint32_t* dest, int length, uint32_t color,
+                                      uint32_t const_alpha)
+ {
+@@ -244,6 +246,8 @@ void comp_func_Source_sse2(uint32_t* dest, const uint32_t* src, int length,
+     }
+ }
+ 
++#endif // RLOTTIE_WITH_STATIC_QT
++
+ void comp_func_SourceOver_sse2_1(uint32_t* dest, const uint32_t* src,
+                                  int length, uint32_t const_alpha)
+ {
+@@ -435,6 +439,8 @@ static force_inline uint32_t core_combine_over_u_pixel_sse2(uint32_t src,
+     return dst;
+ }
+ 
++#ifndef RLOTTIE_WITH_STATIC_QT
++
+ // static force_inline void
+ // core_combine_over_u_sse2_no_mask (uint32_t *	  pd,
+ //                  const uint32_t*    ps,
+@@ -495,4 +501,6 @@ void comp_func_SourceOver_sse2(uint32_t* pd, const uint32_t* ps, int w,
+     }
+ }
+ 
++#endif // RLOTTIE_WITH_STATIC_QT
++
+ #endif
+
+From 302b7f98b4f6846dc2414d9a5dc6c44864b92dd3 Mon Sep 17 00:00:00 2001
+From: John Preston <johnprestonmail@gmail.com>
+Date: Mon, 15 Jul 2019 14:06:14 +0200
+Subject: [PATCH 4/4] Don't use SSE Qt compose methods.
+
+---
+ src/vector/vdrawhelper.cpp      | 20 ++++++++++----------
+ src/vector/vdrawhelper_neon.cpp |  2 +-
+ src/vector/vdrawhelper_sse2.cpp | 18 +++++-------------
+ 3 files changed, 16 insertions(+), 24 deletions(-)
+
+diff --git a/src/vector/vdrawhelper.cpp b/src/vector/vdrawhelper.cpp
+index a22ce34..bc39438 100644
+--- a/src/vector/vdrawhelper.cpp
++++ b/src/vector/vdrawhelper.cpp
+@@ -913,32 +913,32 @@ void vInitDrawhelperFunctions()
+ 
+ #if defined(__ARM_NEON__)
+     // update fast path for NEON
+-    extern void comp_func_solid_SourceOver_neon(
++    extern void Vcomp_func_solid_SourceOver_neon(
+         uint32_t * dest, int length, uint32_t color, uint32_t const_alpha);
+ 
+     COMP_functionForModeSolid_C[VPainter::CompModeSrcOver] =
+-        comp_func_solid_SourceOver_neon;
++        Vcomp_func_solid_SourceOver_neon;
+ #endif
+ 
+ #if defined(__SSE2__)
+     // update fast path for SSE2
+-    extern void comp_func_solid_SourceOver_sse2(
++    extern void Vcomp_func_solid_SourceOver_sse2(
+         uint32_t * dest, int length, uint32_t color, uint32_t const_alpha);
+-    extern void comp_func_solid_Source_sse2(
++    extern void Vcomp_func_solid_Source_sse2(
+         uint32_t * dest, int length, uint32_t color, uint32_t const_alpha);
+-    extern void comp_func_Source_sse2(uint32_t * dest, const uint32_t *src,
++    extern void Vcomp_func_Source_sse2(uint32_t * dest, const uint32_t *src,
+                                       int length, uint32_t const_alpha);
+-    extern void comp_func_SourceOver_sse2(uint32_t * dest, const uint32_t *src,
++    extern void Vcomp_func_SourceOver_sse2(uint32_t * dest, const uint32_t *src,
+                                           int length, uint32_t const_alpha);
+ 
+     COMP_functionForModeSolid_C[VPainter::CompModeSrc] =
+-        comp_func_solid_Source_sse2;
++        Vcomp_func_solid_Source_sse2;
+     COMP_functionForModeSolid_C[VPainter::CompModeSrcOver] =
+-        comp_func_solid_SourceOver_sse2;
++        Vcomp_func_solid_SourceOver_sse2;
+ 
+-    COMP_functionForMode_C[VPainter::CompModeSrc] = comp_func_Source_sse2;
++    COMP_functionForMode_C[VPainter::CompModeSrc] = Vcomp_func_Source_sse2;
+     // COMP_functionForMode_C[VPainter::CompModeSrcOver] =
+-    // comp_func_SourceOver_sse2;
++    // Vcomp_func_SourceOver_sse2;
+ #endif
+ }
+ 
+diff --git a/src/vector/vdrawhelper_neon.cpp b/src/vector/vdrawhelper_neon.cpp
+index 25a2fed..456ab00 100644
+--- a/src/vector/vdrawhelper_neon.cpp
++++ b/src/vector/vdrawhelper_neon.cpp
+@@ -17,7 +17,7 @@ void memfill32(uint32_t *dest, uint32_t value, int length)
+     pixman_composite_src_n_8888_asm_neon(length, 1, dest, length, value);
+ }
+ 
+-void comp_func_solid_SourceOver_neon(uint32_t *dest, int length, uint32_t color,
++void Vcomp_func_solid_SourceOver_neon(uint32_t *dest, int length, uint32_t color,
+                                      uint32_t const_alpha)
+ {
+     if (const_alpha != 255) color = BYTE_MUL(color, const_alpha);
+diff --git a/src/vector/vdrawhelper_sse2.cpp b/src/vector/vdrawhelper_sse2.cpp
+index f0946c9..4629971 100644
+--- a/src/vector/vdrawhelper_sse2.cpp
++++ b/src/vector/vdrawhelper_sse2.cpp
+@@ -196,7 +196,7 @@ inline static void comp_func_helper_sse2(uint32_t* dest, int length,
+                        })
+ }
+ 
+-void comp_func_solid_Source_sse2(uint32_t* dest, int length, uint32_t color,
++void Vcomp_func_solid_Source_sse2(uint32_t* dest, int length, uint32_t color,
+                                  uint32_t const_alpha)
+ {
+     if (const_alpha == 255) {
+@@ -210,9 +210,7 @@ void comp_func_solid_Source_sse2(uint32_t* dest, int length, uint32_t color,
+     }
+ }
+ 
+-#ifndef RLOTTIE_WITH_STATIC_QT
+-
+-void comp_func_solid_SourceOver_sse2(uint32_t* dest, int length, uint32_t color,
++void Vcomp_func_solid_SourceOver_sse2(uint32_t* dest, int length, uint32_t color,
+                                      uint32_t const_alpha)
+ {
+     int ialpha;
+@@ -222,7 +220,7 @@ void comp_func_solid_SourceOver_sse2(uint32_t* dest, int length, uint32_t color,
+     comp_func_helper_sse2(dest, length, color, ialpha);
+ }
+ 
+-void comp_func_Source_sse2(uint32_t* dest, const uint32_t* src, int length,
++void Vcomp_func_Source_sse2(uint32_t* dest, const uint32_t* src, int length,
+                            uint32_t const_alpha)
+ {
+     int ialpha;
+@@ -246,9 +244,7 @@ void comp_func_Source_sse2(uint32_t* dest, const uint32_t* src, int length,
+     }
+ }
+ 
+-#endif // RLOTTIE_WITH_STATIC_QT
+-
+-void comp_func_SourceOver_sse2_1(uint32_t* dest, const uint32_t* src,
++void Vcomp_func_SourceOver_sse2_1(uint32_t* dest, const uint32_t* src,
+                                  int length, uint32_t const_alpha)
+ {
+     uint32_t s, sia;
+@@ -439,13 +435,11 @@ static force_inline uint32_t core_combine_over_u_pixel_sse2(uint32_t src,
+     return dst;
+ }
+ 
+-#ifndef RLOTTIE_WITH_STATIC_QT
+-
+ // static force_inline void
+ // core_combine_over_u_sse2_no_mask (uint32_t *	  pd,
+ //                  const uint32_t*    ps,
+ //                  int                w)
+-void comp_func_SourceOver_sse2(uint32_t* pd, const uint32_t* ps, int w,
++void Vcomp_func_SourceOver_sse2(uint32_t* pd, const uint32_t* ps, int w,
+                                uint32_t)
+ {
+     uint32_t s, d;
+@@ -501,6 +495,4 @@ void comp_func_SourceOver_sse2(uint32_t* pd, const uint32_t* ps, int w,
+     }
+ }
+ 
+-#endif // RLOTTIE_WITH_STATIC_QT
+-
+ #endif

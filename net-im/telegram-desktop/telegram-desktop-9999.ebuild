@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -19,46 +19,49 @@ else
 fi
 
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
-EGIT_SUBMODULES=( '*' -Telegram/ThirdParty/{xxHash,Catch} )
+EGIT_SUBMODULES=( '*' -Telegram/ThirdParty/{xxHash,Catch,lz4,rlottie} )
+#,tgvoip
+#} )
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="crash-report custom-api-id debug +gtk3 openal-eff +pulseaudio libressl wide-baloons"
+IUSE="clang crash-report custom-api-id debug +gtk3 openal-eff +pulseaudio libressl wide-baloons"
 # upstream-api-id"
 
 # ^ libav support?
 
 COMMON_DEPEND="
+	app-arch/lz4:=
 	app-arch/xz-utils:=
+	crash-report? ( dev-util/google-breakpad:= )
+	dev-cpp/range-v3:=
+	dev-libs/rapidjson:=
+	dev-libs/xxhash:=
 	dev-qt/qtcore:5=
 	dev-qt/qtdbus:5=
 	dev-qt/qtgui:5=[xcb,jpeg,png]
 	dev-qt/qtnetwork:5=
 	dev-qt/qtwidgets:5=[xcb,png]
 	dev-qt/qtimageformats:5=
-	dev-cpp/range-v3:=
-	dev-libs/rapidjson:=
-	dev-libs/xxhash:=
-	app-arch/lz4:=
-	media-video/ffmpeg:=
-	media-libs/opus:=
-	x11-libs/libdrm:=
-	x11-libs/libva:=[X,drm]
-	sys-libs/zlib:=[minizip]
 	gtk3? (
 		x11-libs/gtk+:3
 		dev-libs/libappindicator:3
 		>=dev-qt/qtgui-5.7:5[gtk(+)]
 	)
-	media-libs/openal:=
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
-	x11-libs/libX11:=
-	crash-report? ( dev-util/google-breakpad:= )
+	media-libs/openal:=
+	media-libs/opus:=
+	media-libs/rlottie:=
+	media-video/ffmpeg:=
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	openal-eff? ( >=media-libs/openal-1.19.1:= )
 	pulseaudio? ( media-sound/pulseaudio:= )
+	sys-libs/zlib:=[minizip]
+	x11-libs/libdrm:=
+	x11-libs/libva:=[X,drm]
+	x11-libs/libX11:=
 "
 
 RDEPEND="
@@ -66,18 +69,32 @@ RDEPEND="
 "
 
 DEPEND="
-	|| (
-		>=sys-devel/gcc-8.2.0-r6
-		(
-			sys-devel/clang
-			sys-devel/clang-runtime[libcxx,compiler-rt]
-		)
+	clang? (
+		sys-devel/clang
+		sys-devel/clang-runtime[libcxx,compiler-rt]
+		media-libs/rlottie:=[libcxx]
 	)
+	!clang? ( >=sys-devel/gcc-8.2.0-r6 )
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
 
 CMAKE_USE_DIR="${S}/Telegram"
+
+pkg_pretend() {
+	if [[ ${MERGE_TYPE} != binary ]]; then
+		if ! use clang && has_version '>=sys-devel/gcc-9.1.0' && has_version '<sys-devel/gcc-9.1.0-r2' && [[ -z "${I_HAVE_PATCHED_GCC_9_1_FOR_TELEGRAM}" ]]; then
+			die "GCC-9.1.0 (without special patch) causes https://github.com/telegramdesktop/tdesktop/issues/5996"
+		fi
+	fi
+	if [[ "${CXX}" =~ clang ]]; then
+		if ! use clang; then
+			die "Building ${PN} with clang requires 'clang' USE-flag to be enabled"
+		fi
+	fi
+
+	default
+}
 
 src_prepare() {
 	local CMAKE_MODULES_DIR="${S}/Telegram/cmake"
@@ -110,7 +127,7 @@ src_prepare() {
 			eerror "- /etc/portage/make.conf (globally, so all applications you'll build will see that ID and HASH"
 			eerror "- /etc/portage/env/${CATEGORY}/${PN} (privately for this package builds)"
 			eerror ""
-			die "You should correctly set TELEGRAM_CUSTOM_API_ID && TELEGRAM_CUSTOM_API_HASH variables if you want custom-api-id USE-flag"
+			die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables if you want custom-api-id USE-flag"
 		fi
 	fi
 	mv "${S}"/lib/xdg/telegram{,-}desktop.desktop || die "Failed to fix .desktop-file name"
@@ -133,7 +150,7 @@ src_configure() {
 	)
 
 	if [[ "${CXX}" =~ clang ]]; then
-		mycxxflags+=("-stdlib=libc++")
+			mycxxflags+=("-stdlib=libc++")
 	fi
 
 	local mycmakeargs=(

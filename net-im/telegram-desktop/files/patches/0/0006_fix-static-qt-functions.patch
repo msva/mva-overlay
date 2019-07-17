@@ -3,7 +3,7 @@ new file mode 100644
 index 0000000..4a722b8
 --- /dev/null
 +++ b/Telegram/SourceFiles/qt_functions.cpp
-@@ -0,0 +1,94 @@
+@@ -0,0 +1,95 @@
 +/****************************************************************************
 +**
 +** Copyright (C) 2015 The Qt Company Ltd.
@@ -37,6 +37,7 @@ index 0000000..4a722b8
 +**
 +****************************************************************************/
 +
++#include "private/qtextengine_p.h"
 +/* TODO: find a dynamic library with these symbols. */
 +
 +/* Debian maintainer: this function is taken from qfiledialog.cpp */

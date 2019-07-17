@@ -10,6 +10,7 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
   </maintainer>
   <longdescription>Telegram Desktop Client</longdescription>
   <use>
+    <flag name="clang">Build with <pkg>sys-devel/clang</pkg></flag>
     <flag name="crash-report">Enable Crash Reporter</flag>
     <flag name="custom-api-id">Use custom API ID and API HASH (you
     must set it either in make.conf or
