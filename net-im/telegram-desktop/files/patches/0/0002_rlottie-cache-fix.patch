@@ -1,13 +1,16 @@
 --- a/Telegram/SourceFiles/lottie/lottie_animation.cpp	2019-07-18 01:38:58.330968242 +0700
 +++ b/Telegram/SourceFiles/lottie/lottie_animation.cpp	2019-07-18 01:37:09.841694524 +0700
-@@ -128,7 +130,9 @@ std::unique_ptr<rlottie::Animation> Crea
+@@ -128,7 +130,12 @@ std::unique_ptr<rlottie::Animation> Crea
  	const auto string = UnpackGzip(content);
  	Assert(string.size() <= kMaxFileSize);
  
 -	auto result = rlottie::Animation::loadFromData(string, std::string());
-+	char dataSha1[20] = { 0 };
-+	hashSha1(string.data(), string.size(), dataSha1);
-+	auto result = rlottie::Animation::loadFromData(string, dataSha1);
++	auto cacheKey = std::string();
++	#ifndef TDESKTOP_OFFICIAL_TARGET
++		cacheKey.resize(20);
++		hashSha1(string.data(), string.size(), cacheKey.data());
++	#endif // TDESKTOP_OFFICIAL_TARGET
++	auto result = rlottie::Animation::loadFromData(string, cacheKey);
  	if (!result) {
  		LOG(("Lottie Error: Parse failed."));
  	}
