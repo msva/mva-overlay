@@ -49,19 +49,9 @@ pkg_check_modules(MINIZIP REQUIRED minizip)
 set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/ThirdParty)
 list(APPEND THIRD_PARTY_INCLUDE_DIRS
 	${THIRD_PARTY_DIR}/crl/src
-	${THIRD_PARTY_DIR}/GSL/include
 	${THIRD_PARTY_DIR}/emoji_suggestions
-	${THIRD_PARTY_DIR}/libtgvoip
-	${THIRD_PARTY_DIR}/variant/include
-#	${THIRD_PARTY_DIR}/rlottie/inc
-#	${THIRD_PARTY_DIR}/rlottie/src/lottie
-#	${THIRD_PARTY_DIR}/rlottie/src/vector
-#	${THIRD_PARTY_DIR}/rlottie/src/vector/pixman
-#	${THIRD_PARTY_DIR}/rlottie/src/vector/freetype
 )
-
 add_subdirectory(${THIRD_PARTY_DIR}/crl)
-add_subdirectory(${THIRD_PARTY_DIR}/libtgvoip)
 
 set(TELEGRAM_SOURCES_DIR ${CMAKE_SOURCE_DIR}/SourceFiles)
 set(TELEGRAM_RESOURCES_DIR ${CMAKE_SOURCE_DIR}/Resources)
@@ -111,10 +101,6 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/support/*cpp
 	SourceFiles/lottie/*.cpp
 	${THIRD_PARTY_DIR}/emoji_suggestions/*.cpp
-#	${THIRD_PARTY_DIR}/rlottie/src/lottie/*.cpp
-#	${THIRD_PARTY_DIR}/rlottie/src/vector/*.cpp
-#	${THIRD_PARTY_DIR}/rlottie/src/vector/freetype/*.cpp
-#	${THIRD_PARTY_DIR}/rlottie/src/vector/pixman/*.cpp
 )
 
 file(GLOB FLAT_EXTRA_FILES
@@ -177,6 +163,7 @@ set(TELEGRAM_INCLUDE_DIRS
 	${QT_PRIVATE_INCLUDE_DIRS}
 	${THIRD_PARTY_INCLUDE_DIRS}
 	${ZLIB_INCLUDE_DIR}
+	${CMAKE_INSTALL_PREFIX}/include/libtgvoip
 )
 
 set(TELEGRAM_LINK_LIBRARIES

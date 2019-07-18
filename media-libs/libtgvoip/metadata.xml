@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>gentoo-overlay@mva.name</email>
+    <description>If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>VoIP library for Telegram clients</longdescription>
+  <use>
+    <flag name="alsa">Enable ALSA support</flag>
+    <flag name="disable-reassembler">Apply reassembler disabling patch from tdesktop fork</flag>
+    <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> against <pkg>sys-libs/libcxx</pkg></flag>
+    <flag name="pulseaudio">Enable PulseAudio support</flag>
+    <flag name="static-libs">Build static library</flag>
+  </use>
+  <upstream>
+    <remote-id type="github">grishka/libtgvoip</remote-id>
+    <bugs-to>https://github.com/grishka/libtgvoip/issues</bugs-to>
+  </upstream>
+</pkgmetadata>

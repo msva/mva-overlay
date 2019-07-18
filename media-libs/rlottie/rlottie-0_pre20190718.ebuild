@@ -5,7 +5,7 @@ EAPI=7
 
 inherit meson flag-o-matic patches
 
-MY_SHA="d26c1a5d903b8c344eb21940cd709c2fb20a0195"
+MY_SHA="eb2ed2ca903bcec3ceb2af15f6efada664f2bd65"
 
 DESCRIPTION="A platform independent standalone library that plays Lottie Animation"
 HOMEPAGE="https://github.com/Samsung/rlottie"
@@ -21,8 +21,9 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 BDEPEND="
 	libcxx? (
-		sys-devel/clang
-		sys-devel/clang-runtime[libcxx]
+		sys-devel/clang:=
+		sys-devel/clang-runtime:=[libcxx,compiler-rt]
+		sys-libs/libcxx:=
 	)
 	>=dev-util/meson-0.50.1
 "

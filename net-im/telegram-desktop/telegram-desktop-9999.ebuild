@@ -19,9 +19,7 @@ else
 fi
 
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop"
-EGIT_SUBMODULES=( '*' -Telegram/ThirdParty/{xxHash,Catch,lz4,rlottie} )
-#,tgvoip
-#} )
+EGIT_SUBMODULES=( '*' -Telegram/ThirdParty/{xxHash,Catch,lz4,rlottie,variant,libtgvoip,GSL} )
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
@@ -34,7 +32,9 @@ COMMON_DEPEND="
 	app-arch/lz4:=
 	app-arch/xz-utils:=
 	crash-report? ( dev-util/google-breakpad:= )
+	>dev-cpp/ms-gsl-2.0.0:=
 	dev-cpp/range-v3:=
+	dev-cpp/variant:=
 	dev-libs/rapidjson:=
 	dev-libs/xxhash:=
 	dev-qt/qtcore:5=
@@ -50,6 +50,7 @@ COMMON_DEPEND="
 	)
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
+	media-libs/libtgvoip:=
 	media-libs/openal:=
 	media-libs/opus:=
 	media-libs/rlottie:=
@@ -70,26 +71,36 @@ RDEPEND="
 
 DEPEND="
 	clang? (
-		sys-devel/clang
-		sys-devel/clang-runtime[libcxx,compiler-rt]
+		sys-devel/clang:=
+		sys-devel/clang-runtime:=[libcxx,compiler-rt]
+		sys-libs/libcxx:=
 		media-libs/rlottie:=[libcxx]
+		media-libs/libtgvoip:=[libcxx]
 	)
-	!clang? ( >=sys-devel/gcc-8.2.0-r6 )
+	!clang? ( >=sys-devel/gcc-8.2.0-r6:= )
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
 
 CMAKE_USE_DIR="${S}/Telegram"
 
+_isclang() {
+	[[ "${CXX}" =~ clang ]]
+}
+
 pkg_pretend() {
 	if [[ ${MERGE_TYPE} != binary ]]; then
-		if ! use clang && has_version '>=sys-devel/gcc-9.1.0' && has_version '<sys-devel/gcc-9.1.0-r2' && [[ -z "${I_HAVE_PATCHED_GCC_9_1_FOR_TELEGRAM}" ]]; then
-			die "GCC-9.1.0 (without special patch) causes https://github.com/telegramdesktop/tdesktop/issues/5996"
-		fi
-	fi
-	if [[ "${CXX}" =~ clang ]]; then
 		if ! use clang; then
-			die "Building ${PN} with clang requires 'clang' USE-flag to be enabled"
+			_isclang && die "Building ${PN} with clang requires 'clang' USE-flag to be enabled"
+			if [[ "$(gcc-fullversion)" == "9.1.0" ]]; then
+				ewarn '!!!!!!!!!!!!!!!!'
+				ewarn "GCC-9.1.0 have a bug and causes https://github.com/telegramdesktop/tdesktop/issues/5996"
+				ewarn '!!!!!!!!!!!!!!!!'
+				einfo "So, we'll replace your -O* flags with -O0 (kinda fix of optimizer bug)"
+				replace-flags '-O*' '-O0'
+			fi
+		else
+			_isclang || export CC=clang CXX=clang++
 		fi
 	fi
 }
@@ -101,9 +112,6 @@ src_prepare() {
 
 	cp "${FILESDIR}/cmake/Telegram.cmake" "${S}/Telegram/CMakeLists.txt"
 	cp "${FILESDIR}/cmake/ThirdParty-crl.cmake" "${THIRD_PARTY_DIR}/crl/CMakeLists.txt"
-	cp "${FILESDIR}/cmake/ThirdParty-libtgvoip.cmake" "${LIBTGVOIP_DIR}/CMakeLists.txt"
-	cp "${FILESDIR}/cmake/ThirdParty-libtgvoip-webrtc.cmake" \
-		"${LIBTGVOIP_DIR}/webrtc_dsp/CMakeLists.txt"
 
 	mkdir "${CMAKE_MODULES_DIR}" || die
 	use crash-report && cp "${FILESDIR}/cmake/FindBreakpad.cmake" "${CMAKE_MODULES_DIR}"

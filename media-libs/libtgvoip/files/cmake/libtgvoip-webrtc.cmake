@@ -1,0 +1,18 @@
+project(webrtc)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+file(GLOB_RECURSE WEBRTC_C_SOURCE_FILES "*.c")
+file(GLOB_RECURSE WEBRTC_CXX_SOURCE_FILES "*.cc")
+
+add_library(${PROJECT_NAME} OBJECT ${WEBRTC_C_SOURCE_FILES} ${WEBRTC_CXX_SOURCE_FILES})
+
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+	WEBRTC_APM_DEBUG_DUMP=0
+	WEBRTC_POSIX
+	WEBRTC_LINUX
+	WEBRTC_NS_FLOAT
+)
+
+# TODO: drop include dirs with latest webrtc
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_LIST_DIR}/..")
