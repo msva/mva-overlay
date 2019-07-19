@@ -1,7 +1,9 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
+
+inherit eutils
 
 DESCRIPTION="C library with simple interface to read virtual slides"
 HOMEPAGE="http://openslide.org/"
@@ -14,7 +16,7 @@ RESTRICT="mirror"
 
 IUSE="doc"
 DEPEND="
-	media-libs/jpeg:0
+	virtual/jpeg:0
 	media-libs/openjpeg:2
 	media-libs/tiff:0
 	virtual/libc
@@ -24,18 +26,10 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-#src_configure() {
-#	econf
-#}
-#
-#src_compile() {
-#	emake || die "Make failed"
-#}
-#
+HTML_DOCS=("doc/html/.")
 
-# TODO: rewrite to default+"fixlafiles"+install_docs
 src_install() {
-	emake DESTDIR="${D}" install || die
-	find "${D}" -name "*.la" -delete
-	use doc && dohtml -r "${S}/doc/html/"
+	default
+	find "${D}" -name "*.la" -type f -delete
+	use doc && einstalldocs
 }
