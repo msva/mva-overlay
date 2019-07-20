@@ -19,17 +19,18 @@ HOMEPAGE="https://github.com/grishka/libtgvoip"
 
 LICENSE="Unlicense"
 SLOT="0"
-IUSE="alsa disable-reassembler pulseaudio libcxx static-libs"
+IUSE="alsa disable-reassembler libcxx libressl pulseaudio static-libs"
 REQUIRED_USE="|| ( alsa pulseaudio )"
 
 RDEPEND="
 	alsa? ( media-libs/alsa-lib )
-	dev-libs/openssl:*
 	libcxx? (
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx,compiler-rt]
 		sys-libs/libcxx:=
 	)
+	!libressl? ( dev-libs/openssl:0= )
+	libressl? ( dev-libs/libressl:0= )
 	media-libs/opus
 	pulseaudio? ( media-sound/pulseaudio )
 "
