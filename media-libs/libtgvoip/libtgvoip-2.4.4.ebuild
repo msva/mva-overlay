@@ -14,6 +14,8 @@ else
 	# ^ pulseaudio
 fi
 
+CMAKE_MIN_VERSION="3.14.0"
+
 DESCRIPTION="VoIP library for Telegram clients"
 HOMEPAGE="https://github.com/grishka/libtgvoip"
 
