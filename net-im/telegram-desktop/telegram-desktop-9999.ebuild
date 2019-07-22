@@ -88,7 +88,7 @@ _isclang() {
 	[[ "${CXX}" =~ clang ]]
 }
 
-pkg_pretend() {
+src_prepare() {
 	if [[ ${MERGE_TYPE} != binary ]]; then
 		if ! use clang; then
 			_isclang && die "Building ${PN} with clang requires 'clang' USE-flag to be enabled"
@@ -103,9 +103,6 @@ pkg_pretend() {
 			_isclang || export CC=clang CXX=clang++
 		fi
 	fi
-}
-
-src_prepare() {
 	local CMAKE_MODULES_DIR="${S}/Telegram/cmake"
 	local THIRD_PARTY_DIR="${S}/Telegram/ThirdParty"
 	local LIBTGVOIP_DIR="${THIRD_PARTY_DIR}/libtgvoip"
