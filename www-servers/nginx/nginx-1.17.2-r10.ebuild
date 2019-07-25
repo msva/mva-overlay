@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -26,7 +26,7 @@ LUA_OPTIONAL="yes"
 HTTP_BROTLI_MODULE_A="eustas"
 HTTP_BROTLI_MODULE_PN="ngx_brotli"
 HTTP_BROTLI_MODULE_PV="0.1.3rc"
-HTTP_BROTLI_MODULE_SHA="8104036af9cff4b1d34f22d00ba857e2a93a243c"
+HTTP_BROTLI_MODULE_SHA="dc37f658ccb5a51d090dc09d1a2aca2f24309869"
 HTTP_BROTLI_MODULE_P="${HTTP_BROTLI_MODULE_PN}-${HTTP_BROTLI_MODULE_SHA:-${HTTP_BROTLI_MODULE_PV}}"
 HTTP_BROTLI_MODULE_URI="https://github.com/${HTTP_BROTLI_MODULE_A}/${HTTP_BROTLI_MODULE_PN}/archive/${HTTP_BROTLI_MODULE_SHA:-v${HTTP_BROTLI_MODULE_PV}}.tar.gz"
 HTTP_BROTLI_MODULE_WD="${WORKDIR}/${HTTP_BROTLI_MODULE_P}"
@@ -242,7 +242,7 @@ STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
 HTTP_LUA_MODULE_PV="0.10.15"
-HTTP_LUA_MODULE_SHA="32dd6a34a17d6f1f094552a45c204ef614f5fbb5"
+HTTP_LUA_MODULE_SHA="b6875300b7bd2425fd6f93de1e55e47685425b18"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
@@ -506,15 +506,17 @@ STREAM_JAVASCRIPT_MODULE_WD="${HTTP_JAVASCRIPT_MODULE_WD}"
 HTTP_AUTH_LDAP_MODULE_A="kvspb"
 HTTP_AUTH_LDAP_MODULE_PN="nginx-auth-ldap"
 HTTP_AUTH_LDAP_MODULE_PV="0.1"
-HTTP_AUTH_LDAP_MODULE_SHA="22d1e849a3382e562920401ec908feceba7c3df7"
+HTTP_AUTH_LDAP_MODULE_SHA="e2081531c1eadd0afd9252e538c06f82c60db7f6"
 HTTP_AUTH_LDAP_MODULE_P="${HTTP_AUTH_LDAP_MODULE_PN}-${HTTP_AUTH_LDAP_MODULE_SHA-:${HTTP_AUTH_LDAP_MODULE_PV}}"
 HTTP_AUTH_LDAP_MODULE_URI="https://github.com/${HTTP_AUTH_LDAP_MODULE_A}/${HTTP_AUTH_LDAP_MODULE_PN}/archive/${HTTP_AUTH_LDAP_MODULE_SHA:-${HTTP_AUTH_LDAP_MODULE_PV}}.tar.gz"
 HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
 
 SSL_DEPS_SKIP=1
 
-inherit eutils ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib patches
+inherit eutils ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib eapi7-ver patches
 # ^^^ keep ruby before perl, since ruby sets S=WORKDIR, and perl restores
+
+# TODO: EAPI=7
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="
@@ -1790,7 +1792,7 @@ pkg_postinst() {
 			break
 		fi
 
-		local _replacing_version_branch=$(get_version_component_range 1-2 "${_replacing_version}")
+		local _replacing_version_branch=$(ver_cut 1-2 "${_replacing_version}")
 		debug-print "Updating an existing installation (v${_replacing_version}; branch '${_replacing_version_branch}') ..."
 
 		# Do we need to adjust permissions to fix CVE-2013-0337 (bug #458726, #469094)?
@@ -1798,7 +1800,7 @@ pkg_postinst() {
 		# do not need to distinguish between stable and mainline
 		local _need_to_fix_CVE2013_0337=1
 
-		if version_is_at_least "1.4.1-r2" "${_replacing_version}"; then
+		if ver_test "${_replacing_version}" "-ge" "1.4.1-r2"; then
 			# We are updating an installation which should already be fixed
 			_need_to_fix_CVE2013_0337=0
 			debug-print "Skipping CVE-2013-0337 ... existing installation should not be affected!"
@@ -1809,7 +1811,7 @@ pkg_postinst() {
 
 		# Do we need to inform about HTTPoxy mitigation?
 		# In repository since commit 8be44f76d4ac02cebcd1e0e6e6284bb72d054b0f
-		if ! version_is_at_least "1.10" "${_replacing_version_branch}"; then
+		if ! ver_test "${_replacing_version}" "-ge" "1.10"; then
 			# Updating from <1.10
 			_has_to_show_httpoxy_mitigation_notice=1
 			debug-print "Need to inform about HTTPoxy mitigation!"
@@ -1832,7 +1834,7 @@ pkg_postinst() {
 					_fixed_in_pvr=
 			esac
 
-			if [[ -z "${_fixed_in_pvr}" ]] || version_is_at_least "${_fixed_in_pvr}" "${_replacing_version}"; then
+			if [[ -z "${_fixed_in_pvr}" ]] || ver_test "${_replacing_version}" "${_fixed_in_pvr}" "-ge"; then
 				# We are updating an installation where we already informed
 				# that we are mitigating HTTPoxy per default
 				_has_to_show_httpoxy_mitigation_notice=0
@@ -1847,7 +1849,7 @@ pkg_postinst() {
 		# All branches up to 1.11 are affected
 		local _need_to_fix_CVE2016_1247=1
 
-		if ! version_is_at_least "1.10" "${_replacing_version_branch}"; then
+		if ! ver_test "${_replacing_version_branch}" "-ge" "1.10"; then
 			# Updating from <1.10
 			_has_to_adjust_permissions=1
 			debug-print "Need to adjust permissions to fix CVE-2016-1247!"
@@ -1870,7 +1872,7 @@ pkg_postinst() {
 					_fixed_in_pvr=
 			esac
 
-			if [[ -z "${_fixed_in_pvr}" ]] || version_is_at_least "${_fixed_in_pvr}" "${_replacing_version}"; then
+			if [[ -z "${_fixed_in_pvr}" ]] || ver_test "${_replacing_version}" "-ge" "${_fixed_in_pvr}"; then
 				# We are updating an installation which should already be adjusted
 				# or which was never affected
 				_need_to_fix_CVE2016_1247=0
