@@ -53,7 +53,7 @@ COMMON_DEPEND="
 	media-libs/libtgvoip:=
 	media-libs/openal:=
 	media-libs/opus:=
-	media-libs/rlottie:=
+	>=media-libs/rlottie-0_pre20190807:=
 	media-video/ffmpeg:=
 	!net-im/telegram
 	!net-im/telegram-desktop-bin

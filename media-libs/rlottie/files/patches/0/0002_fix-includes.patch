@@ -1,0 +1,12 @@
+diff --git a/src/lottie/lottieanimation.cpp b/src/lottie/lottieanimation.cpp
+index 58d1b13..381ffd4 100644
+--- a/src/lottie/lottieanimation.cpp
++++ b/src/lottie/lottieanimation.cpp
+@@ -15,7 +15,6 @@
+  * License along with this library; if not, write to the Free Software
+  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+  */
+-#include "config.h"
+ #include "lottieitem.h"
+ #include "lottieloader.h"
+ #include "lottiemodel.h"
