@@ -4,11 +4,11 @@ Date: Thu, 9 May 2019 18:45:53 +0300
 Subject: patch
 
 
-diff --git a/Telegram/SourceFiles/history/media/history_media_document.cpp b/Telegram/SourceFiles/history/media/history_media_document.cpp
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_document.cpp b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
 index 8ac464c44..28a9424a9 100644
---- a/Telegram/SourceFiles/history/media/history_media_document.cpp
-+++ b/Telegram/SourceFiles/history/media/history_media_document.cpp
-@@ -150,8 +150,12 @@ QSize HistoryDocument::countOptimalSize() {
+--- a/Telegram/SourceFiles/history/view/media/history_view_document.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
+@@ -150,8 +150,12 @@ QSize Document::countOptimalSize() {
  
  	if (auto named = Get<HistoryDocumentNamed>()) {
  		accumulate_max(maxWidth, tleft + named->_namew + tright);
@@ -21,11 +21,11 @@ index 8ac464c44..28a9424a9 100644
  
  	auto minHeight = 0;
  	if (thumbed) {
-diff --git a/Telegram/SourceFiles/history/media/history_media_photo.cpp b/Telegram/SourceFiles/history/media/history_media_photo.cpp
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
 index da03e345b..c1be836a7 100644
---- a/Telegram/SourceFiles/history/media/history_media_photo.cpp
-+++ b/Telegram/SourceFiles/history/media/history_media_photo.cpp
-@@ -78,7 +78,7 @@ QSize HistoryPhoto::countOptimalSize() {
+--- a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
+@@ -78,7 +78,7 @@ QSize Photo::countOptimalSize() {
  	if (!tw || !th) {
  		tw = th = 1;
  	}
@@ -34,7 +34,7 @@ index da03e345b..c1be836a7 100644
  		th = (st::maxMediaSize * th) / tw;
  		tw = st::maxMediaSize;
  	}
-@@ -106,7 +106,7 @@ QSize HistoryPhoto::countOptimalSize() {
+@@ -106,7 +106,7 @@ QSize Photo::countOptimalSize() {
  
  QSize HistoryPhoto::countCurrentSize(int newWidth) {
  	int tw = ConvertScale(_data->width()), th = ConvertScale(_data->height());
