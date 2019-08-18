@@ -53,7 +53,7 @@ COMMON_DEPEND="
 	media-libs/libtgvoip:=
 	media-libs/openal:=
 	media-libs/opus:=
-	media-libs/rlottie:=
+	>=media-libs/rlottie-0_pre20190818:=[module,threads,telegram-patches]
 	media-video/ffmpeg:=
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
@@ -64,6 +64,10 @@ COMMON_DEPEND="
 	x11-libs/libva:=[X,drm]
 	x11-libs/libX11:=
 "
+
+# media-libs/rlottie:
+#  - ">=0_pre20190818" and "[module,telegram-patches]" - because of https://github.com/Samsung/rlottie/pull/252
+#  - "[theads]" - because tg crashes otherwise (I'm feeling too lazy to debug and report)
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -152,9 +156,8 @@ src_configure() {
 #		-DTDESKTOP_DISABLE_DESKTOP_FILE_GENERATION
 	)
 
-	if [[ "${CXX}" =~ clang ]]; then
-			mycxxflags+=("-stdlib=libc++")
-	fi
+	_isclang && mycxxflags+=("-stdlib=libc++")
+	# ^ randomly fails to build otherwise
 
 	local mycmakeargs=(
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"

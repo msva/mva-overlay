@@ -1,0 +1,101 @@
+John Preston patch brings some failrues, such as:
+1. using std::clamp (only available in C++17);
+2. structured bindings (only available in C++17);
+3. own config.h in src/vector (conflicts with meson-generated config.h).
+So, we're revert all of that back
+
+diff --git a/src/lottie/lottieparser.cpp b/src/lottie/lottieparser.cpp
+index 91fea5e..4c21f1f 100644
+--- a/src/lottie/lottieparser.cpp
++++ b/src/lottie/lottieparser.cpp
+@@ -806,17 +806,22 @@ LottieColor LottieParserImpl::applyReplacements(const LottieColor &color)
+     if (mColorReplacements.empty()) {
+         return color;
+     }
+-    const auto convert = [](float value) {
+-        return std::uint32_t(std::round(std::clamp(value, 0.f, 1.f) * 255.));
++    const auto clamp = [](float v, float lo, float hi) {
++        const auto comp = std::less<>();
++        return assert( !comp(hi, lo) ),
++            comp(v, lo) ? lo : comp(hi, v) ? hi : v;
++    };
++    const auto convert = [&clamp](float value) {
++        return std::uint32_t(std::round(clamp(value, 0.f, 1.f) * 255.));
+     };
+     const auto part = [](std::uint32_t value, int shift) {
+         return float((value >> shift) & 0xFFU) / 255.f;
+ 	};
+     const auto converted =
+         convert(color.b) | (convert(color.g) << 8) | (convert(color.r) << 16);
+-    for (const auto [key, value] : mColorReplacements) {
+-        if (key == converted) {
+-            return LottieColor(part(value, 16), part(value, 8), part(value, 0));
++    for (const auto &pair : mColorReplacements) {
++        if (pair.first == converted) {
++            return LottieColor(part(pair.second, 16), part(pair.second, 8), part(pair.second, 0));
+         }
+     }
+     return color;
+
+diff --git a/src/vector/config.h b/src/vector/config.h
+deleted file mode 100644
+index 528115b..0000000
+--- a/src/vector/config.h
++++ /dev/null
+@@ -1,19 +0,0 @@
+-#ifndef CONFIG_H
+-#define CONFIG_H
+-
+-// enable threading
+-#define LOTTIE_THREAD_SUPPORT
+-
+-//enable logging
+-//#define LOTTIE_LOGGING_SUPPORT
+-
+-//enable module building of image loader
+-//#define LOTTIE_IMAGE_MODULE_SUPPORT
+-
+-//enable lottie model caching
+-//#define LOTTIE_CACHE_SUPPORT
+-
+-// disable image loader
+-#define LOTTIE_IMAGE_MODULE_DISABLED
+-
+-#endif  // CONFIG_H
+
+diff --git a/src/vector/vimageloader.cpp b/src/vector/vimageloader.cpp
+index b4fd188..badc120 100644
+--- a/src/vector/vimageloader.cpp
++++ b/src/vector/vimageloader.cpp
+@@ -19,7 +19,7 @@ using lottie_image_free_f = void (*)(unsigned char *);
+ extern "C" {
+ #endif
+ 
+-#ifdef LOTTIE_IMAGE_MODULE_DISABLED
++#ifndef LOTTIE_IMAGE_MODULE_SUPPORT
+ 
+ unsigned char *lottie_image_load(char const *filename, int *x, int *y,
+                                  int *comp, int req_comp)
+
+diff --git a/src/vector/stb/stb_image.cpp b/src/vector/stb/stb_image.cpp
+index dceab58..859d3cd 100644
+--- a/src/vector/stb/stb_image.cpp
++++ b/src/vector/stb/stb_image.cpp
+@@ -35,6 +35,8 @@ extern "C" {
+  * exported function wrapper from the library
+  */
+ 
++#ifdef LOTTIE_IMAGE_MODULE_SUPPORT
++
+ LOT_EXPORT unsigned char *lottie_image_load(char const *filename, int *x,
+                                             int *y, int *comp, int req_comp)
+ {
+@@ -54,6 +56,8 @@ LOT_EXPORT void lottie_image_free(unsigned char *data)
+     stbi_image_free(data);
+ }
+ 
++#endif
++
+ #ifdef __cplusplus
+ }
+ #endif
