@@ -25,7 +25,7 @@ RDEPEND="
 	~media-libs/libdmtx-${PV}
 	vala? ( dev-lang/vala:* )
 	java? ( >=virtual/jre-1.6:* )
-	ruby? ( virtual/rubygems dev-ruby/rmagick )
+	ruby? ( virtual/rubygems dev-ruby/rmagick:* )
 	python? ( ${PYTHON_DEPS} )
 "
 

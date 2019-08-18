@@ -15,8 +15,8 @@ S="${WORKDIR}/GSL-${MY_SHA:-${PV}}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~mips ~x86"
-# ~arm
+KEYWORDS="~amd64 ~mips ~x86"
+# ~arm ~arm64
 # ^ catch
 IUSE="test"
 
