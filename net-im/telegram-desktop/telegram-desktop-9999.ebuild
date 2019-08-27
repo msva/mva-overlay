@@ -23,7 +23,7 @@ EGIT_SUBMODULES=( '*' -Telegram/ThirdParty/{xxHash,Catch,lz4,rlottie,variant,lib
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="clang crash-report custom-api-id debug +gtk3 openal-eff +pulseaudio libressl wide-baloons"
+IUSE="clang crash-report custom-api-id debug +gtk3 +openal-eff +pulseaudio libressl wide-baloons"
 # upstream-api-id"
 
 # ^ libav support?
