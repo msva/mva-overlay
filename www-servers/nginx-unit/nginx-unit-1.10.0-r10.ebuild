@@ -1,14 +1,13 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-# golang-base
+EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} pypy{,3} )
+PYTHON_COMPAT=( python2_7 python3_{5,6,7} pypy{,3} )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby23 ruby24 ruby25 ruby26"
+USE_RUBY="ruby24 ruby25 ruby26"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
@@ -18,7 +17,7 @@ USE_PHP="php5-6 php7-1 php7-2 php7-3" # deps must be registered separately below
 
 [[ "${PV}" = 9999 ]] && vcs=git-r3
 
-inherit golang-base systemd user php-ext-source-r3 python-r1 ruby-ng flag-o-matic ${vcs}
+inherit golang-base systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic ${vcs}
 
 DESCRIPTION="A dynamic web&application server with modules many languages"
 HOMEPAGE="https://unit.nginx.org/"
@@ -73,6 +72,22 @@ RDEPEND="${DEPEND} ${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
+pkg_setup() {
+	# shellcheck disable=SC2086
+	if has network-sandbox ${FEATURES} && [[ "${MERGE_TYPE}" != binary ]]; then
+		local mod=()
+		use unit_modules_java && mod+=("java")
+		use unit_modules_nodejs && mod+=("nodejs")
+		ewarn
+		ewarn "You have enabled following UNIT_MODULES that requires 'network-sandbox' to be disabled in FEATURES:"
+		for m in "${mod[@]}"; do
+			ewarn "    - ${m}"
+		done
+		ewarn
+		die "'network-sandbox' is enabled in FEATURES"
+	fi
+}
+
 src_unpack() {
 	# prevent ruby-ng
 	if [[ "${PV}" == 9999 ]]; then
@@ -86,9 +101,6 @@ src_prepare() {
 	sed -r \
 		-e 's@-Werror@@g' \
 		-i auto/cc/test
-#	use unit_modules_nodejs && sed -r \
-#		-e '/(\$\{NXT_NPM\} install)/s@@\1 --user=root@g' \
-#		-i auto/modules/nodejs
 	default
 	tc-env_build
 }
