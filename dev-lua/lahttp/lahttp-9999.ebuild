@@ -1,7 +1,7 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 VCS="mercurial"
 inherit lua
@@ -12,8 +12,7 @@ EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
+RESTRICT="network-sandbox"
 
 RDEPEND="
 	dev-lua/squish
@@ -29,7 +28,6 @@ all_lua_prepare() {
 }
 
 each_lua_compile() {
-	# TODO: Do something about using with network-sandbox
 	squish --use-http || die
 }
 

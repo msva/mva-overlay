@@ -32,6 +32,7 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
+RESTRICT="unit_modules_java? ( network-sandbox ) unit_modules_nodejs? ( network-sandbox )"
 LICENSE="Apache-2.0"
 SLOT="0"
 
@@ -71,22 +72,6 @@ DEPEND="
 RDEPEND="${DEPEND} ${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
-
-pkg_setup() {
-	# shellcheck disable=SC2086
-	if has network-sandbox ${FEATURES} && [[ "${MERGE_TYPE}" != binary ]]; then
-		local mod=()
-		use unit_modules_java && mod+=("java")
-		use unit_modules_nodejs && mod+=("nodejs")
-		ewarn
-		ewarn "You have enabled following UNIT_MODULES that requires 'network-sandbox' to be disabled in FEATURES:"
-		for m in "${mod[@]}"; do
-			ewarn "    - ${m}"
-		done
-		ewarn
-		die "'network-sandbox' is enabled in FEATURES"
-	fi
-}
 
 src_unpack() {
 	# prevent ruby-ng

@@ -1,14 +1,13 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-# golang-base
+EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} pypy{,3} )
+PYTHON_COMPAT=( python2_7 python3_{5,6,7} pypy{,3} )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby22 ruby23 ruby24 ruby25"
+USE_RUBY="ruby24 ruby25 ruby26"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
@@ -18,7 +17,7 @@ USE_PHP="php5-6 php7-1 php7-2 php7-3" # deps must be registered separately below
 
 [[ "${PV}" = 9999 ]] && vcs=git-r3
 
-inherit golang-base systemd user php-ext-source-r3 python-r1 ruby-ng flag-o-matic ${vcs}
+inherit golang-base systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic ${vcs}
 
 DESCRIPTION="A dynamic web&application server with modules many languages"
 HOMEPAGE="https://unit.nginx.org/"
@@ -33,10 +32,11 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
+RESTRICT="unit_modules_java? ( network-sandbox ) unit_modules_nodejs? ( network-sandbox )"
 LICENSE="Apache-2.0"
 SLOT="0"
 
-UNIT_MODULES="go perl php python ruby nodejs"
+UNIT_MODULES="go perl php python ruby nodejs java"
 IUSE="debug examples +ipv6 ssl +unix-sockets ${UNIT_MODULES}"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -48,10 +48,10 @@ done
 DEPEND="
 	${DEPEND}
 	unit_modules_go? (
-		dev-lang/go
+		dev-lang/go:*
 	)
 	unit_modules_perl? (
-		dev-lang/perl
+		dev-lang/perl:*
 	)
 	unit_modules_python? (
 		${PYTHON_DEPS}
@@ -60,7 +60,10 @@ DEPEND="
 		$(ruby_implementations_depend)
 	)
 	unit_modules_nodejs? (
-		net-libs/nodejs
+		net-libs/nodejs:*
+	)
+	unit_modules_java? (
+		virtual/jre:*
 	)
 	ssl? (
 		dev-libs/openssl:0=
@@ -83,13 +86,20 @@ src_prepare() {
 	sed -r \
 		-e 's@-Werror@@g' \
 		-i auto/cc/test
-	use unit_modules_nodejs && sed -r \
-		-e '/(\$\{NXT_NPM\} install)/s@@\1 --user=root@g' \
-		-i auto/modules/nodejs
 	default
 	tc-env_build
 }
 
+_unit_java_configure() {
+	unset _JAVA_OPTIONS # breaks the build if defined
+	./configure java --home="${NGINX_UNIT_JAVA_HOME:-/etc/java-config-2/current-system-vm}" # multislot?
+	# ^ if we will use just ${JAVA_HOME}, then it will be the same result
+	# as if we called it without the --home (it takes that by itself)
+	# Also, JAVA_HOME can be inherited from user's environment (so,
+	# user-vm will be used instead of system-vm).
+	# That's why I decided to manually set system-vm, but still
+	# give user a way to specify exact the vm they want.
+}
 _unit_go_configure() {
 	./configure go --go-path="$(get_golibdir_gopath)" # multislot?
 }

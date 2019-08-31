@@ -1,7 +1,8 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+# ^ font
 
 inherit font git-r3
 
@@ -14,7 +15,7 @@ LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS=""
 IUSE="web"
-RESTRICT="binchecks strip"
+RESTRICT="binchecks strip network-sandbox"
 
 DEPEND="
 	net-libs/nodejs
@@ -31,26 +32,9 @@ RDEPEND=""
 FONT_S="${S}/fonts_dist"
 FONT_SUFFIX="ttf"
 
-#src_unpack() {
-#	git-r3_src_unpack
-#}
-
 src_compile() {
-	if ! has network-sandbox ${FEATURES}; then
-### Logically it should reside in src_compile or src_prepare part.
-### But due to FEATURES=network-sandbox it fails there.
-#	pushd "${S}" &>/dev/null
-		npm install
-		npm run build -- contents::iosevka
-#	popd &>/dev/null
-###
-	else
-		die "Unfortunately, it is impossible to build ${P} with network-sandbox enabled (it uses npm)"
-	fi
-#	local myemageargs=()
-#	myemageargs+=(start)
-#	use web && myemageargs+=(web)
-#	emake "${myemageargs[@]}"
+	npm install
+	npm run build -- contents::iosevka
 }
 
 src_install() {
