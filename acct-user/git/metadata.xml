@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+	<email>gentoo-overlay@mva.name</email>
+	<description>If you have any issues, please contact me via
+	e-mail, jabber (mva@), or IRC (FreeNode, RusNet,
+	OFTC)</description>
+	<name>Vadim A. Misbakh-Soloviov</name>
+	</maintainer>
+	<use>
+		<flag name="gitea">Set home directory for git hosting
+			via <pkg>www-apps/gitea</pkg>.</flag>
+		<flag name="gitolite">Set home directory for git hosting
+			via <pkg>dev-vcs/gitolite</pkg>
+			or <pkg>dev-vcs/gitolite-gentoo</pkg>.</flag>
+		<flag name="gitprep">Set home directory for git hosting
+			via <pkg>www-apps/gitprep</pkg>.</flag>
+	</use>
+</pkgmetadata>

@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit perl-module user git-r3
+inherit perl-module git-r3
 
 DESCRIPTION="Github clone. you can install Github system into your unix/linux machine."
 HOMEPAGE="http://gitprep.yukikimoto.com/"
@@ -16,6 +16,8 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
+	acct-user/git[gitprep]
+	acct-group/git
 	dev-perl/Mojolicious-Plugin-INIConfig
 	dev-perl/Mojolicious
 	dev-perl/Mojolicious-Plugin-AutoRoute
@@ -25,17 +27,12 @@ RDEPEND="
 	dev-perl/DBIx-Custom
 	dev-perl/Text-Markdown-Hoedown
 	dev-perl/Data-Page
-	virtual/perl-Module-CoreList
 	dev-perl/Config-Tiny
 	dev-perl/Time-Moment
+	virtual/perl-Module-CoreList
 "
 # TODO: fix deplist. It's not full ATM.
 DEPEND="${RDEPEND}"
-
-pkg_setup() {
-	enewgroup git
-	enewuser git -1 /bin/sh /var/lib/"${PN}" git
-}
 
 src_prepare() {
 	local sedargs=();
