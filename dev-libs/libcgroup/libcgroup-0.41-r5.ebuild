@@ -1,9 +1,9 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit autotools eutils systemd flag-o-matic linux-info pam user
+inherit autotools eutils systemd flag-o-matic linux-info pam
 
 DESCRIPTION="Tools and libraries to configure and manage kernel control groups"
 HOMEPAGE="http://libcg.sourceforge.net/"
@@ -21,7 +21,8 @@ DEPEND="
 	sys-devel/bison
 	sys-devel/flex
 	elibc_musl? ( sys-libs/fts-standalone )
-	"
+	daemon? ( acct-group/cgred )
+"
 REQUIRED_USE="daemon? ( tools )"
 
 DOCS=(README_daemon README README_systemd INSTALL)
@@ -32,7 +33,6 @@ pkg_setup() {
 	local CONFIG_CHECK="~CGROUPS"
 	if use daemon; then
 		CONFIG_CHECK="${CONFIG_CHECK} ~CONNECTOR ~PROC_EVENTS"
-		enewgroup cgred 160
 	fi
 	linux-info_pkg_setup
 }

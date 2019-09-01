@@ -11,7 +11,7 @@ Before=basic.target shutdown.target
 Type=oneshot
 RemainAfterExit=yes
 ExecStart=/usr/sbin/cgconfigparser -l /etc/cgroup/cgconfig.conf -s 1664
-ExecStartPost=/bin/sh -c 'cgclassify $(pgrep -wvf "sh|xargs"|xargs)'
+ExecStartPost=/bin/sh -c 'cgclassify $(pgrep -wvf "sh|xargs"|xargs) &>/dev/null; true'
 ExecStop=/usr/sbin/cgclear -l /etc/cgroup/cgconfig.conf -e
 
 [Install]
