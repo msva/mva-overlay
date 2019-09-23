@@ -5,7 +5,7 @@ EAPI=7
 
 inherit meson flag-o-matic patches
 
-MY_SHA="cd38f3e95e43bac92e1085ea4c2b13841e2549a7"
+MY_SHA="93dd5305d9f5d2270a873c9c565b6931439fd11f"
 
 DESCRIPTION="A platform independent standalone library that plays Lottie Animation"
 HOMEPAGE="https://github.com/Samsung/rlottie"
