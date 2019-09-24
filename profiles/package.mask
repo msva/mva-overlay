@@ -104,4 +104,4 @@ net-voip/trueconf
 dev-java/gradle
 
 # Splitted NgX (non-static). Not ready yet.
-=www-servers/nginx-1.17.3-r100
+=www-servers/nginx-1.17.4-r100
