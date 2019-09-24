@@ -30,7 +30,7 @@ DESCRIPTION="A general-purpose command-line fuzzy finder"
 HOMEPAGE="https://github.com/junegunn/fzf"
 ARCHIVE_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 SRC_URI="${ARCHIVE_URI} ${EGO_VENDOR_URI}"
-RESTRICT="mirror"
+RESTRICT="mirror network-sandbox"
 
 LICENSE="MIT"
 SLOT="0"
