@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>gentoo-overlay@mva.name</email>
+		<name>Vadim A. Misbakh-Soloviov</name>
+	</maintainer>
+	<longdescription lang="en">
+		Get a public key, safely, starting just with someone's social media username(s)
+	</longdescription>
+	<upstream>
+		<remote-id type="github">keybase/client</remote-id>
+	</upstream>
+	<use>
+		<flag name="browser">Build browser native-messaging helper</flag>
+		<flag name="gui">Build Electron-based GUI app</flag>
+		<flag name="kbfs">Build KBFS FUSE mount-helper</flag>
+	</use>
+</pkgmetadata>
