@@ -39,18 +39,6 @@ src_unpack() {
 	ln -vs "${S}" "${S}/src/github.com/keybase/client" || die
 }
 
-src_prepare() {
-	default
-	use gui && (
-		# dirty hack:
-		# https://github.com/keybase/client/issues/8637
-		# https://github.com/electron/electron/issues/11106
-		sed -r \
-			-e 's@(label:.*)&([A-Z])@\1@g' \
-			-i desktop/app/menu-helper.desktop.js
-	)
-}
-
 src_compile() {
 	EGO_PN="github.com/keybase/client/go/keybase" \
 	EGO_BUILD_FLAGS="-tags production -o ${T}/keybase" \
