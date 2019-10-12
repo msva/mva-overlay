@@ -1,44 +1,21 @@
-diff --git a/Telegram/SourceFiles/history/view/media/history_view_document.cpp b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
---- a/Telegram/SourceFiles/history/view/media/history_view_document.cpp
-+++ b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
-@@ -149,8 +149,12 @@ QSize Document::countOptimalSize() {
- 
- 	if (auto named = Get<HistoryDocumentNamed>()) {
- 		accumulate_max(maxWidth, tleft + named->_namew + tright);
-+		if (Adaptive::ChatWide() && captioned) {
-+			accumulate_max(maxWidth, captioned->_caption.maxWidth());
-+		} else {
- 		accumulate_min(maxWidth, st::msgMaxWidth);
- 	}
-+	}
- 
- 	auto minHeight = 0;
- 	if (thumbed) {
-diff --git a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
---- a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
-+++ b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
-@@ -74,7 +74,7 @@ QSize Photo::countOptimalSize() {
- 	if (!tw || !th) {
- 		tw = th = 1;
- 	}
--	if (tw > st::maxMediaSize) {
-+	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
- 		th = (st::maxMediaSize * th) / tw;
- 		tw = st::maxMediaSize;
- 	}
-@@ -102,7 +102,7 @@ QSize Photo::countOptimalSize() {
- 
- QSize HistoryPhoto::countCurrentSize(int newWidth) {
- 	int tw = ConvertScale(_data->width()), th = ConvertScale(_data->height());
--	if (tw > st::maxMediaSize) {
-+	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
- 		th = (st::maxMediaSize * th) / tw;
- 		tw = st::maxMediaSize;
- 	}
+From 34b5dacf3f4133eba1ae9cb42e837f02f22603a9 Mon Sep 17 00:00:00 2001
+From: Klimentyev VP <vklimentyev@gmail.com>
+Date: Sat, 12 Oct 2019 14:50:16 +0300
+Subject: [PATCH] patch
+
+---
+ .../history/view/history_view_element.cpp            | 11 -----------
+ .../history/view/history_view_message.cpp            |  4 ++++
+ .../history/view/history_view_service_message.cpp    | 12 +-----------
+ .../history/view/media/history_view_document.cpp     |  4 ++++
+ .../history/view/media/history_view_photo.cpp        |  2 +-
+ 5 files changed, 10 insertions(+), 23 deletions(-)
+
 diff --git a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
+index 3c42a9768..fbdebd155 100644
 --- a/Telegram/SourceFiles/history/view/history_view_element.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_element.cpp
-@@ -157,17 +157,6 @@ void UnreadBar::paint(Painter &p, int y, int w) const {
+@@ -159,17 +159,6 @@ void UnreadBar::paint(Painter &p, int y, int w) const {
  	p.setFont(st::historyUnreadBarFont);
  	p.setPen(st::historyUnreadBarFg);
  
@@ -57,9 +34,10 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegr
  		- 2 * st::lineWidth
  		- st::historyUnreadBarFont->height;
 diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegram/SourceFiles/history/view/history_view_message.cpp
+index 8365366d9..553ec0729 100644
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
-@@ -1614,7 +1614,9 @@ QRect Message::countGeometry() const {
+@@ -1616,7 +1616,9 @@ QRect Message::countGeometry() const {
  	//	contentLeft += st::msgPhotoSkip - (hmaxwidth - hwidth);
  	}
  	accumulate_min(contentWidth, maxWidth());
@@ -69,7 +47,7 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegr
  	if (mediaWidth < contentWidth) {
  		const auto textualWidth = plainMaxWidth();
  		if (mediaWidth < textualWidth
-@@ -1656,7 +1658,9 @@ int Message::resizeContentGetHeight(int newWidth) {
+@@ -1658,7 +1660,9 @@ int Message::resizeContentGetHeight(int newWidth) {
  		contentWidth -= st::msgPhotoSkip;
  	}
  	accumulate_min(contentWidth, maxWidth());
@@ -80,9 +58,10 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegr
  		media->resizeGetHeight(contentWidth);
  		if (media->width() < contentWidth) {
 diff --git a/Telegram/SourceFiles/history/view/history_view_service_message.cpp b/Telegram/SourceFiles/history/view/history_view_service_message.cpp
+index 3264fe1b9..764e29fa3 100644
 --- a/Telegram/SourceFiles/history/view/history_view_service_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_service_message.cpp
-@@ -161,11 +161,7 @@ void paintBubblePart(Painter &p, int x, int y, int width, int height, SideStyle
+@@ -163,11 +163,7 @@ void paintBubblePart(Painter &p, int x, int y, int width, int height, SideStyle
  
  void paintPreparedDate(Painter &p, const QString &dateText, int dateTextWidth, int y, int w) {
  	int left = st::msgServiceMargin.left();
@@ -95,7 +74,7 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_service_message.cpp 
  
  	left += (w - dateTextWidth - st::msgServicePadding.left() - st::msgServicePadding.right()) / 2;
  	int height = st::msgServicePadding.top() + st::msgServiceFont->height + st::msgServicePadding.bottom();
-@@ -313,9 +309,6 @@ not_null<HistoryService*> Service::message() const {
+@@ -315,9 +311,6 @@ not_null<HistoryService*> Service::message() const {
  
  QRect Service::countGeometry() const {
  	auto result = QRect(0, 0, width(), height());
@@ -105,7 +84,7 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_service_message.cpp 
  	return result.marginsRemoved(st::msgServiceMargin);
  }
  
-@@ -336,9 +329,6 @@ QSize Service::performCountCurrentSize(int newWidth) {
+@@ -338,9 +331,6 @@ QSize Service::performCountCurrentSize(int newWidth) {
  		item->_textHeight = 0;
  	} else {
  		auto contentWidth = newWidth;
@@ -115,3 +94,36 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_service_message.cpp 
  		contentWidth -= st::msgServiceMargin.left() + st::msgServiceMargin.left(); // two small margins
  		if (contentWidth < st::msgServicePadding.left() + st::msgServicePadding.right() + 1) {
  			contentWidth = st::msgServicePadding.left() + st::msgServicePadding.right() + 1;
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_document.cpp b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
+index 9343d66c8..0ac08a522 100644
+--- a/Telegram/SourceFiles/history/view/media/history_view_document.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
+@@ -150,8 +150,12 @@ QSize Document::countOptimalSize() {
+ 
+ 	if (auto named = Get<HistoryDocumentNamed>()) {
+ 		accumulate_max(maxWidth, tleft + named->_namew + tright);
++		if (Adaptive::ChatWide() && captioned) {
++			accumulate_max(maxWidth, captioned->_caption.maxWidth());
++		} else {
+ 		accumulate_min(maxWidth, st::msgMaxWidth);
+ 	}
++	}
+ 
+ 	auto minHeight = 0;
+ 	if (thumbed) {
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
+index 9d7e1b6d4..5f05cb937 100644
+--- a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
+@@ -75,7 +75,7 @@ QSize Photo::countOptimalSize() {
+ 	if (!tw || !th) {
+ 		tw = th = 1;
+ 	}
+-	if (tw > st::maxMediaSize) {
++	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
+ 		th = (st::maxMediaSize * th) / tw;
+ 		tw = st::maxMediaSize;
+ 	}
+-- 
+2.21.0
+
