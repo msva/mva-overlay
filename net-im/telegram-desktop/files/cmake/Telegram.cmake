@@ -120,6 +120,9 @@ file(GLOB FLAT_EXTRA_FILES
 	# As of 1.3.15 Passport still doesn't work. TODO: remove that, when it'll be fixed
 	SourceFiles/passport/passport_edit_identity_box.cpp
 	SourceFiles/passport/passport_form_row.cpp
+
+	SourceFiles/ui/platform/mac/*.cpp
+	SourceFiles/ui/platform/win/*.cpp
 )
 
 file(GLOB_RECURSE SUBDIRS_SOURCE_FILES
