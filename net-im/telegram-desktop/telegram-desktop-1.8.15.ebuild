@@ -117,8 +117,10 @@ src_prepare() {
 	mkdir "${CMAKE_MODULES_DIR}" || die
 	use crash-report && cp "${FILESDIR}/cmake/FindBreakpad.cmake" "${CMAKE_MODULES_DIR}"
 	cp "${FILESDIR}/cmake/TelegramCodegen.cmake" "${CMAKE_MODULES_DIR}"
-	cp "${FILESDIR}/cmake/TelegramCodegenTools.cmake" "${CMAKE_MODULES_DIR}"
 	cp "${FILESDIR}/cmake/TelegramTests.cmake" "${CMAKE_MODULES_DIR}"
+
+	mkdir -p ${S}/Telegram/native
+	cp ${FILESDIR}/TelegramCodegenTools.cmake ${S}/Telegram/native/CMakeLists.txt
 
 	patches_src_prepare
 
@@ -141,6 +143,7 @@ src_prepare() {
 }
 
 src_configure() {
+	cd ${S}/Telegram/native
 	local mycxxflags=(
 		# ApiId and ApiHash are from Debian repository:
 		# https://salsa.debian.org/debian/telegram-desktop/blob/debian/master/debian/patches/Debian-API-ID.patch#L16

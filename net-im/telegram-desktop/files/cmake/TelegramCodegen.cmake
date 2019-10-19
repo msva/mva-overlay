@@ -1,7 +1,7 @@
-#set(IMPORT_EXECUTABLES "ImportExecutables.cmake")
-#INCLUDE(${IMPORT_EXECUTABLES})
-
 set(TELEGRAM_GENERATED_SOURCES)
+
+set(IMPORT_EXECUTABLES "native/ImportExecutables.cmake" CACHE FILEPATH "POINT")
+INCLUDE(${IMPORT_EXECUTABLES})
 
 add_custom_command(
 	OUTPUT
