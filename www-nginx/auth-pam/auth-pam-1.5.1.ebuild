@@ -22,7 +22,7 @@ IUSE=""
 
 DEPEND="
 	${CDEPEND}
-	virtual/pam
+	sys-libs/pam
 "
 RDEPEND="${DEPEND}"
 

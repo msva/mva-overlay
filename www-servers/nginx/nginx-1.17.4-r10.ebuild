@@ -828,7 +828,7 @@ for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 done
 
 CDEPEND="
-	pam? ( virtual/pam )
+	pam? ( sys-libs/pam )
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
 	ssl? (

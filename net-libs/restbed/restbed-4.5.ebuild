@@ -24,7 +24,7 @@ RDEPEND="
 	>=dev-cpp/asio-1.10
 	dev-cpp/catch:0
 	ssl? ( dev-libs/openssl:= )
-	virtual/pam
+	sys-libs/pam
 	sys-libs/zlib
 "
 DEPEND="${RDEPEND}
