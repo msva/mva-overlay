@@ -61,19 +61,6 @@ diff --git a/Telegram/SourceFiles/history/view/history_view_service_message.cpp 
 index 3264fe1b9..764e29fa3 100644
 --- a/Telegram/SourceFiles/history/view/history_view_service_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_service_message.cpp
-@@ -163,11 +163,7 @@ void paintBubblePart(Painter &p, int x, int y, int width, int height, SideStyle
- 
- void paintPreparedDate(Painter &p, const QString &dateText, int dateTextWidth, int y, int w) {
- 	int left = st::msgServiceMargin.left();
--	int maxwidth = w;
--	if (Adaptive::ChatWide()) {
--		maxwidth = qMin(maxwidth, WideChatWidth());
--	}
--	w = maxwidth - st::msgServiceMargin.left() - st::msgServiceMargin.left();
-+	w = w - st::msgServiceMargin.left() - st::msgServiceMargin.left();
- 
- 	left += (w - dateTextWidth - st::msgServicePadding.left() - st::msgServicePadding.right()) / 2;
- 	int height = st::msgServicePadding.top() + st::msgServiceFont->height + st::msgServicePadding.bottom();
 @@ -315,9 +311,6 @@ not_null<HistoryService*> Service::message() const {
  
  QRect Service::countGeometry() const {
@@ -98,6 +85,14 @@ diff --git a/Telegram/SourceFiles/history/view/media/history_view_document.cpp b
 index 9343d66c8..0ac08a522 100644
 --- a/Telegram/SourceFiles/history/view/media/history_view_document.cpp
 +++ b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
+@@ -22,6 +22,7 @@
+ #include "data/data_document.h"
+ #include "data/data_media_types.h"
+ #include "app.h"
++#include "facades.h"
+ #include "styles/style_history.h"
+
+ namespace HistoryView {
 @@ -150,8 +150,12 @@ QSize Document::countOptimalSize() {
  
  	if (auto named = Get<HistoryDocumentNamed>()) {
@@ -115,6 +110,14 @@ diff --git a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp b/Te
 index 9d7e1b6d4..5f05cb937 100644
 --- a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
 +++ b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
+@@ -20,6 +20,7 @@
+ #include "data/data_photo.h"
+ #include "data/data_file_origin.h"
+ #include "app.h"
++#include "facades.h"
+ #include "styles/style_history.h"
+
+ namespace HistoryView {
 @@ -75,7 +75,7 @@ QSize Photo::countOptimalSize() {
  	if (!tw || !th) {
  		tw = th = 1;

@@ -33,7 +33,7 @@ COMMON_DEPEND="
 	app-arch/xz-utils:=
 	crash-report? ( dev-util/google-breakpad:= )
 	>dev-cpp/ms-gsl-2.0.0:=
-	dev-cpp/range-v3:=
+	>=dev-cpp/range-v3-0.9.1:=
 	dev-cpp/variant:=
 	dev-libs/rapidjson:=
 	dev-libs/xxhash:=
