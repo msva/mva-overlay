@@ -1,3 +1,15 @@
+cmake_minimum_required(VERSION 3.8)
+
+project(TelegramCodegen)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+find_package(Qt5 REQUIRED Core Gui)
+
+set(TELEGRAM_SOURCES_DIR ${CMAKE_SOURCE_DIR}/SourceFiles)
+include_directories(${TELEGRAM_SOURCES_DIR})
+
 file(GLOB CODEGEN_COMMON_SOURCES
 	${TELEGRAM_SOURCES_DIR}/codegen/common/*.h
 	${TELEGRAM_SOURCES_DIR}/codegen/common/*.cpp

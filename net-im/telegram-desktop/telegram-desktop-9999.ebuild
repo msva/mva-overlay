@@ -109,16 +109,15 @@ src_prepare() {
 	fi
 	local CMAKE_MODULES_DIR="${S}/Telegram/cmake"
 	local THIRD_PARTY_DIR="${S}/Telegram/ThirdParty"
-	local LIBTGVOIP_DIR="${THIRD_PARTY_DIR}/libtgvoip"
 
 	cp "${FILESDIR}/cmake/Telegram.cmake" "${S}/Telegram/CMakeLists.txt"
 	cp "${FILESDIR}/cmake/ThirdParty-crl.cmake" "${THIRD_PARTY_DIR}/crl/CMakeLists.txt"
 
-	mkdir "${CMAKE_MODULES_DIR}" || die
+	mkdir -p "${CMAKE_MODULES_DIR}"/TelegramCodegen/Tools || die
 	use crash-report && cp "${FILESDIR}/cmake/FindBreakpad.cmake" "${CMAKE_MODULES_DIR}"
-	cp "${FILESDIR}/cmake/TelegramCodegen.cmake" "${CMAKE_MODULES_DIR}"
-	cp "${FILESDIR}/cmake/TelegramCodegenTools.cmake" "${CMAKE_MODULES_DIR}"
 	cp "${FILESDIR}/cmake/TelegramTests.cmake" "${CMAKE_MODULES_DIR}"
+	cp "${FILESDIR}/cmake/TelegramCodegen.cmake" "${CMAKE_MODULES_DIR}"/TelegramCodegen/CMakeLists.txt
+	cp "${FILESDIR}/cmake/TelegramCodegenTools.cmake" "${CMAKE_MODULES_DIR}"/TelegramCodegen/Tools/CMakeLists.txt
 
 	patches_src_prepare
 

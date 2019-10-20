@@ -20,6 +20,7 @@ option(ENABLE_CRASH_REPORTS "Enable crash reports" ON)
 option(ENABLE_GTK_INTEGRATION "Enable GTK integration" ON)
 option(ENABLE_OPENAL_EFFECTS "Enable OpenAL effects" ON)
 option(ENABLE_PULSEAUDIO "Enable pulseaudio" ON)
+option(USE_LIBATOMIC "Link Statically against libatomic.a" OFF)
 
 find_package(LibLZMA REQUIRED)
 find_package(OpenAL REQUIRED)
@@ -27,6 +28,7 @@ find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
 find_package(X11 REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(RapidJSON REQUIRED)
 
 find_package(Qt5 REQUIRED COMPONENTS Core DBus Gui Widgets Network)
 get_target_property(QTCORE_INCLUDE_DIRS Qt5::Core INTERFACE_INCLUDE_DIRECTORIES)
@@ -45,6 +47,8 @@ pkg_check_modules(FFMPEG REQUIRED libavcodec libavformat libavutil libswresample
 pkg_check_modules(LIBDRM REQUIRED libdrm)
 pkg_check_modules(LIBVA REQUIRED libva libva-drm libva-x11)
 pkg_check_modules(MINIZIP REQUIRED minizip)
+pkg_check_modules(LIBLZ4 REQUIRED liblz4)
+pkg_check_modules(RLOTTIE REQUIRED rlottie)
 
 set(THIRD_PARTY_DIR ${CMAKE_SOURCE_DIR}/ThirdParty)
 list(APPEND THIRD_PARTY_INCLUDE_DIRS
@@ -61,7 +65,7 @@ include_directories(${TELEGRAM_SOURCES_DIR})
 set(GENERATED_DIR ${CMAKE_BINARY_DIR}/generated)
 file(MAKE_DIRECTORY ${GENERATED_DIR})
 
-include(TelegramCodegen)
+add_subdirectory(${CMAKE_SOURCE_DIR}/cmake/TelegramCodegen)
 set_property(SOURCE ${TELEGRAM_GENERATED_SOURCES} PROPERTY SKIP_AUTOMOC ON)
 
 set(QRC_FILES
@@ -92,6 +96,7 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/inline_bots/*.cpp
 	SourceFiles/intro/*.cpp
 	SourceFiles/lang/*.cpp
+	SourceFiles/lottie/*.cpp
 	SourceFiles/main/*.cpp
 	SourceFiles/mtproto/*.cpp
 	SourceFiles/overview/*.cpp
@@ -102,7 +107,6 @@ file(GLOB FLAT_SOURCE_FILES
 	SourceFiles/storage/*.cpp
 	SourceFiles/storage/cache/*.cpp
 	SourceFiles/support/*cpp
-	SourceFiles/lottie/*.cpp
 	${THIRD_PARTY_DIR}/emoji_suggestions/*.cpp
 )
 
@@ -110,12 +114,14 @@ file(GLOB FLAT_EXTRA_FILES
 	SourceFiles/qt_static_plugins.cpp
 	SourceFiles/base/*_tests.cpp
 	SourceFiles/base/tests_main.cpp
+	SourceFiles/cache/*_tests.cpp
 	SourceFiles/data/data_feed_messages.cpp
 	SourceFiles/storage/cache/storage_cache_database_tests.cpp
 	SourceFiles/storage/storage_clear_legacy_win.cpp
 	SourceFiles/storage/storage_encrypted_file_tests.cpp
 	SourceFiles/storage/storage_feed_messages.cpp
 	SourceFiles/storage/storage_file_lock_win.cpp
+	SourceFiles/storage/*_win.cpp
 
 	# As of 1.3.15 Passport still doesn't work. TODO: remove that, when it'll be fixed
 	SourceFiles/passport/passport_edit_identity_box.cpp
@@ -140,6 +146,8 @@ file(GLOB FLAT_EXTRA_SUBDIRS_SOURCE_FILES
 	SourceFiles/info/feed/info_feed_cover.cpp
 	SourceFiles/info/feed/info_feed_profile_inner_widget.cpp
 	SourceFiles/info/feed/info_feed_profile_widget.cpp
+	SourceFiles/ui/platform/mac/*.cpp
+	SourceFiles/ui/platform/win/*.cpp
 )
 
 list(REMOVE_ITEM FLAT_SOURCE_FILES ${FLAT_EXTRA_FILES})
@@ -148,7 +156,6 @@ list(REMOVE_ITEM SUBDIRS_SOURCE_FILES ${FLAT_EXTRA_SUBDIRS_SOURCE_FILES})
 add_executable(Telegram WIN32 ${QRC_FILES} ${FLAT_SOURCE_FILES} ${SUBDIRS_SOURCE_FILES})
 
 set(TELEGRAM_COMPILE_DEFINITIONS
-	Q_OS_LINUX64
 	TDESKTOP_DISABLE_AUTOUPDATE
 	TDESKTOP_DISABLE_DESKTOP_FILE_GENERATION
 	TDESKTOP_DISABLE_UNITY_INTEGRATION
@@ -170,8 +177,6 @@ set(TELEGRAM_INCLUDE_DIRS
 )
 
 set(TELEGRAM_LINK_LIBRARIES
-	rlottie
-	lz4
 	xxhash
 	crl
 	tgvoip
@@ -189,6 +194,8 @@ set(TELEGRAM_LINK_LIBRARIES
 	${OPENAL_LIBRARY}
 	${X11_X11_LIB}
 	${ZLIB_LIBRARY_RELEASE}
+	${LIBLZ4_LIBRARIES}
+	${RLOTTIE_LIBRARIES}
 )
 
 if(ENABLE_CRASH_REPORTS)
@@ -201,6 +208,10 @@ else()
 		TDESKTOP_DISABLE_CRASH_REPORTS
 	)
 endif()
+
+if(USE_LIBATOMIC)
+	list(APPEND TELEGRAM_LINK_LIBRARIES libatomic.a)
+endif(USE_LIBATOMIC)
 
 if(ENABLE_GTK_INTEGRATION)
 	pkg_check_modules(APPINDICATOR REQUIRED appindicator3-0.1)
@@ -223,13 +234,23 @@ else()
 endif()
 
 if(ENABLE_OPENAL_EFFECTS)
-    list(APPEND TELEGRAM_COMPILE_DEFINITIONS
-	AL_ALEXT_PROTOTYPES
-    )
+	list(APPEND TELEGRAM_COMPILE_DEFINITIONS
+		AL_ALEXT_PROTOTYPES
+	)
 else()
-    list(APPEND TELEGRAM_COMPILE_DEFINITIONS
-	TDESKTOP_DISABLE_OPENAL_EFFECTS
-    )
+	list(APPEND TELEGRAM_COMPILE_DEFINITIONS
+		TDESKTOP_DISABLE_OPENAL_EFFECTS
+	)
+endif()
+
+if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
+	list(APPEND TELEGRAM_COMPILE_DEFINITIONS
+		 Q_OS_LINUX64
+	)
+else()
+	list(APPEND TELEGRAM_COMPILE_DEFINITIONS
+		 Q_OS_LINUX32
+	)
 endif()
 
 target_sources(Telegram PRIVATE ${TELEGRAM_GENERATED_SOURCES})
