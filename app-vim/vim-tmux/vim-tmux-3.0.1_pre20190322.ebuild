@@ -10,6 +10,6 @@ DESCRIPTION="vim plugin: tmux support for vim"
 HOMEPAGE="https://github.com/tmux-plugins/vim-tmux"
 SRC_URI="https://github.com/tmux-plugins/${PN}/archive/${MY_SHA:-v${PV}}.tar.gz -> ${P}.tar.gz"
 LICENSE="public-domain MIT"
-KEYWORDS="~alpha alpha amd64 ~arm arm ~arm64 ~hppa ia64 ~ia64 ~mips ppc ppc64 ~s390 ~sparc x86 ~amd64-fbsd"
+KEYWORDS="alpha ~alpha amd64 arm ~arm ~arm64 ~hppa ~ia64 ia64 ~mips ppc ppc64 ~s390 ~sparc x86"
 
 S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
