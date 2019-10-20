@@ -36,6 +36,13 @@ DEPEND="
 
 DOCS=( README.md )
 
+src_prepare() {
+	sed -r \
+		-e '/install\(TARGETS/,/  INCLUDES/{s@(LIBRARY DESTINATION).*@\1 ${CMAKE_INSTALL_LIBDIR}@;s@(ARCHIVE DESTINATION).*@\1 ${CMAKE_INSTALL_LIBDIR}@;s@(RUNTIME DESTINATION).*@\1 ${CMAKE_INSTALL_BINDIR}@}' \
+		-i CMakeLists.txt
+	cmake-utils_src_prepare
+}
+
 src_configure() {
 	local mycmakeargs=(
 		-DTD_ENABLE_JNI=$(usex java ON OFF)
