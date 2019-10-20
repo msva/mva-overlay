@@ -1,6 +1,6 @@
 set(TELEGRAM_GENERATED_SOURCES)
 set(CODEGEN_TOOLS_PATH ${CMAKE_BINARY_DIR}/cmake/TelegramCodegen/Tools)
-add_subdirectory(${CODEGEN_TOOLS_PATH})
+add_subdirectory(${CMAKE_SOURCE_DIR}/cmake/TelegramCodegen/Tools)
 
 add_custom_command(
 	OUTPUT
