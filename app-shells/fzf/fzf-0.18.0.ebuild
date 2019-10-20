@@ -74,6 +74,9 @@ src_install() {
 	doman man/man1/fzf.1
 
 	newbashcomp shell/completion.bash fzf
+	insinto /etc/bash/bashrc.d
+	newins shell/key-bindings.bash fzf.bash
+
 
 	insinto /usr/share/nvim/runtime/plugin
 	doins plugin/fzf.vim
