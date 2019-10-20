@@ -65,50 +65,7 @@ include_directories(${TELEGRAM_SOURCES_DIR})
 set(GENERATED_DIR ${CMAKE_BINARY_DIR}/generated)
 file(MAKE_DIRECTORY ${GENERATED_DIR})
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/cmake/TelegramCodegen)
-
-### Partially taken from Codegen cmake file.
-### TODO: move to include, and include both here and there.
-
-file(GLOB_RECURSE STYLES
-    ${TELEGRAM_RESOURCES_DIR}/*.palette
-    ${TELEGRAM_RESOURCES_DIR}/*.style
-    ${TELEGRAM_SOURCES_DIR}/*.style
-)
-set(GENERATED_STYLES)
-
-foreach(STYLE ${STYLES})
-    get_filename_component(STYLE_FILENAME ${STYLE} NAME)
-    get_filename_component(STYLE_NAME ${STYLE} NAME_WE)
-    if (${STYLE} MATCHES \\.palette$)
-        set(THIS_GENERATED_STYLES
-            ${GENERATED_DIR}/styles/palette.h
-            ${GENERATED_DIR}/styles/palette.cpp
-        )
-    else()
-        set(THIS_GENERATED_STYLES
-            ${GENERATED_DIR}/styles/style_${STYLE_NAME}.h
-            ${GENERATED_DIR}/styles/style_${STYLE_NAME}.cpp
-        )
-    endif()
-    set(GENERATED_STYLES ${GENERATED_STYLES} ${THIS_GENERATED_STYLES})
-endforeach()
-
-list(APPEND TELEGRAM_GENERATED_SOURCES
-	${GENERATED_STYLES}
-	${GENERATED_DIR}/scheme.h
-	${GENERATED_DIR}/scheme.cpp
-	${GENERATED_DIR}/emoji.h
-	${GENERATED_DIR}/emoji.cpp
-	${GENERATED_DIR}/emoji_suggestions_data.h
-	${GENERATED_DIR}/emoji_suggestions_data.cpp
-	${GENERATED_DIR}/lang_auto.h
-	${GENERATED_DIR}/lang_auto.cpp
-	${GENERATED_DIR}/numbers.h
-	${GENERATED_DIR}/numbers.cpp
-)
-
-### / Codegen // see above coment
+include(TelegramCodegen)
 
 set_property(SOURCE ${TELEGRAM_GENERATED_SOURCES} PROPERTY SKIP_AUTOMOC ON)
 
