@@ -5,7 +5,7 @@ EAPI=7
 
 inherit cmake-utils
 
-MY_SHA="1212beae777dba02c230ece8c0c0ec12790047ea"
+MY_SHA="3d56ba9e7f2d61fd8c9c2a7715b46fde38c00123"
 
 DESCRIPTION="Guideline Support Library implementation by Microsoft"
 HOMEPAGE="https://github.com/Microsoft/GSL"
