@@ -77,7 +77,6 @@ src_install() {
 	insinto /etc/bash/bashrc.d
 	newins shell/key-bindings.bash fzf.bash
 
-
 	insinto /usr/share/nvim/runtime/plugin
 	doins plugin/fzf.vim
 
