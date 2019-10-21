@@ -7,7 +7,7 @@ CHECKREQS_DISK_BUILD="6G"
 inherit check-reqs
 
 DESCRIPTION="Open Handset Alliance's Android NDK (Native Dev Kit)"
-HOMEPAGE="http://developer.android.com/sdk/ndk/"
+HOMEPAGE="https://developer.android.com/ndk/"
 SRC_URI="https://dl.google.com/android/repository/${PN}-r${PV}-linux-x86_64.zip"
 
 LICENSE="android"
@@ -17,11 +17,9 @@ IUSE=""
 RESTRICT="mirror strip installsources test"
 
 DEPEND="app-arch/p7zip"
-RDEPEND="
-	>=dev-util/android-sdk-update-manager-10
+RDEPEND=">=dev-util/android-sdk-update-manager-10
 	>=sys-devel/make-3.81
-	sys-libs/ncurses:5/5[tinfo]
-"
+	sys-libs/ncurses-compat:5[tinfo]"
 
 S="${WORKDIR}/${PN}-r${PV}"
 
@@ -64,15 +62,10 @@ src_install() {
 		ANDROID_PATH="${ANDROID_PATH}:${ANDROID_PREFIX}/${i}"
 	done
 
-	printf '%s' \
-		"PATH=\"${ANDROID_PATH}\"" \
-		$'\n' \
-		> "${T}/80${PN}"  || die
-
+	echo "PATH=\"${ANDROID_PATH}\"" > "${T}/80${PN}" || die
 	doenvd "${T}/80${PN}"
 
-	echo "SEARCH_DIRS_MASK=\"${EPREFIX}/${ANDROID_NDK_DIR}\"" \
-		> "${T}/80${PN}" || die
+	echo "SEARCH_DIRS_MASK=\"${EPREFIX}/${ANDROID_NDK_DIR}\"" > "${T}/80${PN}" || die
 	insinto "/etc/revdep-rebuild"
 	doins "${T}/80${PN}"
 }
