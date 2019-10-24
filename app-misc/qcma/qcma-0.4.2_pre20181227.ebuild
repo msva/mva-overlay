@@ -33,7 +33,7 @@ BDEPEND="
 "
 
 src_prepare() {
-	rm ChangeLog # Triggers QA warn (symlink to nowhere)
+	rm ChangeLog || die "Failed to rm changelog" # Triggers QA warn (symlink to nowhere)
 	default
 }
 

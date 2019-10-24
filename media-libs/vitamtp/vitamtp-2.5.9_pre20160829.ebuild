@@ -22,7 +22,7 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	rm ChangeLog # Triggers QA warn (symlink to nowhere)
+	rm ChangeLog || die "Failed to rm changelog" # Triggers QA warn (symlink to nowhere)
 
 	sed -r \
 		-e 's@vitamtp@usb@' \
