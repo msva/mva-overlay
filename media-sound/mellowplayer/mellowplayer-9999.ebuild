@@ -39,7 +39,7 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	www-plugins/adobe-flash:*
-	www-plugins/chrome-binary-plugins:*[widevine?]
+	widevine? ( www-plugins/chrome-binary-plugins:* )
 	x11-libs/libnotify
 "
 
