@@ -1,12 +1,11 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-PYTHON_COMPAT=( python2_7 )
-inherit eutils autotools python-single-r1 multilib-minimal
+EAPI=7
+inherit eutils autotools multilib-minimal
 
 DESCRIPTION="VIPS Image Processing Library"
-SRC_URI="https://github.com/jcupitt/lib${PN}/archive/v${PV}.tar.gz -> lib${P}.tar.gz"
+SRC_URI="https://github.com/lib${PN}/lib${PN}/archive/v${PV//_rc/-rc}.tar.gz -> lib${P}.tar.gz"
 HOMEPAGE="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS"
 
 RESTRICT="mirror"
@@ -14,7 +13,7 @@ LICENSE="LGPL-2.1"
 SLOT="1"
 KEYWORDS="~amd64 ~x86"
 IUSE="cxx doc debug exif fits fftw graphicsmagick imagemagick jpeg lcms matio openexr openslide
-	+orc png python svg static-libs tiff webp"
+	+orc png svg static-libs tiff webp"
 
 RDEPEND="
 	debug? ( dev-libs/dmalloc )
@@ -36,7 +35,6 @@ RDEPEND="
 	jpeg? ( virtual/jpeg:0= )
 	fits? ( sci-libs/cfitsio )
 	png? ( >=media-libs/libpng-1.2.9:0= )
-	python? ( ${PYTHON_DEPS} )
 	webp? ( media-libs/libwebp )
 	orc? ( >=dev-lang/orc-0.4.11 )
 	openslide? ( media-libs/openslide )
@@ -44,20 +42,12 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	dev-util/gtk-doc-am
-	doc? ( dev-util/gtk-doc )
+	dev-util/gtk-doc
 "
 
-REQUIRED_USE="
-	python? ( ${PYTHON_REQUIRED_USE} )
-"
+S="${WORKDIR}/lib${P//_rc/-rc}"
 
-S="${WORKDIR}/lib${P}"
-
-DOCS=(ChangeLog NEWS THANKS TODO README.md)
-
-pkg_setup() {
-	use python && python-single-r1_pkg_setup
-}
+DOCS=(ChangeLog NEWS THANKS README.md)
 
 src_prepare() {
 	sed -r \
@@ -67,7 +57,7 @@ src_prepare() {
 	default
 
 	gtkdocize --copy --docdir doc --flavour no-tmpl
-	# ^ the way portage calling it doesn't work, so let's call manually
+#	# ^ the way portage calling it doesn't work, so let's call manually
 
 	eautoreconf
 
@@ -96,7 +86,6 @@ multilib_src_configure() {
 		$(use_with fits cfitsio) \
 		$(use_with jpeg) \
 		$(use_with orc) \
-		$(use_with python) \
 		$(use_with webp libwebp) \
 		$(use_with openslide) \
 		$(use_enable static-libs static) \
@@ -108,6 +97,5 @@ multilib_src_install() {
 }
 multilib_src_install_all() {
 	einstalldocs
-	use python && python_optimize
-	prune_libtool_files
+	find "${D}" -xtype f -name '*.la' -print0
 }
