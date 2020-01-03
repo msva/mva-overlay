@@ -68,7 +68,6 @@ COMMON_DEPEND="
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	openal-eff? ( >=media-libs/openal-1.19.1:= )
-	pulseaudio? ( media-sound/pulseaudio:= )
 	sys-libs/zlib:=[minizip]
 	test? ( dev-cpp/catch )
 	x11-libs/libdrm:=
