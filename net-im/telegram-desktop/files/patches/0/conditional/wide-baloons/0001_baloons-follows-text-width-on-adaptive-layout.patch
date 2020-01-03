@@ -1,18 +1,66 @@
-From 34b5dacf3f4133eba1ae9cb42e837f02f22603a9 Mon Sep 17 00:00:00 2001
-From: Klimentyev VP <vklimentyev@gmail.com>
-Date: Sat, 12 Oct 2019 14:50:16 +0300
-Subject: [PATCH] patch
-
----
- .../history/view/history_view_element.cpp            | 11 -----------
- .../history/view/history_view_message.cpp            |  4 ++++
- .../history/view/history_view_service_message.cpp    | 12 +-----------
- .../history/view/media/history_view_document.cpp     |  4 ++++
- .../history/view/media/history_view_photo.cpp        |  2 +-
- 5 files changed, 10 insertions(+), 23 deletions(-)
-
+diff --git a/Telegram/SourceFiles/history/history_inner_widget.cpp b/Telegram/SourceFiles/history/history_inner_widget.cpp
+index dc4812a5f..c145db6e6 100644
+--- a/Telegram/SourceFiles/history/history_inner_widget.cpp
++++ b/Telegram/SourceFiles/history/history_inner_widget.cpp
+@@ -2046,7 +2046,7 @@ void HistoryInner::recountHistoryGeometry() {
+ 	updateBotInfo(false);
+ 	if (_botAbout && !_botAbout->info->text.isEmpty()) {
+ 		int32 tw = _scroll->width() - st::msgMargin.left() - st::msgMargin.right();
+-		if (tw > st::msgMaxWidth) tw = st::msgMaxWidth;
++		if (!Adaptive::ChatWide() && tw > st::msgMaxWidth) tw = st::msgMaxWidth;
+ 		tw -= st::msgPadding.left() + st::msgPadding.right();
+ 		int32 mw = qMax(_botAbout->info->text.maxWidth(), st::msgNameFont->width(tr::lng_bot_description(tr::now)));
+ 		if (tw > mw) tw = mw;
+@@ -2055,11 +2055,7 @@ void HistoryInner::recountHistoryGeometry() {
+ 		_botAbout->height = _botAbout->info->text.countHeight(_botAbout->width);
+ 
+ 		int32 descH = st::msgMargin.top() + st::msgPadding.top() + st::msgNameFont->height + st::botDescSkip + _botAbout->height + st::msgPadding.bottom() + st::msgMargin.bottom();
+-		int32 descMaxWidth = _scroll->width();
+-		if (Adaptive::ChatWide()) {
+-			descMaxWidth = qMin(descMaxWidth, int32(st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
+-		}
+-		int32 descAtX = (descMaxWidth - _botAbout->width) / 2 - st::msgPadding.left();
++		int32 descAtX = (_scroll->width() - _botAbout->width) / 2 - st::msgPadding.left();
+ 		int32 descAtY = qMin(_historyPaddingTop - descH, qMax(0, (_scroll->height() - descH) / 2)) + st::msgMargin.top();
+ 
+ 		_botAbout->rect = QRect(descAtX, descAtY, _botAbout->width + st::msgPadding.left() + st::msgPadding.right(), descH - st::msgMargin.top() - st::msgMargin.bottom());
+@@ -2093,7 +2089,7 @@ void HistoryInner::updateBotInfo(bool recount) {
+ 				Ui::ItemTextBotNoMonoOptions());
+ 			if (recount) {
+ 				int32 tw = _scroll->width() - st::msgMargin.left() - st::msgMargin.right();
+-				if (tw > st::msgMaxWidth) tw = st::msgMaxWidth;
++				if (!Adaptive::ChatWide() && tw > st::msgMaxWidth) tw = st::msgMaxWidth;
+ 				tw -= st::msgPadding.left() + st::msgPadding.right();
+ 				int32 mw = qMax(_botAbout->info->text.maxWidth(), st::msgNameFont->width(tr::lng_bot_description(tr::now)));
+ 				if (tw > mw) tw = mw;
+@@ -2247,11 +2243,7 @@ void HistoryInner::updateSize() {
+ 
+ 	if (_botAbout && _botAbout->height > 0) {
+ 		int32 descH = st::msgMargin.top() + st::msgPadding.top() + st::msgNameFont->height + st::botDescSkip + _botAbout->height + st::msgPadding.bottom() + st::msgMargin.bottom();
+-		int32 descMaxWidth = _scroll->width();
+-		if (Adaptive::ChatWide()) {
+-			descMaxWidth = qMin(descMaxWidth, int32(st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
+-		}
+-		int32 descAtX = (descMaxWidth - _botAbout->width) / 2 - st::msgPadding.left();
++		int32 descAtX = (_scroll->width() - _botAbout->width) / 2 - st::msgPadding.left();
+ 		int32 descAtY = qMin(newHistoryPaddingTop - descH, qMax(0, (_scroll->height() - descH) / 2)) + st::msgMargin.top();
+ 
+ 		_botAbout->rect = QRect(descAtX, descAtY, _botAbout->width + st::msgPadding.left() + st::msgPadding.right(), descH - st::msgMargin.top() - st::msgMargin.bottom());
+@@ -2573,11 +2565,7 @@ void HistoryInner::mouseActionUpdate() {
+ 					}
+ 					dateWidth += st::msgServicePadding.left() + st::msgServicePadding.right();
+ 					auto dateLeft = st::msgServiceMargin.left();
+-					auto maxwidth = _contentWidth;
+-					if (Adaptive::ChatWide()) {
+-						maxwidth = qMin(maxwidth, int32(st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
+-					}
+-					auto widthForDate = maxwidth - st::msgServiceMargin.left() - st::msgServiceMargin.left();
++					auto widthForDate = _contentWidth - st::msgServiceMargin.left() - st::msgServiceMargin.left();
+ 
+ 					dateLeft += (widthForDate - dateWidth) / 2;
+ 
 diff --git a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
-index 3c42a9768..fbdebd155 100644
+index 3c42a9768..543ed6d4c 100644
 --- a/Telegram/SourceFiles/history/view/history_view_element.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_element.cpp
 @@ -159,17 +159,6 @@ void UnreadBar::paint(Painter &p, int y, int w) const {
@@ -33,8 +81,48 @@ index 3c42a9768..fbdebd155 100644
  	const auto skip = st::historyUnreadBarHeight
  		- 2 * st::lineWidth
  		- st::historyUnreadBarFont->height;
+@@ -315,6 +304,10 @@ int Element::infoWidth() const {
+ 	return 0;
+ }
+ 
++int Element::plainMaxWidth() const {
++	return 0;
++}
++
+ bool Element::isHiddenByGroup() const {
+ 	return _flags & Flag::HiddenByGroup;
+ }
+diff --git a/Telegram/SourceFiles/history/view/history_view_element.h b/Telegram/SourceFiles/history/view/history_view_element.h
+index 6d58d5604..6c89c7cde 100644
+--- a/Telegram/SourceFiles/history/view/history_view_element.h
++++ b/Telegram/SourceFiles/history/view/history_view_element.h
+@@ -170,6 +170,7 @@ public:
+ 	int skipBlockHeight() const;
+ 	QString skipBlock() const;
+ 	virtual int infoWidth() const;
++	virtual int plainMaxWidth() const;
+ 
+ 	bool isHiddenByGroup() const;
+ 	virtual bool isHidden() const;
+diff --git a/Telegram/SourceFiles/history/view/history_view_list_widget.cpp b/Telegram/SourceFiles/history/view/history_view_list_widget.cpp
+index 38745d248..fd7b52c1c 100644
+--- a/Telegram/SourceFiles/history/view/history_view_list_widget.cpp
++++ b/Telegram/SourceFiles/history/view/history_view_list_widget.cpp
+@@ -2150,11 +2150,7 @@ void ListWidget::mouseActionUpdate() {
+ 					}
+ 					dateWidth += st::msgServicePadding.left() + st::msgServicePadding.right();
+ 					auto dateLeft = st::msgServiceMargin.left();
+-					auto maxwidth = view->width();
+-					if (Adaptive::ChatWide()) {
+-						maxwidth = qMin(maxwidth, int32(st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
+-					}
+-					auto widthForDate = maxwidth - st::msgServiceMargin.left() - st::msgServiceMargin.left();
++					auto widthForDate = view->width() - st::msgServiceMargin.left() - st::msgServiceMargin.left();
+ 
+ 					dateLeft += (widthForDate - dateWidth) / 2;
+ 
 diff --git a/Telegram/SourceFiles/history/view/history_view_message.cpp b/Telegram/SourceFiles/history/view/history_view_message.cpp
-index 8365366d9..553ec0729 100644
+index 8365366d9..47efc85a8 100644
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
 @@ -1616,7 +1616,9 @@ QRect Message::countGeometry() const {
@@ -51,16 +139,58 @@ index 8365366d9..553ec0729 100644
  		contentWidth -= st::msgPhotoSkip;
  	}
  	accumulate_min(contentWidth, maxWidth());
-+	if (!Adaptive::ChatWide()) { // not sure if it is enough, and if it is right place. If bug - take this into account.
++	if (!Adaptive::ChatWide()) {
  	accumulate_min(contentWidth, st::msgMaxWidth);
 +	}
  	if (mediaDisplayed) {
  		media->resizeGetHeight(contentWidth);
  		if (media->width() < contentWidth) {
+@@ -1681,7 +1685,7 @@ int Message::resizeContentGetHeight(int newWidth) {
+ 		auto mediaOnBottom = (mediaDisplayed && media->isBubbleBottom()) || (entry/* && entry->isBubbleBottom()*/);
+ 		auto mediaOnTop = (mediaDisplayed && media->isBubbleTop()) || (entry && entry->isBubbleTop());
+ 
+-		if (contentWidth == maxWidth()) {
++		if (!Adaptive::ChatWide() && contentWidth == maxWidth()) {
+ 			if (mediaDisplayed) {
+ 				if (entry) {
+ 					newHeight += entry->resizeGetHeight(contentWidth);
+diff --git a/Telegram/SourceFiles/history/view/history_view_message.h b/Telegram/SourceFiles/history/view/history_view_message.h
+index 149b7db30..05479137e 100644
+--- a/Telegram/SourceFiles/history/view/history_view_message.h
++++ b/Telegram/SourceFiles/history/view/history_view_message.h
+@@ -85,6 +85,7 @@ public:
+ 	bool displayEditedBadge() const override;
+ 	TimeId displayedEditDate() const override;
+ 	int infoWidth() const override;
++	int plainMaxWidth() const override;
+ 
+ protected:
+ 	void refreshDataIdHook() override;
+@@ -146,7 +147,6 @@ private:
+ 	HistoryMessageEdited *displayedEditBadge();
+ 	void initTime();
+ 	int timeLeft() const;
+-	int plainMaxWidth() const;
+ 
+ 	WebPage *logEntryOriginal() const;
+ 
 diff --git a/Telegram/SourceFiles/history/view/history_view_service_message.cpp b/Telegram/SourceFiles/history/view/history_view_service_message.cpp
-index 3264fe1b9..764e29fa3 100644
+index 3264fe1b9..4e623d199 100644
 --- a/Telegram/SourceFiles/history/view/history_view_service_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_service_message.cpp
+@@ -163,11 +163,7 @@ void paintBubblePart(Painter &p, int x, int y, int width, int height, SideStyle
+ 
+ void paintPreparedDate(Painter &p, const QString &dateText, int dateTextWidth, int y, int w) {
+ 	int left = st::msgServiceMargin.left();
+-	int maxwidth = w;
+-	if (Adaptive::ChatWide()) {
+-		maxwidth = qMin(maxwidth, WideChatWidth());
+-	}
+-	w = maxwidth - st::msgServiceMargin.left() - st::msgServiceMargin.left();
++	w -= st::msgServiceMargin.left() * 2;
+ 
+ 	left += (w - dateTextWidth - st::msgServicePadding.left() - st::msgServicePadding.right()) / 2;
+ 	int height = st::msgServicePadding.top() + st::msgServiceFont->height + st::msgServicePadding.bottom();
 @@ -315,9 +311,6 @@ not_null<HistoryService*> Service::message() const {
  
  QRect Service::countGeometry() const {
@@ -82,51 +212,351 @@ index 3264fe1b9..764e29fa3 100644
  		if (contentWidth < st::msgServicePadding.left() + st::msgServicePadding.right() + 1) {
  			contentWidth = st::msgServicePadding.left() + st::msgServicePadding.right() + 1;
 diff --git a/Telegram/SourceFiles/history/view/media/history_view_document.cpp b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
-index 9343d66c8..0ac08a522 100644
+index 9343d66c8..09aac41cd 100644
 --- a/Telegram/SourceFiles/history/view/media/history_view_document.cpp
 +++ b/Telegram/SourceFiles/history/view/media/history_view_document.cpp
-@@ -22,6 +22,7 @@
- #include "data/data_document.h"
+@@ -23,6 +23,7 @@
  #include "data/data_media_types.h"
+ #include "data/data_file_origin.h"
  #include "app.h"
 +#include "facades.h"
  #include "styles/style_history.h"
-
+ 
  namespace HistoryView {
-@@ -150,8 +150,12 @@ QSize Document::countOptimalSize() {
+@@ -151,7 +152,11 @@ QSize Document::countOptimalSize() {
  
  	if (auto named = Get<HistoryDocumentNamed>()) {
  		accumulate_max(maxWidth, tleft + named->_namew + tright);
+-		accumulate_min(maxWidth, st::msgMaxWidth);
 +		if (Adaptive::ChatWide() && captioned) {
-+			accumulate_max(maxWidth, captioned->_caption.maxWidth());
++			accumulate_max(maxWidth, captioned->_caption.maxWidth() + st::msgPadding.left() + st::msgPadding.right());
 +		} else {
- 		accumulate_min(maxWidth, st::msgMaxWidth);
++			accumulate_min(maxWidth, st::msgMaxWidth);
++		}
  	}
-+	}
  
  	auto minHeight = 0;
- 	if (thumbed) {
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_gif.cpp b/Telegram/SourceFiles/history/view/media/history_view_gif.cpp
+index f772eebfe..34615bdf6 100644
+--- a/Telegram/SourceFiles/history/view/media/history_view_gif.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_gif.cpp
+@@ -33,6 +33,7 @@ https://github.com/telegramdesktop/tdesk
+ #include "data/data_document.h"
+ #include "data/data_file_origin.h"
+ #include "app.h"
++#include "facades.h"
+ #include "styles/style_history.h"
+ 
+ namespace HistoryView {
+@@ -111,6 +112,9 @@ QSize Gif::countOptimalSize() {
+ 			_parent->skipBlockHeight());
+ 	}
+ 
++	const auto captionWithPaddings = _caption.maxWidth()
++		+ st::msgPadding.left()
++		+ st::msgPadding.right();
+ 	const auto maxSize = _data->isVideoFile()
+ 		? st::maxMediaSize
+ 		: _data->isVideoMessage()
+@@ -119,10 +123,13 @@ QSize Gif::countOptimalSize() {
+ 	const auto size = style::ConvertScale(videoSize());
+ 	auto tw = size.width();
+ 	auto th = size.height();
+-	if (tw > maxSize) {
++	if ((!Adaptive::ChatWide() || captionWithPaddings <= maxSize) && tw > maxSize) {
+ 		th = (maxSize * th) / tw;
+ 		tw = maxSize;
++	} else if (Adaptive::ChatWide() && captionWithPaddings > maxSize && tw > captionWithPaddings) {
++		th = (captionWithPaddings * th) / tw;
++		tw = captionWithPaddings;
+ 	}
+ 	if (th > maxSize) {
+ 		tw = (maxSize * tw) / th;
+ 		th = maxSize;
+@@ -140,6 +146,9 @@ QSize Gif::countOptimalSize() {
+ 	}
+ 	if (_parent->hasBubble()) {
+ 		if (!_caption.isEmpty()) {
++			if (Adaptive::ChatWide()) {
++				accumulate_max(maxWidth, captionWithPaddings);
++			}
+ 			auto captionw = maxWidth - st::msgPadding.left() - st::msgPadding.right();
+ 			minHeight += st::mediaCaptionSkip + _caption.countHeight(captionw);
+ 			if (isBubbleBottom()) {
+@@ -162,6 +171,9 @@ QSize Gif::countOptimalSize() {
+ QSize Gif::countCurrentSize(int newWidth) {
+ 	auto availableWidth = newWidth;
+ 
++	const auto captionWithPaddings = _caption.maxWidth()
++		+ st::msgPadding.left()
++		+ st::msgPadding.right();
+ 	const auto maxSize = _data->isVideoFile()
+ 		? st::maxMediaSize
+ 		: _data->isVideoMessage()
+@@ -170,10 +182,13 @@ QSize Gif::countCurrentSize(int newWidth
+ 	const auto size = style::ConvertScale(videoSize());
+ 	auto tw = size.width();
+ 	auto th = size.height();
+-	if (tw > maxSize) {
++	if ((!Adaptive::ChatWide() || captionWithPaddings <= maxSize) && tw > maxSize) {
+ 		th = (maxSize * th) / tw;
+ 		tw = maxSize;
++	} else if (Adaptive::ChatWide() && captionWithPaddings > maxSize && tw > captionWithPaddings) {
++		th = (captionWithPaddings * th) / tw;
++		tw = captionWithPaddings;
+ 	}
+ 	if (th > maxSize) {
+ 		tw = (maxSize * tw) / th;
+ 		th = maxSize;
+@@ -197,6 +211,10 @@ QSize Gif::countCurrentSize(int newWidth
+ 	}
+ 	if (_parent->hasBubble()) {
+ 		if (!_caption.isEmpty()) {
++			if (Adaptive::ChatWide()) {
++				accumulate_max(newWidth, captionWithPaddings);
++				accumulate_min(newWidth, availableWidth);
++			}
+ 			auto captionw = newWidth - st::msgPadding.left() - st::msgPadding.right();
+ 			newHeight += st::mediaCaptionSkip + _caption.countHeight(captionw);
+ 			if (isBubbleBottom()) {
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_location.cpp b/Telegram/SourceFiles/history/view/media/history_view_location.cpp
+index 36d7c7c11..eb9a9c786 100644
+--- a/Telegram/SourceFiles/history/view/media/history_view_location.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_location.cpp
+@@ -18,6 +18,7 @@
+ #include "data/data_file_origin.h"
+ #include "data/data_location.h"
+ #include "app.h"
++#include "facades.h"
+ #include "styles/style_history.h"
+ 
+ namespace HistoryView {
+@@ -61,9 +62,15 @@ QSize Location::countOptimalSize() {
+ 
+ 	if (_parent->hasBubble()) {
+ 		if (!_title.isEmpty()) {
++			if (Adaptive::ChatWide()) {
++				maxWidth = qMax(maxWidth, _title.maxWidth() + st::msgPadding.left() + st::msgPadding.right());
++			}
+ 			minHeight += qMin(_title.countHeight(maxWidth - st::msgPadding.left() - st::msgPadding.right()), 2 * st::webPageTitleFont->height);
+ 		}
+ 		if (!_description.isEmpty()) {
++			if (Adaptive::ChatWide()) {
++				maxWidth = qMax(maxWidth, _description.maxWidth() + st::msgPadding.left() + st::msgPadding.right());
++			}
+ 			minHeight += qMin(_description.countHeight(maxWidth - st::msgPadding.left() - st::msgPadding.right()), 3 * st::webPageDescriptionFont->height);
+ 		}
+ 		if (!_title.isEmpty() || !_description.isEmpty()) {
+@@ -88,8 +95,10 @@ QSize Location::countCurrentSize(int newWidth) {
+ 	auto newHeight = th;
+ 	if (tw > newWidth) {
+ 		newHeight = (newWidth * newHeight / tw);
+-	} else {
++	} else if (!Adaptive::ChatWide()) {
+ 		newWidth = tw;
++	} else {
++		newHeight = (newWidth * newHeight / tw);
+ 	}
+ 	auto minWidth = qMax(st::minPhotoSize, _parent->infoWidth() + 2 * (st::msgDateImgDelta + st::msgDateImgPadding.x()));
+ 	accumulate_max(newWidth, minWidth);
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_media_grouped.cpp b/Telegram/SourceFiles/history/view/media/history_view_media_grouped.cpp
+index cccc8ea96..7e2293de3 100644
+--- a/Telegram/SourceFiles/history/view/media/history_view_media_grouped.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_media_grouped.cpp
+@@ -19,6 +19,7 @@
+ #include "ui/grouped_layout.h"
+ #include "ui/text_options.h"
+ #include "layout.h"
++#include "facades.h"
+ #include "styles/style_history.h"
+ 
+ namespace HistoryView {
+@@ -76,9 +77,17 @@ QSize GroupedMedia::countOptimalSize() {
+ 		sizes.push_back(media->sizeForGrouping());
+ 	}
+ 
++	const auto captionWithPaddings = _caption.maxWidth()
++			+ st::msgPadding.left()
++			+ st::msgPadding.right();
++	auto groupMaxWidth = st::historyGroupWidthMax;
++	if (Adaptive::ChatWide()) {
++		accumulate_max(groupMaxWidth, captionWithPaddings);
++	}
++
+ 	const auto layout = Ui::LayoutMediaGroup(
+ 		sizes,
+-		st::historyGroupWidthMax,
++		groupMaxWidth,
+ 		st::historyGroupWidthMin,
+ 		st::historyGroupSkip);
+ 	Assert(layout.size() == _parts.size());
+@@ -94,6 +103,9 @@ QSize GroupedMedia::countOptimalSize() {
+ 	}
+ 
+ 	if (!_caption.isEmpty()) {
++		if (Adaptive::ChatWide()) {
++			maxWidth = qMax(maxWidth, captionWithPaddings);
++		}
+ 		auto captionw = maxWidth - st::msgPadding.left() - st::msgPadding.right();
+ 		minHeight += st::mediaCaptionSkip + _caption.countHeight(captionw);
+ 		if (isBubbleBottom()) {
 diff --git a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
-index 9d7e1b6d4..5f05cb937 100644
+index 8a527da80..ec87e2217 100644
 --- a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
 +++ b/Telegram/SourceFiles/history/view/media/history_view_photo.cpp
-@@ -20,6 +20,7 @@
+@@ -21,6 +21,7 @@
  #include "data/data_photo.h"
  #include "data/data_file_origin.h"
  #include "app.h"
 +#include "facades.h"
  #include "styles/style_history.h"
-
+ 
  namespace HistoryView {
-@@ -75,7 +75,7 @@ QSize Photo::countOptimalSize() {
+@@ -70,14 +71,21 @@ QSize Photo::countOptimalSize() {
+ 	auto maxWidth = 0;
+ 	auto minHeight = 0;
+ 
++	const auto captionWithPaddings = _caption.maxWidth()
++			+ st::msgPadding.left()
++			+ st::msgPadding.right();
++	auto inWebPage = (_parent->media() != this);
+ 	auto tw = style::ConvertScale(_data->width());
+ 	auto th = style::ConvertScale(_data->height());
  	if (!tw || !th) {
  		tw = th = 1;
  	}
 -	if (tw > st::maxMediaSize) {
-+	if (!Adaptive::ChatWide() && tw > st::maxMediaSize) {
++	if ((!Adaptive::ChatWide() || (captionWithPaddings <= st::maxMediaSize && !inWebPage)) && tw > st::maxMediaSize) {
  		th = (st::maxMediaSize * th) / tw;
  		tw = st::maxMediaSize;
++	} else if (Adaptive::ChatWide() && captionWithPaddings > st::maxMediaSize && tw > captionWithPaddings) {
++		th = (captionWithPaddings * th) / tw;
++		tw = captionWithPaddings;
  	}
--- 
-2.21.0
-
+ 	if (th > st::maxMediaSize) {
+ 		tw = (st::maxMediaSize * tw) / th;
+@@ -88,10 +96,14 @@ QSize Photo::countOptimalSize() {
+ 		return { _serviceWidth, _serviceWidth };
+ 	}
+ 	const auto minWidth = qMax((_parent->hasBubble() ? st::historyPhotoBubbleMinWidth : st::minPhotoSize), _parent->infoWidth() + 2 * (st::msgDateImgDelta + st::msgDateImgPadding.x()));
+-	const auto maxActualWidth = qMax(tw, minWidth);
++	auto maxActualWidth = qMax(tw, minWidth);
+ 	maxWidth = qMax(maxActualWidth, th);
+ 	minHeight = qMax(th, st::minPhotoSize);
+ 	if (_parent->hasBubble() && !_caption.isEmpty()) {
++		if (Adaptive::ChatWide()) {
++			maxActualWidth = qMax(maxActualWidth, captionWithPaddings);
++			maxWidth = qMax(maxWidth, captionWithPaddings);
++		}
+ 		auto captionw = maxActualWidth - st::msgPadding.left() - st::msgPadding.right();
+ 		minHeight += st::mediaCaptionSkip + _caption.countHeight(captionw);
+ 		if (isBubbleBottom()) {
+@@ -102,11 +114,20 @@ QSize Photo::countOptimalSize() {
+ }
+ 
+ QSize Photo::countCurrentSize(int newWidth) {
++	auto availableWidth = newWidth;
++
++	const auto captionWithPaddings = _caption.maxWidth()
++			+ st::msgPadding.left()
++			+ st::msgPadding.right();
++	auto inWebPage = (_parent->media() != this);
+ 	auto tw = style::ConvertScale(_data->width());
+ 	auto th = style::ConvertScale(_data->height());
+-	if (tw > st::maxMediaSize) {
++	if ((!Adaptive::ChatWide() || (captionWithPaddings <= st::maxMediaSize && !inWebPage)) && tw > st::maxMediaSize) {
+ 		th = (st::maxMediaSize * th) / tw;
+ 		tw = st::maxMediaSize;
++	} else if (Adaptive::ChatWide() && captionWithPaddings > st::maxMediaSize && tw > captionWithPaddings) {
++		th = (captionWithPaddings * th) / tw;
++		tw = captionWithPaddings;
+ 	}
+ 	if (th > st::maxMediaSize) {
+ 		tw = (st::maxMediaSize * tw) / th;
+@@ -131,6 +152,10 @@ QSize Photo::countCurrentSize(int newWidth) {
+ 	newWidth = qMax(_pixw, minWidth);
+ 	auto newHeight = qMax(_pixh, st::minPhotoSize);
+ 	if (_parent->hasBubble() && !_caption.isEmpty()) {
++		if (Adaptive::ChatWide()) {
++			newWidth = qMax(newWidth, captionWithPaddings);
++			newWidth = qMin(newWidth, availableWidth);
++		}
+ 		const auto captionw = newWidth
+ 			- st::msgPadding.left()
+ 			- st::msgPadding.right();
+diff --git a/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp b/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp
+index 6a096c283..eef78067f 100644
+--- a/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp
++++ b/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp
+@@ -24,6 +24,7 @@
+ #include "data/data_photo.h"
+ #include "data/data_file_origin.h"
+ #include "app.h"
++#include "facades.h"
+ #include "styles/style_history.h"
+ 
+ namespace HistoryView {
+@@ -278,6 +279,10 @@ QSize WebPage::countOptimalSize() {
+ 		_durationWidth = st::msgDateFont->width(_duration);
+ 	}
+ 	maxWidth += st::msgPadding.left() + st::webPageLeft + st::msgPadding.right();
++	if (Adaptive::ChatWide()) {
++		accumulate_min(maxWidth, st::msgMaxWidth);
++		accumulate_max(maxWidth, _parent->plainMaxWidth());
++	}
+ 	auto padding = inBubblePadding();
+ 	minHeight += padding.top() + padding.bottom();
+ 
+@@ -292,6 +297,10 @@ QSize WebPage::countCurrentSize(int newWidth) {
+ 		return { newWidth, minHeight() };
+ 	}
+ 
++	if (Adaptive::ChatWide() && !asArticle()) {
++		accumulate_min(newWidth, maxWidth());
++	}
++
+ 	auto innerWidth = newWidth - st::msgPadding.left() - st::webPageLeft - st::msgPadding.right();
+ 	auto newHeight = 0;
+ 
+diff --git a/Telegram/SourceFiles/window/themes/window_theme_preview.cpp b/Telegram/SourceFiles/window/themes/window_theme_preview.cpp
+index 8df16f30b..b8dd77589 100644
+--- a/Telegram/SourceFiles/window/themes/window_theme_preview.cpp
++++ b/Telegram/SourceFiles/window/themes/window_theme_preview.cpp
+@@ -7,6 +7,7 @@
+ */
+ #include "window/themes/window_theme_preview.h"
+ 
++#include "facades.h"
+ #include "window/themes/window_theme.h"
+ #include "lang/lang_keys.h"
+ #include "platform/platform_window_title.h"
+@@ -248,7 +249,9 @@ void Generator::addAudioBubble(QVector<int> waveform, int waveactive, QString wa
+ 	tleft = st::msgFilePadding.left() + st::msgFileSize + st::msgFilePadding.right();
+ 	tright = st::msgFileThumbPadding.left();
+ 	accumulate_max(width, tleft + st::normalFont->width(wavestatus) + skipBlock.width() + st::msgPadding.right());
++	if (!Adaptive::ChatWide()) {
+ 	accumulate_min(width, st::msgMaxWidth);
++	}
+ 
+ 	auto height = st::msgFilePadding.top() + st::msgFileSize + st::msgFilePadding.bottom();
+ 	addBubble(std::move(bubble), width, height, date, status);
+@@ -276,7 +279,9 @@ void Generator::addTextBubble(QString text, QString date, Status status) {
+ 
+ 	auto width = _history.width() - st::msgMargin.left() - st::msgMargin.right();
+ 	accumulate_min(width, st::msgPadding.left() + bubble.text.maxWidth() + st::msgPadding.right());
++	if (!Adaptive::ChatWide()) {
+ 	accumulate_min(width, st::msgMaxWidth);
++	}
+ 
+ 	auto textWidth = qMax(width - st::msgPadding.left() - st::msgPadding.right(), 1);
+ 	auto textHeight = bubble.text.countHeight(textWidth);
+@@ -300,7 +305,9 @@ void Generator::addPhotoBubble(QString image, QString caption, QString date, Sta
+ 
+ 	auto width = _history.width() - st::msgMargin.left() - st::msgMargin.right();
+ 	accumulate_min(width, bubble.photoWidth);
++	if (!Adaptive::ChatWide()) {
+ 	accumulate_min(width, st::msgMaxWidth);
++	}
+ 
+ 	auto textWidth = qMax(width - st::msgPadding.left() - st::msgPadding.right(), 1);
+ 	auto textHeight = bubble.text.countHeight(textWidth);
