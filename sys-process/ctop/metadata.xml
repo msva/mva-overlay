@@ -3,6 +3,8 @@
 <pkgmetadata>
   <!-- maintainer-needed -->
   <upstream>
-    <remote-id type="github">bcicen/ctop</remote-id>
+    <remote-id type="github">
+      bcicen/ctop
+    </remote-id>
   </upstream>
 </pkgmetadata>

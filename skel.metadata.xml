@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>mva@gentoo.org</email>
-		<description>
-			If you have any issues, please contact me via e-mail, IRC (FreeNode) or Telegram (@mva_name)
-		</description>
-		<name>Vadim A. Misbakh-Soloviov</name>
-	</maintainer>
-	<longdescription>
-	Long description of the package
-	</longdescription> 
-	<use>
-		<flag name='flag'>desc</flag>
-	</use>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>Long description of the package</longdescription>
+  <use>
+    <flag name='flag'>Flag description</flag>
+  </use>
 </pkgmetadata>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <longdescription>Asio is a cross-platform C++ library for network
-  and low-level I/O programming that provides developers with a
-  consistent asynchronous model using a modern C++
-  approach.</longdescription>
+  <longdescription>
+    Asio is a cross-platform C++ library for network and low-level I/O programming that provides developers with a consistent asynchronous model using a modern C++ approach.
+  </longdescription>
   <upstream>
-    <remote-id type="sourceforge">asio</remote-id>
+    <remote-id type="sourceforge">
+      asio
+    </remote-id>
   </upstream>
 </pkgmetadata>

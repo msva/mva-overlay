@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>gentoo@chaoslab.org</email>
-		<name>Ian Moone</name>
-	</maintainer>
-	<upstream>
-		<remote-id type="github">junegunn/fzf</remote-id>
-		<bugs-to>https://github.com/junegunn/fzf/issues</bugs-to>
-		<doc>https://github.com/junegunn/fzf/wiki</doc>
-	</upstream>
-	<longdescription lang="en">
-		It's an interactive Unix filter for command-line that can
-		be used with any list; files, command history, processes,
-		hostnames, bookmarks, git commits, etc.
-	</longdescription>
-	<use>
-		<flag name="tmux">Install TMUX extra tools</flag>
-	</use>
+  <maintainer type="person">
+    <email>gentoo@chaoslab.org</email>
+    <name>Ian Moone</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="github">
+      junegunn/fzf
+    </remote-id>
+    <bugs-to>
+      https://github.com/junegunn/fzf/issues
+    </bugs-to>
+    <doc>
+      https://github.com/junegunn/fzf/wiki
+    </doc>
+  </upstream>
+  <longdescription lang="en">
+    It's an interactive Unix filter for command-line that can be used with any list; files, command history, processes, hostnames, bookmarks, git commits, etc.
+  </longdescription>
+  <use>
+    <flag name="tmux">Install TMUX extra tools</flag>
+  </use>
 </pkgmetadata>

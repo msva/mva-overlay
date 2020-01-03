@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>gentoo@mva.name</email>
+    <email>mva@gentoo.org</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name='fits'>Enable support for the FITS image format
-    through 
-    <pkg>sci-libs/cfitsio</pkg></flag>
-    <flag name='matio'>Enable support for reading images from
-    Matlab files through 
-    <pkg>sci-libs/matio</pkg></flag>
-    <flag name='openslide'>Enable support for reading images from
-    OpenSlide files through 
-    <pkg>media-libs/openslide</pkg>(currently conflicts with
-    jpeg-turbo)</flag>
+    <flag name="fits">Enable support for the FITS image format through<pkg>sci-libs/cfitsio</pkg></flag>
+    <flag name="matio">Enable support for reading images from Matlab files through<pkg>sci-libs/matio</pkg></flag>
+    <flag name="openslide">Enable support for reading images from OpenSlide files through<pkg>media-libs/openslide</pkg>(currently conflicts with jpeg-turbo)</flag>
   </use>
   <upstream>
-    <remote-id type="github">jcupitt/libvips</remote-id>
+    <remote-id type="github">
+      jcupitt/libvips
+    </remote-id>
   </upstream>
 </pkgmetadata>

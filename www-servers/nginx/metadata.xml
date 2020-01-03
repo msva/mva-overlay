@@ -1,141 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>gentoo-overlay@mva.name</email>
+    <email>mva@gentoo.org</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name='aio'>Enable aio support</flag>
-    <flag name='busy-upstream'>Apply the "Busy Upstream" Patch (required for some modules)</flag>
-    <flag name='debug'>Enable the debugging logging</flag>
-    <flag name='http'>Enable HTTP NginX core module</flag>
-    <flag name='http-cache'>Enable HTTP cache support</flag>
-    <flag name='http2'>Enable HTTP2 support</flag>
-    <flag name='libatomic'>Force libatomic_ops library usage:atomic
-    memory update operations</flag>
-    <flag name='luajit'>Build NginX against LuaJIT, instead of
-    PUC-Rio Lua</flag>
-    <flag name='mail'>Enable Mail NginX core module</flag>
-    <flag name='dtls'>Enable DTLS Support (experimental)</flag>
-    <flag name='nginx_modules_http_mirror'>Mirror Module</flag>
-    <flag name='nginx_modules_http_ajp'>AJP Module</flag>
-    <flag name='nginx_modules_http_array_var'>Array-Var
-    Module</flag>
-    <flag name='nginx_modules_http_auth_request'>AuthRequest
-    Module</flag>
-    <flag name='nginx_modules_http_coolkit'>CoolKit Module</flag>
-    <flag name='nginx_modules_http_ctpp'>CTPP2 template engine
-    Module</flag>
-    <flag name='nginx_modules_http_drizzle'>This module adds the
-    ability to "talk" with MySQL-like server</flag>
-    <flag name='nginx_modules_http_echo'>Echo Module</flag>
-    <flag name='nginx_modules_http_encrypted_session'>Encrypted
-    Sessions Module</flag>
-    <flag name='nginx_modules_http_enmemcache'>Enmemcache
-    Module</flag>
-    <flag name='nginx_modules_http_form_input'>Form-Input
-    Module</flag>
-    <flag name='nginx_modules_http_hls_audio'>HLS Audio
-    Module</flag>
-    <flag name='nginx_modules_http_iconv'>Iconv Module</flag>
-    <flag name='nginx_modules_http_lua'>This module adds native Lua
-    support to NginX</flag>
-    <flag name='nginx_modules_stream_python'>This module adds native
-    Python support to NginX</flag>
-    <flag name='nginx_modules_http_python'>This module adds native
-    Python support to NginX</flag>
-    <flag name='nginx_modules_http_lua_upstream'>Lua Upstream
-    Module</flag>
-    <flag name='nginx_modules_http_memc'>MEMC Module</flag>
-    <flag name='nginx_modules_http_nchan'>Nchan Module</flag>
-    <flag name='nginx_modules_http_ndk'>This module is like SDK for
-    some another modules (so, it is only needed as dependency for
-    them)</flag>
-    <flag name='nginx_modules_http_njs'>This module adds native
-    JavaScript support in NginX</flag>
-    <flag name='nginx_modules_http_pagespeed'>Pagespeed
-    module</flag>
-    <flag name='nginx_modules_http_passenger'>Phusion Passenger
-    Application Server (supporting node.js, ruby, python and so
-    on)</flag>
-    <flag name='nginx_modules_http_passenger_enterprise'>Phusion
-    Passenger Application Server (supporting node.js, ruby, python
-    and so on). Enterprise version.</flag>
-    <flag name='nginx_modules_http_postgres'>This module adds the
-    ability to "talk" to PostgreSQL server</flag>
-    <flag name='nginx_modules_http_rdns'>This module adds hostname
-    based (reverse-dns lookup) acces lists</flag>
-    <flag name='nginx_modules_http_rds_csv'>RDS CSV Module</flag>
-    <flag name='nginx_modules_http_rds_json'>RDS JSON Module</flag>
-    <flag name='nginx_modules_http_redis'>This module adds the
-    ability to "talk" with Redis server</flag>
-    <flag name='nginx_modules_http_replace_filter'>Replace Filter
-    Module</flag>
-    <flag name='nginx_modules_http_set_misc'>Set-Misc Module</flag>
-    <flag name='nginx_modules_http_slice'>Enable slices support
-    (read documentation before using this in production)</flag>
-    <flag name='nginx_modules_http_slowfs_cache'>This module adds
-    the ability to cache static files</flag>
-    <flag name='nginx_modules_http_srcache'>SRCache module</flag>
-    <flag name='nginx_modules_http_supervisord'>Supervisord
-    module</flag>
-    <flag name='nginx_modules_core_tcpproxy'>TCP-Proxy module
-    (legacy alternative to STREAM core module, having some features
-    not provided by it)</flag>
-    <flag name='nginx_modules_http_dyups'>Dynamic Upstreams Module</flag>
-    <flag name='nginx_modules_http_upstream_fair'>Upstream Fair
-    Module</flag>
-    <flag name='nginx_modules_http_upstream_hash'>Upstream Hash
-    Module</flag>
-    <flag name='nginx_modules_http_upstream_keepalive'>Upstream
-    Keepalive Module</flag>
-    <flag name='nginx_modules_http_upstream_least_conn'>Upstream
-    LeastConn Module</flag>
-    <flag name='nginx_modules_http_upstream_zone'>Upstream Zone
-    Module</flag>
-    <flag name='nginx_modules_http_v2'>HTTP2 support</flag>
-    <flag name='nginx_modules_http_xss'>XSS Module</flag>
-    <flag name='nginx_modules_stream_access'>Access module
-    (stream)</flag>
-    <flag name='nginx_modules_stream_geo'>GEO module
-    (stream)</flag>
-    <flag name='nginx_modules_stream_geoip'>GEOIP module
-    (stream)</flag>
-    <flag name='nginx_modules_stream_limit_conn'>LimitConn Module
-    (stream)</flag>
-    <flag name='nginx_modules_stream_lua'>This module adds native
-    Lua support to NginX (stream module API)</flag>
-    <flag name='nginx_modules_stream_map'>Mapping module
-    (stream)</flag>
-    <flag name='nginx_modules_stream_return'>Return module
-    (stream)</flag>
-    <flag name='nginx_modules_stream_split_clients'>Split Clients
-    Module (stream)</flag>
-    <flag name='nginx_modules_stream_upstream_hash'>Upstream Hash
-    Module (stream)</flag>
-    <flag name='nginx_modules_stream_upstream_least_conn'>Upstream
-    LeastConn Module (stream)</flag>
-    <flag name='nginx_modules_stream_upstream_zone'>Upstream Zone
-    Module (stream)</flag>
-    <flag name='nginx_modules_stream_dtls'>Enable DTLS Support
-    (experimental)</flag>
-    <flag name='pcre-jit'>Add support to PCRE JIT</flag>
-    <flag name='perftools'>Use 
-    <pkg>dev-util/google-perftools</pkg>for performance
-    tuning</flag>
-    <flag name='nginx_modules_http_rrd'>Enadle 3rd party rrd
-    module</flag>
-    <flag name='rrd'>Enadle 3rd party rrd module</flag>
-    <flag name='rtmp'>RTMP module</flag>
-    <flag name='nginx_modules_core_rtmp'>RTMP module</flag>
-    <flag name='ssl-cert-cb'>Patch NginX for ssl callback support</flag>
-    <flag name='systemtap'>Install systemtap tapset files for some
-    modules</flag>
-    <flag name='stream'>Enable Stream NginX core module</flag>
-    <flag name='nginx_modules_http_ey_balancer'>TODO</flag>
-    <flag name='nginx_modules_stream_traffic_status'>TODO</flag>
-    <flag name='nginx_modules_core_stream_traffic_status'>TODO</flag>
+    <flag name="aio">Enable aio support</flag>
+    <flag name="busy-upstream">Apply the &quot;Busy Upstream&quot; Patch (required for some modules)</flag>
+    <flag name="debug">Enable the debugging logging</flag>
+    <flag name="http">Enable HTTP NginX core module</flag>
+    <flag name="http-cache">Enable HTTP cache support</flag>
+    <flag name="http2">Enable HTTP2 support</flag>
+    <flag name="libatomic">Force libatomic_ops library usage:atomic memory update operations</flag>
+    <flag name="luajit">Build NginX against LuaJIT, instead of PUC-Rio Lua</flag>
+    <flag name="mail">Enable Mail NginX core module</flag>
+    <flag name="dtls">Enable DTLS Support (experimental)</flag>
+    <flag name="nginx_modules_http_mirror">Mirror Module</flag>
+    <flag name="nginx_modules_http_ajp">AJP Module</flag>
+    <flag name="nginx_modules_http_array_var">Array-Var Module</flag>
+    <flag name="nginx_modules_http_auth_request">AuthRequest Module</flag>
+    <flag name="nginx_modules_http_coolkit">CoolKit Module</flag>
+    <flag name="nginx_modules_http_ctpp">CTPP2 template engine Module</flag>
+    <flag name="nginx_modules_http_drizzle">This module adds the ability to &quot;talk&quot; with MySQL-like server</flag>
+    <flag name="nginx_modules_http_echo">Echo Module</flag>
+    <flag name="nginx_modules_http_encrypted_session">Encrypted Sessions Module</flag>
+    <flag name="nginx_modules_http_enmemcache">Enmemcache Module</flag>
+    <flag name="nginx_modules_http_form_input">Form-Input Module</flag>
+    <flag name="nginx_modules_http_hls_audio">HLS Audio Module</flag>
+    <flag name="nginx_modules_http_iconv">Iconv Module</flag>
+    <flag name="nginx_modules_http_lua">This module adds native Lua support to NginX</flag>
+    <flag name="nginx_modules_stream_python">This module adds native Python support to NginX</flag>
+    <flag name="nginx_modules_http_python">This module adds native Python support to NginX</flag>
+    <flag name="nginx_modules_http_lua_upstream">Lua Upstream Module</flag>
+    <flag name="nginx_modules_http_memc">MEMC Module</flag>
+    <flag name="nginx_modules_http_nchan">Nchan Module</flag>
+    <flag name="nginx_modules_http_ndk">This module is like SDK for some another modules (so, it is only needed as dependency for them)</flag>
+    <flag name="nginx_modules_http_njs">This module adds native JavaScript support in NginX</flag>
+    <flag name="nginx_modules_http_pagespeed">Pagespeed module</flag>
+    <flag name="nginx_modules_http_passenger">Phusion Passenger Application Server (supporting node.js, ruby, python and so on)</flag>
+    <flag name="nginx_modules_http_passenger_enterprise">Phusion Passenger Application Server (supporting node.js, ruby, python and so on). Enterprise version.</flag>
+    <flag name="nginx_modules_http_postgres">This module adds the ability to &quot;talk&quot; to PostgreSQL server</flag>
+    <flag name="nginx_modules_http_rdns">This module adds hostname based (reverse-dns lookup) acces lists</flag>
+    <flag name="nginx_modules_http_rds_csv">RDS CSV Module</flag>
+    <flag name="nginx_modules_http_rds_json">RDS JSON Module</flag>
+    <flag name="nginx_modules_http_redis">This module adds the ability to &quot;talk&quot; with Redis server</flag>
+    <flag name="nginx_modules_http_replace_filter">Replace Filter Module</flag>
+    <flag name="nginx_modules_http_set_misc">Set-Misc Module</flag>
+    <flag name="nginx_modules_http_slice">Enable slices support (read documentation before using this in production)</flag>
+    <flag name="nginx_modules_http_slowfs_cache">This module adds the ability to cache static files</flag>
+    <flag name="nginx_modules_http_srcache">SRCache module</flag>
+    <flag name="nginx_modules_http_supervisord">Supervisord module</flag>
+    <flag name="nginx_modules_core_tcpproxy">TCP-Proxy module (legacy alternative to STREAM core module, having some features not provided by it)</flag>
+    <flag name="nginx_modules_http_dyups">Dynamic Upstreams Module</flag>
+    <flag name="nginx_modules_http_upstream_fair">Upstream Fair Module</flag>
+    <flag name="nginx_modules_http_upstream_hash">Upstream Hash Module</flag>
+    <flag name="nginx_modules_http_upstream_keepalive">Upstream Keepalive Module</flag>
+    <flag name="nginx_modules_http_upstream_least_conn">Upstream LeastConn Module</flag>
+    <flag name="nginx_modules_http_upstream_zone">Upstream Zone Module</flag>
+    <flag name="nginx_modules_http_v2">HTTP2 support</flag>
+    <flag name="nginx_modules_http_xss">XSS Module</flag>
+    <flag name="nginx_modules_stream_access">Access module (stream)</flag>
+    <flag name="nginx_modules_stream_geo">GEO module (stream)</flag>
+    <flag name="nginx_modules_stream_geoip">GEOIP module (stream)</flag>
+    <flag name="nginx_modules_stream_limit_conn">LimitConn Module (stream)</flag>
+    <flag name="nginx_modules_stream_lua">This module adds native Lua support to NginX (stream module API)</flag>
+    <flag name="nginx_modules_stream_map">Mapping module (stream)</flag>
+    <flag name="nginx_modules_stream_return">Return module (stream)</flag>
+    <flag name="nginx_modules_stream_split_clients">Split Clients Module (stream)</flag>
+    <flag name="nginx_modules_stream_upstream_hash">Upstream Hash Module (stream)</flag>
+    <flag name="nginx_modules_stream_upstream_least_conn">Upstream LeastConn Module (stream)</flag>
+    <flag name="nginx_modules_stream_upstream_zone">Upstream Zone Module (stream)</flag>
+    <flag name="nginx_modules_stream_dtls">Enable DTLS Support (experimental)</flag>
+    <flag name="pcre-jit">Add support to PCRE JIT</flag>
+    <flag name="perftools">Use<pkg>dev-util/google-perftools</pkg>for performance tuning</flag>
+    <flag name="nginx_modules_http_rrd">Enadle 3rd party rrd module</flag>
+    <flag name="rrd">Enadle 3rd party rrd module</flag>
+    <flag name="rtmp">RTMP module</flag>
+    <flag name="nginx_modules_core_rtmp">RTMP module</flag>
+    <flag name="ssl-cert-cb">Patch NginX for ssl callback support</flag>
+    <flag name="systemtap">Install systemtap tapset files for some modules</flag>
+    <flag name="stream">Enable Stream NginX core module</flag>
+    <flag name="nginx_modules_http_ey_balancer">TODO</flag>
+    <flag name="nginx_modules_stream_traffic_status">TODO</flag>
+    <flag name="nginx_modules_core_stream_traffic_status">TODO</flag>
   </use>
 </pkgmetadata>

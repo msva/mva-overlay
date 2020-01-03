@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
     <email>maintainer-wanted@gentoo.org</email>
   </maintainer>
   <use>
-    <flag name='data'>Use maps and other data from 
-    <pkg>app-misc/2gis-data</pkg></flag>
+    <flag name="data">Use maps and other data from<pkg>app-misc/2gis-data</pkg></flag>
   </use>
 </pkgmetadata>

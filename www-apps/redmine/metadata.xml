@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>gentoo-overlay@mva.name</email>
-    <description>If you have any issues, please contact me, or try
-    to find me in IRC on Freenode, OFTC or RusNet.</description>
+    <email>mva@gentoo.org</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription lang="en"></longdescription>
+  <longdescription lang="en"/>
   <use>
-    <flag name='bazaar'></flag>
-    <flag name='darcs'></flag>
-    <flag name='mercurial'></flag>
-    <flag name='sqlite3'></flag>
+    <flag name="bazaar"/>
+    <flag name="darcs"/>
+    <flag name="mercurial"/>
+    <flag name="sqlite3"/>
   </use>
 </pkgmetadata>

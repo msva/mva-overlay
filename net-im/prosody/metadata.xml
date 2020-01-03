@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<maintainer type="person">
- <email>gentoo-overlay@mva.name</email>
- <description>
-  If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.
- </description> 
- <name>Vadim A. Misbakh-Soloviov</name>
-</maintainer>
-<longdescription>FIXME</longdescription> 
-<use>
-  <flag name='libevent'></flag>
-  <flag name='luajit'></flag>
-  <flag name='migration'></flag>
-  <flag name='no-example-certs'></flag>
-  <flag name='random-getrandom'></flag>
-  <flag name='random-openssl'></flag>
-</use>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <longdescription>
+    FIXME
+  </longdescription>
+  <use>
+    <flag name="libevent"/>
+    <flag name="luajit"/>
+    <flag name="migration"/>
+    <flag name="no-example-certs"/>
+    <flag name="random-getrandom"/>
+    <flag name="random-openssl"/>
+  </use>
 </pkgmetadata>

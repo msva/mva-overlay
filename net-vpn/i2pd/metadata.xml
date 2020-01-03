@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>gentoo@mva.name</email>
+    <email>mva@gentoo.org</email>
     <name>Vadim Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name="cjdns">Compile I2PD for use with CJDNS ("test")
-    network</flag>
-    <flag name="gui">Compile GUI I2PD version (trayicon + window
-    with 2 quit buttons) *instead* of daemon</flag>
+    <flag name="cjdns">Compile I2PD for use with CJDNS (&quot;test&quot;) network</flag>
+    <flag name="gui">Compile GUI I2PD version (trayicon + window with 2 quit buttons) *instead* of daemon</flag>
     <flag name="i2lua">Compile for i2lua support</flag>
-    <flag name="i2p-hardening">Compile with hardening on vanilla
-    compilers/linkers</flag>
-    <flag name="thread-sanitizer">Compile with Thread Sanitizer
-    Feature</flag>
-    <flag name="addr-sanitizer">Compile with Address Sanitizer
-    Feature</flag>
+    <flag name="i2p-hardening">Compile with hardening on vanilla compilers/linkers</flag>
+    <flag name="thread-sanitizer">Compile with Thread Sanitizer Feature</flag>
+    <flag name="addr-sanitizer">Compile with Address Sanitizer Feature</flag>
     <flag name="websockets">Compile with Websocket UI</flag>
   </use>
   <upstream>
-    <remote-id type="github">PurpleI2P/i2pd</remote-id>
+    <remote-id type="github">
+      PurpleI2P/i2pd
+    </remote-id>
   </upstream>
 </pkgmetadata>

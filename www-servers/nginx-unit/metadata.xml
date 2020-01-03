@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>gentoo-overlay@mva.name</email>
+    <email>mva@gentoo.org</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name='go'>meta-flag for complement with gentoo repo naming. Use unit_modules_go instead</flag>
-    <flag name='ipv6'>Enable IPv6 support</flag>
-    <flag name='unix-sockets'>Enable support of unix sockets</flag>
-    <flag name='unit_modules_go'>Enable support for applications written in <pkg>dev-lang/go</pkg></flag>
-    <flag name='unit_modules_java'>Enable support for applications written in Java</flag>
-    <flag name='unit_modules_perl'>Enable support for applications written in <pkg>dev-lang/perl</pkg></flag>
-    <flag name='unit_modules_php'>Enable support for applications written in <pkg>dev-lang/php</pkg></flag>
-    <flag name='unit_modules_python'>Enable support for applications written in <pkg>dev-lang/python</pkg></flag>
-    <flag name='unit_modules_ruby'>Enable support for applications written in <pkg>dev-lang/ruby</pkg></flag>
-    <flag name='unit_modules_nodejs'>Enable support for applications written in <pkg>net-libs/nodejs</pkg></flag>
-    <flag name='nodejs'>Enable support for applications written in <pkg>net-libs/nodejs</pkg></flag>
+    <flag name="go">meta-flag for complement with gentoo repo naming. Use unit_modules_go instead</flag>
+    <flag name="ipv6">Enable IPv6 support</flag>
+    <flag name="unix-sockets">Enable support of unix sockets</flag>
+    <flag name="unit_modules_go">Enable support for applications written in<pkg>dev-lang/go</pkg></flag>
+    <flag name="unit_modules_java">Enable support for applications written in Java</flag>
+    <flag name="unit_modules_perl">Enable support for applications written in<pkg>dev-lang/perl</pkg></flag>
+    <flag name="unit_modules_php">Enable support for applications written in<pkg>dev-lang/php</pkg></flag>
+    <flag name="unit_modules_python">Enable support for applications written in<pkg>dev-lang/python</pkg></flag>
+    <flag name="unit_modules_ruby">Enable support for applications written in<pkg>dev-lang/ruby</pkg></flag>
+    <flag name="unit_modules_nodejs">Enable support for applications written in<pkg>net-libs/nodejs</pkg></flag>
+    <flag name="nodejs">Enable support for applications written in<pkg>net-libs/nodejs</pkg></flag>
   </use>
 </pkgmetadata>

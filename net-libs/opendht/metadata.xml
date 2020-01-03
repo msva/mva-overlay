@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <longdescription>A lightweight C++11 Distributed Hash Table
-  implementation</longdescription>
+  <longdescription>
+    A lightweight C++11 Distributed Hash Table implementation
+  </longdescription>
   <use>
-    <flag name="python">Install Python bindings. Requires 
-    <pkg>dev-python/cython</pkg>.</flag>
-    <flag name="tools">Install extra opendht tools (dhtchat,
-    dhtnode and dhtscanner).</flag>
+    <flag name="python">Install Python bindings. Requires<pkg>dev-python/cython</pkg>.</flag>
+    <flag name="tools">Install extra opendht tools (dhtchat, dhtnode and dhtscanner).</flag>
   </use>
 </pkgmetadata>

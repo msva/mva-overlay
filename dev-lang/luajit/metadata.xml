@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>gentoo.overlay@mva.name</email>
+    <email>mva@gentoo.org</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <longdescription lang="en">
@@ -15,7 +15,6 @@
     <flag name="valgrind">Enable support for debugging under Valgrind</flag>
     <flag name="lua52compat">Enable some Lua:5.2+ features</flag>
     <flag name="openresty">Build OpenResty's fork</flag>
-    <flag name="optimization">Use "Amalgamation" compilation mode</flag>
+    <flag name="optimization">Use &quot;Amalgamation&quot; compilation mode</flag>
   </use>
 </pkgmetadata>
-
