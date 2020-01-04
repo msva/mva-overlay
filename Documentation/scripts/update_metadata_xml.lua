@@ -73,7 +73,9 @@ for i=1,#arg do
 	end
 	f:write((
 --]]
---print((
+--[[
+print((
+--]]
 		xml:xml(
 			metadata,
 			{
@@ -86,19 +88,23 @@ for i=1,#arg do
 			"(<!)%-%-(DOCTYPE)([^>]+)%-%-(>)",
 			"%1%2%3%4"
 		)
-		:gsub(
+		:gsub( -- strip indentation inside text-containing nodes
 			"(>)[\n]*[ ]*("..char..")",
 			"%1%2"
 		)
-		:gsub(
+		:gsub( -- same
 			"("..char..")[\n]*[ ]*(</)",
 			"%1%2"
 		)
-		:gsub(
+		:gsub( -- same, but handle the case of ending by <pkg/>
+			"(</pkg>)[\n]*[ ]*(</)",
+			"%1%2"
+		)
+		:gsub( -- add space right before <pkg/>
 			"("..char..")[\n]*[ ]*(<pkg>[^<]*</pkg>)",
 			"%1 %2"
 		)
-		:gsub(
+		:gsub( -- and after
 			"(<pkg>[^<]*</pkg>)("..(char:gsub(".,",""))..")",
 			"%1 %2"
 		)
