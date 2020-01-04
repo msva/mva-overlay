@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>mva@gentoo.org</email>
+    <email>gentoo.overlay@mva.name</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <longdescription lang="en">
@@ -12,3 +12,4 @@
     eselect-модуль для выбора интерпретатора Lua по умолчанию
   </longdescription>
 </pkgmetadata>
+

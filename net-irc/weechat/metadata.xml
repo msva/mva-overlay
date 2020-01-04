@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>radhermit@gentoo.org</email></maintainer><maintainer type="person"><email>scarabeus@gentoo.org</email>
+    <email>radhermit@gentoo.org</email>
+  </maintainer>
+  <maintainer type="person">
+    <email>scarabeus@gentoo.org</email>
   </maintainer>
   <use>
     <flag name="alias">Enable plugin for alias control.</flag>
@@ -17,6 +21,6 @@
     <flag name="trigger">Enable trigger plugin.</flag>
     <flag name="xfer">Enable xfer plugin support.</flag>
     <flag name="irc">Enable IRC protocol support.</flag>
-    <flag name="headless">Enable headless binary</flag>
+    <flag name="headless">Enable headless binary</flag> 
   </use>
 </pkgmetadata>

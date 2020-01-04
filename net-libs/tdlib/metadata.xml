@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>mva@gentoo.org</email>
+    <email>gentoo-overlay@mva.name</email>
+    <description>If you have any issues, please contact me via
+    e-mail, jabber (mva@), or IRC (Freenode, RusNet,
+    oftc)</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>
-    Long description of the package
-  </longdescription>
-  <use>
-    <flag name="cli"/>
-    <flag name="lto"/>
-  </use>
+  <longdescription>Long description of the
+  package</longdescription>
+<use>
+  <flag name="cli"></flag>
+  <flag name="lto"></flag>
+</use>
 </pkgmetadata>

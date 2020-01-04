@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>mva@gentoo.org</email>
+    <email>gentoo-overlay@mva.name</email>
     <name>Vadim Misbakh-Soloviov</name>
   </maintainer>
   <use>

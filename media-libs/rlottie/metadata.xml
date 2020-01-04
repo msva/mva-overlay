@@ -2,27 +2,22 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>mva@gentoo.org</email>
+    <email>gentoo-overlay@mva.name</email>
+    <description>If you have any issues, please contact me, or try to find me in IRC on Freenode, OFTC or RusNet.</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>
-    A platform independent standalone library that plays Lottie Animation
-  </longdescription>
+  <longdescription>A platform independent standalone library that plays Lottie Animation</longdescription>
   <use>
     <flag name="cache">Enable cache support</flag>
     <flag name="dumptree">Enable logging the rlottie tree</flag>
-    <flag name="libcxx">Build with<pkg>sys-devel/clang</pkg>and link against<pkg>sys-libs/libcxx</pkg></flag>
+    <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> and link against <pkg>sys-libs/libcxx</pkg></flag>
     <flag name="log">Enable logging</flag>
     <flag name="module">Build Image module</flag>
     <flag name="telegram-patches">Apply John Preston patches (you don't need that)</flag>
     <flag name="threads">Support threading</flag>
   </use>
   <upstream>
-    <remote-id type="github">
-      samsung/rlottie
-    </remote-id>
-    <bugs-to>
-      https://github.com/samsung/rlottie/issues
-    </bugs-to>
+    <remote-id type="github">samsung/rlottie</remote-id>
+    <bugs-to>https://github.com/samsung/rlottie/issues</bugs-to>
   </upstream>
 </pkgmetadata>

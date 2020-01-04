@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="project">
     <email>fonts@gentoo.org</email>
     <name>Fonts</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">
-      larsenwork/monoid
-    </remote-id>
+    <remote-id type="github">larsenwork/monoid</remote-id>
   </upstream>
   <use>
-    <flag name="web">Build (9999) or install (non-live) web versions (woff) of the font (and it's variants)</flag>
-    <flag name="ss">Install additional prebuilt stilyzed families: ss01 = like Andale Mono ss02 = like Anonymous Pro ss03 = like Consolas ss04 = like Menlo ss05 = like Fira Mono ss06 = like Liberation Mono ss07 = like Monaco ss08 = like Pragmata Pro ss09 = like Source Code Pro ss10 = like Envy Code R ss11 = like X Windows Fixed See: https://git.io/iosevka-stylesets Currently, only suported by &quot;non-live&quot; ebuilds</flag>
+    <flag name='web'>Build (9999) or install (non-live) web
+    versions (woff) of the font (and it's variants)</flag>
+    <flag name="ss">Install additional prebuilt stilyzed families:
+
+        ss01 = like Andale Mono
+        ss02 = like Anonymous Pro
+        ss03 = like Consolas
+        ss04 = like Menlo
+        ss05 = like Fira Mono
+        ss06 = like Liberation Mono
+        ss07 = like Monaco
+        ss08 = like Pragmata Pro
+        ss09 = like Source Code Pro
+        ss10 = like Envy Code R
+        ss11 = like X Windows Fixed
+
+       See: https://git.io/iosevka-stylesets
+       Currently, only suported by "non-live" ebuilds
+    </flag>
   </use>
 </pkgmetadata>

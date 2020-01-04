@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>mva@gentoo.org</email>
+    <email>overlay.tox@mva.name</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
     <flag name="qrcode">Enable support for QR codes</flag>
     <flag name="video">Enable video support</flag>
-    <flag name="notifications">Enable desktop notification support.</flag>
-    <flag name="audio">Adds support for audio (including sound notifications).</flag>
+    <flag name="notifications">Enable desktop notification
+    support.</flag>
+    <flag name="audio">Adds support for audio
+    (including sound notifications).</flag>
     <flag name="X">Adds support for X11</flag>
   </use>
 </pkgmetadata>

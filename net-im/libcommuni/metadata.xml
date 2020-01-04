@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
     <email>rion4ik@gmail.com</email>
     <name>rion</name>
   </maintainer>
-  <longdescription>
-    Communi, formerly known as LibIrcClient-Qt, is a cross-platform IRC client library written with Qt 4. IRC (Internet Relay Chat protocol) is a simple text-based communication protocol.
-  </longdescription>
+  <longdescription>Communi, formerly known as LibIrcClient-Qt, is a
+  cross-platform IRC client library written with Qt 4. IRC
+  (Internet Relay Chat protocol) is a simple text-based
+  communication protocol.</longdescription>
   <use>
-    <flag name="qml"/>
-    <flag name="uchardet"/>
+    <flag name='qml'></flag>
+    <flag name='uchardet'></flag>
   </use>
 </pkgmetadata>

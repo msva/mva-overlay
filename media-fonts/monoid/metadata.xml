@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE 
+pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="project">
     <email>fonts@gentoo.org</email>
     <name>Fonts</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">
-      larsenwork/monoid
-    </remote-id>
+    <remote-id type="github">larsenwork/monoid</remote-id>
   </upstream>
   <use>
-    <flag name="monoisome">Enable Monoisome font</flag>
+    <flag name='monoisome'>Enable Monoisome font</flag>
   </use>
 </pkgmetadata>
