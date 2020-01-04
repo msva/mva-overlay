@@ -46,6 +46,7 @@ REQUIRED_USE="
 		)
 	)
 	gtk2? ( !gtk3 )
+	gnome? ( gtk3 )
 "
 
 COMMON_DEPEND="
