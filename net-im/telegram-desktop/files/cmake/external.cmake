@@ -24,6 +24,9 @@ pkg_check_modules(LIBVA REQUIRED libva libva-drm libva-x11)
 pkg_check_modules(MINIZIP REQUIRED minizip)
 pkg_check_modules(OPUS REQUIRED opus)
 pkg_check_modules(RLOTTIE REQUIRED rlottie)
+if(NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
+	pkg_check_modules(CRASH_REPORTS REQUIRED breakpad_client)
+endif()
 
 foreach(__qt_plugin IN ITEMS
 	QComposePlatformInputContextPlugin
@@ -33,15 +36,12 @@ foreach(__qt_plugin IN ITEMS
 	QWebpPlugin
 	QXcbIntegrationPlugin
 
-	QNetworkManagerEnginePlugin
-
+#	QNetworkManagerEnginePlugin
 #	QConnmanEnginePlugin
 #	QIbusPlatformInputContextPlugin
 #	QFcitxPlatformInputContextPlugin
 #	QHimePlatformInputContextPlugin
 #	NimfInputContextPlugin
-
-# TODO: ^ conditional
 )
 	get_target_property(_p Qt5::${__qt_plugin} LOCATION)
 	list(APPEND __qt_plugin_list ${_p})
@@ -60,14 +60,16 @@ add_library(desktop-app::external_gsl INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_xxhash INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_variant INTERFACE IMPORTED GLOBAL)
 add_library(desktop-app::external_ranges INTERFACE IMPORTED GLOBAL)
+if(NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
+	add_library(desktop-app::external_crash_reports INTERFACE IMPORTED GLOBAL)
+endif()
 add_library(tdesktop::lib_tgvoip INTERFACE IMPORTED GLOBAL)
-
 
 
 #target_compile_definitions(desktop-app::external_xxhash INTERFACE XXH_INLINE_ALL) # requires xxhash.c (and static linking). No way.
 target_compile_definitions(desktop-app::external_qt INTERFACE
 	_REENTRANT
-#	QT_STATICPLUGIN ?
+#	QT_STATICPLUGIN # No way
 	QT_PLUGIN
 	QT_WIDGETS_LIB
 	QT_NETWORK_LIB
@@ -76,7 +78,7 @@ target_compile_definitions(desktop-app::external_qt INTERFACE
 	Q_OS_LINUX64
 )
 target_compile_definitions(desktop-app::external_openal INTERFACE
-#	AL_LIBTYPE_STATIC ?
+#	AL_LIBTYPE_STATIC # No way
 	AL_ALEXT_PROTOTYPES
 )
 
@@ -86,6 +88,9 @@ target_include_directories(desktop-app::external_lz4 SYSTEM INTERFACE ${LIBLZMA_
 target_include_directories(desktop-app::external_openal SYSTEM INTERFACE ${OPENAL_INCLUDE_DIR})
 target_include_directories(desktop-app::external_qt SYSTEM INTERFACE ${QT_PRIVATE_INCLUDE_DIRS})
 target_include_directories(desktop-app::external_zlib SYSTEM INTERFACE ${MINIZIP_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIR})
+if(NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
+	target_include_directories(desktop-app::external_crash_reports SYSTEM INTERFACE ${CRASH_REPORTS_INCLUDE_DIRS})
+endif()
 target_include_directories(desktop-app::external_gsl SYSTEM INTERFACE ${CMAKE_INSTALL_PREFIX}/include/gsl)
 target_include_directories(desktop-app::external_variant SYSTEM INTERFACE ${CMAKE_INSTALL_PREFIX}/include/mapbox)
 target_include_directories(tdesktop::lib_tgvoip SYSTEM INTERFACE ${CMAKE_INSTALL_PREFIX}/include/libtgvoip)
@@ -103,5 +108,8 @@ target_link_libraries(desktop-app::external_zlib INTERFACE
 )
 target_link_libraries(desktop-app::external_opus INTERFACE ${OPUS_LIBRARIES})
 target_link_libraries(desktop-app::external_rlottie INTERFACE ${RLOTTIE_LIBRARIES})
+if(NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
+	target_link_libraries(desktop-app::external_crash_reports INTERFACE ${CRASH_REPORTS_LIBRARIES})
+endif()
 target_link_libraries(desktop-app::external_xxhash INTERFACE xxhash)
 target_link_libraries(tdesktop::lib_tgvoip INTERFACE tgvoip)

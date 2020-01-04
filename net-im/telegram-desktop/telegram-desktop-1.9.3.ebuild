@@ -32,14 +32,26 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="clang crash-report custom-api-id debug +gtk3 gtk-file-dialog libressl lto +openal-eff +pulseaudio spell system-fonts test wide-baloons"
+IUSE="clang crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus libressl lto +networkmanager +openal-eff +spell system-fonts test wide-baloons"
+# mostly (with some exceptions), `+`'es (USE-flag soft-forcing) here to provide upstream defaults.
+# ^ `crash-report` is upstream default, but I don't `+` it since it needs some work to move from bundled breakpad to system-wide. // also, privacy
+# ^ `lto`, actually, is also upstream default, but it produces broken binary for me, so I don't `+` it here.
+# ^ yup, upstream has moved from `gtk3` to `gtk2` somewhy, so, I also moved + from gtk3 to gtk2
 
-REQUIRED_USE="gtk-file-dialog? ( gtk3 )"
+REQUIRED_USE="
+	gtk-file-dialog? (
+		|| (
+			gtk2
+			gtk3
+		)
+	)
+	gtk2? ( !gtk3 )
+"
 
 COMMON_DEPEND="
 	app-arch/lz4:=
 	app-arch/xz-utils:=
-	app-text/enchant
+	connman? ( dev-qt/qtnetwork[connman] )
 	crash-report? ( dev-util/google-breakpad:= )
 	>dev-cpp/ms-gsl-2.0.0:=
 	>=dev-cpp/range-v3-0.9.1:=
@@ -52,11 +64,19 @@ COMMON_DEPEND="
 	dev-qt/qtnetwork:5=
 	dev-qt/qtwidgets:5=[xcb,png]
 	dev-qt/qtimageformats:5=
+	gnome? (
+		x11-themes/QGnomePlatform
+		gnome-base/gsettings-desktop-schemas
+	)
+	gtk2? (
+		x11-libs/gtk+:2
+		dev-libs/libappindicator:2
+	)
 	gtk3? (
 		x11-libs/gtk+:3
 		dev-libs/libappindicator:3
-		>=dev-qt/qtgui-5.7:5[gtk(+)]
 	)
+	ibus? ( dev-qt/qtgui[ibus] )
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
 	media-libs/libexif
@@ -67,17 +87,15 @@ COMMON_DEPEND="
 	media-video/ffmpeg:=
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
+	networkmanager? ( dev-qt/qtnetwork[networkmanager] )
 	openal-eff? ( >=media-libs/openal-1.19.1:= )
+	spell? ( app-text/enchant )
 	sys-libs/zlib:=[minizip]
-	test? ( dev-cpp/catch )
 	x11-libs/libdrm:=
 	x11-libs/libva:=[X,drm]
 	x11-libs/libxkbcommon
 	x11-libs/libX11:=
 "
-# gtk3? ( x11-themes/QGnomePlatform gnome-base/gsettings-desktop-schemas )
-# + patch for QT_QPA_PLATFORMTHEME=gnome
-# ^ ?
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -92,13 +110,10 @@ DEPEND="
 		media-libs/libtgvoip:=[libcxx]
 	)
 	!clang? ( >=sys-devel/gcc-8.2.0-r6:= )
+	test? ( dev-cpp/catch )
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
-
-#CMAKE_USE_DIR="${S}/Telegram"
-
-#PATCHES=( "${FILESDIR}/patches" )
 
 _isclang() {
 	[[ "${CXX}" =~ clang ]]
@@ -121,13 +136,27 @@ pkg_pretend() {
 		fi
 	fi
 
-	if tc-is-gcc && [[ $(gcc-major-version) -lt 7 ]]; then
-		die "Minimal compatible gcc version is 7.0. Please, upgrade (or use clang)"
+	if tc-is-gcc && [[ $(_ver_compare "$(gcc-major-version).$(gcc-minor-version)" "8.2") == 1 ]]; then
+		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang"
 	fi
 }
 
 src_prepare() {
 	cp -r "${FILESDIR}/cmake" "${S}" || die
+
+	use gnome && sed -i \
+		-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "gnome", true)@' \
+		Telegram/SourceFiles/core/launcher.cpp
+
+	sed -i \
+		-e "$(usex networkmanager '/QNetworkManagerEnginePlugin/s@^#@@' '')" \
+		-e "$(usex connman '/QConnmanEnginePlugin/s@^#@@' '')" \
+		-e "$(usex ibus '/QIbusPlatformInputContextPlugin/s@^#@@' '')" \
+		cmake/external.cmake || die
+#		-e "$(usex fcitx '/QFcitxPlatformInputContextPlugin/s@^#@@' '')" \
+#		-e "$(usex hime '/QHimePlatformInputContextPlugin/s@^#@@' '')" \
+#		-e "$(usex nimf '/NimfInputContextPlugin/s@^#@@' '')" \
+#		^ qtgui have no useflags for them
 
 	sed -i \
 		-e '/-W.*/d' \
@@ -143,8 +172,8 @@ src_prepare() {
 	sed -i \
 		-e '/include.cmake.external.qt.package/d' \
 		-e '/include.*options.cmake/ainclude(cmake/external.cmake)' \
-		-e '$ainclude(cmake/install.cmake)' \
 		CMakeLists.txt || die
+		#-e '$ainclude(cmake/install.cmake)' \
 
 # Ideally:
 #	sed -i \
@@ -166,38 +195,47 @@ src_prepare() {
 		-e '/add_subdirectory.variant/d' \
 		-e '/add_subdirectory.ranges/d' \
 		-e '/add_subdirectory.iconv/d' \
+		-e '/add_subdirectory.crash_reports/d' \
 		cmake/external/CMakeLists.txt || die
 
-	use crash-report || {
-		sed -i \
-			-e '/external_crash_reports/d' \
-			Telegram/lib_base/CMakeLists.txt || die
-		sed -i \
-			-e '/add_subdirectory.crash_reports/d' \
-			cmake/external/CMakeLists.txt || die
-	# ^ TODO: patch to use system-wide breakpad
-	}
+	sed -i \
+		-e '/external_crash_reports/d' \
+		Telegram/lib_base/CMakeLists.txt || die
 
 	sed -i \
-		-e '/LINK_SEARCH_START_STATIC/d' \
+		-e '/LINK_SEARCH_START_STATIC/s@1@0@' \
 		cmake/init_target.cmake || die
+
+	sed -i \
+		-e '/OUTPUT_VARIABLE machine_uname/d' \
+		-e '/uname. MATCHES .x86_64/s@^.*$@if (CMAKE_SIZEOF_VOID_P EQUAL 4)@'
+		cmake/variables.cmake
+	# ^ There are 32-bit processor arches which aren't x86 nor arm
 
 	sed -i \
 		-e 's@qt_static_plugins@qt_functions@' \
 		-e '/third_party_loc.*minizip/d' \
 		-e '/include.cmake.lib_tgvoip/d' \
 		-e '/desktop-app::external_auto_updates/d' \
+		-e '/AL_LIBTYPE_STATIC/d' \
+		-e '/CMAKE_GENERATOR. MATCHES/{s@Visual Studio\|Xcode\|Ninja@Visual Studio\|Xcode@;s@Unix Makefiles@Unix Makefiles\|Ninja@}' \
+		-e "$(usex gtk3 's@gtk\+\-2@gtk\+\-3@;s@GTK2_I@GTK3_I@' '')" \
 		Telegram/CMakeLists.txt || die
 
 	sed -i \
 		-e '1s:^:#include <QtCore/QVersionNumber>\n:' \
 		Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp || die
 
-#	sed -i \
-#		-e '/Q_IMPORT_PLUGIN/d' \
-#		Telegram/SourceFiles/qt_static_plugins.cpp || die
 #		echo > Telegram/SourceFiles/qt_static_plugins.cpp
 #		^ Maybe, wipe it out, just in case (even we prevented it to be used)?
+
+	sed -i \
+		-e "$(usex ppc '/defined(__arm__)/{s@$@ || defined(__powerpc__)@}' '')" \
+		-e "$(usex ppc64 '/defined(__aarch64__)/{s@$@ || defined(__powerpc64__)@}' '')" \
+		Telegram/lib_base/base/build_config.h || die
+	sed -i \
+		-e '/Only little endian/{s@#error@#warning@}' \
+		Telegram/SourceFiles/config.h || die
 
 	patches_src_prepare
 #	cmake-utils_src_prepare
@@ -230,17 +268,13 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_SPELLCHECK=$(usex spell OFF ON)
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS="$(usex crash-report OFF ON)"
 
-		-DTDESKTOP_DISABLE_GTK_INTEGRATION="$(usex gtk3 OFF ON)"
+		-DTDESKTOP_DISABLE_GTK_INTEGRATION="$(usex gtk3 OFF $(usex gtk2 OFF ON))"
 		-DTDESKTOP_FORCE_GTK_FILE_DIALOG=$(usex gtk-file-dialog ON OFF)
 		#-DTDESKTOP_DISABLE_REGISTER_CUSTOM_SCHEME
 		#-DTDESKTOP_DISABLE_NETWORK_PROXY
 
 		-DTDESKTOP_API_TEST=$(usex test ON OFF)
 	)
-#	use crash-report && mycmakeargs+=(
-#		-DBREAKPAD_CLIENT_INCLUDE_DIR="/usr/include/breakpad"
-#		-DBREAKPAD_CLIENT_LIBRARY="/usr/$(get_libdir)/libbreakpad_client.a"
-#	)
 	cmake-utils_src_configure
 }
 

@@ -1,0 +1,17 @@
+diff --git a/Telegram/SourceFiles/history/view/history_view_list_widget.cpp b/Telegram/SourceFiles/history/view/history_view_list_widget.cpp
+index 38745d248..fd7b52c1c 100644
+--- a/Telegram/SourceFiles/history/view/history_view_list_widget.cpp
++++ b/Telegram/SourceFiles/history/view/history_view_list_widget.cpp
+@@ -2150,11 +2150,7 @@ void ListWidget::mouseActionUpdate() {
+ 					}
+ 					dateWidth += st::msgServicePadding.left() + st::msgServicePadding.right();
+ 					auto dateLeft = st::msgServiceMargin.left();
+-					auto maxwidth = view->width();
+-					if (Adaptive::ChatWide()) {
+-						maxwidth = qMin(maxwidth, int32(st::msgMaxWidth + 2 * st::msgPhotoSkip + 2 * st::msgMargin.left()));
+-					}
+-					auto widthForDate = maxwidth - st::msgServiceMargin.left() - st::msgServiceMargin.left();
++					auto widthForDate = view->width() - st::msgServiceMargin.left() - st::msgServiceMargin.left();
+ 
+ 					dateLeft += (widthForDate - dateWidth) / 2;
+ 

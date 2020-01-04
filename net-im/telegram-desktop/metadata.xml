@@ -9,13 +9,19 @@
   <longdescription>Telegram Desktop Client</longdescription>
   <use>
     <flag name="clang">Build with <pkg>sys-devel/clang</pkg></flag>
+    <flag name="connman">Enable "connman" (<pkg>net-misc/connman</pkg>) QtNetwork backend</flag>
     <flag name="crash-report">Enable Crash Reporter</flag>
-    <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or portage/env/{CAT}/{PN}.</flag>
-    <flag name="gtk3">Keeps GTK3 stuff enabled</flag>
-    <flag name="openal-eff">Double playback speed</flag>
-    <flag name="pulseaudio">Keeps Pulseaudio support enabled (ALSA-only backend will be used if you disable this)</flag>
+    <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or `/etc/portage/env/{CAT}/{PN}`)</flag>
+    <flag name="gtk-file-dialog">Force GTK file dialog (instead of Qt one)</flag>
+    <flag name="gtk2">Enable gtk+-2 integrations</flag>
+    <flag name="gtk3">Enable gtk+-3 integrations</flag>
+    <flag name="gnome">Enable GNOME integrations</flag>
+    <flag name="ibus">Enable ibus Input system Qt Plugin support</flag>
+    <flag name="lto">Use Link Time Optimization (most probably it will be useless for you). Eats ~20GB RAM, longer build time.</flag>
+    <flag name="networkmanager">Enable "networkmanager" (<pkg>net-misc/networkmanager</pkg>) QtNetwork backend</flag>
+    <flag name="openal-eff">Use openal effects (like doubling playspeed)</flag>
+    <flag name="system-fonts">Drop internal fonts resource file (so Tg will use font that you've setup system-wide instead)</flag>
     <flag name="wide-baloons">Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keep tons of empty space.</flag>
-    <!-- <flag name="upstream-api-id">Use upstream's default API ID ans API HASH (upstream discourages custom builds with same API/HASH that "original" app). If neither that flag or "custom api id" is set, build will use API ID/HASH Gentoo's official API ID and API HASH . !!!!!!!! Please generate them first, before uncommenting. Also, don't forget to fill proper values in the patch and uncomment in the ebuild! !!!!!!!! </flag>-->
   </use>
   <upstream>
     <remote-id type="github">telegramdesktop/tdesktop</remote-id>

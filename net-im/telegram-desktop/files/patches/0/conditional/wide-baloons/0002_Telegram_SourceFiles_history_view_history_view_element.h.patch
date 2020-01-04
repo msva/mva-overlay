@@ -1,0 +1,12 @@
+diff --git a/Telegram/SourceFiles/history/view/history_view_element.h b/Telegram/SourceFiles/history/view/history_view_element.h
+index 6d58d5604..6c89c7cde 100644
+--- a/Telegram/SourceFiles/history/view/history_view_element.h
++++ b/Telegram/SourceFiles/history/view/history_view_element.h
+@@ -170,6 +170,7 @@ public:
+ 	int skipBlockHeight() const;
+ 	QString skipBlock() const;
+ 	virtual int infoWidth() const;
++	virtual int plainMaxWidth() const;
+ 
+ 	bool isHiddenByGroup() const;
+ 	virtual bool isHidden() const;
