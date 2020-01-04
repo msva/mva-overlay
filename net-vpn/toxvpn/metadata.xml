@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>overlay.tox@mva.name</email>
+    <email>mva@gentoo.org</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name="zeromq">Use net-libs/zeromq for queues
-    management</flag>
+    <flag name="zeromq">Use net-libs/zeromq for queues management</flag>
   </use>
 </pkgmetadata>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
     <email>gregkh@gentoo.org</email>
@@ -19,7 +18,6 @@ pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
     <name>Gentoo Kernel Project</name>
   </maintainer>
   <use>
-    <flag name="savedconfig">Allows individual selection of
-    firmware files</flag>
+    <flag name="savedconfig">Allows individual selection of firmware files</flag>
   </use>
 </pkgmetadata>

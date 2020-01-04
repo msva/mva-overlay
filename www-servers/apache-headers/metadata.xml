@@ -1,15 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE 
-pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
     <email>polynomial-c@gentoo.org</email>
     <name>Lars Wendler</name>
   </maintainer>
-  <longdescription>The Apache HTTP Server Project is an effort to
-  develop and maintain an open-source HTTP server for modern
-  operating systems. The goal of this project is to provide a
-  secure, efficient and extensible server that provides HTTP
-  services in sync with the current HTTP
-  standards.</longdescription>
+  <longdescription>The Apache HTTP Server Project is an effort to develop and maintain an open-source HTTP server for modern operating systems. The goal of this project is to provide a secure, efficient and extensible server that provides HTTP services in sync with the current HTTP standards.</longdescription>
 </pkgmetadata>
