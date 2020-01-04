@@ -17,7 +17,8 @@
     <flag name="gtk3">Enable gtk+-3 integrations</flag>
     <flag name="gnome">Enable GNOME integrations</flag>
     <flag name="ibus">Enable ibus Input system Qt Plugin support</flag>
-    <flag name="lto">Use Link Time Optimization (most probably it will be useless for you). Eats ~20GB RAM, longer build time.</flag>
+    <flag name="kde">KDE support (actually, just don't select/install kludges to run under another DEs)</flag>
+    <flag name="lto">Use Link Time Optimization. Most probably it will be useless for you. Eats ~20GB RAM, longer build time.</flag>
     <flag name="networkmanager">Enable "networkmanager" (<pkg>net-misc/networkmanager</pkg>) QtNetwork backend</flag>
     <flag name="openal-eff">Use openal effects (like doubling playspeed)</flag>
     <flag name="system-fonts">Drop internal fonts resource file (so Tg will use font that you've setup system-wide instead)</flag>

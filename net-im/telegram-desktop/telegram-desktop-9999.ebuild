@@ -32,7 +32,7 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="clang crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus libressl lto +networkmanager +openal-eff +spell system-fonts test wide-baloons"
+IUSE="clang crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus kde libressl lto +networkmanager +openal-eff +spell system-fonts test wide-baloons"
 # mostly (with some exceptions), `+`'es (USE-flag soft-forcing) here to provide upstream defaults.
 # ^ `crash-report` is upstream default, but I don't `+` it since it needs some work to move from bundled breakpad to system-wide. // also, privacy
 # ^ `lto`, actually, is also upstream default, but it produces broken binary for me, so I don't `+` it here.
@@ -47,6 +47,7 @@ REQUIRED_USE="
 	)
 	gtk2? ( !gtk3 )
 	gnome? ( gtk3 )
+	kde? ( !gtk2 !gtk3 !gnome !gtk-file-dialog networkmanager )
 "
 
 COMMON_DEPEND="
@@ -68,6 +69,7 @@ COMMON_DEPEND="
 	gnome? (
 		x11-themes/QGnomePlatform
 		gnome-base/gsettings-desktop-schemas
+		dev-qt/qtwidgets[gtk]
 	)
 	gtk2? (
 		x11-libs/gtk+:2
@@ -76,8 +78,14 @@ COMMON_DEPEND="
 	gtk3? (
 		x11-libs/gtk+:3
 		dev-libs/libappindicator:3
+		dev-qt/qtwidgets[gtk]
 	)
 	ibus? ( dev-qt/qtgui[ibus] )
+	!kde? (
+		!gtk3? (
+			!gtk2? ( x11-misc/qt5ct )
+		)
+	)
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
 	media-libs/libexif
@@ -145,9 +153,19 @@ pkg_pretend() {
 src_prepare() {
 	cp -r "${FILESDIR}/cmake" "${S}" || die
 
-	use gnome && sed -i \
-		-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "gnome", true)@' \
-		Telegram/SourceFiles/core/launcher.cpp
+	if use gnome; then
+		sed -i \
+			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "gnome", true)@' \
+			Telegram/SourceFiles/core/launcher.cpp
+	elif use gtk3; then
+		sed -i \
+			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "gtk3", true)@' \
+			Telegram/SourceFiles/core/launcher.cpp
+	elif use !kde; then
+		sed -i \
+			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "qt5ct", true)@' \
+			Telegram/SourceFiles/core/launcher.cpp
+	fi
 
 	sed -i \
 		-e "$(usex networkmanager '/QNetworkManagerEnginePlugin/s@^#@@' '')" \
@@ -220,6 +238,7 @@ src_prepare() {
 		-e '/desktop-app::external_auto_updates/d' \
 		-e '/AL_LIBTYPE_STATIC/d' \
 		-e '/CMAKE_GENERATOR. MATCHES/{s@Visual Studio\|Xcode\|Ninja@Visual Studio\|Xcode@;s@Unix Makefiles@Unix Makefiles\|Ninja@}' \
+		-e '/output_name "Telegram"/s@Telegram@telegram-desktop@' \
 		-e "$(usex gtk3 's@gtk\+\-2@gtk\+\-3@;s@GTK2_I@GTK3_I@' '')" \
 		Telegram/CMakeLists.txt || die
 
