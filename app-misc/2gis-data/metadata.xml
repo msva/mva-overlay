@@ -2,7 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>maintainer-wanted@gentoo.org</email>
+    <email>mva@gentoo.org</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
     <flag name="abakan">Install GeoInformational data (incl. maps) for Abakan</flag>
@@ -23,6 +24,7 @@
     <flag name="vologda">Install GeoInformational data (incl. maps) for Vologda</flag>
     <flag name="voronezh">Install GeoInformational data (incl. maps) for Voronezh</flag>
     <flag name="gornoaltaysk">Install GeoInformational data (incl. maps) for Gornoaltaysk</flag>
+    <flag name="grozny">Install GeoInformational data (incl. maps) for Grozny</flag>
     <flag name="ekaterinburg">Install GeoInformational data (incl. maps) for Ekaterinburg</flag>
     <flag name="ivanovo">Install GeoInformational data (incl. maps) for Ivanovo</flag>
     <flag name="izhevsk">Install GeoInformational data (incl. maps) for Izhevsk</flag>
@@ -42,6 +44,8 @@
     <flag name="lenkuz">Install GeoInformational data (incl. maps) for Lenkuz</flag>
     <flag name="lipetsk">Install GeoInformational data (incl. maps) for Lipetsk</flag>
     <flag name="magnitogorsk">Install GeoInformational data (incl. maps) for Magnitogorsk</flag>
+    <flag name="maikop">Install GeoInformational data (incl. maps) for Maikop</flag>
+    <flag name="makhachkala">Install GeoInformational data (incl. maps) for Makhachkala</flag>
     <flag name="miass">Install GeoInformational data (incl. maps) for Miass</flag>
     <flag name="moscow">Install GeoInformational data (incl. maps) for Moscow</flag>
     <flag name="murmansk">Install GeoInformational data (incl. maps) for Murmansk</flag>
@@ -53,6 +57,7 @@
     <flag name="novokuznetsk">Install GeoInformational data (incl. maps) for Novokuznetsk</flag>
     <flag name="novorossiysk">Install GeoInformational data (incl. maps) for Novorossiysk</flag>
     <flag name="novosibirsk">Install GeoInformational data (incl. maps) for Novosibirsk</flag>
+    <flag name="n_urengoy">Install GeoInformational data (incl. maps) for N_urengoy</flag>
     <flag name="norilsk">Install GeoInformational data (incl. maps) for Norilsk</flag>
     <flag name="noyabrsk">Install GeoInformational data (incl. maps) for Noyabrsk</flag>
     <flag name="omsk">Install GeoInformational data (incl. maps) for Omsk</flag>
@@ -77,6 +82,7 @@
     <flag name="sterlitamak">Install GeoInformational data (incl. maps) for Sterlitamak</flag>
     <flag name="surgut">Install GeoInformational data (incl. maps) for Surgut</flag>
     <flag name="syktyvkar">Install GeoInformational data (incl. maps) for Syktyvkar</flag>
+    <flag name="taganrog">Install GeoInformational data (incl. maps) for Taganrog</flag>
     <flag name="tambov">Install GeoInformational data (incl. maps) for Tambov</flag>
     <flag name="tver">Install GeoInformational data (incl. maps) for Tver</flag>
     <flag name="tobolsk">Install GeoInformational data (incl. maps) for Tobolsk</flag>
@@ -88,28 +94,40 @@
     <flag name="ulyanovsk">Install GeoInformational data (incl. maps) for Ulyanovsk</flag>
     <flag name="ussuriysk">Install GeoInformational data (incl. maps) for Ussuriysk</flag>
     <flag name="ufa">Install GeoInformational data (incl. maps) for Ufa</flag>
+    <flag name="ukhta">Install GeoInformational data (incl. maps) for Ukhta</flag>
     <flag name="khabarovsk">Install GeoInformational data (incl. maps) for Khabarovsk</flag>
+    <flag name="kh_mansiysk">Install GeoInformational data (incl. maps) for Kh_mansiysk</flag>
     <flag name="cheboksary">Install GeoInformational data (incl. maps) for Cheboksary</flag>
     <flag name="chelyabinsk">Install GeoInformational data (incl. maps) for Chelyabinsk</flag>
     <flag name="chita">Install GeoInformational data (incl. maps) for Chita</flag>
+    <flag name="sheregesh">Install GeoInformational data (incl. maps) for Sheregesh</flag>
     <flag name="yuzhnosakhalinsk">Install GeoInformational data (incl. maps) for Yuzhnosakhalinsk</flag>
     <flag name="yakutsk">Install GeoInformational data (incl. maps) for Yakutsk</flag>
     <flag name="yaroslavl">Install GeoInformational data (incl. maps) for Yaroslavl</flag>
-    <flag name="donetsk">Install GeoInformational data (incl. maps) for Donetsk</flag>
+    <flag name="kiev">Install GeoInformational data (incl. maps) for Kiev</flag>
     <flag name="odessa">Install GeoInformational data (incl. maps) for Odessa</flag>
     <flag name="dnepropetrovsk">Install GeoInformational data (incl. maps) for Dnepropetrovsk</flag>
+    <flag name="kharkov">Install GeoInformational data (incl. maps) for Kharkov</flag>
+    <flag name="aktobe">Install GeoInformational data (incl. maps) for Aktobe</flag>
+    <flag name="aktau">Install GeoInformational data (incl. maps) for Aktau</flag>
     <flag name="almaty">Install GeoInformational data (incl. maps) for Almaty</flag>
+    <flag name="astana">Install GeoInformational data (incl. maps) for Astana</flag>
+    <flag name="atyrau">Install GeoInformational data (incl. maps) for Atyrau</flag>
     <flag name="karaganda">Install GeoInformational data (incl. maps) for Karaganda</flag>
+    <flag name="kostanay">Install GeoInformational data (incl. maps) for Kostanay</flag>
+    <flag name="kokshetau">Install GeoInformational data (incl. maps) for Kokshetau</flag>
+    <flag name="pavlodar">Install GeoInformational data (incl. maps) for Pavlodar</flag>
+    <flag name="petropavlovsk">Install GeoInformational data (incl. maps) for Petropavlovsk</flag>
+    <flag name="uralsk">Install GeoInformational data (incl. maps) for Uralsk</flag>
     <flag name="ustkam">Install GeoInformational data (incl. maps) for Ustkam</flag>
-    <flag name="limassol">Install GeoInformational data (incl. maps) for Limassol</flag>
-    <flag name="nicosia">Install GeoInformational data (incl. maps) for Nicosia</flag>
+    <flag name="shymkent">Install GeoInformational data (incl. maps) for Shymkent</flag>
+    <flag name="bishkek">Install GeoInformational data (incl. maps) for Bishkek</flag>
+    <flag name="osh">Install GeoInformational data (incl. maps) for Osh</flag>
+    <flag name="tashkent">Install GeoInformational data (incl. maps) for Tashkent</flag>
     <flag name="praha">Install GeoInformational data (incl. maps) for Praha</flag>
     <flag name="padova">Install GeoInformational data (incl. maps) for Padova</flag>
     <flag name="santiago">Install GeoInformational data (incl. maps) for Santiago</flag>
     <flag name="dubai">Install GeoInformational data (incl. maps) for Dubai</flag>
     <flag name="k_uralskiy">Install GeoInformational data (incl. maps) for K_uralskiy</flag>
-    <flag name="kharkov">Install GeoInformational data (incl. maps) for Kharkov</flag>
-    <flag name="astana">Install GeoInformational data (incl. maps) for Astana</flag>
-    <flag name="pavlodar">Install GeoInformational data (incl. maps) for Pavlodar</flag>
   </use>
 </pkgmetadata>

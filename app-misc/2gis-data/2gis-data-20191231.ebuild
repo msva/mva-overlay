@@ -160,7 +160,7 @@ my_add_town Yakutsk				2011 8  # Якутск
 my_add_town Yaroslavl			2010 6  # Ярославль
 
 # UA (Ukraine)
-my_add_town Kiev				2016 2 # Киев
+my_add_town Kiev				2016 2  # Киев
 my_add_town Odessa				2007 2  # Одесса
 my_add_town Dnepropetrovsk		2014 4  # Днепропетровск
 my_add_town Kharkov				2015 4  # Харьков
