@@ -1,9 +1,9 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit eutils
+inherit desktop eutils
 
 DESCRIPTION="Proprietary freeware multimedia map of several Russian and Ukrainian towns"
 HOMEPAGE="http://2gis.ru"
@@ -20,12 +20,7 @@ DEPEND="
 	media-gfx/icoutils
 "
 RDEPEND="
-	|| (
-		app-emulation/wine-any
-		app-emulation/wine-d3d9
-		app-emulation/wine-staging
-		app-emulation/wine-vanilla
-	)
+	virtual/wine
 	data? ( app-misc/2gis-data )
 "
 
@@ -36,11 +31,8 @@ src_install() {
 	doins -r 2gis/3.0/* || die
 
 	bash "${FILESDIR}"/exe2png "2gis/3.0/grym.exe" "2gis_256.png" "256x256"
-	for path in $(find /usr/share/icons/hicolor -maxdepth 1 -type d -iname '[0-9]*x[0-9]*'); do
-		size=$(basename "${path}")
-		convert 2gis_256.png -resize "${size}" 2gis.png
-		insinto "${path}"/apps
-		doins 2gis.png
+	for size in 16 22 24 32 36 48 64 72 96 128 192 256; do
+		newicon -s ${size} -c apps "${PN}_256".png "${PN}".png
 	done
 
 	make_wrapper 2gis "wine grym.exe -nomta" /opt/${PN}

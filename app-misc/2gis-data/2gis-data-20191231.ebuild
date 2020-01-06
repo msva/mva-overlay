@@ -58,6 +58,7 @@ my_add_town Volgograd			2010 9  # Волгоград
 my_add_town Vologda				2012 7  # Вологда
 my_add_town Voronezh			2010 7  # Воронеж
 
+my_add_town Grozny				2019 1  # Грозный
 my_add_town Gornoaltaysk		2010 4  # Горный Алтай
 
 my_add_town Ekaterinburg		2005 12 # Екатеринбург
@@ -85,6 +86,8 @@ my_add_town Lenkuz				2013 1  # Ленинск-Кузнецкий
 my_add_town Lipetsk				2011 11 # Липецк
 
 my_add_town Magnitogorsk		2010 4  # Магнитогорск
+my_add_town Maikop				2019 5  # Майкоп
+my_add_town Makhachkala			2016 3  # Махачкала
 my_add_town Miass				2013 2  # Миасс
 my_add_town Moscow				2011 4  # Москва
 my_add_town Murmansk			2014 7  # Мурманск
@@ -97,6 +100,7 @@ my_add_town Ntagil				2011 6  # Нижний Тагил
 my_add_town Novokuznetsk		2005 8  # Новокузнецк
 my_add_town Novorossiysk		2012 5  # Новороссийск
 my_add_town Novosibirsk			1998 9  # Новосибирск
+my_add_town N_urengoy			2018 5  # Новый Уренгой
 my_add_town Norilsk				2012 8  # Норильск
 my_add_town Noyabrsk			2013 12 # Ноябрьск
 
@@ -126,6 +130,7 @@ my_add_town Sterlitamak			2011 11 # Стерлитамак
 my_add_town Surgut				2011 2  # Сургут
 my_add_town Syktyvkar			2012 3  # Сыктывкар
 
+my_add_town Taganrog			2018 7  # Тамганрог
 my_add_town Tambov				2013 1  # Тамбов
 my_add_town Tver				2011 7  # Тверь
 my_add_town Tobolsk				2013 6  # Тобольск
@@ -138,12 +143,16 @@ my_add_town Ulanude				2011 1  # Улан-Уде
 my_add_town Ulyanovsk			2011 11 # Ульяновск
 my_add_town Ussuriysk			2013 2  # Уссурийск
 my_add_town Ufa					2008 3  # Уфа
+my_add_town Ukhta				2018 10 # Ухта
 
 my_add_town Khabarovsk			2010 11 # Хабаровск
+my_add_town Kh_mansiysk			2019 3  # Ханты-Мансийск
 
 my_add_town Cheboksary			2011 10 # Чебоксары
 my_add_town Chelyabinsk			2007 8  # Челябинск
 my_add_town Chita				2012 4  # Чита
+
+my_add_town Sheregesh			2018 10 # Шерегеш
 
 my_add_town Yuzhnosakhalinsk	2013 2  # Южно-Сахалинск
 
@@ -151,21 +160,40 @@ my_add_town Yakutsk				2011 8  # Якутск
 my_add_town Yaroslavl			2010 6  # Ярославль
 
 # UA (Ukraine)
-my_add_town Donetsk				2012 11 # Донецк
+my_add_town Kiev				2016 2 # Киев
 my_add_town Odessa				2007 2  # Одесса
 my_add_town Dnepropetrovsk		2014 4  # Днепропетровск
 my_add_town Kharkov				2015 4  # Харьков
 
 # KZ (Kazakhstan)
+my_add_town Aktobe				2018 6  # Актобе
+my_add_town Aktau				2017 8  # Актау
 my_add_town Almaty				2012 4  # Алматы
-my_add_town Astana				2015 7  # Астана
+my_add_town Astana				2015 7  # Астана (Нур-Султан)
+my_add_town Atyrau				2019 2  # Атырау
 my_add_town Karaganda			2013 3  # Караганда
+my_add_town Kostanay			2019 4  # Костанай
+my_add_town Kokshetau			2018 8  # Кокшетау
 my_add_town Pavlodar			2015 9  # Павлодар
+my_add_town Petropavlovsk		2019 9  # Петропавловск
+my_add_town Uralsk				2016 11 # Уральск
 my_add_town Ustkam				2013 5  # Усть-Каменогорск
+my_add_town Shymkent			2017 2  # Шымкент
+
+# KG (Kyrgyzstan)
+my_add_town Bishkek				2015 10 # Бишкек
+my_add_town Osh					2018 3  # Ош
+
+# UZ (Uzbekistan)
+my_add_town Tashkent			2019 8  # Ташкент
+
+# AZ (Azerbaijan)
+# my_add_town Baku				2020 1 (2?) # Баку
 
 # CY (Cyprus)
-my_add_town Limassol			2013 6 "_en" # Lemessos
-my_add_town Nicosia				2014 1 "_en" # Lefkosia
+#my_add_town Limassol			2013 6 "_en" # Lemessos
+#my_add_town Nicosia				2014 1 "_en" # Lefkosia
+# ^ no more cyprus archives
 
 # CZ (Czech)
 my_add_town Praha				2013 10 "_cs" # Praha
