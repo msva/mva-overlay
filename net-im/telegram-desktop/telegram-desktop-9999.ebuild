@@ -153,10 +153,17 @@ pkg_pretend() {
 
 	if tc-is-clang && has ccache ${FEATURES}; then
 		eerror ""
-		eerror "Somewhy CCache fails the build process somewhere around building lib_ui CMake's PCH file when compiler is clang (at least, it reproduces on 9.x)."
-		eerror "Reasons are still not investigated, but failure is reproducible."
+		eerror "Somewhy clang fails the compilation when it working with some CMake's PCH files if CCache is enabled (at least, this bug reproduces on 8.x and 9.x clang versions)"
+		eerror "Reasons are still not fully investigated, but failure is reproducible, and there is an issue at CMake tracker: https://gitlab.kitware.com/cmake/cmake/issues/19923"
+		eerror ""
 		eerror "Please, either disable ccache feature for ${PN} package, use gcc (slows the build too),"
 		eerror "or better, please help us to investigate and fix the problem (open issue at GitHub if you'll have any progress on it)"
+		eerror ""
+		eerror "As a workaround you can use CCACHE_RECACHE=1, but it will anyway slow down the compilation, as it will act as there is no cache."
+		eerror ""
+		eerror "Alternate way is to manually remove cached entries for 'bad' PCHs from ccache dir, but this way is fragile and not guaranteed to work."
+		eerror "Running this command **before** emergeing ${PN} helps me, but it may require adding another entries for you:"
+		eerror "    #  grep -rEl '(Telegram|lib_(spellcheck|ui)).dir.*pch:' ${CCACHE_DIR:-/var/tmp/portage/.ccache} | sed -r 's@(.*)\.d\$@\1.d \1.o@' | xargs -r rm"
 		eerror ""
 		eerror "You have been warned!"
 		eerror ""
@@ -175,9 +182,9 @@ pkg_pretend() {
 
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
 		if ! tc-is-clang; then
-			die "Building with libcxx as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
+			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
 		elif ! use libcxx; then
-			die "Building with libcxx as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx here to handle that."
+			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
 		fi
 	fi
 }
