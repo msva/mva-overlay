@@ -31,7 +31,7 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus kde libcxx libressl +networkmanager +openal-eff +spell test wide-baloons"
+IUSE="crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus kde libcxx libressl +networkmanager +openal-eff plasma qt5ct +spell test wide-baloons"
 # mostly (with some exceptions), `+`'es (USE-flag soft-forcing) here to provide upstream defaults.
 # ^ `crash-report` is upstream default, but I don't `+` it since it needs some work to move from bundled breakpad to system-wide. // also, privacy
 # ^ `lto`, actually, is also upstream default, but it produces broken binary for me, so I don't `+` it here.
@@ -49,7 +49,8 @@ REQUIRED_USE="
 	)
 	gtk2? ( !gtk3 )
 	gnome? ( gtk3 )
-	kde? ( !gtk2 !gtk3 !gnome !gtk-file-dialog networkmanager )
+	plasma? ( !gtk2 !gtk3 !gnome !gtk-file-dialog !qt5ct )
+	kde? ( !gtk2 !gtk3 !gnome !gtk-file-dialog !qt5ct )
 "
 
 COMMON_DEPEND="
@@ -83,11 +84,7 @@ COMMON_DEPEND="
 		dev-qt/qtwidgets[gtk]
 	)
 	ibus? ( dev-qt/qtgui[ibus] )
-	!kde? (
-		!gtk3? (
-			!gtk2? ( x11-misc/qt5ct )
-		)
-	)
+	qt5ct? ( x11-misc/qt5ct )
 	libcxx? (
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
@@ -202,7 +199,7 @@ src_prepare() {
 		sed -i \
 			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "gtk3", true)@' \
 			Telegram/SourceFiles/core/launcher.cpp
-	elif use !kde; then
+	elif use qt5ct; then
 		sed -i \
 			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "qt5ct", true)@' \
 			Telegram/SourceFiles/core/launcher.cpp
