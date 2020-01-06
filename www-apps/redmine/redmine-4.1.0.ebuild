@@ -1,11 +1,11 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 USE_RUBY="ruby24 ruby25 ruby26"
 
-inherit eutils depend.apache user ruby-ng
+inherit eutils user ruby-ng
 
 DESCRIPTION="Flexible project management webapp written using Ruby on Rails framework"
 HOMEPAGE="https://www.redmine.org/"
@@ -24,8 +24,8 @@ RDEPEND="
 	)
 "
 ruby_add_rdepend "
-	dev-ruby/bundler
-	virtual/rubygems
+	dev-ruby/bundler:=
+	virtual/rubygems:=
 "
 
 RDEPEND="
