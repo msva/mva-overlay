@@ -74,7 +74,7 @@ index 25473426f..bb4c7d425 100644
 +#else
 +	QCoreApplication::addLibraryPath("/usr/lib/qt5/plugins");
 +#endif
-+	setenv("QT_STYLE_OVERRIDE", "qwerty", false);
++//	setenv("QT_STYLE_OVERRIDE", "qwerty", false); // maybe, unneeded anymore?
 +	unsetenv("QT_QPA_PLATFORMTHEME");
 +
  	auto result = executeApplication();
