@@ -37,32 +37,6 @@ index 91fea5e..4c21f1f 100644
      }
      return color;
 
-diff --git a/src/vector/config.h b/src/vector/config.h
-deleted file mode 100644
-index 528115b..0000000
---- a/src/vector/config.h
-+++ /dev/null
-@@ -1,19 +0,0 @@
--#ifndef CONFIG_H
--#define CONFIG_H
--
--// enable threading
--#define LOTTIE_THREAD_SUPPORT
--
--//enable logging
--//#define LOTTIE_LOGGING_SUPPORT
--
--//enable module building of image loader
--//#define LOTTIE_IMAGE_MODULE_SUPPORT
--
--//enable lottie model caching
--//#define LOTTIE_CACHE_SUPPORT
--
--// disable image loader
--#define LOTTIE_IMAGE_MODULE_DISABLED
--
--#endif  // CONFIG_H
-
 diff --git a/src/vector/vimageloader.cpp b/src/vector/vimageloader.cpp
 index b4fd188..badc120 100644
 --- a/src/vector/vimageloader.cpp

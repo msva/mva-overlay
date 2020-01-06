@@ -5,7 +5,7 @@ EAPI=7
 
 inherit meson toolchain-funcs flag-o-matic patches
 
-MY_SHA="cd38f3e95e43bac92e1085ea4c2b13841e2549a7"
+MY_SHA="a718c7e2dfd7d292324ca50d596b02b786299252"
 
 DESCRIPTION="A platform independent standalone library that plays Lottie Animation"
 HOMEPAGE="https://github.com/Samsung/rlottie"
@@ -27,23 +27,25 @@ RDEPEND="${DEPEND}"
 BDEPEND="
 	libcxx? (
 		sys-devel/clang:=
-		sys-devel/clang-runtime:=[libcxx,compiler-rt]
-		sys-libs/libcxx:=
+		sys-devel/clang-runtime:=[libcxx]
 	)
 	>=dev-util/meson-0.50.1
 "
 
-src_configure() {
+pkg_pretend() {
+	if use libcxx; then
+		append-cxxflags "-stdlib=libc++"
+	fi
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
 		if ! tc-is-clang; then
 			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
 		elif ! use libcxx; then
 			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
 		fi
-	elif use libcxx; then
-		append-cxxflags "-stdlib=libc++"
 	fi
+}
 
+src_configure() {
 	local emesonargs=(
 		$(meson_use threads thread)
 		$(meson_use cache)

@@ -4,7 +4,6 @@
 EAPI=7
 
 CMAKE_MIN_VERSION="3.16"
-
 inherit cmake-utils flag-o-matic toolchain-funcs desktop xdg-utils xdg
 
 inherit git-r3
@@ -180,14 +179,15 @@ pkg_pretend() {
 		eerror "P.S. Please, let me (mva) know if you'll get it to work"
 	fi
 
+	if use libcxx; then
+		append-cxxflags "-stdlib=libc++"
+	fi
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
 		if ! tc-is-clang; then
 			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
 		elif ! use libcxx; then
 			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
 		fi
-	elif use libcxx; then
-		append-cxxflags "-stdlib=libc++"
 	fi
 }
 

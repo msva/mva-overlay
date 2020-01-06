@@ -3,6 +3,7 @@
 
 EAPI=7
 
+CMAKE_MIN_VERSION="3.14.0"
 inherit toolchain-funcs flag-o-matic cmake-utils patches
 
 if [[ "${PV}" == 9999 ]]; then
@@ -14,8 +15,6 @@ else
 	# ~mips
 	# ^ pulseaudio
 fi
-
-CMAKE_MIN_VERSION="3.14.0"
 
 DESCRIPTION="VoIP library for Telegram clients"
 HOMEPAGE="https://github.com/grishka/libtgvoip"
@@ -29,7 +28,7 @@ RDEPEND="
 	alsa? ( media-libs/alsa-lib )
 	libcxx? (
 		sys-devel/clang:=
-		sys-devel/clang-runtime:=[libcxx,compiler-rt]
+		sys-devel/clang-runtime:=[libcxx]
 		sys-libs/libcxx:=
 	)
 	!libressl? ( dev-libs/openssl:0= )
@@ -41,6 +40,19 @@ DEPEND="
 	${RDEPEND}
 "
 
+pkg_pretend() {
+	if use libcxx; then
+		append-cxxflags "-stdlib=libc++"
+	fi
+	if [[ $(get-flag stdlib) == "libc++" ]]; then
+		if ! tc-is-clang; then
+			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
+		elif ! use libcxx; then
+			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
+		fi
+	fi
+}
+
 src_prepare() {
 	cp "${FILESDIR}/cmake/libtgvoip.cmake" "${S}/CMakeLists.txt"
 	cp "${FILESDIR}/cmake/libtgvoip-webrtc.cmake" "${S}/webrtc_dsp/CMakeLists.txt"
@@ -48,16 +60,6 @@ src_prepare() {
 }
 
 src_configure() {
-	if [[ $(get-flag stdlib) == "libc++" ]]; then
-		if ! tc-is-clang; then
-			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
-		elif ! use libcxx; then
-			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
-		fi
-	elif use libcxx; then
-		append-cxxflags "-stdlib=libc++"
-	fi
-
 	local mycmakeargs=(
 		-DENABLE_ALSA=$(usex alsa ON OFF)
 		-DENABLE_PULSEAUDIO=$(usex pulseaudio ON OFF)

@@ -1,69 +1,8 @@
-From 4c8a4d6e3f5b9d94241e4af643fce9c4d7d9fc8c Mon Sep 17 00:00:00 2001
-From: John Preston <johnprestonmail@gmail.com>
-Date: Mon, 5 Aug 2019 17:29:30 +0100
-Subject: [PATCH] Add specific config.h.
-
----
- src/vector/config.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100644 src/vector/config.h
-
-diff --git a/src/vector/config.h b/src/vector/config.h
-new file mode 100644
-index 0000000..712b397
---- /dev/null
-+++ b/src/vector/config.h
-@@ -0,0 +1,16 @@
-+#ifndef CONFIG_H
-+#define CONFIG_H
-+
-+// enable threading
-+#define LOTTIE_THREAD_SUPPORT
-+
-+//enable logging
-+//#define LOTTIE_LOGGING_SUPPORT
-+
-+//enable module building of image loader
-+#define LOTTIE_IMAGE_MODULE_SUPPORT
-+
-+//enable lottie model caching
-+//#define LOTTIE_CACHE_SUPPORT
-+
-+#endif  // CONFIG_H
-
-From 14167128d1064d0d82dfca9d6097ff2237874cf5 Mon Sep 17 00:00:00 2001
-From: John Preston <johnprestonmail@gmail.com>
-Date: Thu, 18 Jul 2019 11:22:27 +0200
-Subject: [PATCH] Disable image loader code.
-
----
- src/vector/config.h         |  5 ++++-
- src/vector/vimageloader.cpp | 20 ++++++++++++++++++++
- 2 files changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/src/vector/config.h b/src/vector/config.h
-index 712b397..528115b 100644
---- a/src/vector/config.h
-+++ b/src/vector/config.h
-@@ -8,9 +8,12 @@
- //#define LOTTIE_LOGGING_SUPPORT
- 
- //enable module building of image loader
--#define LOTTIE_IMAGE_MODULE_SUPPORT
-+//#define LOTTIE_IMAGE_MODULE_SUPPORT
- 
- //enable lottie model caching
- //#define LOTTIE_CACHE_SUPPORT
- 
-+// disable image loader
-+#define LOTTIE_IMAGE_MODULE_DISABLED
-+
- #endif  // CONFIG_H
 diff --git a/src/vector/vimageloader.cpp b/src/vector/vimageloader.cpp
 index 03c269a..b4fd188 100644
 --- a/src/vector/vimageloader.cpp
 +++ b/src/vector/vimageloader.cpp
-@@ -19,6 +19,24 @@ using lottie_image_free_f = void (*)(unsigned char *);
+@@ -20,6 +20,24 @@ using lottie_image_free_f = void (*)(unsigned char *);
  extern "C" {
  #endif
  
@@ -88,7 +27,7 @@ index 03c269a..b4fd188 100644
  extern unsigned char *lottie_image_load(char const *filename, int *x, int *y,
                                          int *comp, int req_comp);
  extern unsigned char *lottie_image_load_from_data(const char *imageData,
-@@ -26,6 +44,8 @@ extern unsigned char *lottie_image_load_from_data(const char *imageData,
+@@ -27,6 +45,8 @@ extern unsigned char *lottie_image_load_from_data(const char *imageData,
                                                    int *comp, int req_comp);
  extern void           lottie_image_free(unsigned char *data);
  
@@ -116,7 +55,7 @@ diff --git a/inc/rlottie.h b/inc/rlottie.h
 index 6066c62..1436539 100644
 --- a/inc/rlottie.h
 +++ b/inc/rlottie.h
-@@ -291,7 +291,9 @@ class LOT_EXPORT Animation {
+@@ -299,7 +299,9 @@ class LOT_EXPORT Animation {
       */
      static std::unique_ptr<Animation>
      loadFromData(std::string jsonData, const std::string &key,
@@ -131,7 +70,7 @@ diff --git a/src/lottie/lottieanimation.cpp b/src/lottie/lottieanimation.cpp
 index be4d93e..58d1b13 100644
 --- a/src/lottie/lottieanimation.cpp
 +++ b/src/lottie/lottieanimation.cpp
-@@ -240,7 +240,9 @@ std::future<Surface> AnimationImpl::renderAsync(size_t    frameNo,
+@@ -248,7 +248,9 @@ std::future<Surface> AnimationImpl::renderAsync(size_t    frameNo,
   */
  std::unique_ptr<Animation> Animation::loadFromData(
      std::string jsonData, const std::string &key,
@@ -142,7 +81,7 @@ index be4d93e..58d1b13 100644
  {
      if (jsonData.empty()) {
          vWarning << "jason data is empty";
-@@ -249,7 +251,8 @@ std::unique_ptr<Animation> Animation::loadFromData(
+@@ -257,7 +259,8 @@ std::unique_ptr<Animation> Animation::loadFromData(
  
      LottieLoader loader;
      if (loader.loadFromData(std::move(jsonData), key,
@@ -223,8 +162,8 @@ index 19d6467..91fea5e 100644
      bool VerifyType();
      bool ParseNext();
  public:
-@@ -257,10 +263,13 @@ class LottieParserImpl : public LookaheadParserHandler {
-     std::shared_ptr<VInterpolator> interpolator(VPointF, VPointF, std::string);
+@@ -260,10 +266,13 @@ class LottieParserImpl : public LookaheadParserHandler {
+     VInterpolator* interpolator(VPointF, VPointF, std::string);
  
      LottieColor toColor(const char *str);
 +    LottieColor applyReplacements(const LottieColor &color);
@@ -234,10 +173,10 @@ index 19d6467..91fea5e 100644
  protected:
 +    const std::vector<std::pair<std::uint32_t, std::uint32_t>>
 +        &mColorReplacements;
-     std::unordered_map<std::string, std::shared_ptr<VInterpolator>>
+     std::unordered_map<std::string, VInterpolator*>
                                                 mInterpolatorCache;
      std::shared_ptr<LOTCompositionData>        mComposition;
-@@ -789,6 +798,27 @@ LottieColor LottieParserImpl::toColor(const char *str)
+@@ -831,6 +840,27 @@ LottieColor LottieParserImpl::toColor(const char *str)
      tmp[1] = str[6];
      color.b = std::strtol(tmp, nullptr, 16) / 255.0f;
  
@@ -265,9 +204,9 @@ index 19d6467..91fea5e 100644
      return color;
  }
  
-@@ -1746,9 +1776,7 @@ void LottieParserImpl::getValue(LottieColor &color)
-     while (NextArrayValue()) {
-         val[i++] = GetDouble();
+@@ -1774,9 +1804,7 @@ void LottieParserImpl::getValue(LottieColor &color)
+             val[i++] = value;
+         }
      }
 -    color.r = val[0];
 -    color.g = val[1];
@@ -276,7 +215,7 @@ index 19d6467..91fea5e 100644
  }
  
  void LottieParserImpl::getValue(LottieGradient &grad)
-@@ -2254,8 +2282,11 @@ class LOTDataInspector {
+@@ -2296,8 +2324,11 @@ class LOTDataInspector {
  #endif
  
  LottieParser::~LottieParser() = default;
