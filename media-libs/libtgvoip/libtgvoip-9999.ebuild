@@ -3,7 +3,8 @@
 
 EAPI=7
 
-inherit cmake-utils patches
+inherit toolchain-funcs flag-o-matic cmake-utils patches
+
 if [[ "${PV}" == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/grishka/${PN}"
 	inherit git-r3
@@ -26,7 +27,7 @@ RDEPEND="
 	alsa? ( media-libs/alsa-lib )
 	libcxx? (
 		sys-devel/clang:=
-		sys-devel/clang-runtime:=[libcxx,compiler-rt]
+		sys-devel/clang-runtime:=[libcxx]
 		sys-libs/libcxx:=
 	)
 	!libressl? ( dev-libs/openssl:0= )
@@ -38,10 +39,6 @@ DEPEND="
 	${RDEPEND}
 "
 
-_isclang() {
-	[[ "${CXX}" =~ clang ]]
-}
-
 src_prepare() {
 	cp "${FILESDIR}/cmake/libtgvoip.cmake" "${S}/CMakeLists.txt"
 	cp "${FILESDIR}/cmake/libtgvoip-webrtc.cmake" "${S}/webrtc_dsp/CMakeLists.txt"
@@ -49,11 +46,16 @@ src_prepare() {
 }
 
 src_configure() {
-	if use libcxx; then
-		_isclang || export CC=clang CXX=clang++
+	if [[ $(get-flag stdlib) == "libc++" ]]; then
+		if ! tc-is-clang; then
+			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
+		elif ! use libcxx; then
+			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
+		fi
+	elif use libcxx; then
 		append-cxxflags "-stdlib=libc++"
 	fi
-	#_isclang && append-cxxflags "-Wno-error"
+
 	local mycmakeargs=(
 		-DENABLE_ALSA=$(usex alsa ON OFF)
 		-DENABLE_PULSEAUDIO=$(usex pulseaudio ON OFF)

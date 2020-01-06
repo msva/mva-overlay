@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit meson flag-o-matic patches
+inherit meson toolchain-funcs flag-o-matic patches
 
 MY_SHA="cd38f3e95e43bac92e1085ea4c2b13841e2549a7"
 
@@ -33,15 +33,17 @@ BDEPEND="
 	>=dev-util/meson-0.50.1
 "
 
-_isclang() {
-	[[ "${CXX}" =~ clang ]]
-}
-
 src_configure() {
-	if use libcxx; then
-		_isclang || export CC=clang CXX=clang++
+	if [[ $(get-flag stdlib) == "libc++" ]]; then
+		if ! tc-is-clang; then
+			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
+		elif ! use libcxx; then
+			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
+		fi
+	elif use libcxx; then
 		append-cxxflags "-stdlib=libc++"
 	fi
+
 	local emesonargs=(
 		$(meson_use threads thread)
 		$(meson_use cache)

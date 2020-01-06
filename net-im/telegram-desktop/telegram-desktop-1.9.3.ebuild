@@ -186,6 +186,8 @@ pkg_pretend() {
 		elif ! use libcxx; then
 			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
 		fi
+	elif use libcxx; then
+		append-cxxflags "-stdlib=libc++"
 	fi
 }
 
