@@ -5,7 +5,7 @@ EAPI=7
 
 USE_RUBY="ruby24 ruby25 ruby26"
 
-inherit eutils user git-r3 ruby-ng
+inherit eutils git-r3 ruby-ng
 
 DESCRIPTION="Flexible project management webapp written using Ruby on Rails framework"
 HOMEPAGE="https://www.redmine.org/"
@@ -32,6 +32,8 @@ ruby_add_rdepend "
 
 RDEPEND="
 	${RDEPEND}
+	acct-user/redmine
+	acct-group/redmine
 	imagemagick? ( media-gfx/imagemagick )
 	postgres? ( dev-db/postgresql )
 	sqlite3? ( dev-db/sqlite:3 )
@@ -45,12 +47,6 @@ RDEPEND="
 "
 
 REDMINE_DIR="${REDMINE_DIR:-/var/lib/${PN}}"
-
-pkg_setup() {
-	enewgroup "${HTTPD_GROUP:-redmine}"
-	# home directory is required for SCM.
-	enewuser "${HTTPD_USER-redmine}" -1 -1 "${REDMINE_DIR}" "${HTTPD_USER:-redmine}"
-}
 
 all_ruby_unpack() {
 	EGIT_CHECKOUT_DIR=${S}

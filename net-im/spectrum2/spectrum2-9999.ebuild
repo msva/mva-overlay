@@ -3,9 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 )
-
-inherit cmake-utils python-single-r1 user systemd git-r3
+inherit cmake-utils systemd git-r3
 
 DESCRIPTION="An open source instant messaging transport"
 HOMEPAGE="https://spectrum.im"
@@ -20,6 +18,8 @@ IUSE_PLUGINS="frotz irc purple skype sms twitter whatsapp xmpp"
 IUSE="debug doc mysql postgres sqlite test ${IUSE_PLUGINS}"
 
 RDEPEND="
+	acct-user/spectrum
+	acct-group/spectrum
 	dev-libs/boost:=[nls]
 	dev-libs/expat
 	dev-libs/libev:=
@@ -55,28 +55,13 @@ RDEPEND="
 #      2) add it here
 
 DEPEND="
-	${PYTHON_DEPS}
 	${RDEPEND}
 	sys-devel/gettext
 	dev-util/cmake
 	doc? ( app-doc/doxygen )
-	test? (
-		dev-python/sleekxmpp[${PYTHON_USEDEP}]
-		dev-util/cppunit
-		net-irc/ngircd
-	)
 "
 
 REQUIRED_USE="|| ( sqlite mysql postgres )"
-
-RESTRICT="test"
-
-pkg_setup() {
-	enewgroup spectrum
-	enewuser spectrum -1 -1 /var/lib/spectrum2 spectrum
-
-	use test && python-single-r1_pkg_setup
-}
 
 src_prepare() {
 	# Respect users LDFLAGS

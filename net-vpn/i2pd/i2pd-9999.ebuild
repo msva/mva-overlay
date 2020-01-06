@@ -1,8 +1,8 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-inherit eutils systemd pax-utils user git-r3 qmake-utils cmake-utils
+EAPI=7
+inherit eutils pax-utils systemd git-r3 qmake-utils cmake-utils
 # multilib-minimal
 
 DESCRIPTION="A C++ daemon for accessing the I2P anonymous network"
@@ -19,6 +19,8 @@ IUSE="cpu_flags_x86_aes cpu_flags_x86_avx cjdns i2lua i2p-hardening libressl pch
 REQUIRED_USE="gui? ( !cjdns !i2lua !i2p-hardening !thread-sanitizer !addr-sanitizer !static !pch upnp websockets )"
 
 RDEPEND="
+	acct-user/i2pd
+	acct-group/i2pd
 	!static? (
 		>=dev-libs/boost-1.49[threads]
 		!libressl? ( dev-libs/openssl:0[-bindist] )
@@ -144,13 +146,6 @@ src_install() {
 	doman "debian/${PN}.1"
 
 	host-is-pax && pax-mark m "${ED}usr/bin/${PN}"
-}
-
-pkg_setup() {
-		enewgroup "${I2PD_GROUP}"
-	if ! use gui; then
-		enewuser "${I2PD_USER}" -1 -1 "/var/lib/run/${PN}" "${I2PD_GROUP}"
-	fi
 }
 
 pkg_postinst() {
