@@ -33,5 +33,5 @@ RDEPEND="${DEPEND}"
 
 src_unpack() {
 	[[ ${PV} == 9999 ]] && git-r3_src_unpack
-	php-ext-source-r3_src_unpack
+	default
 }
