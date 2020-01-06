@@ -73,9 +73,10 @@ src_install() {
 
 	doman man/man1/fzf.1
 
-	newbashcomp shell/completion.bash fzf
 	insinto /etc/bash/bashrc.d
 	newins shell/key-bindings.bash fzf.bash
+	echo 'complete -o default -F _fzf_opts_completion fzf' >> shell/completion.bash # QA-workaround
+	newbashcomp shell/completion.bash "${PN}"
 
 	insinto /usr/share/nvim/runtime/plugin
 	doins plugin/fzf.vim
@@ -90,7 +91,8 @@ src_install() {
 	newins shell/key-bindings.zsh fzf.zsh
 
 	if use tmux; then
-		dobin bin/fzf-tmux
-		doman man/man1/fzf-tmux.1
+		dobin bin/"${PN}"-tmux
+		bashcomp_alias "${PN}" "${PN}"-tmux
+		doman man/man1/"${PN}"-tmux.1
 	fi
 }
