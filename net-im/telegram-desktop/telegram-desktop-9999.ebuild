@@ -32,11 +32,14 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="clang crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus kde libressl lto +networkmanager +openal-eff +spell system-fonts test wide-baloons"
+IUSE="crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus kde libcxx libressl +networkmanager +openal-eff +spell test wide-baloons"
 # mostly (with some exceptions), `+`'es (USE-flag soft-forcing) here to provide upstream defaults.
 # ^ `crash-report` is upstream default, but I don't `+` it since it needs some work to move from bundled breakpad to system-wide. // also, privacy
 # ^ `lto`, actually, is also upstream default, but it produces broken binary for me, so I don't `+` it here.
 # ^ yup, upstream has moved from `gtk3` to `gtk2` somewhy, so, I also moved + from gtk3 to gtk2
+# disabled USE-flag features:
+# lto (user will set it on their own, if needed)
+# system-fonts (USE_PACKED_RESOURCES is anyway broken ATM, so using "system fonts" is the only way to get it to work for now)
 
 REQUIRED_USE="
 	gtk-file-dialog? (
@@ -86,8 +89,15 @@ COMMON_DEPEND="
 			!gtk2? ( x11-misc/qt5ct )
 		)
 	)
+	libcxx? (
+		sys-devel/clang:=
+		sys-devel/clang-runtime:=[libcxx]
+		media-libs/rlottie:=[libcxx]
+		media-libs/libtgvoip:=[libcxx]
+	)
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
+	media-fonts/open-sans
 	media-libs/libexif
 	media-libs/libtgvoip:=
 	media-libs/openal:=
@@ -111,28 +121,20 @@ RDEPEND="
 "
 
 DEPEND="
-	clang? (
+	|| (
 		sys-devel/clang:=
-		sys-devel/clang-runtime:=[libcxx,compiler-rt]
-		sys-libs/libcxx:=
-		media-libs/rlottie:=[libcxx]
-		media-libs/libtgvoip:=[libcxx]
+		>=sys-devel/gcc-8.2.0-r6:=
 	)
-	!clang? ( >=sys-devel/gcc-8.2.0-r6:= )
 	test? ( dev-cpp/catch )
 	virtual/pkgconfig
 	${COMMON_DEPEND}
 "
 
-_isclang() {
-	[[ "${CXX}" =~ clang ]]
-}
-
 pkg_pretend() {
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
-			echo "Your custom ApiId is ${TELEGRAM_CUSTOM_API_ID}"
-			echo "Your custom ApiHash is ${TELEGRAM_CUSTOM_API_HASH}"
+			einfo "Your custom ApiId is ${TELEGRAM_CUSTOM_API_ID}"
+			einfo "Your custom ApiHash is ${TELEGRAM_CUSTOM_API_HASH}"
 		else
 			eerror ""
 			eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
@@ -145,8 +147,38 @@ pkg_pretend() {
 		fi
 	fi
 
-	if tc-is-gcc && [[ $(_ver_compare "$(gcc-major-version).$(gcc-minor-version)" "8.2") == 1 ]]; then
-		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang"
+	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -lt "8.2" && [[ -z "${TG_FORCE_OLD_GCC}" ]]; then
+		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang. Or set TG_FORCE_OLD_GCC=1 to override this check."
+	fi
+
+	if tc-is-clang && has ccache ${FEATURES}; then
+		eerror ""
+		eerror "Somewhy CCache fails the build process somewhere around building lib_ui CMake's PCH file when compiler is clang (at least, it reproduces on 9.x)."
+		eerror "Reasons are still not investigated, but failure is reproducible."
+		eerror "Please, either disable ccache feature for ${PN} package, use gcc (slows the build too),"
+		eerror "or better, please help us to investigate and fix the problem (open issue at GitHub if you'll have any progress on it)"
+		eerror ""
+		eerror "You have been warned!"
+		eerror ""
+		eerror "P.S. Please, let me (mva) know if you'll get it to work"
+	fi
+
+	if get-flag -flto >/dev/null; then
+		eerror ""
+		eerror "Somewhy enabling LTO leads to a broken binary (it starts, but don't render the UI). At least, with clang-9."
+		eerror "You're free to experiment, but keep in mind that it eats about ~20G RAM."
+		eerror ""
+		eerror "You have been warned!"
+		eerror ""
+		eerror "P.S. Please, let me (mva) know if you'll get it to work"
+	fi
+
+	if [[ $(get-flag stdlib) == "libc++" ]]; then
+		if ! tc-is-clang; then
+			die "Building with libcxx as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
+		elif ! use libcxx; then
+			die "Building with libcxx as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx here to handle that."
+		fi
 	fi
 }
 
@@ -181,7 +213,7 @@ src_prepare() {
 		-e '/-W.*/d' \
 		-e '/PIC/a-Wno-error\n-Wno-all' \
 		-e "$(usex debug '' 's@-g[a-zA-Z0-9]*@@')" \
-		-e "$(usex lto '' 's@-flto@@')" \
+		-e 's@-flto@@' \
 		-e "s@-Ofast@@" \
 		cmake/options_linux.cmake || die
 #		echo > cmake/options_linux.cmake
@@ -191,8 +223,8 @@ src_prepare() {
 	sed -i \
 		-e '/include.cmake.external.qt.package/d' \
 		-e '/include.*options.cmake/ainclude(cmake/external.cmake)' \
+		-e '$ainclude(cmake/install.cmake)' \
 		CMakeLists.txt || die
-		#-e '$ainclude(cmake/install.cmake)' \
 
 # Ideally:
 #	sed -i \
@@ -227,7 +259,7 @@ src_prepare() {
 
 	sed -i \
 		-e '/OUTPUT_VARIABLE machine_uname/d' \
-		-e '/uname. MATCHES .x86_64/s@^.*$@if (CMAKE_SIZEOF_VOID_P EQUAL 4)@'
+		-e '/uname. MATCHES .x86_64/s@^.*$@if (CMAKE_SIZEOF_VOID_P EQUAL 4)@' \
 		cmake/variables.cmake
 	# ^ There are 32-bit processor arches which aren't x86 nor arm
 
@@ -237,10 +269,11 @@ src_prepare() {
 		-e '/include.cmake.lib_tgvoip/d' \
 		-e '/desktop-app::external_auto_updates/d' \
 		-e '/AL_LIBTYPE_STATIC/d' \
-		-e '/CMAKE_GENERATOR. MATCHES/{s@Visual Studio\|Xcode\|Ninja@Visual Studio\|Xcode@;s@Unix Makefiles@Unix Makefiles\|Ninja@}' \
 		-e '/output_name "Telegram"/s@Telegram@telegram-desktop@' \
+		-e '/AND NOT build_winstore/s@winstore@winstore AND TD_ENABLE_AUTOUPDATER@' \
 		-e "$(usex gtk3 's@gtk\+\-2@gtk\+\-3@;s@GTK2_I@GTK3_I@' '')" \
 		Telegram/CMakeLists.txt || die
+#		-e '/CMAKE_GENERATOR. MATCHES/{s@Visual Studio|Xcode|Ninja@Visual Studio|Xcode@;s@Unix Makefiles@Unix Makefiles|Ninja@}' \
 
 	sed -i \
 		-e '1s:^:#include <QtCore/QVersionNumber>\n:' \
@@ -267,13 +300,16 @@ src_configure() {
 		${CXXFLAGS}
 		-Wno-error=deprecated-declarations
 		-DLIBDIR="$(get_libdir)"
-		-DTDESKTOP_DISABLE_AUTOUPDATE
-		$(usex system-fonts -DTDESKTOP_USE_PACKED_RESOURCES "")
+		-DTDESKTOP_DISABLE_AUTOUPDATE # no need
+		#$(usex system-fonts "" -DTDESKTOP_USE_PACKED_RESOURCES)
+		# ^ Doesn't work anyway
+		# (CMake doesn't build rcc file which tdesktop tries to load,
+		# and tdesktop also refuses to load manually-built rcc).
 		$(usex openal-eff "" -DTDESKTOP_DISABLE_OPENAL_EFFECTS)
 	)
 
-	_isclang && mycxxflags+=("-stdlib=libc++")
-	# ^ randomly fails to build otherwise
+	#	tc-is-clang && mycxxflags+=("-stdlib=libc++")
+	# ^ randomly fails to build otherwise (currently, not)
 
 	local mycmakeargs=(
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"

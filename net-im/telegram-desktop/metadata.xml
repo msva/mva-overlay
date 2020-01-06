@@ -8,7 +8,6 @@
   </maintainer>
   <longdescription>Telegram Desktop Client</longdescription>
   <use>
-    <flag name="clang">Build with <pkg>sys-devel/clang</pkg></flag>
     <flag name="connman">Enable "connman" (<pkg>net-misc/connman</pkg>) QtNetwork backend</flag>
     <flag name="crash-report">Enable Crash Reporter</flag>
     <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or `/etc/portage/env/{CAT}/{PN}`)</flag>
@@ -17,11 +16,12 @@
     <flag name="gtk3">Enable gtk+-3 integrations</flag>
     <flag name="gnome">Enable GNOME integrations</flag>
     <flag name="ibus">Enable ibus Input system Qt Plugin support</flag>
-    <flag name="kde">KDE support (actually, just don't select/install kludges to run under another DEs)</flag>
-    <flag name="lto">Use Link Time Optimization. Most probably it will be useless for you. Eats ~20GB RAM, longer build time.</flag>
+    <flag name="kde">Enable KDE integrations (actually, just don't enable neither gtk ones nor qt5ct)</flag>
+    <flag name="libcxx">Build with <pkg>sys-devel/libcxx</pkg> as sdtlib</flag>
+    <!--flag name="lto">Use Link Time Optimization. Most probably it will be useless for you. Eats ~20GB RAM, longer build time.</flag-->
     <flag name="networkmanager">Enable "networkmanager" (<pkg>net-misc/networkmanager</pkg>) QtNetwork backend</flag>
     <flag name="openal-eff">Use openal effects (like doubling playspeed)</flag>
-    <flag name="system-fonts">Drop internal fonts resource file (so Tg will use font that you've setup system-wide instead)</flag>
+    <!--flag name="system-fonts">Drop internal fonts resource file (so Tg will use font that you've setup system-wide instead)</flag-->
     <flag name="wide-baloons">Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keep tons of empty space.</flag>
   </use>
   <upstream>
