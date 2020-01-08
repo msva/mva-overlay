@@ -56,7 +56,6 @@ REQUIRED_USE="
 COMMON_DEPEND="
 	app-arch/lz4:=
 	app-arch/xz-utils:=
-	connman? ( dev-qt/qtnetwork[connman] )
 	crash-report? ( dev-util/google-breakpad:= )
 	>dev-cpp/ms-gsl-2.0.0:=
 	>=dev-cpp/range-v3-0.9.1:=
@@ -65,8 +64,8 @@ COMMON_DEPEND="
 	dev-libs/xxhash:=
 	dev-qt/qtcore:5=
 	dev-qt/qtdbus:5=
-	dev-qt/qtgui:5=[xcb,jpeg,png]
-	dev-qt/qtnetwork:5=
+	dev-qt/qtgui:5=[ibus=,xcb,jpeg,png]
+	dev-qt/qtnetwork:5=[connman=,networkmanager=]
 	dev-qt/qtwidgets:5=[xcb,png]
 	dev-qt/qtimageformats:5=
 	gnome? (
@@ -83,26 +82,22 @@ COMMON_DEPEND="
 		dev-libs/libappindicator:3
 		dev-qt/qtwidgets[gtk]
 	)
-	ibus? ( dev-qt/qtgui[ibus] )
 	qt5ct? ( x11-misc/qt5ct )
 	libcxx? (
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
-		media-libs/rlottie:=[libcxx]
-		media-libs/libtgvoip:=[libcxx]
 	)
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
 	media-fonts/open-sans
 	media-libs/libexif
-	media-libs/libtgvoip:=
+	media-libs/libtgvoip:=[libcxx=]
 	media-libs/openal:=
 	media-libs/opus:=
-	>=media-libs/rlottie-0_pre20190818:=[module,threads,telegram-patches]
+	>=media-libs/rlottie-0_pre20190818:=[libcxx=,module,threads,telegram-patches]
 	media-video/ffmpeg:=
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
-	networkmanager? ( dev-qt/qtnetwork[networkmanager] )
 	openal-eff? ( >=media-libs/openal-1.19.1:= )
 	spell? ( app-text/enchant )
 	sys-libs/zlib:=[minizip]
