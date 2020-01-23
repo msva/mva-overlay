@@ -1,0 +1,6 @@
+*telegram-desktop-1.9.3-r1 (23 Jan 2020)
+
+  23 Jan 2020;  <stefan@gentoo.org> +telegram-desktop-1.9.3-r1.ebuild,
+  -telegram-desktop-1.9.3.ebuild:
+  net-im/telegram-desktop: dev-qt/*[xcb -> X]  Closes:
+  https://github.com/msva/mva-overlay/issues/136

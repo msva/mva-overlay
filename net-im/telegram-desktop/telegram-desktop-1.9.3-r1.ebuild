@@ -64,9 +64,15 @@ COMMON_DEPEND="
 	dev-libs/xxhash:=
 	dev-qt/qtcore:5=
 	dev-qt/qtdbus:5=
-	dev-qt/qtgui:5=[ibus=,xcb,jpeg,png]
+	|| (
+		dev-qt/qtgui:5[ibus=,jpeg,png,X(-)]
+		dev-qt/qtgui:5[ibus=,jpeg,png,xcb(-)]
+	)
 	dev-qt/qtnetwork:5=[connman=,networkmanager=]
-	dev-qt/qtwidgets:5=[xcb,png]
+	|| (
+		dev-qt/qtwidgets:5[png,X(-)]
+		dev-qt/qtwidgets:5[png,xcb(-)]
+	)
 	dev-qt/qtimageformats:5=
 	gnome? (
 		x11-themes/QGnomePlatform
