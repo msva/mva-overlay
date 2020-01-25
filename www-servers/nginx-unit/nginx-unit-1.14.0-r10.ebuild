@@ -3,19 +3,19 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{5,6,7} pypy{,3} )
+PYTHON_COMPAT=( python2_7 python3_{6,7,8} pypy{,3} )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby24 ruby25 ruby26"
+USE_RUBY="ruby24 ruby25 ruby26 ruby27"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-1 php7-2 php7-3 php7-4"
+USE_PHP="php7-2 php7-3 php7-4"
 
-inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic
+inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches
 
 DESCRIPTION="Dynamic web and application server"
 HOMEPAGE="https://unit.nginx.org/"
@@ -53,11 +53,6 @@ DEPEND="
 RDEPEND="${DEPEND}"
 S="${WORKDIR}/${MY_P}"
 
-PATCHES=(
-	"${FILESDIR}/auto-make.patch"
-	"${FILESDIR}/auto-os-conf.patch"
-)
-
 src_unpack() {
 	# prevent ruby-ng
 	default
@@ -67,7 +62,8 @@ src_prepare() {
 	sed -r \
 		-e 's@-Werror@@g' \
 		-i auto/cc/test
-	default
+	patches_src_prepare
+#	default
 	tc-env_build
 }
 
