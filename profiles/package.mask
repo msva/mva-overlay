@@ -107,4 +107,4 @@ dev-java/gradle
 net-im/keywee
 
 # Splitted NgX (non-static). Not ready yet.
-=www-servers/nginx-1.17.5-r100
+=www-servers/nginx-1.17.8-r100
