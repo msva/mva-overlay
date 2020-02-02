@@ -6,10 +6,18 @@
     <name>Fonts</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">larsenwork/monoid</remote-id>
+    <remote-id type="github">be5invis/Iosevka</remote-id>
   </upstream>
   <use>
+    <flag name="cc">DEPRECATED "CC" seriaes font packages, intended to be width-compatible with legacy East Asian fonts from Iosevka 2.x</flag>
+    <flag name="iosevka_shape_curly">Letters like k, x, v, A, R will have curly leg shapes.</flag>
+    <flag name="iosevka_shape_slab">Letters will contain slab serif.</flag>
+    <flag name="iosevka_spacing_term">Exact monospaced font variants without ligatures and full-width glyphs.</flag>
+    <flag name="iosevka_spacing_term-lig">Exact monospaced font variants with ligatures (yet without full-width glyphs).</flag>
+    <flag name="iosevka_spacing_type">Almost the same as default variant, but more mathematical symbols are wider.</flag>
+    <flag name="quasi-prop">Quasi-proportional families: Aile, Etoile (slab-serif), Sparkle (like iA Writer's Duo)</flag>
+    <flag name="ss">Install additional prebuilt stilyzed families: ss01 = like Andale Mono, ss02 = like Anonymous Pro, ss03 = like, Consolas ss04 = like Menlo, ss05 = like Fira Mono, ss06 = like Liberation Mono, ss07 = like Monaco, ss08 = like Pragmata Pro, ss09 = like Source Code Pro, ss10 = like Envy Code R, ss11 = like X Windows Fixed", ss12 = like Ubuntu Mono. See: https://git.io/iosevka-stylesets . Currently, only suported by &quot;non-live&quot; ebuilds</flag>
+    <flag name="ttc">Use bundled TTC packages, that contain combined files for 01-08 (non-curly) series, with less footprint, instead of default "cropped" packages. Initially they are made for the Windows and Mac, but you may want to use them too</flag>
     <flag name="web">Build (9999) or install (non-live) web versions (woff) of the font (and it's variants)</flag>
-    <flag name="ss">Install additional prebuilt stilyzed families: ss01 = like Andale Mono ss02 = like Anonymous Pro ss03 = like Consolas ss04 = like Menlo ss05 = like Fira Mono ss06 = like Liberation Mono ss07 = like Monaco ss08 = like Pragmata Pro ss09 = like Source Code Pro ss10 = like Envy Code R ss11 = like X Windows Fixed See: https://git.io/iosevka-stylesets Currently, only suported by &quot;non-live&quot; ebuilds</flag>
   </use>
 </pkgmetadata>
