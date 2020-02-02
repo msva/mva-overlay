@@ -875,6 +875,7 @@ CDEPEND="
 				)
 			)
 		)
+		dev-lua/resty-core
 	)
 	nginx_modules_http_lua? (
 		|| (
@@ -892,6 +893,7 @@ CDEPEND="
 				)
 			)
 		)
+		dev-lua/resty-core
 	)
 	nginx_modules_http_python? ( dev-lang/python:2.7 )
 	nginx_modules_stream_python? ( dev-lang/python:2.7 )
