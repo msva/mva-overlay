@@ -65,7 +65,7 @@ COMMON_DEPEND="
 	|| (
 		dev-qt/qtgui:5=[ibus=,X(-),jpeg,png]
 		dev-qt/qtgui:5=[ibus=,xcb(-),jpeg,png]
-	))
+	)
 	dev-qt/qtnetwork:5=[connman=,networkmanager=]
 	|| (
 		dev-qt/qtwidgets:5=[X(-),png]
