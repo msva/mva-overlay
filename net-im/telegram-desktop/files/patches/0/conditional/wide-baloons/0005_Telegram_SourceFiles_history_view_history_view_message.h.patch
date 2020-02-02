@@ -8,9 +8,9 @@ index 149b7db30..05479137e 100644
  	int infoWidth() const override;
 +	int plainMaxWidth() const override;
  
- protected:
- 	void refreshDataIdHook() override;
-@@ -146,7 +147,6 @@ private:
+ 	VerticalRepaintRange verticalRepaintRange() const override;
+ 
+@@ -148,7 +149,6 @@ private:
  	HistoryMessageEdited *displayedEditBadge();
  	void initTime();
  	int timeLeft() const;

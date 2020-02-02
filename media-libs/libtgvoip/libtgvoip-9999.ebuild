@@ -7,10 +7,11 @@ CMAKE_MIN_VERSION="3.14.0"
 inherit toolchain-funcs flag-o-matic cmake-utils patches
 
 if [[ "${PV}" == 9999 ]]; then
-	EGIT_REPO_URI="https://github.com/grishka/${PN}"
+#	EGIT_REPO_URI="https://github.com/grishka/${PN}"
+	EGIT_REPO_URI="https://github.com/telegramdesktop/${PN}"
 	inherit git-r3
 else
-	SRC_URI="https://github.com/grishka/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	# ~mips
 	# ^ pulseaudio

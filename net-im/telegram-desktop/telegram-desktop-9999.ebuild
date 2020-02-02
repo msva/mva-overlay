@@ -31,7 +31,7 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus kde libcxx libressl +networkmanager +openal-eff plasma qt5ct +spell test wide-baloons"
+IUSE="crash-report connman custom-api-id debug gnome +gtk2 gtk3 gtk-file-dialog ibus libcxx libressl +networkmanager +openal-eff qt5ct +spell test wide-baloons"
 # mostly (with some exceptions), `+`'es (USE-flag soft-forcing) here to provide upstream defaults.
 # ^ `crash-report` is upstream default, but I don't `+` it since it needs some work to move from bundled breakpad to system-wide. // also, privacy
 # ^ `lto`, actually, is also upstream default, but it produces broken binary for me, so I don't `+` it here.
@@ -48,9 +48,7 @@ REQUIRED_USE="
 		)
 	)
 	gtk2? ( !gtk3 )
-	gnome? ( gtk3 )
-	plasma? ( !gtk2 !gtk3 !gnome !gtk-file-dialog !qt5ct )
-	kde? ( !gtk2 !gtk3 !gnome !gtk-file-dialog !qt5ct )
+	gnome? ( gtk3 gtk-file-dialog )
 "
 
 COMMON_DEPEND="
@@ -58,20 +56,19 @@ COMMON_DEPEND="
 	app-arch/xz-utils:=
 	crash-report? ( dev-util/google-breakpad:= )
 	>dev-cpp/ms-gsl-2.0.0:=
-	>=dev-cpp/range-v3-0.9.1:=
+	>=dev-cpp/range-v3-0.10.0:=
 	dev-cpp/variant:=
 	dev-libs/rapidjson:=
 	dev-libs/xxhash:=
 	dev-qt/qtcore:5=
 	dev-qt/qtdbus:5=
-	dev-qt/qtgui:5=[ibus=,xcb,jpeg,png]
+	dev-qt/qtgui:5=[ibus=,X,jpeg,png]
 	dev-qt/qtnetwork:5=[connman=,networkmanager=]
-	dev-qt/qtwidgets:5=[xcb,png]
+	dev-qt/qtwidgets:5=[X,png]
 	dev-qt/qtimageformats:5=
 	gnome? (
 		x11-themes/QGnomePlatform
 		gnome-base/gsettings-desktop-schemas
-		dev-qt/qtwidgets[gtk]
 	)
 	gtk2? (
 		x11-libs/gtk+:2
@@ -154,7 +151,7 @@ pkg_pretend() {
 		eerror ""
 		eerror "Alternate way is to manually remove cached entries for 'bad' PCHs from ccache dir, but this way is fragile and not guaranteed to work."
 		eerror "Running this command **before** emergeing ${PN} helps me, but it may require adding another entries for you:"
-		eerror "    #  grep -rEl '(Telegram|lib_(spellcheck|ui)).dir.*pch:' ${CCACHE_DIR:-/var/tmp/portage/.ccache} | sed -r 's@(.*)\.d\$@\1.d \1.o@' | xargs -r rm"
+		eerror "    #  grep -rEl '(Telegram|lib_(export|spellcheck|ui)).dir.*pch:' ${CCACHE_DIR:-/var/tmp/portage/.ccache} | sed -r 's@(.*)\.d\$@\1.d \1.o@' | xargs -r rm"
 		eerror ""
 		eerror "You have been warned!"
 		eerror ""
@@ -173,6 +170,10 @@ pkg_pretend() {
 
 	if use libcxx; then
 		append-cxxflags "-stdlib=libc++"
+		if use gtk2; then
+			eerror "There is an issue reported by user, who faced a segfaults with ${PN} built with both libcxx and gtk2 flags at the same time."
+			eerror "Please, consider moving to GTK-3, or build at your own risk."
+		fi
 	fi
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
 		if ! tc-is-clang; then
@@ -185,20 +186,6 @@ pkg_pretend() {
 
 src_prepare() {
 	cp -r "${FILESDIR}/cmake" "${S}" || die
-
-	if use gnome; then
-		sed -i \
-			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "gnome", true)@' \
-			Telegram/SourceFiles/core/launcher.cpp
-	elif use gtk3; then
-		sed -i \
-			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "gtk3", true)@' \
-			Telegram/SourceFiles/core/launcher.cpp
-	elif use qt5ct; then
-		sed -i \
-			-e '/QT_QPA_PLATFORMTHEME/s@unsetenv.*$@setenv("QT_QPA_PLATFORMTHEME", "qt5ct", true)@' \
-			Telegram/SourceFiles/core/launcher.cpp
-	fi
 
 	sed -i \
 		-e "$(usex networkmanager '/QNetworkManagerEnginePlugin/s@^#@@' '')" \
@@ -252,7 +239,7 @@ src_prepare() {
 
 	sed -i \
 		-e '/external_crash_reports/d' \
-		Telegram/lib_base/CMakeLists.txt || die
+		Telegram/lib_base/CMakeLists.txt Telegram/CMakeLists.txt || die
 
 	sed -i \
 		-e '/LINK_SEARCH_START_STATIC/s@1@0@' \
@@ -356,6 +343,12 @@ pkg_preinst() {
 pkg_postinst() {
 	xdg_pkg_postinst
 	xdg_icon_cache_update
+
+	if use gnome || use qt5ct; then
+		local pt_dir="/usr/$(get_libdir)/qt5/plugins/platformthemes/"
+		einfo 'In case of any "theming" issues, try to play with the values of'
+		einfo "QT_QPA_PLATFORMTHEME variable (available values depends on contents of ${pt_dir})"
+	fi
 }
 
 pkg_postrm() {

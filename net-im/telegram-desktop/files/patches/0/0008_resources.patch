@@ -1,50 +1,3 @@
-diff --git a/Telegram/SourceFiles/core/file_utilities.cpp b/Telegram/SourceFiles/core/file_utilities.cpp
-index a90ee52b9..4a7532fbe 100644
---- a/Telegram/SourceFiles/core/file_utilities.cpp
-+++ b/Telegram/SourceFiles/core/file_utilities.cpp
-@@ -16,6 +16,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
- 
- #include <QtWidgets/QFileDialog>
- #include <QtCore/QCoreApplication>
-+#include <QtCore/QResource>
- #include <QtCore/QStandardPaths>
- #include <QtGui/QDesktopServices>
- 
-@@ -355,3 +356,20 @@ bool GetDefault(
- 
- } // namespace internal
- } // namespace FileDialog
-+
-+void Resources::LoadAllData() {
-+#ifdef TDESKTOP_USE_PACKED_RESOURCES
-+	// Load resources packed into a separated file
-+	QStringList paths;
-+#ifdef _DEBUG
-+	paths += cExeDir();
-+#endif
-+	paths += QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
-+	for (QString directory : paths) {
-+		if (QResource::registerResource(directory + qsl("/tresources.rcc"))) {
-+			return;  // found
-+		}
-+	}
-+	qFatal("Packed resources not found");
-+#endif
-+}
-diff --git a/Telegram/SourceFiles/core/file_utilities.h b/Telegram/SourceFiles/core/file_utilities.h
-index 8e25f691e..2dff2d230 100644
---- a/Telegram/SourceFiles/core/file_utilities.h
-+++ b/Telegram/SourceFiles/core/file_utilities.h
-@@ -105,3 +105,9 @@ bool GetDefault(
- 
- } // namespace internal
- } // namespace FileDialog
-+
-+namespace Resources {
-+
-+void LoadAllData();
-+
-+} // namespace Resources
 diff --git a/Telegram/SourceFiles/core/launcher.cpp b/Telegram/SourceFiles/core/launcher.cpp
 index 25473426f..bb4c7d425 100644
 --- a/Telegram/SourceFiles/core/launcher.cpp
@@ -57,15 +10,7 @@ index 25473426f..bb4c7d425 100644
  #include "core/update_checker.h"
  #include "core/sandbox.h"
  #include "base/concurrent_timer.h"
-@@ -247,6 +248,7 @@ void Launcher::init() {
- 	prepareSettings();
- 
- 	QApplication::setApplicationName(qsl("TelegramDesktop"));
-+	Resources::LoadAllData(); // should be called after setting an application name
- 
- #ifdef TDESKTOP_LAUNCHER_FILENAME
- #define TDESKTOP_LAUNCHER_FILENAME_TO_STRING_HELPER(V) #V
-@@ -278,6 +280,14 @@ int Launcher::exec() {
+@@ -278,6 +276,12 @@ int Launcher::exec() {
  	Platform::start();
  	Ui::DisableCustomScaling();
  
@@ -74,44 +19,7 @@ index 25473426f..bb4c7d425 100644
 +#else
 +	QCoreApplication::addLibraryPath("/usr/lib/qt5/plugins");
 +#endif
-+//	setenv("QT_STYLE_OVERRIDE", "qwerty", false); // maybe, unneeded anymore?
-+	unsetenv("QT_QPA_PLATFORMTHEME");
 +
  	auto result = executeApplication();
  
  	DEBUG_LOG(("Telegram finished, result: %1").arg(result));
-diff --git a/Telegram/lib_ui/ui/style/style_core_font.cpp b/Telegram/lib_ui/ui/style/style_core_font.cpp
-index cfe2111..cd80277 100644
---- a/Telegram/lib_ui/ui/style/style_core_font.cpp
-+++ b/Telegram/lib_ui/ui/style/style_core_font.cpp
-@@ -14,16 +14,16 @@
- #include <QtGui/QFontInfo>
- #include <QtGui/QFontDatabase>
- 
-+#ifndef TDESKTOP_USE_PACKED_RESOURCES
- void style_InitFontsResource() {
- 	Q_INIT_RESOURCE(fonts);
- #ifdef Q_OS_WIN
- 	Q_INIT_RESOURCE(win);
- #elif defined Q_OS_MAC // Q_OS_WIN
- 	Q_INIT_RESOURCE(mac);
--#else // Q_OS_WIN || Q_OS_MAC
--	Q_INIT_RESOURCE(linux);
- #endif // Q_OS_WIN || Q_OS_MAC || Q_OS_LINUX
- }
-+#endif
- 
- namespace style {
- namespace internal {
-@@ -128,9 +128,9 @@ void StartFonts() {
- 		return;
- 	}
- 	Started = true;
--
-+#ifndef TDESKTOP_USE_PACKED_RESOURCES
- 	style_InitFontsResource();
--
-+#endif
- 	bool areGood[FontTypesCount] = { false };
- 	for (auto i = 0; i != FontTypesCount; ++i) {
- 		const auto name = FontTypeNames[i];
