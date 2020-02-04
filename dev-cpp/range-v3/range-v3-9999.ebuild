@@ -1,34 +1,35 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit cmake-utils git-r3
+inherit cmake git-r3
 
-DESCRIPTION="Experimental range library for C++11/14/17"
+DESCRIPTION="Range library for C++14/17/20, basis for C++20's std::ranges"
 HOMEPAGE="https://github.com/ericniebler/range-v3"
 EGIT_REPO_URI="https://github.com/ericniebler/range-v3"
-if [[ "${PV}" -lt 9999 ]]; then
-	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
-	EGIT_COMMIT="${PV}"
-fi
+#SRC_URI="https://github.com/ericniebler/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Boost-1.0"
 SLOT="0"
-IUSE="examples test"
+KEYWORDS=""
+IUSE=""
 
-RDEPEND=""
-DEPEND="${RDEPEND}"
+src_prepare() {
+	sed -i -e '/Werror/d' -e '/Wextra/d' -e '/Wall/d' cmake/ranges_flags.cmake || die
+	sed -i -e "s@lib/cmake@"$(get_libdir)"/cmake@g" CMakeLists.txt || die
+	cmake_src_prepare
+}
 
 src_configure() {
-	local mycmakeargs=(
-		-DRANGE_V3_TESTS=$(usex test)
-		-DRANGE_V3_EXAMPLES=$(usex examples)
-		-DRANGES_MODULES=yes
-		#-DRANGES_ASAN=yes # Address Sanitizer
-		#-DRANGES_MSAN=yes # Memory Sanitizer
-		-DRANGE_V3_PERF=no
+	mycmakeargs=(
+		-DRANGE_V3_EXAMPLES=OFF
+		-DRANGE_V3_HEADER_CHECKS=OFF
+		-DRANGE_V3_PERF=OFF
+		-DRANGE_V3_TESTS=OFF
+		-DRANGES_BUILD_CALENDAR_EXAMPLE=OFF
+		-DRANGES_NATIVE=OFF
+		#TODO: clang support + -DRANGES_MODULES=yes
 	)
-	# maybe "if building with clang then" -DRANGES_LLVM_POLLY=yes
-	cmake-utils_src_configure
+	cmake_src_configure
 }
