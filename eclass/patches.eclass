@@ -59,8 +59,9 @@ patches_src_prepare() {
 		fi
 	done
 	if declare -f cmake-utils_src_prepare &>/dev/null; then
-		# cmake-utils_src_prepare support (to decrease kludges in the ebuilds)
 		cmake-utils_src_prepare
+	elif declare -f cmake_src_prepare &>/dev/null; then
+		cmake_src_prepare
 	else
 		default_src_prepare
 	fi

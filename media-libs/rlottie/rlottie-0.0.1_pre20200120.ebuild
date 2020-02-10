@@ -5,13 +5,13 @@ EAPI=7
 
 inherit meson toolchain-funcs flag-o-matic patches
 
-MY_SHA="a718c7e2dfd7d292324ca50d596b02b786299252"
+MY_SHA="ee86b0dc56a6bb6284a721fd505930f1ba566e50"
 
 DESCRIPTION="A platform independent standalone library that plays Lottie Animation"
 HOMEPAGE="https://github.com/Samsung/rlottie"
 LICENSE="LGPL-2.1 FTL MIT"
 SLOT="0"
-IUSE="+cache dumptree libcxx log +module telegram-patches +threads"
+IUSE="cache dumptree libcxx log module +threads"
 
 if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
@@ -52,6 +52,7 @@ src_configure() {
 		$(meson_use module)
 		$(meson_use log)
 		$(meson_use dumptree)
+		# -Dcmake=true # Broken anyway
 		-Dexample=false # requires EFL
 	)
 	meson_src_configure

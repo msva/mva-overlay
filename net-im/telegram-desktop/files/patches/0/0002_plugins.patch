@@ -2,14 +2,6 @@ diff --git a/Telegram/SourceFiles/core/launcher.cpp b/Telegram/SourceFiles/core/
 index 25473426f..bb4c7d425 100644
 --- a/Telegram/SourceFiles/core/launcher.cpp
 +++ b/Telegram/SourceFiles/core/launcher.cpp
-@@ -13,6 +13,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
- #include "ui/main_queue_processor.h"
- #include "ui/ui_utility.h"
- #include "core/crash_reports.h"
-+#include "core/file_utilities.h"
- #include "core/update_checker.h"
- #include "core/sandbox.h"
- #include "base/concurrent_timer.h"
 @@ -278,6 +276,12 @@ int Launcher::exec() {
  	Platform::start();
  	Ui::DisableCustomScaling();

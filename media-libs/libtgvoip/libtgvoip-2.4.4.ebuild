@@ -3,11 +3,9 @@
 
 EAPI=7
 
-CMAKE_MIN_VERSION="3.14.0"
-inherit toolchain-funcs flag-o-matic cmake-utils patches
+inherit toolchain-funcs flag-o-matic autotools patches
 
 if [[ "${PV}" == 9999 ]]; then
-#	EGIT_REPO_URI="https://github.com/grishka/${PN}"
 	EGIT_REPO_URI="https://github.com/telegramdesktop/${PN}"
 	inherit git-r3
 else
@@ -55,16 +53,18 @@ pkg_pretend() {
 }
 
 src_prepare() {
-	cp "${FILESDIR}/cmake/libtgvoip.cmake" "${S}/CMakeLists.txt"
-	cp "${FILESDIR}/cmake/libtgvoip-webrtc.cmake" "${S}/webrtc_dsp/CMakeLists.txt"
+	sed -i -r \
+		-e "/tgvoipincludedir/s@^@libtgvoip_la_LIBTOOLFLAGS = --tag=CXX\n@" \
+		Makefile.am
+
 	patches_src_prepare
+	eautoreconf
 }
 
 src_configure() {
-	local mycmakeargs=(
-		-DENABLE_ALSA=$(usex alsa ON OFF)
-		-DENABLE_PULSEAUDIO=$(usex pulseaudio ON OFF)
-		-DBUILD_STATIC_LIBRARY=$(usex static-libs ON OFF)
-	)
-	cmake-utils_src_configure
+	econf \
+		$(usex alsa '' '--without-alsa') \
+		$(usex pulseaudio '' '--without-pulse') \
+		--enable-dsp \
+		--enable-audio-callback
 }

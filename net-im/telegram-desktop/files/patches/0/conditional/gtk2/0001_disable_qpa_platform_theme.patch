@@ -1,0 +1,15 @@
+Description: Forced reset platform theme
+ The app crashes if Gtk2 platform theme is in use. This patch avoids
+ conflicts with built-in GTK integration.
+Author: Nicholas Guriev <guriev-ns@ya.ru>
+Last-Updated: Sun, 09 Feb 2020 20:40:07 +0300
+--- a/Telegram/SourceFiles/platform/linux/specific_linux.cpp
++++ b/Telegram/SourceFiles/platform/linux/specific_linux.cpp
+@@ -249,6 +249,7 @@ int psFixPrevious() {
+ namespace Platform {
+ 
+ void start() {
++	unsetenv("QT_QPA_PLATFORMTHEME");
+ 	FallbackFontConfig();
+ }
+ 
