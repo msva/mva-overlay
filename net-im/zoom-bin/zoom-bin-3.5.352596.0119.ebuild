@@ -1,9 +1,9 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-inherit unpacker eutils
+inherit desktop
 
 MY_PN=zoom
 
@@ -18,7 +18,7 @@ LICENSE="all-rights-reserved"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-RESTRICT="mirror"
+RESTRICT="mirror strip"
 
 IUSE="pulseaudio gstreamer"
 
@@ -26,21 +26,28 @@ DEPEND=""
 RDEPEND="${DEPEND}
 	pulseaudio? ( media-sound/pulseaudio )
 	gstreamer? ( media-libs/gst-plugins-base )
-	dev-db/sqlite
-	dev-db/unixODBC
-	dev-libs/glib
-	dev-libs/nss
-	dev-libs/libxslt
-	dev-libs/quazip
-	dev-qt/qtmultimedia
-	dev-qt/qtwebengine
-	dev-qt/qtsvg
-	media-libs/fontconfig
-	media-libs/mesa
-	x11-libs/libxcb
-	x11-libs/libXcomposite
-	x11-libs/libXi
-	x11-libs/libXrender
+	dev-libs/glib:2
+	dev-qt/qtcore:5
+	dev-qt/qtdbus:5
+	dev-qt/qtdeclarative:5
+	dev-qt/qtgui:5
+	dev-qt/qtnetwork:5
+	dev-qt/qtpositioning:5
+	dev-qt/qtprintsupport:5
+	dev-qt/qtscript:5
+	dev-qt/qtwebchannel:5
+	dev-qt/qtwebengine:5
+	dev-qt/qtwidgets:5
+	media-libs/mesa:0
+	sys-apps/dbus:0
+	sys-apps/util-linux:0
+	x11-libs/libX11:0
+	x11-libs/libxcb:0
+	x11-libs/libXext:0
+	x11-libs/libXfixes:0
+	x11-libs/libXtst:0
+	x11-libs/xcb-util-image:0
+	x11-libs/xcb-util-keysyms:0
 "
 
 S="${WORKDIR}/${MY_PN}"
