@@ -25,77 +25,70 @@ if [[ "${PV}" == 9999 ]]; then
 else
 	# TODO: tarballs
 	EGIT_COMMIT="v${PV}"
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="~amd64"
+	# ~ppc64 # blocked by clang, expected, variant and so on. Although, proven to build (with gcc) and work by @gyakovlev
+	# ~x86
+	# ~arm ~arm64
+	# ~mipsel
+	# (blocked by dev-cpp/range, that have only "~amd64 ~ppc64" ATM, and I've no time to prove the build on others)
 fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id debug gnome gtk2 gtk3 gtk-file-dialog libcxx libressl kde qt5ct spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test wide-baloons"
+IUSE="custom-api-id dbus debug gtk2 gtk3 force-gtk-file-dialog libcxx libressl spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test wide-baloons"
 
 REQUIRED_USE="
-	gtk2? ( gtk-file-dialog )
-	gnome? ( gtk3 )
+	gtk3? ( !gtk2 )
 "
 
 COMMON_DEPEND="
 	app-arch/lz4:=
 	app-arch/xz-utils:=
 	>=dev-cpp/range-v3-0.10.0:=
-	dev-libs/libdbusmenu-qt
-	dev-libs/rapidjson:=
+	dbus? ( dev-libs/libdbusmenu-qt:= )
 	dev-libs/xxhash:=
 	dev-qt/qtcore:5=
 	dev-qt/qtdbus:5=
+	dev-qt/qtgui:5=[jpeg,png]
 	|| (
-		dev-qt/qtgui:5=[X(-),jpeg,png]
-		dev-qt/qtgui:5=[xcb(-),jpeg,png]
+		dev-qt/qtgui:5[X(-)]
+		dev-qt/qtgui:5[xcb(-)]
 	)
 	dev-qt/qtnetwork:5=
+	dev-qt/qtwidgets:5=[png]
 	|| (
-		dev-qt/qtwidgets:5=[X(-),png]
-		dev-qt/qtwidgets:5=[xcb(-),png]
+		dev-qt/qtwidgets:5[X(-)]
+		dev-qt/qtwidgets:5[xcb(-)]
 	)
 	dev-qt/qtimageformats:5=
-	gnome? (
-		x11-themes/QGnomePlatform
-		gnome-base/gsettings-desktop-schemas
-	)
 	gtk2? (
-		x11-libs/gtk+:2
-		dev-libs/libappindicator:2
+		x11-libs/gtk+:2=
 	)
 	gtk3? (
-		x11-libs/gtk+:3
-		dev-libs/libappindicator:3
-		dev-qt/qtwidgets[gtk]
-		gnome-base/xdg-desktop-portal-gtk
+		x11-libs/gtk+:3=
+		dev-qt/qtwidgets:5=[gtk]
 	)
-	kde? ( sys-apps/xdg-desktop-portal-kde )
 	libcxx? (
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
 	)
 	libressl? ( dev-libs/libressl:= )
 	!libressl? ( dev-libs/openssl:0= )
-	media-libs/libexif
 	media-libs/openal:=
-	media-libs/opus:=
 	media-video/ffmpeg:=[opus]
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
-	qt5ct? ( x11-misc/qt5ct )
-	sys-apps/xdg-desktop-portal
 	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
 	system-expected? ( >=dev-cpp/tl-expected-1.0.0:= )
-	system-fonts? ( media-fonts/open-sans )
+	system-fonts? ( media-fonts/open-sans:* )
 	system-variant? ( dev-cpp/variant:= )
 	system-libtgvoip? ( media-libs/libtgvoip:=[libcxx=] )
 	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads,-cache] )
-	spell? ( app-text/enchant )
+	spell? ( app-text/enchant:= )
 	sys-libs/zlib:=[minizip]
 	x11-libs/libdrm:=
 	x11-libs/libva:=[X,drm]
-	x11-libs/libxkbcommon
+	x11-libs/libxkbcommon:=
 	x11-libs/libX11:=
 "
 
@@ -114,6 +107,8 @@ BDEPEND="
 	test? ( dev-cpp/catch )
 	virtual/pkgconfig
 "
+# ^^^ TODO: gcc-10 supports C++20, so range-v3 would not be needed anymore.
+# Opposite is true too: dropping range-v3 will bump minimum compatible GCC version to 10.0
 
 pkg_pretend() {
 	if use custom-api-id; then
@@ -128,7 +123,7 @@ pkg_pretend() {
 			eerror "- /etc/portage/make.conf (globally, so all applications you'll build will see that ID and HASH"
 			eerror "- /etc/portage/env/${CATEGORY}/${PN} (privately for this package builds)"
 			eerror ""
-			die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables if you want custom-api-id USE-flag"
+			die "You should correctly set both MY_TDESKTOP_API_ID and MY_TDESKTOP_API_HASH variables if you want custom-api-id USE-flag"
 		fi
 	fi
 
@@ -157,12 +152,13 @@ pkg_pretend() {
 
 	if get-flag -flto >/dev/null; then
 		eerror ""
-		eerror "Somewhy enabling LTO leads to a broken binary (it starts, but don't render the UI). At least, with clang-9."
-		eerror "You're free to experiment, but keep in mind that it eats about ~20G RAM."
-		eerror ""
-		eerror "You have been warned!"
-		eerror ""
-		eerror "P.S. Please, let me (mva) know if you'll get it to work"
+		eerror "Keep in mind, that LTO build eats about ~20G RAM for buildind, and final binary size will be about 2.5G."
+		if tc-is-clang; then
+			eerror ""
+			eerror "Qt5 is incompatible with LTO builds using clang at this moment."
+			eerror "Ref: https://bugreports.qt.io/browse/QTBUG-61710"
+			die "Please, read the error above."
+		fi
 	fi
 
 	if use libcxx; then
@@ -184,15 +180,16 @@ pkg_pretend() {
 		ewarn "      That means, for example, that 'giant animated emojis' will ignore skin-tone colors and will always be yellow"
 		ewarn "      Ref: https://github.com/Samsung/rlottie/pull/252"
 		ewarn "  - Crashes on some stickerpacks"
-		ewarn "      Probably related: to https://github.com/Samsung/rlottie/pull/262"
+		ewarn "      Probably related to: https://github.com/Samsung/rlottie/pull/262"
 	fi
 }
 
 src_unpack() {
+	use spell && EGIT_SUBMODULES+=(-Telegram/lib_spellcheck)
 	use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
 	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
-	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/ThirdParty/{lib_rlottie,rlottie})
+	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
 	use system-variant && EGIT_SUBMODULES+=(-Telegram/ThirdParty/variant)
 
 	git-r3_src_unpack
@@ -208,7 +205,7 @@ src_prepare() {
 		cmake/options_linux.cmake || die
 #		echo > cmake/options_linux.cmake
 #		^ Maybe just wipe it out instead of trying to fix?
-#		^ There is not so mush useful compiler flags, actually.
+#		^ There are not so mush useful compiler flags, actually.
 
 	patches_src_prepare
 #	cmake_src_prepare
@@ -226,7 +223,7 @@ src_configure() {
 	local mycmakeargs=(
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 
-		# Upstreap does not need crash reports from custom builds anyway
+		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
 
 		-DDESKTOP_APP_DISABLE_SPELLCHECK=$(usex spell OFF ON)
@@ -238,29 +235,25 @@ src_configure() {
 		-DDESKTOP_APP_USE_PACKAGED_GSL=$(usex system-gsl ON OFF)           # Header-only library. Not so much profit on unbundling it (app anyway needs rebuild after it's upgrade)
 		-DDESKTOP_APP_USE_PACKAGED_EXPECTED=$(usex system-expected ON OFF) # Same as above ^
 		-DDESKTOP_APP_USE_PACKAGED_VARIANT=$(usex system-variant ON OFF)   # Same as above ^
-#		-DDESKTOP_APP_USE_PACKAGED_QRCODE=$(usex system-qrcode ON OFF)     # Not packaged in gentoo yet. Waiting for libreoffice team to unbundle it.
+#		-DDESKTOP_APP_USE_PACKAGED_QRCODE=$(usex system-qrcode ON OFF)     # Not yet packaged in gentoo. Waiting for libreoffice team to unbundle it.
 		-DDESKTOP_APP_USE_PACKAGED_FONTS=$(usex system-fonts ON OFF)       # Use system fonts.
 
 		-DTDESKTOP_USE_PACKAGED_TGVOIP=$(usex system-libtgvoip ON OFF)     # Stable ABI? Never heard of it!
 
 		-DTDESKTOP_DISABLE_GTK_INTEGRATION="$(usex gtk3 OFF $(usex gtk2 OFF ON))"
-		-DTDESKTOP_FORCE_GTK_FILE_DIALOG=$(usex gtk-file-dialog ON OFF)
+		-DTDESKTOP_FORCE_GTK_FILE_DIALOG=$(usex force-gtk-file-dialog ON OFF)
+
+		-TDESKTOP_DISABLE_DBUS_INTEGRATION=$(usex dbus OFF ON)
+
 		-DTDESKTOP_API_TEST=$(usex test ON OFF)
 
-# Debian API keys (we're used to use them previously):
-# Ref: https://github.com/telegramdesktop/tdesktop/issues/4717#issuecomment-438152135
-# Ref: https://salsa.debian.org/debian/telegram-desktop/blob/debian/master/debian/patches/Debian-API-ID.patch#L16
-#		-DTDESKTOP_API_ID=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_ID}" "50322")
-#		-DTDESKTOP_API_HASH=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_HASH}" "9ff1a639196c0779c86dd661af8522ba")
-
 # Snapcraft (snap, flatpack, whatever) API keys:
-# As of my discussion with Josh Preston, he specifically asked TG servers owners to never ban snap's keys:
+# As of my discussion with John Preston, he specifically asked TG servers owners to never ban snap's keys:
 # TODO: (!!!!!!!) Ask Gentoo Council (or whatever) to get "official" Gentoo keys.
 		-DTDESKTOP_API_ID=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_ID}" "611335")
 		-DTDESKTOP_API_HASH=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_HASH}" "d524b414d21f4d37f08684c1df41ac9c")
 
 #		-DDESKTOP_APP_LOTTIE_USE_CACHE=NO # in case of caching bugs. Maybe also useful with system-rlottie[cache]. TODO: test that idea.
-
 	)
 	cmake_src_configure
 }
@@ -286,12 +279,6 @@ pkg_preinst() {
 pkg_postinst() {
 	xdg_pkg_postinst
 	xdg_icon_cache_update
-
-	if use gnome || use qt5ct; then
-		local pt_dir="/usr/$(get_libdir)/qt5/plugins/platformthemes/"
-		einfo 'In case of any "theming" issues, try to play with the values of'
-		einfo "QT_QPA_PLATFORMTHEME variable (available values depends on contents of ${pt_dir})"
-	fi
 }
 
 pkg_postrm() {

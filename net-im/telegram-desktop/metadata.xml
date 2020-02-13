@@ -9,13 +9,11 @@
   <longdescription>Telegram Desktop Client</longdescription>
   <use>
     <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or `/etc/portage/env/{CAT}/{PN}`)</flag>
-    <flag name="gtk-file-dialog">Force GTK file dialog (instead of Qt one)</flag>
-    <flag name="gtk2">Enable gtk+-2 integrations</flag>
-    <flag name="gtk3">Enable gtk+-3 integrations</flag>
-    <flag name="gnome">Enable GNOME integrations</flag>
-    <flag name="kde">Enable KDE integrations</flag>
+    <flag name="dbus">Enable D-Bus integration</flag>
+    <flag name="force-gtk-file-dialog">Force GTK file dialog (instead of letting Qt to decide)</flag>
+    <flag name="gtk2">Force gtk+-2 integration</flag>
+    <flag name="gtk3">Force gtk+-3 integration</flag>
     <flag name="libcxx">Build with <pkg>sys-devel/libcxx</pkg> as sdtlib</flag>
-    <flag name="qt5ct">Enable Qt5ct integrations</flag>
     <flag name="system-gsl">Use system-wide installed <pkg>dev-cpp/ms-gsl</pkg> instead of bundled one</flag>
     <flag name="system-expected">Use system-wide installed <pkg>dev-cpp/tl-expected</pkg> instead of bundled one</flag>
     <flag name="system-fonts">Use system fonts instead of bundled. At least, <pkg>media-fonts/open-sans</pkg> can be installed to have same UX</flag>
