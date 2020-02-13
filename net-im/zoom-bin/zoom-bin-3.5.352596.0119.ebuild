@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit desktop
+inherit desktop eutils
 
 MY_PN=zoom
 
