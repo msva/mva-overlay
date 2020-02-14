@@ -8,8 +8,14 @@ if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/TartanLlama/expected"
 else
-	SRC_URI="https://github.com/TartanLlama/expected/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	if [[ "${PV}" = *_pre* ]]; then
+		MY_PV="1d9c5d8c0da84b8ddc54bd3d90d632eec95c1f13"
+	else
+		MY_PV="v${PV}"
+	fi
+	SRC_URI="https://github.com/TartanLlama/expected/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86 ~arm64 ~arm"
+	S="${WORKDIR}/${PN##tl-}-${MY_PV}"
 fi
 
 DESCRIPTION="Guideline Support Library implementation by Microsoft"
