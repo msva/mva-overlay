@@ -9,10 +9,14 @@ if [[ "${PV}" == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/telegramdesktop/${PN}"
 	inherit git-r3
 else
-	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	if [[ "${PV}" == *_pre* ]]; then
+		MY_SHA="0bda19899e3cedc093d654ee659bd637ee3a775d"
+	fi
+	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${MY_SHA:-${PV}}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	# ~mips
 	# ^ pulseaudio
+	S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
 fi
 
 DESCRIPTION="VoIP library for Telegram clients"
