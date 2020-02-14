@@ -185,7 +185,7 @@ pkg_pretend() {
 }
 
 src_unpack() {
-	use spell && EGIT_SUBMODULES+=(-Telegram/lib_spellcheck)
+	use spell || EGIT_SUBMODULES+=(-Telegram/lib_spellcheck)
 	use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
 	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
