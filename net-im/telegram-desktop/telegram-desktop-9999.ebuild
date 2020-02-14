@@ -79,7 +79,7 @@ COMMON_DEPEND="
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
-	system-expected? ( >=dev-cpp/tl-expected-1.0.0:= )
+	system-expected? ( >dev-cpp/tl-expected-1.0.0:= )
 	system-fonts? ( media-fonts/open-sans:* )
 	system-variant? ( dev-cpp/variant:= )
 	system-libtgvoip? ( media-libs/libtgvoip:=[libcxx=] )
@@ -243,7 +243,7 @@ src_configure() {
 		-DTDESKTOP_DISABLE_GTK_INTEGRATION="$(usex gtk3 OFF $(usex gtk2 OFF ON))"
 		-DTDESKTOP_FORCE_GTK_FILE_DIALOG=$(usex force-gtk-file-dialog ON OFF)
 
-		-TDESKTOP_DISABLE_DBUS_INTEGRATION=$(usex dbus OFF ON)
+		-DTDESKTOP_DISABLE_DBUS_INTEGRATION=$(usex dbus OFF ON)
 
 		-DTDESKTOP_API_TEST=$(usex test ON OFF)
 
