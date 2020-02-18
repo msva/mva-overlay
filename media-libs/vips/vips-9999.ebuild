@@ -1,9 +1,8 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-PYTHON_COMPAT=( python2_7 )
-inherit eutils autotools python-single-r1 multilib-minimal git-r3
+EAPI=7
+inherit eutils autotools multilib-minimal git-r3
 
 DESCRIPTION="VIPS Image Processing Library"
 EGIT_REPO_URI="https://github.com/jcupitt/lib${PN}"
@@ -11,10 +10,10 @@ HOMEPAGE="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS"
 
 RESTRICT="mirror"
 LICENSE="LGPL-2.1"
-SLOT="1"
+SLOT="0"
 KEYWORDS=""
 IUSE="cxx doc debug exif fits fftw graphicsmagick imagemagick jpeg lcms matio openexr openslide
-	+orc png python svg static-libs tiff webp"
+	+orc png svg static-libs tiff webp"
 
 RDEPEND="
 	debug? ( dev-libs/dmalloc )
@@ -36,7 +35,6 @@ RDEPEND="
 	jpeg? ( virtual/jpeg:0= )
 	fits? ( sci-libs/cfitsio )
 	png? ( >=media-libs/libpng-1.2.9:0= )
-	python? ( ${PYTHON_DEPS} )
 	webp? ( media-libs/libwebp )
 	orc? ( >=dev-lang/orc-0.4.11 )
 	openslide? ( media-libs/openslide )
@@ -44,18 +42,10 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	dev-util/gtk-doc-am
-	doc? ( dev-util/gtk-doc )
+	dev-util/gtk-doc
 "
 
-REQUIRED_USE="
-	python? ( ${PYTHON_REQUIRED_USE} )
-"
-
-DOCS=(ChangeLog NEWS THANKS TODO README.md)
-
-pkg_setup() {
-	use python && python-single-r1_pkg_setup
-}
+DOCS=(ChangeLog README.md)
 
 src_prepare() {
 	sed -r \
@@ -94,7 +84,6 @@ multilib_src_configure() {
 		$(use_with fits cfitsio) \
 		$(use_with jpeg) \
 		$(use_with orc) \
-		$(use_with python) \
 		$(use_with webp libwebp) \
 		$(use_with openslide) \
 		$(use_enable static-libs static) \
@@ -106,6 +95,5 @@ multilib_src_install() {
 }
 multilib_src_install_all() {
 	einstalldocs
-	use python && python_optimize
-	prune_libtool_files
+	find "${D}" -xtype f -name '*.la' -print0
 }

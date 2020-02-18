@@ -1,1 +1,2 @@
 move app-misc/godep dev-go/godep
+slotmove media-libs/vips 1 0

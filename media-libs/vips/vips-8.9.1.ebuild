@@ -10,7 +10,7 @@ HOMEPAGE="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS"
 
 RESTRICT="mirror"
 LICENSE="LGPL-2.1"
-SLOT="1"
+SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="cxx doc debug exif fits fftw graphicsmagick imagemagick jpeg lcms matio openexr openslide
 	+orc png svg static-libs tiff webp"
