@@ -1,7 +1,7 @@
 diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
---- a/CMakeLists.txt	2018-05-03 02:56:40.023890420 +0700
-+++ b/CMakeLists.txt	2018-05-03 03:02:29.728067372 +0700
-@@ -521,71 +521,6 @@ if(UNIX)
+--- a/CMakeLists.txt	2020-02-22 20:30:34.688885592 +0700
++++ b/CMakeLists.txt	2020-02-22 20:41:48.218675527 +0700
+@@ -577,70 +577,6 @@ if(UNIX)
      set(ADDITIONAL_TEST_LIBS m)
  endif(UNIX)
  
@@ -17,7 +17,6 @@ diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
 -     )
 -endif(CMAKE_USE_PTHREADS_INIT)
 -
--file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/test)
 -foreach(t ${SIMPLETESTS})
 -  add_executable(test_${t} ${TESTS_DIR}/${t}.c)
 -  set_target_properties(test_${t} PROPERTIES OUTPUT_NAME ${t})
@@ -73,3 +72,4 @@ diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
  #
  # this gets the libraries needed by TARGET in "-libx -liby ..." form
  #
+
