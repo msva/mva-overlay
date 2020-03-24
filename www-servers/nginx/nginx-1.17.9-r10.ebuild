@@ -158,7 +158,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="1.2.6"
+HTTP_NCHAN_MODULE_PV="1.2.7"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -241,7 +241,7 @@ STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.16rc1"
+HTTP_LUA_MODULE_PV="0.10.16rc5"
 #HTTP_LUA_MODULE_SHA="a3ac3f557eed7efa3460d0870684f18d232adf5f"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -250,7 +250,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 # stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
-STREAM_LUA_MODULE_PV="0.0.8rc1"
+STREAM_LUA_MODULE_PV="0.0.8rc3"
 #STREAM_LUA_MODULE_SHA="c7ac2234ec7a26bdcd3b17cbb5314f17344f9f5c"
 STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
 STREAM_LUA_MODULE_URI="https://github.com/${STREAM_LUA_MODULE_A}/${STREAM_LUA_MODULE_PN}/archive/${STREAM_LUA_MODULE_SHA:-v${STREAM_LUA_MODULE_PV}}.tar.gz"
@@ -397,7 +397,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/${HTTP_SLOWFS_CACHE_MODULE_P}"
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex/tags , BSD)
 HTTP_FANCYINDEX_MODULE_A="aperezdc"
 HTTP_FANCYINDEX_MODULE_PN="ngx-fancyindex"
-HTTP_FANCYINDEX_MODULE_PV="0.4.3"
+HTTP_FANCYINDEX_MODULE_PV="0.4.4"
 #HTTP_FANCYINDEX_MODULE_SHA="ba8b4ece63da157f5eec4df3d8fdc9108b05b3eb"
 HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_SHA:-${HTTP_FANCYINDEX_MODULE_PV}}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
@@ -504,7 +504,7 @@ STREAM_JAVASCRIPT_MODULE_WD="${HTTP_JAVASCRIPT_MODULE_WD}"
 HTTP_AUTH_LDAP_MODULE_A="kvspb"
 HTTP_AUTH_LDAP_MODULE_PN="nginx-auth-ldap"
 HTTP_AUTH_LDAP_MODULE_PV="0.1"
-HTTP_AUTH_LDAP_MODULE_SHA="e2081531c1eadd0afd9252e538c06f82c60db7f6"
+HTTP_AUTH_LDAP_MODULE_SHA="bf64cf217abbe79917f9d44a651c2ecbb82ec993"
 HTTP_AUTH_LDAP_MODULE_P="${HTTP_AUTH_LDAP_MODULE_PN}-${HTTP_AUTH_LDAP_MODULE_SHA-:${HTTP_AUTH_LDAP_MODULE_PV}}"
 HTTP_AUTH_LDAP_MODULE_URI="https://github.com/${HTTP_AUTH_LDAP_MODULE_A}/${HTTP_AUTH_LDAP_MODULE_PN}/archive/${HTTP_AUTH_LDAP_MODULE_SHA:-${HTTP_AUTH_LDAP_MODULE_PV}}.tar.gz"
 HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
@@ -1409,11 +1409,11 @@ passenger_install() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	emake DESTDIR="${D%/}" install
 
-	host-is-pax && pax-mark m "${ED}usr/sbin/${PN}"
+	host-is-pax && pax-mark m "${ED%/}usr/sbin/${PN}"
 
-	cp "${FILESDIR}/${PN}.conf" "${ED}/etc/${PN}/${PN}.conf" || die
+	cp "${FILESDIR}/${PN}.conf" "${ED%/}/etc/${PN}/${PN}.conf" || die
 
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
@@ -1426,7 +1426,7 @@ src_install() {
 
 	keepdir /var/www/localhost
 
-	rm -rf "${ED}"/usr/html || die
+	rm -rf "${ED%/}"/usr/html || die
 
 	# set up a list of directories to keep
 	local keepdir_list="${NGINX_HOME_TMP}/client"
@@ -1454,6 +1454,9 @@ src_install() {
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
+
+	# Don't touch /run
+	rm -rf "${ED%/}"/run || die
 
 	mkdir -p "${D}/usr/src/${PN}"
 	cp -a "${S}" "${D}/usr/src/${PN}"
@@ -1748,9 +1751,9 @@ src_install() {
 
 pkg_postinst() {
 	if use ssl; then
-		if [ ! -f "${EROOT}"/etc/ssl/"${PN}"/"${PN}".key ]; then
+		if [ ! -f "${EROOT%/}"/etc/ssl/"${PN}"/"${PN}".key ]; then
 			install_cert /etc/ssl/"${PN}"/"${PN}"
-			use prefix || chown "${HTTPD_USER:-$PN}":"${HTTPD_GROUP:-$PN}" "${EROOT}"/etc/ssl/"${PN}"/"${PN}".{crt,csr,key,pem}
+			use prefix || chown "${HTTPD_USER:-$PN}":"${HTTPD_GROUP:-$PN}" "${EROOT%/}"/etc/ssl/"${PN}"/"${PN}".{crt,csr,key,pem}
 		fi
 	fi
 
