@@ -33,8 +33,12 @@ BDEPEND="
 RDEPEND="app-crypt/gnupg"
 
 src_unpack() {
-	unpack "${P}.tar.gz"
+if [[ ${PV} == 9999 ]]; then
+	git-r3_src_unpack
+else
+	default
 	ln -vs "client-${PV}" "${P}" || die
+fi
 	mkdir -vp "${S}/src/github.com/keybase" || die
 	ln -vs "${S}" "${S}/src/github.com/keybase/client" || die
 }
