@@ -1,11 +1,9 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-PYTHON_COMPAT=( python2_7 )
-
-inherit systemd eutils python-any-r1 multilib git-r3 autotools patches
+inherit systemd eutils multilib git-r3 autotools patches
 
 DESCRIPTION="tinc is an easy to configure VPN implementation"
 HOMEPAGE="https://tinc-vpn.org/"
@@ -35,10 +33,6 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	vde? ( net-misc/vde )
-	${PYTHON_DEPS}
-	gui? ( $(python_gen_any_dep '
-		dev-python/wxpython[${PYTHON_USEDEP}]
-	') )
 "
 
 #REQUIRED_USE="^^ ( ssl gcrypt )"
@@ -83,13 +77,7 @@ src_install() {
 	newinitd "${FILESDIR}"/tincd.init tincd
 	doconfd "${FILESDIR}"/tinc.networks
 	newconfd "${FILESDIR}"/tincd.conf tincd
-
-	if use gui; then
-		python_fix_shebang "${ED}"/usr/bin/"${PN}"-gui
-		dodoc gui/README.gui
-	else
-		rm -f "${ED}"/usr/bin/"${PN}"-gui || die
-	fi
+	rm -f "${ED}"/usr/bin/"${PN}"-gui || die
 }
 
 pkg_postinst() {
