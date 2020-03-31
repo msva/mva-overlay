@@ -29,8 +29,8 @@ RDEPEND="
 	>=dev-python/psycopg-2.0.6[${PYTHON_USEDEP}]
 	<dev-python/psycopg-2.8.0[${PYTHON_USEDEP}]
 	>=dev-python/pygments-2.0[${PYTHON_USEDEP}]
-	>=dev-python/python-sqlparse-0.3.0[${PYTHON_USEDEP}]
-	<dev-python/python-sqlparse-0.4.0[${PYTHON_USEDEP}]
+	>=dev-python/sqlparse-0.3.0[${PYTHON_USEDEP}]
+	<dev-python/sqlparse-0.4.0[${PYTHON_USEDEP}]
 	>=dev-python/setproctitle-1.1.9[${PYTHON_USEDEP}]
 	keyring? ( >=dev-python/keyring-12.2.0[${PYTHON_USEDEP}] )
 "
