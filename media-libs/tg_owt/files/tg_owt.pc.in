@@ -1,0 +1,13 @@
+prefix=@PREF_DIR@
+exec_prefix=${prefix}
+libdir=${prefix}/@LIB_DIR@
+includedir=${prefix}/include/lib@LIBNAME@
+
+Name: lib@LIBNAME@
+Description: Google's WebRTC library fork for Telegram clients
+Version: @VERSION@
+
+Requires.private: @REQ_INFO@
+Libs: -L${libdir} -l@LIBNAME@
+Libs.private: @PRIVATE_LIBS@
+Cflags: -I${includedir}

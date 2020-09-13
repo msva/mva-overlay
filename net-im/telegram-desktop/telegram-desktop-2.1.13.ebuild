@@ -35,7 +35,7 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id dbus debug gtk2 gtk3 force-gtk-file-dialog libcxx libressl spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test wide-baloons"
+IUSE="custom-api-id +dbus debug gtk2 gtk3 force-gtk-file-dialog libcxx libressl +spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test +webrtc wide-baloons"
 
 REQUIRED_USE="
 	gtk3? ( !gtk2 )
@@ -86,6 +86,10 @@ COMMON_DEPEND="
 	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads,-cache] )
 	spell? ( app-text/enchant:= )
 	sys-libs/zlib:=[minizip]
+	webrtc? (
+		dev-cpp/abseil-cpp:=
+		media-libs/tg_owt
+	)
 	x11-libs/libdrm:=
 	x11-libs/libva:=[X,drm]
 	x11-libs/libxkbcommon:=
@@ -203,6 +207,12 @@ src_prepare() {
 		-e 's@-flto@@' \
 		-e "s@-Ofast@@" \
 		cmake/options_linux.cmake || die
+
+#	sed -r \
+#			-e '$atarget_link_libraries\(external_webrtc INTERFACE libtg_owt desktop-app::external_openssl)' \
+#			-e '/if \(DESKTOP_APP_WEBRTC_LOCATION\)/,$d' \
+#			-i cmake/external/webrtc/CMakeLists.txt
+
 #		echo > cmake/options_linux.cmake
 #		^ Maybe just wipe it out instead of trying to fix?
 #		^ There are not so mush useful compiler flags, actually.
@@ -216,12 +226,17 @@ src_configure() {
 	local mycxxflags=(
 		${CXXFLAGS}
 		-Wno-error=deprecated-declarations
+		-Wno-deprecated-declarations
+		-Wno-switch
 		-DLIBDIR="$(get_libdir)"
 		-DTDESKTOP_DISABLE_AUTOUPDATE
 	)
 
 	local mycmakeargs=(
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
+
+		-DDESKTOP_APP_USE_GLIBC_WRAPS=OFF
+		-DTDESKTOP_LAUNCHER_BASENAME="${PN}"
 
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
@@ -231,19 +246,19 @@ src_configure() {
 		# Unbundling:
 		-DDESKTOP_APP_USE_PACKAGED=ON # Main
 
-		-DDESKTOP_APP_USE_PACKAGED_RLOTTIE=$(usex system-rlottie ON OFF)   # Using system-rlottie have side-effect of disabled color replacements for "giant emojis"
-		-DDESKTOP_APP_USE_PACKAGED_GSL=$(usex system-gsl ON OFF)           # Header-only library. Not so much profit on unbundling it (app anyway needs rebuild after it's upgrade)
-		-DDESKTOP_APP_USE_PACKAGED_EXPECTED=$(usex system-expected ON OFF) # Same as above ^
-		-DDESKTOP_APP_USE_PACKAGED_VARIANT=$(usex system-variant ON OFF)   # Same as above ^
-#		-DDESKTOP_APP_USE_PACKAGED_QRCODE=$(usex system-qrcode ON OFF)     # Not yet packaged in gentoo. Waiting for libreoffice team to unbundle it.
-		-DDESKTOP_APP_USE_PACKAGED_FONTS=$(usex system-fonts ON OFF)       # Use system fonts.
-
-		-DTDESKTOP_USE_PACKAGED_TGVOIP=$(usex system-libtgvoip ON OFF)     # Stable ABI? Never heard of it!
+#		-DCMAKE_DISABLE_FIND_PACKAGE_RLOTTIE=$(usex system-rlottie ON OFF)   # Using system-rlottie have side-effect of disabled color replacements for "giant emojis"
+#		-DCMAKE_DISABLE_FIND_PACKAGE_GSL=$(usex system-gsl ON OFF)           # Header-only library. Not so much profit on unbundling it (app anyway needs rebuild after it's upgrade)
+#		-DCMAKE_DISABLE_FIND_PACKAGE_EXPECTED=$(usex system-expected ON OFF) # Same as above ^
+#		-DCMAKE_DISABLE_FIND_PACKAGE_VARIANT=$(usex system-variant ON OFF)   # Same as above ^
+##		-DCMAKE_DISABLE_FIND_PACKAGE_QRCODE=$(usex system-qrcode ON OFF)     # Not yet packaged in gentoo. Waiting for libreoffice team to unbundle it.
+#		-DCMAKE_DISABLE_FIND_PACKAGE_FONTS=$(usex system-fonts ON OFF)       # Use system fonts.
+#
+#		-DTDESKTOP_USE_PACKAGED_TGVOIP=$(usex system-libtgvoip ON OFF)     # Stable ABI? Never heard of it!
 
 		-DTDESKTOP_DISABLE_GTK_INTEGRATION="$(usex gtk3 OFF $(usex gtk2 OFF ON))"
-		-DTDESKTOP_FORCE_GTK_FILE_DIALOG=$(usex force-gtk-file-dialog ON OFF)
+#		-DTDESKTOP_FORCE_GTK_FILE_DIALOG=$(usex force-gtk-file-dialog ON OFF)
 
-		-DTDESKTOP_DISABLE_DBUS_INTEGRATION=$(usex dbus OFF ON)
+		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex dbus OFF ON)
 
 		-DTDESKTOP_API_TEST=$(usex test ON OFF)
 

@@ -83,6 +83,7 @@ src_configure() {
 	conf_add+=" no-embed-qt-translations"
 	conf_add+=" no-server"
 	conf_add+=" no-update"
+	conf_add+=" no-jackaudio"
 
 	export QT_SELECT=qt5 # TODO: check if unneded anymore
 	eqmake5 "${S}/main.pro" -recursive \
@@ -125,7 +126,7 @@ src_install() {
 	doins "${dir}"/libmumble.so.${PV/%9999/0}
 	dosym libmumble.so.${PV/%9999/0} /usr/$(get_libdir)/mumble/libmumble.so.1
 	dosym libmumble.so.1 /usr/$(get_libdir)/mumble/libmumble.so
-	doins "${dir}"/libcelt0.so.0.{7,11}.0
+	doins "${dir}"/libcelt0.so.0.7.0
 	doins "${dir}"/plugins/lib*.so*
 }
 

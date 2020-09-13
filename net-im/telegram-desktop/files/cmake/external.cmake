@@ -24,6 +24,7 @@ pkg_check_modules(LIBVA REQUIRED libva libva-drm libva-x11)
 pkg_check_modules(MINIZIP REQUIRED minizip)
 pkg_check_modules(OPUS REQUIRED opus)
 pkg_check_modules(RLOTTIE REQUIRED rlottie)
+pkg_check_modules(tg_owt REQUIRED tg_owt)
 if(NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
 	pkg_check_modules(CRASH_REPORTS REQUIRED breakpad_client)
 endif()
@@ -65,6 +66,7 @@ if(NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
 	add_library(desktop-app::external_crash_reports INTERFACE IMPORTED GLOBAL)
 endif()
 add_library(tdesktop::lib_tgvoip INTERFACE IMPORTED GLOBAL)
+add_library(desktop-app::external_tg_owt INTERFACE IMPORTED GLOBAL)
 
 
 #target_compile_definitions(desktop-app::external_xxhash INTERFACE XXH_INLINE_ALL) # requires xxhash.c (and static linking). No way.
@@ -96,6 +98,7 @@ target_include_directories(desktop-app::external_gsl SYSTEM INTERFACE ${CMAKE_IN
 target_include_directories(desktop-app::external_expected SYSTEM INTERFACE ${CMAKE_INSTALL_PREFIX}/include/tl)
 target_include_directories(desktop-app::external_variant SYSTEM INTERFACE ${CMAKE_INSTALL_PREFIX}/include/mapbox)
 target_include_directories(tdesktop::lib_tgvoip SYSTEM INTERFACE ${CMAKE_INSTALL_PREFIX}/include/libtgvoip)
+target_include_directories(desktop-app::external_tg_owt SYSTEM INTERFACE ${tg_owt_INCLUDE_DIR})
 
 
 
@@ -115,3 +118,4 @@ if(NOT DESKTOP_APP_DISABLE_CRASH_REPORTS)
 endif()
 target_link_libraries(desktop-app::external_xxhash INTERFACE xxhash)
 target_link_libraries(tdesktop::lib_tgvoip INTERFACE tgvoip)
+target_link_libraries(desktop-app::external_tg_owt INTERFACE tg_owt)
