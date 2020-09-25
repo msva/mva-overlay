@@ -18,9 +18,12 @@
 #  * lua53 - Lua (PUC-Rio) 5.3
 #  * luajit2 - LuaJIT 2.x
 #
-# This eclass does not define the implementation of the configure,
-# compile, test, or install phases. Instead, the default phases are
-# used.  Specific implementations of these phases can be provided in
+# This eclass used to not define the implementations of the configure,
+# compile, test, or install phases. Instead, the default phases were
+# used.
+#
+# For now, it has some "magic" about default phases (using most common ways to build lua modules).
+# Although, specific implementations of these phases still can be provided in
 # the ebuild either to be run for each Lua implementation, or for all
 # Lua implementations, as follows:
 #
