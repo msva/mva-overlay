@@ -1,11 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: lua.eclass
 # @MAINTAINER:
-# Vadim A. Misbakh-Soloviov (mva) <lua@mva.name>
+# Vadim A. Misbakh-Soloviov (mva) <mva@gentoo.org>
 # @AUTHOR:
-# Vadim A. Misbakh-Soloviov (mva) <lua@mva.name>
+# Vadim A. Misbakh-Soloviov (mva) <mva@gentoo.org>
 # (partially based on ruby and python eclasses)
 # @BLURB: An eclass for installing Lua packages with proper support for multiple Lua slots.
 # @DESCRIPTION:
@@ -48,19 +48,6 @@
 # variable supports a wildcard mechanism to help with github tarballs
 # that contain the commit hash as part of the directory name.
 
-# @ECLASS-VARIABLE: LUA_QA_ALLOWED_LIBS
-# @DEFAULT_UNSET
-# @DESCRIPTION:
-# If defined this variable contains a whitelist of shared objects that
-# are allowed to exist even if they don't link to liblua. This avoids
-# the QA check that makes this mandatory. This is most likely not what
-# you are looking for if you get the related "Missing links" QA warning,
-# since the proper fix is almost always to make sure the shared object
-# is linked against liblua. There are cases were this is not the case
-# and the shared object is generic code to be used in some other way.
-# When set this argument is passed to "grep -E" to remove reporting of
-# these shared objects.
-
 : ${GLOBAL_CFLAGS:=${CFLAGS}}
 : ${GLOBAL_CXXFLAGS:=${CXXFLAGS}}
 : ${GLOBAL_LDFLAGS:=${LDFLAGS}}
@@ -99,7 +86,7 @@ if [[ -z "${EGIT_REPO_URI}" && -z "${EHG_REPO_URI}" && -z "${SRC_URI}" && -n "${
 	elif [[ "${VCS}" = "mercurial" ]]; then
 		EHG_REPO_URI="${EVCS_URI}"
 	elif [[ -z "${VCS}" && "${PV}" != *9999* ]]; then
-		SRC_URI="${EVCS_URI}/${DL}/${GITHUB_PV:-${PV}}.tar.gz -> ${P}.tar.gz"
+		SRC_URI="${EVCS_URI}/${DL}/${MY_PV:-${PV}}.tar.gz -> ${P}.tar.gz"
 	fi
 fi
 
@@ -108,10 +95,10 @@ inherit eutils ${multilib} toolchain-funcs flag-o-matic ${VCS} patches
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install pkg_setup src_test
 
 case ${EAPI:-0} in
-	0|1|2|3)
+	0|1|2|3|4|5|6)
 		die "Unsupported EAPI=${EAPI} (too old) for lua.eclass"
 		;;
-	4|5|6|7)
+	7)
 		# S is no longer automatically assigned when it doesn't exist.
 		S="${WORKDIR}"
 		;;
@@ -167,126 +154,6 @@ lua_implementation_command() {
 	echo "${lua}"
 }
 
-# @FUNCTION: lua_samelib
-# @RETURN: use flag string with current lua implementations
-# @DESCRIPTION:
-# Convenience function to output the use dependency part of a
-# dependency. Used as a building block for lua_add_rdepend() and
-# lua_add_bdepend(), but may also be useful in an ebuild to specify
-# more complex dependencies.
-lua_samelib() {
-	local res=
-	for _lua_implementation in $LUA_COMPAT; do
-		has -${_lua_implementation} $@ || \
-			res="${res}lua_targets_${_lua_implementation}?,"
-	done
-
-	echo "[${res%,}]"
-}
-
-_lua_atoms_samelib_generic() {
-	eshopts_push -o noglob
-	echo "LUATARGET? ("
-	for token in $*; do
-		case "$token" in
-			"||" | "(" | ")" | *"?")
-				echo "${token}"
-				;;
-			*])
-				echo "${token%[*}[LUATARGET,${token/*[}"
-				#"]}" # <- kludge for vim's syntax highlighting engine to don't mess up all the things below this line
-				;;
-			*)
-				echo "${token}[LUATARGET]"
-				;;
-		esac
-	done
-	echo ")"
-	eshopts_pop
-}
-
-_lua_atoms_samelib() {
-	local atoms=$(_lua_atoms_samelib_generic "$*")
-
-	for _lua_implementation in $LUA_COMPAT; do
-		echo "${atoms//LUATARGET/lua_targets_${_lua_implementation}}"
-	done
-}
-
-_lua_wrap_conditions() {
-	local conditions="$1"
-	local atoms="$2"
-
-	for condition in $conditions; do
-		atoms="${condition}? ( ${atoms} )"
-	done
-
-	echo "$atoms"
-}
-
-# @FUNCTION: lua_add_rdepend
-# @USAGE: dependencies
-# @DESCRIPTION:
-# Adds the specified dependencies, with use condition(s) to RDEPEND,
-# taking the current set of lua targets into account. This makes sure
-# that all lua dependencies of the package are installed for the same
-# lua targets. Use this function for all lua dependencies instead of
-# setting RDEPEND yourself. The list of atoms uses the same syntax as
-# normal dependencies.
-#
-# Note: runtime dependencies are also added as build-time test
-# dependencies.
-lua_add_rdepend() {
-	case $# in
-		1) ;;
-		2)
-			[[ "${GENTOO_DEV}" == "yes" ]] && eqawarn "You can now use the usual syntax in lua_add_rdepend for $CATEGORY/$PF"
-			lua_add_rdepend "$(_lua_wrap_conditions "$1" "$2")"
-			return
-			;;
-		*)
-			die "bad number of arguments to $0"
-			;;
-	esac
-
-	local dependency=$(_lua_atoms_samelib "$1")
-
-	RDEPEND="${RDEPEND} $dependency"
-
-	# Add the dependency as a test-dependency since we're going to
-	# execute the code during test phase.
-	DEPEND="${DEPEND} test? ( ${dependency} )"
-	has test "$IUSE" || IUSE="${IUSE} test"
-}
-
-# @FUNCTION: lua_add_bdepend
-# @USAGE: dependencies
-# @DESCRIPTION:
-# Adds the specified dependencies, with use condition(s) to DEPEND,
-# taking the current set of lua targets into account. This makes sure
-# that all lua dependencies of the package are installed for the same
-# lua targets. Use this function for all lua dependencies instead of
-# setting DEPEND yourself. The list of atoms uses the same syntax as
-# normal dependencies.
-lua_add_bdepend() {
-	case $# in
-		1) ;;
-		2)
-			[[ "${GENTOO_DEV}" == "yes" ]] && eqawarn "You can now use the usual syntax in lua_add_bdepend for $CATEGORY/$PF"
-			lua_add_bdepend "$(_lua_wrap_conditions "$1" "$2")"
-			return
-			;;
-		*)
-			die "bad number of arguments to $0"
-			;;
-	esac
-
-	local dependency=$(_lua_atoms_samelib "$1")
-
-	DEPEND="${DEPEND} $dependency"
-	RDEPEND="${RDEPEND}"
-}
-
 # @FUNCTION: lua_get_use_implementations
 # @DESCRIPTION:
 # Gets an array of lua use targets enabled by the user
@@ -296,7 +163,7 @@ lua_get_use_implementations() {
 		if [[ -z "${LUA_IGNORE_TARGET_DUPLICATION}" ]] && [ "${implementation}" = "lua51" ] && in_iuse lua_targets_luajit2 && use lua_targets_luajit2 && use lua_targets_lua51; then
 			ewarn "LuaJIT using same LMOD/CMOD install paths as lua51."
 			ewarn "Lua target 'lua51' was skipped to avoid useless double compilation and file overwrites."
-			ewarn "If you definitelly want to compile lua51 target for nothing (i.e. you're maintainer),"
+			ewarn "If you want to compile (but not istall, tho) lua51 target anyway (i.e. you're maintainer),"
 			ewarn "then set LUA_IGNORE_TARGET_DUPLICATION variable to any value in make.conf or package.env"
 			continue
 		else
@@ -326,7 +193,7 @@ lua_get_use_targets() {
 # confuse this function with lua_implementation_depend().
 #
 # @EXAMPLE:
-# EAPI=5
+# EAPI=7
 # LUA_OPTIONAL=yes
 #
 # inherit lua
@@ -806,7 +673,7 @@ dolua() {
 }
 
 _lua_install_lmod() {
-	has "${EAPI}" 2 && ! use prefix && EPREFIX=
+	use prefix || EPREFIX=
 	local insdir="$(lua_get_lmoddir)"
 	[[ -n "${_dolua_insdir}" ]] && insdir="${insdir}/${_dolua_insdir}"
 	(
@@ -817,7 +684,7 @@ _lua_install_lmod() {
 }
 
 _lua_install_cmod() {
-	has "${EAPI}" 2 && ! use prefix && EPREFIX=
+	use prefix || EPREFIX=
 	local insdir="$(lua_get_cmoddir)"
 	[[ -n "${_dolua_insdir}" ]] && insdir="${insdir}/${_dolua_insdir}"
 	(
