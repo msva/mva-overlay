@@ -65,9 +65,11 @@ src_prepare() {
 
 	# Use the eselected pkgconfig for Lua
 	# (here we anyway only build it against "system default" implementation)
+	local LUA_TARGET=lua
 	# TODO: LUA_SINGLE_TARGET
 	sed -r -i \
-		-e "/^LUA_.*pkg-config/s,\<lua\>,lua,g" \
+		-e "s,(^LUA_PKG_NAME)=.*,\1=${LUA_TARGET},g" \
+		-e "/^LUA_.*pkg-config/s, [^ \{\}\?]*\)\$, ${LUA_TARGET}\),g" \
 		"${S}"/extras/tcl/makefile \
 		"${S}"/extras/swig/makefile \
 		"${S}"/makefile \
