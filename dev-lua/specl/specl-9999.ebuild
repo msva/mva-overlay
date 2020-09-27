@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 VCS="git"
 GITHUB_A="gvvaughan"
@@ -18,11 +18,14 @@ SLOT="0"
 KEYWORDS=""
 IUSE="doc"
 
-lua_add_rdepend dev-lua/luamacro
-lua_add_rdepend dev-lua/lyaml
-
-lua_add_bdepend dev-lua/lyaml
-lua_add_bdepend dev-lua/lua-std-normalize
+RDEPEND="${RDEPEND}
+	dev-lua/luamacro
+	dev-lua/lyaml
+"
+DEPEND="${DEPEND}
+	dev-lua/lyaml
+	dev-lua/lua-std-normalize
+"
 
 DOCS=(README.md doc/specl.md NEWS.md)
 HTML_DOCS=(doc/.)

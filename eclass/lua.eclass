@@ -676,7 +676,6 @@ dolua() {
 }
 
 _lua_install_lmod() {
-	use prefix || EPREFIX=
 	local insdir="$(lua_get_lmoddir)"
 	[[ -n "${_dolua_insdir}" ]] && insdir="${insdir}/${_dolua_insdir}"
 	(
@@ -687,7 +686,6 @@ _lua_install_lmod() {
 }
 
 _lua_install_cmod() {
-	use prefix || EPREFIX=
 	local insdir="$(lua_get_cmoddir)"
 	[[ -n "${_dolua_insdir}" ]] && insdir="${insdir}/${_dolua_insdir}"
 	(

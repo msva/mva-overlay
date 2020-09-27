@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 VCS="git"
 GITHUB_A="lua-stdlib"
@@ -17,7 +17,9 @@ SLOT="0"
 KEYWORDS=""
 IUSE="doc"
 
-lua_add_bdepend "doc? ( dev-lua/ldoc )"
+DEPEND="${DEPEND}
+	doc? ( dev-lua/ldoc )
+"
 
 HTML_DOCS=(doc/.)
 DOCS=(README.md NEWS.md)
