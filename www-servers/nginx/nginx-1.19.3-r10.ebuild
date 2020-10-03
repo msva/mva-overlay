@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 # Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
@@ -511,7 +511,7 @@ HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
 
 SSL_DEPS_SKIP=1
 
-inherit eutils ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib eapi7-ver patches
+inherit eutils ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib patches
 # ^^^ keep ruby before perl, since ruby sets S=WORKDIR, and perl restores
 
 # TODO: EAPI=7
