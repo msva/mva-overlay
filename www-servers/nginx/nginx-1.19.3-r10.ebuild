@@ -125,7 +125,6 @@ HTTP_PAGESPEED_MODULE_A="apache"
 HTTP_PAGESPEED_MODULE_PN="incubator-pagespeed-ngx"
 HTTP_PAGESPEED_MODULE_PV="1.13.35.2-stable"
 #HTTP_PAGESPEED_MODULE_PV="1.14.33.1-RC1"
-#HTTP_PAGESPEED_MODULE_PV="1.11.33.4-beta"
 #HTTP_PAGESPEED_MODULE_SHA="65761a2393cc62197129156eb7d2c9374d1aacfe"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
@@ -782,12 +781,6 @@ NGINX_MODULES_DYN="
 
 REQUIRED_USE="
 	nginx_modules_http_grpc? ( nginx_modules_http_v2 )
-	luajit? (
-		|| (
-			nginx_modules_http_lua
-			nginx_modules_stream_lua
-		)
-	)
 	nginx_modules_http_v2? ( ssl )
 	nginx_modules_stream_lua? ( ssl ssl-cert-cb )
 	nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite ssl? ( ssl-cert-cb ) )
@@ -819,7 +812,7 @@ REQUIRED_USE="
 	nginx_modules_core_stream_traffic_status? ( nginx_modules_stream_traffic_status )
 "
 
-IUSE="aio busy-upstream debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl ssl-cert-cb libressl stream threads vim-syntax luajit selinux http2 systemtap +static rtmp userland_GNU"
+IUSE="aio busy-upstream debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl ssl-cert-cb libressl stream threads vim-syntax selinux http2 systemtap +static rtmp userland_GNU"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 	f=
@@ -861,40 +854,14 @@ CDEPEND="
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl:* ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_stream_lua? (
-		|| (
-			virtual/lua[luajit=]
-			!luajit? (
-				|| (
-					( virtual/lua dev-lang/lua:5.1 )
-					<dev-lang/lua-5.2:0
-				)
-			)
-			luajit? (
-				|| (
-					virtual/lua[luajit]
-					>=dev-lang/luajit-2
-				)
-			)
-		)
+		>=dev-lang/luajit-2
 		dev-lua/resty-core
+		dev-lua/resty-lrucache
 	)
 	nginx_modules_http_lua? (
-		|| (
-			virtual/lua[luajit=]
-			!luajit? (
-				|| (
-					virtual/lua
-					dev-lang/lua:0
-				)
-			)
-			luajit? (
-				|| (
-					virtual/lua[luajit]
-					>=dev-lang/luajit-2
-				)
-			)
-		)
+		>=dev-lang/luajit-2
 		dev-lua/resty-core
+		dev-lua/resty-lrucache
 	)
 	nginx_modules_http_python? ( dev-lang/python:2.7 )
 	nginx_modules_stream_python? ( dev-lang/python:2.7 )
@@ -970,12 +937,11 @@ pkg_setup() {
 		ewarn ""
 	fi
 
-	if use nginx_modules_http_lua || use luajit; then
+	if use nginx_modules_http_lua || use nginx_modules_stream_lua; then
 		einfo ""
 		einfo "You will probably want to emerge @openresty set"
-#		use luajit &&
-#		ewarn "Also, upstream insists you should use their luajit fork (emerge luajit[openresty])"
-#		einfo ""
+		has_version dev-lang/luajit[openresty] || ewarn "Also, Lua Module upstream (OpenResty) insists you should use their luajit fork (emerge luajit[openresty]), since they made many optimisations to it"
+		einfo ""
 	fi
 
 	if use libatomic && ! use arm; then
@@ -1075,7 +1041,7 @@ src_prepare() {
 			-i "${HTTP_BROTLI_MODULE_WD}/config"
 	fi
 
-	if use luajit && use nginx_modules_stream_lua; then
+	if use nginx_modules_stream_lua; then
 		sed -r \
 			-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
 			-i "${STREAM_LUA_MODULE_WD}/config"
@@ -1085,15 +1051,9 @@ src_prepare() {
 		sed -r \
 			-e '/#ifndef OPENRESTY_LUAJIT/,/#endif/d' \
 			-i "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_module.c
-#		sed -r \
-#			-e '/#if.*NGX_HTTP_V2/,/#endif/s@return.*luaL_error.*http2 requests.*@(int)0;@' \
-#			-i "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_subrequest.c \
-#			   "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_headers.c
-		if use luajit; then
-			sed -r \
-				-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
-				-i "${HTTP_LUA_MODULE_WD}/config"
-		fi
+		sed -r \
+			-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
+			-i "${HTTP_LUA_MODULE_WD}/config"
 	fi
 
 	if use nginx_modules_http_passenger_enterprise; then
@@ -1269,13 +1229,8 @@ src_configure() {
 	fi
 
 	if use nginx_modules_http_lua; then
-		if use luajit; then
-			export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
-			export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
-		else
-			export LUA_LIB=$($(tc-getPKG_CONFIG) --variable libdir lua)
-			export LUA_INC=$($(tc-getPKG_CONFIG) --variable includedir lua)
-		fi
+		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
+		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
 	fi
 
 	if use http || use http-cache; then
@@ -1310,13 +1265,8 @@ src_configure() {
 
 # stream_lua
 	if use nginx_modules_stream_lua; then
-		if use luajit; then
-			export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
-			export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
-		else
-			export LUA_LIB=$($(tc-getPKG_CONFIG) --variable libdir lua)
-			export LUA_INC=$($(tc-getPKG_CONFIG) --variable includedir lua)
-		fi
+		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
+		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
 	fi
 
 	if [[ -n "${stream_enabled}" ]]; then
@@ -1462,6 +1412,7 @@ src_install() {
 	# Don't touch /run
 	rm -rf "${ED%/}"/run || die
 
+	# Needed for building external dynamic modules
 	mkdir -p "${D}/usr/src/${PN}"
 	cp -a "${S}" "${D}/usr/src/${PN}"
 

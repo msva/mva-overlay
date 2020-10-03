@@ -105,6 +105,3 @@ dev-java/gradle
 
 # Not ready yet
 net-im/keywee
-
-# Splitted NgX (non-static). Not ready yet.
-=www-servers/nginx-1.19.3-r100
