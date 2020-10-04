@@ -22,6 +22,8 @@ USE_RUBY="ruby24 ruby25"
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
 
+DTLS_COMPAT_VERSION="1.13.9"
+
 # ngx_brotli (https://github.com/eustas/ngx_brotli/tags, BSD-2)
 HTTP_BROTLI_MODULE_A="eustas"
 HTTP_BROTLI_MODULE_PN="ngx_brotli"
@@ -520,6 +522,8 @@ DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="
 	http://sysoev.ru/nginx/
 	"
+# broken
+#	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff )
 SRC_URI="
 	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
 	nginx_modules_http_pagespeed? (
@@ -735,6 +739,7 @@ NGINX_MODULES_3P="
 	core_rtmp
 	core_stream_traffic_status
 "
+#	stream_dtls
 
 NGINX_MODULES_DYN="
 	http_geoip
@@ -778,6 +783,7 @@ NGINX_MODULES_DYN="
 	stream_lua
 	core_rtmp
 "
+#	stream_dtls
 
 REQUIRED_USE="
 	nginx_modules_http_grpc? ( nginx_modules_http_v2 )
@@ -811,6 +817,8 @@ REQUIRED_USE="
 	nginx_modules_stream_traffic_status? ( nginx_modules_core_stream_traffic_status )
 	nginx_modules_core_stream_traffic_status? ( nginx_modules_stream_traffic_status )
 "
+#	dtls? ( nginx_modules_stream_dtls stream ssl )
+#	nginx_modules_stream_dtls? ( stream ssl )
 
 IUSE="aio busy-upstream debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl ssl-cert-cb libressl stream threads vim-syntax selinux http2 systemtap +static rtmp userland_GNU"
 
@@ -855,13 +863,9 @@ CDEPEND="
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_stream_lua? (
 		>=dev-lang/luajit-2
-		dev-lua/resty-core
-		dev-lua/resty-lrucache
 	)
 	nginx_modules_http_lua? (
 		>=dev-lang/luajit-2
-		dev-lua/resty-core
-		dev-lua/resty-lrucache
 	)
 	nginx_modules_http_python? ( dev-lang/python:2.7 )
 	nginx_modules_stream_python? ( dev-lang/python:2.7 )
@@ -908,7 +912,17 @@ DEPEND="
 #QA_EXECSTACK="usr/sbin/nginx"
 ##QA_WX_LOAD="usr/sbin/nginx"
 
-PDEPEND="vim-syntax? ( ~app-vim/nginx-syntax-${PV} )"
+PDEPEND="
+	vim-syntax? ( ~app-vim/nginx-syntax-${PV} )
+	nginx_modules_stream_lua? (
+		dev-lua/resty-core
+		dev-lua/resty-lrucache
+	)
+	nginx_modules_http_lua? (
+		dev-lua/resty-core
+		dev-lua/resty-lrucache
+	)
+"
 
 custom_econf() {
 	local EXTRA_ECONF=(${EXTRA_ECONF[@]})
@@ -1010,6 +1024,7 @@ pkg_setup() {
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	PORTAGE_QUIET=1 default
+#	use nginx_modules_stream_dtls && cp "${DISTDIR}/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff" "${S}/"
 }
 
 src_prepare() {
@@ -1034,6 +1049,8 @@ src_prepare() {
 			sed -i -e "/${module}/d" auto/install || die
 		fi
 	done
+
+#	use nginx_modules_stream_dtls && PATCHES+=("${S}/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff")
 
 	if use nginx_modules_http_brotli; then
 		sed -r \
