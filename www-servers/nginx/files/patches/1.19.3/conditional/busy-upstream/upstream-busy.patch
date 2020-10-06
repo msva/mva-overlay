@@ -65,9 +65,9 @@ diff -Naur a/src/http/ngx_http_upstream.h b/src/http/ngx_http_upstream.h
 --- a/src/http/ngx_http_upstream.h	2017-10-12 07:54:06.000000000 +0700
 +++ b/src/http/ngx_http_upstream.h	2017-10-12 07:54:06.000000000 +0700
 @@ -406,6 +406,8 @@
- 
- 
  void ngx_http_upstream_init(ngx_http_request_t *r);
+ ngx_int_t ngx_http_upstream_non_buffered_filter_init(void *data);
+ ngx_int_t ngx_http_upstream_non_buffered_filter(void *data, ssize_t bytes);
 +#define NGX_HTTP_UPSTREAM_INIT_BUSY_PATCH_VERSION  1
 +void ngx_http_upstream_connect(ngx_http_request_t *r, ngx_http_upstream_t *u);
  ngx_http_upstream_srv_conf_t *ngx_http_upstream_add(ngx_conf_t *cf,
