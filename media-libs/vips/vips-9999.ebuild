@@ -47,6 +47,10 @@ DEPEND="
 
 DOCS=(ChangeLog README.md)
 
+MULTILIB_WRAPPED_HEADERS=(
+	/usr/include/vips/version.h
+)
+
 src_prepare() {
 	sed -r \
 		-e '/define VIPS_VERSION_STRING/s#@VIPS_VERSION_STRING@#@VIPS_VERSION@#' \
@@ -67,12 +71,12 @@ multilib_src_configure() {
 	use imagemagick && magick="--with-magickpackage=MagickCore"
 	use graphicsmagick && magick="--with-magickpackage=GraphicsMagick"
 
+#		$(use cxx || echo "--disable-cxx") \
 	econf \
 		${magick} \
 		$(multilib_native_use_enable doc gtk-doc) \
 		$(use_enable debug) \
 		$(use_with debug dmalloc) \
-		$(use cxx || echo "--disable-cxx") \
 		$(use_with fftw) \
 		$(use_with lcms) \
 		$(use_with openexr OpenEXR) \
