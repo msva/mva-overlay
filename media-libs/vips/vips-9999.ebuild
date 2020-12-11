@@ -5,14 +5,14 @@ EAPI=7
 inherit eutils autotools multilib-minimal git-r3
 
 DESCRIPTION="VIPS Image Processing Library"
-EGIT_REPO_URI="https://github.com/jcupitt/lib${PN}"
-HOMEPAGE="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS"
+EGIT_REPO_URI="https://github.com/lib${PN}/lib${PN}"
+HOMEPAGE="https://libvips.github.io/libvips/"
 
 RESTRICT="mirror"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="cxx doc debug exif fits fftw graphicsmagick imagemagick jpeg lcms matio openexr openslide
+IUSE="doc debug exif fits fftw graphicsmagick imagemagick jpeg lcms matio openexr openslide
 	+orc png svg static-libs tiff webp"
 
 RDEPEND="
@@ -71,7 +71,6 @@ multilib_src_configure() {
 	use imagemagick && magick="--with-magickpackage=MagickCore"
 	use graphicsmagick && magick="--with-magickpackage=GraphicsMagick"
 
-#		$(use cxx || echo "--disable-cxx") \
 	econf \
 		${magick} \
 		$(multilib_native_use_enable doc gtk-doc) \

@@ -6,13 +6,13 @@ inherit eutils autotools multilib-minimal
 
 DESCRIPTION="VIPS Image Processing Library"
 SRC_URI="https://github.com/lib${PN}/lib${PN}/archive/v${PV//_rc/-rc}.tar.gz -> lib${P}.tar.gz"
-HOMEPAGE="http://www.vips.ecs.soton.ac.uk/index.php?title=VIPS"
+HOMEPAGE="https://libvips.github.io/libvips/"
 
 RESTRICT="mirror"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="cxx doc debug exif fits fftw graphicsmagick imagemagick jpeg lcms matio openexr openslide
+IUSE="doc debug exif fits fftw graphicsmagick imagemagick jpeg lcms matio openexr openslide
 	+orc png svg static-libs tiff webp"
 
 RDEPEND="
@@ -47,7 +47,11 @@ DEPEND="
 
 S="${WORKDIR}/lib${P//_rc/-rc}"
 
-DOCS=(ChangeLog NEWS THANKS README.md)
+DOCS=(ChangeLog README.md)
+
+MULTILIB_WRAPPED_HEADERS=(
+	/usr/include/vips/version.h
+)
 
 src_prepare() {
 	sed -r \
@@ -57,7 +61,7 @@ src_prepare() {
 	default
 
 	gtkdocize --copy --docdir doc --flavour no-tmpl
-#	# ^ the way portage calling it doesn't work, so let's call manually
+	# ^ the way portage calling it doesn't work, so let's call manually
 
 	eautoreconf
 
@@ -74,7 +78,6 @@ multilib_src_configure() {
 		$(multilib_native_use_enable doc gtk-doc) \
 		$(use_enable debug) \
 		$(use_with debug dmalloc) \
-		$(use cxx || echo "--disable-cxx") \
 		$(use_with fftw) \
 		$(use_with lcms) \
 		$(use_with openexr OpenEXR) \
