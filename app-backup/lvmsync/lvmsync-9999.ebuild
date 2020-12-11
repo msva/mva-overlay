@@ -1,12 +1,9 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-# ^ ruby-fakegem only supports 6 ATM
+EAPI=7
 
-USE_RUBY="ruby24"
-# ruby25 ruby26"
-# ^ treetop
+USE_RUBY="ruby25 ruby26"
 
 EGIT_REPO_URI="https://github.com/mpalmer/lvmsync"
 EGIT_CHECKOUT_DIR="${WORKDIR}/all"
@@ -18,16 +15,12 @@ RUBY_FAKGEM_GESPEC="${PN}.gemspec"
 
 inherit ruby-fakegem git-r3
 
-SRC_URI=""
-
 DESCRIPTION="Synchronise LVM LVs across a network by sending only snapshotted changes"
 HOMEPAGE="http://theshed.hezmatt.org/lvmsync"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
-
-IUSE=""
 
 ruby_add_bdepend "dev-ruby/rake"
 ruby_add_rdepend "dev-ruby/treetop"
