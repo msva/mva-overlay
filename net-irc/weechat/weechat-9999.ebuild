@@ -1,17 +1,18 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-PYTHON_COMPAT=( python{2_7,3_{4,5,6}} )
-CMAKE_MAKEFILE_GENERATOR=emake
-inherit python-single-r1 cmake-utils
+EAPI=7
+
+PYTHON_COMPAT=( python3_{7..9} )
+
+inherit cmake python-single-r1 xdg-utils
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/weechat/weechat.git"
 else
 	SRC_URI="https://weechat.org/files/src/${P}.tar.xz"
-	KEYWORDS="~amd64 ~ppc ~x86 ~amd64-linux ~x86-linux"
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~x64-macos"
 fi
 
 DESCRIPTION="Portable and multi-interface IRC client"
@@ -21,17 +22,18 @@ LICENSE="GPL-3"
 SLOT="0"
 
 NETWORKS="+irc"
-PLUGINS="+alias +buflist +charset +exec +fifo +logger +relay +scripts +spell +trigger +xfer"
-INTERFACES="+ncurses headless"
+PLUGINS="+alias +buflist +charset +exec +fifo +fset +logger +relay +scripts +spell +trigger +xfer"
+INTERFACES="+ncurses +headless"
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
 SCRIPT_LANGS="guile lua luajit +perl php +python ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt pt_BR ru tr"
-IUSE="doc nls +ssl test ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
-#REQUIRED_USE=" || ( ncurses gtk )"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} ) test? ( headless )"
+IUSE="doc enchant man nls test ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
+
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} ) test? ( headless nls )"
 
 RDEPEND="
 	dev-libs/libgcrypt:0=
+	net-libs/gnutls:=
 	net-misc/curl[ssl]
 	ncurses? ( sys-libs/ncurses:0= )
 	sys-libs/zlib
@@ -49,23 +51,33 @@ RDEPEND="
 	php? ( >=dev-lang/php-7.0:=[embed] )
 	python? ( ${PYTHON_DEPS} )
 	ruby? ( dev-lang/ruby:* )
-	ssl? ( net-libs/gnutls )
-	spell? ( app-text/aspell )
+	spell? (
+		enchant? (
+			app-text/enchant:0
+		)
+		!enchant? (
+			app-text/aspell
+		)
+	)
 	tcl? ( >=dev-lang/tcl-8.4.15:0= )
 "
+
 DEPEND="${RDEPEND}
-	doc? (
-		>=dev-ruby/asciidoctor-1.5.4
-		dev-util/source-highlight
-	)
-	nls? ( >=sys-devel/gettext-0.15 )
 	test? ( dev-util/cpputest )
 "
+
+BDEPEND="
+	virtual/pkgconfig
+	doc? ( >=dev-ruby/asciidoctor-1.5.4 )
+	man? ( >=dev-ruby/asciidoctor-1.5.4 )
+	nls? ( >=sys-devel/gettext-0.15 )
+"
+
 
 DOCS="AUTHORS.adoc ChangeLog.adoc Contributing.adoc ReleaseNotes.adoc README.adoc"
 
 # tests need to be fixed to not use system plugins if weechat is already installed
-RESTRICT="test"
+RESTRICT="!test? ( test )"
 
 #PATCHES=( "${FILESDIR}"/${PN}-1.2-tinfo.patch )
 
@@ -74,25 +86,13 @@ pkg_setup() {
 }
 
 src_prepare() {
-	cmake-utils_src_prepare
-
-	use ruby && (
-		sed -i \
-			-e 's@\(pkg_search_module(RUBY\) \(.*\)@\1 ruby-2.5 ruby-2.4 ruby \2@' \
-			cmake/FindRuby.cmake
-	)
+	cmake_src_prepare
 
 	use luajit && (
 		sed -i \
 			-e 's@\(pkg_search_module(LUA\) \(.*\)@\1 luajit-2.1 luajit-2.0 luajit \2@' \
 			cmake/FindLua.cmake
 	)
-
-	# fix libdir placement
-	sed -i \
-		-e "s:lib/:$(get_libdir)/:g" \
-		-e "s:lib\":$(get_libdir)\":g" \
-		CMakeLists.txt || die "sed failed"
 
 	# install only required translations
 	local i
@@ -131,44 +131,50 @@ src_configure() {
 	local needlua=$( (use lua || use luajit) && echo "yes" || echo "no");
 
 	local mycmakeargs=(
+		-DLIBDIR=/usr/$(get_libdir)
+		-DENABLE_JAVASCRIPT=OFF
+		-DENABLE_LARGEFILE=ON
 		-DENABLE_NCURSES=$(usex ncurses)
 		-DENABLE_HEADLESS=$(usex headless)
-		-DENABLE_LARGEFILE=ON
-		-DENABLE_JAVASCRIPT=OFF
 		-DENABLE_ALIAS=$(usex alias)
 		-DENABLE_BUFLIST=$(usex buflist)
-		-DENABLE_DOC=$(usex doc)
 		-DENABLE_CHARSET=$(usex charset)
+		-DENABLE_DOC=$(usex doc)
 		-DENABLE_EXEC=$(usex exec)
 		-DENABLE_FIFO=$(usex fifo)
+		-DENABLE_FSET=$(usex fset)
 		-DENABLE_GUILE=$(usex guile)
 		-DENABLE_IRC=$(usex irc)
 		-DENABLE_LOGGER=$(usex logger)
 		-DENABLE_LUA="${needlua}"
+		-DENABLE_MAN=$(usex man)
 		-DENABLE_NLS=$(usex nls)
 		-DENABLE_PERL=$(usex perl)
 		-DENABLE_PHP=$(usex php)
 		-DENABLE_PYTHON=$(usex python)
 		-DENABLE_RELAY=$(usex relay)
 		-DENABLE_RUBY=$(usex ruby)
-		-DENABLE_SCRIPTS=$(usex scripts)
 		-DENABLE_SCRIPT=$(usex scripts)
-		-DENABLE_ASPELL=$(usex spell)
-		-DENABLE_GNUTLS=$(usex ssl)
+		-DENABLE_SCRIPTS=$(usex scripts)
+		-DENABLE_SPELL=$(usex spell)
+		-DENABLE_ENCHANT=$(usex enchant)
 		-DENABLE_TCL=$(usex tcl)
 		-DENABLE_TESTS=$(usex test)
 		-DENABLE_TRIGGER=$(usex trigger)
 		-DENABLE_XFER=$(usex xfer)
 	)
 
-	if use python; then
-		python_export PYTHON_LIBPATH
-		mycmakeargs+=(
-			-DPYTHON_EXECUTABLE="${PYTHON}"
-			-DPYTHON_LIBRARY="${PYTHON_LIBPATH}"
-		)
-		[[ ${EPYTHON} == python3* ]] && mycmakeargs+=( -DENABLE_PYTHON3=yes )
-	fi
+	cmake_src_configure
+}
 
-	cmake-utils_src_configure
+pkg_postinst() {
+	xdg_desktop_database_update
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
+}
+
+pkg_postrm() {
+	xdg_desktop_database_update
+	xdg_icon_cache_update
+	xdg_mimeinfo_database_update
 }
