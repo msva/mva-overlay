@@ -1,7 +1,7 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DESCRIPTION="Password hashing software that won the Password Hashing Competition (PHC)"
 HOMEPAGE="https://github.com/P-H-C/phc-winner-argon2"
