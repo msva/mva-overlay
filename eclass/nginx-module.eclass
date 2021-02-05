@@ -26,7 +26,7 @@ inherit ${VCS} toolchain-funcs flag-o-matic eutils pax-utils multilib patches
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_install
 case "${EAPI:-0}" in
-	6) ;;
+	7) ;;
 	*) die "EAPI=${EAPI} is not supported" ;;
 esac
 
