@@ -3,13 +3,16 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{4,5,6} )
+PYTHON_COMPAT=( python3_{7,8,9} )
 
 inherit eutils git-r3 cmake-utils python-r1
 
 DESCRIPTION="A lightweight C++11 Distributed Hash Table implementation"
 HOMEPAGE="https://github.com/savoirfairelinux/opendht/blob/master/README.md"
 EGIT_REPO_URI="https://github.com/savoirfairelinux/${PN}.git"
+
+# TODO: https://github.com/savoirfairelinux/opendht/blob/master/CMakeLists.txt
+# implement cmake options and drop argon submodule
 
 if [[ ${PV} == *9999* ]]; then
 	EGIT_BRANCH="master"
@@ -28,7 +31,7 @@ IUSE="doc python static-libs tools"
 DEPEND="
 	dev-libs/msgpack
 	net-libs/gnutls
-	python? ( dev-python/cython[$(python_gen_usedep python3_{4,5,6})] )
+	python? ( dev-python/cython[${PYTHON_USEDEP}] )
 	tools? ( sys-libs/readline:0 )"
 RDEPEND="${DEPEND}"
 

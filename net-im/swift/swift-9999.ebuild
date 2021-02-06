@@ -3,9 +3,11 @@
 
 EAPI=7
 
-# TODO: make it a bit more lua*/luajit compatible
+LUA_COMPAT=( lua5-{1..2} luajit )
+PYTHON_COMPAT=( python3_{6..9} )
 
-inherit patches gnome2-utils scons-utils toolchain-funcs git-r3
+inherit lua-single python-any-r1 scons-utils toolchain-funcs
+inherit xdg patches git-r3
 
 DESCRIPTION="An elegant, secure, adaptable and intuitive XMPP Client"
 HOMEPAGE="https://swift.im/"
@@ -13,12 +15,13 @@ EGIT_REPO_URI="https://github.com/swift/swift"
 
 LICENSE="BSD BSD-1 CC-BY-3.0 GPL-3 OFL-1.1"
 SLOT="4/0"
-KEYWORDS="amd64"
+KEYWORDS="~amd64"
 IUSE="client expat gconf +icu +idn lua spell test zeroconf"
 REQUIRED_USE="
 	|| ( icu idn )
 	gconf? ( client )
 	spell? ( client )
+	lua? ( ${LUA_REQUIRED_USE} )
 "
 
 RDEPEND="
@@ -65,8 +68,19 @@ DOCS=(
 	"Swiften/ChangeLog.md"
 )
 
+pkg_setup() {
+	python-any-r1_pkg_setup
+	use lua && lua-single_pkg_setup
+}
+
 src_prepare() {
 	patches_src_prepare
+
+	# Don't include '/usr/lib*' in the link command line for `swiften-config`
+	sed -e '/_LIBDIRFLAGS/d' -i Swiften/Config/SConscript || die
+
+	# Use correct LIBDIR for Lua
+	sed -e "s/lib/$(get_libdir)/g" -i Sluift/SConscript.variant || die
 
 	# Hack for finding Qt system libs
 	mkdir "${T}"/qt || die
@@ -154,6 +168,13 @@ src_configure() {
 		valgrind="no"
 		zlib_bundled_enable="false"
 	)
+	if use lua; then
+		MYSCONS+=(
+			lua_includedir="$(lua_get_include_dir)"
+			lua_libdir="${EPREFIX}/usr/$(get_libdir)"
+			lua_libname="$(basename -s '.so' $(lua_get_shared_lib))"
+		)
+		fi
 }
 
 src_compile() {
@@ -196,9 +217,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	use client && gnome2_icon_cache_update
+	use client && xdg_icon_cache_update
 }
 
 pkg_postrm() {
-	use client && gnome2_icon_cache_update
+	use client && xdg_icon_cache_update
 }

@@ -1,17 +1,16 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-PYTHON_COMPAT=( python2_7 )
-# python3_{4,5,6} )
-# ^ e4u
+PYTHON_COMPAT=( python3_{7,8,9} )
 #pypy{,3} )
 # ^ protobuf
 inherit distutils-r1 git-r3
 
-DESCRIPTION="A WhatsApp XMPP Gateway based on Spectrum 2 and Yowsup 2"
+DESCRIPTION="A WhatsApp XMPP Gateway based on Spectrum 2 and Yowsup 3"
 HOMEPAGE="https://github.com/stv0g/transwhat"
 EGIT_REPO_URI="https://github.com/stv0g/transwhat.git"
+EGIT_BRANCH="yowsup-3"
 
 LICENSE="GPL-3+"
 SLOT="0"
@@ -19,8 +18,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
-	dev-python/e4u[${PYTHON_USEDEP}]
-	dev-python/pillow[${PYTHON_USEDEP}]
+	dev-python/pyspectrum2[${PYTHON_USEDEP}]
 	dev-python/protobuf-python[${PYTHON_USEDEP}]
 	dev-python/python-dateutil[${PYTHON_USEDEP}]
 	net-im/yowsup[${PYTHON_USEDEP}]
