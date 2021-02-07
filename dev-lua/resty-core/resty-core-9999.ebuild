@@ -31,4 +31,5 @@ DOCS=(README.markdown)
 
 each_lua_install() {
 	dolua_jit lib/resty
+	dolua_jit lib/ngx
 }
