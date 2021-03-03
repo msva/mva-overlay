@@ -1,0 +1,18 @@
+diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2021-03-03 23:46:17.004325446 +0700
++++ b/CMakeLists.txt	2021-03-04 00:03:07.574977322 +0700
+@@ -2205,6 +2205,13 @@ export(
+     FILE "${CMAKE_CURRENT_BINARY_DIR}/tg_owtTargets.cmake"
+ )
+ 
++set(PREF_DIR "${CMAKE_INSTALL_PREFIX}")
++set(LIBNAME "${PROJECT_NAME}")
++set(LIB_DIR "${CMAKE_INSTALL_LIBDIR}")
++get_target_property(VERSION ${PROJECT_NAME} VERSION)
++configure_file("${PROJECT_NAME}.pc.in" "${PROJECT_NAME}.pc" @ONLY)
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tgvoip.pc DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
++
+ configure_file(
+     "cmake/tg_owtConfig.cmake"
+     "${CMAKE_CURRENT_BINARY_DIR}/tg_owtConfig.cmake"
+

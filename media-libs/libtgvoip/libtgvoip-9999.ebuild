@@ -1,16 +1,17 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit toolchain-funcs flag-o-matic autotools patches
+inherit toolchain-funcs flag-o-matic cmake patches
 
 if [[ "${PV}" == 9999 ]]; then
+	EGIT_SUBMODULES=(-cmake)
 	EGIT_REPO_URI="https://github.com/telegramdesktop/${PN}"
 	inherit git-r3
 else
 	if [[ "${PV}" == *_pre* ]]; then
-		MY_SHA="0bda19899e3cedc093d654ee659bd637ee3a775d"
+		MY_SHA="0c0a6e476df58ee441490da72ca7a32f83e68dbd"
 	fi
 	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${MY_SHA:-${PV}}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
@@ -20,11 +21,11 @@ else
 fi
 
 DESCRIPTION="VoIP library for Telegram clients"
-HOMEPAGE="https://github.com/grishka/libtgvoip"
+HOMEPAGE="https://github.com/telegramdesktop/libtgvoip"
 
 LICENSE="Unlicense"
 SLOT="0"
-IUSE="alsa disable-reassembler libcxx libressl pulseaudio static-libs"
+IUSE="alsa libcxx libressl pulseaudio static-libs"
 REQUIRED_USE="|| ( alsa pulseaudio )"
 
 RDEPEND="
@@ -37,6 +38,7 @@ RDEPEND="
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
 	media-libs/opus
+	media-libs/tg_owt
 	pulseaudio? ( media-sound/pulseaudio )
 "
 DEPEND="
@@ -57,18 +59,21 @@ pkg_pretend() {
 }
 
 src_prepare() {
-	sed -i -r \
-		-e "/tgvoipincludedir/s@^@libtgvoip_la_LIBTOOLFLAGS = --tag=CXX\n@" \
-		Makefile.am
-
+	cp "${FILESDIR}"/cmake/"${PN}".cmake "${S}"/CMakeLists.txt
+	rm -rf "${S}"/webrtc_dsp # we'll link over tg_owt instead
+	#cp "${FILESDIR}"/cmake/"${PN}"-external_webrtc.cmake "${S}"/external_webrtc.cmake
 	patches_src_prepare
-	eautoreconf
 }
 
 src_configure() {
-	econf \
-		$(usex alsa '' '--without-alsa') \
-		$(usex pulseaudio '' '--without-pulse') \
-		--enable-dsp \
-		--enable-audio-callback
+	filter-flags '-DDEBUG'
+	append-flags '-DNDEBUG'
+	local mycmakeargs=(
+		#-DDESKTOP_APP_USE_PACKAGED=TRUE
+		#-DDESKTOP_APP_DISABLE_CRASH_REPORTS=TRUE
+		-DBUILD_STATIC_LIBRARY=$(usex static-libs ON OFF)
+		-DENABLE_ALSA=$(usex alsa ON OFF)
+		-DENABLE_PULSEAUDIO=$(usex pulseaudio ON OFF)
+	)
+	cmake_src_configure
 }

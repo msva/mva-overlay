@@ -7,7 +7,5 @@ Name: lib@LIBNAME@
 Description: Google's WebRTC library fork for Telegram clients
 Version: @VERSION@
 
-Requires.private: @REQ_INFO@
 Libs: -L${libdir} -l@LIBNAME@
-Libs.private: @PRIVATE_LIBS@
 Cflags: -I${includedir}
