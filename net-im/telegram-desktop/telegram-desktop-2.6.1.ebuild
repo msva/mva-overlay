@@ -116,7 +116,9 @@ REQUIRED_USE="
 
 pkg_pretend() {
 	if ! use webrtc; then
-		die "Telegram Desktop's upstream made webrtc mandatory for build. We're working on patch to make it possible to disable it again, but it is not ready atm."
+		eerror "Telegram Desktop's upstream made webrtc mandatory for build."
+		eerror "We're working on patch to make it possible to disable it again, but it isn't ready atm."
+		eerror "So, if build will fail - it is not a bug, you've been warned"
 	fi
 	if use custom-api-id; then
 		if [[ -n "${MY_TDESKTOP_API_ID}" ]] && [[ -n "${MY_TDESKTOP_API_HASH}" ]]; then
@@ -180,8 +182,11 @@ pkg_pretend() {
 	fi
 
 	if use system-rlottie; then
+		eerror "Currently, ${PN} is totally incompatible with Samsung's rlottie, and uses custom bundled fork."
+		eerror "Build will definitelly fail. You've been warned!"
+		eerror "Even if you have custom patches to make it build, there is another issue:"
 		ewarn ""
-		ewarn "Unfortunately, ${PN} uses custom modifications over rlottie (which aren't yet accepted by upstream)."
+		ewarn "Unfortunately, ${PN} uses custom modifications over rlottie (which aren't accepted by upstream, since they made it another way)."
 		ewarn "This leads to following facts:"
 		ewarn "  - Colors replacement maps are not working when you link against system rlottie package."
 		ewarn "      That means, for example, that 'giant animated emojis' will ignore skin-tone colors and will always be yellow"
@@ -197,15 +202,14 @@ src_unpack() {
 	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
 	use system-variant && EGIT_SUBMODULES+=(-Telegram/ThirdParty/variant)
-	# https://bugs.gentoo.org/752417
-	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
+	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie}) # Ref: https://bugs.gentoo.org/752417
 
 	git-r3_src_unpack
 }
 
 src_prepare() {
-	# https://bugs.gentoo.org/752417
 	use system-rlottie || (
+	# Ref: https://bugs.gentoo.org/752417
 		sed -i \
 			-e 's/DESKTOP_APP_USE_PACKAGED/0/' \
 			cmake/external/rlottie/CMakeLists.txt || die
@@ -242,14 +246,15 @@ src_configure() {
 		-Wno-switch
 		-DLIBDIR="$(get_libdir)"
 		-DTDESKTOP_DISABLE_AUTOUPDATE
+		$(usex webrtc "" "-DDESKTOP_APP_DISABLE_WEBRTC_INTEGRATION")
 	)
 
 	local mycmakeargs=(
 		#-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON # header only lib, some git version. prevents warnings.
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 
-		-DDESKTOP_APP_USE_GLIBC_WRAPS=OFF
-		-DTDESKTOP_LAUNCHER_BASENAME="${PN}"
+		-DDESKTOP_APP_USE_GLIBC_WRAPS=OFF # (?)
+		-DTDESKTOP_LAUNCHER_BASENAME="${PN}" # org.telegram.desktop.desktop # (?)
 
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
@@ -264,7 +269,6 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex dbus OFF ON)
 
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex wayland OFF ON)"
-#		-DDESKTOP_APP_DISABLE_WEBRTC_INTEGRATION="$(usex webrtc OFF ON)"
 
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
 

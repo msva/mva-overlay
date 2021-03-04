@@ -10,7 +10,7 @@ diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
 +set(LIB_DIR "${CMAKE_INSTALL_LIBDIR}")
 +get_target_property(VERSION ${PROJECT_NAME} VERSION)
 +configure_file("${PROJECT_NAME}.pc.in" "${PROJECT_NAME}.pc" @ONLY)
-+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tgvoip.pc DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
++install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
 +
  configure_file(
      "cmake/tg_owtConfig.cmake"
