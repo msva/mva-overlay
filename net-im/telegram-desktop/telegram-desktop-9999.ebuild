@@ -154,7 +154,7 @@ pkg_pretend() {
 		eerror "P.S. Please, let me (mva) know if you'll get it to work"
 	fi
 
-	if get-flag -flto >/dev/null; then
+	if get-flag -flto >/dev/null || use lto; then
 		eerror ""
 		eerror "Keep in mind, that LTO build eats about ~20G RAM for buildind, and final binary size will be about 2.5G."
 		if tc-is-clang; then
@@ -212,7 +212,7 @@ src_prepare() {
 		-e '/-W.*/d' \
 		-e '/PIC/a-Wno-error\n-Wno-all' \
 		-e "$(usex debug '' 's@-g[a-zA-Z0-9]*@@')" \
-		-e 's@-flto@@' \
+		-e "$(usex lto '' 's@-flto@@')" \
 		-e "s@-Ofast@@" \
 		cmake/options_linux.cmake || die
 
@@ -228,6 +228,10 @@ src_prepare() {
 src_configure() {
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
 	append-flags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
+	use lto && (
+		append-flags '-flto'
+		append-ldflags '-flto'
+	)
 	local mycxxflags=(
 		${CXXFLAGS}
 		-Wno-error=deprecated-declarations
