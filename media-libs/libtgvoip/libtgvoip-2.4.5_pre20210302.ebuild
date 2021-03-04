@@ -18,7 +18,7 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	# ~mips
 	# ^ pulseaudio
-	S="${WORKDIR}/${PN}-${MYPV}"
+	S="${WORKDIR}/${PN}-${MY_PV}"
 fi
 
 DESCRIPTION="VoIP library for Telegram clients"
