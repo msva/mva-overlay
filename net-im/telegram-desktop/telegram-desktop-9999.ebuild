@@ -259,20 +259,20 @@ src_configure() {
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
 
-		-DDESKTOP_APP_DISABLE_SPELLCHECK=$(usex spell OFF ON)
+		-DDESKTOP_APP_DISABLE_SPELLCHECK=$(usex !spell)
 
 		# Unbundling:
 		-DDESKTOP_APP_USE_PACKAGED=ON # Main
 
-		-DDESKTOP_APP_DISABLE_GTK_INTEGRATION="$(usex gtk OFF ON)"
+		-DDESKTOP_APP_DISABLE_GTK_INTEGRATION="$(usex !gtk)"
 
-		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex dbus OFF ON)
+		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex !dbus)
 
-		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex wayland OFF ON)"
+		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
 
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
 
-		-DTDESKTOP_API_TEST=$(usex test ON OFF)
+		-DTDESKTOP_API_TEST=$(usex test)
 
 		# Snapcraft (snap, flatpack, whatever) API keys:
 		# As of my discussion with John Preston, he specifically asked TG servers owners to never ban snap's keys:
@@ -284,20 +284,6 @@ src_configure() {
 	)
 	cmake_src_configure
 }
-
-#src_install() {
-#	cmake_src_install
-#	default
-#
-#	local icon_size
-#	for icon_size in 16 32 48 64 128 256 512; do
-#		newicon -s "${icon_size}" \
-#			"${S}/Telegram/Resources/art/icon${icon_size}.png" \
-#			telegram.png
-#	done
-#
-#	newmenu "${S}"/lib/xdg/telegramdesktop.desktop telegram-desktop.desktop
-#}
 
 pkg_preinst() {
 	xdg_pkg_preinst
