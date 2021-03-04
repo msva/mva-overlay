@@ -10,11 +10,15 @@ if [[ "${PV}" == *9999* ]]; then
 	inherit git-r3
 else
 #####################
-#	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
+#	if [[ "${PV}" == *_pre* ]]; then
+#		EGIT_COMMIT="..."
+#	fi
+#	MY_PV="${EGIT_COMMIT:-${PV}}"
+#	SRC_URI="https://github.com/desktop-app/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
 #	# ^ no releases yet
-#	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
+#	S="${WORKDIR}/${PN}-${MY_PV}"
 #####################
-#	^^^^^^^^ tarballed version doesn't work because of submodules (libvpx and libyuv)
+#	^^^^^^^^ tarballs doesn't work because of submodules (libvpx and libyuv)
 #	TODO: unbundle them (!!!)
 #	// Currently I've not enough spare time for that.
 #	// Help is appreciated

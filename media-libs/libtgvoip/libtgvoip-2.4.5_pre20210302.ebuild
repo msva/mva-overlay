@@ -11,13 +11,14 @@ if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 else
 	if [[ "${PV}" == *_pre* ]]; then
-		MY_SHA="0c0a6e476df58ee441490da72ca7a32f83e68dbd"
+		EGIT_COMMIT="0c0a6e476df58ee441490da72ca7a32f83e68dbd"
 	fi
-	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${MY_SHA:-${PV}}.tar.gz -> ${P}.tar.gz"
+	MY_PV="${EGIT_COMMIT:-${PV}}"
+	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	# ~mips
 	# ^ pulseaudio
-	S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
+	S="${WORKDIR}/${PN}-${MYPV}"
 fi
 
 DESCRIPTION="VoIP library for Telegram clients"
