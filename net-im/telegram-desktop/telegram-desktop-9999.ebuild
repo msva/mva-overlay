@@ -121,18 +121,18 @@ pkg_pretend() {
 		eerror "So, if build will fail - it is not a bug, you've been warned"
 	fi
 	if use custom-api-id; then
-		if [[ -n "${MY_TDESKTOP_API_ID}" ]] && [[ -n "${MY_TDESKTOP_API_HASH}" ]]; then
-			einfo "Your custom ApiId is ${MY_TDESKTOP_API_ID}"
-			einfo "Your custom ApiHash is ${MY_TDESKTOP_API_HASH}"
+		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
+			einfo "Your custom ApiId is ${TELEGRAM_CUSTOM_API_ID}"
+			einfo "Your custom ApiHash is ${TELEGRAM_CUSTOM_API_HASH}"
 		else
 			eerror ""
-			eerror "It seems you did not set one or both of MY_TDESKTOP_API_ID and MY_TDESKTOP_API_HASH variables,"
+			eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
 			eerror "which are required for custom-api-id USE-flag."
 			eerror "You can set them either in:"
 			eerror "- /etc/portage/make.conf (globally, so all applications you'll build will see that ID and HASH"
 			eerror "- /etc/portage/env/${CATEGORY}/${PN} (privately for this package builds)"
 			eerror ""
-			die "You should correctly set both MY_TDESKTOP_API_ID and MY_TDESKTOP_API_HASH variables if you want custom-api-id USE-flag"
+			die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables if you want custom-api-id USE-flag"
 		fi
 	fi
 
@@ -140,24 +140,26 @@ pkg_pretend() {
 		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang. Or set TG_FORCE_OLD_GCC=1 to override this check."
 	fi
 
-	if tc-is-clang && has ccache ${FEATURES}; then
-		eerror ""
-		eerror "Somewhy clang fails the compilation when it working with some CMake's PCH files if CCache is enabled (at least, this bug reproduces on 8.x and 9.x clang versions)"
-		eerror "Reasons are still not fully investigated, but failure is reproducible, and there is an issue at CMake tracker: https://gitlab.kitware.com/cmake/cmake/issues/19923"
-		eerror ""
-		eerror "Please, either disable ccache feature for ${PN} package, use gcc (slows the build too),"
-		eerror "or better, please help us to investigate and fix the problem (open issue at GitHub if you'll have any progress on it)"
-		eerror ""
-		eerror "As a workaround you can use CCACHE_RECACHE=1, but it will anyway slow down the compilation, as it will act as there is no cache."
-		eerror ""
-		eerror "Alternate way is to manually remove cached entries for 'bad' PCHs from ccache dir, but this way is fragile and not guaranteed to work."
-		eerror "Running this command **before** emergeing ${PN} helps me, but it may require adding another entries for you:"
-		eerror "    #  grep -rEl '(Telegram|lib_(export|spellcheck|ui)).dir.*pch:' ${CCACHE_DIR:-/var/tmp/portage/.ccache} | sed -r 's@(.*)\.d\$@\1.d \1.o@' | xargs -r rm"
-		eerror ""
-		eerror "You have been warned!"
-		eerror ""
-		eerror "P.S. Please, let me (mva) know if you'll get it to work"
-	fi
+
+# works fine for me now. At least with clang-10.0.1 + cmake-3.18.4 + ccache-3.7.12
+#	if tc-is-clang && has ccache ${FEATURES}; then
+#		eerror ""
+#		eerror "Somewhy clang fails the compilation when it working with some CMake's PCH files if CCache is enabled (at least, this bug reproduces on 8.x and 9.x clang versions)"
+#		eerror "Reasons are still not fully investigated, but failure is reproducible, and there is an issue at CMake tracker: https://gitlab.kitware.com/cmake/cmake/issues/19923"
+#		eerror ""
+#		eerror "Please, either disable ccache feature for ${PN} package, use gcc (slows the build too),"
+#		eerror "or better, please help us to investigate and fix the problem (open issue at GitHub if you'll have any progress on it)"
+#		eerror ""
+#		eerror "As a workaround you can use CCACHE_RECACHE=1, but it will anyway slow down the compilation, as it will act as there is no cache."
+#		eerror ""
+#		eerror "Alternate way is to manually remove cached entries for 'bad' PCHs from ccache dir, but this way is fragile and not guaranteed to work."
+#		eerror "Running this command **before** emergeing ${PN} helps me, but it may require adding another entries for you:"
+#		eerror "    #  grep -rEl '(Telegram|lib_(export|spellcheck|ui)).dir.*pch:' ${CCACHE_DIR:-/var/tmp/portage/.ccache} | sed -r 's@(.*)\.d\$@\1.d \1.o@' | xargs -r rm"
+#		eerror ""
+#		eerror "You have been warned!"
+#		eerror ""
+#		eerror "P.S. Please, let me (mva) know if you'll get it to work"
+#	fi
 
 	if get-flag -flto >/dev/null || use lto; then
 		eerror ""
