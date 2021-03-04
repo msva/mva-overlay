@@ -38,7 +38,7 @@ RDEPEND="
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
 	media-libs/opus
-	>media-libs/tg_owt-0_pre20210101[pulseaudio=]
+	>media-libs/tg_owt-0_pre20210101[pulseaudio=,libcxx=]
 	pulseaudio? ( media-sound/pulseaudio )
 "
 DEPEND="

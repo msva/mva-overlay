@@ -81,7 +81,7 @@ COMMON_DEPEND="
 	webrtc? (
 		dev-cpp/abseil-cpp:=
 		media-libs/libjpeg-turbo:=
-		>media-libs/tg_owt-0_pre20210101[pulseaudio=]
+		>media-libs/tg_owt-0_pre20210101[pulseaudio=,libcxx=]
 	)
 	x11-libs/libdrm:=
 	x11-libs/libva:=[X(-)?,drm]
@@ -115,6 +115,9 @@ REQUIRED_USE="
 "
 
 pkg_pretend() {
+	if ! use webrtc; then
+		die "Telegram Desktop's upstream made webrtc mandatory for build. We're working on patch to make it possible to disable it again, but it is not ready atm."
+	fi
 	if use custom-api-id; then
 		if [[ -n "${MY_TDESKTOP_API_ID}" ]] && [[ -n "${MY_TDESKTOP_API_HASH}" ]]; then
 			einfo "Your custom ApiId is ${MY_TDESKTOP_API_ID}"
