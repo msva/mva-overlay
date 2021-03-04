@@ -38,7 +38,7 @@ RDEPEND="
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
 	media-libs/opus
-	media-libs/tg_owt
+	>media-libs/tg_owt-0_pre20210101[pulseaudio=]
 	pulseaudio? ( media-sound/pulseaudio )
 "
 DEPEND="
@@ -66,8 +66,8 @@ src_prepare() {
 }
 
 src_configure() {
-	filter-flags '-DDEBUG'
-	append-flags '-DNDEBUG'
+	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
+	append-flags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
 	local mycmakeargs=(
 		#-DDESKTOP_APP_USE_PACKAGED=TRUE
 		#-DDESKTOP_APP_DISABLE_CRASH_REPORTS=TRUE

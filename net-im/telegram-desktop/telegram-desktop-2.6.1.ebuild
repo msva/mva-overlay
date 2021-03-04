@@ -74,14 +74,14 @@ COMMON_DEPEND="
 	!pulseaudio? ( media-sound/apulse[sdk] )
 	pulseaudio? ( media-sound/pulseaudio )
 	system-fonts? ( media-fonts/open-sans:* )
-	system-libtgvoip? ( media-libs/libtgvoip:=[libcxx=] )
+	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx=] )
 	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads,-cache] )
 	spell? ( app-text/enchant:= )
 	sys-libs/zlib:=[minizip]
 	webrtc? (
 		dev-cpp/abseil-cpp:=
 		media-libs/libjpeg-turbo:=
-		media-libs/tg_owt[pulseaudio=]
+		>media-libs/tg_owt-0_pre20210101[pulseaudio=]
 	)
 	x11-libs/libdrm:=
 	x11-libs/libva:=[X(-)?,drm]
@@ -226,8 +226,8 @@ src_prepare() {
 }
 
 src_configure() {
-	filter-flags '-DDEBUG'
-	append-flags '-DNDEBUG'
+	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
+	append-flags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
 	local mycxxflags=(
 		${CXXFLAGS}
 		-Wno-error=deprecated-declarations

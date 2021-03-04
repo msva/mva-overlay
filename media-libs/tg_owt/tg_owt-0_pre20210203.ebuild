@@ -12,6 +12,8 @@ else
 	KEYWORDS="~amd64 ~ppc64"
 	TG_OWT_COMMIT="a19877363082da634a3c851a4698376504d2eaee"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${TG_OWT_COMMIT}.tar.gz -> ${P}.tar.gz"
+	# ^ no releases yet
+	S="${WORKDIR}/${PN}-${TG_OWT_COMMIT}"
 fi
 
 DESCRIPTION="WebRTC (video) library (fork) for Telegram clients"
@@ -48,7 +50,6 @@ BDEPEND="
 	amd64? ( dev-lang/yasm )
 "
 
-
 pkg_pretend() {
 	if use libcxx; then
 		append-cxxflags "-stdlib=libc++"
@@ -64,12 +65,12 @@ pkg_pretend() {
 
 src_configure() {
 	append-flags '-fPIC'
-	filter-flags '-DDEBUG'
-	append-flags '-DNDEBUG'
+	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
+	append-flags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=TRUE
 		-DTG_OWT_PACKAGED_BUILD=TRUE
-		-DTG_OWT_USE_PROTOBUF=TRUE #FALSE # Disabled anyway
+		-DTG_OWT_USE_PROTOBUF=TRUE # Strange things: it is disabled anyway, but build fails with FALSE.
 	)
 	cmake_src_configure
 }
