@@ -63,6 +63,11 @@ pkg_pretend() {
 	fi
 }
 
+src_prepare() {
+	cp "${FILESDIR}"/"${PN}".pc.in "${S}" || die "failed to copy pkgconfig template"
+	patches_src_prepare
+}
+
 src_configure() {
 	append-flags '-fPIC'
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
