@@ -9,11 +9,21 @@ if [[ "${PV}" == *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/desktop-app/${PN}"
 	inherit git-r3
 else
+#####################
+#	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
+#	# ^ no releases yet
+#	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
+#####################
+#	^^^^^^^^ tarballed version doesn't work because of submodules (libvpx and libyuv)
+#	TODO: unbundle them (!!!)
+#	// Currently I've not enough spare time for that.
+#	// Help is appreciated
 	KEYWORDS="~amd64 ~ppc64"
-	TG_OWT_COMMIT="a19877363082da634a3c851a4698376504d2eaee"
-	SRC_URI="https://github.com/desktop-app/${PN}/archive/${TG_OWT_COMMIT}.tar.gz -> ${P}.tar.gz"
-	# ^ no releases yet
-	S="${WORKDIR}/${PN}-${TG_OWT_COMMIT}"
+#########
+	EGIT_COMMIT="a19877363082da634a3c851a4698376504d2eaee"
+	EGIT_REPO_URI="https://github.com/desktop-app/${PN}"
+	inherit git-r3
+#########
 fi
 
 DESCRIPTION="WebRTC (video) library (fork) for Telegram clients"
@@ -71,7 +81,7 @@ src_prepare() {
 src_configure() {
 	append-flags '-fPIC'
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
-	append-flags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
+	append-cppflags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
 	local mycmakeargs=(
 		-DBUILD_SHARED_LIBS=TRUE
 		-DTG_OWT_PACKAGED_BUILD=TRUE

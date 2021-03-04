@@ -230,7 +230,7 @@ src_prepare() {
 
 src_configure() {
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
-	append-flags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
+	append-cppflags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
 	use lto && (
 		append-flags '-flto'
 		append-ldflags '-flto'
