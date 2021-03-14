@@ -3,15 +3,14 @@
 
 EAPI=7
 
-LUA_COMPAT="luajit2"
-VCS="git"
-GITHUB_A="jdesgats"
-GITHUB_PN="ILuaJIT"
+LUA_COMPAT=( luajit )
 
-inherit lua
+inherit lua git-r3
 
 DESCRIPTION="Readline powered shell for LuaJIT"
 HOMEPAGE="https://github.com/jdesgats/ILuaJIT"
+EGIT_REPO_URI="https://github.com/jdesgats/ILuaJIT"
+
 
 LICENSE="MIT"
 SLOT="0"
@@ -27,17 +26,23 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 DOCS=(README.md)
-HTML_DOCS=(html/.)
 
-all_lua_prepare() {
-	use doc && luadoc . -d html
-	lua_default
+src_prepare() {
+	use doc && {
+		luadoc . -d html
+		export HTML_DOCS=(html/.)
+	}
+	default
+	lua_copy_sources
 }
 
-each_lua_install() {
-	dolua_jit *.lua
+lua_src_install() {
+	insinto $(lua_get_lmod_dir)
+	doins *.lua
 }
 
-all_lua_install() {
+src_install() {
+	lua_foreach_impl lua_src_install
 	dobin "${FILESDIR}/${PN}"
+	einstalldocs
 }
