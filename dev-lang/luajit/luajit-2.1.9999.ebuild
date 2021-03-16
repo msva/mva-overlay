@@ -26,9 +26,7 @@ DEPEND="
 	app-eselect/eselect-lua
 "
 
-PDEPEND="
-	virtual/lua[luajit]
-"
+PDEPEND=""
 
 HTML_DOCS=( "doc/." )
 
