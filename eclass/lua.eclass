@@ -35,7 +35,7 @@
 # @DESCRIPTION:
 # This variable contains a space separated list of targets (see above) a package
 # is compatible to. It must be set before the `inherit' call.
-: ${LUA_COMPAT:=lua51 lua52 lua53 luajit2}
+: ${LUA_COMPAT:=lua51 lua52 lua53 luajit2 lua5-1 lua5-2 lua5-3 lua5-4 luajit}
 
 # @ECLASS-VARIABLE: LUA_OPTIONAL
 # @DESCRIPTION:
