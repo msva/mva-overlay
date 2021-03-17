@@ -132,6 +132,9 @@ lua_implementation_depend() {
 			lua_pn="dev-lang/luajit"
 			lua_slot=":2"
 			;;
+		luajit|lua5-*)
+			# temp. kludge
+			;;
 		*) die "$1: unknown Lua implementation"
 	esac
 
