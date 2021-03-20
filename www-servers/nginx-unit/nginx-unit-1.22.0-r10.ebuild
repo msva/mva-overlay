@@ -3,19 +3,19 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{6,7,8} pypy{,3} )
+PYTHON_COMPAT=( python3_{7,8,9} pypy3 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby24 ruby25 ruby26 ruby27"
+USE_RUBY="ruby25 ruby26 ruby27 ruby30"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-2 php7-3 php7-4"
+USE_PHP="php7-2 php7-3 php7-4 php8-0"
 
-inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches
+inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches golang-base
 
 DESCRIPTION="Dynamic web and application server"
 HOMEPAGE="https://unit.nginx.org/"
@@ -28,12 +28,12 @@ LICENSE="Apache-2.0"
 SLOT="0"
 
 UNIT_MODULES="perl php python ruby"
-IUSE="debug examples ipv6 ssl +unix-sockets ${UNIT_MODULES}"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
+IUSE="debug examples ipv6 ssl +unix-sockets"
+REQUIRED_USE="unit_modules_python? ( ${PYTHON_REQUIRED_USE} )"
 
 for mod in $UNIT_MODULES; do
 	IUSE="${IUSE} unit_modules_${mod}"
-	REQUIRED_USE="${REQUIRED_USE} ${mod}? ( unit_modules_${mod} )"
+#	REQUIRED_USE="${REQUIRED_USE} ${mod}? ( unit_modules_${mod} )"
 done
 
 DEPEND="
@@ -62,13 +62,15 @@ src_prepare() {
 	sed -r \
 		-e 's@-Werror@@g' \
 		-i auto/cc/test
+
+	sed -i '/^CFLAGS/d' auto/make || die
+
 	patches_src_prepare
-#	default
 	tc-env_build
 }
 
 _unit_perl_configure() {
-	./configure perl # multislot?
+	./configure perl
 }
 _unit_php_configure() {
 	for impl in $(php_get_slots); do
@@ -90,15 +92,15 @@ _unit_ruby_configure() {
 }
 
 src_configure() {
+	append-cflags $(test-flags-CC -fPIC)
 	./configure \
 		--cc="${CC}" \
 		--cc-opt="${CFLAGS}" \
 		--ld-opt="${LDFLAGS}" \
-		--bindir="/usr/bin" \
-		--sbindir="/usr/sbin" \
-		--prefix="/var/lib/${PN}" \
-		--modules="/usr/lib/${PN}/modules" \
+		--prefix="/usr" \
+		--modules="$(get_libdir)/${PN}" \
 		--state="/var/lib/${PN}" \
+		--tmp="/tmp" \
 		--pid="/run/${PN}.pid" \
 		--log="/var/log/${PN}.log" \
 		$(usex ipv6 '' "--no-ipv6") \
@@ -117,7 +119,7 @@ src_compile() {
 }
 
 src_install() {
-	default
+	emake DESTDIR="${D}" install libunit-install
 	diropts -m 0770
 	keepdir /var/lib/"${PN}"
 	dobin "${FILESDIR}"/util/"${PN}"-{save,load}config
