@@ -1,1 +1,2 @@
 move dev-python/neovim-python-client dev-python/pynvim
+move app-crypt/csuser-plugin www-plugins/gosuslugi-plugin
