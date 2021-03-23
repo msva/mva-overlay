@@ -16,13 +16,21 @@ PHP_EXT_NEEDED_USE="embed"
 USE_PHP="php7-2 php7-3 php7-4 php8-0"
 
 inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches golang-base
+[[ "${PV}" = 9999 ]] && inherit git-r3
 
 DESCRIPTION="Dynamic web and application server"
 HOMEPAGE="https://unit.nginx.org/"
 
-MY_P="${P//nginx-}"
-SRC_URI="https://unit.nginx.org/download/${MY_P}.tar.gz"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+
+if [[ "${PV}" = 9999 ]]; then
+	EGIT_REPO_URI="https://github.com/nginx/unit"
+	KEYWORDS=""
+	MY_P="${P}"
+else
+	MY_P="${P//nginx-}"
+	SRC_URI="https://unit.nginx.org/download/${MY_P}.tar.gz"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+fi
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -33,7 +41,6 @@ REQUIRED_USE="unit_modules_python? ( ${PYTHON_REQUIRED_USE} )"
 
 for mod in $UNIT_MODULES; do
 	IUSE="${IUSE} unit_modules_${mod}"
-#	REQUIRED_USE="${REQUIRED_USE} ${mod}? ( unit_modules_${mod} )"
 done
 
 DEPEND="
@@ -50,12 +57,25 @@ DEPEND="
 		dev-libs/openssl:0=
 	)
 "
+#	unit_modules_go? (
+#		dev-lang/go:*
+#	)
+#	unit_modules_nodejs? (
+#		net-libs/nodejs:*
+#	)
+#	unit_modules_java? (
+#		virtual/jre:*
+#	)
 RDEPEND="${DEPEND}"
 S="${WORKDIR}/${MY_P}"
 
 src_unpack() {
 	# prevent ruby-ng
-	default
+	if [[ "${PV}" == 9999 ]]; then
+		git-r3_src_unpack
+	else
+		default
+	fi
 }
 
 src_prepare() {
@@ -69,6 +89,22 @@ src_prepare() {
 	tc-env_build
 }
 
+_unit_java_configure() {
+	unset _JAVA_OPTIONS # breaks the build if defined
+	./configure java --home="${NGINX_UNIT_JAVA_HOME:-/etc/java-config-2/current-system-vm}" # multislot?
+	# ^ if we will use just ${JAVA_HOME}, then it will be the same result
+	# as if we called it without the --home (it takes that by itself)
+	# Also, JAVA_HOME can be inherited from user's environment (so,
+	# user-vm will be used instead of system-vm).
+	# That's why I decided to manually set system-vm, but still
+	# give user a way to specify exact the vm they want.
+}
+_unit_go_configure() {
+	./configure go --go-path="$(get_golibdir_gopath)" # multislot?
+}
+_unit_nodejs_configure() {
+	./configure nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
+}
 _unit_perl_configure() {
 	./configure perl
 }
