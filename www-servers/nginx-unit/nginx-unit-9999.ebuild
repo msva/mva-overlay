@@ -13,7 +13,7 @@ PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-2 php7-3 php7-4 php8-0"
+USE_PHP="php7-3 php7-4 php8-0"
 
 inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches golang-base
 [[ "${PV}" = 9999 ]] && inherit git-r3

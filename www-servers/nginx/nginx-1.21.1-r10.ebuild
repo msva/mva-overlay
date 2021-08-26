@@ -17,8 +17,8 @@ EAPI=7
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="ruby24 ruby25"
-# ruby26"
+USE_RUBY="ruby26 ruby27 ruby30"
+
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
 
@@ -90,7 +90,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="6.0.6"
+HTTP_PASSENGER_MODULE_PV="6.0.10"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -142,7 +142,7 @@ HTTP_PAGESPEED_PSOL_WD="${WORKDIR}/${HTTP_PAGESPEED_PSOL_PN}"
 HTTP_HLS_AUDIO_MODULE_A="flavioribeiro"
 HTTP_HLS_AUDIO_MODULE_PN="nginx-audio-track-for-hls-module"
 HTTP_HLS_AUDIO_MODULE_PV="0.2"
-HTTP_HLS_AUDIO_MODULE_SHA="84f79f70ac9752deb263d777308e9d667ae34e57"
+HTTP_HLS_AUDIO_MODULE_SHA="20b6fd3d67cd73ab0ecf82ae3842a2931a203db5"
 HTTP_HLS_AUDIO_MODULE_P="${HTTP_HLS_AUDIO_MODULE_PN}-${HTTP_HLS_AUDIO_MODULE_SHA:-${HTTP_HLS_AUDIO_MODULE_PV}}"
 HTTP_HLS_AUDIO_MODULE_URI="https://github.com/${HTTP_HLS_AUDIO_MODULE_A}/${HTTP_HLS_AUDIO_MODULE_PN}/archive/${HTTP_HLS_AUDIO_MODULE_SHA:-${HTTP_HLS_AUDIO_MODULE_PV}}.tar.gz"
 HTTP_HLS_AUDIO_MODULE_WD="${WORKDIR}/${HTTP_HLS_AUDIO_MODULE_P}"
@@ -160,7 +160,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="1.2.7"
+HTTP_NCHAN_MODULE_PV="1.2.8"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -243,7 +243,7 @@ STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.18rc4"
+HTTP_LUA_MODULE_PV="0.10.20"
 #HTTP_LUA_MODULE_SHA="a3ac3f557eed7efa3460d0870684f18d232adf5f"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -252,7 +252,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 # stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
-STREAM_LUA_MODULE_PV="0.0.9rc3"
+STREAM_LUA_MODULE_PV="0.0.10"
 #STREAM_LUA_MODULE_SHA="c7ac2234ec7a26bdcd3b17cbb5314f17344f9f5c"
 STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
 STREAM_LUA_MODULE_URI="https://github.com/${STREAM_LUA_MODULE_A}/${STREAM_LUA_MODULE_PN}/archive/${STREAM_LUA_MODULE_SHA:-v${STREAM_LUA_MODULE_PV}}.tar.gz"
@@ -425,7 +425,7 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 # naxsi-core (https://github.com/nbs-system/naxsi/tags, GPLv2+)
 HTTP_NAXSI_MODULE_A="nbs-system"
 HTTP_NAXSI_MODULE_PN="naxsi"
-HTTP_NAXSI_MODULE_PV="1.2"
+HTTP_NAXSI_MODULE_PV="1.3"
 #HTTP_NAXSI_MODULE_SHA="e1ffc4a0f6c28d8bf726e37b0af89e4cc12509b2"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}.tar.gz"
@@ -442,7 +442,7 @@ HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/${HTTP_DAV_EXT_MODULE_P}"
 # nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module/tags, BSD)
 CORE_RTMP_MODULE_A="arut"
 CORE_RTMP_MODULE_PN="nginx-rtmp-module"
-CORE_RTMP_MODULE_PV="1.2.1"
+CORE_RTMP_MODULE_PV="1.2.2"
 #CORE_RTMP_MODULE_SHA="e08959247dc840bb42cdf3389b1f5edb5686825f"
 CORE_RTMP_MODULE_P="${CORE_RTMP_MODULE_PN}-${CORE_RTMP_MODULE_SHA:-${CORE_RTMP_MODULE_PV}}"
 CORE_RTMP_MODULE_URI="https://github.com/${CORE_RTMP_MODULE_A}/${CORE_RTMP_MODULE_PN}/archive/${CORE_RTMP_MODULE_SHA:-v${CORE_RTMP_MODULE_PV}}.tar.gz"
@@ -451,7 +451,7 @@ CORE_RTMP_MODULE_WD="${WORKDIR}/${CORE_RTMP_MODULE_P}"
 # mod_security for nginx (https://github.com/SpiderLabs/ModSecurity-nginx/tags, Apache-2.0)
 HTTP_SECURITY_MODULE_A="SpiderLabs"
 HTTP_SECURITY_MODULE_PN="ModSecurity-nginx"
-HTTP_SECURITY_MODULE_PV="1.0.1"
+HTTP_SECURITY_MODULE_PV="1.0.2"
 #HTTP_SECURITY_MODULE_SHA="a2a5858d249222938c2f5e48087a922c63d7f9d8"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
@@ -485,12 +485,12 @@ HTTP_STICKY_MODULE_URI="https://bitbucket.org/${HTTP_STICKY_MODULE_A}/${HTTP_STI
 HTTP_STICKY_MODULE_WD="${WORKDIR}/${HTTP_STICKY_MODULE_A}-${HTTP_STICKY_MODULE_PN}-${HTTP_STICKY_MODULE_SHA:-${HTTP_STICKY_MODULE_PV_SHA}}"
 
 # ajp-module (https://github.com/msva/nginx_ajp_module/tags, BSD-2)
-HTTP_AJP_MODULE_A="yaoweibin"
+HTTP_AJP_MODULE_A="msva"
 HTTP_AJP_MODULE_PN="nginx_ajp_module"
 HTTP_AJP_MODULE_PV="0.3.0"
-HTTP_AJP_MODULE_SHA="521f99c818e806bdc318ed1a7602671e887bf769"
+HTTP_AJP_MODULE_SHA="fcbb2ccca4901d317ecd7a9dabb3fec9378ff40f"
 HTTP_AJP_MODULE_P="${HTTP_AJP_MODULE_PN}-${HTTP_AJP_MODULE_SHA:-${HTTP_AJP_MODULE_PV}}"
-HTTP_AJP_MODULE_URI="https://github.com/yaoweibin/nginx_ajp_module/archive/${HTTP_AJP_MODULE_SHA:-v${HTTP_AJP_MODULE_PV}}.tar.gz"
+HTTP_AJP_MODULE_URI="https://github.com/${HTTP_AJP_MODULE_A}/${HTTP_AJP_MODULE_PN}/archive/${HTTP_AJP_MODULE_SHA:-v${HTTP_AJP_MODULE_PV}}.tar.gz"
 HTTP_AJP_MODULE_WD="${WORKDIR}/${HTTP_AJP_MODULE_P}"
 
 # NJS-module (http://hg.nginx.org/njs/, BSD-2)
@@ -524,6 +524,7 @@ HOMEPAGE="
 	"
 # broken
 #	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff )
+#	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 SRC_URI="
 	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
 	nginx_modules_http_pagespeed? (
@@ -561,7 +562,6 @@ SRC_URI="
 	nginx_modules_http_coolkit? ( ${HTTP_COOLKIT_MODULE_URI} -> ${HTTP_COOLKIT_MODULE_P}.tar.gz )
 	nginx_modules_http_nchan? ( ${HTTP_NCHAN_MODULE_URI} -> ${HTTP_NCHAN_MODULE_P}.tar.gz )
 	nginx_modules_http_upload_progress? ( ${HTTP_UPLOAD_PROGRESS_MODULE_URI} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
-	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
 	nginx_modules_http_metrics? ( ${HTTP_METRICS_MODULE_URI} -> ${HTTP_METRICS_MODULE_P}.tar.gz )
@@ -708,7 +708,6 @@ NGINX_MODULES_3P="
 	http_rds_csv
 	http_postgres
 	http_srcache
-	http_supervisord
 	http_array_var
 	http_xss
 	http_iconv
@@ -740,6 +739,7 @@ NGINX_MODULES_3P="
 	core_stream_traffic_status
 "
 #	stream_dtls
+#	http_supervisord
 
 NGINX_MODULES_DYN="
 	http_geoip
@@ -794,7 +794,6 @@ REQUIRED_USE="
 	nginx_modules_http_rds_json? ( nginx_modules_http_postgres )
 	nginx_modules_http_rds_csv?  ( nginx_modules_http_postgres )
 	nginx_modules_http_rdns? ( busy-upstream )
-	nginx_modules_http_supervisord? ( busy-upstream )
 	nginx_modules_http_ey_balancer? ( busy-upstream )
 	nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 	nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
@@ -819,6 +818,7 @@ REQUIRED_USE="
 "
 #	dtls? ( nginx_modules_stream_dtls stream ssl )
 #	nginx_modules_stream_dtls? ( stream ssl )
+#	nginx_modules_http_supervisord? ( busy-upstream )
 
 IUSE="aio busy-upstream debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl ssl-cert-cb libressl stream threads vim-syntax selinux http2 systemtap +static rtmp userland_GNU"
 
@@ -1051,6 +1051,13 @@ src_prepare() {
 	done
 
 #	use nginx_modules_stream_dtls && PATCHES+=("${S}/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff")
+
+	if use nginx_modules_http_hls_audio; then
+		# compatibility with new ffmpeg
+		sed -r \
+			-e '/out_codec_ctx-/s@ (CODEC_FLAG_GLOBAL_HEADER)@ AV_\1@' \
+			-i "${HTTP_HLS_AUDIO_MODULE_WD}/ngx_http_aac_module.c"
+	fi
 
 	if use nginx_modules_http_brotli; then
 		sed -r \
@@ -1620,10 +1627,10 @@ src_install() {
 	fi
 
 # http_supervisord
-	if use nginx_modules_http_supervisord; then
-		docinto "${HTTP_SUPERVISORD_MODULE_P}"
-		dodoc "${HTTP_SUPERVISORD_MODULE_WD}"/README
-	fi
+#	if use nginx_modules_http_supervisord; then
+#		docinto "${HTTP_SUPERVISORD_MODULE_P}"
+#		dodoc "${HTTP_SUPERVISORD_MODULE_WD}"/README
+#	fi
 
 # http_slowfs_cache
 	if use nginx_modules_http_slowfs_cache; then
