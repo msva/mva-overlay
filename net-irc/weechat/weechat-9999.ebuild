@@ -50,7 +50,7 @@ RDEPEND="
 	perl? ( dev-lang/perl:= )
 	php? ( >=dev-lang/php-7.0:=[embed] )
 	python? ( ${PYTHON_DEPS} )
-	ruby? ( dev-lang/ruby:* )
+	ruby? ( dev-lang/ruby )
 	spell? (
 		enchant? (
 			app-text/enchant:0
