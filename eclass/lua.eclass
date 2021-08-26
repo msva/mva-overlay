@@ -35,7 +35,7 @@
 # @DESCRIPTION:
 # This variable contains a space separated list of targets (see above) a package
 # is compatible to. It must be set before the `inherit' call.
-: ${LUA_COMPAT:=lua51 lua52 lua53 luajit2 lua5-1 lua5-2 lua5-3 lua5-4 luajit}
+: ${LUA_COMPAT:=lua51 lua52 lua53 luajit2 lua5-1 lua5-2 lua5-3 luajit}
 
 # @ECLASS-VARIABLE: LUA_OPTIONAL
 # @DESCRIPTION:
@@ -116,25 +116,25 @@ lua_implementation_depend() {
 	local lua_slot=
 
 	case $1 in
-		lua51)
+		lua51|lua5-1)
 			lua_pn="dev-lang/lua"
 			lua_slot=":5.1"
 			;;
-		lua52)
+		lua52|lua5-2)
 			lua_pn="dev-lang/lua"
 			lua_slot=":5.2"
 			;;
-		lua53)
+		lua53|lua5-3)
 			lua_pn="dev-lang/lua"
 			lua_slot=":5.3"
 			;;
-		luajit2)
+		luajit2|luajit)
 			lua_pn="dev-lang/luajit"
 			lua_slot=":2"
 			;;
-		luajit|lua5-*)
-			# temp. kludge
-			;;
+#		luajit)
+#			# temp. kludge
+#			;;
 		*) die "$1: unknown Lua implementation"
 	esac
 
