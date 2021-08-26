@@ -1,41 +1,25 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit git-r3
+inherit gradle git-r3
 
 DESCRIPTION="Tools to work with android .dex and java .class files"
 HOMEPAGE="https://github.com/pxb1988/dex2jar"
-EGIT_REPO_URI="https://github.com/pxb1988/${PN}"
+EGIT_REPO_URI="https://github.com/ThexXTURBOXx/${PN}"
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 DEPEND="virtual/gradle"
 RDEPEND="
 	dev-java/antlr:3.5
 	|| ( virtual/jre virtual/jdk )
 "
-#	dev-util/android-sdk-update-manager
-
-#pkg_setup() {
-#
-#}
-
-src_prepare() {
-	default
-	sed -r \
-		-e '/com.google.android.tools:dx:23.0.0/d' \
-		-i dex-tools/build.gradle
-	# TODO:
-	# 1) try to use dx.jar from android-sdk-update-manager's downloaded android tools
-	# 2) migrate to some fork with fixed issues
-}
 
 src_compile() {
-	TERM=dumb gradle --console=rich assemble
+	# assemble -> shadowJar?
+	egradle assemble
 }
 
 src_install() {
