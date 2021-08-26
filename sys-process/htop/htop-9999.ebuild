@@ -1,21 +1,20 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit autotools linux-info git-r3
 
-DESCRIPTION="interactive process viewer"
-HOMEPAGE="http://hisham.hm/htop/"
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/hishamhm/htop"
+DESCRIPTION="Interactive process viewer"
+HOMEPAGE="https://htop.dev"
+EGIT_REPO_URI="https://github.com/htop-dev/htop"
 
 LICENSE="BSD GPL-2"
 SLOT="0"
 KEYWORDS=""
 IUSE="kernel_FreeBSD kernel_linux openvz unicode vserver"
 
-RDEPEND="sys-libs/ncurses:0=[unicode?]"
+RDEPEND="<=sys-libs/ncurses:0=[unicode?(+)]"
 DEPEND="
 	${RDEPEND}
 	virtual/pkgconfig
@@ -39,9 +38,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	sed -i -e '1c\#!'"${EPREFIX}"'/usr/bin/python' \
-		scripts/MakeHeader.py || die
-
 	default
 	eautoreconf
 }
@@ -54,9 +50,7 @@ src_configure() {
 	myeconfargs+=(
 		# fails to build against recent hwloc versions
 		--disable-hwloc
-		--enable-taskstats
-		$(use_enable kernel_linux cgroup)
-		$(use_enable kernel_linux linux-affinity)
+		$(use_enable kernel_linux affinity)
 		$(use_enable openvz)
 		$(use_enable unicode)
 		$(use_enable vserver)
