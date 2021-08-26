@@ -38,10 +38,10 @@ DEPEND="
 
 RDEPEND="
 	${DEPEND}
-	www-plugins/adobe-flash:*
 	widevine? ( www-plugins/chrome-binary-plugins:* )
 	x11-libs/libnotify
 "
+# www-plugins/adobe-flash:*
 
 src_prepare(){
 	use widevine && PATCHES=( "${FILESDIR}/widevine-path.patch" )
