@@ -1,9 +1,9 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-PYTHON_COMPAT=( python3_{4,5,6,7} pypy3 )
+PYTHON_COMPAT=( python3_{7,8,9,10} pypy3 )
 
 inherit python-r1 git-r3
 
@@ -37,5 +37,5 @@ src_install() {
 		cd "${S}"
 	fi
 	default
-	python_replicate_script "${ED}"usr/bin/{uni,para}code
+	python_replicate_script "${ED}"/usr/bin/{uni,para}code
 }
