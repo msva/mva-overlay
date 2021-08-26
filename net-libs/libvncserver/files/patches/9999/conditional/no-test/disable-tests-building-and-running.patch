@@ -1,7 +1,7 @@
 diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt	2020-02-22 20:30:34.688885592 +0700
 +++ b/CMakeLists.txt	2020-02-22 20:41:48.218675527 +0700
-@@ -577,70 +577,6 @@ if(UNIX)
+@@ -577,73 +577,6 @@ if(UNIX)
      set(ADDITIONAL_TEST_LIBS m)
  endif(UNIX)
  
@@ -10,12 +10,12 @@ diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
 -   copyrecttest
 -)
 -
--if(CMAKE_USE_PTHREADS_INIT)
+-if(WITH_THREADS AND (CMAKE_USE_PTHREADS_INIT OR CMAKE_USE_WIN32_THREADS_INIT))
 -  set(SIMPLETESTS
 -      ${SIMPLETESTS}
 -      encodingstest
 -     )
--endif(CMAKE_USE_PTHREADS_INIT)
+-endif(WITH_THREADS AND (CMAKE_USE_PTHREADS_INIT OR CMAKE_USE_WIN32_THREADS_INIT))
 -
 -foreach(t ${SIMPLETESTS})
 -  add_executable(test_${t} ${TESTS_DIR}/${t}.c)
@@ -62,9 +62,12 @@ diff -NaurBwdp a/CMakeLists.txt b/CMakeLists.txt
 -endif(LIBVNCSERVER_WITH_WEBSOCKETS)
 -
 -add_test(NAME cargs COMMAND test_cargstest)
--if(FOUND_LIBJPEG_TURBO)
+-if(UNIX)
+-  add_test(NAME includetest COMMAND ${TESTS_DIR}/includetest.sh ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR} ${CMAKE_MAKE_PROGRAM})
+-endif(UNIX)
+-if(WITH_JPEG AND FOUND_LIBJPEG_TURBO)
 -    add_test(NAME turbojpeg COMMAND test_tjunittest)
--endif(FOUND_LIBJPEG_TURBO)
+-endif(WITH_JPEG AND FOUND_LIBJPEG_TURBO)
 -if(LIBVNCSERVER_WITH_WEBSOCKETS)
 -    add_test(NAME wstest COMMAND test_wstest)
 -endif(LIBVNCSERVER_WITH_WEBSOCKETS)

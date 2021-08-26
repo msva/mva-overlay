@@ -14,7 +14,6 @@ EGIT_REPO_URI="https://github.com/LibVNC/${PN}"
 LICENSE="GPL-2"
 # No sub slot wanted (yet), see #578958
 SLOT="0"
-KEYWORDS=""
 IUSE="+24bpp examples +filetransfer ffmpeg gcrypt gnutls ipv6 +jpeg libressl +png sasl sdl ssl systemd test +threads websockets X +zlib"
 REQUIRED_USE="!gnutls? ( ssl? ( threads ) )"
 
@@ -42,7 +41,7 @@ DEPEND="
 	zlib? ( >=sys-libs/zlib-1.2.8-r1:0=[${MULTILIB_USEDEP}] )"
 RDEPEND="${DEPEND}"
 
-DOCS=( AUTHORS ChangeLog NEWS README.md TODO )
+DOCS=( AUTHORS ChangeLog README.md )
 
 multilib_src_configure() {
 	mycmakeargs=(
@@ -76,7 +75,7 @@ multilib_src_install() {
 				vnc="vnc-"
 				newbin "${e}" "${vnc}${be}"
 			fi
-			TMPDIR="${PORTAGE_BUILDDIR}" scanelf -BXr "${ED}/usr/bin/${vnc}${be}" -o /dev/null # QA: fixing rpath
+#			TMPDIR="${PORTAGE_BUILDDIR}" scanelf -BXr "${ED}/usr/bin/${vnc}${be}" -o /dev/null # QA: fixing rpath
 		done
 	fi
 }
