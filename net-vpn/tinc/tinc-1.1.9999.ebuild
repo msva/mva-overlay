@@ -71,13 +71,13 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install
 	dodir /etc/"${PN}"
-	dodoc AUTHORS NEWS README THANKS
-	dodoc doc/{CONNECTIVITY,NETWORKING,PROTOCOL,SECURITY2,SPTPS}
-	dodoc -r doc/sample-config
 	newinitd "${FILESDIR}"/tincd.init tincd
 	doconfd "${FILESDIR}"/tinc.networks
 	newconfd "${FILESDIR}"/tincd.conf tincd
 	rm -f "${ED}"/usr/bin/"${PN}"-gui || die
+	DOCS=(AUTHORS NEWS README.{md,git} THANKS doc/{CONNECTIVITY,NETWORKING,PROTOCOL,SECURITY2,SPTPS} doc/sample-config)
+	einstalldocs
+	docompress -x /usr/share/doc/"${PF}"/sample-config
 }
 
 pkg_postinst() {
