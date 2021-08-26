@@ -14,8 +14,10 @@ SRC_URI=""
 LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS=""
-IUSE="web"
+IUSE="unhinted web"
 RESTRICT="binchecks strip network-sandbox"
+
+# TODO: do something with network-sandbox incompatibility
 
 DEPEND="
 	net-libs/nodejs
@@ -39,10 +41,14 @@ src_compile() {
 
 src_install() {
 	mkdir -p "${FONT_S}"
-	find "${S}"/dist/*${PN}*/ttf/ -name '*.ttf' -print0 | xargs -0 mv -u -t "${FONT_S}"
+	local font_dir="${S}/dist/${PN}/ttf"
+	if use unhinted; then
+		font_dir="${S}/dist/${PN}/ttf-unhinted"
+	fi
+	find "${font_dir}" -name '*.ttf' -print0 | xargs -0 -r mv -u -t "${FONT_S}"
 	font_src_install
 	use web && (
-		insinto /usr/share/webfonts/${PN}
-		doins -r dist/iosevka*/woff{,2}/*
+		insinto /usr/share/webfonts/"${PN}"
+		doins -r dist/iosevka/woff2/* dist/iosevka/"${PN}".css
 	)
 }
