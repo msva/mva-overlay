@@ -48,7 +48,7 @@ src_configure() {
 	econf \
 		--sbindir="${EPREFIX}"/sbin \
 		$(use_enable debug) \
-		$(use_with readline cli) \
+		$(use_with readline cli readline) \
 		$(use_with !gmp mini_gmp) \
 		$(use_with json) \
 		$(use_with xtables)
@@ -65,4 +65,5 @@ src_install() {
 	keepdir /var/lib/nftables
 
 	systemd_dounit "${FILESDIR}"/systemd/${PN}-restore.service
+	docompress -x "/usr/share/doc/${PF}/examples"
 }
