@@ -2,9 +2,9 @@ diff --git a/Telegram/SourceFiles/core/launcher.cpp b/Telegram/SourceFiles/core/
 index 25473426f..bb4c7d425 100644
 --- a/Telegram/SourceFiles/core/launcher.cpp
 +++ b/Telegram/SourceFiles/core/launcher.cpp
-@@ -278,6 +276,12 @@ int Launcher::exec() {
+@@ -331,6 +331,12 @@ int Launcher::exec() {
+ 	// Must be started before Sandbox is created.
  	Platform::start();
- 	Ui::DisableCustomScaling();
  
 +#if defined(Q_OS_LINUX64)
 +	QCoreApplication::addLibraryPath("/usr/lib64/qt5/plugins");

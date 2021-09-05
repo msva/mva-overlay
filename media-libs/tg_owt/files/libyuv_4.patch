@@ -1,0 +1,270 @@
+diff -Nru a/src/api/video/i010_buffer.cc b/src/api/video/i010_buffer.cc
+--- a/src/api/video/i010_buffer.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/api/video/i010_buffer.cc	2021-06-13 01:45:30.447628540 +0300
+@@ -14,8 +14,8 @@
+ #include "api/video/i420_buffer.h"
+ #include "rtc_base/checks.h"
+ #include "rtc_base/ref_counted_object.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/convert.h"
++#include "libyuv/scale.h"
+ 
+ // Aligning pointer to 64 bytes for improved performance, e.g. use SIMD.
+ static const int kBufferAlignment = 64;
+diff -Nru a/src/api/video/i420_buffer.cc b/src/api/video/i420_buffer.cc
+--- a/src/api/video/i420_buffer.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/api/video/i420_buffer.cc	2021-06-13 01:45:42.797580647 +0300
+@@ -16,9 +16,9 @@
+ 
+ #include "rtc_base/checks.h"
+ #include "rtc_base/ref_counted_object.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
+-#include "third_party/libyuv/include/libyuv/planar_functions.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/convert.h"
++#include "libyuv/planar_functions.h"
++#include "libyuv/scale.h"
+ 
+ // Aligning pointer to 64 bytes for improved performance, e.g. use SIMD.
+ static const int kBufferAlignment = 64;
+diff -Nru a/src/api/video/nv12_buffer.cc b/src/api/video/nv12_buffer.cc
+--- a/src/api/video/nv12_buffer.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/api/video/nv12_buffer.cc	2021-06-13 01:45:55.727530491 +0300
+@@ -13,8 +13,8 @@
+ #include "api/video/i420_buffer.h"
+ #include "rtc_base/checks.h"
+ #include "rtc_base/ref_counted_object.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/convert.h"
++#include "libyuv/scale.h"
+ 
+ namespace webrtc {
+ 
+diff -Nru a/src/common_video/libyuv/libyuv_unittest.cc b/src/common_video/libyuv/libyuv_unittest.cc
+--- a/src/common_video/libyuv/libyuv_unittest.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/common_video/libyuv/libyuv_unittest.cc	2021-06-13 01:47:46.867098465 +0300
+@@ -8,7 +8,7 @@
+  *  be found in the AUTHORS file in the root of the source tree.
+  */
+ 
+-#include "third_party/libyuv/include/libyuv.h"
++#include "libyuv.h"
+ 
+ #include <math.h>
+ #include <string.h>
+diff -Nru a/src/common_video/libyuv/webrtc_libyuv.cc b/src/common_video/libyuv/webrtc_libyuv.cc
+--- a/src/common_video/libyuv/webrtc_libyuv.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/common_video/libyuv/webrtc_libyuv.cc	2021-06-13 01:47:36.757137846 +0300
+@@ -15,7 +15,7 @@
+ #include "api/video/i420_buffer.h"
+ #include "common_video/include/video_frame_buffer.h"
+ #include "rtc_base/checks.h"
+-#include "third_party/libyuv/include/libyuv.h"
++#include "libyuv.h"
+ 
+ namespace webrtc {
+ 
+diff -Nru a/src/common_video/video_frame_buffer.cc b/src/common_video/video_frame_buffer.cc
+--- a/src/common_video/video_frame_buffer.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/common_video/video_frame_buffer.cc	2021-06-13 01:45:20.820999182 +0300
+@@ -12,7 +12,7 @@
+ #include "api/video/i420_buffer.h"
+ #include "rtc_base/checks.h"
+ #include "rtc_base/ref_counted_object.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
++#include "libyuv/convert.h"
+ 
+ namespace webrtc {
+ 
+diff -Nru a/src/modules/desktop_capture/desktop_frame.cc b/src/modules/desktop_capture/desktop_frame.cc
+--- a/src/modules/desktop_capture/desktop_frame.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/desktop_capture/desktop_frame.cc	2021-06-13 01:48:20.290301494 +0300
+@@ -19,7 +19,7 @@
+ #include "modules/desktop_capture/desktop_capture_types.h"
+ #include "modules/desktop_capture/desktop_geometry.h"
+ #include "rtc_base/checks.h"
+-#include "third_party/libyuv/include/libyuv/planar_functions.h"
++#include "libyuv/planar_functions.h"
+ 
+ namespace webrtc {
+ 
+diff -Nru a/src/modules/desktop_capture/desktop_frame_rotation.cc b/src/modules/desktop_capture/desktop_frame_rotation.cc
+--- a/src/modules/desktop_capture/desktop_frame_rotation.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/desktop_capture/desktop_frame_rotation.cc	2021-06-13 01:48:27.053608439 +0300
+@@ -11,7 +11,7 @@
+ #include "modules/desktop_capture/desktop_frame_rotation.h"
+ 
+ #include "rtc_base/checks.h"
+-#include "third_party/libyuv/include/libyuv/rotate_argb.h"
++#include "libyuv/rotate_argb.h"
+ 
+ namespace webrtc {
+ 
+diff -Nru a/src/modules/video_capture/video_capture_impl.cc b/src/modules/video_capture/video_capture_impl.cc
+--- a/src/modules/video_capture/video_capture_impl.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_capture/video_capture_impl.cc	2021-06-13 01:48:35.590241787 +0300
+@@ -21,7 +21,7 @@
+ #include "rtc_base/ref_counted_object.h"
+ #include "rtc_base/time_utils.h"
+ #include "rtc_base/trace_event.h"
+-#include "third_party/libyuv/include/libyuv.h"
++#include "libyuv.h"
+ 
+ namespace webrtc {
+ namespace videocapturemodule {
+diff -Nru a/src/modules/video_coding/codecs/av1/libaom_av1_decoder.cc b/src/modules/video_coding/codecs/av1/libaom_av1_decoder.cc
+--- a/src/modules/video_coding/codecs/av1/libaom_av1_decoder.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/av1/libaom_av1_decoder.cc	2021-06-13 01:45:07.004386040 +0300
+@@ -24,7 +24,7 @@
+ #include "rtc_base/logging.h"
+ #include "third_party/libaom/source/libaom/aom/aom_decoder.h"
+ #include "third_party/libaom/source/libaom/aom/aomdx.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
++#include "libyuv/convert.h"
+ 
+ namespace webrtc {
+ namespace {
+diff -Nru a/src/modules/video_coding/codecs/h264/h264_decoder_impl.cc b/src/modules/video_coding/codecs/h264/h264_decoder_impl.cc
+--- a/src/modules/video_coding/codecs/h264/h264_decoder_impl.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/h264/h264_decoder_impl.cc	2021-06-13 01:44:58.154420303 +0300
+@@ -35,7 +35,7 @@
+ #include "rtc_base/logging.h"
+ #include "system_wrappers/include/field_trial.h"
+ #include "system_wrappers/include/metrics.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
++#include "libyuv/convert.h"
+ 
+ namespace webrtc {
+ 
+diff -Nru a/src/modules/video_coding/codecs/h264/h264_encoder_impl.cc b/src/modules/video_coding/codecs/h264/h264_encoder_impl.cc
+--- a/src/modules/video_coding/codecs/h264/h264_encoder_impl.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/h264/h264_encoder_impl.cc	2021-06-13 01:44:49.647786568 +0300
+@@ -27,8 +27,8 @@
+ #include "rtc_base/logging.h"
+ #include "rtc_base/time_utils.h"
+ #include "system_wrappers/include/metrics.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/convert.h"
++#include "libyuv/scale.h"
+ #include <wels/codec_api.h>
+ #include <wels/codec_app_def.h>
+ #include <wels/codec_def.h>
+diff -Nru a/src/modules/video_coding/codecs/test/videoprocessor.cc b/src/modules/video_coding/codecs/test/videoprocessor.cc
+--- a/src/modules/video_coding/codecs/test/videoprocessor.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/test/videoprocessor.cc	2021-06-13 01:47:15.313887980 +0300
+@@ -35,8 +35,8 @@
+ #include "rtc_base/task_utils/to_queued_task.h"
+ #include "rtc_base/time_utils.h"
+ #include "test/gtest.h"
+-#include "third_party/libyuv/include/libyuv/compare.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/compare.h"
++#include "libyuv/scale.h"
+ 
+ namespace webrtc {
+ namespace test {
+diff -Nru a/src/modules/video_coding/codecs/vp8/libvpx_vp8_decoder.cc b/src/modules/video_coding/codecs/vp8/libvpx_vp8_decoder.cc
+--- a/src/modules/video_coding/codecs/vp8/libvpx_vp8_decoder.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/vp8/libvpx_vp8_decoder.cc	2021-06-13 01:45:14.031025490 +0300
+@@ -30,7 +30,7 @@
+ #include "rtc_base/time_utils.h"
+ #include "system_wrappers/include/field_trial.h"
+ #include "system_wrappers/include/metrics.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
++#include "libyuv/convert.h"
+ #include "vpx/vp8.h"
+ #include "vpx/vp8dx.h"
+ #include "vpx/vpx_decoder.h"
+diff -Nru a/src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc b/src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc
+--- a/src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/vp8/libvpx_vp8_encoder.cc	2021-06-13 01:47:25.780513913 +0300
+@@ -39,7 +39,7 @@
+ #include "rtc_base/logging.h"
+ #include "rtc_base/trace_event.h"
+ #include "system_wrappers/include/field_trial.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/scale.h"
+ #include "vpx/vp8cx.h"
+ 
+ namespace webrtc {
+diff -Nru a/src/modules/video_coding/codecs/vp9/libvpx_vp9_decoder.cc b/src/modules/video_coding/codecs/vp9/libvpx_vp9_decoder.cc
+--- a/src/modules/video_coding/codecs/vp9/libvpx_vp9_decoder.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/vp9/libvpx_vp9_decoder.cc	2021-06-13 01:43:45.158035740 +0300
+@@ -23,7 +23,7 @@
+ #include "modules/video_coding/utility/vp9_uncompressed_header_parser.h"
+ #include "rtc_base/checks.h"
+ #include "rtc_base/logging.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
++#include "libyuv/convert.h"
+ #include "vpx/vp8dx.h"
+ #include "vpx/vpx_decoder.h"
+ 
+diff -Nru a/src/modules/video_coding/codecs/vp9/libvpx_vp9_encoder.cc b/src/modules/video_coding/codecs/vp9/libvpx_vp9_encoder.cc
+--- a/src/modules/video_coding/codecs/vp9/libvpx_vp9_encoder.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_coding/codecs/vp9/libvpx_vp9_encoder.cc	2021-06-13 01:44:40.747821002 +0300
+@@ -39,7 +39,7 @@
+ #include "rtc_base/strings/string_builder.h"
+ #include "rtc_base/time_utils.h"
+ #include "rtc_base/trace_event.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
++#include "libyuv/convert.h"
+ #include "vpx/vp8cx.h"
+ #include "vpx/vpx_encoder.h"
+ 
+diff -Nru a/src/modules/video_processing/video_denoiser.cc b/src/modules/video_processing/video_denoiser.cc
+--- a/src/modules/video_processing/video_denoiser.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/modules/video_processing/video_denoiser.cc	2021-06-13 01:48:43.140212313 +0300
+@@ -14,7 +14,7 @@
+ #include <string.h>
+ 
+ #include "api/video/i420_buffer.h"
+-#include "third_party/libyuv/include/libyuv/planar_functions.h"
++#include "libyuv/planar_functions.h"
+ 
+ namespace webrtc {
+ 
+diff -Nru a/src/sdk/android/src/jni/nv12_buffer.cc b/src/sdk/android/src/jni/nv12_buffer.cc
+--- a/src/sdk/android/src/jni/nv12_buffer.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/sdk/android/src/jni/nv12_buffer.cc	2021-06-13 01:46:38.644030562 +0300
+@@ -11,8 +11,8 @@
+ #include <jni.h>
+ #include <vector>
+ 
+-#include "third_party/libyuv/include/libyuv/convert.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/convert.h"
++#include "libyuv/scale.h"
+ 
+ #include "rtc_base/checks.h"
+ #include "sdk/android/generated_video_jni/NV12Buffer_jni.h"
+diff -Nru a/src/sdk/android/src/jni/nv21_buffer.cc b/src/sdk/android/src/jni/nv21_buffer.cc
+--- a/src/sdk/android/src/jni/nv21_buffer.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/sdk/android/src/jni/nv21_buffer.cc	2021-06-13 01:46:27.397407581 +0300
+@@ -11,8 +11,8 @@
+ #include <jni.h>
+ #include <vector>
+ 
+-#include "third_party/libyuv/include/libyuv/convert.h"
+-#include "third_party/libyuv/include/libyuv/scale.h"
++#include "libyuv/convert.h"
++#include "libyuv/scale.h"
+ 
+ #include "common_video/libyuv/include/webrtc_libyuv.h"
+ #include "rtc_base/checks.h"
+diff -Nru a/src/sdk/android/src/jni/yuv_helper.cc b/src/sdk/android/src/jni/yuv_helper.cc
+--- a/src/sdk/android/src/jni/yuv_helper.cc	2021-06-04 19:33:01.000000000 +0300
++++ b/src/sdk/android/src/jni/yuv_helper.cc	2021-06-13 01:46:13.884126712 +0300
+@@ -12,8 +12,8 @@
+ 
+ #include "sdk/android/generated_video_jni/YuvHelper_jni.h"
+ #include "sdk/android/src/jni/jni_helpers.h"
+-#include "third_party/libyuv/include/libyuv/convert.h"
+-#include "third_party/libyuv/include/libyuv/planar_functions.h"
++#include "libyuv/convert.h"
++#include "libyuv/planar_functions.h"
+ 
+ namespace webrtc {
+ namespace jni {

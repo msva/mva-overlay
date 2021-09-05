@@ -93,7 +93,7 @@ if [[ -z "${EGIT_REPO_URI}" && -z "${EHG_REPO_URI}" && -z "${SRC_URI}" && -n "${
 	fi
 fi
 
-inherit eutils ${multilib} toolchain-funcs flag-o-matic ${VCS} patches
+inherit ${multilib} toolchain-funcs flag-o-matic ${VCS} patches
 
 EXPORT_FUNCTIONS src_unpack src_prepare src_configure src_compile src_install pkg_setup src_test
 
@@ -101,7 +101,7 @@ case ${EAPI:-0} in
 	0|1|2|3|4|5)
 		die "Unsupported EAPI=${EAPI} (too old) for lua.eclass"
 		;;
-	6|7)
+	6|7|8)
 		# S is no longer automatically assigned when it doesn't exist.
 		S="${WORKDIR}"
 		;;

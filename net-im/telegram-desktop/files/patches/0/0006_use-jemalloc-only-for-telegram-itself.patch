@@ -1,0 +1,24 @@
+--- a/Telegram/CMakeLists.txt
++++ b/Telegram/CMakeLists.txt
+@@ -1260,6 +1260,7 @@
+     PRIVATE
+         desktop-app::external_glibmm
+         desktop-app::external_glib
++        desktop-app::external_jemalloc
+     )
+ 
+     if (NOT DESKTOP_APP_DISABLE_DBUS_INTEGRATION)
+--- a/cmake/options_linux.cmake
++++ b/cmake/options_linux.cmake
+@@ -34,11 +34,6 @@ if (DESKTOP_APP_SPECIAL_TARGET)
+     target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,  -fuse-linker-plugin>)
+ endif()
+ 
+-target_link_libraries(common_options
+-INTERFACE
+-    desktop-app::external_jemalloc
+-)
+-
+ if (DESKTOP_APP_USE_ALLOCATION_TRACER)
+     target_link_options(common_options
+     INTERFACE

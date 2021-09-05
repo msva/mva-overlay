@@ -1,11 +1,11 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 LUA_COMPAT=( luajit )
 
-inherit lua git-r3
+inherit lua-single git-r3
 
 DESCRIPTION="Readline powered shell for LuaJIT"
 HOMEPAGE="https://github.com/jdesgats/ILuaJIT"
@@ -33,16 +33,11 @@ src_prepare() {
 		export HTML_DOCS=(html/.)
 	}
 	default
-	lua_copy_sources
-}
-
-lua_src_install() {
-	insinto $(lua_get_lmod_dir)
-	doins *.lua
 }
 
 src_install() {
-	lua_foreach_impl lua_src_install
+	insinto $(lua_get_lmod_dir)
+	doins *.lua
 	dobin "${FILESDIR}/${PN}"
 	einstalldocs
 }

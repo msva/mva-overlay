@@ -1,0 +1,25 @@
+--- a/cmake/external.cmake
++++ b/cmake/external.cmake
+@@ -181,6 +181,22 @@
+     endif()
+ endfunction()
+ 
++# libyuv
++function(link_libyuv target_name)
++    if (TG_OWT_PACKAGED_BUILD)
++        find_package(PkgConfig REQUIRED)
++        pkg_check_modules(LIBYUV libyuv)
++        set(LIBYUV_FOUND ${LIBYUV_FOUND} PARENT_SCOPE)
++        if (LIBYUV_FOUND)
++            target_link_libraries(${target_name} PRIVATE ${LIBYUV_LIBRARIES})
++            target_include_directories(${target_name} PRIVATE ${LIBYUV_INCLUDE_DIRS})
++        endif()
++    endif()
++    if (NOT LIBYUV_FOUND)
++        target_link_libraries(${target_name} PRIVATE tg_owt::libyuv)
++    endif()
++endfunction()
++
+ # libevent
+ function(link_libevent target_name)
+     if (TG_OWT_PACKAGED_BUILD)

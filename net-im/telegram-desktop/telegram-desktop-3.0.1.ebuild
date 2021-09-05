@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit cmake flag-o-matic toolchain-funcs desktop xdg-utils xdg
 
@@ -16,7 +16,7 @@ HOMEPAGE="https://desktop.telegram.org"
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop.git"
 EGIT_SUBMODULES=(
 	'*'
-	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx5-qt{,5},hime,hunspell,nimf,qt5ct,range-v3}
+	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc}
 )
 
 if [[ "${PV}" == 9999 ]]; then
@@ -35,12 +35,13 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug gtk libcxx libressl lto +pulseaudio +spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test +wayland +webrtc wide-baloons +X"
+IUSE="custom-api-id +dbus debug gtk hide-banned libcxx lto pipewire +pulseaudio +spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test +wayland +webkit +webrtc wide-baloons +X"
 
 COMMON_DEPEND="
 	app-arch/lz4:=
 	app-arch/xz-utils:=
 	dbus? ( dev-libs/libdbusmenu-qt:= )
+	dev-libs/jemalloc:=
 	dev-libs/xxhash:=
 	dev-qt/qtcore:5=
 	dev-qt/qtdbus:5=
@@ -51,10 +52,11 @@ COMMON_DEPEND="
 	dev-qt/qtimageformats:5=
 	media-libs/alsa-lib
 	media-libs/fontconfig:=
+	media-libs/rnnoise:=
 	virtual/libiconv
 	x11-libs/libxcb:=
 	gtk? (
-		x11-libs/gtk+:3=[X?]
+		x11-libs/gtk+:3=[X?,wayland?]
 		dev-qt/qtwidgets:5=[gtk]
 		x11-libs/gdk-pixbuf:2[jpeg]
 		dev-libs/glib:2
@@ -65,13 +67,13 @@ COMMON_DEPEND="
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
 	)
-	libressl? ( dev-libs/libressl:= )
-	!libressl? ( dev-libs/openssl:0= )
+	dev-libs/openssl:0=
+	media-libs/libyuv:=
 	media-libs/openal:=[alsa]
 	media-video/ffmpeg:=[alsa,opus]
 	!net-im/telegram
 	!net-im/telegram-desktop-bin
-	!pulseaudio? ( media-sound/apulse[sdk] )
+	pipewire? ( media-video/pipewire )
 	pulseaudio? ( media-sound/pulseaudio )
 	system-fonts? ( media-fonts/open-sans:* )
 	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx=] )
@@ -81,11 +83,16 @@ COMMON_DEPEND="
 	webrtc? (
 		dev-cpp/abseil-cpp:=
 		media-libs/libjpeg-turbo:=
-		>media-libs/tg_owt-0_pre20210101[pulseaudio=,libcxx=]
+		>media-libs/tg_owt-0_pre20210101[pulseaudio?,pipewire?,libcxx=]
+	)
+	wayland? ( kde-frameworks/kwayland:= )
+	webkit? (
+		net-libs/webkit-gtk:=
 	)
 	x11-libs/libdrm:=
 	x11-libs/libva:=[X(-)?,drm]
 "
+#	!pulseaudio? ( media-sound/apulse[sdk] )
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -111,10 +118,13 @@ BDEPEND="
 # Opposite is true too: dropping range-v3 will bump minimum compatible GCC version to 10.0
 
 REQUIRED_USE="
-	webrtc? ( !libressl )
+	webkit? ( gtk )
 "
 
 pkg_pretend() {
+	if use wayland && use webkit; then
+		ewarn "If you use Wayland as you main graphic system, keep in mind that webview (webkit) functionality doesn't work with it."
+	fi
 	if ! use webrtc; then
 		eerror "Telegram Desktop's upstream made webrtc mandatory for build."
 		eerror "We're working on patch to make it possible to disable it again, but it isn't ready atm."
@@ -140,30 +150,9 @@ pkg_pretend() {
 		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang. Or set TG_FORCE_OLD_GCC=1 to override this check."
 	fi
 
-
-# works fine for me now. At least with clang-10.0.1 + cmake-3.18.4 + ccache-3.7.12
-#	if tc-is-clang && has ccache ${FEATURES}; then
-#		eerror ""
-#		eerror "Somewhy clang fails the compilation when it working with some CMake's PCH files if CCache is enabled (at least, this bug reproduces on 8.x and 9.x clang versions)"
-#		eerror "Reasons are still not fully investigated, but failure is reproducible, and there is an issue at CMake tracker: https://gitlab.kitware.com/cmake/cmake/issues/19923"
-#		eerror ""
-#		eerror "Please, either disable ccache feature for ${PN} package, use gcc (slows the build too),"
-#		eerror "or better, please help us to investigate and fix the problem (open issue at GitHub if you'll have any progress on it)"
-#		eerror ""
-#		eerror "As a workaround you can use CCACHE_RECACHE=1, but it will anyway slow down the compilation, as it will act as there is no cache."
-#		eerror ""
-#		eerror "Alternate way is to manually remove cached entries for 'bad' PCHs from ccache dir, but this way is fragile and not guaranteed to work."
-#		eerror "Running this command **before** emergeing ${PN} helps me, but it may require adding another entries for you:"
-#		eerror "    #  grep -rEl '(Telegram|lib_(export|spellcheck|ui)).dir.*pch:' ${CCACHE_DIR:-/var/tmp/portage/.ccache} | sed -r 's@(.*)\.d\$@\1.d \1.o@' | xargs -r rm"
-#		eerror ""
-#		eerror "You have been warned!"
-#		eerror ""
-#		eerror "P.S. Please, let me (mva) know if you'll get it to work"
-#	fi
-
 	if get-flag -flto >/dev/null || use lto; then
 		eerror ""
-		eerror "Keep in mind, that LTO build eats about ~20G RAM for buildind, and final binary size will be about 2.5G."
+		eerror "Keep in mind, that building with LTO takes about ~20G RAM, and final binary size will be about 2.5G."
 		if tc-is-clang; then
 			eerror ""
 			eerror "Qt5 is incompatible with LTO builds using clang at this moment."
@@ -255,9 +244,6 @@ src_configure() {
 		#-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON # header only lib, some git version. prevents warnings.
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 
-		-DDESKTOP_APP_USE_GLIBC_WRAPS=OFF # (?)
-		-DTDESKTOP_LAUNCHER_BASENAME="${PN}" # org.telegram.desktop.desktop # (?)
-
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
 
@@ -271,6 +257,14 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex !dbus)
 
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
+
+		-DDESKTOP_APP_DISABLE_WEBKITGTK=$(usex !webkit)
+		# Currently, only needs for "paymens" functionality, and also doesn't work on Wayland, and also with mutter WM.
+
+		-DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X)
+
+#		-DWEBRTC_USE_PIPEWIRE=$(usex pipewire)
+		$(usex webrtc "" "-DDESKTOP_APP_DISABLE_WEBRTC_INTEGRATION=ON")
 
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
 

@@ -1,0 +1,16 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -2137,6 +2137,13 @@
+     stats/rtcstats_objects.cc
+ )
+ 
++if (NOT TG_OWT_USE_PIPEWIRE)
++    remove_target_sources(tg_owt ${webrtc_loc}
++        modules/desktop_capture/linux/base_capturer_pipewire.cc
++        modules/desktop_capture/linux/base_capturer_pipewire.h
++    )
++endif()
++
+ if (is_x86 OR is_x64)
+     add_sublibrary(avx2
+         modules/audio_processing/aec3/adaptive_fir_filter_avx2.cc

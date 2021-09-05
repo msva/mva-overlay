@@ -1,0 +1,11 @@
+--- a/src/modules/desktop_capture/BUILD.gn
++++ b/src/modules/desktop_capture/BUILD.gn
+@@ -11,6 +11,8 @@
+ import("//tools/generate_stubs/rules.gni")
+ import("../../webrtc.gni")
+ 
++rtc_use_pipewire = false
++
+ if (rtc_use_pipewire) {
+   assert(rtc_pipewire_version == "0.2" || rtc_pipewire_version == "0.3",
+          "Unsupported PipeWire version")
