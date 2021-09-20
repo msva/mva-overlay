@@ -19,7 +19,7 @@ if [[ -z ${_GRADLE_ECLASS} ]]; then
 	RESTRICT="${RESTRICT} network-sandbox"
 
 	egradle() {
-		local gradle="/usr/bin/gradle"
+		local gradle="${EGRADLE_BIN:-/usr/bin/gradle}"
 		local gradle_args=(
 			--console=rich
 			--info

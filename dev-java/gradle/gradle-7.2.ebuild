@@ -3,11 +3,11 @@
 
 EAPI=7
 
-inherit java-pkg-2
+inherit java-pkg-2 gradle
 
 DESCRIPTION="A project automation and build tool with a Groovy based DSL"
-SRC_URI="http://services.gradle.org/distributions/${P}-src.zip"
-HOMEPAGE="http://www.gradle.org/"
+SRC_URI="https://services.gradle.org/distributions/${P}-src.zip"
+HOMEPAGE="https://www.gradle.org/"
 LICENSE="Apache-2.0"
 SLOT="${PV}"
 
@@ -29,11 +29,11 @@ DEPEND="
 IUSE="doc"
 
 src_prepare() {
-	(
-		echo TERM=dumb
-		echo "test -t 1 && GRADLE_OPTS=\"\${GRADLE_OPTS} -Dorg.gradle.console=rich\""
-	) >> "${T}"/gradle_term_hacks
-#	^ - runtime workaround of https://github.com/gradle/gradle/issues/4426
+#	(
+#		echo TERM=dumb
+#		echo "test -t 1 && GRADLE_OPTS=\"\${GRADLE_OPTS} -Dorg.gradle.console=rich\""
+#	) >> "${T}"/gradle_term_hacks
+##	^ - runtime workaround of https://github.com/gradle/gradle/issues/4426
 	default
 	java-pkg-2_src_prepare
 }
@@ -41,8 +41,9 @@ src_prepare() {
 src_compile() {
 	local inst_target="install"
 	use doc && inst_target="installAll"
-	TERM=dumb ./gradlew --console=rich --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradle build failed'
-#	^^^^^^^^^ - buildtime workaround of https://github.com/gradle/gradle/issues/4426
+#	TERM=dumb ./gradlew --console=rich --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradle build failed'
+##	^^^^^^^^^ - buildtime workaround of https://github.com/gradle/gradle/issues/4426
+	EGRADLE_BIN="./gradlew" egradle "${inst_target}" -Pgradle_installPath=dist
 }
 
 src_install() {
@@ -67,8 +68,9 @@ src_install() {
 
 	java-pkg_dolauncher "${P}" \
 		--main org.gradle.launcher.GradleMain \
-		--java_args "-Dgradle.home=${gradle_dir}/lib \${GRADLE_OPTS}" \
-		-pre "${T}"/gradle_term_hacks
+		--java_args "-Dgradle.home=${gradle_dir}/lib \${GRADLE_OPTS}"
+			#\
+#		-pre "${T}"/gradle_term_hacks
 }
 
 pkg_postinst() {
