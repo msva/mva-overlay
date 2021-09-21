@@ -22,7 +22,7 @@ RDEPEND="
 	acct-user/i2pd
 	acct-group/i2pd
 	!static? (
-		>=dev-libs/boost-1.49[threads]
+		>=dev-libs/boost-1.49[threads(+)]
 		!libressl? ( dev-libs/openssl:0[-bindist] )
 		libressl? ( dev-libs/libressl )
 		upnp? ( net-libs/miniupnpc )
