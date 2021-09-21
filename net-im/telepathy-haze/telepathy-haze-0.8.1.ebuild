@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{7,8,9,10} )
+PYTHON_COMPAT=( python3_{8..10} )
 
 inherit python-any-r1
 
@@ -39,9 +39,3 @@ python_check_deps() {
 		has_version "dev-python/twisted[${PYTHON_USEDEP}]"
 	fi
 }
-
-#src_prepare() {
-#	default
-#	# Disable failing test
-#	sed -i 's|simple-caps.py||' -i tests/twisted/Makefile.{am,in} || die
-#}

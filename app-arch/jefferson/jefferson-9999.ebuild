@@ -3,8 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7,8} )
-# no 3.9 -> cstruct
+PYTHON_COMPAT=( python3_{8..10} )
 
 inherit git-r3 distutils-r1
 
@@ -18,5 +17,5 @@ SLOT="0"
 KEYWORDS=""
 IUSE=""
 
-DEPEND="dev-python/cstruct"
+DEPEND="dev-python/python-cstruct"
 RDEPEND="${DEPEND}"

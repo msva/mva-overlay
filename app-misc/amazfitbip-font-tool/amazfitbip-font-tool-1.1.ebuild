@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=(python3_{4,5,6,7} pypy3)
+PYTHON_COMPAT=(python3_{8..10} pypy3)
 inherit python-r1
 
 DESCRIPTION="Amazfit Bip Font Parser (& Packer)"

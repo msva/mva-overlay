@@ -3,8 +3,6 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 )
-#inherit python-any-r1 cmake-utils virtualx multibuild git-r3
 inherit cmake-utils git-r3
 
 DESCRIPTION="Telegram binding for Qt"

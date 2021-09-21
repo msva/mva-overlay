@@ -3,8 +3,8 @@
 
 EAPI=7
 
-LUA_COMPAT=( lua5-{1..2} luajit )
-PYTHON_COMPAT=( python3_{6..9} )
+LUA_COMPAT=( lua5-{1..4} luajit )
+PYTHON_COMPAT=( python3_{8..10} )
 
 inherit lua-single python-any-r1 scons-utils toolchain-funcs
 inherit xdg patches git-r3
