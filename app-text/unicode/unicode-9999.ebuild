@@ -15,7 +15,6 @@ EGIT_REPO_URI="https://github.com/garabik/${PN}"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="+unihan"
 
 DEPEND="
 	app-i18n/unicode-data
@@ -28,14 +27,6 @@ src_install() {
 	dobin {uni,para}code
 	doman {uni,para}code.1
 
-	# ⇓⇓⇓ Bikeshedding time! ⇓⇓⇓
-	if use unihan && [[ ! -f /usr/share/unicode-data/Unihan.txt ]]; then
-		mkdir "${T}"/unihan; cd "${T}"/unihan;
-		unzip -q /usr/share/unicode-data/Unihan.zip;
-		insinto /usr/share/unicode-data;
-		doins Unihan*.txt;
-		cd "${S}"
-	fi
 	default
 	python_replicate_script "${ED}"/usr/bin/{uni,para}code
 }
