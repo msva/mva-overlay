@@ -5,7 +5,7 @@ EAPI=7
 
 VCS=hg
 EVCS_URI="http://hg.neoscientists.org/tekui"
-inherit lua
+inherit lua-broken
 
 MY_P="${P//_p/-r}"
 

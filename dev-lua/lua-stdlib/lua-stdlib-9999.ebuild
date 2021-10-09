@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="lua-stdlib"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Standard Lua libraries"
 HOMEPAGE="https://github.com/lua-stdlib/lua-stdlib"

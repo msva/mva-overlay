@@ -8,7 +8,7 @@ LUA_COMPAT="lua51 lua52 lua53 luajit2"
 GITHUB_A="Tangent128"
 GITHUB_A="zhangxiangxiao"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua module for reading Linux input events from /dev/input/eventXX nodes"
 HOMEPAGE="https://github.com/Tangent128/lua-evdev"

@@ -8,7 +8,7 @@ VCS="git"
 GITHUB_A="sjnam"
 GITHUB_PN="luajit-${PN##resty-}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT bindings for dev-libs/xxhash"
 HOMEPAGE="https://github.com/sjnam/luajit-xxhash"

@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="keplerproject"
 #IS_MULTILIB=true
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua WSAPI Library"
 HOMEPAGE="https://github.com/keplerproject/wsapi"

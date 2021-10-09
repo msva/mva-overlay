@@ -8,7 +8,7 @@ LUA_COMPAT="luajit2"
 GITHUB_A="bungle"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT FFI-based Random Library for OpenResty"
 HOMEPAGE="https://github.com/bungle/lua-resty-random"

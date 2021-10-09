@@ -7,7 +7,7 @@ IS_MULTILIB=true
 VCS="git"
 GITHUB_A="daurnimator"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A Lua library to access dbus"
 HOMEPAGE="https://github.com/daurnimator/ldbus/"

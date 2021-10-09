@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaDoc is a documentation tool for Lua source code"
 HOMEPAGE="http://keplerproject.github.io/luadoc/"

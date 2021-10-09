@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="lua-stdlib"
 GITHUB_PN="${PN#lua-std-}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="normalized Lua functions"
 HOMEPAGE="https://github.com/lua-stdlib/normalize"

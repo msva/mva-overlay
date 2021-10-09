@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua bindings to getopt_long"
 HOMEPAGE="http://luaforge.net/projects/alt-getopt"

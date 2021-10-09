@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="mah0x211"
 MY_PN="${PN##lua-}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua bindings for dev-libs/xxhash (XXH32 only for now)"
 HOMEPAGE="https://github.com/mah0x211/lua-xxhash"

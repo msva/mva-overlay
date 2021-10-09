@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="wahern"
 IS_MULTILIB=true
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Most comprehensive OpenSSL module in the Lua universe."
 HOMEPAGE="https://github.com/wahern/luaossl/"

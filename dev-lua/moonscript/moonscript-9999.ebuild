@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="leafo"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A programmer friendly language that compiles into Lua."
 HOMEPAGE="https://github.com/leafo/moonscript"

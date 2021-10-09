@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="ittner"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua bindings to Thomas Boutell's gd library"
 HOMEPAGE="http://lua-gd.luaforge.net/"

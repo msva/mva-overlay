@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="Tieske"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Generates uuids in pure Lua"
 HOMEPAGE="https://github.com/Tieske/uuid"

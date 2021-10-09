@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 IS_MULTILIB=true
 GITHUB_A="diegonehab"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Networking support library for the Lua language."
 HOMEPAGE="http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/"

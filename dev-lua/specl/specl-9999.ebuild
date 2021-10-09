@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="gvvaughan"
 
-inherit autotools lua
+inherit autotools lua-broken
 
 EGIT_BRANCH="v14.1"
 

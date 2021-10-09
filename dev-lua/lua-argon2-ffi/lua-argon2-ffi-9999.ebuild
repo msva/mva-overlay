@@ -7,7 +7,7 @@ VCS="git"
 LUA_COMPAT="luajit2"
 GITHUB_A="thibaultcha"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT FFI binding for the Argon2 password hashing function"
 HOMEPAGE="https://github.com/thibaultcha/lua-argon2"

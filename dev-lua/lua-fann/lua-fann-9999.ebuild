@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="msva"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A set of Lua bindings for the Fast Artificial Neural Network (FANN) library."
 HOMEPAGE="https://github.com/msva/lua-fann"

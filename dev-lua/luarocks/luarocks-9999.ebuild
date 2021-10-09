@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="keplerproject"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A deployment and management system for Lua modules"
 HOMEPAGE="http://www.luarocks.org"

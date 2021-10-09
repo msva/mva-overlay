@@ -7,7 +7,7 @@ VCS="git"
 #IS_MULTILIB=true
 GITHUB_A="craigbarnes"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua binding to app-text/discount"
 HOMEPAGE="https://github.com/asb/lua-discount"

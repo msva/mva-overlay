@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="pavouk"
 #IS_MULTILIB=1
 # ^ gobject-introspection isn't multilib yet!
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Dynamic Lua binding to GObject libraries using GObject-Introspection"
 HOMEPAGE="https://github.com/pavouk/lgi"

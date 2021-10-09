@@ -7,7 +7,7 @@ IS_MULTILIB=true
 VCS="git"
 GITHUB_A="antirez"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A self contained Lua MessagePack C implementation"
 HOMEPAGE="https://github.com/antirez/lua-cmsgpack"

@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="pygy"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A pure Lua port of dev-lua/lpeg"
 HOMEPAGE="https://github.com/pygy/LuLPeg"

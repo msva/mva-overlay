@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="aiq"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A simple implementation of OATH-HOTP and OATH-TOTP written for Lua"
 HOMEPAGE="https://github.com/aiq/basexx"

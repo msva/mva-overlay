@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="mascarenhas"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="safe-template engine for lua"
 HOMEPAGE="https://github.com/mascarenhas/cosmo"

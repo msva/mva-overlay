@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="mwild1"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua driver for LDAP"
 HOMEPAGE="https://github.com/mwild1/lualdap/"

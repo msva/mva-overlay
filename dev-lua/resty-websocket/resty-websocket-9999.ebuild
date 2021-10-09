@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua WebSocket implementation for the NginX lua module"
 HOMEPAGE="https://github.com/openresty/lua-resty-websocket"

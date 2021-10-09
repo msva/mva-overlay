@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit lua
+inherit lua-broken
 
 MY_P="${P//_p/-r}"
 

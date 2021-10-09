@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="mrDoctorWho"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A small lua module to generate CAPTCHA images using lua-gd"
 HOMEPAGE="https://github.com/mrDoctorWho/lua-captcha"

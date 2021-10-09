@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="msva"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua binding to media-libs/libharu (PDF generator)"
 HOMEPAGE="https://github.com/jung-kurt/luahpdf"

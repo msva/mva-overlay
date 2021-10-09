@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Streaming reader and parser for HTTP file uploading based on ngx_lua cosocket"
 HOMEPAGE="https://github.com/openresty/lua-resty-upload"

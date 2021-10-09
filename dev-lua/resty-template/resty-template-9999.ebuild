@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="bungle"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Templating Engine (HTML) for Lua and OpenResty."
 HOMEPAGE="https://github.com/bungle/lua-resty-template"

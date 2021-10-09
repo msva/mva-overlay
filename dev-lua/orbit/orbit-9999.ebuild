@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="keplerproject"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="MVC Web Framework for Lua"
 HOMEPAGE="https://github.com/keplerproject/orbit"

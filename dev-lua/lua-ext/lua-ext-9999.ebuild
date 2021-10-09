@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="thenumbernine"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Some useful extensions to Lua classes"
 HOMEPAGE="https://github.com/thenumbernine/lua-ext"

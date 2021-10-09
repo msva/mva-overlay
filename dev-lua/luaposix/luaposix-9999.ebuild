@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="luaposix"
 
-inherit autotools lua
+inherit autotools lua-broken
 
 DESCRIPTION="POSIX binding, including curses, for Lua 5.1 and 5.2"
 HOMEPAGE="https://github.com/luaposix/luaposix"

@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="cloudflare"
 GITHUB_PN="${PN}-lua"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A small Lua interface to Sentry"
 HOMEPAGE="https://github.com/cloudflare/raven-lua"

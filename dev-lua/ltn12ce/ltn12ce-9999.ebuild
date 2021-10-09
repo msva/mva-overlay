@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="mkottman"
 IS_MULTILIB=true
 
-inherit cmake-utils lua
+inherit cmake-utils lua-broken
 
 DESCRIPTION="LuaSocket's LTN12-compatible Crypto/Compressing Engine"
 HOMEPAGE="https://github.com/mkottman/ltn12ce"

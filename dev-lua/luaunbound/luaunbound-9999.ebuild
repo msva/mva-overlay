@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="mercurial"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT FFI bindings to net-dns/unbound"
 HOMEPAGE="http://code.zash.se/luaunbound/"

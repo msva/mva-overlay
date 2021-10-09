@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="ittner"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua bindings for POSIX iconv"
 HOMEPAGE="http://ittner.github.com/lua-iconv"

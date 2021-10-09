@@ -6,7 +6,7 @@ EAPI=7
 IS_MULTILIB=true
 LUA_COMPAT="lua51 lua52 lua53"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Bit Operations Library for the Lua Programming Language"
 HOMEPAGE="http://bitop.luajit.org"

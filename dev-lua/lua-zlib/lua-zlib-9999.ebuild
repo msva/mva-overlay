@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="brimworks"
 
-inherit cmake-utils lua
+inherit cmake-utils lua-broken
 
 DESCRIPTION="Lua bindings to zlib"
 HOMEPAGE="https://github.com/brimworks/lua-zlib"

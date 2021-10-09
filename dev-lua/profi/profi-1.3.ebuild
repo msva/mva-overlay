@@ -7,7 +7,7 @@ GIST_A="perky"
 GIST_ID="2838755"
 GIST_SHA="78e573ca38b859c8639427c52d2c850736969bc7"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="a Lua Profiler"
 HOMEPAGE="https://gist.github.com/perky/2838755"

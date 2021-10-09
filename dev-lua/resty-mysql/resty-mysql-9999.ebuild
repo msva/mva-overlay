@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua MySQL client driver for ngx_lua based on the cosocket API"
 HOMEPAGE="https://github.com/openresty/lua-resty-mysql"

@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="Olivine-Labs"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A small lua module to generate CAPTCHA images using lua-gd"
 HOMEPAGE="http://olivinelabs.com/lustache"

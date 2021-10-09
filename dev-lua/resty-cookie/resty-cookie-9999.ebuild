@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="cloudflare"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Library for parsing HTTP Cookie header for Nginx"
 HOMEPAGE="https://github.com/cloudflare/lua-resty-cookie"

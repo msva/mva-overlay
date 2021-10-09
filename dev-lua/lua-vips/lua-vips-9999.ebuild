@@ -7,7 +7,7 @@ VCS="git"
 LUA_COMPAT="luajit2"
 GITHUB_A="jcupitt"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="fast, low-memory-use image processing for luajit"
 HOMEPAGE="https://github.com/jcupitt/lua-vips"

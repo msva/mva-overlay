@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="daurnimator"
 IS_MULTILIB=true
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A lua library to spawn programs"
 HOMEPAGE="https://github.com/daurnimator/lua-spawn"

@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A=kikito
 GITHUB_PN="${PN}.lua"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A simple Lua function for printing to the console in color."
 HOMEPAGE="https://github.com/kikito/ansicolors.lua"

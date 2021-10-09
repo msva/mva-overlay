@@ -4,7 +4,7 @@
 EAPI=7
 
 VCS="mercurial"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua Asynchronous HTTP Library."
 HOMEPAGE="http://code.matthewwild.co.uk/"

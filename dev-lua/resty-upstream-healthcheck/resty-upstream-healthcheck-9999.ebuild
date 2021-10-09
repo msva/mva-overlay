@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Health Checker for Nginx Upstream Servers in Pure Lua"
 HOMEPAGE="https://github.com/openresty/lua-resty-upstream-healthcheck"

@@ -9,7 +9,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="msva"
 GITHUB_PN="lua-crypto"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua Crypto Library"
 HOMEPAGE="https://github.com/msva/lua-crypto"

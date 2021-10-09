@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="hugomg"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A stream-based HTML template library for Lua."
 HOMEPAGE="https://github.com/hugomg/lullaby"

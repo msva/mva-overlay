@@ -8,7 +8,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="sprhawk"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="lua bindings for HTMLParser in libxml2"
 HOMEPAGE="https://github.com/sprhawk/lua-html"

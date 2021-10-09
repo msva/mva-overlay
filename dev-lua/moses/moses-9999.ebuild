@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="Yonaba"
 GITHUB_PN="${PN^}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Simple wrapper around luasoket smtp.send"
 HOMEPAGE="https://github.com/Yonaba/Moses"

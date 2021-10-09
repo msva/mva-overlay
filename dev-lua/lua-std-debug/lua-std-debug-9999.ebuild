@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="lua-stdlib"
 GITHUB_PN="_${PN#lua-std-}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Debug Hints Library"
 HOMEPAGE="https://github.com/lua-stdlib/_debug"

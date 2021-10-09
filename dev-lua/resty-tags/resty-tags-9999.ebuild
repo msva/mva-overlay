@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="bungle"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A small DSL for building HTML documents"
 HOMEPAGE="https://github.com/bungle/lua-resty-tags"

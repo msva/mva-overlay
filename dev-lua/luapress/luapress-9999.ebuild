@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="Fizzadar"
 GITHUB_PN="${PN^}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Static sites generator (from markdown files)"
 HOMEPAGE="http://luapress.org"

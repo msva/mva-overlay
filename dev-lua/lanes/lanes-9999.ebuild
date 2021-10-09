@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="LuaLanes"
 
-inherit cmake-utils lua
+inherit cmake-utils lua-broken
 
 DESCRIPTION="lightweight, native, lazy evaluating multithreading library"
 HOMEPAGE="https://github.com/LuaLanes/lanes"

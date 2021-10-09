@@ -8,7 +8,7 @@ LUA_COMPAT="luajit2"
 VCS="git"
 GITHUB_A="Wiladams"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT binding to libdbus"
 HOMEPAGE="https://github.com/Wiladams/LJIT2dbus"

@@ -8,7 +8,7 @@ VCS="git"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="New LuaJIT FFI based API for lua-nginx-module"
 HOMEPAGE="https://github.com/openresty/lua-resty-core"

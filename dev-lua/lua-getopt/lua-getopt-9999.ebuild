@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="jjensen"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua getopt module (simplified)"
 HOMEPAGE="https://github.com/jjensen/lua-getopt"

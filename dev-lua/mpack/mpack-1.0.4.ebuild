@@ -6,7 +6,7 @@ EAPI=7
 GITHUB_A="tarruda"
 GITHUB_PN="libmpack"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua bindings for libmpack"
 HOMEPAGE="https://github.com/tarruda/libmpack/"

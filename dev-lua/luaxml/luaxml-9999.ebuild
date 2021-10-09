@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="msva"
 
-inherit cmake-utils lua
+inherit cmake-utils lua-broken
 
 DESCRIPTION="A minimal set of XML processing funcs & simple XML<->Tables mapping"
 HOMEPAGE="http://viremo.eludi.net/LuaXML/"

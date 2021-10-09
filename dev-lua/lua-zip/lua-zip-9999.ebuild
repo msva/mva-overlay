@@ -7,7 +7,7 @@ VCS="git"
 #GITHUB_A="brimworks"
 #GITHUB_A="markuman"
 
-inherit cmake-utils lua
+inherit cmake-utils lua-broken
 
 DESCRIPTION="Lua bindings to libzip"
 HOMEPAGE="https://git.osuv.de/m/lua-zip"

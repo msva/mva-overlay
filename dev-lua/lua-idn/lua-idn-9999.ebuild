@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="haste"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A Lua implementation of IDNA (RFC 3490)"
 HOMEPAGE="https://github.com/haste/lua-idn"

@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="Phrogz"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A basic XML serializer for Lua"
 HOMEPAGE="https://github.com/bibby/lua-xml-ser"

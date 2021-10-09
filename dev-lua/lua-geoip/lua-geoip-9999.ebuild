@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="agladysh"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua GeoIP Library"
 HOMEPAGE="https://agladysh.github.io/lua-geoip"

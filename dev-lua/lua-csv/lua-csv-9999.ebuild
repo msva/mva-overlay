@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="geoffleyland"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="a Lua module for reading delimited text files"
 HOMEPAGE="https://github.com/geoffleyland/lua-csv"

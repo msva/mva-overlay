@@ -8,7 +8,7 @@ LUA_COMPAT="lua52 lua53 luajit2"
 VCS="git"
 GITHUB_A="giuseppeM99"
 
-inherit cmake-utils lua
+inherit cmake-utils lua-broken
 
 DESCRIPTION="A basic interface between tdlib and lua"
 HOMEPAGE="https://github.com/giuseppeM99/tdlua"

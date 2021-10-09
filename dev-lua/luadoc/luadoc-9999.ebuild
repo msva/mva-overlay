@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="keplerproject"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaDoc is a documentation tool for Lua source code"
 HOMEPAGE="http://keplerproject.github.io/luadoc/"

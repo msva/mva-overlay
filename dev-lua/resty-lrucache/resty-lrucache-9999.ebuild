@@ -8,7 +8,7 @@ LUA_COMPAT="luajit2"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A simple LRU cache for OpenResty and the ngx_lua module (based on LuaJIT FFI)"
 HOMEPAGE="https://github.com/openresty/lua-resty-lrucache"

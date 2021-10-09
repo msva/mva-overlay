@@ -8,7 +8,7 @@ LUA_COMPAT="lua51 luajit2"
 IS_MULTILIB=true
 GITHUB_A="openresty"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Resty-DBD-Stream (RDS) parser for Lua written in C"
 HOMEPAGE="https://github.com/openresty/lua-rds-parser"

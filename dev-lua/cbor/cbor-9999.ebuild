@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="spc476"
 GITHUB_PN="${PN^^}"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="The most comprehensive CBOR module in the Lua universe"
 HOMEPAGE="https://github.com/spc476/CBOR"

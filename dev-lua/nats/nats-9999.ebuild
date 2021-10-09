@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="dawnangel"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua client for NATS messaging system"
 HOMEPAGE="https://github.com/dawnangel/lua-nats"

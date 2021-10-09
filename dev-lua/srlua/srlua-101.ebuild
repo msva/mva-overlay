@@ -5,7 +5,7 @@ EAPI=7
 
 IS_MULTILIB=true
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A simple tool, that help you to glue lua script with interpreter"
 HOMEPAGE="http://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/index.html#srlua"

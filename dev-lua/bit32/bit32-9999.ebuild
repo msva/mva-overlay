@@ -10,7 +10,7 @@ VCS="git"
 GITHUB_A="keplerproject"
 GITHUB_PN="lua-compat-5.2"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A Lua5.2+ bit manipulation library"
 HOMEPAGE="https://github.com/keplerproject/lua-compat-5.2"

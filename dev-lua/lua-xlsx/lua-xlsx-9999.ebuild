@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="jjensen"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="a Lua module for reading .xlsx files"
 HOMEPAGE="https://github.com/jjensen/lua-xlsx"

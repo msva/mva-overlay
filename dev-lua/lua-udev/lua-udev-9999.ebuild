@@ -7,7 +7,7 @@ IS_MULTILIB=true
 VCS="git"
 GITHUB_A="dodo"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="udev bindings for Lua"
 HOMEPAGE="https://github.com/dodo/lua-udev/"

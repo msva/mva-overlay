@@ -6,7 +6,7 @@ EAPI=7
 VCS="mercurial"
 IS_MULTILIB=true
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="SAX XML parser based on the Expat library."
 HOMEPAGE="http://code.matthewwild.co.uk/"

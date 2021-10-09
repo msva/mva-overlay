@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="stevedonovan"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A LuaDoc-compatible documentation generation system"
 HOMEPAGE="https://github.com/stevedonovan/LDoc/"

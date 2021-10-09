@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="stevedonovan"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="library and driver script for preprocessing and evaluating Lua code"
 HOMEPAGE="https://github.com/stevedonovan/LuaMacro/"

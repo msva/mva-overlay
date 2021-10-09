@@ -4,7 +4,7 @@
 EAPI=7
 
 VCS="mercurial"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="System statistics library for Lua"
 HOMEPAGE="http://code.matthewwild.co.uk/"

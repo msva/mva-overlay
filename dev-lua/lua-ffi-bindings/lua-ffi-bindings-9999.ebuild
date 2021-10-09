@@ -6,7 +6,7 @@ EAPI=7
 LUA_COMPAT="luajit2"
 VCS="git"
 GITHUB_A="thenumbernine"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Some common headers ported over to LuaJIT FFI"
 HOMEPAGE="https://github.com/thenumbernine/lua-ffi-bindings"

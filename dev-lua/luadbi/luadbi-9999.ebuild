@@ -8,7 +8,7 @@ IS_MULTILIB=true
 VCS="mercurial"
 BITBUCKET_A="mva"
 BITBUCKET_PN="${PN}-temp"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="DBI module for Lua"
 HOMEPAGE="https://code.google.com/p/luadbi"

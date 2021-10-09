@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 LUA_COMPAT="luajit2"
 GITHUB_A="justincormack"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT Unix syscall FFI"
 HOMEPAGE="https://github.com/justincormack/ljsyscall"

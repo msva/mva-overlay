@@ -7,7 +7,7 @@ IS_MULTILIB=true
 VCS="git"
 GITHUB_A="hoelzro"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="inotify bindings for Lua"
 HOMEPAGE="https://github.com/hoelzro/linotify"

@@ -1,0 +1,2 @@
+move dev-lua/luautf8 dev-lua/lua-utf8
+move dev-lua/argparse dev-lua/lua-argparse

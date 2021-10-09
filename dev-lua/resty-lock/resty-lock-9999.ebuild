@@ -8,7 +8,7 @@ LUA_COMPAT="luajit2"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Simple shm-based nonblocking lock API"
 HOMEPAGE="https://github.com/openresty/lua-resty-lock"

@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="gvvaughan"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LibYAML binding for Lua."
 HOMEPAGE="https://github.com/gvvaughan/lyaml"

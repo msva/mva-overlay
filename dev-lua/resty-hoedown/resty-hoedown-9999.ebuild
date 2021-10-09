@@ -8,7 +8,7 @@ GITHUB_A="bungle"
 GITHUB_PN="lua-${PN}"
 LUA_COMPAT="luajit2"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT FFI bindings to app-text/hoedown"
 HOMEPAGE="https://github.com/bungle/lua-resty-hoedown"

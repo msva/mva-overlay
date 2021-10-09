@@ -8,7 +8,7 @@ GITHUB_A="bungle"
 GITHUB_PN="lua-${PN}"
 LUA_COMPAT="luajit2"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT FFI Bindings to <pkg>media-libs/libharu</pkg>"
 HOMEPAGE="https://github.com/bungle/lua-resty-haru"

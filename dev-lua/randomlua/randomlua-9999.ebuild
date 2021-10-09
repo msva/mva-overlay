@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="linux-man"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Pure Lua Random Generator"
 HOMEPAGE="https://github.com/linux-man/randomlua"

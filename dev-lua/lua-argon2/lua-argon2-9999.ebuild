@@ -7,7 +7,7 @@ VCS="git"
 LUA_COMPAT="lua51 lua52 lua53"
 GITHUB_A="thibaultcha"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua C binding for the Argon2 password hashing function"
 HOMEPAGE="https://github.com/thibaultcha/lua-argon2"

@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="brunoos"
 IS_MULTILIB=true
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication."
 HOMEPAGE="http://www.inf.puc-rio.br/~brunoos/luasec/"

@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="msva"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Library for XML documents manipulations as simple Lua data structures"
 HOMEPAGE="https://github.com/msva/etree"

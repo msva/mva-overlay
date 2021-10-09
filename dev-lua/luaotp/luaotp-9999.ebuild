@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="remjey"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A simple implementation of OATH-HOTP and OATH-TOTP written for Lua"
 HOMEPAGE="https://github.com/remjey/luaotp"

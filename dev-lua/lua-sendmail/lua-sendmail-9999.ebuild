@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="moteus"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Simple wrapper around luasoket smtp.send"
 HOMEPAGE="https://github.com/moteus/lua-sendmail"

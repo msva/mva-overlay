@@ -8,7 +8,7 @@ VCS="git"
 GITHUB_A="tavikukko"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="LuaJIT FFI-based libHaru (PDF) library for OpenResty."
 HOMEPAGE="https://github.com/tavikukko/lua-resty-hpdf"

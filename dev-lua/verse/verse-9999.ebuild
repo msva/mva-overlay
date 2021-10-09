@@ -6,7 +6,7 @@ EAPI=7
 VCS="mercurial"
 LUA_COMPAT="lua51 luajit2"
 CUSTOM_ECONF=true
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="http://code.matthewwild.co.uk/"

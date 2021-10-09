@@ -9,7 +9,7 @@ IS_MULTILIB=true
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Redis reply parser and request constructor library for Lua"
 HOMEPAGE="https://github.com/openresty/lua-redis-parser"

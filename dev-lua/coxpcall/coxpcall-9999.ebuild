@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="keplerproject"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua coxpcall Library"
 HOMEPAGE="https://github.com/keplerproject/coxpcall"

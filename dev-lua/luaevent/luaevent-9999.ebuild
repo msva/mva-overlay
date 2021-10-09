@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 IS_MULTILIB=true
 GITHUB_A="harningt"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="libevent bindings for Lua"
 HOMEPAGE="http://luaforge.net/projects/luaevent http://repo.or.cz/w/luaevent.git"

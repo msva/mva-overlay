@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="great90"
 GITHUB_PN="lua-${PN^}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A pure Lua implementation of msgpack.org"
 HOMEPAGE="https://fperrad.github.io/lua-MessagePack/"

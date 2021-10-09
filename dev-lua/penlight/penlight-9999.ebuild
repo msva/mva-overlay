@@ -1,44 +1,59 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="stevedonovan"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua
+inherit lua git-r3
 
 DESCRIPTION="Libraries for input handling, functional programming and OS path management."
 HOMEPAGE="https://github.com/stevedonovan/Penlight"
+EGIT_REPO_URI="https://github.com/stevedonovan/Penlight"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc examples test luajit"
+IUSE="doc examples test"
 
-# TODO: Lua 5.2 handling
-
-DEPEND="
-	${RDEPEND}
+RDEPEND="
+	dev-lua/luafilesystem
+"
+BDEPEND="
 	doc? ( dev-lua/ldoc )
 "
+DEPEND="${RDEPEND}"
 
-#HTML_DOCS=(html/.)
 DOCS=(README.md CONTRIBUTING.md)
-EXAMPLES=(examples/.)
 
-all_lua_compile() {
-	use doc && (
-		pushd doc &>/dev/null
-		ldoc . -d ../html
-		popd
-	)
+src_compile() {
+	if use doc; then
+		ldoc . -d docs || eerror "Failed (non-fatal) to build HTML documentation"
+		mv docs html
+	fi
 }
 
 each_lua_test() {
-	${LUA} run.lua tests
+	${ELUA} run.lua tests
+}
+
+src_test() {
+	lua_foreach_impl each_lua_test
 }
 
 each_lua_install() {
-	dolua lua/pl
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lua/pl
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		DOCS+=(examples)
+		docompress -x "${EROOT}/usr/share/doc/${PF}/examples"
+	fi
+	if use doc; then
+		DOCS+=(html)
+	fi
+	einstalldocs
 }

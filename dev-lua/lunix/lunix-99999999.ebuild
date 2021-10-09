@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="wahern"
 IS_MULTILIB=true
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua Unix Module"
 HOMEPAGE="http://25thandclement.com/~william/projects/lunix.html"

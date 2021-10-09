@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="msva"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua bindings to zziplib"
 HOMEPAGE="https://github.com/msva/luazip"

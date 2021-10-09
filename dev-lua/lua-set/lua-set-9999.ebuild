@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="wscherphof"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Straightforward Set library for Lua"
 HOMEPAGE="https://github.com/wscherphof/lua-set"

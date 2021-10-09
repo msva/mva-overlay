@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="daurnimator"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A library for time and date manipulation"
 HOMEPAGE="https://github.com/daurnimator/luatz"

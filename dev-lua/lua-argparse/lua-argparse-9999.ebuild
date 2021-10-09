@@ -2,30 +2,28 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
+
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION="Beautifies Lua code"
-HOMEPAGE="https://luarocks.org/modules/luarocks/formatter"
-EGIT_REPO_URI="https://github.com/shuxiao9058/luaformatter"
+DESCRIPTION="Feature-rich command line parser for Lua "
+HOMEPAGE="https://github.com/mpeterv/argparse"
+EGIT_REPO_URI="https://github.com/mpeterv/argparse"
 
-LICENSE="EPL-1.0"
+LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
-
 REQUIRED_USE="${LUA_REQUIRED_USE}"
-DEPEND="${LUA_DEPS}"
-RDEPEND="${DEPEND}"
+RDEPEND="${LUA_DEPS}"
+DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
 lua_install() {
 	insinto "$(lua_get_lmod_dir)"
-	doins "${PN##lua}".lua
+	doins src/argparse.lua
 }
 
 src_install() {
+	default
 	lua_foreach_impl lua_install
-	newbin commandline.lua "${PN}"
 }

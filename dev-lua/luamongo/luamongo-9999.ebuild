@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="moai"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua driver for MongoDB"
 HOMEPAGE="https://github.com/mwild1/luamongo/"

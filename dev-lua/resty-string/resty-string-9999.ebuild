@@ -8,7 +8,7 @@ LUA_COMPAT="luajit2"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="String utilities and common hash functions for ngx_lua and LuaJIT"
 HOMEPAGE="https://github.com/openresty/lua-resty-string"

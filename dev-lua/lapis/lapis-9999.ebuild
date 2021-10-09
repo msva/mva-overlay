@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="leafo"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A web framework for Lua/MoonScript."
 HOMEPAGE="https://github.com/leafo/lapis"

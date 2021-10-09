@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="pkulchenko"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua serializer and pretty printer"
 HOMEPAGE="https://github.com/pkulchenko/serpent"

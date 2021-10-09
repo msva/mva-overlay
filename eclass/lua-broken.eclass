@@ -35,7 +35,7 @@
 # @DESCRIPTION:
 # This variable contains a space separated list of targets (see above) a package
 # is compatible to. It must be set before the `inherit' call.
-: ${LUA_COMPAT:=lua51 lua52 lua53 luajit2 lua5-1 lua5-2 lua5-3 luajit}
+: ${LUA_COMPAT:=lua51 lua52 lua53 lua54 luajit2 lua5-1 lua5-2 lua5-3 lua5-4 luajit}
 
 # @ECLASS-VARIABLE: LUA_OPTIONAL
 # @DESCRIPTION:
@@ -128,6 +128,10 @@ lua_implementation_depend() {
 			lua_pn="dev-lang/lua"
 			lua_slot=":5.3"
 			;;
+		lua54|lua5-4)
+			lua_pn="dev-lang/lua"
+			lua_slot=":5.4"
+			;;
 		luajit2|luajit)
 			lua_pn="dev-lang/luajit"
 			lua_slot=":2"
@@ -165,7 +169,7 @@ lua_implementation_command() {
 # Gets an array of lua use targets enabled by the user
 lua_get_use_implementations() {
 	local i=() implementation
-	for implementation in ${LUA_COMPAT}; do
+	for implementation in ${LUA_COMPAT[@]}; do
 		if [[ -z "${LUA_IGNORE_TARGET_DUPLICATION}" ]] && [ "${implementation}" = "lua51" ] && in_iuse lua_targets_luajit2 && use lua_targets_luajit2 && use lua_targets_lua51; then
 			ewarn "LuaJIT using same LMOD/CMOD install paths as lua51."
 			ewarn "Lua target 'lua51' was skipped to avoid useless double compilation and file overwrites."
@@ -184,7 +188,7 @@ lua_get_use_implementations() {
 # Gets an array of lua use targets that the ebuild sets
 lua_get_use_targets() {
 	local t=() implementation
-	for implementation in ${LUA_COMPAT}; do
+	for implementation in ${LUA_COMPAT[@]}; do
 		t+=("lua_targets_${implementation}")
 	done
 	echo ${t[@]}
@@ -208,7 +212,7 @@ lua_get_use_targets() {
 # RDEPEND="${DEPEND}"
 lua_implementations_depend() {
 	local depend
-	for _lua_implementation in ${LUA_COMPAT}; do
+	for _lua_implementation in ${LUA_COMPAT[@]}; do
 		depend="${depend}${depend+ }lua_targets_${_lua_implementation}? ( $(lua_implementation_depend $_lua_implementation) )"
 	done
 	echo "${depend}"
@@ -283,7 +287,7 @@ _lua_each_implementation() {
 
 	if [[ ${invoked} == "no" ]]; then
 		eerror "You need to select at least one compatible Lua installation target via LUA_TARGETS in make.conf."
-		eerror "Compatible targets for this package are: ${LUA_COMPAT}"
+		eerror "Compatible targets for this package are: ${LUA_COMPAT[@]}"
 		eerror
 		die "No compatible Lua target selected."
 	fi

@@ -6,7 +6,7 @@ EAPI=7
 IS_MULTILIB=true
 VCS="git"
 GITHUB_A="msva"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A helper to call external processes and capture both their std-in and -out"
 HOMEPAGE="https://github.com/msva/lpc"

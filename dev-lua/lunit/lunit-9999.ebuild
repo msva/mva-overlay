@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="dcurrie"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A unit testing framework for Lua"
 HOMEPAGE="https://github.com/dcurrie/lunit"

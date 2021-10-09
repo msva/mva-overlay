@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="cramey"
 EGIT_BRANCH="public"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="A FastCGI server for Lua, written in C"
 HOMEPAGE="https://github.com/cramey/lua-fastcgi"

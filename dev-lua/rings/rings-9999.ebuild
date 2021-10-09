@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="keplerproject"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua Rings Library"
 HOMEPAGE="https://github.com/keplerproject/rings"

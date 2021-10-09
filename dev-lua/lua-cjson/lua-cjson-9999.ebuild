@@ -7,7 +7,7 @@ VCS="git"
 IS_MULTILIB=true
 GITHUB_A="openresty"
 #LUA_COMPAT="lua51 luajit2"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua JSON Library, written in C"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"

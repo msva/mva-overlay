@@ -1,37 +1,50 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-VCS="git"
-IS_MULTILIB="true"
-GITHUB_A="keplerproject"
-
-inherit lua
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="File System Library for the Lua Programming Language"
 HOMEPAGE="https://keplerproject.github.io/luafilesystem/"
 
+EGIT_REPO_URI="https://github.com/keplerproject/${PN}"
+
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc"
 
 HTML_DOCS=(doc/us/.)
 DOCS=(README.md)
 
-all_lua_prepare() {
-	sed -e 'd' config
-	lua_default
-}
-
-each_lua_configure() {
-	myeconfargs=(
-		LIB_OPTION='$(LDFLAGS)'
+lua_compile() {
+	local compiler=(
+		"$(tc-getCC)"
+		"${CFLAGS}"
+		"-fPIC"
+		"${LDFLAGS}"
+		"$(lua_get_CFLAGS)"
+		"-shared"
+		"${LDFLAGS}"
+		"-o ${PN}-${ELUA}.so"
+		src/lfs.c
 	)
-	lua_default
+	einfo "${compiler[@]}"
+	${compiler[@]} || die
 }
 
-each_lua_install() {
-	dolua src/lfs.so
+lua_install() {
+	exeinto "$(lua_get_cmod_dir)"
+	newexe "${PN}-${ELUA}.so" lfs.so
 }
+
+src_compile() {
+	lua_foreach_impl lua_compile
+}
+
+src_install() {
+	lua_foreach_impl lua_install
+	einstalldocs
+}
+

@@ -5,7 +5,7 @@ EAPI=7
 
 VCS="git"
 GITHUB_A="xiedacon"
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Pretty JSON serializer and parser on pure Lua"
 HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"

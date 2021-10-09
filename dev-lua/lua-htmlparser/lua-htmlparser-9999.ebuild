@@ -6,7 +6,7 @@ EAPI=7
 VCS="git"
 GITHUB_A="msva"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Parse HTML text into a tree of elements with selectors"
 HOMEPAGE="https://github.com/msva/lua-htmlparser"

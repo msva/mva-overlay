@@ -7,7 +7,7 @@ VCS="git"
 GITHUB_A="openresty"
 GITHUB_PN="lua-${PN}"
 
-inherit lua
+inherit lua-broken
 
 DESCRIPTION="Lua memcached client driver for the ngx_lua based on the cosocket API"
 HOMEPAGE="https://github.com/openresty/lua-resty-memcached"
