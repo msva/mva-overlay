@@ -5,7 +5,7 @@ inherit cmake
 DESCRIPTION="Open source project that includes YUV scaling and conversion functionality"
 HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv/"
 
-EGIT_COMMIT="db32cbfe1deb50c757ce31f52bf3e34a5f16bd89"
+EGIT_COMMIT="d13d9d5972ec99e9f923ec5ca2afb8c1d21b8e5a"
 SRC_URI="https://chromium.googlesource.com/libyuv/libyuv.git/+archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-3"
