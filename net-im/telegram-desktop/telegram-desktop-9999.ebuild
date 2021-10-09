@@ -35,7 +35,7 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug gtk hide-banned libcxx lto pipewire +pulseaudio +spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test +wayland +webkit +webrtc wide-baloons +X"
+IUSE="custom-api-id +dbus debug gtk hide-banned hide-sponsored-messages libcxx lto pipewire +pulseaudio +spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test +wayland +webkit +webrtc wide-baloons +X"
 
 COMMON_DEPEND="
 	app-arch/lz4:=
