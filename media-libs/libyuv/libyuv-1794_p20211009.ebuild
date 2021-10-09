@@ -1,6 +1,6 @@
 EAPI=8
 
-inherit cmake
+inherit cmake flag-o-matic
 
 DESCRIPTION="Open source project that includes YUV scaling and conversion functionality"
 HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv/"
@@ -12,7 +12,7 @@ LICENSE="BSD-3"
 KEYWORDS="~amd64 ~arm64"
 SLOT="0/${PV}"
 
-IUSE="static-libs test"
+IUSE="static-libs test tools"
 
 RDEPEND="virtual/jpeg"
 DEPEND="
@@ -29,14 +29,32 @@ DOCS=( AUTHORS LICENSE PATENTS README.{md,chromium} )
 PATCHES="${FILESDIR}/${P//_p*}-cmake-libdir.patch"
 
 S="${WORKDIR}"
+BUILD_DIR="${S}/build"
 
 src_prepare() {
 	cmake_src_prepare
-	use static-libs || sed -i -r \
-		-e '/TARGET_LINK_LIBRARIES.* yuvconvert /{s@(ly_lib)_static@\1_name@}' \
-		-e '/.*target_link_libraries.*yuvconvert.*JPEG_LIBRARY.*/{p;s@yuvconvert@${ly_lib_shared}@}' \
-		-e '/ly_lib_static/d' \
-		CMakeLists.txt
+	if use tools; then
+		if ! use static-libs; then
+			# link against libyuv dinamically, but not statically (unless static-libs is enabled)
+			sed -i -r \
+				-e '/TARGET_LINK_LIBRARIES.* yuvconvert /{s@(ly_lib)_static@\1_name@}' \
+				-e '/.*target_link_libraries.*yuvconvert.*JPEG_LIBRARY.*/{p;s@yuvconvert@${ly_lib_shared}@}' \
+				CMakeLists.txt
+
+			# help linker to see just-built libyuv.so if we're doing clean install and prefer it over system-wide if we're upgrading
+			append-ldflags '-L.'
+		fi
+	else
+		sed -i \
+			-e '/ yuvconvert /d' \
+			-e '/^INSTALL.* PROGRAMS /d' \
+			CMakeLists.txt
+	fi
+	if ! use static-libs; then
+		sed -i \
+			-e '/ly_lib_static/d' \
+			CMakeLists.txt
+	fi
 }
 
 src_configure() {
@@ -45,6 +63,16 @@ src_configure() {
 		mycmakeargs+=(-DTEST=ON)
 	fi
 	cmake_src_configure
+}
+
+src_compile() {
+	cmake_src_compile libyuv.so
+	if use static-libs; then
+		cmake_src_compile libyuv.a
+	fi
+	if use tools; then
+		cmake_src_compile yuvconvert
+	fi
 }
 
 src_install() {
