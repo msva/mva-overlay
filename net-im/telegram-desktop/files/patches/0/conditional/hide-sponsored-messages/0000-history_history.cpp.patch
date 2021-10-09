@@ -1,0 +1,13 @@
+diff -NaurBwdpH a/Telegram/SourceFiles/history/history.cpp b/Telegram/SourceFiles/history/history.cpp
+--- a/Telegram/SourceFiles/history/history.cpp	2021-10-09 18:30:43.938674692 +0700
++++ b/Telegram/SourceFiles/history/history.cpp	2021-10-09 18:31:02.123028972 +0700
+@@ -2676,7 +2676,7 @@ QString History::topPromotionMessage() c
+ }
+ 
+ bool History::canHaveSponsoredMessages() const {
+-	return isChannel();
++	return false;
+ }
+ 
+ bool History::clearUnreadOnClientSide() const {
+
