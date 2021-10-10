@@ -35,64 +35,54 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug gtk hide-banned hide-sponsored-messages libcxx lto pipewire +pulseaudio +spell system-gsl system-expected system-fonts system-libtgvoip system-rlottie system-variant test +wayland +webkit +webrtc wide-baloons +X"
+IUSE="custom-api-id +dbus debug enchant hide-banned hide-sponsored-messages +hunspell libcxx lto pipewire +pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc wide-baloons +X"
 
 COMMON_DEPEND="
+	!net-im/telegram
+	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
-	app-arch/xz-utils:=
-	dbus? ( dev-libs/libdbusmenu-qt:= )
-	dev-libs/jemalloc:=
+	dev-libs/jemalloc:=[-lazy-lock]
+	dev-libs/openssl:=
 	dev-libs/xxhash:=
-	dev-qt/qtcore:5=
-	dev-qt/qtdbus:5=
-	dev-libs/libdbusmenu-qt[qt5(+)]
-	dev-qt/qtgui:5=[dbus?,jpeg,png,wayland?,X(-)?]
-	dev-qt/qtnetwork:5=
-	dev-qt/qtwidgets:5=[png,X(-)?]
-	dev-qt/qtimageformats:5=
-	media-libs/alsa-lib
+	>=dev-qt/qtcore-5.15:5
+	>=dev-qt/qtgui-5.15:5[dbus?,jpeg,png,wayland?,X?]
+	>=dev-qt/qtimageformats-5.15:5
+	>=dev-qt/qtnetwork-5.15:5[ssl]
+	>=dev-qt/qtsvg-5.15:5
+	>=dev-qt/qtwidgets-5.15:5[png,X?]
+	media-fonts/open-sans:*
 	media-libs/fontconfig:=
 	media-libs/rnnoise:=
-	virtual/libiconv
-	x11-libs/libxcb:=
-	gtk? (
-		x11-libs/gtk+:3=[X?,wayland?]
-		dev-qt/qtwidgets:5=[gtk]
-		x11-libs/gdk-pixbuf:2[jpeg]
-		dev-libs/glib:2
-		x11-libs/libxkbcommon:=
-		x11-libs/libX11:=
+	media-libs/libyuv:=
+	media-libs/openal:=
+	media-libs/opus:=
+	media-video/ffmpeg:=[opus]
+	dbus? (
+		dev-cpp/glibmm:2
+		dev-qt/qtdbus:5
+		dev-libs/libdbusmenu-qt[qt5(+)]
 	)
 	libcxx? (
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
 	)
-	dev-libs/openssl:0=
-	media-libs/libyuv:=
-	media-libs/openal:=[alsa]
-	media-video/ffmpeg:=[alsa,opus]
-	!net-im/telegram
-	!net-im/telegram-desktop-bin
 	pipewire? ( media-video/pipewire )
 	pulseaudio? ( media-sound/pulseaudio )
-	system-fonts? ( media-fonts/open-sans:* )
 	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx=] )
 	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads,-cache] )
-	spell? ( app-text/enchant:= )
+	enchant? ( app-text/enchant:= )
+	hunspell? ( >=app-text/hunspell-1.7:= )
 	sys-libs/zlib:=[minizip]
 	webrtc? (
 		dev-cpp/abseil-cpp:=
 		media-libs/libjpeg-turbo:=
 		>media-libs/tg_owt-0_pre20210101[pulseaudio?,pipewire?,libcxx=]
+		media-libs/libyuv:=
 	)
 	wayland? ( kde-frameworks/kwayland:= )
-	webkit? (
-		net-libs/webkit-gtk:=
-	)
-	x11-libs/libdrm:=
-	x11-libs/libva:=[X(-)?,drm]
+	webkit? ( net-libs/webkit-gtk:= )
+	X? ( x11-libs/libxcb:= )
 "
-#	!pulseaudio? ( media-sound/apulse[sdk] )
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -101,29 +91,33 @@ DEPEND="
 	${COMMON_DEPEND}
 "
 BDEPEND="
+	${COMMON_DEPEND}
 	system-variant? ( dev-cpp/variant:= )
 	system-expected? ( >dev-cpp/tl-expected-1.0.0:= )
 	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
 	>=dev-cpp/range-v3-0.10.0:=
 	>=dev-util/cmake-3.16
 	|| (
-		sys-devel/clang:=
-		>=sys-devel/gcc-8.2.0-r6:=
+		sys-devel/clang
+		sys-devel/gcc
 	)
 	test? ( dev-cpp/catch )
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
 "
-# ^^^ TODO: gcc-10 supports C++20, so range-v3 would not be needed anymore.
-# Opposite is true too: dropping range-v3 will bump minimum compatible GCC version to 10.0
 
 REQUIRED_USE="
-	webkit? ( gtk )
+	spell? (
+		^^ ( enchant hunspell )
+	)
+	webkit? ( dbus )
 "
+
+
 
 pkg_pretend() {
 	if use wayland && use webkit; then
-		ewarn "If you use Wayland as you main graphic system, keep in mind that webview (webkit) functionality doesn't work with it."
+		ewarn "If you use Wayland as you main graphic system, keep in mind that embedded webview (webkit) that is used for payments doesn't work with it."
 	fi
 	if ! use webrtc; then
 		eerror "Telegram Desktop's upstream made webrtc mandatory for build."
@@ -248,11 +242,10 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
 
 		-DDESKTOP_APP_DISABLE_SPELLCHECK=$(usex !spell)
+		-DDESKTOP_APP_USE_ENCHANT=$(usex enchant)  # enables enchant and disables hunspell
 
 		# Unbundling:
 		-DDESKTOP_APP_USE_PACKAGED=ON # Main
-
-		-DDESKTOP_APP_DISABLE_GTK_INTEGRATION="$(usex !gtk)"
 
 		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex !dbus)
 
@@ -263,7 +256,6 @@ src_configure() {
 
 		-DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X)
 
-#		-DWEBRTC_USE_PIPEWIRE=$(usex pipewire)
 		$(usex webrtc "" "-DDESKTOP_APP_DISABLE_WEBRTC_INTEGRATION=ON")
 
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
@@ -286,7 +278,6 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	use gtk || einfo "enable 'gtk' useflag if you have image copy-paste problems"
 	xdg_pkg_postinst
 }
 

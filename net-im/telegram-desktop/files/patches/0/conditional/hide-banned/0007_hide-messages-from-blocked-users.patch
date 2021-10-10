@@ -1,6 +1,6 @@
 --- a/Telegram/SourceFiles/history/history_message.cpp
 +++ b/Telegram/SourceFiles/history/history_message.cpp
-@@ -509,16 +509,30 @@ HistoryMessage::HistoryMessage(
+@@ -490,16 +490,30 @@ HistoryMessage::HistoryMessage(
  
  	createComponents(config);
  
@@ -43,7 +43,7 @@
  			MessageGroupId::FromRaw(history->peer->id, groupedId->v));
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
-@@ -363,6 +363,8 @@ void Message::applyGroupAdminChanges(
+@@ -313,6 +313,8 @@ void Message::applyGroupAdminChanges(
  
  QSize Message::performCountOptimalSize() {
  	const auto item = message();
@@ -52,7 +52,7 @@
  	const auto media = this->media();
  
  	auto maxWidth = 0;
-@@ -548,6 +550,8 @@ void Message::draw(
+@@ -493,6 +495,8 @@ void Message::draw(
  	}
  
  	const auto item = message();
