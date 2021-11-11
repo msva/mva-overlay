@@ -1,22 +1,28 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="geoffleyland"
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua git-r3
 
 DESCRIPTION="a Lua module for reading delimited text files"
 HOMEPAGE="https://github.com/geoffleyland/lua-csv"
+EGIT_REPO_URI="https://github.com/geoffleyland/lua-csv"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
-
-DOCS=(README.md)
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+RDEPEND="${LUA_DEPS}"
+DEPEND="${DEPEND}"
 
 each_lua_install() {
-	dolua lua/csv.lua
+	insinto "$(lua_get_lmod_dir)"
+	doins lua/csv.lua
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

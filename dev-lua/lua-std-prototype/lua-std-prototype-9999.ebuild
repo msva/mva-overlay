@@ -1,37 +1,63 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="lua-stdlib"
-GITHUB_PN="${PN#lua-std-}"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="Prototype Oriented Programming with Lua"
 HOMEPAGE="https://github.com/lua-stdlib/prototype"
+EGIT_REPO_URI="https://github.com/lua-stdlib/prototype"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
-HTML_DOCS=(doc/.)
-DOCS=(README.md NEWS.md)
-
-DEPEND="${DEPEND}
-	doc? ( dev-lua/ldoc )
-	dev-lua/lua-std-normalize
+RDEPEND="
+	${LUA_DEPS}
+	dev-lua/lua-std-normalize[${LUA_USEDEP}]
 "
-
+DEPEND="
+	${RDEPEND}
+	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+"
 each_lua_compile() {
-	if [[ "${PV}" == "9999" ]]; then
-		ver="git:$(git rev-parse --short @):${LUA_IMPL}"
-	fi
-	lua_default
+	pushd "${BUILD_DIR}"
+	default
+	popd
 }
 
 each_lua_install() {
-	dolua lib/std
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lib/std
+	popd
+}
+
+src_prepare() {
+	default
+
+	sed -i -r \
+		-e '/^all/{s@doc @@}' \
+		Makefile || die
+
+	lua_copy_sources
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+	if use doc; then
+		emake doc
+	fi
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use doc; then
+		HTML_DOCS=(doc/.)
+	fi
+	einstalldocs
 }

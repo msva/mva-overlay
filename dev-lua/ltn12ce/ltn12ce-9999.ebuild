@@ -1,48 +1,86 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="mkottman"
-IS_MULTILIB=true
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit cmake-utils lua-broken
+inherit lua git-r3 cmake
 
 DESCRIPTION="LuaSocket's LTN12-compatible Crypto/Compressing Engine"
 HOMEPAGE="https://github.com/mkottman/ltn12ce"
+EGIT_REPO_URI="https://github.com/mkottman/ltn12ce"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="+system-bzip +system-lzma +system-zlib"
 # +system-polarssl
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	system-bzip? ( app-arch/bzip2[$MULTILIB_USEDEP] )
-	system-lzma? ( app-arch/xz-utils[$MULTILIB_USEDEP] )
-	system-zlib? ( sys-libs/zlib[$MULTILIB_USEDEP] )
+	${LUA_DEPS}
+	system-bzip? ( app-arch/bzip2 )
+	system-lzma? ( app-arch/xz-utils )
+	system-zlib? ( sys-libs/zlib )
 "
-#	system-polarssl? ( net-libs/polarssl[$MULTILIB_USEDEP] )
+#	system-polarssl? ( net-libs/polarssl )
 
 DEPEND="
 	${RDEPEND}
 "
 
-DOCS=(README.md)
-
-all_lua_prepare() {
-#	for d in {bzip,lzma,polarssl,zlib}; do
-#		use "system-${d}" &&
-#		sed -e "/add_subdirectory.*${d}/d" -i src/CMakeLists.txt
-#		sed -e "/include_directories.*${d}/d" -i CMakeLists.txt
-#	done
+src_prepare() {
+	cmake_src_prepare
+	sed \
+		-e '/target_link_libraries/{s@${LUA_LIBRARY}@@}' \
+		-i cmake/lua.cmake || die
+	#for d in {bzip,lzma,polarssl,zlib}; do
+	for d in {bzip,lzma,zlib}; do
+		if use "system-${d}"; then
+			sed \
+				-e "/add_subdirectory.*${d}/d" \
+				-e "/DBUILD_${d^^}.*/d" \
+				-e "/APPEND LIBRARIES/s@bzip2@bz2@" \
+				-e "/APPEND LIBRARIES/s@zlib@z@" \
+				-i src/CMakeLists.txt || die
+			sed \
+				-e "/include_directories.*${d}/d" \
+				-i CMakeLists.txt || die
+		fi
+	done
 #	use system-lzma && sed -e "/include_directories ( include )/d" -i CMakeLists.txt
-	lua_default
+	lua_copy_sources
 }
 
 each_lua_configure() {
+	pushd "${BUILD_DIR}"
 	mycmakeargs=(
-		-DINSTALL_CMOD="$(lua_get_pkgvar INSTALL_CMOD)"
+		-DINSTALL_CMOD="$(lua_get_cmod_dir)"
 	)
-	cmake-utils_src_configure
+	cmake_src_configure
+	popd
+}
+
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	cmake_src_compile
+	popd
+}
+
+each_lua_install() {
+	pushd "${BUILD_DIR}"
+	cmake_src_install
+	popd
+}
+
+src_configure() {
+	lua_foreach_impl each_lua_configure
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

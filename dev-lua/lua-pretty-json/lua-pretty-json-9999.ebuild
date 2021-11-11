@@ -1,18 +1,25 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="xiedacon"
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua git-r3
 
 DESCRIPTION="Pretty JSON serializer and parser on pure Lua"
-HOMEPAGE="http://www.kyne.com.au/~mark/software/lua-cjson.php"
+HOMEPAGE="https://github.com/xiedacon/lua-pretty-json"
+EGIT_REPO_URI="https://github.com/xiedacon/lua-pretty-json"
 
 LICENSE="MIT"
 SLOT="0"
 
 each_lua_install() {
-	dolua lib/pretty
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lib/pretty
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

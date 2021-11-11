@@ -11,27 +11,25 @@ DESCRIPTION="Readline powered shell for LuaJIT"
 HOMEPAGE="https://github.com/jdesgats/ILuaJIT"
 EGIT_REPO_URI="https://github.com/jdesgats/ILuaJIT"
 
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc +completion"
 
 RDEPEND="
-	doc? ( dev-lua/luadoc )
-	dev-lua/penlight
+	${LUA_DEPS}
+	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+	dev-lua/penlight[${LUA_USEDEP}]
 	sys-libs/readline:0
-	completion? ( dev-lua/luafilesystem )
+	completion? ( dev-lua/luafilesystem[${LUA_USEDEP}] )
 "
 DEPEND="${RDEPEND}"
 
-DOCS=(README.md)
-
 src_prepare() {
-	use doc && {
-		luadoc . -d html
-		export HTML_DOCS=(html/.)
-	}
+	if use doc; then
+		ldoc . -d html
+	fi
 	default
 }
 
@@ -39,5 +37,8 @@ src_install() {
 	insinto $(lua_get_lmod_dir)
 	doins *.lua
 	dobin "${FILESDIR}/${PN}"
+	if use doc; then
+		HTML_DOCS=(html/.)
+	fi
 	einstalldocs
 }

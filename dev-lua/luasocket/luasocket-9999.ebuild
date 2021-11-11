@@ -1,76 +1,82 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-IS_MULTILIB=true
-GITHUB_A="diegonehab"
-inherit lua-broken
+EGIT_COMMIT="5b18e475f38fcf28429b1cc4b17baee3b9793a62"
+LUA_COMPAT=( lua5-{1..4} luajit )
+MY_P="${PN}-${EGIT_COMMIT}"
 
-DESCRIPTION="Networking support library for the Lua language."
-HOMEPAGE="http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/"
+inherit lua toolchain-funcs git-r3
+
+DESCRIPTION="Networking support library for the Lua language"
+HOMEPAGE="
+	http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/
+	https://github.com/diegonehab/luasocket
+"
+EGIT_REPO_URI="https://github.com/diegonehab/luasocket"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc examples debug"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+RESTRICT="test"
+RDEPEND="${LUA_DEPS}"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
-DOCS=(NEW README)
-HTML_DOCS=(doc/.)
-EXAMPLES=(samples/.)
+HTML_DOCS="doc/."
 
-all_lua_prepare() {
-	lua_default
-
-	# dirty hack for crazy buildsystem
-	sed -r \
-		-e '1iinclude ../.lua_eclass_config' \
-		-e '/^MYCFLAGS=/d' \
-		-e '/^MYLDFLAGS=/d' \
-		-e '/^CC=/d' \
-		-e '/^LD=/d' \
-		-e '/^INSTALL_TOP=/d' \
-		-i src/makefile
+src_prepare() {
+	default
+	lua_copy_sources
 }
 
-each_lua_configure() {
-	local luav="${lua_impl}"
-	luav="${luav##lua}"
+lua_src_compile() {
+	pushd "${BUILD_DIR}" || die
 
-	myeconfargs=(
-		"LUAV=${luav}"
-		"CDIR=$(lua_get_pkgvar INSTALL_CMOD)"
-		"LDIR=$(lua_get_pkgvar INSTALL_LMOD)"
-		'INSTALL_TOP=$(DESTDIR)'
-		"COMPAT=COMPAT"
-		LD='$(CC)'
+	local myemakeargs=(
+		"CC=$(tc-getCC)"
+		"LD=$(tc-getCC)"
+		"LUAINC_linux=$(lua_get_include_dir)"
+		"LUAV=${ELUA}"
+		"MIME_V=1.0.3-${ELUA}"
+		"MYCFLAGS=${CFLAGS}"
+		"MYLDFLAGS=${LDFLAGS}"
+		"SOCKET_V=${PV}-${ELUA}"
 	)
 
-	use debug && \
-		myeconfargs+=("DEBUG=DEBUG")
+	emake "${myemakeargs[@]}" all
 
-	use elibc_Winnt && \
-		myeconfargs+=("PLAT=win32")
+	popd
+}
 
-	use elibc_Cygwin && \
-		myeconfargs+=("PLAT=mingw")
+src_compile() {
+	lua_foreach_impl lua_src_compile
+}
 
-	use elibc_Darwin && (
-		myeconfargs+=(
-			"PLAT=macosx"
-			LDFLAGS="-bundle -undefined dynamic_lookup"
-		)
-		sed \
-			-e 's#-[fD]PIC#-fno-common#g' \
-			-i .lua_eclass_config
+lua_src_install() {
+	pushd "${BUILD_DIR}" || die
+
+	local myemakeargs=(
+		"CDIR=$(lua_get_cmod_dir)"
+		"DESTDIR=${ED}"
+		"LDIR=$(lua_get_lmod_dir)"
+		"LUAPREFIX_linux="
+		"MIME_V=1.0.3-${ELUA}"
+		"SOCKET_V=${PV}-${ELUA}"
 	)
 
-	lua_default
+	emake "${myemakeargs[@]}" install
+	emake "${myemakeargs[@]}" install-unix
 
-	# dirty hack for crazy buildsystem
-	sed -r \
-		-e 's#(^CFLAGS=)#MY\1#' \
-		-e 's#(^LDFLAGS=)#MY\1#' \
-		-i .lua_eclass_config
+	insinto "$(lua_get_include_dir)"/luasocket
+	doins src/*.h
+
+	popd
+}
+
+src_install() {
+	lua_foreach_impl lua_src_install
+
+	einstalldocs
 }

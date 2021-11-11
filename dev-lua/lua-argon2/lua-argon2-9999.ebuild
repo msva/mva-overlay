@@ -1,39 +1,63 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-LUA_COMPAT="lua51 lua52 lua53"
-GITHUB_A="thibaultcha"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Lua C binding for the Argon2 password hashing function"
 HOMEPAGE="https://github.com/thibaultcha/lua-argon2"
+EGIT_REPO_URI="https://github.com/thibaultcha/lua-argon2"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc luajit"
-
+IUSE="doc"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
+	${LUA_DEPS}
 	app-crypt/argon2
-	luajit? ( ${CATEGORY}/${PN}-ffi )
 "
 DEPEND="
 	${RDEPEND}
 "
 
-DOCS=({README,CHANGELOG}.md)
+each_lua_setup() {
+	if [[ "${ELUA}" == "luajit" ]]; then
+		einfo "Seems like you're installing this package for LuaJIT target."
+		einfo "Although, it should be compatible, you may prefer to use FFI version instead:"
+		einfo "  dev-lua/lua-argon2-ffi"
+	fi
+}
+
+pkg_setup() {
+	lua_foreach_impl each_lua_setup
+}
+
+src_prepare() {
+	default
+	lua_copy_sources
+}
 
 each_lua_compile() {
-	_lua_setFLAGS
-
-	${CC} ${CFLAGS} -c -o "${PN}.o" "src/${PN#lua-}.c" || die
-	${CC} ${LDFLAGS} -largon2 -o "${PN#lua-}.so" "${PN}.o" || die
+	pushd "${BUILD_DIR}"
+	$(tc-getCC) ${CFLAGS} -fPIC -shared "src/${PN#lua-}.c" ${LDFLAGS} -largon2 -o "${PN#lua-}.so" || die
+	popd
 }
 
 each_lua_install() {
-	dolua "argon2.so"
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
+	doins argon2.so
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

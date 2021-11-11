@@ -1,46 +1,38 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-IS_MULTILIB=true
-GITHUB_A="mwild1"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Lua driver for LDAP"
 HOMEPAGE="https://github.com/mwild1/lualdap/"
+EGIT_REPO_URI="https://github.com/mwild1/lualdap/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc examples"
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
+	${LUA_DEPS}
 	net-nds/openldap
 "
 DEPEND="${RDEPEND}"
 
-DOCS=(README)
-EXAMPLES=(tests/.)
 HTML_DOCS=(doc/us/.)
 
-all_lua_prepare() {
+src_prepare() {
+	default
 	sed -i -e 'd' config
-	lua_default
+	lua_copy_sources
 }
 
-each_lua_configure() {
-	local luav="$(lua_get_abi)"
-	luav="${luav//./0}"
-	myeconfargs=(
-		OPENLDAP_LIB="-lldap"
-		LUA_VERSION_LUM="${luav}"
-		LIBNAME="${PN}.so"
-		LIB_OPTION='$(LDFLAGS)'
-	)
-	lua_default
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	$(tc-getCC) ${CFLAGS} ${LDFLAGS} -lldap -fPIC -shared -o "${PN}".so || die
+	popd
 }
 
 #each_lua_test() {
@@ -49,5 +41,22 @@ each_lua_configure() {
 #}
 
 each_lua_install() {
-	dolua src/${PN}.so
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
+	doins "${PN}".so
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		mv tests examples
+		DOCS+=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

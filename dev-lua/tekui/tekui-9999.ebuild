@@ -2,23 +2,33 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+# ^ mercurial eclass is not ready for 8
 
-VCS=hg
-EVCS_URI="http://hg.neoscientists.org/tekui"
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua
 
 MY_P="${P//_p/-r}"
 
 DESCRIPTION="TekUI is a small, freestanding and portable GUI toolkit written in Lua and C"
 HOMEPAGE="http://tekui.neoscientists.org"
 
+if [[ "${PV}" == 9999 ]]; then
+	inherit mercurial
+	EHG_REPO_URI="http://hg.neoscientists.org/tekui"
+else
+	SRC_URI="http://tekui.neoscientists.org/releases/${MY_P}.tgz"
+	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
+	S="${WORKDIR}/${MY_P}"
+fi
+
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~x86"
 IUSE="+gradient +cache +fileno +png udp"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
-	$(lua_implementations_depend)
+	${LUA_DEPS}
 	media-libs/libpng:0
 	media-libs/freetype
 	media-libs/fontconfig
@@ -27,21 +37,22 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
+"
+BDEPEND="
+	${LUA_DEPS}
 	virtual/pkgconfig
 "
 
-LUA_S="${MY_P}"
-
-all_lua_prepare() {
-	lua_default
+src_prepare() {
+	default
 	sed -r \
-		-e '/^CC =/d' \
+		-e "/^CC =/s@(CC =).*@\1 $(tc-getCC) -fPIC@" \
 		-e 's@`pkg-config@`${PKG_CONFIG}@' \
 		-e '/^(LUAVER ).*/s@@\1 = __LUA_ABI_PH__@' \
 		-e '/^(LUA_LIB ).*/s@@\1 = $(DESTDIR)__LUA_LIB_PH__@' \
 		-e '/^(LUA_SHARE ).*/s@@\1 = $(DESTDIR)__LUA_SHARE_PH__@' \
-		-e '/^(TEKLIB_DEFS ).*/s@@\1 = __TEKLIB_DEFS_PH__@' \
-		-e '/^(TEKUI_DEFS ).*/s@@\1 = __TEKUI_DEFS_PH__@' \
+		-e '/^(TEKLIB_DEFS ).*/s@@\1 = __TEKLIB_DEFS_PH__ -fPIC@' \
+		-e '/^(TEKUI_DEFS ).*/s@@\1 = __TEKUI_DEFS_PH__ -fPIC@' \
 		-e '/^(TEKUI_LIBS ).*/s@@\1 = __TEKUI_LIBS_PH__@' \
 		-e '/^(PREFIX ).*/s@@\1 = $(DESTDIR)usr@' \
 		-e '/^(INSTALL_S ).*/s@@\1 = $(INSTALL_B)@' \
@@ -60,10 +71,12 @@ all_lua_prepare() {
 		-e '/^(FONTCONFIG_LIBS ).*/s@@\1 = $(${PKG_CONFIG} --libs fontconfig)@' \
 		-e '/^(FONTCONFIG_DEFS ).*/s@@\1 = $(${PKG_CONFIG} --cflags fontconfig)@' \
 	-i config
+	lua_copy_sources
 }
 
 each_lua_configure() {
-	lua_default
+	pushd "${BUILD_DIR}"
+	default
 	local teklib_defs=() tekui_defs=() tekui_libs=()
 
 	use gradient && tekui_defs+=('-DENABLE_GRADIENT')
@@ -77,12 +90,43 @@ each_lua_configure() {
 
 	teklib_defs+=('-DENABLE_LAZY_SINGLETON')
 
+	if [[ ${ELUA} != luajit ]]; then
+		LUA_VERSION="$(ver_cut 1-2 $(lua_get_version))"
+	else
+		# This is a workaround for luajit, as it confirms to lua5.1
+		# and the 'GNUmakefile' doesn't understand LuaJITs version.
+		LUA_VERSION="5.1"
+	fi
+
 	sed -r \
-		-e "s@__LUA_ABI_PH__@$(lua_get_abi)@" \
-		-e "s@__LUA_LIB_PH__@$(lua_get_cmoddir)@" \
-		-e "s@__LUA_SHARE_PH__@$(lua_get_lmoddir)@" \
+		-e "s@__LUA_ABI_PH__@${LUA_VERSION}@" \
+		-e "s@__LUA_LIB_PH__@$(lua_get_cmod_dir)@" \
+		-e "s@__LUA_SHARE_PH__@$(lua_get_lmod_dir)@" \
 		-e "s@__TEKLIB_DEFS_PH__@${teklib_defs[*]}@" \
 		-e "s@__TEKUI_DEFS_PH__@${tekui_defs[*]}@" \
 		-e "s@__TEKUI_LIBS_PH__@${tekui_libs[*]}@" \
 	-i config
+	popd
+}
+
+src_configure() {
+	lua_foreach_impl each_lua_configure
+}
+
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	emake -j1 # broken build system
+	popd
+}
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+each_lua_install() {
+	pushd "${BUILD_DIR}"
+	default
+	popd
+}
+src_install() {
+	lua_foreach_impl each_lua_install
 }

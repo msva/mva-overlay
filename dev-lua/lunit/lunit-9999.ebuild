@@ -1,29 +1,34 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="dcurrie"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="A unit testing framework for Lua"
 HOMEPAGE="https://github.com/dcurrie/lunit"
+EGIT_REPO_URI="https://github.com/dcurrie/lunit"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc examples"
+IUSE="examples"
 
-EXAMPLES=(examples/.)
 DOCS=(README README.lunitx DOCUMENTATION)
 
 each_lua_install() {
-	dolua lua/*
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lua/*
 }
 
-all_lua_install() {
+src_install() {
+	lua_foreach_impl each_lua_install
 	dobin extra/"${PN}".sh
 	dosym "${PN}.sh" /usr/bin/"${PN}"
+	if use examples; then
+		DOCS+=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

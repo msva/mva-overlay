@@ -1,31 +1,36 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="moteus"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="Simple wrapper around luasoket smtp.send"
 HOMEPAGE="https://github.com/moteus/lua-sendmail"
+EGIT_REPO_URI="https://github.com/moteus/lua-sendmail"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc"
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	dev-lua/luasocket
+	${LUA_DEPS}
+	dev-lua/luasocket[${LUA_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}
 "
 
-DOCS=(README.md)
 HTML_DOCS=(docs/.)
 
 each_lua_install() {
-	dolua lua/sendmail.lua
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lua/sendmail.lua
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

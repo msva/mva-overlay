@@ -2,28 +2,48 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+# ^ mercurial
 
-VCS="mercurial"
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-DESCRIPTION="Lua Asynchronous HTTP Library."
-HOMEPAGE="http://code.matthewwild.co.uk/"
-EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
+inherit lua mercurial
+
+DESCRIPTION="Module for parsing and verifying Yubikey OTP tokens"
+HOMEPAGE="https://code.matthewwild.co.uk/"
+EHG_REPO_URI="https://code.matthewwild.co.uk/${PN}/"
 
 LICENSE="MIT LGPL-2.1+"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	dev-lua/squish
+	${LUA_DEPS}
+	dev-lua/squish[${LUA_USEDEP}]
 "
 DEPEND="${RDEPEND}"
 
+src_prepare() {
+	default
+	lua_copy_sources
+}
+
 each_lua_compile() {
+	pushd "${BUILD_DIR}"
 	squish
+	popd
 }
 
 each_lua_install() {
-	dolua yubikey.lua
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_lmod_dir)"
+	doins yubikey.lua
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

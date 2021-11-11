@@ -1,29 +1,46 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-LUA_COMPAT="lua51 luajit2"
-IS_MULTILIB=true
-GITHUB_A="openresty"
-GITHUB_PN="lua-${PN}"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="Redis reply parser and request constructor library for Lua"
 HOMEPAGE="https://github.com/openresty/lua-redis-parser"
+EGIT_REPO_URI="https://github.com/openresty/lua-redis-parser"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+
+RDEPEND="${LUA_DEPS}"
+DEPEND="${RDEPEND}"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
-each_lua_configure() {
-	myeconfargs=(
-		"PREFIX=/usr"
-		"LUA_LIB_DIR=$(lua_get_pkgvar INSTALL_CMOD)"
-		"LUA_INCLUDE_DIR=$(lua_get_pkgvar includedir)"
-	)
-	lua_default
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	default
+	popd
+}
+
+each_lua_install() {
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)/redis"
+	doins "${PN//redis-}".so
+	popd
+}
+
+src_configure() {
+	default
+	lua_copy_sources
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

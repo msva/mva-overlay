@@ -2,48 +2,84 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+# ^ mercurial
 
-VCS="mercurial"
-LUA_COMPAT="lua51 luajit2"
-CUSTOM_ECONF=true
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua mercurial
 
 DESCRIPTION="XMPP client library written in Lua."
-HOMEPAGE="http://code.matthewwild.co.uk/"
-EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
+HOMEPAGE="https://code.matthewwild.co.uk/"
+EHG_REPO_URI="https://code.matthewwild.co.uk/${PN}/"
+RESTRICT="network-sandbox"
+# ^ :(
+# fetches depends from prosody's trunk during build
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="examples"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
-	dev-lua/squish
-	dev-lua/luasocket
-	dev-lua/luaexpat
-	dev-lua/luafilesystem
-	virtual/lua[bit]
+	${LUA_DEPS}
+	dev-lua/squish[${LUA_USEDEP}]
+	dev-lua/luasocket[${LUA_USEDEP}]
+	dev-lua/luaexpat[${LUA_USEDEP}]
+	dev-lua/luafilesystem[${LUA_USEDEP}]
+	dev-lua/LuaBitOp[${LUA_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}
 "
 
-EXAMPLES=(doc/.)
+src_unpack() {
+	mercurial_src_unpack
+	default
+}
 
-each_lua_prepare() {
-	local impl="$(lua_get_lua)"
+src_prepare() {
+	default
 	sed -r \
 		-e "s@^(PREFIX)=.*@\1=/usr@" \
-		-e "s@^(LUA_VERSION)=.*@\1=${impl##lua}@" \
+		-e "s@^(LUA_VERSION)=.*@\1=${ELUA##lua}@" \
+		-e '/\*\)/,/esac/{/echo/d;/exit 1/d}' \
 		-i configure
-	lua_default
+	lua_copy_sources
 }
 
 each_lua_configure() {
-	./configure
-	lua_default
+	pushd "${BUILD_DIR}"
+	default
+	popd
+}
+
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	default
+	popd
 }
 
 each_lua_install() {
-	dolua verse.lua
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_lmod_dir)"
+	doins "${PN}".lua
+	popd
+}
+
+src_configure() {
+	lua_foreach_impl each_lua_configure
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		mv doc examples
+		DOCS+=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

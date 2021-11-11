@@ -1,45 +1,68 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-IS_MULTILIB=true
-VCS="git"
-GITHUB_A="daurnimator"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="A Lua library to access dbus"
 HOMEPAGE="https://github.com/daurnimator/ldbus/"
+EGIT_REPO_URI="https://github.com/daurnimator/ldbus/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc examples"
-
-DOCS=(README.md)
-EXAMPLES=(example.lua)
+IUSE="examples"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
+	${LUA_DEPS}
 	sys-apps/dbus
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 "
+BDEPEND="virtual/pkgconfig"
 
-all_lua_prepare() {
+src_prepare() {
+	default
 	cp "${FILESDIR}/GNUmakefile" "${S}/"
 	sed -r \
-		-e '1iinclude ../.lua_eclass_config' \
-		-e 's@lua5.3@$(LUA_IMPL)@' \
-		-e '/^PKG_CONFIG/d' \
+		-e "s@lua5.3@${ELUA}@" \
+		-e "/^PKG_CONFIG/{s@=.*@= $(tc-getPKG_CONFIG)@}" \
 		-e '/^LUA_LIBDIR/d' \
 		-e '/install:/,${s@(\$\(LUA_LIBDIR\))@$(DESTDIR)/\1@g}' \
 		-i src/Makefile
-	lua_default
+	lua_copy_sources
+}
+
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	default
+	popd
 }
 
 each_lua_install() {
-	dolua src/{message,"${PN}".so}
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_lmod_dir)"
+	doins -r src/message
+	insinto "$(lua_get_cmod_dir)"
+	doins src/"${PN}".so
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		mkdir -p examples &&
+		mv example.lua examples
+		DOCS+=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

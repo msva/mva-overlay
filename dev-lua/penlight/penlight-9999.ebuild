@@ -13,18 +13,17 @@ EGIT_REPO_URI="https://github.com/stevedonovan/Penlight"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc examples test"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
-	dev-lua/luafilesystem
+	${LUA_DEPS}
+	dev-lua/luafilesystem[${LUA_USEDEP}]
 "
 BDEPEND="
-	doc? ( dev-lua/ldoc )
+	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
 "
 DEPEND="${RDEPEND}"
-
-DOCS=(README.md CONTRIBUTING.md)
 
 src_compile() {
 	if use doc; then
@@ -50,7 +49,7 @@ src_install() {
 	lua_foreach_impl each_lua_install
 	if use examples; then
 		DOCS+=(examples)
-		docompress -x "${EROOT}/usr/share/doc/${PF}/examples"
+		docompress -x "/usr/share/doc/${PF}/examples"
 	fi
 	if use doc; then
 		DOCS+=(html)

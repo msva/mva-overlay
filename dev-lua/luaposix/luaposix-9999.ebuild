@@ -1,27 +1,26 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-IS_MULTILIB=true
-GITHUB_A="luaposix"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit autotools lua-broken
+inherit lua git-r3 autotools
 
 DESCRIPTION="POSIX binding, including curses, for Lua 5.1 and 5.2"
 HOMEPAGE="https://github.com/luaposix/luaposix"
+EGIT_REPO_URI="https://github.com/luaposix/luaposix"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc examples ncurses"
 
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	virtual/lua[bit32]
+	${LUA_DEPS}
+	dev-lua/LuaBitOp[${LUA_USEDEP}]
 	ncurses? ( sys-libs/ncurses:0 )
 "
-
 DEPEND="
 	${RDEPEND}
 	sys-kernel/linux-headers
@@ -32,36 +31,65 @@ DEPEND="
 #	dev-lua/specl
 #	dev-lua/lyaml
 
-DOCS=(README.md NEWS.md)
-EXAMPLES=(doc/examples/.)
-HTML_DOCS=(html/.)
 
-all_lua_prepare() {
-	mkdir -p html
-	sed \
-		-e '/^dir/s@"."@"../html"@' \
-		-i build-aux/config.ld.in
+src_prepare() {
+	default
+	if use doc; then
+		mkdir -p html
+		sed \
+			-e '/^dir/s@= ".*"@= "../html"@' \
+			-e "s#@package@#${PN}#" \
+			-e "s#@version@#git-${PF//${PN}-}#" \
+			-i build-aux/config.ld.in || die
+	fi
+	sed -e '/^ldocs /d' -i lukefile || die
 
-	cp build-aux/config.ld.in build-aux/config.ld
-	cp lib/posix.lua.in lib/posix/init.lua
-
-	sed -r \
-		-e "s/@PACKAGE_STRING@/${P}/" \
-		-i build-aux/config.ld lib/posix/init.lua
-
-	lua_default
-}
-
-all_lua_compile() {
-	use doc && (
-		pushd build-aux &>/dev/null
-		ldoc -d ../doc .
-		popd
-	)
-
-	rm build-aux/config.ld lib/posix/init.lua
+	lua_copy_sources
 }
 
 each_lua_compile() {
-	:; #wip
+	pushd "${BUILD_DIR}"
+	local mylukeargs=(
+		package="${PN}"
+		version="git-${PF//${PN}-}"
+		PREFIX="/usr"
+		LUA="${ELUA}"
+		LUA_INCDIR="$(lua_get_include_dir)"
+		CFLAGS="${CFLAGS} -fPIC"
+		LIBFLAG="${LDFLAGS} -shared -fPIC"
+	)
+	"${ELUA}" build-aux/luke "${mylukeargs[@]}" || die
+	rm lib/posix/version.lua.in || die
+	popd
+}
+
+each_lua_install() {
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
+	doins -r linux/posix
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lib/posix
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+	if use doc; then
+		mv build-aux/config.ld.in build-aux/config.ld || die
+		pushd "build-aux"
+		ldoc . || die
+		popd
+	fi
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use doc; then
+		HTML_DOCS+=(html/.)
+	fi
+	if use examples; then
+		DOCS+=(doc/examples)
+		docompress -x /usr/share/doc/"${PF}"/examples
+	fi
+	einstalldocs
 }

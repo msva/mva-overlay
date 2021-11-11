@@ -238,6 +238,9 @@ src_configure() {
 		#-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON # header only lib, some git version. prevents warnings.
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 
+		# Qt6 is not packaged in Gentoo at the moment.
+		-DDESKTOP_APP_QT6=OFF
+
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
 

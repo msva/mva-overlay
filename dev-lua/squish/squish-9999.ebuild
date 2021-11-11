@@ -2,21 +2,24 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+# ^ mercurial
 
-inherit mercurial
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-DESCRIPTION="XMPP client library written in Lua."
-HOMEPAGE="http://code.matthewwild.co.uk/"
-EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
+inherit lua-single mercurial
+
+DESCRIPTION="Squish Lua libraries and apps into a single compact file"
+HOMEPAGE="https://code.matthewwild.co.uk/"
+EHG_REPO_URI="https://code.matthewwild.co.uk/${PN}/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	dev-lua/luasocket
-	virtual/lua
+	${LUA_DEPS}
+	$(lua_gen_cond_dep '
+		dev-lua/luasocket[${LUA_USEDEP}]
+	')
 "
 DEPEND="${RDEPEND}"
 

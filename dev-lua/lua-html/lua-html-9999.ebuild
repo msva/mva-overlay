@@ -1,36 +1,33 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-LUA_COMPAT="lua52"
-VCS="git"
-IS_MULTILIB=true
-GITHUB_A="sprhawk"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="lua bindings for HTMLParser in libxml2"
 HOMEPAGE="https://github.com/sprhawk/lua-html"
+EGIT_REPO_URI="https://github.com/sprhawk/lua-html"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	${DEPEND}
+	${LUA_DEPS}
 	dev-libs/libxml2
 "
+DEPEND="${RDEPEND}"
 
-DOCS=(README.md)
-
-all_lua_prepare() {
-	lua_default
+src_prepare() {
+	default
 
 	# macos thing in linux target
 	sed -r \
 		-e "s#-undefined dynamic_lookup##g" \
+		-e '/^CC=/d' \
+		-e '/^LDFLAGS=/d' \
 		-i Makefile
 
 	# Wrong case of header name
@@ -39,21 +36,44 @@ all_lua_prepare() {
 		-i html.c
 
 	mv Readme.md README.md
+
+	lua_copy_sources
 }
 
 each_lua_test() {
-	${LUA} test.lua
+	pushd "${BUILD_DIR}"
+	${ELUA} test.lua
+	popd
 }
 
-each_lua_configure() {
-	myeconfargs=()
-	myeconfargs+=(
-		'CFLAGS+=$(shell $(PKG_CONFIG) --cflags-only-I libxml-2.0)'
-		'LDFLAGS+=$(shell $(PKG_CONFIG) --libs-only-L libxml-2.0)'
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	myemakeargs=(
+		CFLAGS="${CFLAGS} $($(tc-getPKG_CONFIG) --cflags-only-I libxml-2.0) -fPIC -c"
+		LDFLAGS="${LDFLAGS} $($(tc-getPKG_CONFIG) --libs-only-L libxml-2.0) -fPIC"
+		CC=$(tc-getCC)
+		LD=$(tc-getLD)
 	)
-	lua_default
+	emake "${myemakeargs[@]}"
+	popd
 }
 
 each_lua_install() {
-	dolua html.so
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
+	doins html.so
+	popd
+}
+
+src_test() {
+	lua_foreach_impl each_lua_test
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

@@ -1,40 +1,65 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-IS_MULTILIB=true
-GITHUB_A="msva"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="Lua binding to media-libs/libharu (PDF generator)"
 HOMEPAGE="https://github.com/jung-kurt/luahpdf"
+EGIT_REPO_URI="https://github.com/jung-kurt/luahpdf"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 IUSE="doc examples"
 
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+
 RDEPEND="
+	${LUA_DEPS}
 	media-libs/libharu
 "
 DEPEND="${RDEPEND}"
 
-DOCS=(README.md doc/.)
-EXAMPLES=(demo/.)
-
-all_lua_prepare() {
+src_prepare() {
+	default
 	sed -i -r \
 		-e 's#(_COMPILE=)cc#\1$(CC)#' \
 		-e 's#(_LINK=)cc#\1$(CC)#' \
 		-e 's#(_REPORT=).*#\1#' \
 		Makefile
+	lua_copy_sources
+}
 
-	lua_default
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	default
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
 }
 
 each_lua_install() {
-	dolua hpdf.so
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
+	doins hpdf.so
+	popd
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use doc; then
+		DOCS+=(doc/.)
+	fi
+	if use examples; then
+		mv demo examples
+		DOCS+=(examples)
+		docompress -x /usr/share/doc/${PF}/examples
+	fi
+	einstalldocs
 }

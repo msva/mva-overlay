@@ -1,21 +1,19 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-IS_MULTILIB=true
-GITHUB_A="ittner"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="Lua bindings to Thomas Boutell's gd library"
-HOMEPAGE="http://lua-gd.luaforge.net/"
+HOMEPAGE="https://lua-gd.luaforge.net/"
+EGIT_REPO_URI="https://github.com/ittner/lua-gd"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc examples"
+IUSE="examples"
 
 RDEPEND="
 	media-libs/gd[png]
@@ -24,23 +22,46 @@ DEPEND="
 	${RDEPEND}
 "
 
-DOCS=(README)
-EXAMPLES=(demos/.)
 HTML_DOCS=(doc/.)
 
 each_lua_configure() {
-	local lua=$(lua_get_lua)
+	pushd "${BUILD_DIR}"
 	myeconfargs=(
-		LUAPKG="${lua}"
-		LUABIN="${lua}"
+		LUAPKG="${ELUA}"
+		LUABIN="${ELUA}"
 	)
-	lua_default
+	econf "${myeconfargs[@]}"
+	popd
 }
 
 each_lua_compile() {
-	lua_default gd.so
+	pushd "${BUILD_DIR}"
+	emake gd.so
+	popd
 }
 
 each_lua_install() {
-	dolua gd.so
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
+	doins gd.so
+	popd
+}
+
+src_prepare() {
+	default
+	lua_copy_sources
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		mv demos examples
+		EXAMPLES=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

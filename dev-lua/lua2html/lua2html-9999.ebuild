@@ -2,30 +2,35 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+# ^ mercurial
 
-VCS="mercurial"
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua-single mercurial
 
 DESCRIPTION="Lua to HTML code converter written in Lua."
-HOMEPAGE="http://code.matthewwild.co.uk/"
-EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
+HOMEPAGE="https://code.matthewwild.co.uk/"
+EHG_REPO_URI="https://code.matthewwild.co.uk/${PN}/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+#RESTRICT="network-sandbox"
+# ^ :(
+# uses squish, which fetches some sources during build
 
 RDEPEND="
-	dev-lua/squish
+	${LUA_DEPS}
 "
+#	$(lua_gen_cond_dep '
+#		dev-lua/squish[${LUA_USEDEP}]
+#	')
 DEPEND="${RDEPEND}"
 
-DOCS=( README )
+#src_compile() {
+#	squish
+#}
 
-all_lua_compile() {
-	squish
-}
-
-all_lua_install() {
-	dobin lua2html
+src_install() {
+	newbin "${PN}.lua" "${PN}"
 }

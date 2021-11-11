@@ -1,34 +1,47 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="thenumbernine"
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua git-r3
 
 DESCRIPTION="Some useful extensions to Lua classes"
 HOMEPAGE="https://github.com/thenumbernine/lua-ext"
+EGIT_REPO_URI="https://github.com/thenumbernine/lua-ext"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="gcmem"
-
-DEPEND=""
+IUSE="+gcmem"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	dev-lua/luafilesystem
+	${LUA_DEPS}
+	dev-lua/luafilesystem[${LUA_USEDEP}]
 	gcmem? (
-		dev-lua/lua-ffi-bindings
-		dev-lang/luajit
+		!lua_targets_luajit? (
+			dev-lua/lua-ffi-bindings[${LUA_USEDEP}]
+		)
 	)
 "
-
-DOCS=(README.md)
+DEPEND="
+	${RDEPEND}
+"
 
 each_lua_install() {
+	insinto "$(lua_get_lmod_dir)"
+	doins -r ext
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
+}
+
+src_prepare() {
+	default
 	use gcmem || rm gcmem.lua
-	mv ext.lua init.lua
-	_dolua_insdir="ext" \
-	dolua *.lua
+	mkdir -p ext
+	mv ext.lua ext/init.lua || die
+	mv *.lua ext || die
 }

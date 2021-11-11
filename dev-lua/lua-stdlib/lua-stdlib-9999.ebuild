@@ -1,35 +1,57 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="lua-stdlib"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="Standard Lua libraries"
 HOMEPAGE="https://github.com/lua-stdlib/lua-stdlib"
+EGIT_REPO_URI="https://github.com/lua-stdlib/lua-stdlib"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+RDEPEND="${LUA_DEPS}"
+DEPEND="
+	${RDEPEND}
+	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+"
 
-DOCS=(README.md NEWS.md STYLE.md)
-
-all_lua_prepare() {
-	lua_default
-	mkdir -p html
+src_prepare() {
+	default
 	sed \
-		-e '/^dir/s@"."@"../html"@' \
-		-i doc/config.ld.in
+		-e '/^all:/s@ doc@$(luadir)/version.lua@' \
+		-e "/^VERSION/s@git@${PV}@" \
+		-i Makefile || die
+	sed \
+		-e '/Module = /d' \
+		-e '/mapfields = /d' \
+		-i lib/std/_base.lua || die
+	lua_copy_sources
 }
 
-each_lua_compile() { :; }
-# ldoc definitions are currently broken
-all_lua_compile() { :; }
+each_lua_compile() {
+	default
+}
+
+src_compile() {
+	if use doc; then
+		emake doc
+	fi
+	lua_foreach_impl each_lua_compile
+}
 
 each_lua_install() {
-	dolua lib/std
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lib/std
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	use doc && HTML_DOCS=(doc/.)
+	einstalldocs
 }

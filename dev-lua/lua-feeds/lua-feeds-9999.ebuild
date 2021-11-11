@@ -2,30 +2,47 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+# ^ mercurial
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-VCS="mercurial"
-inherit lua-broken
+inherit lua mercurial
 
 DESCRIPTION="Lua feeds parsing library"
-HOMEPAGE="http://code.matthewwild.co.uk/lua-feeds"
-EHG_REPO_URI="http://code.matthewwild.co.uk/lua-feeds"
+HOMEPAGE="https//code.matthewwild.co.uk/lua-feeds"
+EHG_REPO_URI="https://code.matthewwild.co.uk/lua-feeds"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="examples"
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+RDEPEND="
+	${LUA_DEPS}
+	dev-lua/squish[${LUA_USEDEP}]
+"
 DEPEND="
 	${RDEPEND}
-	dev-lua/squish
 "
-
-EXAMPLES=(demo.lua demo_string.lua)
 
 each_lua_compile() {
 	squish
 }
 
 each_lua_install() {
-	newlua feeds{.min,}.lua
+	insinto "$(lua_get_lmod_dir)"
+	newins feeds{.min,}.lua
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		mkdir -p examples
+		mv demo.lua demo_string.lua examples
+		DOCS=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

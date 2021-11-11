@@ -2,70 +2,57 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+# ^ mercurial
 
-VCS="mercurial"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua mercurial toolchain-funcs
 
 DESCRIPTION="LuaJIT FFI bindings to net-dns/unbound"
-HOMEPAGE="http://code.zash.se/luaunbound/"
-EHG_REPO_URI="http://code.zash.se/luaunbound/"
+HOMEPAGE="https://code.zash.se/luaunbound"
+EHG_REPO_URI="https://code.zash.se/luaunbound"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-#IUSE="prosody"
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
+	${LUA_DEPS}
 	net-dns/unbound
 "
-#	prosody? ( net-im/prosody )
 DEPEND="
 	${RDEPEND}
 "
 
 DOCS=(README.markdown)
 
-all_lua_prepare() {
-	lua_default
+src_prepare() {
+	default
 	sed -r \
-		-e "/^LUA_VERSION/s@5.2@\$\(LUA_IMPL\)\nLD=gcc@" \
-		-e "/^CFLAGS/s@lua-@@" \
+		-e "/^LUA_VERSION/d" \
+		-e "/^LUA_PC/d" \
+		-e "/^LUA_LIBDIR/d" \
+		-e "/^CFLAGS/s@-ggdb@@" \
 		-i GNUmakefile
+	lua_copy_sources
 }
 
 each_lua_compile() {
-	# If we have LuaJIT in the system — we'd prefer FFI version
-	if ! lua_is_jit; then
-		lua_default
-	fi
-
-#	if use prosody; then
-#		lua_default prosody
-#	fi
+	pushd "${BUILD_DIR}"
+	emake LD="$(tc-getCC)" LUA_PC="${ELUA}"
+	popd
 }
 
 each_lua_install() {
-	if lua_is_jit; then
-		newlua_jit util.lunbound.lua lunbound.lua
-	else
-		dolua "lunbound.so"
-	fi
-
-#	if use prosody; then
-#		insinto "/etc/jabber"
-#		doins "use_unbound.lua"
-#	fi
+	pushd "${BUILD_DIR}"
+	emake DESTDIR="${D}" LUA_LIBDIR="$(lua_get_cmod_dir)" install
+	popd
 }
 
-#pkg_postinst() {
-#	if use prosody; then
-#		einfo ""
-#		einfo "Add following 3 lines to global section of your prosody.cfg.lua:"
-#		echo 'RunScript "use_unbound.lua"'
-#		echo 'resolvconf = "/etc/resolv.conf"'
-#		echo 'hoststxt = "/etc/hosts"'
-#		echo ''
-#		einfo "Alternatively, you can customize resolv.conf and hosts files locations"
-#	fi
-#}
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
+}

@@ -1,36 +1,57 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-IS_MULTILIB=true
-VCS="git"
-GITHUB_A="antirez"
+LUA_COMPAT=( lua{5-{1..4},jit} )
+MY_PN="${PN//lua-}"
 
-inherit lua-broken
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="A self contained Lua MessagePack C implementation"
 HOMEPAGE="https://github.com/antirez/lua-cmsgpack"
-
-KEYWORDS=""
-DOCS=(README.md)
+EGIT_REPO_URI="https://github.com/antirez/lua-cmsgpack"
 
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="doc test"
+IUSE="test"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+RDEPEND="${LUA_DEPS}"
+DEPEND="${RDEPEND}"
 
 each_lua_compile() {
-	_lua_setFLAGS
-	local MY_PN="${PN//-/_}"
-
-	${CC} ${CFLAGS} -c -o ${MY_PN}.o ${MY_PN}.c || die
-	${CC} ${LDFLAGS} -o ${PN}.so ${MY_PN}.o || die
+	pushd "${BUILD_DIR}"
+	$(tc-getCC) -fPIC ${CFLAGS} ${LDFLAGS} -shared ${PN//-/_}.c -o ${MY_PN}.so || die
+	popd
 }
 
 each_lua_test() {
-	${LUA} test.lua || die
+	pushd "${BUILD_DIR}"
+	${ELUA} test.lua || die
+	popd
 }
 
 each_lua_install() {
-	dolua "${PN}.so"
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
+	doins "${MY_PN}.so"
+	popd
+}
+
+src_prepare() {
+	default
+	lua_copy_sources
+}
+
+src_test() {
+	lua_foreach_impl each_lua_test
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

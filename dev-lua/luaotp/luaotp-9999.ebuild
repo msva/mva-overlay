@@ -1,28 +1,28 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="remjey"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="A simple implementation of OATH-HOTP and OATH-TOTP written for Lua"
 HOMEPAGE="https://github.com/remjey/luaotp"
+EGIT_REPO_URI="https://github.com/remjey/luaotp"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc test"
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	dev-lua/luaossl
-	dev-lua/basexx
+	${LUA_DEPS}
+	dev-lua/luaossl[${LUA_USEDEP}]
+	dev-lua/basexx[${LUA_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}
-	test? ( dev-lua/busted )
+	test? ( dev-lua/busted[${LUA_USEDEP}] )
 "
 
 DOCS=(README.md doc/.)
@@ -34,5 +34,11 @@ each_lua_test() {
 }
 
 each_lua_install() {
-	dolua src/otp.lua
+	insinto "$(lua_get_lmod_dir)"
+	doins src/otp.lua
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

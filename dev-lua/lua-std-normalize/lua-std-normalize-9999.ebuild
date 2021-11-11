@@ -1,37 +1,49 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="lua-stdlib"
-GITHUB_PN="${PN#lua-std-}"
-
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+inherit lua git-r3
 
 DESCRIPTION="normalized Lua functions"
 HOMEPAGE="https://github.com/lua-stdlib/normalize"
+EGIT_REPO_URI="https://github.com/lua-stdlib/normalize"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc"
 
-HTML_DOCS=(doc/.)
-DOCS=(README.md NEWS.md)
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
-DEPEND="${DEPEND}
-	doc? ( dev-lua/ldoc )
-	dev-lua/lua-std-debug
+RDEPEND="
+	${LUA_DEPS}
+	dev-lua/lua-std-debug[${LUA_USEDEP}]
 "
-
+DEPEND="
+	${RDEPEND}
+	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+"
 each_lua_compile() {
-	if [[ "${PV}" == "9999" ]]; then
-		ver="git:$(git rev-parse --short @):${LUA_IMPL}"
+	default
+}
+
+src_compile() {
+	if use doc; then
+		emake doc
 	fi
-	lua_default
+	lua_foreach_impl each_lua_compile
 }
 
 each_lua_install() {
-	dolua lib/std
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lib/std
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use doc; then
+		HTML_DOCS=(doc/.)
+	fi
+	einstalldocs
 }

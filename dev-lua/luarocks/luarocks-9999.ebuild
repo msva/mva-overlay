@@ -1,89 +1,102 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="keplerproject"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="A deployment and management system for Lua modules"
-HOMEPAGE="http://www.luarocks.org"
+HOMEPAGE="https://www.luarocks.org"
+EGIT_REPO_URI="https://github.com/luarocks/luarocks"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="curl openssl"
+IUSE="test"
+RESTRICT="test"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
-DEPEND="
-	curl? ( net-misc/curl )
-	!curl? ( net-misc/wget )
-	openssl? ( dev-libs/openssl:* )
-	!openssl? ( sys-apps/coreutils )
-"
+# TODO: eselect-luarocks?
 RDEPEND="
-	${DEPEND}
-	app-arch/unzip
+	${LUA_DEPS}
+	net-misc/curl
+	dev-libs/openssl:0
+"
+DEPEND="
+	${RDEPEND}
+"
+BDEPEND="
+	virtual/pkgconfig
+	test? (
+		dev-lua/busted[${LUA_USEDEP}]
+		dev-lua/busted-htest[${LUA_USEDEP}]
+		${RDEPEND}
+	)
 "
 
-all_lua_prepare() {
-	# Don't die on gentoo's econf calls!
+src_prepare() {
+	default
+	# 1) Don't die on gentoo's econf calls!
+	# 2) If 'dev-lang/lua' is a new, fresh installation, no 'LUA_LIBDIR' exists,
+	# as no compiled modules are installed on a new, fresh installation,
+	# so this check must be disabled, otherwise 'configure' will fail.
 	sed -r \
 		-e "/die.*Unknown flag:/d" \
-		-i configure
+		-e '/LUA_LIBDIR is not a valid directory/d' \
+		-i configure || die
 
-#	sed -r \
-#		-e "s@(.*)/lib/luarocks(/rocks)@\1\2@" \
-#		-i	src/luarocks/luarocks/cmd/init.lua \
-#			src/luarocks/core/cfg.lua \
-#			src/luarocks/util.lua
-#
-	lua_default
+	lua_copy_sources
+}
+
+each_lua_test() {
+	pushd "${BUILD_DIR}"
+	busted --lua=${ELUA} || die
+	popd
 }
 
 each_lua_configure() {
-	local abi="$(lua_get_abi)"
-	local md5 downloader lua incdir
-	md5="md5sum"
-	downloader="wget"
-	lua="$(lua_get_lua)"
-	incdir=$(lua_get_pkgvar includedir)
-
-	use curl && downloader="curl"
-	use openssl && md5="openssl"
-
-	myeconfargs=()
-	myeconfargs+=(
-		--prefix=/usr
-		--with-lua-lib="/usr/$(get_libdir)"
-		--rocks-tree="/usr/$(get_libdir)/lua/luarocks"
-		--with-downloader="${downloader}"
-		--with-md5-checker="${md5}"
-		--lua-version="$(lua_get_abi)"
-		--with-lua-include="${incdir}"
-		--sysconfdir=/etc
+	pushd "${BUILD_DIR}"
+	local myeconfargs=(
+		--with-lua-lib="$(lua_get_cmod_dir)"
+		--rocks-tree="$(lua_get_lmod_dir)"
+		--with-lua-interpreter="${ELUA}"
+		--with-lua-include="$(lua_get_include_dir)"
 	)
-	lua_default
+	econf "${myeconfargs[@]}"
+	popd
 }
 
 each_lua_compile() {
-	lua_default build
+	pushd "${BUILD_DIR}"
+	emake build
+	popd
 }
 
 each_lua_install() {
-	local abi="$(lua_get_abi)"
-	lua_default
+	pushd "${BUILD_DIR}"
+	default
 	for l in luarocks{,-admin}; do
-		mv "${D}/usr/bin/${l}" "${D}/usr/bin/${l}-${abi}"
+		mv "${D}/usr/bin/${l}" "${D}/usr/bin/${l}-${ELUA}"
 	done
-	keepdir /usr/"$(get_libdir)"/lua/luarocks/lib/luarocks/rocks-"${abi}"
+	keepdir /usr/"$(get_libdir)"/lua/luarocks/lib/luarocks/rocks-"${ELUA}"
+	popd
 }
 
-pkg_preinst() {
-	local abi="$(lua_get_abi)"
-	find "${D}" -type f | xargs sed -e "s:${D}::g" -i || die "sed failed"
-	for l in luarocks{,-admin}; do
-		dosym "${l}-${abi}" "/usr/bin/${l}"
-	done
+src_test() {
+	lua_foreach_impl each_lua_test
+}
+
+src_configure() {
+	lua_foreach_impl each_lua_configure
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
+	find "${D}" -type f -exec sed -e "s:${D}::g" -i {} ";" || die "sedding out D from installation image failed"
 }

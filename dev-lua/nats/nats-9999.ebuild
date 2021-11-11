@@ -1,44 +1,43 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="dawnangel"
-GITHUB_PN="lua-${PN}"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="Lua client for NATS messaging system"
 HOMEPAGE="https://github.com/dawnangel/lua-nats"
+EGIT_REPO_URI="https://github.com/dawnangel/lua-nats"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc examples"
+IUSE="examples"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
-	dev-lua/lua-cjson
-	dev-lua/luasocket
-	dev-lua/uuid
+	${LUA_DEPS}
+	dev-lua/lua-cjson[${LUA_USEDEP}]
+	dev-lua/luasocket[${LUA_USEDEP}]
+	dev-lua/uuid[${LUA_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}
 "
 
-DOCS=(README.md)
-#HTML_DOCS=(docs/.)
-EXAMPLES=({examples,tests}/.)
+each_lua_install() {
+	insinto "$(lua_get_lmod_dir)"
+	doins "src/${PN}.lua"
+}
 
-#all_lua_compile() {
-#	use doc && ldoc .
-#}
-#
-#each_lua_compile() { :; }
-# Makefile is only used to run tests
-# and ldoc is currently broken
 src_compile() { :; }
 
-each_lua_install() {
-	dolua "src/${PN}.lua"
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		DOCS+=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

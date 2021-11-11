@@ -7,4 +7,5 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <longdescription>Long description of the package</longdescription>
+  <use/>
 </pkgmetadata>

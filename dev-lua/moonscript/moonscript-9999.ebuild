@@ -1,53 +1,50 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="leafo"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua-single git-r3
 
 DESCRIPTION="A programmer friendly language that compiles into Lua."
 HOMEPAGE="https://github.com/leafo/moonscript"
+EGIT_REPO_URI="https://github.com/leafo/moonscript"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="+doc +inotify"
+IUSE="+inotify"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
-	|| (
-		dev-lua/lpeg
-		dev-lua/lulpeg[lpeg_replace]
-	)
-	dev-lua/luafilesystem
-	dev-lua/argparse
-	inotify? ( dev-lua/linotify )
+	${LUA_DEPS}
+	$(lua_gen_cond_dep '
+		|| (
+			dev-lua/lpeg[${LUA_USEDEP}]
+			dev-lua/lulpeg[${LUA_USEDEP},lpeg_replace]
+		)
+		dev-lua/luafilesystem[${LUA_USEDEP}]
+		dev-lua/argparse[${LUA_USEDEP}]
+		inotify? ( dev-lua/linotify[${LUA_USEDEP}] )
+	')
 "
 DEPEND="${RDEPEND}"
 
-DOCS=(docs/. README.md)
+DOCS+=(docs/.)
 
-each_lua_compile() {
-	local lua="$(lua_get_implementation)"
-	${lua} bin/moonc moon/ moonscript/
+src_compile() {
+	${ELUA} bin/moonc moon/ moonscript/
+	(
+		echo "#!/usr/bin/env lua" # or ${ELUA} ?
+		${ELUA} bin/moonc -p bin/moon.moon
+		echo "-- vim: set filetype=lua:"
+	) > bin/moon
+	${ELUA} bin/moonc -p bin/splat.moon >> bin/splat
 }
 
-all_lua_compile() {
-	local lua="$(lua_get_implementation)"
-
-	echo "#!/usr/bin/env lua" > bin/moon
-	${lua} bin/moonc -p bin/moon.moon >> bin/moon
-	echo "-- vim: set filetype=lua:" >> bin/moon
-
-	${lua} bin/moonc -p bin/splat.moon >> bin/splat
-}
-
-each_lua_install() {
-	dolua moon{,script}{,.lua}
-}
-
-all_lua_install() {
+src_install() {
+	insinto "$(lua_get_lmod_dir)"
+	doins -r moon{,script}{,.lua}
 	dobin bin/{moon,moonc,splat}
+	einstalldocs
 }

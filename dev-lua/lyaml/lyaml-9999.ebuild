@@ -1,59 +1,72 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="gvvaughan"
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="LibYAML binding for Lua."
 HOMEPAGE="https://github.com/gvvaughan/lyaml"
+EGIT_REPO_URI="https://github.com/gvvaughan/lyaml"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc"
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
-	dev-libs/libyaml
+	${LUA_DEPS}
+	dev-libs/libyaml[${LUA_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}
-	dev-lua/lua-stdlib
-	dev-lua/ldoc
+	dev-lua/lua-stdlib[${LUA_USEDEP}]
+	dev-lua/ldoc[${LUA_USEDEP}]
 "
 
 DOCS=(README.md NEWS.md)
 HTML_DOCS=(html/.)
 
-all_lua_prepare() {
+src_prepare() {
+	default
 	sed -r \
 		-e "s/@package@/${PN}/" \
 		-e "s/@version@/${PV}/" \
 		-e '/^dir/s@../doc@../html@' \
-		-i build-aux/config.ld.in
+		-i build-aux/config.ld.in || die
 
-	cp "${FILESDIR}"/Makefile "${S}"
-
-	lua_default
+	lua_copy_sources
 }
 
-each_lua_configure() {
-	local ver="${PV}";
-	if [[ "${PV}" == "9999" ]]; then
-		ver="git:$(git rev-parse --short @)"
-	fi
-	local myeconfargs=(
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	mylukeargs=(
 		package="${PN}"
-		version="${ver}"
-		LUA_INCDIR="$(lua_get_incdir)"
+		version="${PV}"
+		PREFIX=/usr
+		LUA_INCDIR="$(lua_get_include_dir)"
+		LUA="${ELUA}"
 	)
-	lua_default
+	${ELUA} build-aux/luke "${mylukeargs[@]}" || die
+	cp -nr html "${S}" || die
+	popd
 }
 
 each_lua_install() {
-	dolua lib/"${PN}"
-	dolua "${PN:1}".so
+	pushd "${BUILD_DIR}"
+	mylukeargs=(
+		INST_LIBDIR="${D}/$(lua_get_cmod_dir)"
+		INST_LUADIR="${D}/$(lua_get_lmod_dir)"
+	)
+	${ELUA} build-aux/luke "${mylukeargs[@]}" install || die
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

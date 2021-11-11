@@ -1,54 +1,73 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="brunoos"
-IS_MULTILIB=true
+LUA_COMPAT=( lua{5-{1..4},jit} )
+LUA_REQ_USE="deprecated(+)"
 
-inherit lua-broken
+inherit lua toolchain-funcs git-r3
 
-DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication."
-HOMEPAGE="http://www.inf.puc-rio.br/~brunoos/luasec/"
+DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication"
+HOMEPAGE="https://github.com/brunoos/luasec"
+EGIT_REPO_URI="https://github.com/brunoos/luasec"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="examples"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
-	dev-lua/luasocket
-	dev-libs/openssl:*
+	dev-lua/luasocket[${LUA_USEDEP}]
+	dev-libs/openssl:0=
+	${LUA_DEPS}
 "
-DEPEND="
-	${RDEPEND}
-"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
-all_lua_prepare() {
-	sed -i -r \
-		-e 's#(MAKE\)).*(install)#\1 \2#' \
-		-e '/LIB_PATH.*-L.usr.lib/d' \
-		Makefile
-
-	pushd src &>/dev/null
-	lua_default
-	popd &>/dev/null
+lua_src_prepare() {
+	pushd "${BUILD_DIR}" || die
+	${ELUA} src/options.lua -g /usr/include/openssl/ssl.h > src/options.c || die
+	popd
 }
 
-each_lua_configure() {
-	pushd src &>/dev/null
-	myeconfargs=()
-	myeconfargs+=(
-		LD='$(CC)'
-		LUAPATH="$(lua_get_pkgvar INSTALL_LMOD)"
-		LUACPATH="$(lua_get_pkgvar INSTALL_CMOD)"
+src_prepare() {
+	default
+	# Respect users CFLAGS
+	sed -e 's/-O2//g' -i src/Makefile || die
+	lua_copy_sources
+	lua_foreach_impl lua_src_prepare
+}
+
+lua_src_compile() {
+	pushd "${BUILD_DIR}" || die
+	local myemakeargs=(
+		"CC=$(tc-getCC)"
+		"LD=$(tc-getCC)"
+		"INC_PATH=-I$(lua_get_include_dir)"
+		"LIB_PATH=$(lua_get_CFLAGS)"
+		"MYCFLAGS=${CFLAGS}"
+		"MYLDFLAGS=${LDFLAGS}"
 	)
-
-	lua_default
-	popd &>/dev/null
+	emake "${myemakeargs[@]}" linux
+	popd
 }
 
-each_lua_compile() {
-	lua_default linux
+src_compile() {
+	lua_foreach_impl lua_src_compile
+}
+
+lua_src_install() {
+	pushd "${BUILD_DIR}" || die
+	local emakeargs=(
+		"DESTDIR=${ED}"
+		"LUAPATH=$(lua_get_lmod_dir)"
+		"LUACPATH=$(lua_get_cmod_dir)"
+	)
+	emake "${emakeargs[@]}" install
+	popd
+}
+
+src_install() {
+	lua_foreach_impl lua_src_install
+	einstalldocs
 }

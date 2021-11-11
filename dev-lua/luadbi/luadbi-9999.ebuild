@@ -1,34 +1,28 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-LUA_COMPAT="lua51 luajit2"
-IS_MULTILIB=true
-VCS="mercurial"
-BITBUCKET_A="mva"
-BITBUCKET_PN="${PN}-temp"
-inherit lua-broken
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="DBI module for Lua"
 HOMEPAGE="https://code.google.com/p/luadbi"
-#EHG_REPO_URI="https://code.google.com/p/luadbi"
-#EHG_REPO_URI="https://bitbucket.org/mva/luadbi-temp"
+EGIT_REPO_URI="https://github.com/mwild1/luadbi"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="mysql postgres sqlite oracle"
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
+	${LUA_DEPS}
 	mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
 	postgres? ( dev-db/postgresql:* )
 	sqlite? ( >=dev-db/sqlite-3 )
 	oracle? ( dev-db/oracle-instantclient-basic )
 "
 DEPEND="${RDEPEND}"
-
-#S="${WORKDIR}"
 
 each_lua_compile() {
 	local drivers=()
@@ -47,28 +41,43 @@ each_lua_compile() {
 	fi
 
 	for driver in "${drivers[@]}"; do
-		local buildme;
-		if [[ ${driver} = "psql" && ${ABI} = "x86" ]] && use amd64; then
-			# FIXME: when postgres and perl (as postgres dep) will have multilib support
-			buildme=no
+		pushd "${BUILD_DIR}"
+		local myemakeopts=(
+			CC=$(tc-getCC)
+			LUA_INC="-I$(lua_get_include_dir)"
+		)
+		if [[ "${driver}" == "psql" ]]; then
+			myemakeopts+=(PSQL_INC="-I/usr/include/postgresql/server")
+		elif [[ "${driver}" == "mysql" ]]; then
+			myemakeopts+=(MYSQL_INC="-I/usr/include/mysql")
+			myemakeopts+=(MYSQL_LDFLAGS="-L/usr/$(get_libdir)/mysql -lmysqlclient")
 		fi
-
-#			LUA_INC="$($(tc-getPKG_CONFIG) --cflags ${lua_impl})" \
-
-		[[ ${buildme} = "no" ]] || lua_default \
-			PSQL_INC="-I/usr/include/postgresql/server" \
-			MYSQL_INC="-I/usr/include/mysql -L/usr/$(get_libdir)/mysql" \
-			${driver}
-
-		unset buildme
+		emake ${myemakeopts[@]} ${driver}
+		popd
 	done
 }
 
 each_lua_install() {
-	local libs=();
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_cmod_dir)"
 	for lib in $(find . -name '*.so'); do
-		libs+=(${lib})
+		doins "${lib}"
 	done
-	[[ -z "${libs[@]}" ]] || dolua ${libs[@]}
-	dolua DBI.lua
+	insinto "$(lua_get_lmod_dir)"
+	doins DBI.lua
+	popd
+}
+
+src_prepare() {
+	default
+	lua_copy_sources
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_compile
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }

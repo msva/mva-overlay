@@ -1,41 +1,41 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-LUA_COMPAT="luajit2"
-VCS="git"
-GITHUB_A="tavikukko"
-GITHUB_PN="lua-${PN}"
+LUA_COMPAT=( luajit )
 
-inherit lua-broken
+inherit lua git-r3
 
 DESCRIPTION="LuaJIT FFI-based libHaru (PDF) library for OpenResty."
 HOMEPAGE="https://github.com/tavikukko/lua-resty-hpdf"
+EGIT_REPO_URI="https://github.com/tavikukko/lua-resty-hpdf"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
-
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
+	${LUA_DEPS}
 	media-libs/libharu
-	dev-lang/luajit:2
 "
 DEPEND="
 	${RDEPEND}
 "
 
-DOCS=(README.md)
+each_lua_install() {
+	insinto "$(lua_get_lmod_dir)"
+	doins -r lib/resty
+}
 
-all_lua_prepare() {
+src_prepare() {
+	default
 	sed -r \
 		-e "/ffi.load/s@(\")/usr.*dylib(\")@libharu_path or \1/usr/$(get_libdir)/libhpdf.so\2@" \
 		-i lib/resty/hpdf.lua
-
-	lua_default
 }
 
-each_lua_install() {
-	dolua_jit lib/resty
+src_install() {
+	lua_foreach_impl each_lua_install
+	einstalldocs
 }
+

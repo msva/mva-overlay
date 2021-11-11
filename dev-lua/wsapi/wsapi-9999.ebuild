@@ -1,21 +1,19 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-VCS="git"
-GITHUB_A="keplerproject"
-#IS_MULTILIB=true
+LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-broken
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Lua WSAPI Library"
 HOMEPAGE="https://github.com/keplerproject/wsapi"
+EGIT_REPO_URI="https://github.com/keplerproject/wsapi"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc examples uwsgi fcgi"
+IUSE="examples uwsgi fcgi"
 #TODO: xavante"
 RDEPEND="
 	fcgi? (
@@ -30,30 +28,51 @@ RDEPEND="
 "
 #TODO:	xavante? ( dev-lua/xavante )"
 DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 DOCS=(doc/us/{index,libraries,license,manual}.md)
-HTML_DOCS=(doc/us/{index,libraries,license,manual}.html doc/us/doc.css doc/us/${PN}.png)
-EAMPLES=(samples/.)
+HTML_DOCS=(doc/us/{index,libraries,license,manual}.html doc/us/doc.css doc/us/"${PN}".png)
 
-all_lua_prepare() {
+src_prepare() {
+	default
 	sed -r \
 		-e "s/\r//g" \
 		-i src/launcher/wsapi{,.cgi,.fcgi}
-	lua_default
 	rm configure
+	lua_copy_sources
 }
 
-#each_lua_configure() {
-#	myeconfargs=(
-#		LUA_DIR=$(lua_get_pkgvar INSTALL_LMOD)
-#		LUA_LIBDIR=$(lua_get_pkgvar INSTALL_CMOD)
-#		INC=-I$(lua_get_pkgvar includedir)
-#	)
-#	lua_default
-#}
+each_lua_make() {
+	pushd "${BUILD_DIR}"
+	if use fcgi; then
+		$(tc-getCC) ${CFLAGS} -fPIC ${LDFLAGS} -shared "-I$(lua_get_include_dir)" -o src/fastcgi/lfcgi.so src/fastcgi/lfcgi.c -lfcgi
+	fi
+	popd
+}
 
 each_lua_install() {
-	dolua src/*.lua src/${PN}
-	newbin src/launcher/${PN}.cgi ${PN}-${TARGET}.cgi
-	use fcgi && newbin src/launcher/${PN}.fcgi ${PN}-${TARGET}.fcgi
+	pushd "${BUILD_DIR}"
+	insinto "$(lua_get_lmod_dir)"
+	doins -r src/*.lua src/"${PN}"
+	if use fcgi; then
+		insinto "$(lua_get_cmod_dir)"
+		doins src/fastcgi/lfsgi.so
+	fi
+	newbin src/launcher/"${PN}".cgi "${PN}-${ELUA}".cgi
+	use fcgi && newbin src/launcher/"${PN}".fcgi "${PN}-${ELUA}".fcgi
+	popd
+}
+
+src_compile() {
+	lua_foreach_impl each_lua_make
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use examples; then
+		mv samples examples
+		DOCS+=(examples)
+		docompress -x /usr/share/doc/"${PF}"/examples
+	fi
+	einstalldocs
 }

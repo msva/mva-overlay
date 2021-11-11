@@ -3,42 +3,65 @@
 
 EAPI=8
 
-VCS="git"
-GITHUB_A="Lua-cURL"
-GITHUB_PN="Lua-cURLv3"
-inherit lua
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua git-r3
 
 DESCRIPTION="Lua cURL Library"
 HOMEPAGE="https://github.com/Lua-cURL/Lua-cURLv3"
+EGIT_REPO_URI="https://github.com/Lua-cURL/Lua-cURLv3"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc +examples"
+IUSE="doc examples"
+
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
 	net-misc/curl
+	${LUA_DEPS}
 "
 DEPEND="
-	doc? ( dev-lua/luadoc )
+	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
 	${RDEPEND}
 "
 
-EXAMPLES=( examples/. )
-HTML_DOCS=( html/. )
-DOCS=(README.md)
-
-each_lua_compile() {
-	lua_default LUA_IMPL="${lua_impl}"
+src_prepare() {
+	default
+	lua_copy_sources
 }
 
-all_lua_compile() {
-	use doc && (
+each_lua_compile() {
+	pushd "${BUILD_DIR}"
+	LUA_IMPL="${ELUA}"
+	default
+	popd
+}
+
+src_compile() {
+	if use doc; then
 		cd doc
 		ldoc . -d ../html
-	)
+		cd -
+	fi
+	lua_foreach_impl each_lua_compile
 }
 
 each_lua_install() {
-	lua_default LUA_IMPL="${lua_impl}"
+	pushd "${BUILD_DIR}"
+	LUA_IMPL="${ELUA}"
+	default
+	popd
+}
+
+src_install() {
+	lua_foreach_impl each_lua_install
+	if use doc; then
+		HTML_DOCS+=(html/.)
+	fi
+	if use examples; then
+		DOCS+=(examples)
+		docompress -x "/usr/share/doc/${PF}/examples"
+	fi
+	einstalldocs
 }

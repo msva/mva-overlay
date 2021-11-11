@@ -20,15 +20,18 @@ end
 local function getabis(abi)
 	local ret={}
 	local abistr
-	local abi=abi or "*"
+	local abi=abi or "*" -- luacheck: ignore
 	local arch
 
 	if abi=="default" then
 		arch=io.popen("uname -m"):read()
-		abi="lua"..(_VERSION:match("Lua (%S+)$") or "")..(arch or "")
-		if jit and jit.version then
-			local jit_v=jit.version:match("LuaJIT (%d.%d)")
-			abi="luajit"..(jit_v and "-"..jit_v.."*" or "")..(arch and "."..arch or "")
+		if jit then
+			--and jit.version then
+			--local jit_v=jit.version:match("LuaJIT (%d.%d)")
+			--abi="luajit"..(jit_v and "-"..jit_v.."*" or "")..(arch and "."..arch or "")
+			abi="luajit"..(arch and "."..arch or "")
+		else
+			abi="lua"..(_VERSION:match("Lua (%S+)$") or "")..(arch or "")
 		end
 	end
 
@@ -37,7 +40,7 @@ local function getabis(abi)
 	if abistr:match("%*") then abistr="" end -- failed matching -> nothing found
 
 	if #abistr>8 then
-		for abi in abistr:gmatch(libexec.."/(%S*)/srlua") do
+		for abi in abistr:gmatch(libexec.."/(%S*)/srlua") do -- luacheck: ignore
 			table.insert(ret,abi)
 		end
 	end
@@ -99,7 +102,11 @@ local function argparse(argv)
 	end
 
 	if not script:match(".*%.lua") and not expert then
-		help(true,"Invalid Lua Program name. Only '*.lua' files are allowed (to prevent unexpected results).\nIf you're sure you want to continue anyway, set IKNOWWHATIAMDOING environment variable.")
+		help(true,
+			"Invalid Lua Program name. Only '*.lua' files are allowed (to prevent unexpected results)."
+			.."\n"
+			.."If you're sure you want to continue anyway, set IKNOWWHATIAMDOING environment variable."
+		)
 	end
 
 	local chmod, chmod_mod
@@ -113,7 +120,11 @@ end
 
 if #arg>3 or #arg==0 then
 	-- TODO: maybe add support to squish
-	help(#arg~=0, "wrong paramaters count (maximum: 3)\nIf you need to glue more then one Lua Program, then squish them in single file first.")
+	help(#arg~=0,
+		"wrong paramaters count (maximum: 3)"
+		.."\n"
+		.."If you need to glue more then one Lua Program, then squish them in single file first."
+	)
 else
 	argparse(arg)
 end

@@ -1,5 +1,5 @@
 TOPTARGETS := all clean install
-.PHONY: $(TOPTARGETS) 
+.PHONY: $(TOPTARGETS)
 
 $(TOPTARGETS):
 	$(MAKE) -C src $@ $(MAKECMDGOALS)
