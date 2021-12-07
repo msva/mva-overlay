@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <use>
+    <flag name="gtk3">Use GTK3 interface bindings</flag>
+    <flag name="system-java">Don't use bundled JRE packages</flag>
+  </use>
+  <upstream>
+    <remote-id type="github">Ultimaker/Cura</remote-id>
+  </upstream>
+</pkgmetadata>
