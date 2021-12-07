@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/project/libcg/${PN}/v${PV}/${P}.tar.bz2"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86"
-IUSE="+daemon elibc_musl debug pam static-libs systemd +tools"
+IUSE="+daemon elibc_musl debug pam static-libs systemd +tools cli"
 
 RDEPEND="pam? ( sys-libs/pam )"
 
