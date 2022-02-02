@@ -48,7 +48,7 @@ src_unpack() {
 
 src_install() {
 	insinto /
-	doins -r usr etc opt
+	doins -r usr/{lib,$(get_libdir)} etc opt
 	exeinto /opt/kontur.plugin
-	doexe opt/kontur.plugin/{kontur.plugin.chrome,pkcs11/{jcverify,*.so}}
+	doexe opt/kontur.plugin/{kontur.plugin.host,pkcs11/{jcverify,*.so}}
 }
