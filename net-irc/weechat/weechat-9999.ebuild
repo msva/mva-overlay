@@ -1,11 +1,12 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
+LUA_COMPAT=( lua5-{1..4} luajit )
 PYTHON_COMPAT=( python3_{8..10} )
 
-inherit cmake python-single-r1 xdg-utils
+inherit cmake lua-single python-single-r1 xdg-utils
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
@@ -19,17 +20,21 @@ DESCRIPTION="Portable and multi-interface IRC client"
 HOMEPAGE="https://weechat.org/"
 
 LICENSE="GPL-3"
-SLOT="0"
+SLOT="0/${PV}"
 
 NETWORKS="+irc"
-PLUGINS="+alias +buflist +charset +exec +fifo +fset +logger +relay +scripts +spell +trigger +xfer"
+PLUGINS="+alias +buflist +charset +exec +fifo +fset +logger +relay +scripts +spell +trigger +typing +xfer"
 INTERFACES="+ncurses +headless"
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
-SCRIPT_LANGS="guile lua luajit +perl php +python ruby tcl"
+SCRIPT_LANGS="guile lua +perl php +python ruby tcl"
 LANGS=" cs de es fr hu it ja pl pt pt_BR ru tr"
-IUSE="doc enchant man nls test ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
+IUSE="doc enchant man nls selinux test ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} ) test? ( headless nls )"
+REQUIRED_USE="
+	lua? ( ${LUA_REQUIRED_USE} )
+	python? ( ${PYTHON_REQUIRED_USE} )
+	test? ( headless nls )
+"
 
 RDEPEND="
 	dev-libs/libgcrypt:0=
@@ -39,18 +44,13 @@ RDEPEND="
 	sys-libs/zlib
 	charset? ( virtual/libiconv )
 	guile? ( >=dev-scheme/guile-2.0 )
-	lua? (
-		!luajit? ( || (
-			dev-lang/lua:0[deprecated]
-			dev-lang/lua:5.1[deprecated]
-		) )
-		luajit? ( >=dev-lang/luajit-2 )
-	)
+	lua? ( ${LUA_DEPS} )
 	nls? ( virtual/libintl )
 	perl? ( dev-lang/perl:= )
 	php? ( >=dev-lang/php-7.0:=[embed] )
 	python? ( ${PYTHON_DEPS} )
 	ruby? ( dev-lang/ruby )
+	selinux? ( sec-policy/selinux-irc )
 	spell? (
 		enchant? (
 			app-text/enchant:0
@@ -73,26 +73,22 @@ BDEPEND="
 	nls? ( >=sys-devel/gettext-0.15 )
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.3-cmake_lua_version.patch
+)
 
 DOCS="AUTHORS.adoc ChangeLog.adoc Contributing.adoc ReleaseNotes.adoc README.adoc"
 
 # tests need to be fixed to not use system plugins if weechat is already installed
 RESTRICT="!test? ( test )"
 
-#PATCHES=( "${FILESDIR}"/${PN}-1.2-tinfo.patch )
-
 pkg_setup() {
+	use lua && lua-single_pkg_setup
 	use python && python-single-r1_pkg_setup
 }
 
 src_prepare() {
 	cmake_src_prepare
-
-	use luajit && (
-		sed -i \
-			-e 's@\(pkg_search_module(LUA\) \(.*\)@\1 luajit-2.1 luajit-2.0 luajit \2@' \
-			cmake/FindLua.cmake
-	)
 
 	# install only required translations
 	local i
@@ -128,10 +124,8 @@ src_prepare() {
 }
 
 src_configure() {
-	local needlua=$( (use lua || use luajit) && echo "yes" || echo "no");
-
 	local mycmakeargs=(
-		-DLIBDIR=/usr/$(get_libdir)
+		-DLIBDIR="${EPREFIX}/usr/$(get_libdir)"
 		-DENABLE_JAVASCRIPT=OFF
 		-DENABLE_LARGEFILE=ON
 		-DENABLE_NCURSES=$(usex ncurses)
@@ -146,7 +140,7 @@ src_configure() {
 		-DENABLE_GUILE=$(usex guile)
 		-DENABLE_IRC=$(usex irc)
 		-DENABLE_LOGGER=$(usex logger)
-		-DENABLE_LUA="${needlua}"
+		-DENABLE_LUA=$(usex lua)
 		-DENABLE_MAN=$(usex man)
 		-DENABLE_NLS=$(usex nls)
 		-DENABLE_PERL=$(usex perl)
@@ -161,10 +155,19 @@ src_configure() {
 		-DENABLE_TCL=$(usex tcl)
 		-DENABLE_TESTS=$(usex test)
 		-DENABLE_TRIGGER=$(usex trigger)
+		-DENABLE_TYPING=$(usex typing)
 		-DENABLE_XFER=$(usex xfer)
 	)
-
 	cmake_src_configure
+}
+
+src_test() {
+	if $(locale -a | grep -iq "en_US\.utf.*8"); then
+		cmake_src_test -V
+	else
+		eerror "en_US.UTF-8 locale is required to run ${PN}'s ${FUNCNAME}"
+		die "required locale missing"
+	fi
 }
 
 pkg_postinst() {
