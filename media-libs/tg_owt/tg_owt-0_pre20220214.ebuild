@@ -20,7 +20,7 @@ if [[ "${PV}" == *9999* ]]; then
 	)
 else
 	KEYWORDS="~amd64 ~ppc64"
-	EGIT_COMMIT="91d836dc84a16584c6ac52b36c04c0de504d9c34"
+	EGIT_COMMIT="4cba1acdd718b700bb33945c0258283689d4eac7"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
@@ -81,10 +81,11 @@ BDEPEND="virtual/pkgconfig"
 
 PATCHES=(
 	"${FILESDIR}/0000_pkgconfig.patch"
-	"${FILESDIR}/tg_owt-0_pre20210626-allow-disabling-pipewire.patch"
-	"${FILESDIR}/tg_owt-0_pre20210626-allow-disabling-X11.patch"
-	"${FILESDIR}/tg_owt-0_pre20210626-allow-disabling-pulseaudio.patch"
-	"${FILESDIR}/tg_owt-0_pre20210626-expose-set_allow_pipewire.patch"
+	"${FILESDIR}/${PN}-0_pre20210626-allow-disabling-pipewire.patch"
+	"${FILESDIR}/${PN}-0_pre20211207-allow-disabling-X11.patch"
+	"${FILESDIR}/${PN}-0_pre20210626-allow-disabling-pulseaudio.patch"
+	"${FILESDIR}/${PN}-0_pre20210626-expose-set_allow_pipewire.patch"
+	"${FILESDIR}/${PN}-0_pre20211207-fix-dcsctp-references.patch"
 	"${FILESDIR}/libyuv.patch"
 	"${FILESDIR}/libyuv_2.patch"
 	"${FILESDIR}/libyuv_3.patch"
@@ -93,8 +94,11 @@ PATCHES=(
 
 pkg_pretend() {
 	if use libcxx; then
-		append-cxxflags "-stdlib=libc++"
+		export CC="clang" CXX="clang++ -stdlib=libc++"
+	elif tc-is-clang; then
+		eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
 	fi
+
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
 		if ! tc-is-clang; then
 			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
@@ -112,25 +116,26 @@ src_prepare() {
 
 	sed -i '/include(cmake\/libabsl.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libopenh264.cmake)/d' CMakeLists.txt || die
-#	sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
-#	sed -i '/include(cmake\/libsrtp.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libusrsctp.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libevent.cmake)/d' CMakeLists.txt || die
 
-	append-cppflags -I/usr/include/pipewire-0.3 -I/usr/include/spa-0.2
+	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
+	# sed -i '/include(cmake\/libsrtp.cmake)/d' CMakeLists.txt || die
 
-	if !use pipewire; then
+	if ! use pipewire; then
 		eapply "${FILESDIR}"/pipewire_off.patch
 		eapply "${FILESDIR}"/pipewire_cmake.patch
 
 		sed -i -e '/desktop_capture\/screen_drawer/d' CMakeLists.txt || die
-		sed -i -e '/desktop_capture\/screen_capturer_integration_test/d' CMakeLists.txt || die
-		sed -i -e '/desktop_capture\/window_finder_unittest/d' CMakeLists.txt || die
+	else
+		append-cppflags -I/usr/include/pipewire-0.3 -I/usr/include/spa-0.2
 	fi
+	sed -i -e '/desktop_capture\/screen_capturer_integration_test/d' CMakeLists.txt || die
+	sed -i -e '/desktop_capture\/window_finder_unittest/d' CMakeLists.txt || die
 
 	rm -r "${S}"/src/third_party/{abseil-cpp,libvpx,libyuv,openh264,pipewire,usrsctp}
-#	libsrtp,
-#	rnnoise,
+	# libsrtp,
+	# rnnoise,
 
 	cmake_src_prepare
 }

@@ -1,0 +1,42 @@
+
+@@ -490,16 +490,30 @@ HistoryMessage::HistoryMessage(
+ 
+ 	createComponents(config);
+ 
+-	if (const auto media = data.vmedia()) {
+-		setMedia(*media);
+-	}
+-	const auto textWithEntities = TextWithEntities{
+-		TextUtilities::Clean(qs(data.vmessage())),
+-		Api::EntitiesFromMTP(
+-			&history->session(),
+-			data.ventities().value_or_empty())
+-	};
+-	setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
++	UserId from = peerToUser(data.vfrom_id() ? peerFromMTP(*data.vfrom_id()) : PeerId(0));
++	PeerData* pd = from ? history->owner().user(from) : history->peer;
++	if (pd->isUser() && pd->asUser()->isBlocked()) {
++		const auto textWithEntities = TextWithEntities {
++		TextUtilities::Clean(qs("The message from blocked user")),
++		Api::EntitiesFromMTP(
++			&history->session(),
++			data.ventities().value_or_empty())
++		};
++		setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
++	}
++	else {
++		if (const auto media = data.vmedia()) {
++			setMedia(*media);
++		}
++		const auto textWithEntities = TextWithEntities {
++		TextUtilities::Clean(qs(data.vmessage())),
++		Api::EntitiesFromMTP (
++			&history->session(),
++			data.ventities().value_or_empty())
++		};
++		setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
++	}
++
+ 	if (const auto groupedId = data.vgrouped_id()) {
+ 		setGroupId(
+ 			MessageGroupId::FromRaw(history->peer->id, groupedId->v));

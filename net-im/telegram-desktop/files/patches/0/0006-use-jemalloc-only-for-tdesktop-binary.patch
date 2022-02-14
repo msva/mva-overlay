@@ -7,7 +7,7 @@ improve runtime memory use, it's unnecessary to use it for anything else.
 
 --- a/Telegram/CMakeLists.txt
 +++ b/Telegram/CMakeLists.txt
-@@ -1280,6 +1280,11 @@
+@@ -1335,6 +1335,11 @@
          endif()
      endif()
  else()
@@ -21,13 +21,15 @@ improve runtime memory use, it's unnecessary to use it for anything else.
          PRIVATE
 --- a/cmake/options_linux.cmake
 +++ b/cmake/options_linux.cmake
-@@ -45,11 +45,6 @@
+@@ -53,13 +53,6 @@
      target_link_options(common_options INTERFACE $<IF:$<CONFIG:Debug>,,-g -flto -fuse-linker-plugin>)
  endif()
  
 -target_link_libraries(common_options
 -INTERFACE
--    desktop-app::external_jemalloc
+-    desktop-app::linux_jemalloc_helper
+-    $<TARGET_OBJECTS:desktop-app::linux_jemalloc_helper>
+-    ${CMAKE_DL_LIBS}
 -)
 -
  if (DESKTOP_APP_USE_ALLOCATION_TRACER)

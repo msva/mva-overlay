@@ -1,6 +1,6 @@
 --- a/cmake/external.cmake
 +++ b/cmake/external.cmake
-@@ -181,6 +181,22 @@
+@@ -279,6 +279,22 @@
      endif()
  endfunction()
  
@@ -20,6 +20,6 @@
 +    endif()
 +endfunction()
 +
- # libevent
- function(link_libevent target_name)
+ # dl
+ function(link_dl target_name)
      if (TG_OWT_PACKAGED_BUILD)

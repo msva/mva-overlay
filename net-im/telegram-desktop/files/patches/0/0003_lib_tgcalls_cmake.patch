@@ -1,6 +1,6 @@
 --- a/Telegram/cmake/lib_tgcalls.cmake
 +++ b/Telegram/cmake/lib_tgcalls.cmake
-@@ -152,6 +152,7 @@
+@@ -171,6 +171,7 @@
      desktop-app::external_webrtc
      desktop-app::external_ffmpeg
      desktop-app::external_rnnoise

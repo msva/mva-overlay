@@ -1,13 +1,12 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -25,12 +25,17 @@
+@@ -24,11 +24,16 @@
  option(TG_OWT_USE_PIPEWIRE "Use pipewire for desktop capture on non-Apple Unix." ON)
  option(TG_OWT_DLOPEN_PIPEWIRE "dlopen pipewire 0.3 for desktop capture on non-Apple Unix." ${not_packaged_build})
- option(TG_OWT_BUILD_AUDIO_BACKENDS "Build webrtc audio backends." ON)
+ option(TG_OWT_BUILD_AUDIO_BACKENDS "Build webrtc audio backends." OFF)
 +option(TG_OWT_BUILD_PULSE_BACKEND "Build pulseaudio audio backend on non-Apple Unix." ON)
  
  if (NOT UNIX OR APPLE)
-     set(TG_OWT_USE_X11 OFF)
      set(TG_OWT_USE_PIPEWIRE OFF)
  endif()
  
@@ -17,7 +16,7 @@
 +
  if (BUILD_SHARED_LIBS)
      set(CMAKE_POSITION_INDEPENDENT_CODE ON)
- endif()
+     message(WARNING
 @@ -162,9 +167,11 @@
  link_libvpx(tg_owt)
  

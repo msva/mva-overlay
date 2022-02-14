@@ -9,26 +9,6 @@
  
  #ifdef WEBRTC_MAC
  #import <QuartzCore/QuartzCore.h>
---- a/Telegram/ThirdParty/tgcalls/tgcalls/desktop_capturer/DesktopCaptureSourceHelper.mm
-+++ b/Telegram/ThirdParty/tgcalls/tgcalls/desktop_capturer/DesktopCaptureSourceHelper.mm
-@@ -19,7 +19,7 @@
- #include "modules/desktop_capture/mac/screen_capturer_mac.h"
- #include "modules/desktop_capture/desktop_and_cursor_composer.h"
- #include "modules/desktop_capture/desktop_capturer_differ_wrapper.h"
--#include "third_party/libyuv/include/libyuv.h"
-+#include "libyuv.h"
- #include "api/video/i420_buffer.h"
- 
- #include "rtc_base/weak_ptr.h"
-@@ -27,7 +27,7 @@
- #include "common_video/libyuv/include/webrtc_libyuv.h"
- #include "rtc_base/checks.h"
- #include "rtc_base/logging.h"
--#include "third_party/libyuv/include/libyuv.h"
-+#include "libyuv.h"
- #import "helpers/RTCDispatcher+Private.h"
- #import <QuartzCore/QuartzCore.h>
- #import <SSignalKit/STimer.h>
 --- a/Telegram/ThirdParty/tgcalls/tgcalls/desktop_capturer/DesktopCaptureSourceManager.cpp
 +++ b/Telegram/ThirdParty/tgcalls/tgcalls/desktop_capturer/DesktopCaptureSourceManager.cpp
 @@ -10,7 +10,7 @@

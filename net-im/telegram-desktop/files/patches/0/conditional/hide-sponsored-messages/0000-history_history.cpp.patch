@@ -1,13 +1,17 @@
 diff -NaurBwdpH a/Telegram/SourceFiles/history/history.cpp b/Telegram/SourceFiles/history/history.cpp
 --- a/Telegram/SourceFiles/history/history.cpp	2021-10-09 18:30:43.938674692 +0700
 +++ b/Telegram/SourceFiles/history/history.cpp	2021-10-09 18:31:02.123028972 +0700
-@@ -2676,7 +2676,7 @@ QString History::topPromotionMessage() c
+@@ -684,12 +684,7 @@ not_null<HistoryItem*> History::addNewLo
+ 		MsgId id,
+ 		Data::SponsoredFrom from,
+ 		const TextWithEntities &textWithEntities) {
+-	return addNewItem(
+-		makeMessage(
+-			id,
+-			from,
+-			textWithEntities),
+-		true);
++	return;
  }
  
- bool History::canHaveSponsoredMessages() const {
--	return isChannel();
-+	return false;
- }
- 
- bool History::clearUnreadOnClientSide() const {
-
+ void History::setUnreadThingsKnown() {

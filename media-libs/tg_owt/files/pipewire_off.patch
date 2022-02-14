@@ -6,6 +6,7 @@
  
 +rtc_use_pipewire = false
 +
- if (rtc_use_pipewire) {
-   assert(rtc_pipewire_version == "0.2" || rtc_pipewire_version == "0.3",
-          "Unsupported PipeWire version")
+ use_desktop_capture_differ_sse2 = current_cpu == "x86" || current_cpu == "x64"
+ 
+ config("x11_config") {
+

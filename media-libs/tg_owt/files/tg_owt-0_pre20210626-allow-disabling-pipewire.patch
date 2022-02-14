@@ -8,14 +8,6 @@
      if (TG_OWT_DLOPEN_PIPEWIRE)
          include(cmake/generate_stubs.cmake)
          set(stubs_loc ${webrtc_loc}/modules/desktop_capture/linux)
-@@ -169,7 +170,6 @@
- 
- if (UNIX AND NOT APPLE)
-     link_x11(tg_owt)
--    link_glib(tg_owt)
- endif()
- 
- function(add_sublibrary postfix)
 @@ -2161,6 +2161,13 @@
      )
  endif()

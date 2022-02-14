@@ -76,7 +76,6 @@ COMMON_DEPEND="
 	webrtc? (
 		dev-cpp/abseil-cpp:=
 		media-libs/libjpeg-turbo:=
-		>media-libs/tg_owt-0_pre20210101[pulseaudio?,pipewire?,libcxx=]
 		media-libs/libyuv:=
 	)
 	wayland? ( kde-frameworks/kwayland:= )
@@ -101,7 +100,6 @@ BDEPEND="
 		sys-devel/clang
 		sys-devel/gcc
 	)
-	test? ( dev-cpp/catch )
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
 "
@@ -155,9 +153,6 @@ pkg_pretend() {
 		fi
 	fi
 
-	if use libcxx; then
-		append-cxxflags "-stdlib=libc++"
-	fi
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
 		if ! tc-is-clang; then
 			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
@@ -215,6 +210,10 @@ src_prepare() {
 	patches_src_prepare
 #	cmake_src_prepare
 #	^ to be used when will be ported to gentoo repo
+
+	if use libcxx; then
+		export CC="clang" CXX="clang++ -stdlib=libc++"
+	fi
 }
 
 src_configure() {

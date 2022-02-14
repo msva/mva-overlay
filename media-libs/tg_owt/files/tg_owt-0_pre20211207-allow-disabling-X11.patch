@@ -1,0 +1,83 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -87,6 +89,10 @@
+ add_library(tg_owt)
+ init_target(tg_owt)
+ 
++if (TG_OWT_USE_X11)
++    link_x11(tg_owt)
++endif()
++
+ if (TG_OWT_USE_PIPEWIRE)
+     link_glib(tg_owt)
+     if (TG_OWT_DLOPEN_PIPEWIRE)
+@@ -169,7 +175,6 @@
+ target_link_libraries(tg_owt PUBLIC tg_owt::libwebrtcbuild)
+ 
+ if (UNIX AND NOT APPLE)
+-    link_x11(tg_owt)
+ endif()
+ 
+ function(add_sublibrary postfix)
+@@ -2161,6 +2166,37 @@
+     )
+ endif()
+ 
++if (NOT TG_OWT_USE_X11)
++    remove_target_sources(tg_owt ${webrtc_loc}
++        modules/desktop_capture/linux/mouse_cursor_monitor_x11.cc
++        modules/desktop_capture/linux/mouse_cursor_monitor_x11.h
++        modules/desktop_capture/linux/screen_capturer_x11.cc
++        modules/desktop_capture/linux/screen_capturer_x11.h
++        modules/desktop_capture/linux/shared_x_display.cc
++        modules/desktop_capture/linux/shared_x_display.h
++        modules/desktop_capture/linux/window_capturer_x11.cc
++        modules/desktop_capture/linux/window_capturer_x11.h
++        modules/desktop_capture/linux/window_finder_x11.cc
++        modules/desktop_capture/linux/window_finder_x11.h
++        modules/desktop_capture/linux/window_list_utils.cc
++        modules/desktop_capture/linux/window_list_utils.h
++        modules/desktop_capture/linux/x_atom_cache.cc
++        modules/desktop_capture/linux/x_atom_cache.h
++        modules/desktop_capture/linux/x_error_trap.cc
++        modules/desktop_capture/linux/x_error_trap.h
++        modules/desktop_capture/linux/x_server_pixel_buffer.cc
++        modules/desktop_capture/linux/x_server_pixel_buffer.h
++        modules/desktop_capture/linux/x_window_property.cc
++        modules/desktop_capture/linux/x_window_property.h
++
++        modules/desktop_capture/screen_drawer.cc
++        modules/desktop_capture/screen_drawer.h
++        modules/desktop_capture/screen_drawer_linux.cc
++        modules/desktop_capture/screen_drawer_lock_posix.cc
++        modules/desktop_capture/screen_drawer_lock_posix.h
++    )
++endif()
++
+ if (NOT TG_OWT_USE_PIPEWIRE)
+     remove_target_sources(tg_owt ${webrtc_loc}
+         modules/desktop_capture/linux/base_capturer_pipewire.cc
+--- a/cmake/libwebrtcbuild.cmake
++++ b/cmake/libwebrtcbuild.cmake
+@@ -27,6 +27,13 @@
+     BWE_TEST_LOGGING_COMPILE_TIME_ENABLE=0
+ )
+ 
++if (TG_OWT_USE_X11)
++    target_compile_definitions(libwebrtcbuild
++    INTERFACE
++        WEBRTC_USE_X11
++    )
++endif()
++
+ if (TG_OWT_USE_PIPEWIRE)
+     target_compile_definitions(libwebrtcbuild
+     INTERFACE
+@@ -67,7 +74,6 @@
+     else()
+         target_compile_definitions(libwebrtcbuild
+         INTERFACE
+-            WEBRTC_USE_X11
+         )
+     endif()
+ 

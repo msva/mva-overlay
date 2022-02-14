@@ -1,49 +1,20 @@
 --- a/Telegram/SourceFiles/history/history_message.cpp
 +++ b/Telegram/SourceFiles/history/history_message.cpp
-@@ -490,16 +490,30 @@ HistoryMessage::HistoryMessage(
- 
- 	createComponents(config);
- 
--	if (const auto media = data.vmedia()) {
--		setMedia(*media);
--	}
--	const auto textWithEntities = TextWithEntities{
--		TextUtilities::Clean(qs(data.vmessage())),
--		Api::EntitiesFromMTP(
--			&history->session(),
--			data.ventities().value_or_empty())
--	};
--	setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
+@@ -494,6 +494,11 @@ HistoryMessage::HistoryMessage(
+ 		FlagsFromMTP(id, data.vflags().v, localFlags),
+ 		data.vdate().v,
+ 		data.vfrom_id() ? peerFromMTP(*data.vfrom_id()) : PeerId(0)) {
 +	UserId from = peerToUser(data.vfrom_id() ? peerFromMTP(*data.vfrom_id()) : PeerId(0));
 +	PeerData* pd = from ? history->owner().user(from) : history->peer;
 +	if (pd->isUser() && pd->asUser()->isBlocked()) {
-+		const auto textWithEntities = TextWithEntities {
-+		TextUtilities::Clean(qs("The message from blocked user")),
-+		Api::EntitiesFromMTP(
-+			&history->session(),
-+			data.ventities().value_or_empty())
-+		};
-+		setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
++		return;
 +	}
-+	else {
-+		if (const auto media = data.vmedia()) {
-+			setMedia(*media);
-+		}
-+		const auto textWithEntities = TextWithEntities {
-+		TextUtilities::Clean(qs(data.vmessage())),
-+		Api::EntitiesFromMTP (
-+			&history->session(),
-+			data.ventities().value_or_empty())
-+		};
-+		setText(_media ? textWithEntities : EnsureNonEmpty(textWithEntities));
-+	}
-+
- 	if (const auto groupedId = data.vgrouped_id()) {
- 		setGroupId(
- 			MessageGroupId::FromRaw(history->peer->id, groupedId->v));
+ 	auto config = CreateConfig();
+ 	if (const auto forwarded = data.vfwd_from()) {
+ 		forwarded->match([&](const MTPDmessageFwdHeader &data) {
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
-@@ -313,6 +313,8 @@ void Message::applyGroupAdminChanges(
+@@ -436,6 +436,8 @@ void Message::applyGroupAdminChanges(
  
  QSize Message::performCountOptimalSize() {
  	const auto item = message();
@@ -52,7 +23,7 @@
  	const auto media = this->media();
  
  	auto maxWidth = 0;
-@@ -493,6 +495,8 @@ void Message::draw(
+@@ -631,6 +633,8 @@ void Message::draw(
  	}
  
  	const auto item = message();
