@@ -41,7 +41,7 @@ RDEPEND="
 	dev-qt/qtwidgets:5=
 	dev-libs/poco[zip]
 	>=media-libs/libsndfile-1.0.20[-minimal]
-	>=dev-libs/boost-1.41.0:=[threads]
+	>=dev-libs/boost-1.41.0:=[threads(+)]
 	x11-libs/libXext
 	x11-libs/libXi
 
