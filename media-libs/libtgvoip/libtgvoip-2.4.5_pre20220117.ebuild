@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit toolchain-funcs flag-o-matic cmake patches
 
@@ -11,7 +11,7 @@ if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 else
 	if [[ "${PV}" == *_pre* ]]; then
-		EGIT_COMMIT="0c0a6e476df58ee441490da72ca7a32f83e68dbd"
+		EGIT_COMMIT="a090c6a8f7bfb365b301d85bb8c9664d71321c5c"
 	fi
 	MY_PV="${EGIT_COMMIT:-${PV}}"
 	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
@@ -47,9 +47,6 @@ DEPEND="
 "
 
 pkg_pretend() {
-	if use libcxx; then
-		append-cxxflags "-stdlib=libc++"
-	fi
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
 		if ! tc-is-clang; then
 			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
@@ -63,6 +60,10 @@ src_prepare() {
 	rm -rf "${S}"/webrtc_dsp # we'll link over tg_owt instead
 	cp "${FILESDIR}"/cmake/"${PN}".cmake "${S}"/CMakeLists.txt
 	patches_src_prepare
+
+	if use libcxx; then
+		export CC="clang" CXX="clang++ -stdlib=libc++"
+	fi
 }
 
 src_configure() {
