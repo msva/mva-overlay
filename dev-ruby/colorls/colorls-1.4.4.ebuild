@@ -1,12 +1,12 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 RUBY_FAKEGEM_EXTRAINSTALL="zsh"
 RUBY_FAKEGEM_BINDIR="exe"
 
-USE_RUBY="ruby23 ruby24 ruby25"
+USE_RUBY="ruby26 ruby27 ruby30"
 
 inherit ruby-fakegem
 
@@ -19,7 +19,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 # ~arm   - missing in rainbow
 # ~arm64 - missing everywhere
-# 2019: still the issue...
+# 2022: still the issue...
 
 ruby_add_rdepend '
 	dev-ruby/filesize:*
