@@ -25,11 +25,11 @@ RDEPEND="${DEPEND}"
 
 src_unpack() {
 	git-r3_src_unpack
-	EHG_REPO_URI="https://bitbucket.org/pidgin/main" \
-	EHG_PROJECT="pidgin" \
-	EHG_CHECKOUT_DIR="${S}/.pidgin" \
-	EHG_REVISION=$(cat ${S}/VERSION) \
-	mercurial_src_unpack
+	# EHG_REPO_URI="https://bitbucket.org/pidgin/main" \
+	# EHG_PROJECT="pidgin" \
+	# EHG_CHECKOUT_DIR="${S}/.pidgin" \
+	# EHG_REVISION=$(cat ${S}/VERSION) \
+	# mercurial_src_unpack
 }
 
 src_prepare() {
