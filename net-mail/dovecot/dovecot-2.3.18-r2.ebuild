@@ -51,7 +51,10 @@ DEPEND="
 	caps? ( sys-libs/libcap )
 	kerberos? ( virtual/krb5 )
 	ldap? ( net-nds/openldap:= )
-	lua? ( ${LUA_DEPS} )
+	lua? (
+		${LUA_DEPS}
+		lua_single_target_luajit? ( dev-lang/luajit[lua52compat] )
+	)
 	lucene? ( >=dev-cpp/clucene-2.3 )
 	lz4? ( app-arch/lz4 )
 	mysql? ( dev-db/mysql-connector-c:0= )
