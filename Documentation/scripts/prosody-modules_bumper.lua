@@ -26,6 +26,8 @@ local cURL = require"cURL";
 local html = require"htmlparser"
 --local lfs  = require"lfs"
 
+htmlparser_looplimit = 5000
+
 math.randomseed(tonumber(math.randomseed(os.time()) or os.time())+os.time()); -- randomize
 
 --[[
