@@ -22,16 +22,31 @@ DEPEND="
 "
 
 each_lua_compile() {
+	local cf=(
+		${CFLAGS} -Ic-api -fPIC
+		"-DLUA_COMPAT_BITLIB"
+		$(lua_get_CFLAGS)
+		-shared lbitlib.c
+		${LDFLAGS}
+		-o ${PN##lua-}.so
+	)
+
 	pushd "${BUILD_DIR}"
-	local MY_PN="lbitlib"
-	$(tc-getCC) ${CFLAGS} -Ic-api -fPIC -shared ${MY_PN}.c ${LDFLAGS} -o ${PN}.so || die
+		if [[ "${ELUA}" == luajit ]]; then
+			sed -r \
+				-e "/luaL_newlib/,+1d" \
+				-i "${BUILD_DIR}"/c-api/compat-5.2.h
+		fi
+
+		echo $(tc-getCC) ${cf[@]}
+		$(tc-getCC) ${cf[@]} || die "Failed to compile"
 	popd
 }
 
 each_lua_install() {
 	pushd "${BUILD_DIR}"
 	insinto "$(lua_get_cmod_dir)"
-	doins "${PN}.so"
+	doins "${PN##lua-}.so"
 	popd
 }
 

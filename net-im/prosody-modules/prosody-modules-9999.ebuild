@@ -143,7 +143,12 @@ RDEPEND="
 		dev-lua/luafilesystem
 	)
 	prosody_modules_onions? (
-		virtual/lua[bit]
+		|| (
+			dev-lang/luajit
+			dev-lua/LuaBitOp
+			dev-lua/lua-bit32
+			>=dev-lang/lua-5.2
+		)
 	)
 	prosody_modules_couchdb? (
 		dev-lua/luasocket
