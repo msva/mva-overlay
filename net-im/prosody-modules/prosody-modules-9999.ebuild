@@ -160,7 +160,13 @@ RDEPEND="
 		dev-lua/luasec
 	)
 	prosody_modules_auth_internal_yubikey? (
-		virtual/lua[bit,luajit=]
+		|| (
+			dev-lang/luajit
+			dev-lua/LuaBitOp
+			dev-lua/lua-bit32
+			>=dev-lang/lua-5.2
+		)
+		luajit? ( dev-lang/luajit )
 		dev-lua/yubikey-lua
 	)
 	prosody_modules_auth_dovecot? (
