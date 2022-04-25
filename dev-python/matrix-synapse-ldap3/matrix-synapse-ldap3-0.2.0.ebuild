@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-
-PYTHON_COMPAT=( python3_{8,9} )
+PYTHON_COMPAT=( python3_{8,9,10} )
+DISTUTILS_USE_SETUPTOOLS=pyproject.toml
 
 inherit distutils-r1
 
@@ -16,9 +16,9 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 RDEPEND="
-    >=dev-python/twisted-15.1.0[${PYTHON_USEDEP}]
-    >=dev-python/ldap3-2.8[${PYTHON_USEDEP}]
-    dev-python/service_identity[${PYTHON_USEDEP}]
+	>=dev-python/twisted-15.1.0[${PYTHON_USEDEP}]
+	>=dev-python/ldap3-2.8[${PYTHON_USEDEP}]
+	dev-python/service_identity[${PYTHON_USEDEP}]
 "
 
 src_prepare() {
