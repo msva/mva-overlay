@@ -8,7 +8,7 @@ inherit check-reqs
 
 DESCRIPTION="Open Handset Alliance's Android NDK (Native Dev Kit)"
 HOMEPAGE="https://developer.android.com/ndk/"
-SRC_URI="https://dl.google.com/android/repository/${PN}-r${PV}-linux-x86_64.zip"
+SRC_URI="https://dl.google.com/android/repository/${PN}-r${PV}-linux.zip"
 
 LICENSE="android"
 SLOT="0"
@@ -17,9 +17,12 @@ IUSE=""
 RESTRICT="mirror strip installsources test"
 
 DEPEND="app-arch/p7zip"
-RDEPEND=">=dev-util/android-sdk-update-manager-10
+RDEPEND="
+	>=dev-util/android-sdk-update-manager-10
 	>=sys-devel/make-3.81
-	sys-libs/ncurses-compat:5[tinfo]"
+	sys-libs/ncurses-compat:5[tinfo]
+	virtual/libcrypt
+"
 
 S="${WORKDIR}/${PN}-r${PV}"
 
@@ -45,13 +48,22 @@ src_compile() {
 }
 
 src_install() {
+	local dirs=(
+		""
+		build
+		# platforms
+		# ^ no more in 24 🤷
+		prebuilt
+		python-packages
+		sources
+		toolchains
+	)
 	dodir "/${ANDROID_NDK_DIR}"
 	cp -pPR * "${ED}/${ANDROID_NDK_DIR}" || die
 
 	dodir "/${ANDROID_NDK_DIR}/out"
 	fowners -R root:android "/${ANDROID_NDK_DIR}"
-	fperms 0775 "/${ANDROID_NDK_DIR}/"{,build,platforms,prebuilt}
-	fperms 0775 "/${ANDROID_NDK_DIR}/"{python-packages,sources,toolchains}
+	fperms 0775 "${dirs[@]/#//${ANDROID_NDK_DIR}/}"
 	fperms 3775 "/${ANDROID_NDK_DIR}/out"
 
 	ANDROID_PREFIX="${EPREFIX}/${ANDROID_NDK_DIR}"
