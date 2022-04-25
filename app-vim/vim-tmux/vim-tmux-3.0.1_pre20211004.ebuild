@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-MY_SHA="4e77341a2f8b9b7e41e81e9debbcecaea5987c85"
+MY_SHA="cfe76281efc29890548cf9eedd42ad51c7a1faf0"
 inherit vim-plugin
 
 DESCRIPTION="vim plugin: tmux support for vim"
