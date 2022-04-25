@@ -4,13 +4,16 @@
 EAPI="8"
 
 PYTHON_COMPAT=( python3_{8,9,10} )
+DISTUTILS_USE_SETUPTOOLS="pyproject.toml"
+# DISTUTILS_USE_PEP517="poetry"
+
 inherit distutils-r1
 
 DESCRIPTION="Reference homeserver for the Matrix decentralised comms protocol"
 HOMEPAGE="https://matrix.org/"
 
 SRC_URI="https://github.com/matrix-org/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 arm"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -23,11 +26,9 @@ RDEPEND="
 	acct-group/synapse
 	>=dev-python/jsonschema-3.0.0[${PYTHON_USEDEP}]
 	>=dev-python/frozendict-1[${PYTHON_USEDEP}]
-	<dev-python/frozendict-2.1.2[${PYTHON_USEDEP}]
 	>=dev-python/unpaddedbase64-1.1.0[${PYTHON_USEDEP}]
 	>=dev-python/canonicaljson-1.4.0[${PYTHON_USEDEP}]
 	>=dev-python/signedjson-1.1.0[${PYTHON_USEDEP}]
-	<=dev-python/signedjson-1.1.1[${PYTHON_USEDEP}]
 	>=dev-python/pynacl-1.2.1[${PYTHON_USEDEP}]
 	>=dev-python/idna-2.5[${PYTHON_USEDEP}]
 	>=dev-python/service_identity-18.1.0[${PYTHON_USEDEP}]
