@@ -34,10 +34,18 @@ src_prepare() {
 }
 
 each_lua_compile() {
+	local cf=(
+		${CFLAGS} -fPIC
+		$(lua_get_CFLAGS)
+		$($(tc-getPKG_CONFIG) --cflags ldap || die "Can't find openldap")
+		-shared src/"${PN}".c
+		$($(tc-getPKG_CONFIG) --libs ldap || die "Can't find openldap")
+		${LDFLAGS}
+		-o ${PN}.so
+	)
 	pushd "${BUILD_DIR}"
-	# no-as-needed as otherwise it wipes out link over libldap
-#	append-ldflags $(no-as-needed)
-	$(tc-getCC) ${CFLAGS} ${LDFLAGS} -fPIC -shared src/"${PN}".c -lldap -llber -o "${PN}".so || die
+		echo $(tc-getCC) ${cf[@]}
+		$(tc-getCC) ${cf[@]} || die "Failed to compile"
 	popd
 }
 

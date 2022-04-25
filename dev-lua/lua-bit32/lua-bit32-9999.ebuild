@@ -32,12 +32,6 @@ each_lua_compile() {
 	)
 
 	pushd "${BUILD_DIR}"
-		if [[ "${ELUA}" == luajit ]]; then
-			sed -r \
-				-e "/luaL_newlib/,+1d" \
-				-i "${BUILD_DIR}"/c-api/compat-5.2.h
-		fi
-
 		echo $(tc-getCC) ${cf[@]}
 		$(tc-getCC) ${cf[@]} || die "Failed to compile"
 	popd
@@ -52,6 +46,10 @@ each_lua_install() {
 
 src_prepare() {
 	default
+	sed \
+		-e '/#define luaL_newlib(/s@^@#ifndef luaL_newlib\n@' \
+		-e '/(lua_newtable((L)),luaL_setfuncs((L), (l), 0))/s@$@\n#endif@' \
+		-i "${S}"/c-api/compat-5.2.h
 	lua_copy_sources
 }
 
