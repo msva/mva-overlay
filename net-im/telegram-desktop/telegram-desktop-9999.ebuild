@@ -252,6 +252,7 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex !dbus)
 
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
+		# https://github.com/desktop-app/lib_ui/commit/d5a37c74b17b2c06b0d37f9a16129c70e0581c57#diff-1e7de1ae2d059d21e1dd75d5812d5a34b0222cef273b7c3a2af62eb747f9d20aR273-R281
 
 		-DDESKTOP_APP_DISABLE_WEBKITGTK=$(usex !webkit)
 		# Currently, only needs for "paymens" functionality, and also doesn't work on Wayland, and also with mutter WM.

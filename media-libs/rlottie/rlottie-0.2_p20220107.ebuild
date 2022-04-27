@@ -1,11 +1,11 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit meson toolchain-funcs flag-o-matic patches
 
-MY_SHA="ee86b0dc56a6bb6284a721fd505930f1ba566e50"
+MY_SHA="875626965959d8e269ca22175c8e1ad190696c43"
 
 DESCRIPTION="A platform independent standalone library that plays Lottie Animation"
 HOMEPAGE="https://github.com/Samsung/rlottie"

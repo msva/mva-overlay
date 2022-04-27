@@ -3,84 +3,57 @@
 
 EAPI=8
 
-inherit systemd eutils multilib git-r3 meson-build patches
+inherit meson toolchain-funcs flag-o-matic patches
 
-DESCRIPTION="tinc is an easy to configure VPN implementation"
-HOMEPAGE="https://tinc-vpn.org/"
+MY_SHA="875626965959d8e269ca22175c8e1ad190696c43"
 
-EGIT_BRANCH="1.1"
-EGIT_REPO_URI="https://tinc-vpn.org/git/tinc"
-EGIT_MIN_CLONE_TYPE="single"
-
-LICENSE="GPL-2"
+DESCRIPTION="A platform independent standalone library that plays Lottie Animation"
+HOMEPAGE="https://github.com/Samsung/rlottie"
+LICENSE="LGPL-2.1 FTL MIT"
 SLOT="0"
-KEYWORDS=""
+IUSE="cache dumptree libcxx log module +threads"
 
-IUSE="gui +legacy libressl +lzo +ncurses +readline +ssl tools uml vde upnp +zlib"
-#gcrypt
+if [[ "${PV}" == 9999 ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/Samsung/${PN}"
+else
+	SRC_URI="https://github.com/Samsung/${PN}/archive/${MY_SHA}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
+	S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
+fi
 
-DEPEND="
-	ssl? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:0= )
+DEPEND=""
+RDEPEND="${DEPEND}"
+BDEPEND="
+	libcxx? (
+		sys-devel/clang:=
+		sys-devel/clang-runtime:=[libcxx]
 	)
-	lzo? ( dev-libs/lzo:2 )
-	ncurses? ( sys-libs/ncurses:0 )
-	readline? ( sys-libs/readline:0 )
-	upnp? ( net-libs/miniupnpc )
-	zlib? ( sys-libs/zlib )
-"
-RDEPEND="
-	${DEPEND}
-	vde? ( net-misc/vde )
+	>=dev-util/meson-0.50.1
 "
 
-#REQUIRED_USE="^^ ( ssl gcrypt )"
-
-src_prepare() {
-	patches_src_prepare
-
-	use tools && sed -r \
-		-e '1,5s@^(sbin_PROGRAMS.*)@\1 $(EXTRA_PROGRAMS)@' \
-		-i src/Makefile.am
-
-	eautoreconf
+pkg_pretend() {
+	if use libcxx; then
+		append-cxxflags "-stdlib=libc++"
+	fi
+	if [[ $(get-flag stdlib) == "libc++" ]]; then
+		if ! tc-is-clang; then
+			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
+		elif ! use libcxx; then
+			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
+		fi
+	fi
 }
 
 src_configure() {
-	local myconf=(
-		--localstatedir="${EPREFIX}"/var
-		--enable-jumbograms
-		--disable-silent-rules
-		--disable-tunemu
-		--with-systemd="$(systemd_get_systemunitdir)"
-#		$(use_with gcrypt libgcrypt) # Broken
-		$(use_enable legacy legacy-protocol)
-		$(use_enable lzo)
-		$(use_enable ncurses curses)
-		$(use_enable readline)
-		$(use_enable uml)
-		$(use_enable vde)
-		$(use_enable upnp miniupnpc)
-		$(use_enable zlib)
-		$(use_with ssl openssl)
+	local emesonargs=(
+		$(meson_use threads thread)
+		$(meson_use cache)
+		$(meson_use module)
+		$(meson_use log)
+		$(meson_use dumptree)
+		# -Dcmake=true # Broken anyway
+		-Dexample=false # requires EFL
 	)
-	econf ${myconf[@]}
-}
-
-src_install() {
-	emake DESTDIR="${D}" install
-	dodir /etc/"${PN}"
-	newinitd "${FILESDIR}"/tincd.init tincd
-	doconfd "${FILESDIR}"/tinc.networks
-	newconfd "${FILESDIR}"/tincd.conf tincd
-	rm -f "${ED}"/usr/bin/"${PN}"-gui || die
-	DOCS=(AUTHORS NEWS README.{md,git} THANKS doc/{CONNECTIVITY,NETWORKING,PROTOCOL,SECURITY2,SPTPS} doc/sample-config)
-	einstalldocs
-	docompress -x /usr/share/doc/"${PF}"/sample-config
-}
-
-pkg_postinst() {
-	elog "This package requires the tun/tap kernel device."
-	elog "Look at http://www.tinc-vpn.org/ for how to configure tinc"
+	meson_src_configure
 }
