@@ -18,18 +18,18 @@ IUSE="misc luajit"
 PROSODY_MODULES="
 	addressing adhoc_account_management adhoc_blacklist adhoc_dataforms_demo
 	adhoc_groups adhoc_oauth2_client admin_blocklist admin_message
-	admin_notify admin_probe admin_web alias atom auth_any auth_ccert
-	auth_custom_http auth_cyrus auth_dovecot auth_external_insecure auth_ha1
-	auth_http auth_http_async auth_http_cookie auth_imap
-	auth_internal_yubikey auth_joomla auth_ldap auth_ldap2 auth_oauthbearer
-	auth_pam auth_phpbb3 auth_sql auth_token auth_wordpress auto156
-	auto_accept_subscriptions auto_activate_hosts auto_answer_disco_info
-	auto_moved aws_profile benchmark_storage bidi bind2 block_outgoing
-	block_registrations block_s2s_subscriptions block_strangers
-	block_subscribes block_subscriptions blocking bob bookmarks bookmarks2
-	broadcast c2s_conn_throttle c2s_limit_sessions cache_c2s_caps
-	captcha_registration carbons carbons_adhoc carbons_copies checkcerts
-	client_certs client_proxy cloud_notify cloud_notify_encrypted
+	admin_notify admin_probe admin_web alias atom audit audit_auth
+	audit_register auth_any auth_ccert auth_custom_http auth_cyrus
+	auth_dovecot auth_external_insecure auth_ha1 auth_http auth_http_async
+	auth_http_cookie auth_imap auth_internal_yubikey auth_joomla auth_ldap
+	auth_ldap2 auth_oauthbearer auth_pam auth_phpbb3 auth_sql auth_token
+	auth_wordpress auto156 auto_accept_subscriptions auto_activate_hosts
+	auto_answer_disco_info auto_moved aws_profile benchmark_storage bidi
+	bind2 block_outgoing block_registrations block_s2s_subscriptions
+	block_strangers block_subscribes block_subscriptions blocking bob
+	bookmarks bookmarks2 broadcast c2s_conn_throttle c2s_limit_sessions
+	cache_c2s_caps captcha_registration carbons carbons_adhoc carbons_copies
+	checkcerts client_certs client_proxy cloud_notify cloud_notify_encrypted
 	cloud_notify_extensions cloud_notify_filters cloud_notify_priority_tag
 	compact_resource compat_bind compat_dialback compat_muc_admin
 	compat_vcard compliance_2021 component_client component_http
