@@ -1,3 +1,6 @@
+# Copyright 1999-2022 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
 EAPI=8
 
 inherit cmake flag-o-matic
@@ -8,7 +11,7 @@ HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv/"
 # Fetch from: https://chromium.googlesource.com/libyuv/libyuv.git/+archive/${EGIT_COMMIT}.tar.gz
 SRC_URI="https://dev.gentoo.org/~mva/distfiles/${P}.tar.gz"
 
-LICENSE="BSD-3"
+LICENSE="BSD"
 KEYWORDS="~amd64 ~arm64"
 SLOT="0/${PV}"
 
