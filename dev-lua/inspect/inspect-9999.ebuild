@@ -14,6 +14,10 @@ EGIT_REPO_URI="https://github.com/kikito/inspect.lua"
 LICENSE="MIT"
 SLOT="0"
 
+src_compile() {
+	:;
+}
+
 lua_install() {
 	insinto "$(lua_get_lmod_dir)"
 	doins "${PN}".lua
