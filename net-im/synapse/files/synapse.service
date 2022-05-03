@@ -1,0 +1,18 @@
+[Unit]
+Description=Synapse Matrix homeserver
+
+[Service]
+Type=notify
+User=synapse
+Group=synapse
+WorkingDirectory=/var/lib/synapse
+EnvironmentFile=-/etc/conf.d/synapse
+ExecStartPre=/usr/bin/synapse_homeserver --config-path=/etc/synapse/homeserver.yaml --generate-keys
+ExecStart=/usr/bin/synapse_homeserver --config-path=/etc/synapse/homeserver.yaml
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=3
+SyslogIdentifier=synapse
+
+[Install]
+WantedBy=multi-user.target

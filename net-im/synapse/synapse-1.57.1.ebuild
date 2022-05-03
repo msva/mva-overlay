@@ -1,13 +1,13 @@
 # Copyright 1999-2022 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="8"
+EAPI=8
 
 PYTHON_COMPAT=( python3_{8,9,10} )
 DISTUTILS_USE_SETUPTOOLS="pyproject.toml"
 # DISTUTILS_USE_PEP517="poetry"
 
-inherit distutils-r1
+inherit distutils-r1 systemd
 
 DESCRIPTION="Reference homeserver for the Matrix decentralised comms protocol"
 HOMEPAGE="https://matrix.org/"
@@ -80,19 +80,21 @@ python_install() {
 
 python_install_all() {
 	distutils-r1_python_install_all
-	newinitd "${FILESDIR}"/synapse.initd synapse
+	newconfd "${FILESDIR}"/"${PN}".confd "${PN}"
+	newinitd "${FILESDIR}"/"${PN}".initd "${PN}"
+	systemd_newunit "${FILESDIR}"/${PN}.service "${PN}".service
 }
 
 pkg_preinst() {
-	keepdir /var/lib/synapse /etc/synapse
-	fowners synapse:synapse /var/lib/synapse /etc/synapse
+	keepdir /var/lib/"${PN}" /etc/"${PN}" /var/log/"${PN}"
+	fowners synapse:synapse /var/lib/"${PN}" /etc/"${PN}" /var/log/"${PN}"
 }
 
 pkg_postinst() {
-	if [ ! -e /etc/synapse/homeserver.yaml ]; then
+	if [ ! -e /etc/"${PN}"/homeserver.yaml ]; then
 		elog
 		elog "For initial config run somewhat like"
-		elog "sudo -u synapse python -m synapse.app.homeserver --server-name matrix.domain.tld --config-path /tmp/matrix.domain.tld.yaml --generate-config --report-stats=no"
+		elog "sudo -u synapse python -m synapse.app.homeserver --server-name matrix.domain.tld --config-path /etc/synapse/homeserver.yaml --generate-config --report-stats=no"
 		elog "Read https://github.com/matrix-org/synapse/blob/v${PV}/docs/setup/installation.md if interested in more"
 		elog
 	else
