@@ -18,7 +18,7 @@ IUSE="naive-random"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
-	www-servers/nginx:*[${LUA_USEDEP},nginx_modules_http_lua,ssl]
+	www-servers/nginx:*[nginx_modules_http_lua,ssl]
 	dev-libs/openssl:0
 "
 DEPEND="

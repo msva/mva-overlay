@@ -17,7 +17,7 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
 	${LUA_DEPS}
-	www-servers/nginx:*[${LUA_USEDEP},nginx_modules_http_lua]
+	www-servers/nginx:*[nginx_modules_http_lua]
 "
 DEPEND="
 	${RDEPEND}
