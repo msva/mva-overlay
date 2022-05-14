@@ -26,7 +26,7 @@ else
 fi
 
 
-LICENSE="BSD-3"
+LICENSE="BSD"
 SLOT="0"
 IUSE="+X +alsa libcxx pipewire pulseaudio"
 REQUIRED_USE="pulseaudio? ( alsa )"
