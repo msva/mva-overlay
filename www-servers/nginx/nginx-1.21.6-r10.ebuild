@@ -3,6 +3,8 @@
 
 EAPI=7
 
+# 7: user.eclass (no acct-user for nginx yet)
+
 # Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
 # - any http-module activates the main http-functionality and overrides USE=-http
@@ -425,8 +427,8 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 # naxsi-core (https://github.com/nbs-system/naxsi/tags, GPLv2+)
 HTTP_NAXSI_MODULE_A="nbs-system"
 HTTP_NAXSI_MODULE_PN="naxsi"
-# HTTP_NAXSI_MODULE_PV="1.3"
-HTTP_NAXSI_MODULE_SHA="61466698c4afb6d52cd0c8bee3309ac5e5ee53ab"
+HTTP_NAXSI_MODULE_PV="1.3"
+# HTTP_NAXSI_MODULE_SHA="545c8953f95ffce368f219b932039eb0a0daf1c0" # PCRE2
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
@@ -513,10 +515,11 @@ HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
 
 SSL_DEPS_SKIP=1
 
-inherit eutils ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib patches
+# eutils
+inherit ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib patches
 # ^^^ keep ruby before perl, since ruby sets S=WORKDIR, and perl restores
 
-# TODO: EAPI=7
+# TODO: EAPI=8
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="
@@ -902,10 +905,12 @@ RDEPEND="
 "
 DEPEND="
 	${CDEPEND}
-	nginx_modules_http_brotli? ( virtual/pkgconfig )
+	acct-group/nginx
 	nginx_modules_http_security? ( www-apps/modsecurity )
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )
+	virtual/libcrypt
+	virtual/pkgconfig
 "
 
 ## mod_pagespeed (precompiled psol static library, actually) issues QA warning
@@ -933,12 +938,11 @@ custom_econf() {
 }
 
 pkg_setup() {
-	export NGINX_HOME="/var/lib/${PN}"
+	export NGINX_HOME="/var/lib/nginx"
 	export NGINX_HOME_TMP="${NGINX_HOME}/tmp"
 
-	ebegin "Creating nginx user and group"
-	enewgroup ${HTTPD_GROUP:-$PN}
-	enewuser ${HTTPD_USER:-$PN} -1 -1 "${NGINX_HOME}" ${HTTPD_GROUP:-$PN}
+	ebegin "Creating nginx user"
+	enewgroup ${HTTPD_GROUP:-nginx}
 	eend ${?}
 
 	if ! use static; then
@@ -1261,7 +1265,16 @@ src_configure() {
 	if use nginx_modules_http_lua; then
 		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
 		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
+		# XXX: temp kludge. TODO: think on proper fix
+		myconf+=("--without-pcre2")
+	fi
 
+	if use nginx_modules_http_pagespeed; then
+		# XXX: temp kludge. TODO: think on proper fix
+		myconf+=("--without-pcre2")
+	fi
+
+	if use nginx_modules_http_naxsi; then
 		# XXX: temp kludge. TODO: think on proper fix
 		myconf+=("--without-pcre2")
 	fi
@@ -1300,6 +1313,8 @@ src_configure() {
 	if use nginx_modules_stream_lua; then
 		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
 		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
+		# XXX: temp kludge. TODO: think on proper fix
+		myconf+=("--without-pcre2")
 	fi
 
 	if [[ -n "${stream_enabled}" ]]; then
@@ -1321,7 +1336,7 @@ src_configure() {
 	tc-export CC
 
 	if ! use prefix; then
-		myconf+=("--user=${HTTPD_USER:-$PN}" "--group=${HTTPD_GROUP:-$PN}")
+		myconf+=("--user=${HTTPD_USER:-nginx}" "--group=${HTTPD_GROUP:-nginx}")
 	fi
 
 	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
@@ -1339,14 +1354,14 @@ src_configure() {
 
 	custom_econf \
 		--prefix="${EPREFIX}${NGINX_HOME}" \
-		--sbin-path="${EPREFIX}/usr/sbin/${PN}" \
-		--conf-path="${EPREFIX}/etc/${PN}/${PN}.conf" \
-		--pid-path="${EPREFIX}/run/${PN}.pid" \
-		--lock-path="${EPREFIX}/run/lock/${PN}.lock" \
+		--sbin-path="${EPREFIX}/usr/sbin/nginx" \
+		--conf-path="${EPREFIX}/etc/nginx/nginx.conf" \
+		--pid-path="${EPREFIX}/run/nginx.pid" \
+		--lock-path="${EPREFIX}/run/lock/nginx.lock" \
 		--with-cc-opt="-I${EROOT}usr/include" \
 		--with-ld-opt="-L${EROOT}usr/$(get_libdir)" \
-		--http-log-path="${EPREFIX}/var/log/${PN}/access.log" \
-		--error-log-path="${EPREFIX}/var/log/${PN}/error.log" \
+		--http-log-path="${EPREFIX}/var/log/nginx/access.log" \
+		--error-log-path="${EPREFIX}/var/log/nginx/error.log" \
 		--http-client-body-temp-path="tmp/client" \
 		--http-proxy-temp-path="tmp/proxy" \
 		--http-fastcgi-temp-path="tmp/fastcgi" \
@@ -1398,16 +1413,16 @@ passenger_install() {
 src_install() {
 	emake DESTDIR="${D%/}" install
 
-	host-is-pax && pax-mark m "${ED%/}usr/sbin/${PN}"
+	host-is-pax && pax-mark m "${ED%/}usr/sbin/nginx"
 
-	cp "${FILESDIR}/${PN}.conf" "${ED%/}/etc/${PN}/${PN}.conf" || die
+	cp "${FILESDIR}/nginx.conf" "${ED%/}/etc/nginx/nginx.conf" || die
 
-	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
-	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
+	newconfd "${FILESDIR}/nginx.confd" "nginx"
+	newinitd "${FILESDIR}/nginx.initd" "nginx"
 
-	systemd_newunit "${FILESDIR}/${PN}.service-r1" "${PN}.service"
+	systemd_newunit "${FILESDIR}/nginx.service-r1" "nginx.service"
 
-	doman "man/${PN}.8"
+	doman "man/nginx.8"
 	dodoc CHANGES* README
 	dodoc contrib/{geo2nginx,unicode2nginx/unicode-to-nginx}.pl
 
@@ -1422,32 +1437,32 @@ src_install() {
 		use "nginx_modules_http_${module}" && keepdir_list+=" ${NGINX_HOME_TMP}/${module}"
 	done
 
-	keepdir "/var/log/${PN}" ${keepdir_list}
+	keepdir "/var/log/nginx" ${keepdir_list}
 
 	# a little kludge to ease modules enabling (`load_module modules/moo.so`)
 	test -d "${NGINX_HOME}"/modules || keepdir "${NGINX_HOME}"/modules
-	dosym "../../${NGINX_HOME##/}/modules" "/etc/${PN}/modules"
+	dosym "../../${NGINX_HOME##/}/modules" "/etc/nginx/modules"
 
 	# this solves a problem with SELinux where nginx doesn't see the directories
 	# as root and tries to create them as nginx
 	fperms 0750 "${NGINX_HOME_TMP}"
-	fowners "${HTTPD_USER:-${PN}}:0" "${NGINX_HOME_TMP}"
+	fowners "${HTTPD_USER:-nginx}:0" "${NGINX_HOME_TMP}"
 
 	fperms 0700 ${keepdir_list}
-	fowners "${HTTPD_USER:-${PN}}:${HTTPD_GROUP:-${PN}}" ${keepdir_list}
+	fowners "${HTTPD_USER:-nginx}:${HTTPD_GROUP:-nginx}" ${keepdir_list}
 
-	fperms 0710 "/var/log/${PN}" ${keepdir_list}
-	fowners "0:${HTTPD_GROUP:-${PN}}" "/var/log/${PN}" ${keepdir_list}
+	fperms 0710 "/var/log/nginx" ${keepdir_list}
+	fowners "0:${HTTPD_GROUP:-nginx}" "/var/log/nginx" ${keepdir_list}
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
+	newins "${FILESDIR}/nginx.logrotate" "nginx"
 
 	# Don't touch /run
 	rm -rf "${ED%/}"/run || die
 
 	# Needed for building external dynamic modules
-	mkdir -p "${D}/usr/src/${PN}"
-	cp -a "${S}" "${D}/usr/src/${PN}"
+	mkdir -p "${D}/usr/src/nginx"
+	cp -a "${S}" "${D}/usr/src/nginx"
 
 # http_perl
 	if use nginx_modules_http_perl; then
@@ -1739,9 +1754,9 @@ src_install() {
 
 pkg_postinst() {
 	if use ssl; then
-		if [ ! -f "${EROOT%/}"/etc/ssl/"${PN}"/"${PN}".key ]; then
-			install_cert /etc/ssl/"${PN}"/"${PN}"
-			use prefix || chown "${HTTPD_USER:-$PN}":"${HTTPD_GROUP:-$PN}" "${EROOT%/}"/etc/ssl/"${PN}"/"${PN}".{crt,csr,key,pem}
+		if [ ! -f "${EROOT%/}"/etc/ssl/nginx/nginx.key ]; then
+			install_cert /etc/ssl/nginx/nginx
+			use prefix || chown "${HTTPD_USER:-nginx}":"${HTTPD_GROUP:-nginx}" "${EROOT%/}"/etc/ssl/nginx/nginx.{crt,csr,key,pem}
 		fi
 	fi
 
@@ -1777,7 +1792,7 @@ pkg_postinst() {
 			# permission...
 			_has_to_show_permission_warning=1
 
-			ewarn "Replacing multiple ${PN}' versions is unsupported! " \
+			ewarn "Replacing multiple nginx versions is unsupported! " \
 				"You will have to adjust permissions on your own."
 
 			break
@@ -1888,14 +1903,14 @@ pkg_postinst() {
 			ewarn "following directories to mitigate a security bug"
 			ewarn "(CVE-2013-0337, bug #458726):"
 			ewarn ""
-			ewarn "  ${EPREFIX%/}/var/log/${PN}"
+			ewarn "  ${EPREFIX%/}/var/log/nginx"
 			ewarn "  ${EPREFIX%/}${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi}"
 			ewarn ""
 			ewarn "Check if this is correct for your setup before restarting nginx!"
 			ewarn "This is a one-time change and will not happen on subsequent updates."
 			ewarn "Furthermore nginx' temp directories got moved to '${EPREFIX%/}${NGINX_HOME_TMP}'"
 			chmod o-rwx \
-				"${EPREFIX%/}"/var/log/"${PN}" \
+				"${EPREFIX%/}"/var/log/nginx \
 				"${EPREFIX%/}"${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi} || \
 				_has_to_show_permission_warning=1
 		fi
@@ -1912,8 +1927,8 @@ pkg_postinst() {
 			ewarn "vhost(s) is not writeable for nginx user. Any of your log files"
 			ewarn "used by nginx can be abused to escalate privileges!"
 			ewarn "This is a one-time change and will not happen on subsequent updates."
-			chown 0:"${HTTPD_USER:-$PN}" "${EPREFIX%/}"/var/log/"${PN}" || _has_to_show_permission_warning=1
-			chmod 710 "${EPREFIX%/}"/var/log/"${PN}" || _has_to_show_permission_warning=1
+			chown 0:"${HTTPD_USER:-nginx}" "${EPREFIX%/}"/var/log/nginx || _has_to_show_permission_warning=1
+			chmod 710 "${EPREFIX%/}"/var/log/nginx || _has_to_show_permission_warning=1
 		fi
 
 		if [[ ${_has_to_show_permission_warning} -eq 1 ]]; then
@@ -1938,8 +1953,8 @@ pkg_postinst() {
 	# unmerged a affected installation on purpose in the past leaving
 	# /var/log/nginx on their system due to keepdir/non-empty folder
 	# and are now installing the package again.
-	local _sanity_check_testfile=$(mktemp --dry-run "${EPREFIX%/}"/var/log/"${PN}"/.CVE-2016-1247.XXXXXXXXX)
-	su -s /bin/sh -c "touch ${_sanity_check_testfile}" "${HTTPD_USER:-$PN}" >&/dev/null
+	local _sanity_check_testfile=$(mktemp --dry-run "${EPREFIX%/}"/var/log/nginx/.CVE-2016-1247.XXXXXXXXX)
+	su -s /bin/sh -c "touch ${_sanity_check_testfile}" "${HTTPD_USER:-nginx}" >&/dev/null
 	if [ $? -eq 0 ] ; then
 		# Cleanup -- no reason to die here!
 		rm -f "${_sanity_check_testfile}"
