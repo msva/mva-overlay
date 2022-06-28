@@ -1,6 +1,6 @@
 --- a/Telegram/SourceFiles/history/history_message.cpp
 +++ b/Telegram/SourceFiles/history/history_message.cpp
-@@ -494,6 +494,11 @@ HistoryMessage::HistoryMessage(
+@@ -294,6 +294,11 @@ HistoryMessage::HistoryMessage(
  		FlagsFromMTP(id, data.vflags().v, localFlags),
  		data.vdate().v,
  		data.vfrom_id() ? peerFromMTP(*data.vfrom_id()) : PeerId(0)) {
@@ -14,7 +14,7 @@
  		forwarded->match([&](const MTPDmessageFwdHeader &data) {
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
-@@ -436,6 +436,8 @@ void Message::applyGroupAdminChanges(
+@@ -441,6 +441,8 @@ void Message::applyGroupAdminChanges(
  
  QSize Message::performCountOptimalSize() {
  	const auto item = message();
@@ -23,7 +23,7 @@
  	const auto media = this->media();
  
  	auto maxWidth = 0;
-@@ -631,6 +633,8 @@ void Message::draw(
+@@ -636,6 +638,8 @@ void Message::draw(
  	}
  
  	const auto item = message();
@@ -31,4 +31,4 @@
 +	if (pd->isUser() && pd->asUser()->isBlocked()) return;
  	const auto media = this->media();
  
- 	const auto outbg = hasOutLayout();
+ 	const auto stm = context.messageStyle();
