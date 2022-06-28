@@ -51,49 +51,6 @@ www-nginx/upstream-fair
 www-nginx/upstream-sticky
 www-nginx/xss
 
-# Can't remember why
-dev-lua/bit32
-dev-lua/LuaBitOp
-dev-lua/lua-cjson
-dev-lua/lua-rds-parser
-dev-lua/redis-parser
-dev-lua/resty-cookie
-dev-lua/resty-core
-dev-lua/resty-dns
-dev-lua/resty-lock
-dev-lua/resty-lrucache
-dev-lua/resty-memcached
-dev-lua/resty-mysql
-dev-lua/resty-random
-dev-lua/resty-redis
-dev-lua/resty-session
-dev-lua/resty-string
-dev-lua/resty-template
-dev-lua/resty-upload
-dev-lua/resty-websocket
-
-# Don't break users system until they decide to use slotted lua themselves
-dev-lang/lua:5.1
-dev-lang/lua:5.2
-dev-lang/lua:5.3
-dev-lang/lua:5.4
-virtual/lua
-app-eselect/lua
-app-eselect/luajit
-dev-lang/luajit
-dev-lua/alt-getopt
-dev-lua/lanes
-dev-lua/lpeg
-dev-lua/lua-fann
-dev-lua/luacheck
-dev-lua/luadoc
-dev-lua/luautf8
-dev-lua/mpack
-dev-lua/profi
-dev-lua/srlua
-dev-lua/tekui
-net-analyzer/prometheus-nginx_exporter
-
 # Not ready (broken buildsystem)
 dev-db/proxysql
 
