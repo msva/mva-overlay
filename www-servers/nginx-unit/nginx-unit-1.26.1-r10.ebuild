@@ -13,9 +13,10 @@ PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-3 php7-4 php8-0"
+USE_PHP="php7-3 php7-4 php8-0 php8-1"
 
-inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches golang-base
+inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches
+#golang-base
 [[ "${PV}" = 9999 ]] && inherit git-r3
 
 DESCRIPTION="Dynamic web and application server"
@@ -110,7 +111,7 @@ _unit_perl_configure() {
 }
 _unit_php_configure() {
 	for impl in $(php_get_slots); do
-		./configure php --config="/usr/$(get_libdir)/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/lib/${impl}/$(get_libdir)"
+		./configure php --config="/usr/$(get_libdir)/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/$(get_libdir)/${impl}/$(get_libdir)" || die "Failed to configure PHP module for ${impl} target"
 	done
 }
 _unit_python_configure() {

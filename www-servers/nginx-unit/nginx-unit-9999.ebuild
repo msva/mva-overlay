@@ -15,7 +15,8 @@ PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
 USE_PHP="php7-3 php7-4 php8-0"
 
-inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches golang-base
+inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches
+#golang-base
 [[ "${PV}" = 9999 ]] && inherit git-r3
 
 DESCRIPTION="Dynamic web and application server"
