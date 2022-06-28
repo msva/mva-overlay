@@ -10,7 +10,7 @@ inherit lua
 DESCRIPTION="Lua API for getopt similar to getopt_long(3)"
 HOMEPAGE="https://github.com/cheusov/lua-alt-getopt"
 MY_P="lua-${P}"
-SRC_URI="https://github.com/cheusov/lua-${PN}/archive/refs/tags/${PV}.tar.gz"
+SRC_URI="https://github.com/cheusov/lua-${PN}/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"

@@ -19,11 +19,12 @@ IUSE="doc +completion"
 
 RDEPEND="
 	${LUA_DEPS}
+$(lua_gen_cond_dep '
 	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
 	dev-lua/penlight[${LUA_USEDEP}]
 	sys-libs/readline:0
 	completion? ( dev-lua/luafilesystem[${LUA_USEDEP}] )
-"
+')"
 DEPEND="${RDEPEND}"
 
 src_prepare() {

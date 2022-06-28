@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/starwing/luautf8"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="test"
+IUSE="+system-unicode-data test"
 
 DOCS=(README.md)
 
@@ -23,12 +23,13 @@ RDEPEND="${LUA_DEPS}"
 DEPEND="${RDEPEND}"
 BDEPEND="
 	${LUA_DEPS}
-	>=app-i18n/unicode-data-14.0.0-r1
+	system-unicode-data? ( >=app-i18n/unicode-data-14.0.0 )
 	virtual/pkgconfig
 "
 
 src_prepare() {
-	local ucd="/usr/share/unicode"
+	local ucd="/usr/share/unicode-data" # currently, gentoo have it there
+	# N.B.: recheck on bumps. I'd like to make PR with moving it to /usr/share/unicode someday
 
 	sed -i \
 		-e "s@UCD/@${ucd}/@" \
@@ -38,8 +39,10 @@ src_prepare() {
 }
 
 lua_src_compile() {
-	einfo "Performing regeneration unicode data header against app-i18n/unicode-data with ${ELUA}"
-	"${ELUA}" parseucd.lua
+	if use system-unicode-data; then
+		einfo "Performing regeneration unicode data header against app-i18n/unicode-data with ${ELUA}"
+		"${ELUA}" parseucd.lua
+	fi
 
 	local compiler=(
 		"$(tc-getCC)"

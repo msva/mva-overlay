@@ -1,8 +1,7 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-# ^ mercurial
+EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
@@ -22,7 +21,7 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
 	${LUA_DEPS}
-	dev-lua/squish[${LUA_USEDEP}]
+	dev-lua/squish
 	dev-lua/luasocket[${LUA_USEDEP}]
 	dev-lua/luaexpat[${LUA_USEDEP}]
 	dev-lua/luafilesystem[${LUA_USEDEP}]

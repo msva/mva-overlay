@@ -16,7 +16,7 @@ SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
-	dev-libs/libyaml[${LUA_USEDEP}]
+	dev-libs/libyaml
 "
 DEPEND="
 	${RDEPEND}

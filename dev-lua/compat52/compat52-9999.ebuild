@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-1,jit} )
 
 inherit lua git-r3 toolchain-funcs
 
-DESCRIPTION="A Lua5.2+ bit manipulation library"
+DESCRIPTION="Compatibility module providing Lua-5.2-style APIs for Lua 5.1"
 HOMEPAGE="https://github.com/keplerproject/lua-compat-5.2"
 EGIT_REPO_URI="https://github.com/keplerproject/lua-compat-5.2"
 
@@ -16,7 +16,7 @@ SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
-	dev-lua/bit32[${LUA_USEDEP}]
+	dev-lua/lua-bit32[${LUA_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}

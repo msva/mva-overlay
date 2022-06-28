@@ -40,7 +40,7 @@ each_lua_install() {
 	pushd "${BUILD_DIR}"
 	local myemakeargs=(
 		"DESTDIR=${D}"
-		"LUA_CMODULE_DIR=$(lua_get_lmod_dir)"
+		"LUA_CMODULE_DIR=$(lua_get_cmod_dir)"
 		"LUA_MODULE_DIR=$(lua_get_lmod_dir)"
 		"PREFIX=${EPREFIX}/usr"
 	)

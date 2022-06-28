@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -17,7 +17,7 @@ IUSE="moonscript"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
-	moonscript? ( dev-lua/moonscript[${LUA_USEDEP}] )
+	moonscript? ( dev-lua/moonscript )
 	dev-lua/ansicolors[${LUA_USEDEP}]
 	dev-lua/luasocket[${LUA_USEDEP}]
 	dev-lua/luacrypto[${LUA_USEDEP}]

@@ -24,7 +24,7 @@ RDEPEND="
 			dev-lua/lulpeg[${LUA_USEDEP},lpeg_replace]
 		)
 		dev-lua/luafilesystem[${LUA_USEDEP}]
-		dev-lua/argparse[${LUA_USEDEP}]
+		dev-lua/lua-argparse[${LUA_USEDEP}]
 		inotify? ( dev-lua/linotify[${LUA_USEDEP}] )
 	')
 "
@@ -35,7 +35,7 @@ DOCS+=(docs/.)
 src_compile() {
 	${ELUA} bin/moonc moon/ moonscript/
 	(
-		echo "#!/usr/bin/env lua" # or ${ELUA} ?
+		echo "#!/usr/bin/env ${ELUA}"
 		${ELUA} bin/moonc -p bin/moon.moon
 		echo "-- vim: set filetype=lua:"
 	) > bin/moon
