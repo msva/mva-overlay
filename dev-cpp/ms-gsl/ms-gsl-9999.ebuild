@@ -20,7 +20,7 @@ RDEPEND=""
 DEPEND="test? ( dev-cpp/catch:1 )"
 
 PATCHES=(
-	"${FILESDIR}/${PN}-1.0.0-use_system_catch-636828.patch"
+	# "${FILESDIR}/${PN}-1.0.0-use_system_catch-636828.patch"
 	"${FILESDIR}/${PN}-1.0.0-disable_Werror-644042.patch"
 )
 
