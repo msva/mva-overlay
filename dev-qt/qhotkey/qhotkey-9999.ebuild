@@ -27,7 +27,7 @@ SLOT="0"
 IUSE=""
 
 DEPEND="
-	dev-qt/qtcore:5/5.9
-	dev-qt/qtgui:5/5.9
+	dev-qt/qtcore:5
+	dev-qt/qtgui:5
 "
 RDEPEND="${DEPEND}"
