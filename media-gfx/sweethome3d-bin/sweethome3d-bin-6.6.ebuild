@@ -56,6 +56,9 @@ src_install() {
 	exeinto /usr/share/"${PF}"
 	doins -r *
 	doexe "${MY_PN}"
-	dosym ../../usr/share/"${PF}"/"${MY_PN}" /usr/bin/"${MY_PN}"
+	# dosym ../../usr/share/"${PF}"/"${MY_PN}" /usr/bin/"${MY_PN}"
+	dosym /usr/share/"${PF}"/"${MY_PN}" /usr/bin/"${MY_PN}"
+	# ^ TODO: make compatible with EROOT (first way)
+	# reason of absolute path - otherwise wrapper will not work from working dirs deeper than two levels.
 	make_desktop_entry "${MY_PN}" "${MY_PN}"
 }
