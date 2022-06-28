@@ -21,7 +21,7 @@ BDEPEND="
 		>=sys-devel/clang-3.4:=
 	)
 	dev-util/gperf
-	low-ram? ( dev-lang/php[cli] )
+	dev-lang/php[cli]
 	doc? ( app-doc/doxygen )
 	java? ( virtual/jdk:= )
 "
