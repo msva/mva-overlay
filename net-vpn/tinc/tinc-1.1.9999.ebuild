@@ -16,7 +16,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 
-IUSE="gcrypt gui +legacy +lzo +lz4 +ncurses +readline tools uml vde upnp +zlib"
+IUSE="gcrypt gui +legacy +lzo +lz4 +ncurses +readline systemd tools uml vde upnp +zlib"
 
 DEPEND="
 	legacy? (
@@ -49,13 +49,13 @@ src_configure() {
 		-Drunstatedir="${EPREFIX}"/run
 		-Djumbograms=true
 		-Dtunemu=disabled
-		-Dsystemd=enabled
 		-Dsystemd_dir="$(systemd_get_systemunitdir)"
 		-Dcrypto=$(usex legacy $(usex gcrypt gcrypt openssl) nolegacy)
 		$(meson_feature lzo)
 		$(meson_feature lz4)
 		$(meson_feature ncurses curses)
 		$(meson_feature readline)
+		$(meson_feature systemd)
 		$(meson_use uml)
 		$(meson_feature vde)
 		$(meson_feature upnp miniupnpc)
