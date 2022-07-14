@@ -1,0 +1,12 @@
+diff -NaurBwdp tg_owt-9999/src/modules/congestion_controller/goog_cc/a/loss_based_bwe_v2.h tg_owt-9999/src/modules/congestion_controller/goog_cc/b/loss_based_bwe_v2.h
+--- a/src/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h	2022-07-14 17:19:42.040831778 +0700
++++ b/src/modules/congestion_controller/goog_cc/loss_based_bwe_v2.h	2022-07-14 17:18:46.055699824 +0700
+@@ -58,6 +58,7 @@ class LossBasedBweV2 {
+   };
+ 
+   struct Config {
++    Config() {};
+     double bandwidth_rampup_upper_bound_factor = 0.0;
+     double rampup_acceleration_max_factor = 0.0;
+     TimeDelta rampup_acceleration_maxout_time = TimeDelta::Zero();
+

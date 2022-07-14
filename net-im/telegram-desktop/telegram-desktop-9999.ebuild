@@ -66,6 +66,7 @@ COMMON_DEPEND="
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
 	)
+	!libcxx? ( <sys-devel/gcc-12.0 )
 	pipewire? ( media-video/pipewire )
 	pulseaudio? ( media-sound/pulseaudio )
 	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx=] )
@@ -77,6 +78,7 @@ COMMON_DEPEND="
 		dev-cpp/abseil-cpp:=
 		media-libs/libjpeg-turbo:=
 		media-libs/libyuv:=
+		<dev-libs/openssl-3.0
 	)
 	wayland? ( kde-frameworks/kwayland:= )
 	webkit? ( net-libs/webkit-gtk:= )
@@ -98,7 +100,7 @@ BDEPEND="
 	>=dev-util/cmake-3.16
 	|| (
 		sys-devel/clang
-		sys-devel/gcc
+		<sys-devel/gcc-12.0
 	)
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
@@ -140,6 +142,14 @@ pkg_pretend() {
 
 	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -lt "8.2" && [[ -z "${TG_FORCE_OLD_GCC}" ]]; then
 		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang. Or set TG_FORCE_OLD_GCC=1 to override this check."
+	fi
+
+	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -gt "12.0" && [[ -z "${TG_FORCE_GCC12}" ]]; then
+		eerror "${PN} is known to fail compilation on GCC >=12."
+		eerror "Please, use either GCC versions newer than 8 and older than 12, or clang."
+		eerror "You can use package.env for setting CC/CXX on per-package level."
+		eerror "Alternatively, you can set TG_FORCE_GCC12=1 to override this check (and most probably fail during compilation)."
+		die "GCC>=12 is not supported, read 'eerror's."
 	fi
 
 	if get-flag -flto >/dev/null || use lto; then
@@ -207,6 +217,12 @@ src_prepare() {
 #		^ Maybe just wipe it out instead of trying to fix?
 #		^ There are not so mush useful compiler flags, actually.
 
+	# GCC-12 fix (although, it is not enough)
+	sed -i \
+		"1i#include <cstdint>" \
+		"${S}/Telegram/ThirdParty/tgcalls/tgcalls/utils/gzip.h"
+
+
 	patches_src_prepare
 #	cmake_src_prepare
 #	^ to be used when will be ported to gentoo repo
@@ -231,6 +247,8 @@ src_configure() {
 		-DLIBDIR="$(get_libdir)"
 		-DTDESKTOP_DISABLE_AUTOUPDATE
 		$(usex webrtc "" "-DDESKTOP_APP_DISABLE_WEBRTC_INTEGRATION")
+		$(usex webkit "" "-DDESKTOP_APP_DISABLE_WEBKITGTK")
+		# Currently, only needs for "paymens" functionality, and also doesn't work on Wayland, and also with mutter WM.
 	)
 
 	local mycmakeargs=(
@@ -253,9 +271,6 @@ src_configure() {
 
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
 		# https://github.com/desktop-app/lib_ui/commit/d5a37c74b17b2c06b0d37f9a16129c70e0581c57#diff-1e7de1ae2d059d21e1dd75d5812d5a34b0222cef273b7c3a2af62eb747f9d20aR273-R281
-
-		-DDESKTOP_APP_DISABLE_WEBKITGTK=$(usex !webkit)
-		# Currently, only needs for "paymens" functionality, and also doesn't work on Wayland, and also with mutter WM.
 
 		-DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X)
 

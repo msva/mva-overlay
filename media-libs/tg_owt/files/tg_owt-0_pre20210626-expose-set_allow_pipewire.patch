@@ -1,12 +1,13 @@
 --- a/src/modules/desktop_capture/desktop_capture_options.h
 +++ b/modules/desktop_capture/desktop_capture_options.h
-@@ -131,6 +131,9 @@
- #if defined(WEBRTC_USE_PIPEWIRE)
-   bool allow_pipewire() const { return allow_pipewire_; }
-   void set_allow_pipewire(bool allow) { allow_pipewire_ = allow; }
+@@ -177,6 +177,9 @@ class RTC_EXPORT DesktopCaptureOptions {
+       rtc::scoped_refptr<SharedScreenCastStream> stream) {
+     screencast_stream_ = stream;
+   }
 +#else
 +  bool allow_pipewire() const { return false; }
 +  void set_allow_pipewire(bool allow) { }
  #endif
  
   private:
+

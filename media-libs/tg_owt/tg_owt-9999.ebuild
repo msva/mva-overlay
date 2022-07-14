@@ -28,8 +28,8 @@ fi
 
 LICENSE="BSD"
 SLOT="0"
-IUSE="+X +alsa libcxx pipewire pulseaudio"
-REQUIRED_USE="pulseaudio? ( alsa )"
+IUSE="libcxx pipewire wayland-desktop-capture +X"
+REQUIRED_USE="wayland-desktop-capture? ( pipewire )"
 
 # Bundled libs:
 # - libyuv (no stable versioning, www-client/chromium and media-libs/libvpx bundle it)
@@ -54,11 +54,6 @@ DEPEND="
 	media-libs/openh264:=
 	media-libs/opus
 	media-video/ffmpeg:=
-	net-libs/usrsctp
-	alsa? ( media-libs/alsa-lib )
-	pulseaudio? (
-		media-sound/pulseaudio
-	)
 	pipewire? (
 		dev-libs/glib:2
 		media-video/pipewire:=
@@ -76,6 +71,10 @@ DEPEND="
 "
 #	media-libs/rnnoise
 #	net-libs/libsrtp
+	# alsa? ( media-libs/alsa-lib )
+	# pulseaudio? (
+	# 	media-sound/pulseaudio
+	# )
 RDEPEND="${DEPEND}"
 BDEPEND="virtual/pkgconfig"
 
@@ -85,18 +84,18 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0_pre20211207-allow-disabling-X11.patch"
 	"${FILESDIR}/${PN}-0_pre20210626-allow-disabling-pulseaudio.patch"
 	"${FILESDIR}/${PN}-0_pre20210626-expose-set_allow_pipewire.patch"
-	"${FILESDIR}/${PN}-0_pre20211207-fix-dcsctp-references.patch"
 	"${FILESDIR}/libyuv.patch"
 	"${FILESDIR}/libyuv_2.patch"
 	"${FILESDIR}/libyuv_3.patch"
 	"${FILESDIR}/libyuv_4.patch"
+	"${FILESDIR}/fix-clang-emplace.patch"
 )
 
 pkg_pretend() {
 	if use libcxx; then
 		export CC="clang" CXX="clang++ -stdlib=libc++"
-	elif tc-is-clang; then
-		eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
+	# elif tc-is-clang; then
+		# eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
 	fi
 
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
@@ -111,12 +110,13 @@ pkg_pretend() {
 src_prepare() {
 	cp "${FILESDIR}"/"${PN}".pc.in "${S}" || die "failed to copy pkgconfig template"
 
+	# sed -i '/WEBRTC_HAVE_DCSCTP/d' cmake/libwebrtcbuild.cmake || die
+
 	sed -i '/include(cmake\/libvpx.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libyuv.cmake)/d' CMakeLists.txt || die
 
 	sed -i '/include(cmake\/libabsl.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libopenh264.cmake)/d' CMakeLists.txt || die
-	sed -i '/include(cmake\/libusrsctp.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libevent.cmake)/d' CMakeLists.txt || die
 
 	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
@@ -133,9 +133,25 @@ src_prepare() {
 	sed -i -e '/desktop_capture\/screen_capturer_integration_test/d' CMakeLists.txt || die
 	sed -i -e '/desktop_capture\/window_finder_unittest/d' CMakeLists.txt || die
 
-	rm -r "${S}"/src/third_party/{abseil-cpp,libvpx,libyuv,openh264,pipewire,usrsctp}
+	rm -r "${S}"/src/third_party/{abseil-cpp,libvpx,libyuv,openh264,pipewire}
 	# libsrtp,
 	# rnnoise,
+
+	sed \
+		-e '/#include/s@third_party/libyuv/include/@@' \
+		-i \
+			"${S}"/src/sdk/objc/unittests/frame_buffer_helpers.mm \
+			"${S}"/src/sdk/objc/unittests/RTCCVPixelBuffer_xctest.mm \
+			"${S}"/src/sdk/objc/components/video_frame_buffer/RTCCVPixelBuffer.mm \
+			"${S}"/src/sdk/objc/components/video_codec/RTCVideoEncoderH264.mm \
+			"${S}"/src/sdk/objc/api/video_frame_buffer/RTCNativeI420Buffer.mm \
+			"${S}"/src/sdk/android/src/jni/java_i420_buffer.cc \
+			"${S}"/src/modules/video_coding/codecs/av1/dav1d_decoder.cc \
+			"${S}"/src/api/video/i444_buffer.cc
+
+	sed \
+		-e "1i#include <cstdint>" \
+		-i "${S}/src/common_video/h265/h265_pps_parser.h"
 
 	cmake_src_prepare
 }
@@ -152,8 +168,8 @@ src_configure() {
 		-DTG_OWT_USE_X11=$(usex X ON OFF)
 		-DTG_OWT_USE_PIPEWIRE=$(usex pipewire ON OFF)
 		-DTG_OWT_DLOPEN_PIPEWIRE=$(usex pipewire ON OFF)
-		-DTG_OWT_BUILD_AUDIO_BACKENDS=$(usex alsa ON OFF)
-		-DTG_OWT_BUILD_PULSE_BACKEND=$(usex pulseaudio ON OFF)
+		# -DTG_OWT_BUILD_AUDIO_BACKENDS=$(usex alsa ON OFF)
+		# -DTG_OWT_BUILD_PULSE_BACKEND=$(usex pulseaudio ON OFF)
 	)
 
 	cmake_src_configure
