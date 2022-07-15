@@ -20,7 +20,7 @@ if [[ "${PV}" == *9999* ]]; then
 	)
 else
 	KEYWORDS="~amd64 ~ppc64"
-	EGIT_COMMIT="4cba1acdd718b700bb33945c0258283689d4eac7"
+	EGIT_COMMIT="10d5f4bf77333ef6b43516f90d2ce13273255f41"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
@@ -28,17 +28,15 @@ fi
 
 LICENSE="BSD"
 SLOT="0"
-IUSE="libcxx pipewire wayland-desktop-capture +X"
-REQUIRED_USE="wayland-desktop-capture? ( pipewire )"
+IUSE="libcxx pipewire +X"
 
 # Bundled libs:
-# - libyuv (no stable versioning, www-client/chromium and media-libs/libvpx bundle it)
 # - libsrtp (project uses private APIs)
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
-# media-libs/libjpeg-turbo is required for libyuv
 DEPEND="
 	dev-cpp/abseil-cpp:=[cxx17(+)]
+	dev-libs/crc32c
 	dev-lang/yasm
 	dev-libs/libevent:=
 	dev-libs/openssl:=
@@ -69,12 +67,7 @@ DEPEND="
 		x11-libs/libXtst
 	)
 "
-#	media-libs/rnnoise
 #	net-libs/libsrtp
-	# alsa? ( media-libs/alsa-lib )
-	# pulseaudio? (
-	# 	media-sound/pulseaudio
-	# )
 RDEPEND="${DEPEND}"
 BDEPEND="virtual/pkgconfig"
 
@@ -89,13 +82,15 @@ PATCHES=(
 	"${FILESDIR}/libyuv_3.patch"
 	"${FILESDIR}/libyuv_4.patch"
 	"${FILESDIR}/fix-clang-emplace.patch"
+	"${FILESDIR}/patch-cmake-absl-external.patch"
+	"${FILESDIR}/patch-cmake-crc32c-external.patch"
 )
 
 pkg_pretend() {
 	if use libcxx; then
 		export CC="clang" CXX="clang++ -stdlib=libc++"
 	# elif tc-is-clang; then
-		# eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
+	# 	eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
 	fi
 
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
@@ -110,14 +105,14 @@ pkg_pretend() {
 src_prepare() {
 	cp "${FILESDIR}"/"${PN}".pc.in "${S}" || die "failed to copy pkgconfig template"
 
-	# sed -i '/WEBRTC_HAVE_DCSCTP/d' cmake/libwebrtcbuild.cmake || die
-
 	sed -i '/include(cmake\/libvpx.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libyuv.cmake)/d' CMakeLists.txt || die
 
 	sed -i '/include(cmake\/libabsl.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libopenh264.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libevent.cmake)/d' CMakeLists.txt || die
+	sed -i '/include(cmake\/libcrc32c.cmake)/d' CMakeLists.txt || die
+	sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 
 	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 	# sed -i '/include(cmake\/libsrtp.cmake)/d' CMakeLists.txt || die
@@ -147,7 +142,7 @@ src_prepare() {
 			"${S}"/src/sdk/objc/api/video_frame_buffer/RTCNativeI420Buffer.mm \
 			"${S}"/src/sdk/android/src/jni/java_i420_buffer.cc \
 			"${S}"/src/modules/video_coding/codecs/av1/dav1d_decoder.cc \
-			"${S}"/src/api/video/i444_buffer.cc
+			"${S}"/src/api/video/i444_buffer.cc || die
 
 	sed \
 		-e "1i#include <cstdint>" \

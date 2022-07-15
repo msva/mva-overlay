@@ -28,17 +28,15 @@ fi
 
 LICENSE="BSD"
 SLOT="0"
-IUSE="+X +alsa libcxx pipewire pulseaudio"
-REQUIRED_USE="pulseaudio? ( alsa )"
+IUSE="libcxx pipewire +X"
 
 # Bundled libs:
-# - libyuv (no stable versioning, www-client/chromium and media-libs/libvpx bundle it)
 # - libsrtp (project uses private APIs)
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
-# media-libs/libjpeg-turbo is required for libyuv
 DEPEND="
 	dev-cpp/abseil-cpp:=[cxx17(+)]
+	dev-libs/crc32c
 	dev-lang/yasm
 	dev-libs/libevent:=
 	dev-libs/openssl:=
@@ -54,10 +52,6 @@ DEPEND="
 	media-libs/openh264:=
 	media-libs/opus
 	media-video/ffmpeg:=
-	alsa? ( media-libs/alsa-lib )
-	pulseaudio? (
-		media-sound/pulseaudio
-	)
 	pipewire? (
 		dev-libs/glib:2
 		media-video/pipewire:=
@@ -73,7 +67,6 @@ DEPEND="
 		x11-libs/libXtst
 	)
 "
-#	media-libs/rnnoise
 #	net-libs/libsrtp
 RDEPEND="${DEPEND}"
 BDEPEND="virtual/pkgconfig"
@@ -84,19 +77,20 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0_pre20211207-allow-disabling-X11.patch"
 	"${FILESDIR}/${PN}-0_pre20210626-allow-disabling-pulseaudio.patch"
 	"${FILESDIR}/${PN}-0_pre20210626-expose-set_allow_pipewire.patch"
-	"${FILESDIR}/${PN}-0_pre20211207-fix-dcsctp-references.patch"
 	"${FILESDIR}/libyuv.patch"
 	"${FILESDIR}/libyuv_2.patch"
 	"${FILESDIR}/libyuv_3.patch"
 	"${FILESDIR}/libyuv_4.patch"
 	"${FILESDIR}/fix-clang-emplace.patch"
+	"${FILESDIR}/patch-cmake-absl-external.patch"
+	"${FILESDIR}/patch-cmake-crc32c-external.patch"
 )
 
 pkg_pretend() {
 	if use libcxx; then
 		export CC="clang" CXX="clang++ -stdlib=libc++"
-	elif tc-is-clang; then
-		eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
+	# elif tc-is-clang; then
+	# 	eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
 	fi
 
 	if [[ $(get-flag stdlib) == "libc++" ]]; then
@@ -117,6 +111,8 @@ src_prepare() {
 	sed -i '/include(cmake\/libabsl.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libopenh264.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libevent.cmake)/d' CMakeLists.txt || die
+	sed -i '/include(cmake\/libcrc32c.cmake)/d' CMakeLists.txt || die
+	sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 
 	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 	# sed -i '/include(cmake\/libsrtp.cmake)/d' CMakeLists.txt || die
@@ -148,6 +144,9 @@ src_prepare() {
 			"${S}"/src/modules/video_coding/codecs/av1/dav1d_decoder.cc \
 			"${S}"/src/api/video/i444_buffer.cc || die
 
+	sed \
+		-e "1i#include <cstdint>" \
+		-i "${S}/src/common_video/h265/h265_pps_parser.h"
 
 	cmake_src_prepare
 }
@@ -164,8 +163,8 @@ src_configure() {
 		-DTG_OWT_USE_X11=$(usex X ON OFF)
 		-DTG_OWT_USE_PIPEWIRE=$(usex pipewire ON OFF)
 		-DTG_OWT_DLOPEN_PIPEWIRE=$(usex pipewire ON OFF)
-		-DTG_OWT_BUILD_AUDIO_BACKENDS=$(usex alsa ON OFF)
-		-DTG_OWT_BUILD_PULSE_BACKEND=$(usex pulseaudio ON OFF)
+		# -DTG_OWT_BUILD_AUDIO_BACKENDS=$(usex alsa ON OFF)
+		# -DTG_OWT_BUILD_PULSE_BACKEND=$(usex pulseaudio ON OFF)
 	)
 
 	cmake_src_configure
