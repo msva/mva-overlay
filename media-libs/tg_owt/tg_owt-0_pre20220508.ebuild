@@ -20,7 +20,7 @@ if [[ "${PV}" == *9999* ]]; then
 	)
 else
 	KEYWORDS="~amd64 ~ppc64"
-	EGIT_COMMIT="4cba1acdd718b700bb33945c0258283689d4eac7"
+	EGIT_COMMIT="10d5f4bf77333ef6b43516f90d2ce13273255f41"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
