@@ -112,7 +112,6 @@ src_prepare() {
 	sed -i '/include(cmake\/libopenh264.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libevent.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libcrc32c.cmake)/d' CMakeLists.txt || die
-	sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 
 	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 	# sed -i '/include(cmake\/libsrtp.cmake)/d' CMakeLists.txt || die
