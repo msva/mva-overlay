@@ -1,19 +1,26 @@
 # Copyright 1999-2022 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=8
+EAPI=7
 
-inherit golang-base git-r3 systemd user
+inherit desktop golang-base git-r3 systemd xdg-utils
 
 DESCRIPTION="Open Source Continuous File Synchronization"
-HOMEPAGE="http://syncthing.net"
+HOMEPAGE="https://syncthing.net"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE="cli selinux tools"
+IUSE="+new-gui selinux tools"
 
-RDEPEND="selinux? ( sec-policy/selinux-syncthing )"
+RDEPEND="
+	acct-group/syncthing
+	acct-user/syncthing
+	tools? (
+		>=acct-user/stdiscosrv-1
+		>=acct-user/strelaysrv-1
+	)
+	selinux? ( sec-policy/selinux-syncthing )
+"
 
 DOCS=( README.md AUTHORS CONTRIBUTING.md )
 
@@ -23,38 +30,38 @@ EGIT_CHECKOUT_DIR="${WORKDIR}/${P}/src/${EGO_PN}"
 EGIT_MIN_CLONE_TYPE="single+tags"
 S="${EGIT_CHECKOUT_DIR}"
 
-pkg_setup() {
-	enewgroup "${PN}"
-	enewuser "${PN}" -1 -1 "/var/lib/${PN}" "${PN}"
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.18.4-tool_users.patch
+)
 
-	if use tools ; then
-		# separate user for the relay server
-		enewgroup strelaysrv
-		enewuser strelaysrv -1 -1 /var/lib/strelaysrv strelaysrv
-		# and his home folder
-		keepdir /var/lib/strelaysrv
-		fowners strelaysrv:strelaysrv /var/lib/strelaysrv
-	fi
-}
+RESTRICT="network-sandbox"
 
 src_prepare() {
+	# Bug #679280
+	xdg_environment_reset
+
 	default
+	sed -i \
+		's|^ExecStart=.*|ExecStart=/usr/libexec/syncthing/stdiscosrv|' \
+		"${S}/cmd/stdiscosrv/etc/linux-systemd/stdiscosrv.service" \
+		|| die
 	sed -i \
 		's|^ExecStart=.*|ExecStart=/usr/libexec/syncthing/strelaysrv|' \
 		"${S}/cmd/strelaysrv/etc/linux-systemd/strelaysrv.service" \
 		|| die
+
+	# We do not need this and it sometimes causes build failures
+	rm -rf cmd/stupgrades
 }
 
 src_compile() {
 	export GOPATH="${WORKDIR}/${P}:$(get_golibdir_gopath)"
 	local version="$(git describe --always)"
 
-	go run build.go -version "${version}" -no-upgrade install \
-		$(usex tools "all" "") || die "build failed"
-
-	if ! use tools && use cli; then
-		go build -o bin/stcli ./cmd/stcli
-	fi
+	GOARCH= go run build.go -version "v${version##v}" -no-upgrade -build-out=bin/ \
+		$(usex new-gui "--with-next-gen-gui") \
+		${GOARCH:+-goarch="${GOARCH}"} \
+		install $(usex tools "all" "") || die "build failed"
 }
 
 src_test() {
@@ -65,29 +72,25 @@ src_install() {
 	doman man/*.[0-9]
 
 	dobin "bin/${PN}"
-
-	if use cli; then
-		dobin bin/stcli
-		dosym stcli "/usr/bin/${PN}-cli"
-	fi
+	domenu etc/linux-desktop/*.desktop
 
 	if use tools ; then
 		exeinto "/usr/libexec/${PN}"
-		for f in $(find bin -type f -not -name syncthing -and -not -name stcli); do
+		for f in $(find bin -type f -not -name syncthing); do
 			doexe "${f}"
 		done
 	fi
 
 	einstalldocs
 
-	systemd_dounit "${S}/etc/linux-systemd/system/${PN}"{@,-resume}.service
-	systemd_douserunit "${S}/etc/linux-systemd/user/${PN}".service
+	systemd_dounit "etc/linux-systemd/system/${PN}"{@,-resume}.service
+	systemd_douserunit "etc/linux-systemd/user/${PN}".service
 
 	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 
 	keepdir /var/{lib,log}/"${PN}"
-	fowners "${PN}:${PN}" /var/{lib,log}/"${PN}"
+	# fowners "${PN}:${PN}" /var/{lib,log}/"${PN}"
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/${PN}.logrotate" "${PN}"
 
@@ -127,4 +130,10 @@ pkg_postinst() {
 	elog "Just start (and 'enable', for autostarting) service like:"
 	elog "\t# systemctl start ${PN}@johndoe"
 	elog "instead of 'standard' one."
+
+	xdg_desktop_database_update
+}
+
+pkg_postrm() {
+	xdg_desktop_database_update
 }
