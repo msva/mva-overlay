@@ -3,19 +3,20 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>VoIP library for Telegram clients</longdescription>
+  <longdescription>
+    VoIP library for Telegram clients mostly based on Google's WebRTC and similar stuff.
+    Heavily patched by destop-app upstream (@preston, telegram-desktop developer)
+  </longdescription>
   <use>
-    <flag name="alsa">Enable ALSA support</flag>
-    <flag name="disable-reassembler">Apply reassembler disabling patch from tdesktop fork</flag>
     <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> against <pkg>sys-libs/libcxx</pkg></flag>
-    <flag name="pulseaudio">Enable PulseAudio support</flag>
-    <flag name="static-libs">Build static library</flag>
+    <flag name="pipewire">Add <pkg>media-video/pipewire</pkg> support</flag>
+    <flag name="X">Support functionality that requires Xorg server (like screen recording)</flag>
   </use>
   <upstream>
-    <remote-id type="github">grishka/libtgvoip</remote-id>
-    <bugs-to>https://github.com/grishka/libtgvoip/issues</bugs-to>
+    <remote-id type="github">desktop-app/libtgvoip</remote-id>
+    <bugs-to>https://github.com/desktop-app/libtgvoip/issues</bugs-to>
   </upstream>
 </pkgmetadata>

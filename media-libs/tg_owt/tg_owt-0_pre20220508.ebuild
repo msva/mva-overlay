@@ -1,10 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit cmake flag-o-matic
-
+inherit cmake flag-o-matic toolchain-funcs
 
 DESCRIPTION="WebRTC (video) library (fork) for Telegram clients"
 HOMEPAGE="https://github.com/desktop-app/tg_owt"
@@ -19,25 +18,28 @@ if [[ "${PV}" == *9999* ]]; then
 		-src/third_party/pipewire
 	)
 else
-	KEYWORDS="~amd64 ~ppc64"
+	KEYWORDS="~amd64"
+	#	~ppc64"
+	#	^ libyuv (not a big deal, actually), clang-runtime[libcxx], libcxx (!)
 	EGIT_COMMIT="10d5f4bf77333ef6b43516f90d2ce13273255f41"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
 
-
 LICENSE="BSD"
 SLOT="0"
 IUSE="libcxx pipewire +X"
+
+REQUIRED_USE="X"
+#ppc64? ( !libcxx )"
 
 # Bundled libs:
 # - libsrtp (project uses private APIs)
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
-DEPEND="
+RDEPEND="
 	dev-cpp/abseil-cpp:=[cxx17(+)]
 	dev-libs/crc32c
-	dev-lang/yasm
 	dev-libs/libevent:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
@@ -68,8 +70,11 @@ DEPEND="
 	)
 "
 #	net-libs/libsrtp
-RDEPEND="${DEPEND}"
-BDEPEND="virtual/pkgconfig"
+DEPEND="${RDEPEND}"
+BDEPEND="
+	virtual/pkgconfig
+	dev-lang/yasm
+"
 
 PATCHES=(
 	"${FILESDIR}/0000_pkgconfig.patch"
@@ -112,7 +117,6 @@ src_prepare() {
 	sed -i '/include(cmake\/libopenh264.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libevent.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libcrc32c.cmake)/d' CMakeLists.txt || die
-	sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 
 	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
 	# sed -i '/include(cmake\/libsrtp.cmake)/d' CMakeLists.txt || die
