@@ -149,8 +149,13 @@ src_prepare() {
 			"${S}"/src/api/video/i444_buffer.cc || die
 
 	sed \
+		-e '/#include/s@third_party/crc32c/src/include/@@' \
+		-i \
+			"${S}"/src/net/dcsctp/packet/crc32c.cc  || die
+
+	sed \
 		-e "1i#include <cstdint>" \
-		-i "${S}/src/common_video/h265/h265_pps_parser.h"
+		-i "${S}/src/common_video/h265/h265_pps_parser.h" || die
 
 	cmake_src_prepare
 }
