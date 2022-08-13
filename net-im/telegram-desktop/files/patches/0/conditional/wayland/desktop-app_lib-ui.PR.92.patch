@@ -40,22 +40,12 @@ index bb67d85..6e94c88 100644
  generate_palette(lib_ui ui/colors.palette)
  generate_styles(lib_ui ${src_loc} "${style_files}" ui/colors.palette)
  generate_emoji(lib_ui emoji.txt emoji_suggestions/emoji_autocomplete.json)
-@@ -273,10 +286,16 @@ elseif(LINUX)
-     if (DESKTOP_APP_QT6)
-         qt6_generate_wayland_protocol_client_sources(lib_ui
-         FILES
--            ${third_party_loc}/wayland-protocols/stable/xdg-shell/xdg-shell.xml
-+            ${wayland_protocols_loc}/stable/xdg-shell/xdg-shell.xml
-         )
-     else()
--        message(FATAL_ERROR "This piece of cmake code is not ported to Qt 5")
-+        ecm_add_qtwayland_client_protocol(xdg_shell_protocol_srcs
-+            PROTOCOL ${wayland_protocols_loc}/stable/xdg-shell/xdg-shell.xml
-+            BASENAME xdg-shell
-+        )
-+
-+        target_sources(lib_ui PRIVATE ${xdg_shell_protocol_srcs})
-+        target_include_directories(lib_ui PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-     endif()
+@@ -282,7 +295,7 @@ elseif(LINUX)
+ 
+     qt_generate_wayland_protocol_client_sources(lib_ui
+     FILES
+-        ${third_party_loc}/wayland-protocols/stable/xdg-shell/xdg-shell.xml
++        ${wayland_protocols_loc}/stable/xdg-shell/xdg-shell.xml
+     )
  
      target_link_libraries(lib_ui
