@@ -17,9 +17,5 @@ else
 	EGIT_REPO_URI="https://gitlab.matrix.org/matrix-org/${PN}.git"
 fi
 
-LICENSE="GPL-3"
+LICENSE="Apache-2.0"
 SLOT="0"
-IUSE=""
-
-RDEPEND=""
-DEPEND="${RDEPEND}"

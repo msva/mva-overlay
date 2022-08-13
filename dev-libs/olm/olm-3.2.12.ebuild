@@ -3,8 +3,8 @@
 
 EAPI=8
 
-DESCRIPTION="Implementation of the olm and megolm cryptographic ratchets"
-HOMEPAGE="https://gitlab.matrix.org/matrix-org/olm"
+DESCRIPTION="An implementation of the Double Ratchet cryptographic ratchet in C++"
+HOMEPAGE="https://git.matrix.org/git/olm/about/"
 
 CMAKE_ECLASS=cmake
 inherit cmake-multilib
@@ -19,6 +19,3 @@ fi
 
 LICENSE="Apache-2.0"
 SLOT="0"
-
-RDEPEND=""
-DEPEND="${RDEPEND}"
