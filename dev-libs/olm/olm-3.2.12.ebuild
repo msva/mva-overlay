@@ -6,6 +6,7 @@ EAPI=8
 DESCRIPTION="Implementation of the olm and megolm cryptographic ratchets"
 HOMEPAGE="https://gitlab.matrix.org/matrix-org/olm"
 
+CMAKE_ECLASS=cmake
 inherit cmake-multilib
 
 if [[ ${PV} != "9999" ]]; then
