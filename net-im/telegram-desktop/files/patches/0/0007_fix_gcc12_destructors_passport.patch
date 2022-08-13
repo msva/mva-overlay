@@ -1,0 +1,27 @@
+--- a/Telegram/SourceFiles/passport/passport_panel_edit_scans.h	2022-08-13 19:35:57.896537318 +0700
++++ b/Telegram/SourceFiles/passport/passport_panel_edit_scans.h	2022-08-13 19:35:51.719742764 +0700
+@@ -72,9 +72,10 @@ private:
+ 	struct SpecialScan;
+ 	struct List {
+ 		List(not_null<PanelController*> controller, ScanListData &&data);
++		List(not_null<PanelController*> controller);
+ 		List(
+ 			not_null<PanelController*> controller,
+-			std::optional<ScanListData> &&data = std::nullopt);
++			std::optional<ScanListData> &&data);
+ 
+ 		bool uploadedSomeMore() const;
+ 		bool uploadMoreRequired() const;
+--- a/Telegram/SourceFiles/passport/passport_panel_edit_scans.cpp	2022-08-13 19:32:46.568904140 +0700
++++ b/Telegram/SourceFiles/passport/passport_panel_edit_scans.cpp	2022-08-13 19:34:48.645841013 +0700
+@@ -166,6 +166,10 @@ EditScans::List::List(
+ , errorMissing(data.errorMissing) {
+ }
+ 
++EditScans::List::List(not_null<PanelController*> controller)
++: List(controller, std::nullopt) {
++}
++
+ EditScans::List::List(
+ 	not_null<PanelController*> controller,
+ 	std::optional<ScanListData> &&data)

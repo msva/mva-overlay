@@ -1,0 +1,16 @@
+diff --git i/Telegram/SourceFiles/data/data_sponsored_messages.cpp w/Telegram/SourceFiles/data/data_sponsored_messages.cpp
+index 10e69d37b..fbcb20158 100644
+--- i/Telegram/SourceFiles/data/data_sponsored_messages.cpp
++++ w/Telegram/SourceFiles/data/data_sponsored_messages.cpp
+@@ -73,11 +73,6 @@ bool SponsoredMessages::append(not_null<History*> history) {
+ 		return false;
+ 	}
+
+-	entryIt->item.reset(history->addNewLocalMessage(
+-		_session->data().nextLocalMessageId(),
+-		entryIt->sponsored.from,
+-		entryIt->sponsored.textWithEntities));
+-
+ 	return true;
+ }
+

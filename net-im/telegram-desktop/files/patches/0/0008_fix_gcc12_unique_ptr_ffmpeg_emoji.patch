@@ -1,0 +1,11 @@
+--- a/Telegram/SourceFiles/ffmpeg/ffmpeg_emoji.h	2022-08-13 02:58:52.397522047 +0700
++++ b/Telegram/SourceFiles/ffmpeg/ffmpeg_emoji.h	2022-08-13 02:59:04.356125226 +0700
+@@ -11,6 +11,8 @@ https://github.com/telegramdesktop/tdesk
+ 
+ #include <QtGui/QImage>
+ 
++#include <memory>
++
+ namespace FFmpeg {
+ 
+ class EmojiGenerator final : public Ui::FrameGenerator {

@@ -1,0 +1,11 @@
+--- a/Telegram/lib_lottie/lottie/lottie_emoji.h	2022-08-13 06:10:32.839015396 +0700
++++ b/Telegram/lib_lottie/lottie/lottie_emoji.h	2022-08-13 06:10:55.956284567 +0700
+@@ -10,6 +10,8 @@
+ 
+ #include <QtGui/QImage>
+ 
++#include <memory>
++
+ namespace rlottie {
+ class Animation;
+ } // namespace rlottie
