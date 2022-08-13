@@ -1,10 +1,10 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-DESCRIPTION="An implementation of the Double Ratchet cryptographic ratchet in C++"
-HOMEPAGE="https://git.matrix.org/git/olm/about/"
+DESCRIPTION="Implementation of the olm and megolm cryptographic ratchets"
+HOMEPAGE="https://gitlab.matrix.org/matrix-org/olm"
 
 inherit cmake-multilib
 
@@ -16,9 +16,8 @@ else
 	EGIT_REPO_URI="https://gitlab.matrix.org/matrix-org/${PN}.git"
 fi
 
-LICENSE="GPL-3"
+LICENSE="Apache-2.0"
 SLOT="0"
-IUSE=""
 
 RDEPEND=""
 DEPEND="${RDEPEND}"
