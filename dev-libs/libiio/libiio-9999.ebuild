@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake-utils git-r3
+inherit cmake git-r3
 # multilib-minimal
 
 DESCRIPTION="Library for interfacing with IIO devices"
@@ -44,7 +44,7 @@ src_prepare() {
 			-e '/^iio-monitor:/{N;s@(-lncurses)([^[:alnum:]]?)@\1w -ltinfow\2@;s@(-lcdk)([^[:alnum:]]?)@\1w\2@}' \
 			-i "${S}/examples/Makefile"
 	)
-	cmake-utils_src_prepare
+	cmake_src_prepare
 #	multilib_copy_sources
 }
 
@@ -60,12 +60,12 @@ src_configure() {
 #		-DWITH_LOCAL_CONFIG=ON # libini (?)
 #		-DWITH_SYSVINIT=ON # not OpenRC compatible
 	)
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 #multilib_src_compile() {
 src_compile() {
-	cmake-utils_src_compile
+	cmake_src_compile
 	use examples && {
 		emake -C examples
 	}
@@ -73,7 +73,7 @@ src_compile() {
 
 #multilib_src_install() {
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	use doc && {
 		HTML_DOCS=( "${BUILD_DIR}/html/" )

@@ -1,11 +1,11 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 CMAKE_MIN_VERSION="3.10"
 
-inherit cmake-utils flag-o-matic toolchain-funcs xdg-utils
+inherit cmake flag-o-matic toolchain-funcs xdg-utils
 
 MY_PN="MellowPlayer"
 
@@ -45,7 +45,7 @@ RDEPEND="
 
 src_prepare(){
 	use widevine && PATCHES=( "${FILESDIR}/widevine-path.patch" )
-	cmake-utils_src_prepare
+	cmake_src_prepare
 }
 
 src_configure(){
@@ -59,7 +59,7 @@ src_configure(){
 	else
 		die "You need a c++17 compatible compiler in order to build ${MY_PN}"
 	fi
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 pkg_postinst(){

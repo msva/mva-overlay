@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake-utils eutils patches multilib-minimal git-r3
+inherit cmake patches multilib-minimal git-r3
 
 MY_PN="LibVNCServer"
 
@@ -61,11 +61,11 @@ multilib_src_configure() {
 		-DWITH_WEBSOCKETS=$(usex websockets on off)
 		-DWITH_SASL=$(usex sasl ON OFF)
 	)
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 multilib_src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 	if use examples && multilib_is_native_abi; then
 		for e in examples/* client_examples/*; do
 			local vnc="" be="$(basename ${e})"

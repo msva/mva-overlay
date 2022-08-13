@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake-utils eutils git-r3 flag-o-matic java-pkg-opt-2
+inherit cmake git-r3 flag-o-matic java-pkg-opt-2
 
 DESCRIPTION="Memory Efficient Serialization Library"
 HOMEPAGE="http://google.github.io/flatbuffers/"
@@ -18,20 +18,19 @@ RDEPEND="
 	java? ( virtual/jdk:* )
 "
 DEPEND="
-	dev-util/cmake
 	${RDEPEND}
 "
 
 DOCS=(docs)
 
 src_prepare() {
-	cmake-utils_src_prepare
+	cmake_src_prepare
 	append-cxxflags '-std=c++11'
 	default
 }
 
 src_compile() {
-	cmake-utils_src_compile
+	cmake_src_compile
 
 	if use java ; then
 	   (cd java && \
@@ -41,7 +40,7 @@ src_compile() {
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 	default
 
 	insinto /usr/include

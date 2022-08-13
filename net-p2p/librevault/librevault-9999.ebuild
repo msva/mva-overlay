@@ -1,19 +1,17 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils cmake-utils patches git-r3
+inherit cmake patches git-r3
 
 DESCRIPTION="Peer-to-peer, decentralized and open source file sync."
 HOMEPAGE="https://librevault.com"
 
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/${PN^}/${PN}"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
 IUSE="cli daemon debug gui static"
 
 REQUIRED_USE="|| ( cli daemon gui )"
@@ -80,5 +78,5 @@ src_configure() {
 		-DDEBUG_WEBSOCKETPP=$(usex debug ON OFF)
 		-DDEBUG_QT=$(usex debug ON OFF)
 	)
-	cmake-utils_src_configure
+	cmake_src_configure
 }

@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake-utils systemd git-r3
+inherit cmake systemd git-r3
 
 DESCRIPTION="An open source instant messaging transport"
 HOMEPAGE="https://spectrum.im"
@@ -56,8 +56,9 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+"
+BDEPEND="
 	sys-devel/gettext
-	dev-util/cmake
 	doc? ( app-doc/doxygen )
 "
 
@@ -67,7 +68,7 @@ src_prepare() {
 	# Respect users LDFLAGS
 	sed -i -e "s/-Wl,-export-dynamic/& ${LDFLAGS}/" spectrum/src/CMakeLists.txt || die
 
-	cmake-utils_src_prepare
+	cmake_src_prepare
 }
 
 src_configure() {
@@ -87,7 +88,7 @@ src_configure() {
 		$(usex postgres '-DCMAKE_CXX_STANDARD=14' '')
 	)
 
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_test() {
@@ -95,7 +96,7 @@ src_test() {
 }
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 
 	diropts -o spectrum -g spectrum
 	keepdir /var/log/spectrum2 /var/lib/spectrum2

@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit cmake-utils eutils git-r3
+inherit cmake git-r3
 
 DESCRIPTION="toxvpn allows one to make tunneled point to point connections over Tox"
 HOMEPAGE="https://github.com/cleverca22/toxvpn"
@@ -28,5 +28,5 @@ src_configure() {
 	use static && mycmakeargs+=(-DSTATIC=ON)
 	use systemd && mycmakeargs+=(-DSYSTEMD=ON)
 	use zeromq && mycmakeargs+=(-DZMQ=ON)
-	cmake-utils_src_configure
+	cmake_src_configure
 }

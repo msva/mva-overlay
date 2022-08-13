@@ -1,11 +1,11 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 PYTHON_COMPAT=( python3_{8..10} )
 
-inherit git-r3 cmake-utils python-r1
+inherit git-r3 cmake python-r1
 
 DESCRIPTION="A lightweight C++11 Distributed Hash Table implementation"
 HOMEPAGE="https://github.com/savoirfairelinux/opendht/blob/master/README.md"
@@ -41,10 +41,10 @@ src_configure() {
 		-DOPENDHT_STATIC=$(usex static-libs)
 		-DOPENDHT_TOOLS=$(usex tools)
 	)
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_install() {
 	use !doc && rm README.md
-	cmake-utils_src_install
+	cmake_src_install
 }

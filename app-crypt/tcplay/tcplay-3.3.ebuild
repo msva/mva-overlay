@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils vcs-snapshot cmake-utils
+inherit vcs-snapshot cmake
 
 COMMIT_ID="b44b1fad854c726dda3ec7bfc96fe2d437d4343f"
 DESCRIPTION="Free and simple TrueCrypt Implementation based on dm-crypt"
@@ -42,7 +42,7 @@ files"
 DOCS=( README.md )
 
 src_install() {
-	cmake-utils_src_install
+	cmake_src_install
 	use static-libs || find "${D}" -name lib${PN}.a -delete
 }
 

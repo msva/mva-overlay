@@ -1,12 +1,11 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils git-r3 cmake-utils
+inherit git-r3 cmake
 EGIT_REPO_URI="https://github.com/Elv13/ring-lrc"
 EGIT_BRANCH="work5"
-KEYWORDS=""
 
 DESCRIPTION="libringclient is the common interface for Ring applications"
 HOMEPAGE="https://tuleap.ring.cx/projects/ring"
@@ -32,14 +31,14 @@ src_configure() {
 		-DCMAKE_INSTALL_PREFIX=/usr
 		-DCMAKE_BUILD_TYPE=Release
 	)
-	cmake-utils_src_configure
+	cmake_src_configure
 }
 
 src_compile() {
-	cmake-utils_src_compile
+	cmake_src_compile
 }
 
 src_install() {
 	use !doc && rm README.md
-	cmake-utils_src_install
+	cmake_src_install
 }

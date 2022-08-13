@@ -1,8 +1,8 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-inherit eutils pax-utils systemd git-r3 qmake-utils cmake-utils
+EAPI=8
+inherit pax-utils systemd git-r3 qmake-utils cmake
 # multilib-minimal
 
 DESCRIPTION="A C++ daemon for accessing the I2P anonymous network"
@@ -80,7 +80,7 @@ src_configure() {
 			-DWITH_I2LUA=$(usex i2lua ON OFF)
 			-DWITH_WEBSOCKETS=$(usex websockets ON OFF)
 		)
-		cmake-utils_src_configure
+		cmake_src_configure
 	fi
 }
 
@@ -90,7 +90,7 @@ src_compile() {
 	else
 #		emake USE_AESNI=$(usex cpu_flags_x86_aes) USE_AVX=$(usex cpu_flags_x86_avx) USE_STATIC=$(usex static) USE_MESHNET=$(usex cjdns) USE_UPNP=$(usex upnp)
 		# ^ in case of activation of no-cmake buildsystem
-		cmake-utils_src_compile
+		cmake_src_compile
 	fi
 }
 
@@ -101,7 +101,7 @@ src_install() {
 		insinto /usr/include/"${PN}"
 		doins {daemon,libi2pd{,_client}}/*.h
 	else
-		cmake-utils_src_install
+		cmake_src_install
 #		dobin "${PN}"
 #		insinto /usr/include/"${PN}"
 #		doins {daemon,libi2pd{,_client}}/*.h
