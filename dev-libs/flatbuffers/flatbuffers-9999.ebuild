@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils git-r3 flag-o-matic java-pkg-opt-2
+inherit cmake eutils git-r3 flag-o-matic java-pkg-opt-2
 
 DESCRIPTION="Memory Efficient Serialization Library"
 HOMEPAGE="http://google.github.io/flatbuffers/"

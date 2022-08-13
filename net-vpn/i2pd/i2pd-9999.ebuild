@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit eutils pax-utils systemd git-r3 qmake-utils cmake-utils
+inherit eutils pax-utils systemd git-r3 qmake-utils cmake
 # multilib-minimal
 
 DESCRIPTION="A C++ daemon for accessing the I2P anonymous network"

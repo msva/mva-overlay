@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils systemd git-r3
+inherit cmake systemd git-r3
 
 DESCRIPTION="An open source instant messaging transport"
 HOMEPAGE="https://spectrum.im"

@@ -5,7 +5,7 @@ EAPI=7
 
 CMAKE_MIN_VERSION="3.10"
 
-inherit cmake-utils flag-o-matic toolchain-funcs xdg-utils
+inherit cmake flag-o-matic toolchain-funcs xdg-utils
 
 MY_PN="MellowPlayer"
 

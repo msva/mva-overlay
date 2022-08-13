@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils
+inherit cmake
 
 DESCRIPTION="For applications that require seamless and secure communication over HTTP"
 HOMEPAGE="https://github.com/Corvusoft/${PN}"

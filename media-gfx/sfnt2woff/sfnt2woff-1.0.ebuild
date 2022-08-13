@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils patches
+inherit cmake patches
 
 DESCRIPTION="Very small utility to convert font files to WOFF"
 HOMEPAGE="http://people.mozilla.com/~jkew/woff/"

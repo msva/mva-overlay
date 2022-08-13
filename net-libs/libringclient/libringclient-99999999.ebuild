@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils git-r3 cmake-utils
+inherit eutils git-r3 cmake
 EGIT_REPO_URI="https://github.com/Elv13/ring-lrc"
 EGIT_BRANCH="work5"
 KEYWORDS=""

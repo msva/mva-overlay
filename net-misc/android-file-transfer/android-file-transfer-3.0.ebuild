@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit cmake-utils
+inherit cmake
 
 MY_PN=${PN}-linux
 DESCRIPTION="Reliable MTP client with minimalistic UI"

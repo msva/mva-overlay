@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils patches multilib-minimal git-r3
+inherit cmake eutils patches multilib-minimal git-r3
 
 MY_PN="LibVNCServer"
 

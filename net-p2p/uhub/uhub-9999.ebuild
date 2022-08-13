@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils git-r3 user
+inherit cmake eutils git-r3 user
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/janvidar/uhub.git"
 KEYWORDS=""

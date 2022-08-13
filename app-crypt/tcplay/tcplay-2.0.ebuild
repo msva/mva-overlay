@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils vcs-snapshot cmake-utils
+inherit eutils vcs-snapshot cmake
 
 COMMIT_ID="b44b1fad854c726dda3ec7bfc96fe2d437d4343f"
 DESCRIPTION="Free and simple TrueCrypt Implementation based on dm-crypt"

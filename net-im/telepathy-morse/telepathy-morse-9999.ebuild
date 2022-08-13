@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils git-r3
+inherit cmake git-r3
 
 DESCRIPTION="Telegram connection manager for Telepathy."
 HOMEPAGE="https://projects.kde.org/projects/playground/network/telepathy/telepathy-morse"

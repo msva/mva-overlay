@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-inherit cmake-utils git-r3
+inherit cmake git-r3
 
 DESCRIPTION="A high-performance multi-threaded backup toolset for MySQL and Drizzle"
 HOMEPAGE="https://github.com/maxbube/mydumper"

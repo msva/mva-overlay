@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils eutils toolchain-funcs
+inherit cmake eutils toolchain-funcs
 
 if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/tora-tool/tora"

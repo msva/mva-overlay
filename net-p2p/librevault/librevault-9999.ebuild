@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils cmake-utils patches git-r3
+inherit eutils cmake patches git-r3
 
 DESCRIPTION="Peer-to-peer, decentralized and open source file sync."
 HOMEPAGE="https://librevault.com"

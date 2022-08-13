@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit git-r3 cmake-utils
+inherit git-r3 cmake
 
 DESCRIPTION="font compression reference code"
 HOMEPAGE="https://github.com/google/woff2"

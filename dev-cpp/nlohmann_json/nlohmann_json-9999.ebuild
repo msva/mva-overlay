@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils flag-o-matic toolchain-funcs cmake-utils multilib-minimal git-r3
+inherit eutils flag-o-matic toolchain-funcs cmake multilib-minimal git-r3
 
 DESCRIPTION="C++ class library of cryptographic schemes"
 HOMEPAGE="https://github.com/nlohmann/json"

@@ -4,7 +4,7 @@
 EAPI=7
 
 CMAKE_MIN_VERSION="2.8"
-inherit cmake-utils
+inherit cmake
 
 DESCRIPTION="Tool, separating data processing (business logic) from data presentation"
 HOMEPAGE="http://ctpp.havoc.ru/ http://ctpp.havoc.ru/en/"

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cmake-utils git-r3
+inherit cmake git-r3
 
 EGIT_REPO_URI="https://github.com/GuLinux/ScreenRotator"
 
