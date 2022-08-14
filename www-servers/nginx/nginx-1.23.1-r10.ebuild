@@ -1,9 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-
-# 7: user.eclass (no acct-user for nginx yet)
+EAPI=8
 
 # Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
@@ -26,11 +24,11 @@ LUA_OPTIONAL="yes"
 
 DTLS_COMPAT_VERSION="1.13.9"
 
-# ngx_brotli (https://github.com/eustas/ngx_brotli/tags, BSD-2)
-HTTP_BROTLI_MODULE_A="eustas"
+# ngx_brotli (https://github.com/google/ngx_brotli/tags, BSD-2)
+HTTP_BROTLI_MODULE_A="google"
 HTTP_BROTLI_MODULE_PN="ngx_brotli"
-HTTP_BROTLI_MODULE_PV="0.1.3rc"
-HTTP_BROTLI_MODULE_SHA="bafbafc61b53544ed506ea1d6fd8978a263cfed2"
+HTTP_BROTLI_MODULE_PV="1.0.0rc"
+HTTP_BROTLI_MODULE_SHA="6e975bcb015f62e1f303054897783355e2a877dc"
 HTTP_BROTLI_MODULE_P="${HTTP_BROTLI_MODULE_PN}-${HTTP_BROTLI_MODULE_SHA:-${HTTP_BROTLI_MODULE_PV}}"
 HTTP_BROTLI_MODULE_URI="https://github.com/${HTTP_BROTLI_MODULE_A}/${HTTP_BROTLI_MODULE_PN}/archive/${HTTP_BROTLI_MODULE_SHA:-v${HTTP_BROTLI_MODULE_PV}}.tar.gz"
 HTTP_BROTLI_MODULE_WD="${WORKDIR}/${HTTP_BROTLI_MODULE_P}"
@@ -39,7 +37,7 @@ HTTP_BROTLI_MODULE_WD="${WORKDIR}/${HTTP_BROTLI_MODULE_P}"
 HTTP_VHOST_TRAFFIC_STATUS_MODULE_A="vozlt"
 HTTP_VHOST_TRAFFIC_STATUS_MODULE_PN="nginx-module-vts"
 #HTTP_VHOST_TRAFFIC_STATUS_MODULE_PV="v0.1.19"
-HTTP_VHOST_TRAFFIC_STATUS_MODULE_SHA="46d85558e344dfe2b078ce757fd36c69a1ec2dd3"
+HTTP_VHOST_TRAFFIC_STATUS_MODULE_SHA="3c6cf41315bfcb48c35a3a0be81ddba6d0d01dac"
 HTTP_VHOST_TRAFFIC_STATUS_MODULE_P="${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PN}-${HTTP_VHOST_TRAFFIC_STATUS_MODULE_SHA:-${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PV}}"
 HTTP_VHOST_TRAFFIC_STATUS_MODULE_URI="https://github.com/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_A}/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PN}/archive/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_SHA:-v${HTTP_VHOST_TRAFFIC_STATUS_MODULE_PV}}.tar.gz"
 HTTP_VHOST_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${HTTP_VHOST_TRAFFIC_STATUS_MODULE_P}"
@@ -65,7 +63,7 @@ CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${CORE_STREAM_SERVER_TRA
 # geoip2 (https://github.com/leev/ngx_http_geoip2_module/tags, BSD-2)
 HTTP_GEOIP2_MODULE_A="leev"
 HTTP_GEOIP2_MODULE_PN="ngx_http_geoip2_module"
-HTTP_GEOIP2_MODULE_PV="3.3"
+HTTP_GEOIP2_MODULE_PV="3.4"
 #HTTP_GEOIP2_MODULE_SHA="3.0"
 HTTP_GEOIP2_MODULE_P="${HTTP_GEOIP2_MODULE_PN}-${HTTP_GEOIP2_MODULE_SHA:-${HTTP_GEOIP2_MODULE_PV}}"
 HTTP_GEOIP2_MODULE_URI="https://github.com/${HTTP_GEOIP2_MODULE_A}/${HTTP_GEOIP2_MODULE_PN}/archive/${HTTP_GEOIP2_MODULE_SHA:-${HTTP_GEOIP2_MODULE_PV}}.tar.gz"
@@ -92,7 +90,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="6.0.13"
+HTTP_PASSENGER_MODULE_PV="6.0.14"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -128,8 +126,8 @@ HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_S
 HTTP_PAGESPEED_MODULE_A="apache"
 HTTP_PAGESPEED_MODULE_PN="incubator-pagespeed-ngx"
 HTTP_PAGESPEED_MODULE_PV="1.13.35.2-stable"
-#HTTP_PAGESPEED_MODULE_PV="1.14.33.1-RC1"
-#HTTP_PAGESPEED_MODULE_SHA="65761a2393cc62197129156eb7d2c9374d1aacfe"
+# HTTP_PAGESPEED_MODULE_PV="1.14.33.1-RC1"
+HTTP_PAGESPEED_MODULE_SHA="71e24c1c47113acb5924d8cb523d572b376e9dd0"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
@@ -140,6 +138,7 @@ HTTP_PAGESPEED_PSOL_P="${HTTP_PAGESPEED_PSOL_PN}-${HTTP_PAGESPEED_PSOL_SHA:-${HT
 HTTP_PAGESPEED_PSOL_URI="https://dl.google.com/dl/page-speed/${HTTP_PAGESPEED_PSOL_PN}/${HTTP_PAGESPEED_PSOL_PV}-__ARCH__.tar.gz"
 HTTP_PAGESPEED_PSOL_WD="${WORKDIR}/${HTTP_PAGESPEED_PSOL_PN}"
 
+# TODO: remove (dead, can be replaced by lua module)
 # http_hls_audio (https://github.com/flavioribeiro/nginx-audio-track-for-hls-module/tags, BSD-2)
 HTTP_HLS_AUDIO_MODULE_A="flavioribeiro"
 HTTP_HLS_AUDIO_MODULE_PN="nginx-audio-track-for-hls-module"
@@ -149,12 +148,14 @@ HTTP_HLS_AUDIO_MODULE_P="${HTTP_HLS_AUDIO_MODULE_PN}-${HTTP_HLS_AUDIO_MODULE_SHA
 HTTP_HLS_AUDIO_MODULE_URI="https://github.com/${HTTP_HLS_AUDIO_MODULE_A}/${HTTP_HLS_AUDIO_MODULE_PN}/archive/${HTTP_HLS_AUDIO_MODULE_SHA:-${HTTP_HLS_AUDIO_MODULE_PV}}.tar.gz"
 HTTP_HLS_AUDIO_MODULE_WD="${WORKDIR}/${HTTP_HLS_AUDIO_MODULE_P}"
 
+# Actually, can be replaced by lua module too
 # http_uploadprogress (https://github.com/msva/nginx-upload-progress-module/tags, BSD-2)
 # originally: masterzen; TODO: check it's destiny sometimes
+# HTTP_UPLOAD_PROGRESS_MODULE_A="masterzen"
 HTTP_UPLOAD_PROGRESS_MODULE_A="msva"
 HTTP_UPLOAD_PROGRESS_MODULE_PN="nginx-upload-progress-module"
-HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.3"
-HTTP_UPLOAD_PROGRESS_MODULE_SHA="85f92ae21e055b14f4108bfcbf94ed3e7785880a"
+HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.4"
+# HTTP_UPLOAD_PROGRESS_MODULE_SHA="68b3ab3b64a0cee7f785d161401c8be357bbed12"
 HTTP_UPLOAD_PROGRESS_MODULE_P="${HTTP_UPLOAD_PROGRESS_MODULE_PN}-${HTTP_UPLOAD_PROGRESS_MODULE_SHA:-${HTTP_UPLOAD_PROGRESS_MODULE_PV}}"
 HTTP_UPLOAD_PROGRESS_MODULE_URI="https://github.com/${HTTP_UPLOAD_PROGRESS_MODULE_A}/${HTTP_UPLOAD_PROGRESS_MODULE_PN}/archive/${HTTP_UPLOAD_PROGRESS_MODULE_SHA:-v${HTTP_UPLOAD_PROGRESS_MODULE_PV}}.tar.gz"
 HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
@@ -162,7 +163,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 # http_nchan (https://github.com/slact/nchan/tags, BSD-2)
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
-HTTP_NCHAN_MODULE_PV="1.2.15"
+HTTP_NCHAN_MODULE_PV="1.3.1"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -170,7 +171,7 @@ HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
 # http_headers_more (https://github.com/openresty/headers-more-nginx-module/tags, BSD)
 HTTP_HEADERS_MORE_MODULE_A="openresty"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.33"
+HTTP_HEADERS_MORE_MODULE_PV="0.34"
 #HTTP_HEADERS_MORE_MODULE_SHA="a744defdfac1d6874152a51e3a8a604a85354a2c"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_SHA:-${HTTP_HEADERS_MORE_MODULE_PV}}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/${HTTP_HEADERS_MORE_MODULE_SHA:-v${HTTP_HEADERS_MORE_MODULE_PV}}.tar.gz"
@@ -188,6 +189,7 @@ HTTP_ENCRYPTED_SESSION_MODULE_WD="${WORKDIR}/${HTTP_ENCRYPTED_SESSION_MODULE_P}"
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
 HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
 HTTP_PUSH_STREAM_MODULE_PV="0.5.5"
+HTTP_PUSH_STREAM_MODULE_SHA="8c02220d484d7848bc8e3a6d9b1c616987e86f66"
 HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}"
 HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}.tar.gz"
 HTTP_PUSH_STREAM_MODULE_WD="${WORKDIR}/${HTTP_PUSH_STREAM_MODULE_P}"
@@ -201,7 +203,7 @@ HTTP_CTPP_MODULE_WD="${WORKDIR}/${HTTP_CTPP_MODULE_P}"
 # http_cache_purge (https://github.com/nginx-modules/ngx_cache_purge/tags, BSD-2)
 HTTP_CACHE_PURGE_MODULE_A="nginx-modules"
 HTTP_CACHE_PURGE_MODULE_PN="ngx_cache_purge"
-HTTP_CACHE_PURGE_MODULE_PV="2.5.1"
+HTTP_CACHE_PURGE_MODULE_PV="2.5.2"
 #HTTP_CACHE_PURGE_MODULE_SHA="75a854c6d4cd30cd6bda36998f3517dd0bffb71a"
 HTTP_CACHE_PURGE_MODULE_P="${HTTP_CACHE_PURGE_MODULE_PN}-${HTTP_CACHE_PURGE_MODULE_SHA:-${HTTP_CACHE_PURGE_MODULE_PV}}"
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/${HTTP_CACHE_PURGE_MODULE_A}/${HTTP_CACHE_PURGE_MODULE_PN}/archive/${HTTP_CACHE_PURGE_MODULE_SHA:-${HTTP_CACHE_PURGE_MODULE_PV}}.tar.gz"
@@ -245,8 +247,8 @@ STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.21rc2"
-#HTTP_LUA_MODULE_SHA="a3ac3f557eed7efa3460d0870684f18d232adf5f"
+# HTTP_LUA_MODULE_PV="0.10.21"
+HTTP_LUA_MODULE_SHA="eb6d6cbf00bc4891ad2d8af0d42ec722ce8bec30"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
@@ -254,7 +256,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 # stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
-STREAM_LUA_MODULE_PV="0.0.11rc1"
+STREAM_LUA_MODULE_PV="0.0.11"
 #STREAM_LUA_MODULE_SHA="c7ac2234ec7a26bdcd3b17cbb5314f17344f9f5c"
 STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
 STREAM_LUA_MODULE_URI="https://github.com/${STREAM_LUA_MODULE_A}/${STREAM_LUA_MODULE_PN}/archive/${STREAM_LUA_MODULE_SHA:-v${STREAM_LUA_MODULE_PV}}.tar.gz"
@@ -315,6 +317,7 @@ HTTP_RDS_CSV_MODULE_WD="${WORKDIR}/${HTTP_RDS_CSV_MODULE_P}"
 HTTP_SRCACHE_MODULE_A="openresty"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
 HTTP_SRCACHE_MODULE_PV="0.32"
+HTTP_SRCACHE_MODULE_SHA="be22ac0dcd9245aadcaca3220da96a0c1a0285a7"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_SHA:-${HTTP_SRCACHE_MODULE_PV}}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/${HTTP_SRCACHE_MODULE_SHA:-v${HTTP_SRCACHE_MODULE_PV}}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="${WORKDIR}/${HTTP_SRCACHE_MODULE_P}"
@@ -407,17 +410,19 @@ HTTP_FANCYINDEX_MODULE_P="${HTTP_FANCYINDEX_MODULE_PN}-${HTTP_FANCYINDEX_MODULE_
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/${HTTP_FANCYINDEX_MODULE_A}/${HTTP_FANCYINDEX_MODULE_PN}/archive/${HTTP_FANCYINDEX_MODULE_SHA:-v${HTTP_FANCYINDEX_MODULE_PV}}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/${HTTP_FANCYINDEX_MODULE_P}"
 
+# TODO: remove (dead, can be replaced by lua module)
 # http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module/tags, BSD)
 HTTP_UPSTREAM_CHECK_MODULE_A="yaoweibin"
 HTTP_UPSTREAM_CHECK_MODULE_PN="nginx_upstream_check_module"
 #HTTP_UPSTREAM_CHECK_MODULE_PV="0.3.0"
-HTTP_UPSTREAM_CHECK_MODULE_SHA="007f76f7adbcbd6abd9352502af1a4ae463def85"
+HTTP_UPSTREAM_CHECK_MODULE_SHA="e85752f0b9bd848f7917e02275da4013566f34d8"
 HTTP_UPSTREAM_CHECK_MODULE_P="${HTTP_UPSTREAM_CHECK_MODULE_PN}-${HTTP_UPSTREAM_CHECK_MODULE_SHA:-${HTTP_UPSTREAM_CHECK_MODULE_PV}}"
 HTTP_UPSTREAM_CHECK_MODULE_URI="https://github.com/${HTTP_UPSTREAM_CHECK_MODULE_A}/${HTTP_UPSTREAM_CHECK_MODULE_PN}/archive/${HTTP_UPSTREAM_CHECK_MODULE_SHA:-v${HTTP_UPSTREAM_CHECK_MODULE_PV}}.tar.gz"
 HTTP_UPSTREAM_CHECK_MODULE_WD="${WORKDIR}/${HTTP_UPSTREAM_CHECK_MODULE_P}"
 
-# http_metrics (https://github.com/zenops/ngx_metrics/tags, BSD)
-HTTP_METRICS_MODULE_A="zenops"
+# TODO: remove (dead, can be replaced by lua module)
+# http_metrics (https://github.com/nginx-modules/ngx_metrics/tags, BSD)
+HTTP_METRICS_MODULE_A="nginx-modules"
 HTTP_METRICS_MODULE_PN="ngx_metrics"
 HTTP_METRICS_MODULE_PV="0.1.1"
 HTTP_METRICS_MODULE_P="${HTTP_METRICS_MODULE_PN}-${HTTP_METRICS_MODULE_SHA:-${HTTP_METRICS_MODULE_PV}}"
@@ -427,8 +432,8 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 # naxsi-core (https://github.com/nbs-system/naxsi/tags, GPLv2+)
 HTTP_NAXSI_MODULE_A="nbs-system"
 HTTP_NAXSI_MODULE_PN="naxsi"
-HTTP_NAXSI_MODULE_PV="1.3"
-# HTTP_NAXSI_MODULE_SHA="545c8953f95ffce368f219b932039eb0a0daf1c0" # PCRE2
+# HTTP_NAXSI_MODULE_PV="1.3"
+HTTP_NAXSI_MODULE_SHA="29793dcb2d9bdfa02c9b8d6968063ce3daa0a77b"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
@@ -453,7 +458,7 @@ CORE_RTMP_MODULE_WD="${WORKDIR}/${CORE_RTMP_MODULE_P}"
 # mod_security for nginx (https://github.com/SpiderLabs/ModSecurity-nginx/tags, Apache-2.0)
 HTTP_SECURITY_MODULE_A="SpiderLabs"
 HTTP_SECURITY_MODULE_PN="ModSecurity-nginx"
-HTTP_SECURITY_MODULE_PV="1.0.2"
+HTTP_SECURITY_MODULE_PV="1.0.3"
 #HTTP_SECURITY_MODULE_SHA="a2a5858d249222938c2f5e48087a922c63d7f9d8"
 HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-${HTTP_SECURITY_MODULE_PV}}"
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
@@ -476,6 +481,7 @@ HTTP_RRD_MODULE_P="${HTTP_RRD_MODULE_PN}-${HTTP_RRD_MODULE_SHA:-${HTTP_RRD_MODUL
 HTTP_RRD_MODULE_URI="https://github.com/${HTTP_RRD_MODULE_A}/${HTTP_RRD_MODULE_PN}/archive/${HTTP_RRD_MODULE_SHA:-${HTTP_RRD_MODULE_PV}}.tar.gz"
 HTTP_RRD_MODULE_WD="${WORKDIR}/${HTTP_RRD_MODULE_P}"
 
+# TODO: remove (dead, can be replaced by lua module)
 # sticky-module (https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/downloads#tag-downloads, BSD-2)
 HTTP_STICKY_MODULE_A="nginx-goodies"
 HTTP_STICKY_MODULE_PN="nginx-sticky-module-ng"
@@ -497,8 +503,8 @@ HTTP_AJP_MODULE_WD="${WORKDIR}/${HTTP_AJP_MODULE_P}"
 
 # NJS-module (http://hg.nginx.org/njs/, BSD-2)
 HTTP_JAVASCRIPT_MODULE_PN="njs"
-HTTP_JAVASCRIPT_MODULE_PV="0.7.3"
-#HTTP_JAVASCRIPT_MODULE_SHA="5a5b70cbbde9"
+HTTP_JAVASCRIPT_MODULE_PV="0.7.6"
+HTTP_JAVASCRIPT_MODULE_SHA="446a1cb64a6a"
 HTTP_JAVASCRIPT_MODULE_P="${HTTP_JAVASCRIPT_MODULE_PN}-${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}"
 HTTP_JAVASCRIPT_MODULE_URI="http://hg.nginx.org/${HTTP_JAVASCRIPT_MODULE_PN}/archive/${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}.tar.gz"
 HTTP_JAVASCRIPT_MODULE_WD="${WORKDIR}/${HTTP_JAVASCRIPT_MODULE_P}/nginx"
@@ -516,7 +522,7 @@ HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
 SSL_DEPS_SKIP=1
 
 # eutils
-inherit ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic user systemd pax-utils multilib patches
+inherit ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic systemd pax-utils multilib patches
 # ^^^ keep ruby before perl, since ruby sets S=WORKDIR, and perl restores
 
 # TODO: EAPI=8
@@ -833,6 +839,8 @@ for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 done
 
 CDEPEND="
+	acct-group/nginx
+	acct-user/nginx
 	pam? ( sys-libs/pam )
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
@@ -941,10 +949,6 @@ pkg_setup() {
 	export NGINX_HOME="/var/lib/nginx"
 	export NGINX_HOME_TMP="${NGINX_HOME}/tmp"
 
-	ebegin "Creating nginx user"
-	enewgroup ${HTTPD_GROUP:-nginx}
-	eend ${?}
-
 	if ! use static; then
 		ewarn ""
 		ewarn "You've activated 'dynamic' (shared) modules support."
@@ -996,9 +1000,14 @@ pkg_setup() {
 	fi
 
 	if use nginx_modules_http_hls_audio; then
+		die "Unfortunately, HLS Audio module is not compatible with ${P} (because of API/ABI changes)"
 ### QA
 		append-cflags "-Wno-deprecated-declarations"
 ### /QA
+	fi
+
+	if use nginx_modules_http_sticky; then
+		die "Unfortunately, Sticky module is not compatible with ${P} (because of API/ABI changes)"
 	fi
 
 	if use !http; then
@@ -1012,15 +1021,6 @@ pkg_setup() {
 		ewarn "Be noticed that PageSpeed module using precompiled (by google) PSOL library."
 		ewarn "And due to way google built it, this build will definitelly follow to QA warning."
 		ewarn "So, take a look on it, please."
-		ewarn ""
-	fi
-
-	if use nginx_modules_http_upload_progress && (use nginx_modules_http_v2 || use use http2); then
-		ewarn ""
-		ewarn "UploadProgress module doesn't work with HTTP/2"
-		ewarn "See:"
-		ewarn "https://github.com/masterzen/nginx-upload-progress-module/issues/45"
-		ewarn "https://github.com/masterzen/nginx-upload-progress-module/issues/48"
 		ewarn ""
 	fi
 }
@@ -1163,6 +1163,12 @@ src_prepare() {
 			"${HTTP_PASSENGER_SRC_WD}"/src/cxx_supportlib/vendor-modified/libev
 	fi
 
+	if use nginx_modules_http_naxsi; then
+		sed -r \
+			-e "1,/variables\ to\ use\ pcre2/{s@(^#if defined nginx_version \&\& \(nginx_version >= 1021005\))@\1 \&\& NGX_PCRE2@}" \
+			-i "${HTTP_NAXSI_MODULE_WD}"/naxsi_runtime.c || die "Failed to patch Naxsi for disabled pcre2"
+	fi
+
 	if use nginx_modules_http_pagespeed; then
 		# TODO: replace precompiled psol with that one, built from apache module?
 		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}"/ || die "Failed to insert psol"
@@ -1274,11 +1280,6 @@ src_configure() {
 		myconf+=("--without-pcre2")
 	fi
 
-	if use nginx_modules_http_naxsi; then
-		# XXX: temp kludge. TODO: think on proper fix
-		myconf+=("--without-pcre2")
-	fi
-
 	if use http || use http-cache; then
 		export http_enabled=1
 	fi
@@ -1336,7 +1337,7 @@ src_configure() {
 	tc-export CC
 
 	if ! use prefix; then
-		myconf+=("--user=${HTTPD_USER:-nginx}" "--group=${HTTPD_GROUP:-nginx}")
+		myconf+=("--user=${PN}" "--group=${PN}")
 	fi
 
 	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
@@ -1446,13 +1447,13 @@ src_install() {
 	# this solves a problem with SELinux where nginx doesn't see the directories
 	# as root and tries to create them as nginx
 	fperms 0750 "${NGINX_HOME_TMP}"
-	fowners "${HTTPD_USER:-nginx}:0" "${NGINX_HOME_TMP}"
+	fowners "${PN}:0" "${NGINX_HOME_TMP}"
 
 	fperms 0700 ${keepdir_list}
-	fowners "${HTTPD_USER:-nginx}:${HTTPD_GROUP:-nginx}" ${keepdir_list}
+	fowners "${PN}:${PN}" ${keepdir_list}
 
 	fperms 0710 "/var/log/nginx" ${keepdir_list}
-	fowners "0:${HTTPD_GROUP:-nginx}" "/var/log/nginx" ${keepdir_list}
+	fowners "0:${PN}" "/var/log/nginx" ${keepdir_list}
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}/nginx.logrotate" "nginx"
@@ -1756,7 +1757,7 @@ pkg_postinst() {
 	if use ssl; then
 		if [ ! -f "${EROOT%/}"/etc/ssl/nginx/nginx.key ]; then
 			install_cert /etc/ssl/nginx/nginx
-			use prefix || chown "${HTTPD_USER:-nginx}":"${HTTPD_GROUP:-nginx}" "${EROOT%/}"/etc/ssl/nginx/nginx.{crt,csr,key,pem}
+			use prefix || chown "${PN}":"${PN}" "${EROOT%/}"/etc/ssl/nginx/nginx.{crt,csr,key,pem}
 		fi
 	fi
 
@@ -1764,6 +1765,7 @@ pkg_postinst() {
 		ewarn ""
 		ewarn "Lua 3rd party module author warns against using ${P} with"
 		ewarn "NGINX_MODULES_HTTP=\"lua v2\". For more info, see http://git.io/OldLsg"
+		ewarn "and https://github.com/openresty/lua-nginx-module/issues?q=is%3Aissue+is%3Aopen+http2"
 	fi
 
 	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
@@ -1927,7 +1929,7 @@ pkg_postinst() {
 			ewarn "vhost(s) is not writeable for nginx user. Any of your log files"
 			ewarn "used by nginx can be abused to escalate privileges!"
 			ewarn "This is a one-time change and will not happen on subsequent updates."
-			chown 0:"${HTTPD_USER:-nginx}" "${EPREFIX%/}"/var/log/nginx || _has_to_show_permission_warning=1
+			chown 0:"${PN}" "${EPREFIX%/}"/var/log/nginx || _has_to_show_permission_warning=1
 			chmod 710 "${EPREFIX%/}"/var/log/nginx || _has_to_show_permission_warning=1
 		fi
 
@@ -1954,7 +1956,7 @@ pkg_postinst() {
 	# /var/log/nginx on their system due to keepdir/non-empty folder
 	# and are now installing the package again.
 	local _sanity_check_testfile=$(mktemp --dry-run "${EPREFIX%/}"/var/log/nginx/.CVE-2016-1247.XXXXXXXXX)
-	su -s /bin/sh -c "touch ${_sanity_check_testfile}" "${HTTPD_USER:-nginx}" >&/dev/null
+	su -s /bin/sh -c "touch ${_sanity_check_testfile}" "${PN}" >&/dev/null
 	if [ $? -eq 0 ] ; then
 		# Cleanup -- no reason to die here!
 		rm -f "${_sanity_check_testfile}"
