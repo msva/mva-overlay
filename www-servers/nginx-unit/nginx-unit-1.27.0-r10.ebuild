@@ -1,19 +1,19 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} pypy3 )
+PYTHON_COMPAT=( python3_{8..11} pypy3 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby25 ruby26 ruby27 ruby30"
+USE_RUBY="ruby27 ruby30 ruby31"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-3 php7-4 php8-0 php8-1"
+USE_PHP="php7-4 php8-0 php8-1"
 
 inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches
 #golang-base
