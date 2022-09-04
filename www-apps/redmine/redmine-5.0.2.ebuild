@@ -1,11 +1,11 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-USE_RUBY="ruby24 ruby25 ruby26"
+USE_RUBY="ruby27 ruby30 ruby31"
 
-inherit eutils ruby-ng
+inherit ruby-ng
 
 DESCRIPTION="Flexible project management webapp written using Ruby on Rails framework"
 HOMEPAGE="https://www.redmine.org/"
@@ -14,18 +14,36 @@ SRC_URI="https://www.redmine.org/releases/${P}.tar.gz"
 KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="bazaar cvs darcs git imagemagick mercurial mysql postgres sqlite3 subversion ldap"
+IUSE="imagemagick ldap markdown +minimagick mysql pdf postgres sqlite"
 
-RDEPEND="
-	|| (
-		$(ruby_implementation_depend ruby24)[ssl]
-		$(ruby_implementation_depend ruby25)[ssl]
-		$(ruby_implementation_depend ruby26)[ssl]
-	)
-"
 ruby_add_rdepend "
 	dev-ruby/bundler:=
 	virtual/rubygems:=
+	ldap? ( dev-ruby/ruby-net-ldap )
+	minimagick? ( dev-ruby/mini_magick )
+	markdown? ( >=dev-ruby/redcarpet-3.5.1 )
+	mysql? ( >=dev-ruby/mysql2-0.5.0:0.5 )
+	postgres? ( >=dev-ruby/pg-1.1.4:1 )
+	sqlite? ( >=dev-ruby/sqlite3-1.4.0 )
+	dev-ruby/actionpack-xml_parser:2
+	dev-ruby/addressable
+	dev-ruby/csv:3
+	>=dev-ruby/i18n-1.8.2:1
+	>=dev-ruby/mail-2.7.1
+	dev-ruby/marcel
+	dev-ruby/mimemagic
+	>=dev-ruby/mini_mime-1.0.1
+	>=dev-ruby/nokogiri-1.11.1
+	dev-ruby/rack-openid
+	>=dev-ruby/rails-5.2.8.1:5.2
+	>=dev-ruby/rbpdf-1.20.0
+	>=dev-ruby/request_store-1.5.0:0
+	>=dev-ruby/roadie-rails-2.2.0:2
+	dev-ruby/rotp
+	>=dev-ruby/rouge-3.26.0
+	dev-ruby/rqrcode
+	>=dev-ruby/ruby-openid-2.9.2
+	>=dev-ruby/rubyzip-2.3.0:2
 "
 
 RDEPEND="
@@ -34,24 +52,48 @@ RDEPEND="
 	acct-group/redmine
 	imagemagick? ( media-gfx/imagemagick )
 	postgres? ( dev-db/postgresql )
-	sqlite3? ( dev-db/sqlite:3 )
+	sqlite? ( dev-db/sqlite:3 )
 	mysql? ( virtual/mysql )
-	bazaar? ( dev-vcs/bzr )
-	cvs? ( >=dev-vcs/cvs-1.12 )
-	darcs? ( dev-vcs/darcs )
-	git? ( dev-vcs/git )
-	mercurial? ( dev-vcs/mercurial )
-	subversion? ( >=dev-vcs/subversion-1.3 )
+	pdf? (
+		app-text/ghostscript-gpl
+		media-gfx/imagemagick
+	)
 "
 
 REDMINE_DIR="${REDMINE_DIR:-/var/lib/${PN}}"
 
 all_ruby_prepare() {
-	rm -r log files/delete.me || die
+	rm -fr log files/delete.me .github || die
 
-	echo "CONFIG_PROTECT=\"${EPREFIX}${REDMINE_DIR}/config\"" > "${T}/50${PN}"
-	echo "CONFIG_PROTECT_MASK=\"${EPREFIX}${REDMINE_DIR}/config/locales ${EPREFIX}${REDMINE_DIR}/config/settings.yml\"" >> "${T}/50${PN}"
-	echo "RAILS_ENV=${RAILS_ENV:-production}" >> "${T}/50${PN}"
+	# bug #406605
+	rm .{git,hg}ignore || die
+
+	# newenvd not working here
+	cat > "${T}/50${PN}" <<-EOF || die
+		CONFIG_PROTECT="${EROOT}/${REDMINE_DIR}/config"
+		CONFIG_PROTECT_MASK="${EROOT}/${REDMINE_DIR}/config/locales ${EROOT}/${REDMINE_DIR}/config/settings.yml"
+		RAILS_ENV="${RAILS_ENV:-production}"
+	EOF
+	# Fixing versions in Gemfile
+	sed -i -e "s/~>/>=/g" Gemfile || die
+
+	# bug #724464
+	sed -i -e "s/gem 'rails',.*/gem 'rails', '~>5.2.6'/" Gemfile || die
+
+	sed -i -e "/group :development do/,/end$/d" Gemfile || die
+	sed -i -e "/group :test do/,/end$/d" Gemfile || die
+
+	if ! use imagemagick ; then
+		sed -i -e "/group :minimagick do/,/end$/d" Gemfile || die
+	fi
+	if ! use ldap ; then
+		# remove ldap stuff module if disabled to avoid #413779
+		use ldap || rm app/models/auth_source_ldap.rb || die
+		sed -i -e "/group :ldap do/,/end$/d" Gemfile || die
+	fi
+	if ! use markdown ; then
+		sed -i -e "/group :markdown do/,/end$/d" Gemfile || die
+	fi
 }
 
 all_ruby_install() {
@@ -61,10 +103,6 @@ all_ruby_install() {
 
 	local REDMINE_LOGDIR="/var/log/${PN}"
 
-	use ldap || (
-		rm app/models/auth_source_ldap.rb
-		eapply "${FILESDIR}/no_ldap.patch"
-	)
 	dodoc doc/{CHANGELOG,INSTALL,README_FOR_APP,RUNNING_TESTS,UPGRADING} || die
 	rm -r doc || die
 	dodoc README.rdoc || die
@@ -143,7 +181,7 @@ pkg_config() {
 	use mysql || without="${without} mysql"
 	use postgres || without="${without} postgresql"
 	use imagemagick || without="${without} rmagick"
-	use sqlite3 || without="${without} sqlite"
+	use sqlite || without="${without} sqlite"
 	without="${without} development test"
 
 	cd "${EPREFIX}${REDMINE_DIR}"
@@ -174,7 +212,7 @@ pkg_config() {
 		RAILS_ENV="${RAILS_ENV}" ${RUBY} -S bundle exec rake db:migrate || die
 		einfo "Insert default configuration data in database."
 		RAILS_ENV="${RAILS_ENV}" ${RUBY} -S bundle exec rake redmine:load_default_data || die
-		if use sqlite3; then
+		if use sqlite; then
 			einfo
 			einfo "Please do not forget to change the ownership of the sqlite files."
 			einfo
