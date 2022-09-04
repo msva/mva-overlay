@@ -3,7 +3,6 @@
 
 EAPI=8
 
-CMAKE_MIN_VERSION="2.8"
 inherit cmake
 
 DESCRIPTION="Tool, separating data processing (business logic) from data presentation"
@@ -19,6 +18,8 @@ DEPEND="
 	iconv? ( virtual/libiconv )
 	md5? ( dev-libs/openssl:* )
 "
+
+BDEPEND=">=dev-util/cmake-2.8"
 
 RDEPEND="${DEPEND}"
 
