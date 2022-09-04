@@ -3,8 +3,6 @@
 
 EAPI=8
 
-CMAKE_MIN_VERSION="3.10"
-
 inherit cmake flag-o-matic toolchain-funcs xdg-utils
 
 MY_PN="MellowPlayer"
@@ -41,6 +39,9 @@ RDEPEND="
 	widevine? ( www-plugins/chrome-binary-plugins:* )
 	x11-libs/libnotify
 "
+
+BDEPEND=">=dev-util/cmake-3.10"
+
 # www-plugins/adobe-flash:*
 
 src_prepare(){
