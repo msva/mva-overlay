@@ -19,6 +19,10 @@ EGIT_SUBMODULES=(
 	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc}
 )
 
+# XXX: REMOVE THAT WHEN @preston will bump submodule in repo
+# XXX: DON'T remove until that. It fixes randlom crashes in 4.1.1 and 9999 (as of 09.09.22)
+EGIT_OVERRIDE_COMMIT_DESKTOP_APP_LIB_UI="4d2fc25d03e7f0234a047fe1de3ad3b1beb82e4c"
+
 if [[ "${PV}" == 9999 ]]; then
 	KEYWORDS=""
 	EGIT_BRANCH="dev"

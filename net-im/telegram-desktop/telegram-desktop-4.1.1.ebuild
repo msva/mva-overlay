@@ -19,6 +19,10 @@ EGIT_SUBMODULES=(
 	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc}
 )
 
+# XXX: REMOVE THAT WHEN @preston will bump submodule in repo
+# XXX: DON'T remove until that. It fixes randlom crashes in 4.1.1 and 9999 (as of 09.09.22)
+EGIT_OVERRIDE_COMMIT_DESKTOP_APP_LIB_UI="4d2fc25d03e7f0234a047fe1de3ad3b1beb82e4c"
+
 if [[ "${PV}" == 9999 ]]; then
 	KEYWORDS=""
 	EGIT_BRANCH="dev"
@@ -66,6 +70,7 @@ COMMON_DEPEND="
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
 	)
+	!libcxx? ( <sys-devel/gcc-12.0 )
 	pipewire? ( media-video/pipewire )
 	pulseaudio? ( media-sound/pulseaudio )
 	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx=] )
@@ -99,7 +104,7 @@ BDEPEND="
 	>=dev-util/cmake-3.16
 	|| (
 		sys-devel/clang
-		sys-devel/gcc
+		<sys-devel/gcc-12.0
 	)
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
@@ -141,6 +146,14 @@ pkg_pretend() {
 
 	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -lt "8.2" && [[ -z "${TG_FORCE_OLD_GCC}" ]]; then
 		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang. Or set TG_FORCE_OLD_GCC=1 to override this check."
+	fi
+
+	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -gt "12.0" && [[ -z "${TG_FORCE_GCC12}" ]]; then
+		eerror "${PN} is known to fail compilation on GCC >=12."
+		eerror "Please, use either GCC versions newer than 8 and older than 12, or clang."
+		eerror "You can use package.env for setting CC/CXX on per-package level."
+		eerror "Alternatively, you can set TG_FORCE_GCC12=1 to override this check (and most probably fail during compilation)."
+		die "GCC>=12 is not supported, read 'eerror's."
 	fi
 
 	if get-flag -flto >/dev/null || use lto; then
@@ -207,6 +220,12 @@ src_prepare() {
 #		echo > cmake/options_linux.cmake
 #		^ Maybe just wipe it out instead of trying to fix?
 #		^ There are not so mush useful compiler flags, actually.
+
+	# GCC-12 fix (although, it is not enough)
+	sed -i \
+		"1i#include <cstdint>" \
+		"${S}/Telegram/ThirdParty/tgcalls/tgcalls/utils/gzip.h"
+
 
 	patches_src_prepare
 #	cmake_src_prepare
