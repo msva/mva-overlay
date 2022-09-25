@@ -1,0 +1,32 @@
+diff --git a/Telegram/SourceFiles/data/data_session.cpp b/Telegram/SourceFiles/data/data_session.cpp
+index e74136f0b..23614f071 100644
+--- a/Telegram/SourceFiles/data/data_session.cpp
++++ b/Telegram/SourceFiles/data/data_session.cpp
+@@ -1869,12 +1869,7 @@ int Session::pinnedCanPin(
+ int Session::pinnedChatsLimit(
+ 		Data::Folder *folder,
+ 		FilterId filterId) const {
+-	const auto limits = Data::PremiumLimits(_session);
+-	return filterId
+-		? limits.dialogFiltersChatsCurrent()
+-		: folder
+-		? limits.dialogsFolderPinnedCurrent()
+-		: limits.dialogsPinnedCurrent();
++	return 100;
+ }
+ 
+ rpl::producer<int> Session::maxPinnedChatsLimitValue(
+@@ -1887,12 +1882,7 @@ rpl::producer<int> Session::maxPinnedChatsLimitValue(
+ 	return rpl::single(rpl::empty_value()) | rpl::then(
+ 		_session->account().appConfig().refreshed()
+ 	) | rpl::map([=] {
+-		const auto limits = Data::PremiumLimits(_session);
+-		return filterId
+-			? limits.dialogFiltersChatsPremium()
+-			: folder
+-			? limits.dialogsFolderPinnedPremium()
+-			: limits.dialogsPinnedPremium();
++		return 100;
+ 	});
+ }
+ 

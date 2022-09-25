@@ -1,0 +1,99 @@
+diff --git a/Telegram/Resources/langs/lang.strings b/Telegram/Resources/langs/lang.strings
+index 849fbcb021..98916f1eb6 100644
+--- a/Telegram/Resources/langs/lang.strings
++++ b/Telegram/Resources/langs/lang.strings
+@@ -3531,4 +3531,11 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
+ 
+ "lng_mac_hold_to_quit" = "Hold {text} to Quit";
+ 
++"lng_profile_copy_id" = "Copy ID";
++"lng_profile_bot_id" = "Bot ID";
++"lng_profile_user_id" = "User ID";
++"lng_profile_group_id" = "Group ID";
++"lng_profile_supergroup_id" = "Supergroup ID";
++"lng_profile_channel_id" = "Channel ID";
++
+ // Keys finished
+diff --git a/Telegram/SourceFiles/info/profile/info_profile_actions.cpp b/Telegram/SourceFiles/info/profile/info_profile_actions.cpp
+index 2526057a2d..aae0ec7b16 100644
+--- a/Telegram/SourceFiles/info/profile/info_profile_actions.cpp
++++ b/Telegram/SourceFiles/info/profile/info_profile_actions.cpp
+@@ -287,6 +287,19 @@ object_ptr<Ui::RpWidget> DetailsFiller::setupInfo() {
+ 	};
+ 	if (const auto user = _peer->asUser()) {
+ 		const auto controller = _controller->parentController();
++		// Source from kotatogram
++		if (user->isBot()) {
++			addInfoOneLine(
++				tr::lng_profile_bot_id(),
++				IDValue(user, 2),
++				tr::lng_profile_copy_id(tr::now));
++		} else {
++			addInfoOneLine(
++				tr::lng_profile_user_id(),
++				IDValue(user, 2),
++				tr::lng_profile_copy_id(tr::now));
++		}
++
+ 		if (user->session().supportMode()) {
+ 			addInfoLineGeneric(
+ 				user->session().supportHelper().infoLabelValue(user),
+@@ -338,6 +351,24 @@ object_ptr<Ui::RpWidget> DetailsFiller::setupInfo() {
+ 			[=] { controller->window().show(Box(EditContactBox, controller, user)); },
+ 			tracker);
+ 	} else {
++		// Source from kotatogram
++		if (_peer->isChat()) {
++			addInfoOneLine(
++				tr::lng_profile_group_id(),
++				IDValue(_peer, 0),
++				tr::lng_profile_copy_id(tr::now));
++		} else if (_peer->isMegagroup()) {
++			addInfoOneLine(
++				tr::lng_profile_supergroup_id(),
++				IDValue(_peer, 1),
++				tr::lng_profile_copy_id(tr::now));
++		} else {
++			addInfoOneLine(
++				tr::lng_profile_channel_id(),
++				IDValue(_peer, 1),
++				tr::lng_profile_copy_id(tr::now));
++		}
++
+ 		auto linkText = LinkValue(
+ 			_peer
+ 		) | rpl::map([](const QString &link) {
+diff --git a/Telegram/SourceFiles/info/profile/info_profile_values.cpp b/Telegram/SourceFiles/info/profile/info_profile_values.cpp
+index 2a9a051a2e..6088042911 100644
+--- a/Telegram/SourceFiles/info/profile/info_profile_values.cpp
++++ b/Telegram/SourceFiles/info/profile/info_profile_values.cpp
+@@ -74,6 +74,17 @@
+ 
+ } // namespace
+ 
++rpl::producer<TextWithEntities> IDValue(not_null<PeerData*> peer, int type) {
++	if (type == 0) {
++		return rpl::single(QString("-%1").arg(peer->id.value)) | Ui::Text::ToWithEntities();
++	} else if (type == 1) {
++		return rpl::single(QString("-100%1").arg(peer->id.value)) | Ui::Text::ToWithEntities();
++	}
++	else {
++		return rpl::single(QString("%1").arg(peer->id.value)) | Ui::Text::ToWithEntities();
++	}
++}
++
+ rpl::producer<TextWithEntities> NameValue(not_null<PeerData*> peer) {
+ 	return peer->session().changes().peerFlagsValue(
+ 		peer,
+diff --git a/Telegram/SourceFiles/info/profile/info_profile_values.h b/Telegram/SourceFiles/info/profile/info_profile_values.h
+index 39bd89d830..33fb3dfc31 100644
+--- a/Telegram/SourceFiles/info/profile/info_profile_values.h
++++ b/Telegram/SourceFiles/info/profile/info_profile_values.h
+@@ -40,6 +40,7 @@ inline auto ToSingleLine() {
+ rpl::producer<not_null<PeerData*>> MigratedOrMeValue(
+ 	not_null<PeerData*> peer);
+ 
++[[nodiscard]] rpl::producer<TextWithEntities> IDValue(not_null<PeerData*> peer_id, int type);
+ [[nodiscard]] rpl::producer<TextWithEntities> NameValue(
+ 	not_null<PeerData*> peer);
+ [[nodiscard]] rpl::producer<TextWithEntities> PhoneValue(

@@ -39,7 +39,18 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug enchant hide-banned hide-sponsored-messages +hunspell libcxx lto pipewire +pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc wide-baloons +X"
+IUSE="custom-api-id +dbus debug enchant +hunspell libcxx lto pipewire +pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
+
+MYPATCHES=(
+	"hide-banned"
+	"hide-sponsored-messages"
+	"wide-baloons"
+	"chat-ids"
+	"increase-limits"
+)
+for p in ${MYPATCHES[@]}; do
+	IUSE="${IUSE} tdesktop_patches_${p}"
+done
 
 COMMON_DEPEND="
 	!net-im/telegram
