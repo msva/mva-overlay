@@ -28,6 +28,7 @@ RDEPEND="
 	>=dev-libs/glib-2.6:2
 	introspection? ( dev-libs/gobject-introspection )
 	cfitsio? ( sci-libs/cfitsio[${MULTILIB_USEDEP}] )
+	cgif? ( media-libs/cgif[${MULTILIB_USEDEP}] )
 	exif? ( >=media-libs/libexif-0.6[${MULTILIB_USEDEP}] )
 	fftw? ( sci-libs/fftw:3.0=[${MULTILIB_USEDEP}] )
 	gsf? ( gnome-extra/libgsf )
@@ -50,7 +51,7 @@ RDEPEND="
 	)
 	png? ( >=media-libs/libpng-1.2.9:0=[${MULTILIB_USEDEP}] )
 	poppler? ( app-text/poppler )
-	spng? ( media-libs/spng[${MULTILIB_USEDEP}] )
+	spng? ( media-libs/libspng[${MULTILIB_USEDEP}] )
 	rsvg? ( gnome-base/librsvg[${MULTILIB_USEDEP}] )
 	tiff? ( media-libs/tiff:0=[${MULTILIB_USEDEP}] )
 	webp? ( media-libs/libwebp[${MULTILIB_USEDEP}] )
