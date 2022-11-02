@@ -24,9 +24,9 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	eerror "currently lunix is totally broken:"
-	eerror "- doesn't build with default makefiles,"
+	eerror "- doesn't build with default makefiles (and they don't conform gentoo way to build),"
 	eerror "- miss many headers (compiler complains on implicit declarations and non-defined NL_TEXTMAX)"
-	die "TODO: check someday if it is already fixed"
+	die "TODO: check someday if it is already fixed (last check: 02.11.2022, still broken)"
 	default
 	sed  -r \
 		-e "s@(^prefix ).*@\1=/usr@" \
@@ -38,7 +38,7 @@ src_prepare() {
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
 
-	$(tc-getCC) ${CFLAGS} ${LDFLAGS} -fPIC -shared src/*.c -o unix.so || die
+	$(tc-getCC) ${CFLAGS} -I$(lua_get_include_dir) ${LDFLAGS} -fPIC -shared src/*.c -o unix.so || die
 
 	popd
 }
