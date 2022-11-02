@@ -21,7 +21,7 @@ else
 	KEYWORDS="~amd64"
 	#	~ppc64"
 	#	^ libyuv (not a big deal, actually), clang-runtime[libcxx], libcxx (!)
-	EGIT_COMMIT="10d5f4bf77333ef6b43516f90d2ce13273255f41"
+	EGIT_COMMIT="621f3da55331733bf0d1b223786b96b68c03dca1"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
@@ -79,8 +79,7 @@ BDEPEND="
 PATCHES=(
 	"${FILESDIR}/0000_pkgconfig.patch"
 	"${FILESDIR}/${PN}-0_pre20210626-allow-disabling-pipewire.patch"
-	"${FILESDIR}/${PN}-0_pre20211207-allow-disabling-X11.patch"
-	"${FILESDIR}/${PN}-0_pre20210626-allow-disabling-pulseaudio.patch"
+	"${FILESDIR}/${PN}-0_pre20221103-allow-disabling-pulseaudio.patch"
 	"${FILESDIR}/${PN}-0_pre20210626-expose-set_allow_pipewire.patch"
 	"${FILESDIR}/libyuv.patch"
 	"${FILESDIR}/libyuv_2.patch"
