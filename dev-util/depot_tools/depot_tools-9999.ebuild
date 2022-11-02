@@ -1,11 +1,11 @@
 # Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 
-inherit eutils git-r3 python-r1
+inherit wrapper git-r3 python-r1
 
 DESCRIPTION="Chromium scripts to manage interaction with dependencies"
 HOMEPAGE="https://dev.chromium.org/developers/how-tos/install-depot-tools"
@@ -20,7 +20,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 DOCS_DIR="${WORKDIR}/${P}-docs"
-DOCS=( "${DOCS_DIR}"/README{{.gclient,.git-cl,}.md,.testing} "${DOCS_DIR}"/man/html )
+DOCS=( "${DOCS_DIR}"/README{,.gclient,.git-cl}.md "${DOCS_DIR}"/man/html )
 
 src_prepare() {
 	rm -f *.bat *.ps1 *.exe ninja* LICENSE .git{i,a}* update_depot_tools*
@@ -28,10 +28,10 @@ src_prepare() {
 
 	mkdir "${DOCS_DIR}" "${WORKDIR}/stuff"
 
-	# FIXME: When depot_tools will be compatible with py3
-	grep -rl 'exec python' | xargs sed \
-		-e 's@exec python@exec python2@' -i
-	#
+	# # FIXME: When depot_tools will be compatible with py3
+	# grep -rl 'exec python' | xargs sed \
+	# 	-e 's@exec python@exec python2@' -i
+	# #
 
 	sed -n \
 	-e '1p;/^base_dir/p;$p' \
@@ -64,8 +64,8 @@ src_install() {
 
 #	make_wrapper "update_depot_tools" "echo -n" "" "" "${inspath}"
 
-	exeinto "${inspath}/support"
-	doexe support/chromite_wrapper
+	# exeinto "${inspath}/support"
+	# doexe support/chromite_wrapper
 
 	if use zsh-completion; then
 		insinto /usr/share/zsh/site-functions
