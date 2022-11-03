@@ -1,0 +1,3 @@
+move net-im/jitsi-meet net-im/jitsi-meet-electron-bin
+move net-im/jitsi-meet-bin net-im/jitsi-meet-electron-bin
+
