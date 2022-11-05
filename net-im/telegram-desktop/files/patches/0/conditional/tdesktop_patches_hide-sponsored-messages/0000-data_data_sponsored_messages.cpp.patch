@@ -2,15 +2,28 @@ diff --git i/Telegram/SourceFiles/data/data_sponsored_messages.cpp w/Telegram/So
 index 10e69d37b..fbcb20158 100644
 --- i/Telegram/SourceFiles/data/data_sponsored_messages.cpp
 +++ w/Telegram/SourceFiles/data/data_sponsored_messages.cpp
-@@ -73,11 +73,6 @@ bool SponsoredMessages::append(not_null<History*> history) {
- 		return false;
- 	}
-
--	entryIt->item.reset(history->addNewLocalMessage(
--		_session->data().nextLocalMessageId(),
--		entryIt->sponsored.from,
--		entryIt->sponsored.textWithEntities));
--
- 	return true;
+@@ -21,7 +21,7 @@ https://github.com/telegramdesktop/tdesk
+ namespace Data {
+ namespace {
+ 
+-constexpr auto kRequestTimeLimit = 5 * 60 * crl::time(1000);
++constexpr auto kRequestTimeLimit = 9999999 * 60 * crl::time(1000);
+ 
+ [[nodiscard]] bool TooEarlyForRequest(crl::time received) {
+ 	return (received > 0) && (received + kRequestTimeLimit > crl::now());
+@@ -77,10 +77,13 @@ bool SponsoredMessages::append(not_null<
  }
+ 
+ bool SponsoredMessages::canHaveFor(not_null<History*> history) const {
+-	return history->peer->isChannel();
++	return false;
+ }
+ 
+ void SponsoredMessages::request(not_null<History*> history, Fn<void()> done) {
++	if (1) {
++		return;
++	}
+ 	if (!canHaveFor(history)) {
+ 		return;
+ 	}
 

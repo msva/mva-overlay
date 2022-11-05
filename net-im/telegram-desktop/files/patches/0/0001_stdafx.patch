@@ -14,6 +14,6 @@
  #include "base/basic_types.h"
  #include "logs.h"
 +#include "scheme.h"
+ #include "settings.h"
  #include "core/utils.h"
  #include "config.h"
- 

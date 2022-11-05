@@ -21,7 +21,7 @@ EGIT_SUBMODULES=(
 
 # XXX: REMOVE THAT WHEN @preston will bump submodule in repo
 # XXX: DON'T remove until that. It fixes randlom crashes in 4.1.1 and 9999 (as of 09.09.22)
-EGIT_OVERRIDE_COMMIT_DESKTOP_APP_LIB_UI="4d2fc25d03e7f0234a047fe1de3ad3b1beb82e4c"
+# EGIT_OVERRIDE_COMMIT_DESKTOP_APP_LIB_UI="4d2fc25d03e7f0234a047fe1de3ad3b1beb82e4c"
 
 if [[ "${PV}" == 9999 ]]; then
 	KEYWORDS=""
@@ -39,7 +39,7 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug enchant +hunspell libcxx lto pipewire +pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
+IUSE="custom-api-id +dbus debug enchant +hunspell libcxx lto +pipewire pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
 
 MYPATCHES=(
 	"hide-banned"
@@ -69,7 +69,7 @@ COMMON_DEPEND="
 	media-libs/fontconfig:=
 	media-libs/rnnoise:=
 	media-libs/libyuv:=
-	media-libs/openal:=
+	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
 	media-video/ffmpeg:=[opus]
 	dbus? (
@@ -82,9 +82,14 @@ COMMON_DEPEND="
 		sys-devel/clang-runtime:=[libcxx]
 	)
 	!libcxx? ( <sys-devel/gcc-12.0 )
-	pipewire? ( media-video/pipewire )
-	pulseaudio? ( media-sound/pulseaudio )
-	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx=] )
+	pulseaudio? (
+		!pipewire? ( media-sound/pulseaudio[daemon] )
+		pipewire? (
+			media-video/pipewire[sound-server]
+			media-sound/pulseaudio[-daemon]
+		)
+	)
+	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx(-)=,pulseaudio(-)=] )
 	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads,-cache] )
 	enchant? ( app-text/enchant:= )
 	hunspell? ( >=app-text/hunspell-1.7:= )
@@ -94,6 +99,7 @@ COMMON_DEPEND="
 		media-libs/libjpeg-turbo:=
 		media-libs/libyuv:=
 		<dev-libs/openssl-3.0
+		dev-libs/tg_owt[pipewire(-)=,libcxx(-)=]
 	)
 	wayland? ( kde-frameworks/kwayland:= )
 	webkit? ( net-libs/webkit-gtk:= )
@@ -126,6 +132,7 @@ REQUIRED_USE="
 		^^ ( enchant hunspell )
 	)
 	webkit? ( dbus )
+	pipewire? ( pulseaudio )
 "
 
 
