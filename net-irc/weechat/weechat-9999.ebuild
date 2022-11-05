@@ -1,10 +1,10 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 LUA_COMPAT=( lua5-{1..4} luajit )
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 
 inherit cmake lua-single python-single-r1 xdg-utils
 
@@ -12,8 +12,13 @@ if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/weechat/weechat.git"
 else
-	SRC_URI="https://weechat.org/files/src/${P}.tar.xz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~x64-macos"
+	SRC_URI="
+		https://weechat.org/files/src/${P}.tar.xz
+		verify-sig? ( https://weechat.org/files/src/${P}.tar.xz.asc )
+	"
+	VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/weechat.org.asc
+	BDEPEND+="verify-sig? ( sec-keys/openpgp-keys-weechat )"
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~x86 ~x64-macos"
 fi
 
 DESCRIPTION="Portable and multi-interface IRC client"
@@ -66,7 +71,7 @@ DEPEND="${RDEPEND}
 	test? ( dev-util/cpputest )
 "
 
-BDEPEND="
+BDEPEND+="
 	virtual/pkgconfig
 	doc? ( >=dev-ruby/asciidoctor-1.5.4 )
 	man? ( >=dev-ruby/asciidoctor-1.5.4 )
@@ -111,7 +116,7 @@ src_prepare() {
 	done
 
 	# install docs in correct directory
-	sed -i "s#\${SHAREDIR}/doc/\${PROJECT_NAME}#\0-${PV}/html#" doc/*/CMakeLists.txt || die
+	sed -i "s#\${DATAROOTDIR}/doc/\${PROJECT_NAME}#\0-${PV}/html#" doc/*/CMakeLists.txt || die
 
 	if [[ ${CHOST} == *-darwin* ]]; then
 		# fix linking error on Darwin
@@ -120,6 +125,12 @@ src_prepare() {
 		# allow to find the plugins by default
 		sed -i 's/".so,.dll"/".bundle,.so,.dll"/' \
 			src/core/wee-config.c || die
+	fi
+
+	if use php; then
+		sed -i \
+			-e '/^install(/iset(CMAKE_SKIP_RPATH OFF CACHE BOOL "" FORCE)' \
+			src/plugins/php/CMakeLists.txt || die
 	fi
 }
 
@@ -157,6 +168,9 @@ src_configure() {
 		-DENABLE_TRIGGER=$(usex trigger)
 		-DENABLE_TYPING=$(usex typing)
 		-DENABLE_XFER=$(usex xfer)
+		-DCMAKE_BUILD_TYPE:STRING=Release
+		-DBUILD_SHARED_LIBS:BOOL=ON
+		-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON
 	)
 	cmake_src_configure
 }
