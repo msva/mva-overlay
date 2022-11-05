@@ -17,7 +17,7 @@ IUSE="doc"
 
 DEPEND="doc? ( app-doc/doxygen )"
 
-DOCS=( docs/index.md )
+DOCS=( docs/README.md )
 
 src_prepare() {
 	cmake_src_prepare
