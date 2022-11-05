@@ -12,9 +12,6 @@ EGIT_REPO_URI="https://github.com/mumble-voip/mumble"
 # )
 EGIT_SUBMODULES=(
 	'-*'
-	celt-0.7.0-src
-	celt-0.11.0-src
-	themes/Mumble
 	# 3rdparty/rnnoise-src
 	3rdparty/FindPythonInterpreter
 	# 3rdparty/tracy
@@ -81,9 +78,6 @@ RDEPEND="
 	zeroconf? ( net-dns/avahi[mdnsresponder-compat] )
 	system-rnnoise? ( media-libs/rnnoise )
 "
-	# system-celt? (
-	# 	media-libs/celt
-	# )
 
 DEPEND="${RDEPEND}
 	dev-qt/qtconcurrent:5
@@ -104,7 +98,7 @@ BDEPEND="
 src_unpack() {
 	# use system-celt && EGIT_SUBMODULES+=(-celt-0.7.0-src)
 	use system-opus || EGIT_SUBMODULES+=(opus)
-	use system-speex || EGIT_SUBMODULES+=(3rdparty/speexdsp speex)
+	use system-speex || EGIT_SUBMODULES+=(3rdparty/speexdsp)
 	use system-rnnoise || EGIT_SUBMODULES+=(3rdparty/rnnoise-src)
 	git-r3_src_unpack
 }
@@ -120,8 +114,18 @@ src_prepare() {
 		-e '/add_subdirectory.*tracy/d' \
 		-e '/disable_warnings.*tracy/d' \
 		-e '/target_link_libraries.*Tracy/d' \
+		-e '/message.*about narrowing/d' \
 		-i src/CMakeLists.txt || die
-	# append-cflags "-I/usr/include/gsl"
+	sed \
+		-e '/^assert_is_relative/d' \
+		-i cmake/install-paths.cmake
+	sed \
+		-e '/3rdparty\//d' \
+		-i scripts/generate_license_header.py
+	use pipewire && {
+		append-cxxflags "-I/usr/include/pipewire-0.3"
+		append-cxxflags "-I/usr/include/spa-0.2"
+	}
 	cmake_src_prepare
 }
 
@@ -143,10 +147,10 @@ src_configure() {
 		-Dupdate=OFF
 		-Dwarnings-as-errors=OFF
 		-Dtests="$(useb test)"
-		-Dtests="$(useb lto)"
+		# -Dtests="$(useb lto)"
 		-Dtracy="OFF"
 
-		-Dbundled-celt=ON
+		# -Dbundled-celt=ON
 		# -Dbundled-celt=$(useb !system-celt)
 		-Drnnoise=ON # fails with 'off' O_o (maybe submodules?)
 		-Dbundled-rnnoise="$(useb !system-rnnoise)"
@@ -175,6 +179,7 @@ src_configure() {
 
 		-Dclient=ON
 		-Dserver=OFF # separate package
+		# -Ddisplay-install-paths=ON
 	)
 
 	cmake_src_configure
