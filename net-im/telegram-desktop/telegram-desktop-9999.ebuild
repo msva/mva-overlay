@@ -99,7 +99,7 @@ COMMON_DEPEND="
 		media-libs/libjpeg-turbo:=
 		media-libs/libyuv:=
 		<dev-libs/openssl-3.0
-		dev-libs/tg_owt[pipewire(-)=,libcxx(-)=]
+		media-libs/tg_owt[pipewire(-)=,libcxx(-)=]
 	)
 	wayland? ( kde-frameworks/kwayland:= )
 	webkit? ( net-libs/webkit-gtk:= )
