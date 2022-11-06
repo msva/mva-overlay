@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -81,7 +81,6 @@ COMMON_DEPEND="
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
 	)
-	!libcxx? ( <sys-devel/gcc-12.0 )
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio[daemon] )
 		pipewire? (
@@ -119,10 +118,6 @@ BDEPEND="
 	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
 	>=dev-cpp/range-v3-0.10.0:=
 	>=dev-util/cmake-3.16
-	|| (
-		sys-devel/clang
-		<sys-devel/gcc-12.0
-	)
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
 "
@@ -162,16 +157,24 @@ pkg_pretend() {
 		fi
 	fi
 
-	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -lt "8.2" && [[ -z "${TG_FORCE_OLD_GCC}" ]]; then
-		die "Minimal compatible gcc version is 8.2. Please, either upgrade or use clang. Or set TG_FORCE_OLD_GCC=1 to override this check."
+	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -gt "12.0" && [[ -z "${TG_FORCE_GCC12}" ]]; then
+		eerror "${PN} was known to fail compilation with GCC >=12, but it may be fixed already"
+	   	eerror "(Unfortunately, I still have no spare time to test with both compilers every time, so I only test time to time)."
+		eerror "Please, cpnsider to use either GCC versions newer than 8 and older than 12, or clang (older than 15 :) )."
+		eerror "You can use package.env for setting CC/CXX on per-package level."
+		eerror "Alternatively, you can set TG_FORCE_GCC12=1 to override this check (and have a chance to fail during compilation)."
+		einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
+		einfo  "fixes for compilation problems you'd meet with skipping the check :)"
 	fi
 
-	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -gt "12.0" && [[ -z "${TG_FORCE_GCC12}" ]]; then
-		eerror "${PN} is known to fail compilation on GCC >=12."
-		eerror "Please, use either GCC versions newer than 8 and older than 12, or clang."
+	if tc-is-clang && ver_test "$(clang-major-version).$(clang-minor-version)" -gt "15.0" && [[ -z "${TG_FORCE_CLANG15}" ]]; then
+		eerror "${PN} is known to fail compilation with Clang >=15."
+		eerror "Please, use either Clang versions newer than older than 15."
 		eerror "You can use package.env for setting CC/CXX on per-package level."
-		eerror "Alternatively, you can set TG_FORCE_GCC12=1 to override this check (and most probably fail during compilation)."
-		die "GCC>=12 is not supported, read 'eerror's."
+		eerror "Alternatively, you can set TG_FORCE_CLANG15=1 to override this check (and most probably fail during compilation)."
+		einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
+		einfo  "fixes for compilation problems you'd meet with skipping the check :)"
+		die "Clang >= 15 is not supported ATM by tdesktop upstream, read 'eerror's above for advices."
 	fi
 
 	if get-flag -flto >/dev/null || use lto; then
@@ -238,12 +241,6 @@ src_prepare() {
 #		echo > cmake/options_linux.cmake
 #		^ Maybe just wipe it out instead of trying to fix?
 #		^ There are not so mush useful compiler flags, actually.
-
-	# GCC-12 fix (although, it is not enough)
-	sed -i \
-		"1i#include <cstdint>" \
-		"${S}/Telegram/ThirdParty/tgcalls/tgcalls/utils/gzip.h"
-
 
 	patches_src_prepare
 #	cmake_src_prepare
