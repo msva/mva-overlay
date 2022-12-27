@@ -1,8 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-# ^ mercurial
+EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
@@ -16,12 +15,8 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="examples"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
-RDEPEND="
-	${LUA_DEPS}
-"
-DEPEND="
-	${RDEPEND}
-"
+RDEPEND="${LUA_DEPS}"
+DEPEND="${RDEPEND}"
 
 src_prepare() {
 	default
