@@ -1,8 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-inherit eutils
+EAPI=8
 
 DESCRIPTION="Package for using multi-locus genotype data to investigate population structure"
 HOMEPAGE="http://pritchardlab.stanford.edu/structure.html"
@@ -19,7 +18,6 @@ RESTRICT="mirror"
 
 IUSE="java doc"
 RDEPEND="java? ( virtual/jre )"
-DEPEND=""
 
 S="${WORKDIR}/structure_kernel_src"
 
@@ -39,7 +37,6 @@ src_prepare() {
 }
 
 src_install() {
-
 	# There's no install target, but only one executable, so...
 	dobin structure
 
