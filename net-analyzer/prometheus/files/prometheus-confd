@@ -1,4 +1,0 @@
-PROMETHEUS_USER="prometheus"
-PROMETHEUS_STORAGE="/var/lib/prometheus/data"
-PROMETHEUS_ARGS="-web.listen-address localhost:9090 -config.file /etc/prometheus/prometheus.yml -storage.local.path ${PROMETHEUS_STORAGE}"
-PROMETHEUS_LOG_FILE="/var/log/prometheus/prometheus.log"
