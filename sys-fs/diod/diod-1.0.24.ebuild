@@ -1,25 +1,29 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils
+LUA_COMPAT=( lua5-{1..4} luajit )
+
+inherit autotools lua-single
 
 DESCRIPTION="Distributed I/O Daemon - a 9P file server"
 HOMEPAGE="https://github.com/chaos/diod"
-SRC_URI="https://github.com/chaos/${PN}/archive/${PV}.tar.gz"
+
+if [[ "${PV}" == *9999* ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/chaos/diod"
+else
+	SRC_URI="https://github.com/chaos/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~arm ~x86"
+fi
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~x86"
-IUSE="rdma tcmalloc luajit"
+IUSE="rdma tcmalloc"
+REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 DEPEND="
-	|| (
-		virtual/lua
-		>=dev-lang/lua-5.1:*
-		>=dev-lang/luajit-2:*
-	)
 	sys-apps/tcp-wrappers
 	virtual/libc
 	sys-libs/libcap
@@ -27,18 +31,21 @@ DEPEND="
 	tcmalloc? ( dev-util/google-perftools )
 "
 RDEPEND="${DEPEND}"
+BDEPEND="virtual/pkgconfig"
 
 src_prepare() {
 	default
-	./autogen.sh
+	eautoreconf
 }
 
 src_configure() {
+	LUA="${LUA}"
+	LUA_INCLUDE=$(lua_get_include_dir)
+	LUA_LIB=$(lua_get_LIBS)
 	local myeconfargs=(
 		$(use_enable rdma rdmatrans)
 		--with-ncurses
 		$(use_with tcmalloc)
-		$(use_with luajit lua-suffix jit-5.1)
 	)
 	default
 }
