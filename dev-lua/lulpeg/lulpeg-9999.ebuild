@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -15,12 +15,12 @@ LICENSE="WTFPL-2 MIT"
 # ^ author claims that it's WTFPL-3, actually, but even wiki doesn't know about it
 
 SLOT="0"
-IUSE="doc lpeg_replace"
+IUSE="doc lpeg-replace"
 
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
-	lpeg_replace? ( !dev-lua/lpeg )
+	lpeg-replace? ( !dev-lua/lpeg )
 "
 DEPEND="${RDEPEND}"
 
@@ -38,7 +38,7 @@ each_lua_install() {
 	pushd "${BUILD_DIR}"
 	insinto "$(lua_get_lmod_dir)"
 	doins "${PN}".lua
-	use lpeg_replace && newins "${PN}.lua" lpeg.lua
+	use lpeg-replace && newins "${PN}.lua" lpeg.lua
 	popd
 }
 
@@ -50,4 +50,3 @@ src_install() {
 	lua_foreach_impl each_lua_install
 	einstalldocs
 }
-
