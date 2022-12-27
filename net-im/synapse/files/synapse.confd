@@ -1,5 +1,0 @@
-# SYNAPSE_USER=synapse
-# SYNAPSE_GROUP=synapse
-
-# Store your service (not daemon itself) configuration and
-# environment variables you want pass to the daemon here
