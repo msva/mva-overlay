@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>williamh@gentoo.org</email>
-    <name>William Hubbs</name>
+    <email>mva@gentoo.org</email>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription lang="en">lightweight, native, lazy evaluating multithreading library for Lua-5.1 or 5.2.</longdescription>
-  <upstream>
-    <remote-id type="github">LuaLanes/lanes</remote-id>
-  </upstream>
+  <use>
+    <flag name="system-unicode-data">Use <pkg>app-i18n/unicode-data</pkg> to regenerate known unicode ranges table</flag>
+  </use>
 </pkgmetadata>

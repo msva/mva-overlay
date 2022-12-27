@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -6,7 +6,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3 toolchain-funcs
 
-DESCRIPTION="lightweight, native, lazy evaluating multithreading library"
+DESCRIPTION="a utf-8 support module for Lua and LuaJIT"
 HOMEPAGE="https://github.com/starwing/luautf8"
 EGIT_REPO_URI="https://github.com/starwing/luautf8"
 
