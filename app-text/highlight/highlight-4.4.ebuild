@@ -1,9 +1,11 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit qmake-utils toolchain-funcs
+LUA_COMPAT=( lua{5-{1..4},jit} )
+
+inherit lua-single qmake-utils toolchain-funcs
 
 DESCRIPTION="Converts source code to formatted text (HTML, LaTeX, etc.) with syntax highlight"
 HOMEPAGE="http://www.andre-simon.de/"
@@ -11,22 +13,13 @@ SRC_URI="http://www.andre-simon.de/zip/${P}.tar.bz2"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos"
 IUSE="examples qt5"
 
+REQUIRED_USE="${LUA_REQUIRED_USE}"
+
 RDEPEND="
-	|| (
-		dev-lang/lua:0
-		(
-			app-eselect/eselect-lua
-			|| (
-				dev-lang/lua:5.1
-				dev-lang/lua:5.2
-				dev-lang/lua:5.3
-				dev-lang/luajit:2
-			)
-		)
-	)
+	${LUA_DEPS}
 	qt5? (
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5
@@ -41,17 +34,21 @@ BDEPEND="
 	qt5? ( dev-qt/linguist-tools:5 )
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.57-qt_libs_lua.patch
+)
+
 myhlopts=(
-	"CXX=$(tc-getCXX)"
-	"AR=$(tc-getAR)"
-	"LDFLAGS=${LDFLAGS}"
-	"CFLAGS=${CXXFLAGS} -DNDEBUG -std=c++11"
-	"DESTDIR=${D}"
-	"PREFIX=${EPREFIX}/usr"
-	"HL_CONFIG_DIR=${EPREFIX}/etc/highlight/"
-	"HL_DATA_DIR=${EPREFIX}/usr/share/highlight/"
-	"doc_dir=${EPREFIX}/usr/share/doc/${PF}/"
-	"conf_dir=${EPREFIX}/etc/highlight/"
+	CXX="$(tc-getCXX)"
+	AR="$(tc-getAR)"
+	LDFLAGS="${LDFLAGS}"
+	CFLAGS="${CXXFLAGS} -DNDEBUG"
+	DESTDIR="${D}"
+	PREFIX="${EPREFIX}/usr"
+	HL_CONFIG_DIR="${EPREFIX}/etc/highlight/"
+	HL_DATA_DIR="${EPREFIX}/usr/share/highlight/"
+	doc_dir="${EPREFIX}/usr/share/doc/${PF}/"
+	conf_dir="${EPREFIX}/etc/highlight/"
 )
 
 src_prepare() {
@@ -63,21 +60,13 @@ src_prepare() {
 	sed -e "/LSB_DOC_DIR/s:doc/${PN}:doc/${PF}:" \
 		-i src/core/datadir.cpp || die
 
-	# Use the eselected pkgconfig for Lua
-	# (here we anyway only build it against "system default" implementation)
-	local LUA_TARGET=lua
-	# TODO: LUA_SINGLE_TARGET
 	sed -r -i \
-		-e "s,(^LUA_PKG_NAME)=.*,\1=${LUA_TARGET},g" \
-		-e "/^LUA_.*pkg-config/s, [^ \{\}\?]*\)\$, ${LUA_TARGET}\),g" \
+		-e "/^LUA_.*pkg-config/s,\<lua\>,${ELUA},g" \
 		"${S}"/extras/tcl/makefile \
 		"${S}"/extras/swig/makefile \
-		"${S}"/makefile \
-		"${S}"/src/makefile \
-		|| die "Failed to set Lua version"
+		|| die "Failed to set Lua implementation"
 
-	# CC/CXX: We set it via eqmake5, otherwise it forces clang...
-	# TODO: LUA_SINGLE_TARGET: LIBS,PKGCONFIG
+	# We set it via eqmake5, otherwise it forces clang...
 	sed -e "s/QMAKE_CC/#QMAKE_CC/g" \
 		-e "s/QMAKE_CXX /#QMAKE_CXX /g" \
 		-i src/gui-qt/highlight.pro || die
@@ -93,7 +82,7 @@ src_configure() {
 }
 
 src_compile() {
-	emake -f makefile "${myhlopts[@]}"
+	emake -f makefile LUA_PKG_NAME="${ELUA}" "${myhlopts[@]}"
 	if use qt5 ; then
 		pushd src/gui-qt > /dev/null || die
 		emake
