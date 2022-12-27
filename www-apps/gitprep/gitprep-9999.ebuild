@@ -1,7 +1,7 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit perl-module git-r3
 
@@ -12,11 +12,9 @@ RESTRICT="test"
 
 LICENSE="|| ( Artistic GPL-1+ )"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 RDEPEND="
-	acct-user/git[gitprep]
+	=acct-user/git-0-r3[gitprep]
 	acct-group/git
 	dev-perl/Mojolicious-Plugin-INIConfig
 	dev-perl/Mojolicious
