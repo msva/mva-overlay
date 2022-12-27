@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -9,10 +9,8 @@ DESCRIPTION="C++14 Dependency Injection Library"
 HOMEPAGE="https://boost-ext.github.io/di"
 LICENSE="Boost-1.0"
 SLOT="0"
-IUSE=""
 
 MY_PN="${PN//boost-}"
-
 
 if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3

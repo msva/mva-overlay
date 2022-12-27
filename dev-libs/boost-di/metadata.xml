@@ -3,21 +3,7 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>A platform independent standalone library that plays Lottie Animation</longdescription>
-  <use>
-    <flag name="cache">Enable cache support</flag>
-    <flag name="dumptree">Enable logging the rlottie tree</flag>
-    <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> and link against <pkg>sys-libs/libcxx</pkg></flag>
-    <flag name="log">Enable logging</flag>
-    <flag name="module">Build Image module</flag>
-    <flag name="telegram-patches">Apply John Preston patches (you don't need that)</flag>
-    <flag name="threads">Support threading</flag>
-  </use>
-  <upstream>
-    <remote-id type="github">samsung/rlottie</remote-id>
-    <bugs-to>https://github.com/samsung/rlottie/issues</bugs-to>
-  </upstream>
 </pkgmetadata>
