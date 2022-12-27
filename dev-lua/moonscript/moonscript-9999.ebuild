@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -21,7 +21,7 @@ RDEPEND="
 	$(lua_gen_cond_dep '
 		|| (
 			dev-lua/lpeg[${LUA_USEDEP}]
-			dev-lua/lulpeg[${LUA_USEDEP},lpeg_replace]
+			dev-lua/lulpeg[${LUA_USEDEP},lpeg-replace]
 		)
 		dev-lua/luafilesystem[${LUA_USEDEP}]
 		dev-lua/lua-argparse[${LUA_USEDEP}]
