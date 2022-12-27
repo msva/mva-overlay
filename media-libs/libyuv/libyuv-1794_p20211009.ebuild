@@ -12,12 +12,12 @@ HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv/"
 SRC_URI="https://dev.gentoo.org/~mva/distfiles/${P}.tar.gz"
 
 LICENSE="BSD"
-KEYWORDS="~amd64 ~arm64"
+KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 SLOT="0/${PV}"
 
 IUSE="static-libs test tools"
 
-RDEPEND="virtual/jpeg"
+RDEPEND="media-libs/libjpeg-turbo"
 DEPEND="
 	${RDEPEND}
 	test? (
@@ -26,6 +26,8 @@ DEPEND="
 	)
 	dev-util/cmake
 "
+
+RESTRICT="!test? ( test )"
 
 DOCS=( AUTHORS LICENSE PATENTS README.{md,chromium} )
 
