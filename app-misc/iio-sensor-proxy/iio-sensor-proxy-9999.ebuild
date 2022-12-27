@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit autotools git-r3 patches
 
@@ -12,12 +12,10 @@ EGIT_REPO_URI="https://github.com/hadess/iio-sensor-proxy"
 LICENSE="Unlicense"
 # Unknown. There is no info about the license ATM.
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 RDEPEND="
 	sys-apps/systemd
-	virtual/libgudev
+	dev-libs/libgudev
 	app-misc/geoclue:*
 "
 DEPEND="
