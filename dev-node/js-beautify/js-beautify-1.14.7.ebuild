@@ -1,7 +1,7 @@
-# Copyright 2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 DESCRIPTION="Beautifier for javascript https://beautifier.io"
 HOMEPAGE="https://github.com/beautify-web/js-beautify"
@@ -9,12 +9,7 @@ HOMEPAGE="https://github.com/beautify-web/js-beautify"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm"
-IUSE=""
 RESTRICT="network-sandbox"
-
-DEPEND=""
-RDEPEND="${DEPEND}"
-BDEPEND=""
 
 NPM_NO_DEPS=0
 
