@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -21,20 +21,18 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
 	${LUA_DEPS}
-	dev-lua/squish
 	dev-lua/luasocket[${LUA_USEDEP}]
 	dev-lua/luaexpat[${LUA_USEDEP}]
 	dev-lua/luafilesystem[${LUA_USEDEP}]
 	dev-lua/LuaBitOp[${LUA_USEDEP}]
 "
-DEPEND="
-	${RDEPEND}
-"
+DEPEND="${RDEPEND}"
+BDEPEND="dev-lua/squish"
 
-src_unpack() {
-	mercurial_src_unpack
-	default
-}
+#src_unpack() {
+#	mercurial_src_unpack
+#	default
+#}
 
 src_prepare() {
 	default
