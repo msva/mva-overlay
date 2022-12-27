@@ -16,9 +16,9 @@ SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
-	dev-lua/squish
 "
 DEPEND="${RDEPEND}"
+BDEPEND="dev-lua/squish"
 
 src_prepare() {
 	default
