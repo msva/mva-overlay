@@ -1,0 +1,22 @@
+# Copyright 1999-2022 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+
+# This file contains descriptions of NGINX_MODULES_STREAM USE_EXPAND flags.
+
+# Keep it sorted.
+python - This module adds native Python support to NginX
+status - TODO
+access - Access module (stream)
+geo - GEO module (stream)
+geoip - GEOIP module (stream)
+conn - LimitConn Module (stream)
+lua - This module adds native Lua support to NginX (stream module API)
+map - Mapping module (stream)
+return - Return module (stream)
+clients - Split Clients Module (stream)
+hash - Upstream Hash Module (stream)
+conn - Upstream LeastConn Module (stream)
+zone - Upstream Zone Module (stream)
+dtls - Enable DTLS Support (experimental)
+traffic_status - TODO
+

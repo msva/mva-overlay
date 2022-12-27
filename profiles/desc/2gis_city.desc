@@ -1,0 +1,132 @@
+# Copyright 1999-2022 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+
+# This file contains descriptions of 2GIS_CITY USE_EXPAND flags.
+
+# Keep it sorted.
+
+abakan - Install map for Abakan city.
+almetevsk - Install map for Almetevsk city.
+arkhangelsk - Install map for Arkhangelsk city.
+armawir - Install map for Armawir city.
+astrakhan - Install map for Astrakhan city.
+barnaul - Install map for Barnaul city.
+belgorod - Install map for Belgorod city.
+biysk - Install map for Biysk city.
+blagoveshensk - Install map for Blagoveshensk city.
+bratsk - Install map for Bratsk city.
+bryansk - Install map for Bryansk city.
+v-novgorod - Install map for Veliky Novgorod city.
+vladivostok - Install map for Vladivostok city.
+vladimir - Install map for Vladimir city.
+volgograd - Install map for Volgograd city.
+vologda - Install map for Vologda city.
+voronezh - Install map for Voronezh city.
+grozny - Install map for Grozny city.
+gornoaltaysk - Install map for Gornoaltaysk city.
+dimitrovgrad - Install map for Dimitrovgrad city.
+ekaterinburg - Install map for Ekaterinburg city.
+ivanovo - Install map for Ivanovo city.
+izhevsk - Install map for Izhevsk city.
+irkutsk - Install map for Irkutsk city.
+yoshkarola - Install map for Yoshkarola city.
+kazan - Install map for Kazan city.
+kaliningrad - Install map for Kaliningrad city.
+kaluga - Install map for Kaluga city.
+k-uralskiy - Install map for Kamensk Uralskiy city.
+kemerovo - Install map for Kemerovo city.
+kirov - Install map for Kirov city.
+komsomolsk - Install map for Komsomolsk city.
+kostroma - Install map for Kostroma city.
+krasnodar - Install map for Krasnodar city.
+krasnoyarsk - Install map for Krasnoyarsk city.
+kurgan - Install map for Kurgan city.
+kursk - Install map for Kursk city.
+lenkuz - Install map for Lenkuz city.
+lipetsk - Install map for Lipetsk city.
+magnitogorsk - Install map for Magnitogorsk city.
+maikop - Install map for Maikop city.
+makhachkala - Install map for Makhachkala city.
+miass - Install map for Miass city.
+moscow - Install map for Moscow city.
+murmansk - Install map for Murmansk city.
+nabchelny - Install map for Nabchelny city.
+nahodka - Install map for Nahodka city.
+nizhnevartovsk - Install map for Nizhnevartovsk city.
+n-novgorod - Install map for Nizhniy Novgorod city.
+ntagil - Install map for Nizhniy Tagil city.
+novokuznetsk - Install map for Novokuznetsk city.
+novorossiysk - Install map for Novorossiysk city.
+novosibirsk - Install map for Novosibirsk city.
+n-urengoy - Install map for Nizhniy Urengoy city.
+norilsk - Install map for Norilsk city.
+noyabrsk - Install map for Noyabrsk city.
+omsk - Install map for Omsk city.
+orel - Install map for Orel city.
+orenburg - Install map for Orenburg city.
+penza - Install map for Penza city.
+perm - Install map for Perm city.
+petrozavodsk - Install map for Petrozavodsk city.
+p-kamchatskiy - Install map for Petropavlovsk Kamchatskiy city.
+pskov - Install map for Pskov city.
+minvody - Install map for Minvody city.
+rostov - Install map for Rostov city.
+ryazan - Install map for Ryazan city.
+samara - Install map for Samara city.
+spb - Install map for Saint-Petersburg city.
+saransk - Install map for Saransk city.
+saratov - Install map for Saratov city.
+smolensk - Install map for Smolensk city.
+sochi - Install map for Sochi city.
+stavropol - Install map for Stavropol city.
+staroskol - Install map for Staroskol city.
+sterlitamak - Install map for Sterlitamak city.
+surgut - Install map for Surgut city.
+syktyvkar - Install map for Syktyvkar city.
+taganrog - Install map for Taganrog city.
+tambov - Install map for Tambov city.
+tver - Install map for Tver city.
+tobolsk - Install map for Tobolsk city.
+togliatti - Install map for Togliatti city.
+tomsk - Install map for Tomsk city.
+tula - Install map for Tula city.
+tyumen - Install map for Tyumen city.
+ulanude - Install map for Ulanude city.
+ulyanovsk - Install map for Ulyanovsk city.
+ussuriysk - Install map for Ussuriysk city.
+ufa - Install map for Ufa city.
+ukhta - Install map for Ukhta city.
+khabarovsk - Install map for Khabarovsk city.
+kh-mansiysk - Install map for Khanty-Mansiysk city.
+cheboksary - Install map for Cheboksary city.
+chelyabinsk - Install map for Chelyabinsk city.
+chita - Install map for Chita city.
+sheregesh - Install map for Sheregesh city.
+yuzhnosakhalinsk - Install map for Yuzhnosakhalinsk city.
+yakutsk - Install map for Yakutsk city.
+yaroslavl - Install map for Yaroslavl city.
+kiev - Install map for Kiev city.
+odessa - Install map for Odessa city.
+dnepropetrovsk - Install map for Dnepropetrovsk city.
+kharkov - Install map for Kharkov city.
+aktobe - Install map for Aktobe city.
+aktau - Install map for Aktau city.
+almaty - Install map for Almaty city.
+astana - Install map for Astana city.
+atyrau - Install map for Atyrau city.
+karaganda - Install map for Karaganda city.
+kostanay - Install map for Kostanay city.
+kokshetau - Install map for Kokshetau city.
+kyzylorda - Install map for Kyzylorda city.
+semey - Install map for Semey city.
+taraz - Install map for Taraz city.
+turkestan - Install map for Turkestan city.
+pavlodar - Install map for Pavlodar city.
+petropavlovsk - Install map for Petropavlovsk city.
+uralsk - Install map for Uralsk city.
+ustkam - Install map for Ustkam city.
+shymkent - Install map for Shymkent city.
+bishkek - Install map for Bishkek city.
+osh - Install map for Osh city.
+tashkent - Install map for Tashkent city.
+minsk - Install map for Minsk city.

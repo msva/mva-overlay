@@ -1,0 +1,14 @@
+# Copyright 1999-2022 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+
+# This file contains descriptions of UNIT_MODULES USE_EXPAND flags.
+
+# Keep it sorted.
+go - Enable support for applications written in <pkg>dev-lang/go</pkg>
+java - Enable support for applications written in Java
+perl - Enable support for applications written in <pkg>dev-lang/perl</pkg>
+php - Enable support for applications written in <pkg>dev-lang/php</pkg>
+python - Enable support for applications written in <pkg>dev-lang/python</pkg>
+ruby - Enable support for applications written in <pkg>dev-lang/ruby</pkg>
+nodejs - Enable support for applications written in <pkg>net-libs/nodejs</pkg>
+

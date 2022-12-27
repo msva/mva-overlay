@@ -1,0 +1,9 @@
+# Copyright 1999-2022 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+
+# This file contains descriptions of IOSEVKA_SHAPE USE_EXPAND flags.
+
+# Keep it sorted.
+
+curly - Letters like k, x, v, A, R will have curly leg shapes.
+slab - Letters will contain slab serif.

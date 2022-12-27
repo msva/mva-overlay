@@ -1,0 +1,11 @@
+# Copyright 1999-2022 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+
+# This file contains descriptions of NGINX_MODULES_CORE USE_EXPAND flags.
+
+# Keep it sorted.
+rtmp - RTMP module
+tcpproxy - TCP-Proxy module (legacy alternative to STREAM core module, having some features not provided by it)
+status - TODO
+stream_traffic_status - TODO
+
