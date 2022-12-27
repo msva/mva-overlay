@@ -1,20 +1,16 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit git-r3 autotools eutils
+inherit git-r3 autotools
 
 DESCRIPTION="General purpose crypto library based on the code used in GnuPG"
 HOMEPAGE="http://www.gnupg.org/"
-#SRC_URI="mirror://gentoo/${P}-idea.patch.bz2"
-SRC_URI=""
-EGIT_REPO_URI="git://git.gnupg.org/${PN}.git"
-#EGIT_BOOTSTRAP="./autogen.sh"
+EGIT_REPO_URI="https://dev.gnupg.org/source/${PN}.git"
 
 LICENSE="LGPL-2.1 MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="static-libs +doc"
 
 RDEPEND="~dev-libs/libgpg-error-9999"
