@@ -1,26 +1,26 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit golang-build golang-vcs systemd user
+inherit go-module git-r3 systemd
 
-EGO_PN="github.com/42wim/matterbridge"
-
-KEYWORDS=""
+EGIT_REPO_URI="github.com/42wim/matterbridge"
 
 DESCRIPTION="Bridge between multiple chat networks"
 HOMEPAGE="https://github.com/42wim/matterbridge"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-IUSE=""
 
-DEPEND=">=dev-lang/go-1.8:*"
+src_unpack() {
+	default
+	git-r3_src_unpack
+	go-module_live_vendor
+}
 
-pkg_setup() {
-	enewgroup matterbridge
-	enewuser matterbridge -1 -1 -1 matterbridge
+src_compile() {
+	ego build -o "${PN}"
 }
 
 src_install() {
@@ -29,5 +29,5 @@ src_install() {
 	newinitd "${FILESDIR}/${PN}.initd" matterbridge
 	systemd_dounit "${FILESDIR}/${PN}.service"
 	dobin matterbridge
-	fowners matterbridge:matterbridge /usr/bin/matterbridge || die "fowners failed"
+	# fowners matterbridge:matterbridge /usr/bin/matterbridge || die "fowners failed"
 }
