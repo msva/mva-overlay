@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils
+inherit desktop wrapper
 
 DESCRIPTION="A physics based game made for Devmania 2011 Overnight Contest"
 HOMEPAGE="http://gamejams.schattenkind.net/2011/10/pirate-bay.html"
@@ -12,11 +12,10 @@ LICENSE="ZLIB"
 SLOT="0"
 # Temporary broken. When I fix it — i'll unmask it
 KEYWORDS="~amd64 ~arm ~x86"
-IUSE=""
-RESTRICT=""
 
 DEPEND=">=games-engines/love-0.8.0:*"
 RDEPEND="${DEPEND}"
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 
