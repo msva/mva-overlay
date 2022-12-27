@@ -1,11 +1,11 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua git-r3 autotools
+inherit lua git-r3
 
 DESCRIPTION="POSIX binding, including curses, for Lua 5.1 and 5.2"
 HOMEPAGE="https://github.com/luaposix/luaposix"
@@ -30,7 +30,6 @@ DEPEND="
 #	dev-libs/gnulib
 #	dev-lua/specl
 #	dev-lua/lyaml
-
 
 src_prepare() {
 	default
