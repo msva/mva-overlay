@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit cmake git-r3
 
@@ -17,8 +17,8 @@ IUSE="+cli doc debug java lto low-ram test"
 BDEPEND="
 	>=dev-util/cmake-3.0.2
 	|| (
-		>=sys-devel/gcc-4.9:=
-		>=sys-devel/clang-3.4:=
+		sys-devel/gcc
+		sys-devel/clang
 	)
 	dev-util/gperf
 	dev-lang/php[cli]
@@ -36,6 +36,8 @@ REQUIRED_USE="?? ( lto java )"
 DOCS=( README.md )
 
 PATCHES=( "${FILESDIR}/${P}-fix-runpath.patch" )
+
+RESTRICT="!test? ( test )"
 
 src_prepare() {
 	if use test; then
