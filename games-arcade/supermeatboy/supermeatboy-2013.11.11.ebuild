@@ -1,38 +1,36 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=8
 
-inherit versionator
+inherit desktop wrapper
 
 MY_PN=SuperMeatBoy
-MY_PV=$(version_format_string '${2}${3}${1}')
+MY_PV=$(ver_cut 2)$(ver_cut 3)$(ver_cut 1)
 
 DESCRIPTION="A platformer where you play as an animated cube of meat"
 HOMEPAGE="http://www.supermeatboy.com/"
 SRC_URI="${PN}-linux-${MY_PV}-bin"
 
-LICENSE="as-is"
+LICENSE="GOG-EULA"
+# TODO: find proper license
 SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
-IUSE="+system-mariadb"
 
-RESTRICT="fetch"
+RESTRICT="fetch bindist"
 
-DEPEND="app-arch/zip"
 RDEPEND="
-	${DEPEND}
 	media-libs/openal
 	media-libs/libsdl2
-	system-mariadb? ( <dev-db/mariadb-connector-c-3.0 )
 "
+BDEPEND="app-arch/zip"
 
 S="${WORKDIR}/data"
 GAMEDIR="/usr/share/${P}"
 
 pkg_nofetch() {
 	einfo "Please download ${A}"
-	einfo "from your personal page in Humble Indie Bundle site"
+	einfo "from your library in Humble Indie Bundle site"
 	einfo "(http://www.humblebundle.com)"
 	einfo "and place it to ${DESTDIR}"
 }
@@ -55,8 +53,8 @@ src_install() {
 	insinto "${GAMEDIR}/${ARCH}"
 	doins "${ARCH}"/libsteam_api.so
 
-	use system-mariadb &&
-	dosym /usr/lib64/mariadb/libmariadb.so "${GAMEDIR}/${ARCH}"/libmariadb.so.1 ||
+	# use system-mariadb &&
+	# dosym /usr/lib64/mariadb/libmariadb.so "${GAMEDIR}/${ARCH}"/libmariadb.so.1 ||
 	doins "${ARCH}"/libmariadb.so.1
 
 	exeinto "${GAMEDIR}/${ARCH}"
