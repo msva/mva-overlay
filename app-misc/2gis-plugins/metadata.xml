@@ -3,13 +3,12 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>FIXME</longdescription>
   <use>
-    <flag name="area"/>
-    <flag name="goto"/>
-    <flag name="mapnotes"/>
+    <flag name="area">Install "Area" Plugin</flag>
+    <flag name="goto">Install "Goto" Plugin</flag>
+    <flag name="mapnotes">Install "Map Notes" Plugin</flag>
   </use>
 </pkgmetadata>
