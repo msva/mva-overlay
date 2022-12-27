@@ -1,7 +1,7 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit patches
 
@@ -11,16 +11,13 @@ HOMEPAGE="https://github.com/mapbox/variant"
 if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/mapbox/variant"
-	KEYWORDS=""
 else
 	SRC_URI="https://github.com/mapbox/variant/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc64 ~riscv ~x86"
 fi
 
 LICENSE="BSD"
 SLOT="0"
-
-DEPEND=""
 
 src_compile() { :; }
 # ^ header-only. Makefile only builds tests
