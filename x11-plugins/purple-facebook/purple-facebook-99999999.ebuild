@@ -1,17 +1,16 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit autotools mercurial git-r3
+inherit autotools git-r3
+#mercurial
 
 DESCRIPTION="Facebook plugin for libpurple (Pidgin)"
 HOMEPAGE="https://github.com/jgeboski/purple-facebook"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 EGIT_REPO_URI="https://github.com/jgeboski/purple-facebook"
 
@@ -48,5 +47,5 @@ src_prepare() {
 
 src_install() {
 	default
-	prune_libtool_files --modules
+	find "${ED}" -type f -name '*.la' -delete || die
 }
