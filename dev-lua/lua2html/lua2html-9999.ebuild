@@ -1,8 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-# ^ mercurial
+EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
@@ -19,13 +18,9 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 # ^ :(
 # uses squish, which fetches some sources during build
 
-RDEPEND="
-	${LUA_DEPS}
-"
-#	$(lua_gen_cond_dep '
-#		dev-lua/squish[${LUA_USEDEP}]
-#	')
+RDEPEND="${LUA_DEPS}"
 DEPEND="${RDEPEND}"
+# BDEPEND="dev-lua/squish"
 
 #src_compile() {
 #	squish
