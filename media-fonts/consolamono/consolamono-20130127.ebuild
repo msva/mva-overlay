@@ -1,25 +1,22 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 S="${WORKDIR}"
 inherit font
 
 SHA1="61cc2afcc4eca96efe7c6ebf178d39df"
 
-DESCRIPTION="Open Font"
+DESCRIPTION="Open Font by Wojciech Kalinowski"
 HOMEPAGE="http://openfontlibrary.org/font/consolamono"
 SRC_URI="http://openfontlibrary.org/assets/downloads/${PN}/${SHA1}/${PN}.zip -> ${P}.zip"
 
 LICENSE="OFL"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"
 
-DEPEND="
-	app-arch/unzip
-"
-RDEPEND=""
+BDEPEND="app-arch/unzip"
 
 FONT_SUFFIX="ttf"
 
