@@ -3,10 +3,9 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>FIXME</longdescription>
   <use>
     <flag name="tools">Build and install additional tools (currently, ADCrush (ADC stress tester))</flag>
   </use>
