@@ -1,60 +1,73 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=8
 
 inherit autotools bash-completion-r1 git-r3
 
 DESCRIPTION="Mobile shell that supports roaming and intelligent local echo"
 HOMEPAGE="https://mosh.org"
-EGIT_REPO_URI="https://github.com/keithw/mosh.git"
+EGIT_REPO_URI="https://github.com/mobile-shell/mosh"
 
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="+client examples +mosh-hardening +server ufw +utempter"
+IUSE="+client examples +hardened nettle +server syslog ufw +utempter"
 
 REQUIRED_USE="
 	|| ( client server )
 	examples? ( client )"
 
 RDEPEND="
-	dev-libs/protobuf:0=
-	sys-libs/ncurses:0=
+	dev-libs/protobuf:=
+	sys-libs/ncurses:=
+	sys-libs/zlib
 	virtual/ssh
 	client? (
 		dev-lang/perl
 		dev-perl/IO-Tty
 	)
-	dev-libs/openssl:0=
+	!nettle? ( dev-libs/openssl:= )
+	nettle? ( dev-libs/nettle:= )
 	utempter? (
 		sys-libs/libutempter
 	)"
 
-DEPEND="${RDEPEND}
-	dev-vcs/git[curl]
-	virtual/pkgconfig"
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig"
 
-# [0] - avoid sandbox-violation calling git describe in Makefile
+QA_CONFIGURE_OPTIONS="--disable-static"
+
+# [0] - avoid sandbox-violation calling git describe in Makefile.
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.2.5-git-version.patch
 )
 
 src_prepare() {
-	MAKEOPTS+=" V=1"
 	default
 
 	eautoreconf
 }
 
 src_configure() {
-	econf \
-		--disable-completion \
-		$(use_enable client) \
-		$(use_enable server) \
-		$(use_enable examples) \
-		$(use_enable ufw) \
-		$(use_enable mosh-hardening hardening) \
+	MAKEOPTS+=" V=1"
+
+	local myeconfargs=(
+		# We install it ourselves in src_install
+		--disable-completion
+
+		$(use_enable client)
+		$(use_enable server)
+		$(use_enable examples)
+		$(use_enable hardened hardening)
+		$(use_enable ufw)
+		$(use_enable syslog)
 		$(use_with utempter)
+
+		# We default to OpenSSL as upstream do
+		--with-crypto-library=$(usex nettle nettle openssl-with-openssl-ocb)
+	)
+
+	econf "${myeconfargs[@]}"
 }
 
 src_install() {
@@ -65,6 +78,6 @@ src_install() {
 		elog "${myprog} installed as ${PN}-$(basename ${myprog})"
 	done
 
-	# bug 477384
+	# bug #477384
 	dobashcomp conf/bash-completion/completions/mosh
 }
