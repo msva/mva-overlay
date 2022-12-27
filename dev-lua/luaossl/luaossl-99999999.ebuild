@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -92,7 +92,7 @@ src_install() {
 
 	if use examples; then
 		DOCS+=(examples)
-		docompress -x "${EROOT}/usr/share/doc/${PF}/examples"
+		docompress -x "/usr/share/doc/${PF}/examples"
 	fi
 	einstalldocs
 }
