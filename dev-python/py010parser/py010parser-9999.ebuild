@@ -1,9 +1,10 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+DISTUTILS_USE_PEP517="setuptools"
+PYTHON_COMPAT=( python3_{8..11} )
 
 inherit git-r3 distutils-r1
 
@@ -14,8 +15,16 @@ EGIT_REPO_URI="https://github.com/d0c-s4vage/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
-DEPEND=""
-RDEPEND="${DEPEND}"
+RESTRICT="test"
+
+src_prepare() {
+	distutils-r1_src_prepare
+	sed -i \
+		-e 's@description-file@description_file@' \
+		setup.cfg
+	sed -i \
+		-e "s@{{VERSION}}@${PV}@" \
+		setup.py
+	# fixes to avoid QA notices
+}
