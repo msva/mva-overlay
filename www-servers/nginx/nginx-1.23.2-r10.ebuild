@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -17,7 +17,7 @@ EAPI=8
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="ruby26 ruby27 ruby30"
+USE_RUBY="ruby27 ruby30 ruby31"
 
 RUBY_OPTIONAL="yes"
 LUA_OPTIONAL="yes"
@@ -103,24 +103,24 @@ HTTP_PASSENGER_E_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTT
 HTTP_PASSENGER_E_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_E_MODULE_P}/src/nginx_module"
 
 # http_passenger_union_station_hooks_core (https://github.com/phusion/union_station_hooks_core/tags, MIT)
-HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_A="phusion"
-HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN="union_station_hooks_core"
-HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV="2.1.2"
-#HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA=""
-HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P="${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV}}"
-HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_A}/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_PV}}.tar.gz"
-HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P}"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_A="phusion"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_PN="union_station_hooks_core"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_PV="2.1.2"
+#HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_SHA=""
+HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_P="${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_PN}-${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_PV}}"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_A}/${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_PV}}.tar.gz"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_P}"
 
 # http_passenger_union_station_hooks_rails (https://github.com/phusion/union_station_hooks_rails/tags, MIT)
-HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_A="phusion"
-HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN="union_station_hooks_rails"
-HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV="2.0.0"
-#HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA=""
-HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P="${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV}}"
-HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_A}/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_PV}}.tar.gz"
-HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P}"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_A="phusion"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_PN="union_station_hooks_rails"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_PV="2.0.0"
+#HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_SHA=""
+HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_P="${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_PN}-${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_PV}}"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_URI="https://github.com/${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_A}/${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_PN}/archive/${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_SHA:-release-${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_PV}}.tar.gz"
+HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_WD="${WORKDIR}/${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_P}"
 
-# TODO: change passenger URI to: http://s3.amazonaws.com/phusion-passenger/releases/passenger-5.0.20.tar.gz
+# TODO: change passenger URI to: https://s3.amazonaws.com/phusion-passenger/releases/passenger-5.0.20.tar.gz
 
 # http_pagespeed (https://github.com/apache/incubator-pagespeed-ngx/tags, BSD-2)
 HTTP_PAGESPEED_MODULE_A="apache"
@@ -194,10 +194,10 @@ HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODU
 HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}.tar.gz"
 HTTP_PUSH_STREAM_MODULE_WD="${WORKDIR}/${HTTP_PUSH_STREAM_MODULE_P}"
 
-# http_ctpp2 (http://ngx-ctpp.vbart.ru/ (ru) http://ngx-ctpp.vbart.info/ (en), BSD)
+# http_ctpp2 (https://ngx-ctpp.vbart.ru/ (ru) https://ngx-ctpp.vbart.info/ (en), BSD)
 HTTP_CTPP_MODULE_PV="0.5"
 HTTP_CTPP_MODULE_P="ngx_ctpp2-${HTTP_CTPP_MODULE_PV}"
-HTTP_CTPP_MODULE_URI="http://dl.vbart.ru/ngx-ctpp/${HTTP_CTPP_MODULE_P}.tar.gz"
+HTTP_CTPP_MODULE_URI="https://dl.vbart.ru/ngx-ctpp/${HTTP_CTPP_MODULE_P}.tar.gz"
 HTTP_CTPP_MODULE_WD="${WORKDIR}/${HTTP_CTPP_MODULE_P}"
 
 # http_cache_purge (https://github.com/nginx-modules/ngx_cache_purge/tags, BSD-2)
@@ -233,16 +233,6 @@ HTTP_REDIS_MODULE_PV="0.15"
 HTTP_REDIS_MODULE_P="${HTTP_REDIS_MODULE_PN}-${HTTP_REDIS_MODULE_SHA:-${HTTP_REDIS_MODULE_PV}}"
 HTTP_REDIS_MODULE_URI="https://github.com/${HTTP_REDIS_MODULE_A}/${HTTP_REDIS_MODULE_PN}/archive/${HTTP_REDIS_MODULE_SHA:-v${HTTP_REDIS_MODULE_PV}}.tar.gz"
 HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
-
-# http_python, NginX Python module (https://github.com/arut/nginx-python-module/tags, BSD-2)
-HTTP_PYTHON_MODULE_A="arut"
-HTTP_PYTHON_MODULE_PN="nginx-python-module"
-HTTP_PYTHON_MODULE_PV="0.2.0"
-#HTTP_PYTHON_MODULE_SHA="5ef54c196190ee52554c3917155859c759e4564d"
-HTTP_PYTHON_MODULE_P="${HTTP_PYTHON_MODULE_PN}-${HTTP_PYTHON_MODULE_SHA:-${HTTP_PYTHON_MODULE_PV}}"
-HTTP_PYTHON_MODULE_URI="https://github.com/${HTTP_PYTHON_MODULE_A}/${HTTP_PYTHON_MODULE_PN}/archive/${HTTP_PYTHON_MODULE_SHA:-v${HTTP_PYTHON_MODULE_PV}}.tar.gz"
-HTTP_PYTHON_MODULE_WD="${WORKDIR}/${HTTP_PYTHON_MODULE_P}"
-STREAM_PYTHON_MODULE_WD="${HTTP_PYTHON_MODULE_WD}"
 
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
@@ -387,10 +377,10 @@ HTTP_COOLKIT_MODULE_P="${HTTP_COOLKIT_MODULE_PN}-${HTTP_COOLKIT_MODULE_SHA:-${HT
 HTTP_COOLKIT_MODULE_URI="https://github.com/${HTTP_COOLKIT_MODULE_A}/${HTTP_COOLKIT_MODULE_PN}/archive/${HTTP_COOLKIT_MODULE_SHA:-${HTTP_COOLKIT_MODULE_PV}}.tar.gz"
 HTTP_COOLKIT_MODULE_WD="${WORKDIR}/${HTTP_COOLKIT_MODULE_P}"
 
-# NginX Supervisord module (http://labs.frickle.com/nginx_ngx_supervisord/, BSD-2)
+# NginX Supervisord module (https://labs.frickle.com/nginx_ngx_supervisord/, BSD-2)
 HTTP_SUPERVISORD_MODULE_PV="1.4"
 HTTP_SUPERVISORD_MODULE_P="ngx_supervisord-${HTTP_SUPERVISORD_MODULE_PV}"
-HTTP_SUPERVISORD_MODULE_URI="http://labs.frickle.com/files/${HTTP_SUPERVISORD_MODULE_P}.tar.gz"
+HTTP_SUPERVISORD_MODULE_URI="https://labs.frickle.com/files/${HTTP_SUPERVISORD_MODULE_P}.tar.gz"
 HTTP_SUPERVISORD_MODULE_WD="${WORKDIR}/${HTTP_SUPERVISORD_MODULE_P}"
 
 # http_slowfs_cache (https://github.com/FRiCKLE/ngx_slowfs_cache/tags, BSD-2)
@@ -501,12 +491,12 @@ HTTP_AJP_MODULE_P="${HTTP_AJP_MODULE_PN}-${HTTP_AJP_MODULE_SHA:-${HTTP_AJP_MODUL
 HTTP_AJP_MODULE_URI="https://github.com/${HTTP_AJP_MODULE_A}/${HTTP_AJP_MODULE_PN}/archive/${HTTP_AJP_MODULE_SHA:-v${HTTP_AJP_MODULE_PV}}.tar.gz"
 HTTP_AJP_MODULE_WD="${WORKDIR}/${HTTP_AJP_MODULE_P}"
 
-# NJS-module (http://hg.nginx.org/njs/, BSD-2)
+# NJS-module (https://hg.nginx.org/njs/, BSD-2)
 HTTP_JAVASCRIPT_MODULE_PN="njs"
 HTTP_JAVASCRIPT_MODULE_PV="0.7.6"
 HTTP_JAVASCRIPT_MODULE_SHA="446a1cb64a6a"
 HTTP_JAVASCRIPT_MODULE_P="${HTTP_JAVASCRIPT_MODULE_PN}-${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}"
-HTTP_JAVASCRIPT_MODULE_URI="http://hg.nginx.org/${HTTP_JAVASCRIPT_MODULE_PN}/archive/${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}.tar.gz"
+HTTP_JAVASCRIPT_MODULE_URI="https://hg.nginx.org/${HTTP_JAVASCRIPT_MODULE_PN}/archive/${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}.tar.gz"
 HTTP_JAVASCRIPT_MODULE_WD="${WORKDIR}/${HTTP_JAVASCRIPT_MODULE_P}/nginx"
 STREAM_JAVASCRIPT_MODULE_WD="${HTTP_JAVASCRIPT_MODULE_WD}"
 
@@ -521,21 +511,20 @@ HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
 
 SSL_DEPS_SKIP=1
 
-# eutils
-inherit ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic systemd pax-utils multilib patches
+inherit ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic systemd pax-utils patches
 # ^^^ keep ruby before perl, since ruby sets S=WORKDIR, and perl restores
 
 # TODO: EAPI=8
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="
-	http://sysoev.ru/nginx/
+	https://sysoev.ru/nginx/
 	"
 # broken
-#	nginx_modules_stream_dtls? ( http://nginx.org/patches/dtls/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff )
+#	nginx_modules_stream_dtls? ( https://nginx.org/patches/dtls/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff )
 #	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 SRC_URI="
-	http://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
+	https://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
 	nginx_modules_http_pagespeed? (
 		${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz
 		x86? ( ${HTTP_PAGESPEED_PSOL_URI/__ARCH__/ia32} -> ${HTTP_PAGESPEED_PSOL_P}.x86.tar.gz )
@@ -552,8 +541,6 @@ SRC_URI="
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} -> ${HTTP_REDIS_MODULE_P}.tar.gz )
-	nginx_modules_http_python? ( ${HTTP_PYTHON_MODULE_URI} -> ${HTTP_PYTHON_MODULE_P}.tar.gz )
-	nginx_modules_stream_python? ( ${HTTP_PYTHON_MODULE_URI} -> ${HTTP_PYTHON_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_lua_upstream? ( ${HTTP_LUA_UPSTREAM_MODULE_URI} -> ${HTTP_LUA_UPSTREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_replace_filter? ( ${HTTP_REPLACE_FILTER_MODULE_URI} -> ${HTTP_REPLACE_FILTER_MODULE_P}.tar.gz )
@@ -580,13 +567,13 @@ SRC_URI="
 	nginx_modules_http_auth_pam? ( ${HTTP_AUTH_PAM_MODULE_URI} -> ${HTTP_AUTH_PAM_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger_enterprise? (
 		${HTTP_PASSENGER_E_MODULE_URI} -> ${HTTP_PASSENGER_E_MODULE_P}.tar.gz
-		${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P}.tar.gz
-		${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P}.tar.gz
+		${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_P}.tar.gz
+		${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_P}.tar.gz
 	)
 	nginx_modules_http_passenger? (
 		${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz
-		${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_CORE_P}.tar.gz
-		${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOKS_RAILS_P}.tar.gz
+		${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_P}.tar.gz
+		${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_P}.tar.gz
 	)
 	nginx_modules_http_rrd? ( ${HTTP_RRD_MODULE_URI} -> ${HTTP_RRD_MODULE_P}.tar.gz )
 	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.gz )
@@ -736,12 +723,10 @@ NGINX_MODULES_3P="
 	http_upstream_check
 	http_auth_ldap
 	http_rrd
-	http_python
 	http_vhost_traffic_status
 	http_geoip2
 	stream_geoip2
 	stream_traffic_status
-	stream_python
 	stream_javascript
 	stream_lua
 	core_rtmp
@@ -787,8 +772,6 @@ NGINX_MODULES_DYN="
 	http_ajp
 	stream_javascript
 	http_auth_ldap
-	http_python
-	stream_python
 	stream_lua
 	core_rtmp
 "
@@ -829,11 +812,13 @@ REQUIRED_USE="
 #	nginx_modules_stream_dtls? ( stream ssl )
 #	nginx_modules_http_supervisord? ( busy-upstream )
 
-IUSE="aio busy-upstream debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl ssl-cert-cb libressl stream threads vim-syntax selinux http2 systemtap +static rtmp userland_GNU"
+IUSE="aio busy-upstream debug +http +http-cache libatomic mail pam +pcre pcre-jit perftools rrd ssl ssl-cert-cb stream threads vim-syntax selinux http2 systemtap +static rtmp userland_GNU"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 	f=
 	[[ "$NGINX_MODULES_STD" =~ "http_${mod//http_}" ]] && f="+"
+	[[ "${mod}" =~ "realip" ]] && f="+" # needed by fastcgi STD mod
+	[[ "${mod}" =~ "http_v2" ]] && f="+" # needed by grpc STD mod
 	IUSE="${IUSE} ${f}nginx_modules_${mod}"
 	unset f
 done
@@ -844,18 +829,11 @@ CDEPEND="
 	pam? ( sys-libs/pam )
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
-	ssl? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:= )
-	)
-	http2? (
-		!libressl? ( >=dev-libs/openssl-1.0.1c:0= )
-		libressl? ( dev-libs/libressl:= )
-	)
+	ssl? ( dev-libs/openssl:0= )
+	http2? ( >=dev-libs/openssl-1.0.1c:0= )
 	http-cache? (
 		userland_GNU? (
-			!libressl? ( dev-libs/openssl:0= )
-			libressl? ( dev-libs/libressl:= )
+			dev-libs/openssl:0=
 		)
 	)
 	nginx_modules_http_brotli? ( app-arch/brotli:= )
@@ -878,8 +856,6 @@ CDEPEND="
 	nginx_modules_http_lua? (
 		>=dev-lang/luajit-2
 	)
-	nginx_modules_http_python? ( dev-lang/python:2.7 )
-	nginx_modules_stream_python? ( dev-lang/python:2.7 )
 	nginx_modules_http_replace_filter? ( dev-libs/sregex )
 	nginx_modules_http_metrics? ( dev-libs/yajl )
 	nginx_modules_http_nchan? ( dev-libs/hiredis )
@@ -905,19 +881,21 @@ CDEPEND="
 	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	nginx_modules_http_drizzle? ( dev-libs/libdrizzle )
+	virtual/libcrypt:=
 "
 
 RDEPEND="
 	${CDEPEND}
+	acct-group/nginx
 	selinux? ( sec-policy/selinux-nginx )
 "
 DEPEND="
 	${CDEPEND}
-	acct-group/nginx
-	nginx_modules_http_security? ( www-apps/modsecurity )
+	nginx_modules_http_security? ( dev-libs/modsecurity )
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )
-	virtual/libcrypt
+"
+BDEPEND="
 	virtual/pkgconfig
 "
 
@@ -1114,7 +1092,7 @@ src_prepare() {
 ## May provide crashes at runtime! If it is a case why you're looking here
 ## then report that issue, please.
 ##
-## Also you can participate here: http://git.io/vL2In
+## Also you can participate here: https://git.io/vL2In
 ############################################################
 		sed \
 			-e '/ev_loop_get_pipe/d' \
@@ -1150,11 +1128,6 @@ src_prepare() {
 			-e '/sh .*fake_apache2_module_path/d' \
 			-i "${HTTP_PASSENGER_SRC_WD}"/build/packaging.rb || die
 
-		sed -r \
-			-e '/u = r->upstream;/a\nu->headers_in.content_length_n = r->headers_out.content_length_n;\n' \
-			-i "${HTTP_PASSENGER_MODULE_WD}"/ContentHandler.c || die
-		# Can't remember why do it needed ^
-
 		rm -r \
 			"${HTTP_PASSENGER_SRC_WD}"/bin/passenger-install-apache2-module \
 			"${HTTP_PASSENGER_SRC_WD}"/bin/passenger-install-nginx-module \
@@ -1185,28 +1158,28 @@ src_prepare() {
 
 # Kludge to have the possibility to properly check modules
 # (ex: dav_ext in DYN makes false positive on dav in OPT)
-__NG_M_DYN=${NGINX_MODULES_DYN[@]}
-__NG_M_DYN=${__NG_M_DYN// /:}:
+_NGX__NG_M_DYN=${NGINX_MODULES_DYN[@]}
+_NGX__NG_M_DYN=${_NGX__NG_M_DYN// /:}:
 
 opt_mod() {
-	local mod="${1}" dyn=
-	if ! use static && [[ "${__NG_M_DYN}" =~ "${mod}:" ]]; then
-		dyn="=dynamic"
+	local mod="${1}" dm=
+	if ! use static && [[ "${_NGX__NG_M_DYN}" =~ "${mod}:" ]]; then
+		dm="=dynamic"
 	fi
-	use "nginx_modules_${mod}" && echo "--with-${mod}_module${dyn}"
+	use "nginx_modules_${mod}" && echo "--with-${mod}_module${dm}"
 }
 
 ext_mod() {
-	local mod=${1} p="${2}" dyn=
+	local mod=${1} p="${2}" dm=
 	if [[ -z "${p}" ]]; then
 		# It's Voodoo time!
 		p="${mod^^}_MODULE_WD";
 		p="${!p}";
 	fi
-	if ! use static && [[ "${__NG_M_DYN}" =~ "${mod}:" ]]; then
-		dyn="-dynamic"
+	if ! use static && [[ "${_NGX__NG_M_DYN}" =~ "${mod}:" ]]; then
+		dm="-dynamic"
 	fi
-	use "nginx_modules_${mod}" && echo "--add${dyn}-module=${p}"
+	use "nginx_modules_${mod}" && echo "--add${dm}-module=${p}"
 }
 
 std_mod() {
@@ -1244,9 +1217,6 @@ src_configure() {
 	done
 	for m in $NGINX_MODULES_3P; do
 		# TODO: replace this check with a function, if there will be another http+stream-in-one modules
-		if [[ "${m}" == "stream_python" ]] && use nginx_modules_http_python; then
-			continue
-		fi
 		if [[ "${m}" == "stream_javascript" ]] && use nginx_modules_http_javascript; then
 			continue
 		fi
@@ -1263,10 +1233,6 @@ src_configure() {
 			myconf+=("${e}")
 		fi
 	done
-
-	if use nginx_modules_http_python || use nginx_modules_stream_python; then
-		export PYTHON_CONFIG="/usr/bin/python2.7-config"
-	fi
 
 	if use nginx_modules_http_lua; then
 		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
@@ -1302,11 +1268,11 @@ src_configure() {
 	use perftools	&& myconf+=("--with-google_perftools_module")
 
 	if [[ -n "${mail_enabled}" ]]; then
-		local dyn=
+		local dm=
 		if ! use static && [[ -z "${mail_dyn_lock}" ]]; then
-			dyn="=dynamic"
+			dm="=dynamic"
 		fi
-		myconf+=("--with-mail${dyn}")
+		myconf+=("--with-mail${dm}")
 		use ssl && myconf+=("--with-mail_ssl_module")
 	fi
 
@@ -1319,11 +1285,11 @@ src_configure() {
 	fi
 
 	if [[ -n "${stream_enabled}" ]]; then
-		local dyn=
+		local dm=
 		if ! use static && [[ -z "${stream_dyn_lock}" ]]; then
-			dyn="=dynamic"
+			dm="=dynamic"
 		fi
-		myconf+=("--with-stream${dyn}")
+		myconf+=("--with-stream${dm}")
 		use ssl && myconf+=("--with-stream_ssl_module")
 	fi
 
@@ -1359,8 +1325,8 @@ src_configure() {
 		--conf-path="${EPREFIX}/etc/nginx/nginx.conf" \
 		--pid-path="${EPREFIX}/run/nginx.pid" \
 		--lock-path="${EPREFIX}/run/lock/nginx.lock" \
-		--with-cc-opt="-I${EROOT}usr/include" \
-		--with-ld-opt="-L${EROOT}usr/$(get_libdir)" \
+		--with-cc-opt="-I${EPREFIX}/usr/include" \
+		--with-ld-opt="-L${EPREFIX}/usr/$(get_libdir)" \
 		--http-log-path="${EPREFIX}/var/log/nginx/access.log" \
 		--error-log-path="${EPREFIX}/var/log/nginx/error.log" \
 		--http-client-body-temp-path="tmp/client" \
@@ -1412,11 +1378,11 @@ passenger_install() {
 }
 
 src_install() {
-	emake DESTDIR="${D%/}" install
+	emake DESTDIR="${D}" install
 
-	host-is-pax && pax-mark m "${ED%/}usr/sbin/nginx"
+	host-is-pax && pax-mark m "${ED}/usr/sbin/nginx"
 
-	cp "${FILESDIR}/nginx.conf" "${ED%/}/etc/nginx/nginx.conf" || die
+	cp "${FILESDIR}/nginx.conf" "${ED}/etc/nginx/nginx.conf" || die
 
 	newconfd "${FILESDIR}/nginx.confd" "nginx"
 	newinitd "${FILESDIR}/nginx.initd" "nginx"
@@ -1429,7 +1395,7 @@ src_install() {
 
 	keepdir /var/www/localhost
 
-	rm -rf "${ED%/}"/usr/html || die
+	rm -rf "${ED}"/usr/html || die
 
 	# set up a list of directories to keep
 	local keepdir_list="${NGINX_HOME_TMP}/client"
@@ -1459,7 +1425,7 @@ src_install() {
 	newins "${FILESDIR}/nginx.logrotate" "nginx"
 
 	# Don't touch /run
-	rm -rf "${ED%/}"/run || die
+	rm -rf "${ED}"/run || die
 
 	# Needed for building external dynamic modules
 	mkdir -p "${D}/usr/src/nginx"
@@ -1547,12 +1513,6 @@ src_install() {
 	if use nginx_modules_stream_lua; then
 		docinto "${STREAM_LUA_MODULE_P}"
 		dodoc "${STREAM_LUA_MODULE_WD}"/{valgrind.suppress,README.md}
-	fi
-
-# http_python && stream_python
-	if use nginx_modules_stream_python || use nginx_modules_http_python; then
-		docinto "${HTTP_PYTHON_MODULE_P}"
-		dodoc "${HTTP_PYTHON_MODULE_WD}"/{README.rst,TODO}
 	fi
 
 # http_lua_upstream
@@ -1665,7 +1625,8 @@ src_install() {
 
 # http_passenger
 	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
-		_ruby_each_implementation passenger_install
+		each_ruby_install() { passenger_install; }
+		ruby-ng_src_install
 	fi
 
 	if use nginx_modules_http_upstream_check; then
@@ -1755,16 +1716,16 @@ src_install() {
 
 pkg_postinst() {
 	if use ssl; then
-		if [ ! -f "${EROOT%/}"/etc/ssl/nginx/nginx.key ]; then
+		if [ ! -f "${EROOT}"/etc/ssl/nginx/nginx.key ]; then
 			install_cert /etc/ssl/nginx/nginx
-			use prefix || chown "${PN}":"${PN}" "${EROOT%/}"/etc/ssl/nginx/nginx.{crt,csr,key,pem}
+			use prefix || chown "${PN}":"${PN}" "${EROOT}"/etc/ssl/nginx/nginx.{crt,csr,key,pem}
 		fi
 	fi
 
 	if use nginx_modules_http_lua && use nginx_modules_http_v2; then
 		ewarn ""
 		ewarn "Lua 3rd party module author warns against using ${P} with"
-		ewarn "NGINX_MODULES_HTTP=\"lua v2\". For more info, see http://git.io/OldLsg"
+		ewarn "NGINX_MODULES_HTTP=\"lua v2\". For more info, see https://git.io/OldLsg"
 		ewarn "and https://github.com/openresty/lua-nginx-module/issues?q=is%3Aissue+is%3Aopen+http2"
 	fi
 
@@ -1905,15 +1866,15 @@ pkg_postinst() {
 			ewarn "following directories to mitigate a security bug"
 			ewarn "(CVE-2013-0337, bug #458726):"
 			ewarn ""
-			ewarn "  ${EPREFIX%/}/var/log/nginx"
-			ewarn "  ${EPREFIX%/}${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi}"
+			ewarn "  ${EPREFIX}/var/log/nginx"
+			ewarn "  ${EPREFIX}${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi}"
 			ewarn ""
 			ewarn "Check if this is correct for your setup before restarting nginx!"
 			ewarn "This is a one-time change and will not happen on subsequent updates."
-			ewarn "Furthermore nginx' temp directories got moved to '${EPREFIX%/}${NGINX_HOME_TMP}'"
+			ewarn "Furthermore nginx' temp directories got moved to '${EPREFIX}${NGINX_HOME_TMP}'"
 			chmod o-rwx \
-				"${EPREFIX%/}"/var/log/nginx \
-				"${EPREFIX%/}"${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi} || \
+				"${EPREFIX}"/var/log/nginx \
+				"${EPREFIX}"${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi} || \
 				_has_to_show_permission_warning=1
 		fi
 
@@ -1922,15 +1883,15 @@ pkg_postinst() {
 			ewarn "The permissions on the following directory have been reset in"
 			ewarn "order to mitigate a security bug (CVE-2016-1247, bug #605008):"
 			ewarn ""
-			ewarn "  ${EPREFIX%/}/var/log/nginx"
+			ewarn "  ${EPREFIX}/var/log/nginx"
 			ewarn ""
 			ewarn "Check if this is correct for your setup before restarting nginx!"
 			ewarn "Also ensure that no other log directory used by any of your"
 			ewarn "vhost(s) is not writeable for nginx user. Any of your log files"
 			ewarn "used by nginx can be abused to escalate privileges!"
 			ewarn "This is a one-time change and will not happen on subsequent updates."
-			chown 0:"${PN}" "${EPREFIX%/}"/var/log/nginx || _has_to_show_permission_warning=1
-			chmod 710 "${EPREFIX%/}"/var/log/nginx || _has_to_show_permission_warning=1
+			chown 0:"${PN}" "${EPREFIX}"/var/log/nginx || _has_to_show_permission_warning=1
+			chmod 710 "${EPREFIX}"/var/log/nginx || _has_to_show_permission_warning=1
 		fi
 
 		if [[ ${_has_to_show_permission_warning} -eq 1 ]]; then
@@ -1955,7 +1916,7 @@ pkg_postinst() {
 	# unmerged a affected installation on purpose in the past leaving
 	# /var/log/nginx on their system due to keepdir/non-empty folder
 	# and are now installing the package again.
-	local _sanity_check_testfile=$(mktemp --dry-run "${EPREFIX%/}"/var/log/nginx/.CVE-2016-1247.XXXXXXXXX)
+	local _sanity_check_testfile=$(mktemp --dry-run "${EPREFIX}"/var/log/nginx/.CVE-2016-1247.XXXXXXXXX)
 	su -s /bin/sh -c "touch ${_sanity_check_testfile}" "${PN}" >&/dev/null
 	if [ $? -eq 0 ] ; then
 		# Cleanup -- no reason to die here!
@@ -1968,7 +1929,7 @@ pkg_postinst() {
 		ewarn "Looks like your installation is vulnerable to CVE-2016-1247"
 		ewarn "(bug #605008) because nginx user is able to create files in"
 		ewarn ""
-		ewarn "  ${EPREFIX%/}/var/log/nginx"
+		ewarn "  ${EPREFIX}/var/log/nginx"
 		ewarn ""
 		ewarn "Also ensure that no other log directory used by any of your"
 		ewarn "vhost(s) is not writeable for nginx user. Any of your log files"
