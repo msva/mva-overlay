@@ -32,7 +32,7 @@ DEPEND="
 		dev-python/docopt
 	)
 	static? (
-		dev-libs/boost[static-libs]
+		dev-libs/boost[static-libs(+)]
 	)
 	>=dev-libs/boost-1.58.0
 	>=dev-libs/crypto++-5.6.2
