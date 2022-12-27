@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit flag-o-matic toolchain-funcs cmake multilib-minimal git-r3
+inherit flag-o-matic cmake multilib-minimal git-r3
 
 DESCRIPTION="C++ class library of cryptographic schemes"
 HOMEPAGE="https://github.com/nlohmann/json"
@@ -12,7 +12,7 @@ EGIT_BRANCH="develop"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 IUSE="doc"
 
 DEPEND="doc? ( app-doc/doxygen )"
