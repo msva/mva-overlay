@@ -1,9 +1,0 @@
-# Set the command-line arguments to pass to the server.
-ARGS="-config.file /etc/prometheus/snmp.yml"
-
-# Prometheus-snmp-exporter supports the following options:
-
-#	-config.file string
-#		Path to configuration file. (Default: "snmp.yml")
-#	web.listen-address string
-#		Address to listen on for web interface and telemetry. (Default: ":9116")
