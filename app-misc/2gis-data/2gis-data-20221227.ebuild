@@ -1,37 +1,34 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-inherit eutils
+EAPI=8
 
 DESCRIPTION="Data-files for ~app-misc/2gis-3 (wine-version)"
-HOMEPAGE="http://2gis.ru"
+HOMEPAGE="https://2gis.ru"
 
 LICENSE="2Gis-ru"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND="app-arch/unzip"
-RDEPEND=">=app-misc/2gis-3.12.0.2"
+BDEPEND="app-arch/unzip"
+RDEPEND=">=app-misc/2gis-3.16.3.0"
 
 RESTRICT="mirror"
-
-IUSE=""
-SRC_URI=""
 
 S="${WORKDIR}"
 
 my_add_town() {
 	local town="${1}"
 	local useflag="${1,,}"
+	useflag="${useflag//_/-}"
 	local postfix="${4}"
 	local d_year="10#${2}"
 	local d_mon="10#${3}"
 	local p_year="10#${PV:0:4}"
 	local p_mon="10#${PV:4:2}"
 	local rev=$((12*p_year+p_mon-12*d_year-d_mon))
-	SRC_URI="${SRC_URI} ${useflag}? ( http://download.2gis.ru/arhives/2GISData_${town}${postfix}-${rev}.orig.zip )"
-	IUSE="${IUSE} ${useflag}"
+	SRC_URI="${SRC_URI} 2gis_city_${useflag}? ( https://download.2gis.ru/arhives/2GISData_${town}${postfix}-${rev}.orig.zip )"
+	IUSE="${IUSE} 2gis_city_${useflag}"
 }
 
 # 20yy mm is the date of revision _0_.
@@ -60,6 +57,8 @@ my_add_town Voronezh			2010 7  # Воронеж
 
 my_add_town Grozny				2019 1  # Грозный
 my_add_town Gornoaltaysk		2010 4  # Горный Алтай
+
+my_add_town Dimitrovgrad		2020 1  # Димитровград
 
 my_add_town Ekaterinburg		2005 12 # Екатеринбург
 
@@ -99,7 +98,8 @@ my_add_town N_Novgorod			2008 9  # Нижний Новгород
 my_add_town Ntagil				2011 6  # Нижний Тагил
 my_add_town Novokuznetsk		2005 8  # Новокузнецк
 my_add_town Novorossiysk		2012 5  # Новороссийск
-my_add_town Novosibirsk			1998 9  # Новосибирск
+# my_add_town Novosibirsk			1998 9  # Новосибирск
+my_add_town Novosibirsk			2001 9  # Новосибирск # Почему-то произошёл лаг обновлений линуксового архива с данными
 my_add_town N_urengoy			2018 5  # Новый Уренгой
 my_add_town Norilsk				2012 8  # Норильск
 my_add_town Noyabrsk			2013 12 # Ноябрьск
@@ -174,6 +174,10 @@ my_add_town Atyrau				2019 2  # Атырау
 my_add_town Karaganda			2013 3  # Караганда
 my_add_town Kostanay			2019 4  # Костанай
 my_add_town Kokshetau			2018 8  # Кокшетау
+my_add_town Kyzylorda			2022 9  # Кызылорда
+my_add_town Semey				2022 11 # Семей
+my_add_town Taraz				2021 8  # Тараз
+my_add_town Turkestan			2022 3  # Туркестан
 my_add_town Pavlodar			2015 9  # Павлодар
 my_add_town Petropavlovsk		2019 9  # Петропавловск
 my_add_town Uralsk				2016 11 # Уральск
@@ -196,19 +200,26 @@ my_add_town Tashkent			2019 8  # Ташкент
 # ^ no more cyprus archives
 
 # CZ (Czech)
-my_add_town Praha				2013 10 "_cs" # Praha
+# my_add_town Praha				2013 10 "_cs" # Praha
+# ^ no more czech archives
 
 # IT (Italia)
-my_add_town Padova				2012 4 "_it" # Venezzia è Padova
+# my_add_town Padova				2012 4 "_it" # Venezzia è Padova
+# ^ no more italian archives
 
 # CL (Chile)
-my_add_town Santiago			2014 3 "_es" # Santiago
+# my_add_town Santiago			2014 3 "_es" # Santiago
+# ^ no more
 
 # AE (UAE)
-my_add_town Dubai				2014 7 "_en" # Dubai
+# my_add_town Dubai				2014 7 "_en" # Dubai
+# ^ no more
+
+# BY (Belarus)
+my_add_town Minsk				2021 11  # Минск
 
 src_prepare() {
-	mv "${WORKDIR}"/2gis "${S}"
+	# mv "${WORKDIR}"/2gis "${S}"
 	default
 }
 
