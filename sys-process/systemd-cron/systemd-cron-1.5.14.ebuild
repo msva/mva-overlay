@@ -1,15 +1,14 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-PYTHON_COMPAT=( pypy3 python3_{8..10} )
+EAPI=8
+PYTHON_COMPAT=( pypy3 python3_{8..11} )
 inherit python-single-r1 systemd
 
 DESCRIPTION="systemd units to create timers for cron directories and crontab"
 HOMEPAGE="https://github.com/systemd-cron/systemd-cron/"
 if [[ "${PV}" =~ "9999" ]]; then
 	inherit git-r3
-	KEYWORDS=""
 	EGIT_REPO_URI="https://github.com/systemd-cron/${PN}"
 else
 	if [[ -d "${FILESDIR}/patches/${PV}" ]]; then
