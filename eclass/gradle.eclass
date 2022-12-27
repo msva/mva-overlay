@@ -5,7 +5,7 @@
 # @MAINTAINER:
 # Vadim Misbakh-Soloviov <mva@gentoo.org>
 # @AUTHOR:
-# VAdim Misbakh-Soloviov <mva@gentoo.org>
+# Vadim Misbakh-Soloviov <mva@gentoo.org>
 # @BLURB: gradle wrapper
 # @DESCRIPTION:
 # Trying to make gradle build to work.
@@ -18,6 +18,9 @@ if [[ -z ${_GRADLE_ECLASS} ]]; then
 
 	RESTRICT="${RESTRICT} network-sandbox"
 
+	# @FUNCTION: egradle
+	# @DESCRIPTION:
+	# gradle wrapper
 	egradle() {
 		local gradle="${EGRADLE_BIN:-/usr/bin/gradle}"
 		local gradle_args=(
