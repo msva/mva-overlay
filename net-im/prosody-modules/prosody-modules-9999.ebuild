@@ -11,100 +11,99 @@ EHG_REPO_URI="https://hg.prosody.im/prosody-modules"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 
 IUSE="misc luajit"
 
 PROSODY_MODULES="
-	addressing adhoc_account_management adhoc_blacklist adhoc_dataforms_demo
-	adhoc_groups adhoc_oauth2_client admin_blocklist admin_message
-	admin_notify admin_probe admin_web alias atom audit audit_auth
-	audit_register auth_any auth_ccert auth_custom_http auth_cyrus
-	auth_dovecot auth_external_insecure auth_ha1 auth_http auth_http_async
-	auth_http_cookie auth_imap auth_internal_yubikey auth_joomla auth_ldap
-	auth_ldap2 auth_oauthbearer auth_pam auth_phpbb3 auth_sql auth_token
-	auth_wordpress auto156 auto_accept_subscriptions auto_activate_hosts
-	auto_answer_disco_info auto_moved aws_profile benchmark_storage bidi
-	bind2 block_outgoing block_registrations block_s2s_subscriptions
-	block_strangers block_subscribes block_subscriptions blocking bob
-	bookmarks bookmarks2 broadcast c2s_conn_throttle c2s_limit_sessions
-	cache_c2s_caps captcha_registration carbons carbons_adhoc carbons_copies
-	checkcerts client_certs client_proxy cloud_notify cloud_notify_encrypted
-	cloud_notify_extensions cloud_notify_filters cloud_notify_priority_tag
-	compact_resource compat_bind compat_dialback compat_muc_admin
-	compat_vcard compliance_2021 component_client component_http
-	component_roundrobin compression_unsafe conformance_restricted
-	conversejs couchdb csi csi_battery_saver csi_compat csi_grace_period
-	csi_muc_priorities csi_simple_compat data_access debug_omemo
-	debug_traceback default_bookmarks default_vcard delegation deny_omemo
-	devices disable_tls discodot discoitems dnsupdate dwd e2e_policy
-	easy_invite email email_pass export_skeletons extdisco external_services
-	fallback_vcard file_management filter_chatstates filter_words firewall
-	flash_policy graceful_shutdown group_bookmarks groups_internal
-	groups_migration groups_muc_bookmarks groups_shell host_blacklist
-	host_guard host_status_check host_status_heartbeat http_admin_api
-	http_altconnect http_auth_check http_authentication http_avatar
-	http_dir_listing http_dir_listing2 http_favicon http_host_status_check
-	http_hostaliases http_index http_libjs http_logging http_muc_kick
-	http_muc_log http_oauth2 http_pep_avatar http_prebind http_rest
-	http_roster_admin http_stats_stream http_upload http_upload_external
-	http_user_count http_xep227 idlecompat ignore_host_chatstates
-	incidents_handling inject_ecaps2 inotify_reload invite invites
-	invites_adhoc invites_api invites_groups invites_page invites_register
-	invites_register_api invites_register_web invites_tracking ipcheck
-	isolate_host jid_prep json_streams jsxc lastlog lastlog2 latex lib_ldap
-	limit_auth limits limits_exception list_active list_inactive listusers
-	log_auth log_events log_events_by_cpu_usage log_events_by_memory
-	log_http log_json log_mark log_messages_sql log_rate log_ringbuffer
-	log_sasl_mech log_slow_events mam mam_adhoc mam_archive mam_muc mamsub
-	manifesto map measure_active_users measure_client_features
-	measure_client_identities measure_client_presence measure_cpu
-	measure_lua measure_malloc measure_memory measure_message_e2ee
-	measure_message_length measure_muc measure_process measure_registration
-	measure_stanza_counts measure_storage message_logging migrate
-	migrate_http_upload minimix motd_sequential muc_access_control
-	muc_archive muc_auto_reserve_nicks muc_badge muc_ban_ip
-	muc_batched_probe muc_block_pm muc_bot muc_cloud_notify
-	muc_config_restrict muc_defaults muc_dicebot muc_eventsource muc_gc10
-	muc_hats_adhoc muc_hats_api muc_hide_media muc_http_auth
-	muc_http_defaults muc_inject_mentions muc_intercom muc_lang muc_limits
-	muc_local_only muc_log muc_log_http muc_mam_hints muc_mam_markers
-	muc_markers muc_media_metadata muc_mention_notifications muc_moderation
-	muc_notifications muc_occupant_id muc_offline_delivery muc_ping muc_rai
-	muc_require_tos muc_restrict_media muc_restrict_nick muc_restrict_rooms
-	muc_rtbl muc_search muc_webchat_url munin net_dovecotauth net_proxy
-	nodeinfo2 nooffline_noerror offline_email offline_hints ogp
-	omemo_all_access onhold onions openid password_policy password_reset
-	pastebin pep_atom_categories pep_vcard_avatar pep_vcard_png_avatar
-	persisthosts ping_muc pinger poke_strangers portcheck post_msg
-	presence_cache presence_dedup privacy_lists private_adhoc privilege
-	proctitle profile prometheus proxy65_whitelist pubsub_alertmanager
-	pubsub_eventsource pubsub_feeds pubsub_github pubsub_hub pubsub_mqtt
-	pubsub_pivotaltracker pubsub_post pubsub_stats pubsub_subscription
-	pubsub_summary pubsub_text_interface pubsub_twitter query_client_ver
-	rawdebug readonly register_apps register_dnsbl
-	register_dnsbl_firewall_mark register_dnsbl_warn register_json
-	register_oob_url register_redirect register_web reload_components
-	reload_modules reminders remote_roster require_otr rest roster_allinall
-	roster_command s2s_auth_compat s2s_auth_dane s2s_auth_fingerprint
-	s2s_auth_monkeysphere s2s_auth_posh s2s_auth_samecert s2s_blacklist
-	s2s_idle_timeout s2s_keepalive s2s_keysize_policy s2s_log_certs
-	s2s_never_encrypt_blacklist s2s_reload_newcomponent s2s_status
-	s2s_whitelist s2soutinjection sasl2 sasl_oauthbearer saslauth_muc
-	saslname seclabels secure_interfaces sentry server_status
-	service_directories sift slack_webhooks smacks smacks_noerror
-	smacks_offline sms_clickatell sms_free spam_reporting srvinjection
-	sslv3_warn stanza_counter stanzadebug statistics statistics_auth
-	statistics_cputotal statistics_mem statistics_statsman stats39 statsd
-	storage_appendmap storage_ejabberdsql_readonly storage_gdbm storage_ldap
-	storage_lmdb storage_memory storage_mongodb storage_muc_log
-	storage_muconference_readonly storage_multi storage_xmlarchive
-	streamstats strict_https support_contact support_room swedishchef
-	tcpproxy telnet_tlsinfo test_data throttle_presence throttle_unsolicited
-	tls_policy tlsfail tos traceback track_muc_joins turn_external
-	turncredentials tweet_data twitter uptime_presence vcard_command
-	vcard_muc vjud warn_legacy_tls watch_spam_reports watchuntrusted
-	webpresence welcome_page xhtmlim
+	addressing adhoc-account-management adhoc-blacklist adhoc-dataforms-demo
+	adhoc-groups adhoc-oauth2-client admin-blocklist admin-message
+	admin-notify admin-probe admin-web alias atom audit audit-auth
+	audit-register auth-any auth-ccert auth-custom-http auth-cyrus
+	auth-dovecot auth-external-insecure auth-ha1 auth-http auth-http-async
+	auth-http-cookie auth-imap auth-internal-yubikey auth-joomla auth-ldap
+	auth-ldap2 auth-oauthbearer auth-pam auth-phpbb3 auth-sql auth-token
+	auth-wordpress auto156 auto-accept-subscriptions auto-activate-hosts
+	auto-answer-disco-info auto-moved aws-profile benchmark-storage bidi
+	bind2 block-outgoing block-registrations block-s2s-subscriptions
+	block-strangers block-subscribes block-subscriptions blocking bob
+	bookmarks bookmarks2 broadcast c2s-conn-throttle c2s-limit-sessions
+	cache-c2s-caps captcha-registration carbons carbons-adhoc carbons-copies
+	checkcerts client-certs client-proxy cloud-notify cloud-notify-encrypted
+	cloud-notify-extensions cloud-notify-filters cloud-notify-priority-tag
+	compact-resource compat-bind compat-dialback compat-muc-admin
+	compat-vcard compliance-2021 component-client component-http
+	component-roundrobin compression-unsafe conformance-restricted
+	conversejs couchdb csi csi-battery-saver csi-compat csi-grace-period
+	csi-muc-priorities csi-simple-compat data-access debug-omemo
+	debug-traceback default-bookmarks default-vcard delegation deny-omemo
+	devices disable-tls discodot discoitems dnsupdate dwd e2e-policy
+	easy-invite email email-pass export-skeletons extdisco external-services
+	fallback-vcard file-management filter-chatstates filter-words firewall
+	flash-policy graceful-shutdown group-bookmarks groups-internal
+	groups-migration groups-muc-bookmarks groups-shell host-blacklist
+	host-guard host-status-check host-status-heartbeat http-admin-api
+	http-altconnect http-auth-check http-authentication http-avatar
+	http-dir-listing http-dir-listing2 http-favicon http-host-status-check
+	http-hostaliases http-index http-libjs http-logging http-muc-kick
+	http-muc-log http-oauth2 http-pep-avatar http-prebind http-rest
+	http-roster-admin http-stats-stream http-upload http-upload-external
+	http-user-count http-xep227 idlecompat ignore-host-chatstates
+	incidents-handling inject-ecaps2 inotify-reload invite invites
+	invites-adhoc invites-api invites-groups invites-page invites-register
+	invites-register-api invites-register-web invites-tracking ipcheck
+	isolate-host jid-prep json-streams jsxc lastlog lastlog2 latex lib-ldap
+	limit-auth limits limits-exception list-active list-inactive listusers
+	log-auth log-events log-events-by-cpu-usage log-events-by-memory
+	log-http log-json log-mark log-messages-sql log-rate log-ringbuffer
+	log-sasl-mech log-slow-events mam mam-adhoc mam-archive mam-muc mamsub
+	manifesto map measure-active-users measure-client-features
+	measure-client-identities measure-client-presence measure-cpu
+	measure-lua measure-malloc measure-memory measure-message-e2ee
+	measure-message-length measure-muc measure-process measure-registration
+	measure-stanza-counts measure-storage message-logging migrate
+	migrate-http-upload minimix motd-sequential muc-access-control
+	muc-archive muc-auto-reserve-nicks muc-badge muc-ban-ip
+	muc-batched-probe muc-block-pm muc-bot muc-cloud-notify
+	muc-config-restrict muc-defaults muc-dicebot muc-eventsource muc-gc10
+	muc-hats-adhoc muc-hats-api muc-hide-media muc-http-auth
+	muc-http-defaults muc-inject-mentions muc-intercom muc-lang muc-limits
+	muc-local-only muc-log muc-log-http muc-mam-hints muc-mam-markers
+	muc-markers muc-media-metadata muc-mention-notifications muc-moderation
+	muc-notifications muc-occupant-id muc-offline-delivery muc-ping muc-rai
+	muc-require-tos muc-restrict-media muc-restrict-nick muc-restrict-rooms
+	muc-rtbl muc-search muc-webchat-url munin net-dovecotauth net-proxy
+	nodeinfo2 nooffline-noerror offline-email offline-hints ogp
+	omemo-all-access onhold onions openid password-policy password-reset
+	pastebin pep-atom-categories pep-vcard-avatar pep-vcard-png-avatar
+	persisthosts ping-muc pinger poke-strangers portcheck post-msg
+	presence-cache presence-dedup privacy-lists private-adhoc privilege
+	proctitle profile prometheus proxy65-whitelist pubsub-alertmanager
+	pubsub-eventsource pubsub-feeds pubsub-github pubsub-hub pubsub-mqtt
+	pubsub-pivotaltracker pubsub-post pubsub-stats pubsub-subscription
+	pubsub-summary pubsub-text-interface pubsub-twitter query-client-ver
+	rawdebug readonly register-apps register-dnsbl
+	register-dnsbl-firewall-mark register-dnsbl-warn register-json
+	register-oob-url register-redirect register-web reload-components
+	reload-modules reminders remote-roster require-otr rest roster-allinall
+	roster-command s2s-auth-compat s2s-auth-dane s2s-auth-fingerprint
+	s2s-auth-monkeysphere s2s-auth-posh s2s-auth-samecert s2s-blacklist
+	s2s-idle-timeout s2s-keepalive s2s-keysize-policy s2s-log-certs
+	s2s-never-encrypt-blacklist s2s-reload-newcomponent s2s-status
+	s2s-whitelist s2soutinjection sasl2 sasl-oauthbearer saslauth-muc
+	saslname seclabels secure-interfaces sentry server-status
+	service-directories sift slack-webhooks smacks smacks-noerror
+	smacks-offline sms-clickatell sms-free spam-reporting srvinjection
+	sslv3-warn stanza-counter stanzadebug statistics statistics-auth
+	statistics-cputotal statistics-mem statistics-statsman stats39 statsd
+	storage-appendmap storage-ejabberdsql-readonly storage-gdbm storage-ldap
+	storage-lmdb storage-memory storage-mongodb storage-muc-log
+	storage-muconference-readonly storage-multi storage-xmlarchive
+	streamstats strict-https support-contact support-room swedishchef
+	tcpproxy telnet-tlsinfo test-data throttle-presence throttle-unsolicited
+	tls-policy tlsfail tos traceback track-muc-joins turn-external
+	turncredentials tweet-data twitter uptime-presence vcard-command
+	vcard-muc vjud warn-legacy-tls watch-spam-reports watchuntrusted
+	webpresence welcome-page xhtmlim
 "
 
 for x in ${PROSODY_MODULES}; do
@@ -114,32 +113,32 @@ done
 DEPEND="~net-im/prosody-${PV}"
 RDEPEND="
 	${DEPEND}
-	prosody_modules_inotify_reload? (
+	prosody_modules_inotify-reload? (
 		dev-lua/linotify
 	)
-	prosody_modules_auth_joomla? (
+	prosody_modules_auth-joomla? (
 		dev-lua/luadbi
 	)
-	prosody_modules_lib_ldap? (
+	prosody_modules_lib-ldap? (
 		dev-lua/lualdap
 	)
-	prosody_modules_client_certs? (
+	prosody_modules_client-certs? (
 		dev-lua/luasec
 	)
 	prosody_modules_listusers? (
 		dev-lua/luasocket
 		dev-lua/luafilesystem
 	)
-	prosody_modules_pubsub_pivotaltracker? (
+	prosody_modules_pubsub-pivotaltracker? (
 		dev-lua/luaexpat
 	)
-	prosody_modules_auth_phpbb3? (
+	prosody_modules_auth-phpbb3? (
 		dev-lua/luadbi
 	)
-	prosody_modules_log_messages_sql? (
+	prosody_modules_log-messages-sql? (
 		dev-lua/luadbi
 	)
-	prosody_modules_message_logging? (
+	prosody_modules_message-logging? (
 		dev-lua/luafilesystem
 	)
 	prosody_modules_onions? (
@@ -153,13 +152,13 @@ RDEPEND="
 	prosody_modules_couchdb? (
 		dev-lua/luasocket
 	)
-	prosody_modules_auth_custom_http? (
+	prosody_modules_auth-custom-http? (
 		dev-lua/luasocket
 	)
 	prosody_modules_checkcerts? (
 		dev-lua/luasec
 	)
-	prosody_modules_auth_internal_yubikey? (
+	prosody_modules_auth-internal-yubikey? (
 		|| (
 			dev-lang/luajit
 			dev-lua/LuaBitOp
@@ -169,55 +168,55 @@ RDEPEND="
 		luajit? ( dev-lang/luajit )
 		dev-lua/yubikey-lua
 	)
-	prosody_modules_auth_dovecot? (
+	prosody_modules_auth-dovecot? (
 		dev-lua/luasocket
 	)
-	prosody_modules_storage_ldap? (
+	prosody_modules_storage-ldap? (
 		dev-lua/luasocket
 	)
 	prosody_modules_statistics? (
-		dev-lua/luaposix[ncurses]
+		dev-lua/luaposix[ncurses(+)]
 	)
-	prosody_modules_http_dir_listing? (
+	prosody_modules_http-dir-listing? (
 		dev-lua/luasocket
 		dev-lua/luafilesystem
 	)
-	prosody_modules_log_messages_sql? (
+	prosody_modules_log-messages-sql? (
 		dev-lua/luasocket
 		dev-lua/luadbi
 	)
-	prosody_modules_storage_mongodb? (
+	prosody_modules_storage-mongodb? (
 		dev-lua/luamongo
 	)
-	prosody_modules_offline_email? (
+	prosody_modules_offline-email? (
 		dev-lua/luasocket
 	)
-	prosody_modules_auth_wordpress? (
+	prosody_modules_auth-wordpress? (
 		dev-lua/luadbi
 	)
-	prosody_modules_muc_log_http? (
+	prosody_modules_muc-log-http? (
 		dev-lua/luafilesystem
 		dev-lua/luaexpat
 	)
-	prosody_modules_component_client? (
+	prosody_modules_component-client? (
 		dev-lua/luasocket
 	)
-	prosody_modules_auth_external_insecure? (
+	prosody_modules_auth-external-insecure? (
 		dev-lua/lpc
 	)
-	prosody_modules_auth_sql? (
+	prosody_modules_auth-sql? (
 		dev-lua/luadbi
 	)
 "
 
 REQUIRED_USE="
-	prosody_modules_auth_ldap? ( prosody_modules_lib_ldap )
-	prosody_modules_auth_ldap2? ( prosody_modules_lib_ldap )
+	prosody_modules_auth-ldap? ( prosody_modules_lib-ldap )
+	prosody_modules_auth-ldap2? ( prosody_modules_lib-ldap )
 "
 
 src_install() {
 	cd "${S}";
-	use prosody_modules_mam || ewarn "mod_mam is ignored. Using prosody's instead."
+	use prosody_modules_mam || ewarn "mod-mam is ignored. Using prosody's instead."
 	for m in ${PROSODY_MODULES//mam /}; do
 		if use prosody_modules_${m}; then
 			insinto /usr/lib/prosody/modules;
