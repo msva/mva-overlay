@@ -18,7 +18,9 @@ if [[ "${PV}" == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/Samsung/${PN}"
 else
 	SRC_URI="https://github.com/Samsung/${PN}/archive/${MY_SHA}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~mips ~riscv ~x86"
+	# ~ppc64
+	# ^ libcxx
 	S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
 fi
 
