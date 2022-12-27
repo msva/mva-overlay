@@ -1,4 +1,4 @@
-# Copyright 2019-2022 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -22,7 +22,7 @@ SRC_URI="
 
 LICENSE="Apache-2.0 MIT"
 SLOT="0"
-KEYWORDS="amd64 ~arm ~arm64 ~riscv x86 ~x64-macos"
+KEYWORDS="~amd64 ~arm ~arm64 ~riscv ~x86 ~x64-macos"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
@@ -30,7 +30,7 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 BDEPEND="virtual/pkgconfig"
 DEPEND="${LUA_DEPS}
-	>=dev-libs/libuv-1.32.0:="
+	>=dev-libs/libuv-$(ver_cut 1-2):="
 RDEPEND="${DEPEND}"
 
 PATCHES=(
@@ -40,10 +40,9 @@ PATCHES=(
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-	# sed -i -r "/-DBUILDING_UV_SHARED/d" CMakeLists.txt || die "Failed to fix CMakeLists.txt (1)"
 	# Fix libdir
 	# Match '/lib/' and '/lib"' without capturing / or ", replacing with libdir
-	sed -i -r "s/\/lib(\"|\/)/\/$(get_libdir)\1/g" CMakeLists.txt || die "Failed to sed CMakeLists.txt (2)"
+	sed -i -r "s/\/lib(\"|\/)/\/$(get_libdir)\1/g" CMakeLists.txt || die "Failed to sed CMakeLists.txt"
 	cmake_src_prepare
 	lua_copy_sources
 }
