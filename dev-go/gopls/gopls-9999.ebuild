@@ -1,7 +1,7 @@
-# Copyright 2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit go-module git-r3
 
@@ -11,10 +11,8 @@ EGIT_REPO_URI="https://github.com/golang/tools.git"
 
 S="${WORKDIR}/${P}/${PN}"
 
-RESTRICT="network-sandbox"
 LICENSE="MIT"
 SLOT="0"
-IUSE=""
 
 src_unpack() {
 	default
@@ -23,9 +21,9 @@ src_unpack() {
 }
 
 src_compile() {
-	go build -o ${PN} || die
+	ego build -o "${PN}"
 }
 
 src_install() {
-	dobin ${PN}
+	dobin "${PN}"
 }
