@@ -1,28 +1,22 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit git-r3 eutils autotools
+inherit git-r3 autotools
 
 DESCRIPTION="IPC library used by GnuPG and GPGME"
 HOMEPAGE="http://www.gnupg.org/related_software/libassuan/index.en.html"
-SRC_URI=""
-EGIT_REPO_URI="git://git.gnupg.org/libassuan.git"
-#EGIT_BOOTSTRAP="./autogen.sh"
-#SRC_URI="mirror://gnupg/${PN}/${P}.tar.bz2"
+EGIT_REPO_URI="https://dev.gnupg.org/source/libassuan.git"
 
 LICENSE="GPL-3 LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
 IUSE="static-libs"
 
 RDEPEND=">=dev-libs/libgpg-error-1.8"
 DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
-
-#S="${WORKDIR}"
 
 src_prepare() {
 	default
@@ -35,6 +29,5 @@ src_configure() {
 
 src_install() {
 	default
-	# ppl need to use libassuan-config for --cflags and --libs
-	rm -f "${ED}"usr/lib*/${PN}.la
+	find "${D}" -name '*.la' -delete || die
 }
