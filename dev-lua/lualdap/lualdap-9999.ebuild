@@ -1,11 +1,11 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua git-r3 flag-o-matic toolchain-funcs
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Lua driver for LDAP"
 HOMEPAGE="https://github.com/lualdap/lualdap"
