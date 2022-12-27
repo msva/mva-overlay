@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 CHECKREQS_DISK_BUILD="6G"
 inherit check-reqs
@@ -14,15 +14,15 @@ LICENSE="android"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
-RESTRICT="mirror strip installsources test"
+RESTRICT="bindist mirror strip installsources test"
 
-DEPEND="app-arch/p7zip"
 RDEPEND="
 	>=dev-util/android-sdk-update-manager-10
 	>=sys-devel/make-3.81
 	sys-libs/ncurses-compat:5[tinfo]
 	virtual/libcrypt
 "
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}/${PN}-r${PV}"
 
