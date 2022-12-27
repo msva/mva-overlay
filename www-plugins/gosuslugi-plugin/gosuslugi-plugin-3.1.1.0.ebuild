@@ -1,9 +1,9 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils unpacker patches
+inherit unpacker patches
 
 DESCRIPTION="Crypto-provider browser plugin for russian e-gov site https://gosuslugi.ru/"
 
@@ -16,14 +16,11 @@ SRC_URI="
 #	x86-winnt? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin.msi )
 #	x64-winnt? ( https://ds-plugin.gosuslugi.ru/plugin/htdocs/plugin/IFCPlugin-x64.msi )
 
-HOMEPAGE="http://gosuslugi.ru/"
+HOMEPAGE="https://gosuslugi.ru/"
 LICENSE="all-rights-reserved"
 RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~x64-macos"
-IUSE="multilib"
-
-REQUIRED_USE="amd64? ( multilib )"
 
 # TODO: minimal useflag (I can't do it now, since
 # it seems like I brake my token and it is uninitialized now)
