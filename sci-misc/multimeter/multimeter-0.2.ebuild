@@ -1,18 +1,16 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils linux-mod
+inherit linux-mod
 
 DESCRIPTION="Data acquisition tool for V&A VA18B and clones (as PeakTech 3375) multimeter"
 HOMEPAGE="http://multimeter.schewe.com/"
-SRC_URI="http://multimeter.schewe.com/${PN}-${PV}.tar.gz"
+SRC_URI="http://multimeter.schewe.com/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
-RESTRICT=""
 
 DEPEND="dev-lang/perl"
 RDEPEND="${DEPEND}"
