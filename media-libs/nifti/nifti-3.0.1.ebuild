@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake-multilib flag-o-matic
+inherit cmake-multilib
 
 DESCRIPTION="C libraries for NIFTI support"
 HOMEPAGE="https://github.com/NIFTI-Imaging/nifti_clib"
@@ -13,7 +13,7 @@ if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/NIFTI-Imaging/nifti_clib"
 else
 	SRC_URI="https://github.com/NIFTI-Imaging/${PN}_clib/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~x86 ~amd64 ~arm ~arm64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	S="${WORKDIR}/${PN}_clib-${PV}"
 fi
 

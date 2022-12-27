@@ -4,14 +4,8 @@
 	<maintainer type="person">
 		<email>mva@gentoo.org</email>
 		<description>
-			If you have any issues, please contact me via e-mail, IRC (FreeNode) or Telegram (@mva_name)
+			If you have any issues, please contact me via e-mail, IRC (Libera.Chat) or Telegram (@mva_name)
 		</description>
 		<name>Vadim A. Misbakh-Soloviov</name>
 	</maintainer>
-	<longdescription>
-	Long description of the package
-	</longdescription> 
-	<use>
-		<flag name='flag'>desc</flag>
-	</use>
 </pkgmetadata>
