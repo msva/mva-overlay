@@ -1,14 +1,14 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 S="${WORKDIR}"
 inherit font
 
 BASE_SRC_URI="http://web.archive.org/web/20110108105420/http://code2000.net/"
 
-DESCRIPTION="TrueType font covering big piece of Unicode"
+DESCRIPTION="TrueType font covering big piece of Unicode (at time of its creation)"
 HOMEPAGE="http://web.archive.org/web/20110108105420/code2000.net"
 SRC_URI="
 	${BASE_SRC_URI}/CODE2000.ZIP
@@ -18,13 +18,9 @@ SRC_URI="
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"
 
-DEPEND="
-	${DEPEND}
-	app-arch/unzip
-"
-RDEPEND=""
+BDEPEND="app-arch/unzip"
 
 FONT_SUFFIX="ttf"
 
