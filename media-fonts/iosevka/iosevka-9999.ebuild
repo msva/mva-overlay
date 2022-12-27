@@ -1,8 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-# ^ font
+EAPI=8
 
 inherit font git-r3
 
@@ -13,13 +12,12 @@ SRC_URI=""
 
 LICENSE="OFL-1.1"
 SLOT="0"
-KEYWORDS=""
-IUSE="unhinted web"
+IUSE="web"
 RESTRICT="binchecks strip network-sandbox"
 
 # TODO: do something with network-sandbox incompatibility
 
-DEPEND="
+BDEPEND="
 	net-libs/nodejs
 	media-gfx/fontforge
 	media-gfx/ttfautohint
@@ -28,8 +26,7 @@ DEPEND="
 		media-gfx/sfnt2woff
 		media-libs/woff2
 	)
-	"
-RDEPEND=""
+"
 
 FONT_S="${S}/fonts_dist"
 FONT_SUFFIX="ttf"
@@ -42,9 +39,6 @@ src_compile() {
 src_install() {
 	mkdir -p "${FONT_S}"
 	local font_dir="${S}/dist/${PN}/ttf"
-	if use unhinted; then
-		font_dir="${S}/dist/${PN}/ttf-unhinted"
-	fi
 	find "${font_dir}" -name '*.ttf' -print0 | xargs -0 -r mv -u -t "${FONT_S}"
 	font_src_install
 	use web && (
