@@ -7,20 +7,16 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua mercurial
 
 DESCRIPTION="Lua feeds parsing library"
-HOMEPAGE="https//code.matthewwild.co.uk/lua-feeds"
+HOMEPAGE="https://code.matthewwild.co.uk/lua-feeds"
 EHG_REPO_URI="https://code.matthewwild.co.uk/lua-feeds"
 
 LICENSE="MIT"
 SLOT="0"
 IUSE="examples"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
-RDEPEND="
-	${LUA_DEPS}
-	dev-lua/squish
-"
-DEPEND="
-	${RDEPEND}
-"
+RDEPEND="${LUA_DEPS}"
+DEPEND="${RDEPEND}"
+BDEPEND="dev-lua/squish"
 
 each_lua_compile() {
 	squish
