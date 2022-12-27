@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 S="${WORKDIR}"
 inherit font
@@ -12,11 +12,9 @@ HOMEPAGE="http://www.dafont.com/eurofurence.font"
 SRC_URI="http://img.dafont.com/dl/?f=eurofurence -> ${P}.zip"
 LICENSE="OFL"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"
 
-IUSE=""
-DEPEND="app-arch/unzip"
-RDEPEND=""
+BDEPEND="app-arch/unzip"
 
 RESTRICT="strip binchecks"
 
