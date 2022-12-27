@@ -1,12 +1,10 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 inherit savedconfig git-r3
 
-SRC_URI=""
 EGIT_REPO_URI="https://github.com/kvalo/ath10k-firmware"
-KEYWORDS=""
 
 DESCRIPTION="Atheros ath10k firmware files"
 HOMEPAGE="https://github.com/kvalo/ath10k-firmware"
