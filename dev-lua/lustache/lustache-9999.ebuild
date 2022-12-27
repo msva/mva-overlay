@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION=""
+DESCRIPTION="Markdown engine"
 HOMEPAGE="http://olivinelabs.com/lustache"
 EGIT_REPO_URI="https://github.com/Olivine-Labs/lustache"
 
