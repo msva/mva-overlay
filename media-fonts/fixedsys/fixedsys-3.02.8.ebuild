@@ -1,17 +1,22 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-
+EAPI=8
 inherit font
 
 DESCRIPTION="Fixedsys Excelsior font with programming ligatures"
 HOMEPAGE="https://github.com/kika/fixedsys"
-SRC_URI="https://github.com/kika/fixedsys/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+
+if [[ "${PV}" =~ "9999" ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/kika/fixedsys"
+else
+	KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"
+	SRC_URI="https://github.com/kika/fixedsys/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+fi
 
 LICENSE="OFL"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86"
 
 FONT_SUFFIX="ttf"
 
