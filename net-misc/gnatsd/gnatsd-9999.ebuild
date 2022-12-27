@@ -1,31 +1,31 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-EGO_PN="github.com/nats-io/${PN}"
-EGIT_CHECKOUT_DIR="${WORKDIR}/${P}/src/${EGO_PN}"
-EGIT_MIN_CLONE_TYPE="single+tags"
-S="${EGIT_CHECKOUT_DIR}"
-EGIT_REPO_URI="https://${EGO_PN}"
-
-inherit golang-base git-r3
-
-SRC_URI="${EGO_VENDOR_URI}"
+inherit go-module git-r3 systemd
 
 DESCRIPTION="A high Performance NATS Server written in GoLang"
 HOMEPAGE="https://nats.io"
 
+EGIT_REPO_URI="https://github.com/nats-io/gnatsd"
+
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+
+DOCS=( README.md conf/simple.conf )
+
+src_unpack() {
+	git-r3_src_unpack
+	go-module_live_vendor
+}
 
 src_compile() {
-	export GOPATH="${WORKDIR}/${P}"
-	go build
+	GOARCH= ego build
 }
 
 src_install() {
-	dobin "${PN}"
-	dodoc README.md
+	dobin nats-server
+	einstalldocs
+	systemd_dounit util/*.service
 }
