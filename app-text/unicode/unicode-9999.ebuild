@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} pypy3 )
+PYTHON_COMPAT=( python3_{8..11} pypy3 )
 
 inherit python-r1 git-r3
 
@@ -14,12 +14,15 @@ EGIT_REPO_URI="https://github.com/garabik/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 
 DEPEND="
 	app-i18n/unicode-data
 "
-RDEPEND="${DEPEND}"
+RDEPEND="
+	${DEPEND}
+	${PYTHON_DEPS}
+"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 DOCS=(README{,-paracode})
 
