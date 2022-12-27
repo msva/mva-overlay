@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils unpacker patches
+inherit unpacker patches
 
 DESCRIPTION="System diagnostic browser plugin for SKB Kontur services"
 
@@ -18,10 +18,9 @@ RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64"
 # x64-macos"
-IUSE=""
 
 RDEPEND="
-	dev-libs/atk
+	app-accessibility/at-spi2-core
 	dev-libs/glib
 	x11-libs/cairo
 	x11-libs/gdk-pixbuf
