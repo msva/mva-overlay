@@ -5,7 +5,6 @@
     <email>gentoo@mva.name</email>
     <name>mva</name>
   </maintainer>
-  <longdescription>FIXME</longdescription>
   <use>
     <flag name="fuse">Add fuse helper</flag>
     <flag name="gui">Build Qt GUI</flag>
