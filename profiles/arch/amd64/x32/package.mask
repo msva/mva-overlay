@@ -1,3 +1,0 @@
-# Depends on nodejs, which is masked in gentoo repo
-www-apps/etherpad-lite
-www-apps/grafana
