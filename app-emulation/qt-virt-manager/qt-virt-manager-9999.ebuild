@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -9,11 +9,9 @@ if [[ ${PV} == "9999" ]] ; then
 	EGIT_REPO_URI="https://github.com/F1ash/qt-virt-manager.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
-	SRC_URI=""
-	KEYWORDS=""
 else
 	SRC_URI="https://github.com/F1ash/qt-virt-manager/archive/${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS=""
+	KEYWORDS="~amd64"
 fi
 
 DESCRIPTION="A GUI application for managing virtual machines"
