@@ -1,21 +1,16 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit git-r3 eutils flag-o-matic toolchain-funcs autotools
+inherit git-r3 flag-o-matic toolchain-funcs autotools
 
 DESCRIPTION="The GNU Privacy Guard, a GPL pgp replacement"
-HOMEPAGE="http://www.gnupg.org/"
-SRC_URI=""
-EGIT_REPO_URI="git://git.gnupg.org/gnupg.git"
-#EGIT_BOOTSTRAP="./autogen.sh"
-#SRC_URI="mirror://gnupg/gnupg/${P}.tar.bz2"
-# SRC_URI="ftp://ftp.gnupg.org/gcrypt/${PN}/${P}.tar.bz2"
+HOMEPAGE="https://www.gnupg.org/"
+EGIT_REPO_URI="https://dev.gnupg.org/source/gnupg.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
 IUSE="bzip2 doc ldap nls readline static selinux smartcard usb"
 
 COMMON_DEPEND_LIBS="
@@ -29,7 +24,8 @@ COMMON_DEPEND_LIBS="
 	bzip2? ( app-arch/bzip2 )
 	readline? ( sys-libs/readline:0 )
 	smartcard? ( usb? ( virtual/libusb:0 ) )
-	ldap? ( net-nds/openldap )"
+	ldap? ( net-nds/openldap )
+"
 COMMON_DEPEND_BINS="app-crypt/pinentry"
 
 # Existence of executables is checked during configuration.
@@ -49,7 +45,6 @@ DEPEND="${COMMON_DEPEND_LIBS}
 RDEPEND="!static? ( ${COMMON_DEPEND_LIBS} )
 	${COMMON_DEPEND_BINS}
 	virtual/mta
-	!<=app-crypt/gnupg-2.0.1
 	selinux? ( sec-policy/selinux-gpg )
 	nls? ( virtual/libintl )"
 
@@ -108,8 +103,8 @@ src_install() {
 	emake DESTDIR="${D}" install
 	emake DESTDIR="${D}" -f doc/Makefile uninstall-nobase_dist_docDATA
 
-	dodoc ChangeLog NEWS README THANKS TODO doc/FAQ doc/DETAILS \
-		doc/HACKING doc/TRANSLATE doc/OpenPGP doc/KEYSERVER doc/help*
+	DOCS=( ChangeLog NEWS README THANKS TODO doc/FAQ doc/DETAILS )
+	DOCS+=( doc/HACKING doc/TRANSLATE doc/OpenPGP doc/KEYSERVER doc/help* )
 
 	dosym gpg2 /usr/bin/gpg
 	dosym gpgv2 /usr/bin/gpgv
@@ -119,15 +114,16 @@ src_install() {
 	if use ldap; then
 		dosym gpg2keys_ldap /usr/libexec/gpgkeys_ldap
 	fi
-	echo ".so man1/gpg2.1" > "${ED}usr/share/man/man1/gpg.1"
-	echo ".so man1/gpgv2.1" > "${ED}usr/share/man/man1/gpgv.1"
+	echo ".so man1/gpg2.1" > "${ED}/usr/share/man/man1/gpg.1"
+	echo ".so man1/gpgv2.1" > "${ED}/usr/share/man/man1/gpgv.1"
 
 	dodir /etc/env.d
-	echo "CONFIG_PROTECT=/usr/share/gnupg/qualified.txt" >>"${ED}etc/env.d/30gnupg"
+	echo "CONFIG_PROTECT=/usr/share/gnupg/qualified.txt" >>"${ED}/etc/env.d/30gnupg"
 
 	if use doc; then
-		dohtml doc/gnupg.html/* doc/*.png
+		HTML_DOCS=( doc/gnupg.html/* doc/*.png )
 	fi
+	einstalldocs
 }
 
 pkg_postinst() {
