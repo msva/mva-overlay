@@ -1,27 +1,22 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit git-r3 eutils autotools
+inherit git-r3 autotools
 
 DESCRIPTION="GnuPG's New Portable Threads Library (nPth)"
 HOMEPAGE="http://www.gnupg.org/"
-SRC_URI=""
-EGIT_REPO_URI="git://git.gnupg.org/${PN}.git"
-#EGIT_BOOTSTRAP="./autogen.sh"
+EGIT_REPO_URI="https://dev.gnupg.org/source/${PN}.git"
 
 LICENSE="GPL-3 LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
 IUSE="static-libs"
 
 RDEPEND="~dev-libs/libgpg-error-9999"
 DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README )
-
-#S="${WORKDIR}"
 
 src_prepare() {
 	default
@@ -34,5 +29,5 @@ src_configure() {
 
 src_install() {
 	default
-	rm -f "${ED}"usr/lib*/${PN}.la
+	find "${D}" -name '*.la' -delete || die
 }
