@@ -1,13 +1,14 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 #
 # @ECLASS: npmv1.eclass
 # @MAINTAINER:
-# geaaru<at>gmail.com
+# Vadim Misbakh-Soloviov mva<at>gentoo.org
 # @AUTHOR:
 # Geaaru geaaru<at>gmail.com
+# @BLURB: npm handler
 # @DESCRIPTION:
 # Purpose: Manage installation of nodejs application with automatic
 #          download of the modules defined on package.json file.
@@ -59,11 +60,8 @@ fi
 #  * NPM_PV              Define version used for download sources when NPM_GITHUP_MOD is used.
 #                        Default value is "v${PV}".
 
-NPMV1_ECLASS_VERSION="0.3.1"
-
 _npmv1_set_metadata() {
-
-	if has "${EAPI:-0}" 5 6 7; then
+	if has "${EAPI:-0}" 5 6 7 8; then
 
 		DEPEND="${DEPEND}
 		net-libs/nodejs[npm(+)]
@@ -95,17 +93,13 @@ _npmv1_set_metadata() {
 				SRC_URI="http://registry.npmjs.org/${NPM_PKG_NAME}/-/${NPM_PKG_NAME}-${PV}.tgz"
 			fi
 		fi
-
 	else
-
 		die "EAPI ${EAPI} is not supported!"
-
 	fi
 
 	# Avoid use of both NPM_SYSTEM_MODULES and NPM_LOCAL_MODULES
 	[[ -n "${NPM_SYSTEM_MODULES}" && -n "${NPM_LOCAL_MODULES}" ]] && \
 		die "Both NPM_LOCAL_MODULES and NPM_SYSTEM_MODULES variables defined!"
-
 }
 
 _npmv1_set_metadata
@@ -117,7 +111,6 @@ EXPORT_FUNCTIONS src_prepare src_compile src_install
 # @DESCRIPTION:
 # Implementation of src_prepare() phase. This function is exported.
 npmv1_src_prepare() {
-
 	# I'm on ${S}
 
 	# Check if present package.json
@@ -142,7 +135,6 @@ npmv1_src_prepare() {
 # @DESCRIPTION:
 # Implementation of src_compile() phase. This function is exported.
 npmv1_src_compile() {
-
 	if [[ -z "${NPM_GYP_BIN}" ]] ; then
 		NPM_GYP_BIN="${EROOT}/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
 	fi
@@ -154,14 +146,12 @@ npmv1_src_compile() {
 			${NPM_GYP_BIN} rebuild || die "Error on compile package ${PN} sources!."
 		fi
 	fi
-
 }
 
 # @FUNCTION: npmv1_src_install
 # @DESCRIPTION:
 # Implementation of src_compile() phase. This function is exported.
 npmv1_src_install() {
-
 	local words=""
 	local sym=""
 	local i=0
@@ -174,23 +164,19 @@ npmv1_src_install() {
 	fi
 
 	_npmv1_install_native_objs () {
-
-		cp -rf build/ ${D}/${NPM_PACKAGEDIR}/ || \
-			die "Error on install native objects."
-
+		cp -rf build/ "${D}/${NPM_PACKAGEDIR}/" || die "Error on install native objects."
 		return 0
 	}
 
 	_npmv1_create_bin_script () {
-
 		local binfile=$1
 		local bindir="$2"
 		local scriptname="$3"
 		local has_envheader="$4"
 		local nodecmd=""
 
-		if [[ ! -e ${ED}/usr/bin ]] ; then
-			mkdir -p ${ED}/usr/bin
+		if [[ ! -e "${ED}/usr/bin" ]] ; then
+			mkdir -p "${ED}/usr/bin"
 		fi
 
 		if [[ ${has_envheader} -eq 0 ]] ; then
@@ -208,15 +194,14 @@ app_node_path="${NPM_PACKAGEDIR}/node_modules/"
 export NODE_PATH=\${app_node_path}:\${def_node_path}
 
 ${nodecmd}${bindir}/${binfile} \$@
-" >     ${ED}/usr/bin/${scriptname} || return 1
+" >     "${ED}/usr/bin/${scriptname}" || return 1
 
-		chmod a+x ${ED}/usr/bin/${scriptname} || return 1
+		chmod a+x "${ED}/usr/bin/${scriptname}" || return 1
 
 		return 0
 	}
 
 	_npmv1_install_module () {
-
 		local mod=$1
 		# mode: 0 -> use NPM_SYSTEM_MODULES, 1 -> use NPM_LOCAL_MODULES
 		local mode=${2:-0}
@@ -258,7 +243,6 @@ ${nodecmd}${bindir}/${binfile} \$@
 	}
 
 	_npmv1_copy_root_js_files () {
-
 		local i=0
 		if [[ ${#npm_root_js_files[@]} -gt 0 ]] ; then
 
@@ -271,24 +255,21 @@ ${nodecmd}${bindir}/${binfile} \$@
 	}
 
 	_npmv1_copy_dirs() {
-
 		local i=0
 		local npm_other_dirs=( ${NPM_PKG_DIRS} )
 
 		if [[ ${#npm_other_dirs[@]} -gt 0 ]] ; then
 
 			# Install package modules
-			dodir ${NPM_PACKAGEDIR}
+			dodir "${NPM_PACKAGEDIR}"
 
 			for i in ${!npm_other_dirs[@]} ; do
-				cp -rf ${npm_other_dirs[$i]} ${D}/${NPM_PACKAGEDIR} || \
-					die "Error on copy directory ${npm_other_dirs[$i]}!"
+				cp -rf ${npm_other_dirs[$i]} "${D}/${NPM_PACKAGEDIR}" || die "Error on copy directory ${npm_other_dirs[$i]}!"
 			done # end for i ..
 		fi
 	}
 
 	if [ -n "${NPM_BINS}" ] ; then
-
 		# Install only defined binaries
 
 		while read line ; do
@@ -297,7 +278,6 @@ ${nodecmd}${bindir}/${binfile} \$@
 			f=""
 
 			if [ ${#line} -gt 1 ] ; then
-
 				if [[ $line =~ .*\=\>.* ]] ; then
 					# With rename
 					[ ${#words[@]} -lt 3 ] && \
@@ -311,7 +291,6 @@ ${nodecmd}${bindir}/${binfile} \$@
 					sym=${line}
 					f=${line}
 				fi
-
 			fi
 
 			if [[ x"${f}" = x ]] ; then
@@ -320,47 +299,43 @@ ${nodecmd}${bindir}/${binfile} \$@
 				continue
 			fi
 
-			if [ -f ${S}/bin/${f} ] ; then
+			if [ -f "${S}/bin/${f}" ] ; then
 				exeinto ${NPM_PACKAGEDIR}/bin/
-				doexe ${S}/bin/${f} || die "Error on install $f."
+				doexe "${S}/bin/${f}" || die "Error on install $f."
 
 				# Check if binary has right header
-				has_envheader=$(head -n 1 ${S}/bin/${f} | grep node --color=none  | wc -l)
+				has_envheader=$(head -n 1 "${S}/bin/${f}" | grep node --color=none  | wc -l)
 
 				_npmv1_create_bin_script "${f}" "${NPM_PACKAGEDIR}/bin" "${sym}" "${has_envheader}" || \
 					die "Error on create binary script for ${f}."
 			else
-				if [ -f ${S}/${f} ] ; then
-					exeinto ${NPM_PACKAGEDIR}/
-					doexe ${S}/${f} || die "Error on install $f."
+				if [ -f "${S}/${f}" ] ; then
+					exeinto "${NPM_PACKAGEDIR}/"
+					doexe "${S}/${f}" || die "Error on install $f."
 
 					# Check if binary has right header
-					has_envheader=$(head -n 1 ${S}/${f} | grep node --color=none  | wc -l)
+					has_envheader=$(head -n 1 "${S}/${f}" | grep node --color=none  | wc -l)
 					_npmv1_create_bin_script "${f}" "${NPM_PACKAGEDIR}" "${sym}" "${has_envheader}" || \
 						die "Error on create binary script for ${f}."
 				else
 					die "Binary ${f} is not present."
 				fi
 			fi # end if [ -e ${S}/bin/${f}
-
 		done <<<"${NPM_BINS}"
-
 	else
-
-		for f in ${S}/bin/* ; do
+		for f in "${S}"/bin/* ; do
 			local fname=$(basename ${f})
 
 			if [ -e ${f} ] ; then
-				exeinto ${NPM_PACKAGEDIR}/bin/
-				doexe ${f} || die "Error on install $f."
+				exeinto "${NPM_PACKAGEDIR}/bin/"
+				doexe "${f}" || die "Error on install $f."
 				_npmv1_create_bin_script "${fname}" "${NPM_PACKAGEDIR}/bin" "${fname}" || \
 					die "Error on create binary script for ${fname}."
 			fi
 		done # end for
-
 	fi
 
-	insinto ${NPM_PACKAGEDIR}
+	insinto "${NPM_PACKAGEDIR}"
 	doins package.json
 
 	if [[ x"${NPM_NO_DEPS}" != x"1" ]] ; then
@@ -368,9 +343,8 @@ ${nodecmd}${bindir}/${binfile} \$@
 		npm_pkg_mods=( $(ls --color=none node_modules/) )
 
 		if [[ -n "${NPM_SYSTEM_MODULES}" ]] ; then
-
 			# Install package modules
-			dodir ${NPM_PACKAGEDIR}/node_modules/
+			dodir "${NPM_PACKAGEDIR}/node_modules/"
 
 			# Create an array with all modules to exclude from copy
 			npm_sys_mods=( ${NPM_SYSTEM_MODULES} )
@@ -378,9 +352,7 @@ ${nodecmd}${bindir}/${binfile} \$@
 			for i in ${!npm_pkg_mods[@]} ; do
 				_npmv1_install_module "${npm_pkg_mods[$i]}"
 			done
-
 		else
-
 			if [ -n "${NPM_LOCAL_MODULES}" ] ; then
 
 				# Create an array with all modules to include locally
@@ -389,9 +361,7 @@ ${nodecmd}${bindir}/${binfile} \$@
 				for i in ${!npm_pkg_mods[@]} ; do
 					_npmv1_install_module "${npm_pkg_mods[$i]}" "1"
 				done
-
 			else
-
 				if [[ ${NPM_GYP_PKG} -ne 1 ]] ; then
 					# If NPM_SYSTEM_MODULES is not present
 					# and NPM_GYP_PKG is equal to 1
@@ -399,13 +369,11 @@ ${nodecmd}${bindir}/${binfile} \$@
 
 					if [[ ${#npm_pkg_mods[@]} -gt 0 ]] ; then
 						# Install package modules
-						dodir ${NPM_PACKAGEDIR}/node_modules/
+						dodir "${NPM_PACKAGEDIR}/node_modules/"
 
-						cp -rf node_modules/* ${D}/${NPM_PACKAGEDIR}/node_modules/
+						cp -rf node_modules/* "${D}/${NPM_PACKAGEDIR}/node_modules/"
 					fi
-
 				fi
-
 			fi
 		fi
 	fi # End if x"${NPM_NO_DEPS}" != x"1" ...
@@ -416,7 +384,7 @@ ${nodecmd}${bindir}/${binfile} \$@
 
 	# Copy library directory
 	if [[ -d lib ]] ; then
-		cp -rf lib ${D}/${NPM_PACKAGEDIR} || die "Error on copy directory lib!"
+		cp -rf lib "${D}/${NPM_PACKAGEDIR}" || die "Error on copy directory lib!"
 	fi
 
 	# Check if are present additional directories to copy
@@ -437,7 +405,6 @@ ${nodecmd}${bindir}/${binfile} \$@
 	unset -f _npmv1_copy_root_js_files
 	unset -f _npmv1_copy_dirs
 	unset -f _npmv1_install_native_objs
-
 }
 
 # vim: ts=4 sw=4 expandtab
