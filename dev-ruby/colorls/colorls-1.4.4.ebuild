@@ -6,7 +6,7 @@ EAPI=8
 RUBY_FAKEGEM_EXTRAINSTALL="zsh"
 RUBY_FAKEGEM_BINDIR="exe"
 
-USE_RUBY="ruby26 ruby27 ruby30"
+USE_RUBY="ruby27 ruby30 ruby31"
 
 inherit ruby-fakegem
 
