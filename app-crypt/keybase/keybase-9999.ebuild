@@ -1,4 +1,4 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -29,7 +29,6 @@ BDEPEND="
 		net-libs/nodejs
 	)
 	kbfs? (
-		!app-crypt/kbfs
 		sys-fs/fuse
 	)
 "
@@ -50,14 +49,14 @@ src_unpack() {
 }
 
 src_compile() {
-	go build -tags production -o ${T}/${PN} github.com/keybase/client/go/keybase || die
+	ego build -tags production -o "${T}/${PN}" github.com/keybase/client/go/keybase
 	use browser && (
-		go build -tags production -o ${T}/kbnm github.com/keybase/client/go/kbnm || die
+		ego build -tags production -o "${T}/kbnm" github.com/keybase/client/go/kbnm
 	)
 	use kbfs && (
-		go build -tags production -o ${T}/kbfsfuse github.com/keybase/client/go/kbfs/kbfsfuse || die
-		go build -tags production -o ${T}/git-remote-keybase github.com/keybase/client/go/kbfs/kbfsgit/git-remote-keybase || die
-		go build -tags production -o ${T}/keybase-redirector github.com/keybase/client/go/kbfs/redirector || die
+		ego build -tags production -o "${T}/kbfsfuse" github.com/keybase/client/go/kbfs/kbfsfuse
+		ego build -tags production -o "${T}/git-remote-keybase" github.com/keybase/client/go/kbfs/kbfsgit/git-remote-keybase
+		ego build -tags production -o "${T}/keybase-redirector" github.com/keybase/client/go/kbfs/redirector
 	)
 	use gui && (
 		local arch
@@ -75,7 +74,6 @@ src_install() {
 	dobin "${T}/keybase"
 	dobin "${S}/../packaging/linux/run_keybase"
 	systemd_douserunit "${S}/../packaging/linux/systemd/keybase.service"
-	dodir "/opt/keybase"
 	insinto "/opt/keybase"
 	doins "${S}/../packaging/linux/crypto_squirrel.txt"
 
