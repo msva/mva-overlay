@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils
+inherit wrapper desktop
 
 DESCRIPTION="Nice perspective based puzzle game. You flatten the view to move across gaps"
 HOMEPAGE="http://stabyourself.net/orthorobot/"
@@ -11,11 +11,10 @@ SRC_URI="http://stabyourself.net/dl.php?file=${PN}/${PN}-source.zip -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
-IUSE=""
-RESTRICT=""
 
 DEPEND=">=games-engines/love-0.8.0:*"
 RDEPEND="${DEPEND}"
+BDEPEND="app-arch/unzip"
 
 S="${WORKDIR}"
 
