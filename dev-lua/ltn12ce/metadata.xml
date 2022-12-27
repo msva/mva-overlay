@@ -3,13 +3,12 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>Long description of the package</longdescription>
   <use>
-    <flag name="system-bzip"/>
-    <flag name="system-lzma"/>
-    <flag name="system-zlib"/>
+    <flag name="system-bzip">Use <pkg>app-arch/bzip2</pkg> instead of bundled version</flag>
+    <flag name="system-lzma">Use <pkg>app-arch/lzma</pkg> instead of bundled version</flag>
+    <flag name="system-zlib">Use <pkg>sys-libs/zlib</pkg> instead of bundled version</flag>
   </use>
 </pkgmetadata>
