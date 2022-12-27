@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
@@ -57,4 +57,3 @@ lua_src_install() {
 src_install() {
 	lua_foreach_impl lua_src_install
 }
-
