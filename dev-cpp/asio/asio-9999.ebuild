@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit autotools git-r3
 
@@ -11,11 +11,14 @@ EGIT_REPO_URI="https://github.com/chriskohlhoff/${PN}.git"
 
 LICENSE="Boost-1.0"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc examples ssl test"
 
-RDEPEND="dev-libs/boost
-	ssl? ( dev-libs/openssl:0= )"
+RESTRICT="!test? ( test )"
+
+RDEPEND="
+	dev-libs/boost
+	ssl? ( dev-libs/openssl:0= )
+"
 DEPEND="${RDEPEND}"
 
 S=${WORKDIR}/${P}/${PN}
