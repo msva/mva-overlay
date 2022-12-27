@@ -1,0 +1,455 @@
+From a8321a0a7b47c23650e8cfaebd86abd05970d967 Mon Sep 17 00:00:00 2001
+From: Novax <novax_mail@inbox.ru>
+Date: Fri, 15 Oct 2010 17:14:45 +0400
+Subject: [PATCH] Add support e150 libusb-1.0
+
+---
+ __at_response.c | 17 +++++++++-
+ __channel.c     | 83 ++++++++++++++++++++++++++++++++++++++-----------
+ chan_datacard.c | 28 +++++++++++------
+ chan_datacard.h | 12 +++++--
+ 4 files changed, 109 insertions(+), 31 deletions(-)
+
+diff --git a/__at_response.c b/__at_response.c
+index ae29d63..facf970 100644
+--- a/__at_response.c
++++ b/__at_response.c
+@@ -543,6 +543,7 @@ static inline int at_response_ok (pvt_t* pvt)
+ 
+ 			case CMD_AT_DDSETEX:
+ 				ast_debug (1, "[%s] AT^DDSETEX sent successfully\n", pvt->id);
++				channel_queue_control (pvt, AST_CONTROL_PROGRESS);
+ 				break;
+ 
+ 			case CMD_AT_CHUP:
+@@ -903,8 +904,18 @@ static int at_response_orig (pvt_t* pvt, char* str, size_t len)
+ 	int call_index = 1;
+ 	int call_type  = 0;
+ 
+-	channel_queue_control (pvt, AST_CONTROL_PROGRESS);
++	ast_mutex_lock (&pvt->lock);
+ 
++	/*
++	close(pvt->audio_fd);
++	pvt->audio_fd = 1;
++	*/
++
++	pvt->handle = libusb_open_device_with_vid_pid(context, 0x12d1, 0x1001);
++	libusb_detach_kernel_driver(pvt->handle,1);
++	libusb_claim_interface(pvt->handle,1);
++
++	ast_mutex_unlock(&pvt->lock);
+ 	/*
+ 	 * parse ORIG info in the following format:
+ 	 * ^ORIG:<call_index>,<call_type>
+@@ -979,6 +990,10 @@ static inline int at_response_cend (pvt_t* pvt, char* str, size_t len)
+ 	pvt->outgoing = 0;
+ 	pvt->needring = 0;
+ 
++	libusb_release_interface(pvt->handle, 1);
++	libusb_attach_kernel_driver(pvt->handle,1);
++	libusb_close(pvt->handle);
++
+ 	return 0;
+ }
+ 
+diff --git a/__channel.c b/__channel.c
+index fd7a622..3f5017e 100644
+--- a/__channel.c
++++ b/__channel.c
+@@ -10,6 +10,7 @@
+ static struct ast_channel* channel_new (pvt_t* pvt, int state, char* cid_num)
+ {
+ 	struct ast_channel* channel;
++	int pipefd[2];
+ 
+ 	pvt->answered = 0;
+ 
+@@ -39,16 +40,28 @@ static struct ast_channel* channel_new (pvt_t* pvt, int state, char* cid_num)
+ 	ast_string_field_set (channel, language, "en");
+ 	ast_jb_configure (channel, &jbconf_global);
+ 
++	pipe(pipefd);
++
++	pvt->audio_fd_read = pipefd[0];
++	pvt->audio_fd_write = pipefd[1];
++
++	ast_channel_set_fd (channel, 0, pvt->audio_fd_read);
++
++
++	/*
+ 	if (pvt->audio_fd != -1)
+ 	{
+ 		ast_channel_set_fd (channel, 0, pvt->audio_fd);
+ 
++
+ 		if ((pvt->a_timer = ast_timer_open ()))
+ 		{
+ 			ast_channel_set_fd (channel, 1, ast_timer_fd (pvt->a_timer));
+ 			rb_init (&pvt->a_write_rb, pvt->a_write_buf, sizeof (pvt->a_write_buf));
+ 		}
++
+ 	}
++	*/
+ 
+ 	pvt->owner = channel;
+ 
+@@ -535,18 +548,21 @@ static struct ast_frame* channel_read (struct ast_channel* channel)
+ {
+ 	pvt_t*			pvt = channel->tech_pvt;
+ 	struct ast_frame*	f = &ast_null_frame;
+-	ssize_t			res;
++	int			res = 0;
++
++	ast_debug (7, "[%s] Enter read\n", pvt->id);
+ 
+ 	while (ast_mutex_trylock (&pvt->lock))
+ 	{
+ 		CHANNEL_DEADLOCK_AVOIDANCE (channel);
+ 	}
+-
++	/*
+ 	if (!pvt->owner || pvt->audio_fd == -1)
+ 	{
+ 		goto e_return;
+ 	}
+ 
++
+ 	if (pvt->a_timer && channel->fdno == 1)
+ 	{
+ 		ast_debug (7, "[%s] *** timing ***\n", pvt->id);
+@@ -555,6 +571,7 @@ static struct ast_frame* channel_read (struct ast_channel* channel)
+ 	}
+ 	else
+ 	{
++	*/
+ 		memset (&pvt->a_read_frame, 0, sizeof (struct ast_frame));
+ 
+ 		pvt->a_read_frame.frametype	= AST_FRAME_VOICE;
+@@ -566,14 +583,12 @@ static struct ast_frame* channel_read (struct ast_channel* channel)
+ 		pvt->a_read_frame.data.ptr	= pvt->a_read_buf + AST_FRIENDLY_OFFSET;
+ 		pvt->a_read_frame.offset	= AST_FRIENDLY_OFFSET;
+ 
+-		res = read (pvt->audio_fd, pvt->a_read_frame.data.ptr, FRAME_SIZE);
++
++
++		res = read (pvt->audio_fd_read, pvt->a_read_frame.data.ptr, FRAME_SIZE);
+ 		if (res <= 0)
+ 		{
+-			if (errno != EAGAIN && errno != EINTR)
+-			{
+-				ast_debug (1, "[%s] Read error %d, going to wait for new connection\n", pvt->id, errno);
+-			}
+-
++			ast_debug (1, "[%s] Read error\n", pvt->id);
+ 			goto e_return;
+ 		}
+ 
+@@ -608,7 +623,7 @@ static struct ast_frame* channel_read (struct ast_channel* channel)
+ 				ast_debug (1, "[%s] Volume could not be adjusted!\n", pvt->id);
+ 			}
+ 		}
+-	}
++	//}
+ 
+ e_return:
+ 	ast_mutex_unlock (&pvt->lock);
+@@ -621,7 +636,7 @@ static inline void channel_timing_write (pvt_t* pvt)
+ 	size_t		used;
+ 	int		iovcnt;
+ 	struct iovec	iov[3];
+-	ssize_t		res;
++	int		res;
+ 	size_t		count;
+ 
+ 	used = rb_used (&pvt->a_write_rb);
+@@ -652,6 +667,7 @@ static inline void channel_timing_write (pvt_t* pvt)
+ 	}
+ 
+ 	count = 0;
++	/*
+ 	while ((res = writev (pvt->audio_fd, iov, iovcnt)) < 0 && (errno == EINTR || errno == EAGAIN))
+ 	{
+ 		if (count++ > 10)
+@@ -661,7 +677,7 @@ static inline void channel_timing_write (pvt_t* pvt)
+ 		}
+ 		usleep (1);
+ 	}
+-
++	*/
+ 	if (res < 0 || res != FRAME_SIZE)
+ 	{
+ 		ast_debug (1, "[%s] Write error!\n", pvt->id);
+@@ -671,8 +687,9 @@ static inline void channel_timing_write (pvt_t* pvt)
+ static int channel_write (struct ast_channel* channel, struct ast_frame* f)
+ {
+ 	pvt_t*	pvt = channel->tech_pvt;
+-	ssize_t	res;
++	int	res;
+ 	size_t	count;
++	void * buff;
+ 
+ 	#if ASTERISK_VERSION_NUM >= 10800
+ 	if (f->frametype != AST_FRAME_VOICE || f->subclass.codec != AST_FORMAT_SLINEAR)
+@@ -688,12 +705,12 @@ static int channel_write (struct ast_channel* channel, struct ast_frame* f)
+ 		CHANNEL_DEADLOCK_AVOIDANCE (channel);
+ 	}
+ 
+-	if (pvt->audio_fd == -1)
+-	{
+-		ast_debug (1, "[%s] audio_fd not ready\n", pvt->id);
+-	}
+-	else
+-	{
++//	if (pvt->audio_fd == -1)
++//	{
++//		ast_debug (1, "[%s] audio_fd not ready\n", pvt->id);
++//	}
++//	else
++//	{
+ //		if (f->datalen != 320)
+ 		{
+ 			ast_debug (7, "[%s] Frame: samples = %d, data lenght = %d byte\n", pvt->id, f->samples, f->datalen);
+@@ -735,6 +752,7 @@ static int channel_write (struct ast_channel* channel, struct ast_frame* f)
+ 				iovcnt		= 2;
+ 			}
+ 
++			/*
+ 			count = 0;
+ 			while ((res = writev (pvt->audio_fd, iov, iovcnt)) < 0 && (errno == EINTR || errno == EAGAIN))
+ 			{
+@@ -750,8 +768,28 @@ static int channel_write (struct ast_channel* channel, struct ast_frame* f)
+ 			{
+ 				ast_debug (1, "[%s] Write error!\n", pvt->id);
+ 			}
++			*/
++			struct libusb_transfer * transfer;
++
++			transfer =  libusb_alloc_transfer(0);
++
++			libusb_fill_bulk_transfer(transfer, pvt->handle, (2 | LIBUSB_ENDPOINT_OUT), f->data.ptr, f->datalen, usb_callback, NULL, 0);
++			libusb_submit_transfer(transfer);
++
++			transfer =  libusb_alloc_transfer(0);
++			libusb_fill_bulk_transfer(transfer, pvt->handle, (2 | LIBUSB_ENDPOINT_OUT), NULL, 0, usb_callback, NULL, 0);
++			libusb_submit_transfer(transfer);
++
++			buff = calloc(FRAME_SIZE,1);
++
++			libusb_bulk_transfer(pvt->handle, (3 | LIBUSB_ENDPOINT_IN), buff, FRAME_SIZE, &res, 15);
++
++			ast_debug (7, "[%s] Readed %d byte\n", pvt->id, res);
++
++			write(pvt->audio_fd_write, buff, res);
++
+ 		}
+-	}
++	//}
+ 
+ e_return:
+ 	ast_mutex_unlock (&pvt->lock);
+@@ -759,6 +797,13 @@ static int channel_write (struct ast_channel* channel, struct ast_frame* f)
+ 	return 0;
+ }
+ 
++void usb_callback(struct libusb_transfer * t)
++{
++	libusb_free_transfer(t);
++	return;
++}
++
++
+ static int channel_fixup (struct ast_channel* oldchannel, struct ast_channel* newchannel)
+ {
+ 	pvt_t* pvt = newchannel->tech_pvt;
+diff --git a/chan_datacard.c b/chan_datacard.c
+index d52061e..845c934 100644
+--- a/chan_datacard.c
++++ b/chan_datacard.c
+@@ -29,7 +29,7 @@
+ 
+ #include <asterisk.h>
+ 
+-ASTERISK_FILE_VERSION(__FILE__, "$Rev$")
++ASTERISK_FILE_VERSION(__FILE__, "$Rev: 174 $")
+ 
+ #include <errno.h>
+ #include <fcntl.h>
+@@ -64,6 +64,7 @@ ASTERISK_FILE_VERSION(__FILE__, "$Rev$")
+ #include <asterisk/timing.h>
+ #include <asterisk/utils.h>
+ #include <asterisk/version.h>
++#include <libusb-1.0/libusb.h>
+ 
+ #ifdef NO_MEMMEM 
+ #include "__memmem.c"
+@@ -178,7 +179,7 @@ static void* do_monitor_phone (void* data)
+ 	{
+ 		ast_mutex_lock (&pvt->lock);
+ 
+-		if (device_status (pvt->data_fd) || device_status (pvt->audio_fd))
++		if (device_status (pvt->data_fd) /*|| device_status (pvt->audio_fd)*/)
+ 		{
+ 			ast_log (LOG_ERROR, "Lost connection to Datacard %s\n", pvt->id);
+ 			goto e_cleanup;
+@@ -254,10 +255,11 @@ static int disconnect_datacard (pvt_t* pvt)
+ 	}
+ 
+ 	close (pvt->data_fd);
+-	close (pvt->audio_fd);
++	close (pvt->audio_fd_read);
++	close (pvt->audio_fd_write);
+ 
+ 	pvt->data_fd		= -1;
+-	pvt->audio_fd		= -1;
++	/*pvt->audio_fd		= -1;*/
+ 
+ 	pvt->connected		= 0;
+ 	pvt->initialized	= 0;
+@@ -320,9 +322,9 @@ static void* do_discovery (void* data)
+ 
+ 				if ((pvt->data_fd = opentty (pvt->data_tty)) > -1)
+ 				{
+-					if ((pvt->audio_fd = opentty (pvt->audio_tty)) > -1)
++					/*if ((pvt->audio_fd = opentty (pvt->audio_tty)) > -1)
+ 					{
+-						if (start_monitor (pvt))
++					*/	if (start_monitor (pvt))
+ 						{
+ 							pvt->connected = 1;
+ #ifdef __MANAGER__
+@@ -330,7 +332,7 @@ static void* do_discovery (void* data)
+ #endif
+ 							ast_verb (3, "Datacard %s has connected, initializing...\n", pvt->id);
+ 						}
+-					}
++					/*}*/
+ 				}
+ 			}
+ 
+@@ -402,7 +404,7 @@ static pvt_t* load_device (struct ast_config* cfg, const char* cat)
+ 	/* set some defaults */
+ 
+ 	pvt->monitor_thread		= AST_PTHREADT_NULL;
+-	pvt->audio_fd			= -1;
++	/*pvt->audio_fd			= -1;*/
+ 	pvt->data_fd			= -1;
+ 	pvt->timeout			= 10000;
+ 	pvt->cusd_use_ucs2_decoding	=  1;
+@@ -568,6 +570,8 @@ static int unload_module ()
+ {
+ 	pvt_t* pvt;
+ 
++	libusb_exit(context);
++
+ 	/* First, take us out of the channel loop */
+ 	ast_channel_unregister (&channel_tech);
+ 
+@@ -607,7 +611,7 @@ static int unload_module ()
+ 			pthread_join (pvt->monitor_thread, NULL);
+ 		}
+ 
+-		close (pvt->audio_fd);
++		/*close (pvt->audio_fd);*/
+ 		close (pvt->data_fd);
+ 
+ 		at_fifo_queue_flush (pvt);
+@@ -627,6 +631,12 @@ static int load_module ()
+ 
+ 	memset (silence_frame, 0, sizeof (silence_frame));
+ 
++	if(libusb_init(&context))
++	{
++		ast_log (LOG_ERROR, "Error open libusb context\n");
++		return AST_MODULE_LOAD_DECLINE;
++	}
++
+ 	if (load_config ())
+ 	{
+ 		ast_log (LOG_ERROR, "Errors reading config file " CONFIG_FILE ", Not loading module\n");
+diff --git a/chan_datacard.h b/chan_datacard.h
+index 46d5d1a..22edb61 100644
+--- a/chan_datacard.h
++++ b/chan_datacard.h
+@@ -7,6 +7,8 @@
+    Dmitry Vagin <dmitry2004@yandex.ru>
+ */
+ 
++#include <libusb-1.0/libusb.h>
++
+ #ifndef MIN
+ #define MIN(a,b) (((a) < (b)) ? (a) : (b))
+ #endif
+@@ -118,9 +120,14 @@ typedef struct pvt_t
+ 	AST_LIST_HEAD_NOLOCK (at_queue, at_queue_t) at_queue;	/* queue for response we are expecting */
+ 	pthread_t		monitor_thread;			/* monitor thread handle */
+ 
+-	int			audio_fd;			/* audio descriptor */
++	int			audio_fd_read;			 /* audio descriptor */
++	int			audio_fd_write;
+ 	int			data_fd;			/* data  descriptor */
+ 
++	libusb_device_handle* handle;	/* libusb device handle*/
++
++
++
+ 	struct ast_channel*	owner;				/* Channel we belong to, possibly NULL */
+ 	struct ast_dsp*		dsp;
+ 	struct ast_timer*	a_timer;
+@@ -268,6 +275,7 @@ static struct ast_jb_conf jbconf_global;
+ AST_MUTEX_DEFINE_STATIC (round_robin_mtx);
+ static pvt_t*	round_robin[256];
+ static char	silence_frame[FRAME_SIZE];
++static libusb_context* context;
+ 
+ 
+ static int			opentty			(char*);
+@@ -378,7 +386,7 @@ static inline void		at_fifo_queue_rem	(pvt_t*);
+ static inline void		at_fifo_queue_flush	(pvt_t*);
+ static inline at_queue_t*	at_fifo_queue_head	(pvt_t*);
+ 
+-
++void usb_callback(struct libusb_transfer * t);
+ 
+ /* CLI */
+ 
+From 08a57680550988693defac24023d43d085d378d2 Mon Sep 17 00:00:00 2001
+From: Novax <novax_mail@inbox.ru>
+Date: Mon, 18 Oct 2010 15:00:57 +0400
+Subject: [PATCH] Add use libusb-1.0 compile option
+
+---
+ configure | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configure b/configure
+index d02eb64..e32433e 100755
+--- a/configure
++++ b/configure
+@@ -11,7 +11,7 @@ FreeBSD*)
+ 	CFLAGS="-O2 -DICONV_CONST=\"const\" -D__DEBUG__ -D__MANAGER__ -D__APP__"
+ 
+ 	LIBDIR="-L/usr/local/lib"
+-	LIBS="-liconv"
++	LIBS="-liconv -lusb-1.0"
+ 
+ 	SOLINK="-shared -Xlinker -x"
+ ;;    
+@@ -22,7 +22,7 @@ Linux*)
+ 	CFLAGS="-O2 -DICONV_CONST=\"\" -D__DEBUG__ -D__MANAGER__ -D__APP__"
+ 
+ 	LIBDIR=""
+-	LIBS=""
++	LIBS="-lusb-1.0"
+ 
+ 	SOLINK="-shared -Xlinker -x"
+ ;;
+@@ -33,7 +33,7 @@ Darwin*)
+ 	CFLAGS="-O2 -DNO_MEMMEM -DICONV_CONST=\"const\" -D__DEBUG__ -D__MANAGER__ -D__APP__"
+ 
+ 	LIBDIR="-L/opt/local/lib"
+-	LIBS="-liconv"
++	LIBS="-liconv -lusb-1.0"
+ 	
+ 	SOLINK="-dynamic -bundle -Xlinker -macosx_version_min -Xlinker 10.4 -Xlinker -undefined -Xlinker dynamic_lookup -force_flat_namespace"
+ 	[ `/usr/bin/sw_vers -productVersion | cut -c1-4` == "10.6" ] && SOLINK=${SOLINK}" /usr/lib/bundle1.o"
