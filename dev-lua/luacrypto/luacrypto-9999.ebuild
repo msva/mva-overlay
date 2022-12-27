@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,7 +7,7 @@ LANGS=(en ru)
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua git-r3
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Lua Crypto Library"
 HOMEPAGE="https://github.com/msva/lua-crypto"
@@ -15,7 +15,10 @@ EGIT_REPO_URI="https://github.com/msva/lua-crypto"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="doc +openssl gcrypt l10n_en l10n_ru"
+IUSE="doc +openssl gcrypt"
+for l in ${LANGS[@]}; do
+	IUSE+=" l10n_${l}"
+done
 REQUIRED_USE="${LUA_REQUIRED_USE} ^^ ( openssl gcrypt )"
 RDEPEND="
 	${LUA_DEPS}
