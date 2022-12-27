@@ -6,7 +6,6 @@ EAPI=8
 DESCRIPTION="An implementation of the Double Ratchet cryptographic ratchet in C++"
 HOMEPAGE="https://git.matrix.org/git/olm/about/"
 
-CMAKE_ECLASS=cmake
 inherit cmake-multilib
 
 if [[ ${PV} != "9999" ]]; then
