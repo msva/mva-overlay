@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 inherit autotools vcs-snapshot
 
 DESCRIPTION="A VNC server for real X displays"
@@ -10,8 +10,8 @@ SRC_URI="https://github.com/LibVNC/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="alpha amd64 arm ~arm64 hppa ia64 ~mips ppc ppc64 ~s390 ~sh sparc x86 ~amd64-linux ~arm-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
-IUSE="crypt fbcon libressl ssl xinerama zeroconf"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~arm-linux ~x86-linux ~sparc-solaris ~x64-solaris ~x86-solaris"
+IUSE="crypt fbcon ssl xinerama zeroconf"
 
 RDEPEND=">=net-libs/libvncserver-0.9.8[ssl?]
 	x11-libs/libX11
@@ -21,8 +21,7 @@ RDEPEND=">=net-libs/libvncserver-0.9.8[ssl?]
 	x11-libs/libXrandr
 	>=x11-libs/libXtst-1.1.0
 	ssl? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:= )
+		dev-libs/openssl:0=
 	)
 	xinerama? ( x11-libs/libXinerama )
 	zeroconf? ( >=net-dns/avahi-0.6.4 )
