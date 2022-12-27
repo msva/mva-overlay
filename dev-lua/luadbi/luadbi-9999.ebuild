@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -20,7 +20,7 @@ RDEPEND="
 	mysql? ( || ( dev-db/mysql dev-db/mariadb ) )
 	postgres? ( dev-db/postgresql:* )
 	sqlite? ( >=dev-db/sqlite-3 )
-	oracle? ( dev-db/oracle-instantclient-basic )
+	oracle? ( dev-db/oracle-instantclient )
 "
 DEPEND="${RDEPEND}"
 
