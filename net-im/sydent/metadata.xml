@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <name>Vadim A. Misbakh-Soloviov</name>
+    <description>If you have any issues, please contact me via e-mail, IRC (Libera.Chat) or Telegram (@mva_name)</description>
+  </maintainer>
+  <use>
+    <flag name='gammu'>Use <pkg>app-mobilephone/gammu</pkg> to send SMS</flag>
+  </use>
+</pkgmetadata>
