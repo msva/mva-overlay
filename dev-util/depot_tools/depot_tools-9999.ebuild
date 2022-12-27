@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -12,12 +12,13 @@ HOMEPAGE="https://dev.chromium.org/developers/how-tos/install-depot-tools"
 EGIT_REPO_URI="https://chromium.googlesource.com/chromium/tools/depot_tools.git"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
 IUSE="zsh-completion"
 RDEPEND="
+	${PYTHON_DEPS}
 	dev-vcs/git
 "
 DEPEND="${RDEPEND}"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 DOCS_DIR="${WORKDIR}/${P}-docs"
 DOCS=( "${DOCS_DIR}"/README{,.gclient,.git-cl}.md "${DOCS_DIR}"/man/html )
