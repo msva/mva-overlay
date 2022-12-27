@@ -1,8 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-# ^ mercurial
+EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
@@ -19,11 +18,9 @@ RDEPEND="
 	${LUA_DEPS}
 	net-dns/unbound
 "
-DEPEND="
-	${RDEPEND}
-"
+DEPEND="${RDEPEND}"
 
-DOCS=(README.markdown)
+DOCS=( README.markdown )
 
 src_prepare() {
 	default
@@ -37,14 +34,14 @@ src_prepare() {
 }
 
 each_lua_compile() {
-	pushd "${BUILD_DIR}"
-	emake LD="$(tc-getCC)" LUA_PC="${ELUA}"
+	pushd "${BUILD_DIR}" || die
+	emake LD="$(tc-getCC)" LUA_PC="${ELUA}" || die
 	popd
 }
 
 each_lua_install() {
-	pushd "${BUILD_DIR}"
-	emake DESTDIR="${D}" LUA_LIBDIR="$(lua_get_cmod_dir)" install
+	pushd "${BUILD_DIR}" || die
+	emake DESTDIR="${D}" LUA_LIBDIR="$(lua_get_cmod_dir)" install || die
 	popd
 }
 
