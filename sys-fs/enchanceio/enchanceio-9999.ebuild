@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils git-r3 linux-info linux-mod
+inherit git-r3 linux-info linux-mod
 
 DESCRIPTION="SSD caching software, based on Facebook's open source Flashcache project"
 HOMEPAGE="https://github.com/stec-inc/EnhanceIO"
