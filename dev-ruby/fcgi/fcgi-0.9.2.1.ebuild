@@ -11,7 +11,7 @@ inherit multilib ruby-fakegem
 DESCRIPTION="FastCGI library for Ruby"
 HOMEPAGE="https://rubygems.org/gems/fcgi/"
 
-KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
+KEYWORDS="~alpha ~amd64 ~hppa ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux ~x86-linux ~ppc-macos"
 LICENSE="MIT"
 
 DEPEND+=" dev-libs/fcgi"
