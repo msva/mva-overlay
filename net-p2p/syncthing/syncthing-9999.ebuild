@@ -1,14 +1,16 @@
-# Copyright 1999-2022 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit desktop golang-base git-r3 systemd xdg-utils
+inherit desktop go-module user-info git-r3 systemd xdg-utils
 
 DESCRIPTION="Open Source Continuous File Synchronization"
 HOMEPAGE="https://syncthing.net"
 
-LICENSE="MIT"
+EGIT_REPO_URI="https://github.com/syncthing/syncthing"
+
+LICENSE="Apache-2.0 BSD BSD-2 CC0-1.0 ISC MIT MPL-2.0 Unlicense"
 SLOT="0"
 IUSE="+new-gui selinux tools"
 
@@ -24,17 +26,16 @@ RDEPEND="
 
 DOCS=( README.md AUTHORS CONTRIBUTING.md )
 
-EGO_PN="github.com/${PN}/${PN}"
-EGIT_REPO_URI="https://${EGO_PN}"
-EGIT_CHECKOUT_DIR="${WORKDIR}/${P}/src/${EGO_PN}"
-EGIT_MIN_CLONE_TYPE="single+tags"
-S="${EGIT_CHECKOUT_DIR}"
-
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.18.4-tool_users.patch
 )
 
-RESTRICT="network-sandbox"
+RESTRICT="new-gui? ( network-sandbox )"
+
+src_unpack() {
+	git-r3_src_unpack
+	go-module_live_vendor
+}
 
 src_prepare() {
 	# Bug #679280
@@ -55,17 +56,16 @@ src_prepare() {
 }
 
 src_compile() {
-	export GOPATH="${WORKDIR}/${P}:$(get_golibdir_gopath)"
 	local version="$(git describe --always)"
 
-	GOARCH= go run build.go -version "v${version##v}" -no-upgrade -build-out=bin/ \
+	GOARCH= ego run build.go -version "v${version##v}" -no-upgrade -build-out=bin/ \
 		$(usex new-gui "--with-next-gen-gui") \
 		${GOARCH:+-goarch="${GOARCH}"} \
-		install $(usex tools "all" "") || die "build failed"
+		install $(usex tools "all" "")
 }
 
 src_test() {
-	go run build.go test || die "test failed"
+	ego run build.go test
 }
 
 src_install() {
@@ -73,6 +73,10 @@ src_install() {
 
 	dobin "bin/${PN}"
 	domenu etc/linux-desktop/*.desktop
+	for icon_size in 32 64 128 256 512; do
+		newicon -s ${icon_size} assets/logo-${icon_size}.png ${PN}.png
+	done
+	newicon -s scalable assets/logo-only.svg ${PN}.svg
 
 	if use tools ; then
 		exeinto "/usr/libexec/${PN}"
