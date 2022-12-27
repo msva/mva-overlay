@@ -1,21 +1,27 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-RESTRICT="mirror"
-inherit readme.gentoo-r1 systemd git-r3 patches
+EAPI=8
+inherit readme.gentoo-r1 systemd patches
 
 DESCRIPTION="Scripts to support compressed swap devices or ramdisks with zram"
 HOMEPAGE="https://github.com/vaeth/zram-init/"
-EGIT_REPO_URI="https://github.com/vaeth/${PN}"
+
+if [[ "${PV}" == *9999* ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/vaeth/${PN}"
+else
+	SRC_URI="https://github.com/vaeth/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~arm64 ~ppc ~ppc64 ~x86"
+fi
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
-RDEPEND=">=app-shells/push-2.0-r2
-	!<sys-apps/openrc-0.13"
+RDEPEND="
+	app-shells/push
+	sys-apps/openrc
+"
 
 DISABLE_AUTOFORMATTING="true"
 DOC_CONTENTS="To use zram, activate it in your kernel and add it to default runlevel:
