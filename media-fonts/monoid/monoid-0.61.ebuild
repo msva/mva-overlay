@@ -1,14 +1,14 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit font
 
-MONOISOME_SHA="0abc451aaaa650198c065cd97aea4e7895931227"
+MONOISOME_SHA="f99f8de71dfd77b11fd1247e551ab6e33915f1e0"
 
 DESCRIPTION="Open source coding font"
-HOMEPAGE="http://larsenwork.com/monoid https://github.com/larsenwork/monoid"
+HOMEPAGE="https://larsenwork.com/monoid https://github.com/larsenwork/monoid"
 SRC_URI="
 	mirror://gentoo/${P}.tar.gz
 	monoisome? ( https://github.com/larsenwork/monoid/raw/${MONOISOME_SHA}/Monoisome/Monoisome-Regular.ttf -> Monoisome-Regular-${MONOISOME_SHA}.ttf )
@@ -16,15 +16,12 @@ SRC_URI="
 
 LICENSE="MIT OFL-1.1"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~loong ~ppc ~ppc64 ~s390 ~sparc ~x86"
 IUSE="+monoisome"
 RESTRICT="binchecks strip"
 
-DEPEND=""
-RDEPEND=""
-
 FONT_SUFFIX="ttf"
-DOCS="Readme.md"
+DOCS=( Readme.md )
 
 src_unpack() {
 	default
