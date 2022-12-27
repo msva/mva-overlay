@@ -3,49 +3,65 @@
 
 EAPI=8
 
-USE_RUBY="ruby27 ruby30 ruby31"
+USE_RUBY="ruby27 ruby30"
+#ruby31"
 
-inherit git-r3 ruby-ng
+inherit ruby-ng
 
 DESCRIPTION="Flexible project management webapp written using Ruby on Rails framework"
 HOMEPAGE="https://www.redmine.org/"
 
-EGIT_REPO_URI="https://github.com/redmine/redmine.git"
-
-KEYWORDS=""
+if [[ "${PV}" =~ "9999" ]]; then
+	EGIT_REPO_URI="https://github.com/redmine/redmine.git"
+	inherit git-r3
+	all_ruby_unpack() {
+		EGIT_CHECKOUT_DIR=${S}
+		git-r3_src_unpack
+	}
+else
+	SRC_URI="https://www.redmine.org/releases/${P}.tar.gz"
+	KEYWORDS="~amd64"
+	# ~x86
+	# ^ dev-ruby/rqrcode
+	# also commonmark deps
+fi
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="imagemagick ldap markdown +minimagick mysql pdf postgres sqlite"
+IUSE="imagemagick ldap markdown commonmark +minimagick mysql pdf postgres sqlite abi_x86_x32"
 
+# Order is like in Gemfile to ease maintenance:
 ruby_add_rdepend "
 	dev-ruby/bundler:=
-	virtual/rubygems:=
-	fastcgi? ( dev-ruby/fcgi )
-	ldap? ( dev-ruby/ruby-net-ldap )
-	minimagick? ( dev-ruby/mini_magick )
-	markdown? ( >=dev-ruby/redcarpet-3.5.1 )
-	mysql? ( >=dev-ruby/mysql2-0.5.0:0.5 )
-	postgres? ( >=dev-ruby/pg-1.1.4:1 )
-	sqlite? ( >=dev-ruby/sqlite3-1.4.0 )
-	dev-ruby/actionpack-xml_parser:2
-	dev-ruby/addressable
-	dev-ruby/csv:3
-	>=dev-ruby/i18n-1.8.2:1
-	>=dev-ruby/mail-2.7.1
-	dev-ruby/marcel
-	dev-ruby/mimemagic
-	>=dev-ruby/mini_mime-1.0.1
-	>=dev-ruby/nokogiri-1.11.1
-	dev-ruby/rack-openid
-	>=dev-ruby/rails-5.2.8.1:5.2
-	>=dev-ruby/rbpdf-1.20.0
+	dev-ruby/rails:6.1
+	>=dev-ruby/rouge-3.29.0
 	>=dev-ruby/request_store-1.5.0:0
-	>=dev-ruby/roadie-rails-2.2.0:2
-	dev-ruby/rotp
-	>=dev-ruby/rouge-3.26.0
-	dev-ruby/rqrcode
-	>=dev-ruby/ruby-openid-2.9.2
+	>=dev-ruby/mini_mime-1.0.1
+	dev-ruby/actionpack-xml_parser:2
+	dev-ruby/roadie-rails:3
+	dev-ruby/marcel
+	>=dev-ruby/mail-2.7.1
+	dev-ruby/csv:3
+	>=dev-ruby/nokogiri-1.11.1
+	>=dev-ruby/i18n-1.8.2:1
+	>=dev-ruby/rbpdf-1.20.0
+	dev-ruby/addressable
 	>=dev-ruby/rubyzip-2.3.0:2
+	dev-ruby/net-smtp
+	dev-ruby/net-imap
+	dev-ruby/net-pop
+	>=dev-ruby/rotp-5.0.0
+	dev-ruby/rqrcode
+	minimagick? ( >=dev-ruby/mini_magick-4.11.0 )
+	markdown? ( >=dev-ruby/redcarpet-3.5.1 )
+	commonmark? (
+		>=dev-ruby/html-pipeline-2.3.12
+		>=dev-ruby/commonmarker-0.23.4
+		>=dev-ruby/sanitize-6.0.0
+	)
+	mysql? ( >=dev-ruby/mysql2-0.5.0:0.5 )
+	postgres? ( >=dev-ruby/pg-1.2.2:1 )
+	sqlite? ( >=dev-ruby/sqlite3-1.4.0 )
+	virtual/rubygems
 "
 
 RDEPEND="
@@ -60,14 +76,18 @@ RDEPEND="
 		app-text/ghostscript-gpl
 		media-gfx/imagemagick
 	)
+	ruby_targets_ruby27? (
+		dev-ruby/rexml[ruby_targets_ruby27]
+		ldap? ( >=dev-ruby/ruby-net-ldap-0.17.0[ruby_targets_ruby27] )
+	)
+	!abi_x86_x32? ( commonmark? ( dev-ruby/deckar01-task_list[ruby_targets_ruby27=,ruby_targets_ruby30=] ) )
 "
+
+REQUIRED_USE="${REQUIRED_USE} ruby_targets_ruby30? ( !ldap ) abi_x86_x32? ( !commonmark )"
 
 REDMINE_DIR="${REDMINE_DIR:-/var/lib/${PN}}"
 
-all_ruby_unpack() {
-	EGIT_CHECKOUT_DIR=${S}
-	git-r3_src_unpack
-}
+RESTRICT="test"
 
 all_ruby_prepare() {
 	rm -fr log files/delete.me .github || die

@@ -3,14 +3,12 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription lang="en"/>
   <use>
-    <flag name="bazaar"/>
-    <flag name="darcs"/>
-    <flag name="mercurial"/>
-    <flag name="sqlite3"/>
+    <flag name="markdown">Adds markdown support</flag>
+    <flag name="commonmark">Adds support for CommonMark markdown spec</flag>
+    <flag name="minimagick">Use minimagick</flag>
   </use>
 </pkgmetadata>
