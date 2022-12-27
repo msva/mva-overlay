@@ -1,21 +1,29 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit flag-o-matic
+inherit toolchain-funcs
 
 DESCRIPTION="Parses & writes SFNT structures."
 HOMEPAGE="https://github.com/caryll/otfcc"
-SRC_URI="https://github.com/caryll/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+
+if [[ "${PV}" =~ "9999" ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/caryll/otfcc"
+else
+	SRC_URI="https://github.com/caryll/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~mips ~x86"
+	# ~arm
+	# ^ premake:5
+fi
 
 IUSE="debug"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~mips ~x86"
 
-DEPENDS="dev-util/premake:5"
+BDEPEND="dev-util/premake:5"
 
 src_prepare() {
 	local a="x32" c="release";
