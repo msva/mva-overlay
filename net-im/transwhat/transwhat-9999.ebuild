@@ -1,8 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-PYTHON_COMPAT=( python3_{8..10} )
+EAPI=8
+DISTUTILS_USE_PEP517="setuptools"
+PYTHON_COMPAT=( python3_{8..11} )
 #pypy{,3} )
 # ^ protobuf
 inherit distutils-r1 git-r3
@@ -14,8 +15,6 @@ EGIT_BRANCH="yowsup-3"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 RDEPEND="
 	dev-python/pyspectrum2[${PYTHON_USEDEP}]
