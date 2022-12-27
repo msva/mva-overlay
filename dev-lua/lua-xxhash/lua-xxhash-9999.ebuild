@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -29,7 +29,7 @@ each_lua_compile() {
 }
 
 each_lua_install() {
-	pushd ${BUILD_DIR}
+	pushd "${BUILD_DIR}"
 	insinto "$(lua_get_cmod_dir)"
 	doins "${MY_PN}".so
 	popd
@@ -48,4 +48,3 @@ src_install() {
 	lua_foreach_impl each_lua_install
 	einstalldocs
 }
-
