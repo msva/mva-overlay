@@ -1,27 +1,32 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit font
 
+if [[ "${PV}" =~ "9999" ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/AndreLGava/font-awesome-extension"
+else
+	KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"
+	SRC_URI="https://github.com/AndreLGava/font-awesome-extension/archive/v.${PV}.tar.gz -> ${P}.tar.gz"
+	src_unpack() {
+		default
+		mv "${WORKDIR}/${PN/ntaw/nt-aw}-v.${PV}" "${S}" || die # Not sure if 0.3 only, or permanent
+	}
+fi
+
 DESCRIPTION="Set of icons representing programming languages, designing & development tools"
 HOMEPAGE="https://github.com/AndreLGava/font-awesome-extension"
-SRC_URI="https://github.com/AndreLGava/font-awesome-extension/archive/v.${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="alpha amd64 arm hppa ia64 ppc ppc64 s390 sh sparc x86"
 
 IUSE="webfonts"
 
 FONT_S="${S}/fonts"
 FONT_SUFFIX="ttf"
-
-src_unpack() {
-	default
-	mv "${WORKDIR}/${PN/ntaw/nt-aw}-v.${PV}" "${S}"
-}
 
 src_install() {
 	font_src_install
