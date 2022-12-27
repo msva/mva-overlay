@@ -3,16 +3,11 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>FIXME</longdescription>
   <use>
-    <flag name="libevent"/>
-    <flag name="luajit"/>
-    <flag name="migration"/>
-    <flag name="no-example-certs"/>
-    <flag name="random-getrandom"/>
-    <flag name="random-openssl"/>
+    <flag name="libevent">Use <pkg>dev-libs/libevent</pkg></flag>
+    <flag name="migration">Build and install migrator tool that could help with migration from/to another XMPP servers</flag>
   </use>
 </pkgmetadata>
