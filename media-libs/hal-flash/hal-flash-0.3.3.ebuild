@@ -1,8 +1,8 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-inherit eutils multilib-minimal
+EAPI=8
+inherit multilib-minimal
 
 DESCRIPTION="A libhal stub for flashplayer/adobecp, forwarding specific API parts to UDisks"
 HOMEPAGE="https://github.com/cshorler/hal-flash"
@@ -15,11 +15,10 @@ KEYWORDS="~amd64 ~x86"
 COMMON_DEPEND="
 	dev-libs/glib:2=[${MULTILIB_USEDEP},dbus]
 	sys-apps/dbus[${MULTILIB_USEDEP}]
-	!sys-apps/hal
 "
 RDEPEND="
 	${COMMON_DEPEND}
-	sys-fs/udisks:0
+	sys-fs/udisks
 "
 DEPEND="
 	${COMMON_DEPEND}
