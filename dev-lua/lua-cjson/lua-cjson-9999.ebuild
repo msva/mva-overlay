@@ -5,7 +5,7 @@ EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua git-r3
+inherit lua git-r3 toolchain-funcs
 #cmake
 # CMake finds random lua version, not the TARGET one (and also not compatible with luajit)
 
