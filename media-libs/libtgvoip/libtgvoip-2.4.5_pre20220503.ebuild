@@ -15,7 +15,13 @@ else
 	fi
 	MY_PV="${EGIT_COMMIT:-${PV}}"
 	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+	KEYWORDS="~amd64 ~arm64 ~x86"
+	# ~arm
+	# ^ tg_owt
+	# ~riscv
+	# ^ yasm (on tg_owt)
+	# ~ppc64
+	# ^ libcxx
 	# ~mips
 	# ^ pulseaudio
 	S="${WORKDIR}/${PN}-${MY_PV}"
@@ -26,8 +32,8 @@ HOMEPAGE="https://github.com/telegramdesktop/libtgvoip"
 
 LICENSE="Unlicense"
 SLOT="0"
-IUSE="alsa libcxx libressl pulseaudio static-libs"
-REQUIRED_USE="|| ( alsa pulseaudio )"
+IUSE="+alsa libcxx pulseaudio pipewire static-libs"
+REQUIRED_USE="|| ( alsa pulseaudio pipewire )"
 
 RDEPEND="
 	alsa? ( media-libs/alsa-lib )
@@ -36,11 +42,14 @@ RDEPEND="
 		sys-devel/clang-runtime:=[libcxx]
 		sys-libs/libcxx:=
 	)
-	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( dev-libs/libressl:0= )
+	dev-libs/openssl:0=
 	media-libs/opus
-	>media-libs/tg_owt-0_pre20210101[libcxx=]
-	pulseaudio? ( media-sound/pulseaudio )
+	>media-libs/tg_owt-0_pre20210101[libcxx(-)=]
+	pulseaudio? ( media-sound/pulseaudio[daemon(-)] )
+	pipewire? (
+		media-sound/pulseaudio[-daemon(+)]
+		media-video/pipewire[sound-server(-)]
+	)
 "
 DEPEND="
 	${RDEPEND}
