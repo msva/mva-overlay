@@ -1,10 +1,10 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 LUA_COMPAT=( lua5-{1..4} luajit )
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} pypy3 )
 
 inherit lua-single python-any-r1 scons-utils toolchain-funcs
 inherit xdg patches git-r3
@@ -15,11 +15,9 @@ EGIT_REPO_URI="https://github.com/swift/swift"
 
 LICENSE="BSD BSD-1 CC-BY-3.0 GPL-3 OFL-1.1"
 SLOT="4/0"
-KEYWORDS="~amd64"
-IUSE="client expat gconf +icu +idn lua spell test zeroconf"
+IUSE="client expat +icu +idn lua spell test zeroconf"
 REQUIRED_USE="
 	|| ( icu idn )
-	gconf? ( client )
 	spell? ( client )
 	lua? ( ${LUA_REQUIRED_USE} )
 "
@@ -39,13 +37,11 @@ RDEPEND="
 		dev-qt/qtnetwork:5
 		dev-qt/qtsvg:5
 		dev-qt/qtwidgets:5
-		dev-qt/qtwebkit:5
 		dev-qt/qtx11extras:5
 		net-dns/avahi
 	)
 	expat? ( dev-libs/expat )
 	!expat? ( dev-libs/libxml2:2 )
-	gconf? ( gnome-base/gconf:2 )
 	icu? ( dev-libs/icu:= )
 	idn? ( net-dns/libidn:= )
 	lua? ( dev-lang/lua:= )
@@ -84,9 +80,9 @@ src_prepare() {
 
 	# Hack for finding Qt system libs
 	mkdir "${T}"/qt || die
-	ln -s "${EPREFIX%/}"/usr/$(get_libdir)/qt5/bin "${T}"/qt/bin || die
-	ln -s "${EPREFIX%/}"/usr/$(get_libdir)/qt5 "${T}"/qt/lib || die
-	ln -s "${EPREFIX%/}"/usr/include/qt5 "${T}"/qt/include || die
+	ln -s "${EPREFIX}"/usr/$(get_libdir)/qt5/bin "${T}"/qt/bin || die
+	ln -s "${EPREFIX}"/usr/$(get_libdir)/qt5 "${T}"/qt/lib || die
+	ln -s "${EPREFIX}"/usr/include/qt5 "${T}"/qt/include || die
 
 	# Remove parts of Swift, which a user don't want to compile
 	if ! use client; then rm -fr Swift Slimber || die; fi
@@ -144,6 +140,9 @@ src_configure() {
 		hunspell_enable="$(usex spell)"
 		icu="$(usex icu)"
 		install_git_hooks="no"
+		# Use 'DISABLE' as an invalid lib name, so no editline lib is used,
+		# as current version is not compatible and compilation will fail.
+		editline_libname="DISABLE"
 		libidn_bundled_enable="false"
 		libminiupnpc_force_bundled="false"
 		libnatpmp_force_bundled="false"
@@ -159,7 +158,7 @@ src_configure() {
 		test="none"
 		try_avahi="$(usex client)"
 		try_expat="$(usex expat)"
-		try_gconf="$(usex gconf)"
+		try_gconf=no
 		try_libidn="$(usex idn)"
 		try_libxml="$(usex !expat)"
 		tls_backend="openssl"
@@ -168,6 +167,7 @@ src_configure() {
 		valgrind="no"
 		zlib_bundled_enable="false"
 	)
+
 	if use lua; then
 		MYSCONS+=(
 			lua_includedir="$(lua_get_include_dir)"
@@ -199,11 +199,11 @@ src_test() {
 
 src_install() {
 	local myesconsinstall=(
-		SWIFTEN_INSTALLDIR="${ED%/}/usr"
-		SWIFTEN_LIBDIR="${ED%/}/usr/$(get_libdir)"
-		$(usex client "SWIFT_INSTALLDIR=${ED%/}/usr" '')
-		$(usex lua "SLUIFT_DIR=${ED%/}/usr" '')
-		$(usex lua "SLUIFT_INSTALLDIR=${ED%/}/usr" '')
+		SWIFTEN_INSTALLDIR="${ED}/usr"
+		SWIFTEN_LIBDIR="${ED}/usr/$(get_libdir)"
+		$(usex client "SWIFT_INSTALLDIR=${ED}/usr" '')
+		$(usex lua "SLUIFT_DIR=${ED}/usr" '')
+		$(usex lua "SLUIFT_INSTALLDIR=${ED}/usr" '')
 		"${ED}"
 	)
 

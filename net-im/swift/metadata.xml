@@ -15,7 +15,6 @@
   </maintainer>
   <longdescription>Swift is an elegant, secure, adaptable and intuitive XMPP client, with features that make it suitable for a wide range of use scenarios. Swiften is a robust, high-quality, standards-compliant, cross-platform, and performant C++ library for implementing XMPP applications.</longdescription>
   <use>
-    <flag name="client">Build the full graphical XMPP client.</flag>
-    <flag name="gconf">Enable configuration through <pkg>gnome-base/gconf</pkg>.</flag>
+    <flag name="client">Build the full graphical XMPP client</flag>
   </use>
 </pkgmetadata>
