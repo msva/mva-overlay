@@ -1,21 +1,23 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit font
 
 DESCRIPTION="A color and B&W emoji SVG-in-OT font with ZWJ, skin tone mods and country flags"
 HOMEPAGE="https://github.com/eosrei/twemoji-color-font"
-SRC_URI="${HOMEPAGE}/releases/download/v${PV//_/-}/TwitterColorEmoji-SVGinOT-Linux-${PV//_/-}.tar.gz"
+SRC_URI="https://github.com/eosrei/twemoji-color-font/releases/download/v${PV//_/-}/TwitterColorEmoji-SVGinOT-Linux-${PV//_/-}.tar.gz"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror"
 LICENSE="MIT"
 SLOT="0"
-IUSE=""
 
-DEPEND="media-fonts/dejavu[X?]"
-RDEPEND="${DEPEND}"
+RDEPEND="
+	media-fonts/ttf-bitstream-vera[X(+)]
+	media-fonts/roboto[X(+)]
+	media-fonts/noto[X(+)]
+"
 
 FONT_SUFFIX="ttf"
 DOCS="README.md"
