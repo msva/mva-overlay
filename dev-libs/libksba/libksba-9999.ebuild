@@ -1,20 +1,16 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit git-r3 eutils autotools
+inherit git-r3 autotools
 
 DESCRIPTION="X.509 and CMS (PKCS#7) library"
 HOMEPAGE="http://www.gnupg.org/related_software/libksba"
-#SRC_URI="ftp://ftp.gnupg.org/gcrypt/${PN}/${P}.tar.bz2"
-SRC_URI=""
-EGIT_REPO_URI="git://git.gnupg.org/${PN}.git"
-#EGIT_BOOTSTRAP="./autogen.sh"
+EGIT_REPO_URI="https://dev.gnupg.org/source/${PN}.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
 IUSE="static-libs"
 
 DEPEND="~dev-libs/libgpg-error-9999"
