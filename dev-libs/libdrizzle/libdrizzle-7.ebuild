@@ -1,11 +1,11 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 MY_P="drizzle7-2011.07.21"
 
-inherit eutils multilib-minimal
+inherit multilib-minimal
 
 DESCRIPTION="Snapshot of dev-db/drizzle sources which can be built as shared library"
 HOMEPAGE="https://github.com/openresty/drizzle-nginx-module"
@@ -14,7 +14,6 @@ SRC_URI="http://agentzh.org/misc/nginx/${MY_P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE=""
 
 S="${WORKDIR}/${MY_P}"
 
