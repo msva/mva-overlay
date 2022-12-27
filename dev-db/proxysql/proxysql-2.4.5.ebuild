@@ -1,10 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit git-r3
-# toolchain-funcs
 
 DESCRIPTION="A high performance, high availability, protocol aware proxy for MySQL and forks"
 HOMEPAGE="http://www.proxysql.com"
@@ -12,17 +11,11 @@ LICENSE="GPL-3"
 SLOT="0"
 
 EGIT_REPO_URI="https://github.com/sysown/${PN}"
-EGIT_BRANCH="v${PV}"
+EGIT_COMMIT="v${PV}"
 
-IUSE="clickhouse"
 KEYWORDS="~amd64"
 
 RDEPEND="
-	clickhouse? (
-		dev-db/clickhouse
-		app-arch/lz4
-		dev-libs/cityhash
-	)
 	dev-db/sqlite
 	dev-db/mariadb-connector-c
 	dev-db/mysql-connector-c
@@ -36,7 +29,8 @@ RDEPEND="
 	sys-libs/zlib
 	>=virtual/mysql-5.0
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	virtual/pkgconfig
 "
 
@@ -45,11 +39,11 @@ src_prepare() {
 	cp "${FILESDIR}/lib.Makefile"  lib/Makefile
 	cp "${FILESDIR}/src.Makefile"  src/Makefile
 	# TODO: support not only ~amd64. Blocker: ma_config.h
-	cp "${FILESDIR}/ma_global.h" "${FILESDIR}/ma_config.h" include/
+	# cp "${FILESDIR}/ma_global.h" "${FILESDIR}/ma_config.h" include/
 	sed -r \
 		-e '1i#include <mariadb_ctype.h>' \
 		-e '1i#include <mariadb/mysql.h>' \
-		-i lib/mysql_connection.cpp
+		-i lib/mysql_connection.cpp || die
 
 #	sed -r \
 #		-e '/ar rcs/{s@\$\(RE2_PATH\)/obj/libre2\.a@-lre2@;s@\$\(SQLITE3_DIR\)/sqlite3\.o@-lsqlite3@}' \
