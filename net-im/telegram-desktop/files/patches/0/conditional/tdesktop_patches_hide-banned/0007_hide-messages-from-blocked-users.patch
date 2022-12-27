@@ -14,16 +14,16 @@
  		forwarded->match([&](const MTPDmessageFwdHeader &data) {
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
-@@ -441,6 +441,8 @@ void Message::applyGroupAdminChanges(
+@@ -486,6 +486,8 @@ void Message::applyGroupAdminChanges(
  
  QSize Message::performCountOptimalSize() {
  	const auto item = message();
 +	PeerData* pd = item->from();
 +	if (pd->isUser() && pd->asUser()->isBlocked()) return QSize(0,0);
- 	const auto media = this->media();
- 
- 	auto maxWidth = 0;
-@@ -636,6 +638,8 @@ void Message::draw(
+ 	const auto markup = item->inlineReplyMarkup();
+ 	validateText();
+ 	validateInlineKeyboard(markup);
+@@ -681,6 +683,8 @@ void Message::draw(
  	}
  
  	const auto item = message();

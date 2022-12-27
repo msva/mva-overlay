@@ -3,24 +3,23 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name</description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>Telegram Desktop Client</longdescription>
   <use>
     <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or `/etc/portage/env/{CAT}/{PN}`)</flag>
     <flag name="dbus">Enable D-Bus integration</flag>
-    <flag name="force-gtk-file-dialog">Force GTK file dialog (instead of letting Qt to decide)</flag>
-    <flag name="gtk2">Force gtk+-2 integration</flag>
-    <flag name="gtk3">Force gtk+-3 integration</flag>
-    <flag name="libcxx">Build with <pkg>sys-devel/libcxx</pkg> as sdtlib</flag>
+    <flag name="webrtc">Enable WebRTC integration</flag>
+    <flag name="enchant">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
+    <flag name="hunspell">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
+    <flag name="lto">Enable Link Time Optimizations (build will take 20+G RAM and binary will be about 2G)</flag>
+    <flag name="pipewire">Use <pkg>media-video/pipewire</pkg> as sound server</flag>
+    <flag name="libcxx">Build with <pkg>sys-libs/libcxx</pkg> as sdtlib</flag>
     <flag name="system-gsl">Use system-wide installed <pkg>dev-cpp/ms-gsl</pkg> instead of bundled one</flag>
     <flag name="system-expected">Use system-wide installed <pkg>dev-cpp/tl-expected</pkg> instead of bundled one</flag>
-    <flag name="system-fonts">Use system fonts instead of bundled. At least, <pkg>media-fonts/open-sans</pkg> can be installed to have same UX</flag>
     <flag name="system-libtgvoip">Use system-wide installed <pkg>media-libs/libtgvoip</pkg> instead of bundled one</flag>
     <flag name="system-rlottie">Use system-wide installed <pkg>media-libs/rlottie</pkg> instead of bundled one</flag>
     <flag name="system-variant">Use system-wide installed <pkg>dev-cpp/variant</pkg> instead of bundled one</flag>
-    <flag name="wide-baloons">Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keeping tons of empty space</flag>
   </use>
   <upstream>
     <remote-id type="github">telegramdesktop/tdesktop</remote-id>

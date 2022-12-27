@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake flag-o-matic toolchain-funcs desktop xdg-utils xdg
+inherit cmake flag-o-matic toolchain-funcs xdg
 
 inherit git-r3
 # ^ TODO: conditional (only for 9999)? maybe port to tarballs before moving to gentoo repo.
@@ -24,17 +24,15 @@ EGIT_SUBMODULES=(
 # EGIT_OVERRIDE_COMMIT_DESKTOP_APP_LIB_UI="4d2fc25d03e7f0234a047fe1de3ad3b1beb82e4c"
 
 if [[ "${PV}" == 9999 ]]; then
-	KEYWORDS=""
 	EGIT_BRANCH="dev"
 else
 	# TODO: tarballs
 	EGIT_COMMIT="v${PV}"
-	KEYWORDS="~amd64"
-	# ~ppc64 # blocked by clang, expected, variant and so on. Although, proven to build (with gcc) and work by @gyakovlev
-	# ~x86
-	# ~arm ~arm64
-	# ~mipsel
-	# (blocked by dev-cpp/range, that have only "~amd64 ~ppc64" ATM, and I've no time to prove the build on others)
+	KEYWORDS="~amd64 ~arm64 ~x86"
+	# ~riscv # blocked by tg_owt and tgvoip
+	# ~ppc64 # blocked by libcxx. Although, proven to build (with gcc) and work by @gyakovlev
+	# ~arm # blocked by range in gentoo-repo
+	# ~mipsel # blocked by all :(
 fi
 
 LICENSE="GPL-3-with-openssl-exception"
@@ -48,12 +46,12 @@ MYPATCHES=(
 	"chat-ids"
 	"increase-limits"
 )
+USE_EXPAND_VALUES_TDESKTOP_PATCHES="${MYPATCHES[@]}"
 for p in ${MYPATCHES[@]}; do
 	IUSE="${IUSE} tdesktop_patches_${p}"
 done
 
 COMMON_DEPEND="
-	!net-im/telegram
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
 	dev-libs/jemalloc:=[-lazy-lock]
@@ -73,23 +71,23 @@ COMMON_DEPEND="
 	media-libs/opus:=
 	media-video/ffmpeg:=[opus]
 	dbus? (
-		dev-cpp/glibmm:2
 		dev-qt/qtdbus:5
 		dev-libs/libdbusmenu-qt[qt5(+)]
+		dev-cpp/glibmm:2.68=
 	)
 	libcxx? (
 		sys-devel/clang:=
 		sys-devel/clang-runtime:=[libcxx]
 	)
 	pulseaudio? (
-		!pipewire? ( media-sound/pulseaudio[daemon] )
-		pipewire? (
-			media-video/pipewire[sound-server]
-			media-sound/pulseaudio[-daemon]
-		)
+		!pipewire? ( media-sound/pulseaudio[daemon(+)] )
 	)
-	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx(-)=,pulseaudio(-)=] )
-	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads,-cache] )
+	pipewire? (
+		media-video/pipewire[sound-server(+)]
+		media-sound/pulseaudio[-daemon(+)]
+	)
+	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx(-)=,pulseaudio(-)=,pipewire(-)=] )
+	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads(-),-cache(-)] )
 	enchant? ( app-text/enchant:= )
 	hunspell? ( >=app-text/hunspell-1.7:= )
 	sys-libs/zlib:=[minizip]
@@ -127,10 +125,9 @@ REQUIRED_USE="
 		^^ ( enchant hunspell )
 	)
 	webkit? ( dbus )
-	pipewire? ( pulseaudio )
 "
 
-
+RESTRICT="!test? ( test )"
 
 pkg_pretend() {
 	if use wayland && use webkit; then
