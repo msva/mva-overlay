@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils multilib multilib-minimal portability pax-utils toolchain-funcs flag-o-matic check-reqs git-r3 patches
+inherit multilib-minimal pax-utils toolchain-funcs check-reqs git-r3 patches
 
 DESCRIPTION="Just-In-Time Compiler for the Lua programming language"
 HOMEPAGE="https://luajit.org/"
@@ -14,7 +14,6 @@ EGIT_MIN_CLONE_TYPE="single+tags"
 SLOT="2"
 
 LICENSE="MIT"
-KEYWORDS=""
 IUSE="debug valgrind lua52compat openresty +optimization"
 
 RDEPEND="
@@ -25,8 +24,6 @@ DEPEND="
 	app-eselect/eselect-luajit
 	app-eselect/eselect-lua
 "
-
-PDEPEND=""
 
 HTML_DOCS=( "doc/." )
 
@@ -71,7 +68,7 @@ src_prepare() {
 		-e 's|^(VERSION)=.*|\1=${PV}|' \
 		-e 's|^(INSTALL_SONAME)=.*|\1=$(INSTALL_SOSHORT1).$(VERSION)|' \
 		-e 's|^(INSTALL_PCNAME)=.*|\1=${P}.pc|' \
-		-e 's|( PREFIX)=.*|\1='${EROOT:-/}'usr|' \
+		-e 's|( PREFIX)=.*|\1=/usr|' \
 		-e 's|^(FILE_MAN)=.*|\1=${P}.1|' \
 		-i Makefile || die "failed to fix prefix in Makefile"
 

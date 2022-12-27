@@ -5,8 +5,8 @@
     <email>mva@gentoo.org</email>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription lang="en">LuaJIT is a Just-In-Time Compiler for the Lua programming language.</longdescription>
-  <longdescription lang="ru">LuaJIT — это Just-In-Time компилятор для языка программирования Lua.</longdescription>
+  <longdescription lang="en">LuaJIT is a Just-In-Time Compiler, interpreter and runtime for the Lua programming language with self-invented Dynamic Assembler middleware engine for preparing bytecode</longdescription>
+  <longdescription lang="ru">LuaJIT — это Just-In-Time компилятор, интерпретатор и окружение для языка программирования Lua. Основан на инновационной прослойке "динамический ассемблер", используемой для промежуточной генерации байткода</longdescription>
   <use>
     <flag name="valgrind">Enable support for debugging under Valgrind</flag>
     <flag name="lua52compat">Enable some Lua:5.2+ features</flag>
