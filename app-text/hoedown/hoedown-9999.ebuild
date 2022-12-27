@@ -3,22 +3,26 @@
 
 EAPI=8
 
-inherit git-r3 multilib-minimal patches
+inherit multilib-minimal patches
 
 DESCRIPTION="Standards compliant, fast, secure markdown processing library in C"
-EGIT_REPO_URI="https://github.com/hoedown/hoedown"
 
 HOMEPAGE="https://github.com/hoedown/hoedown"
 
 LICENSE="MIT"
 SLOT="0"
 
-BDEPEND="
-	dev-util/gperf
-"
+BDEPEND="dev-util/gperf"
+
+if [[ "${PV}" == 9999* ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/${PN}/${PN}"
+else
+	SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
+fi
 
 src_prepare() {
-	patches_src_prepare
 	sed -r \
 		-e "/^PREFIX/s@(=).*@\1/usr@" \
 		-e "/^LIBDIR/s@/lib\$@/$(get_libdir)@" \
@@ -26,5 +30,6 @@ src_prepare() {
 		-e "/^smartypants:/s@(smartypants)@\1-hoedown@" \
 		-e "/^all:/s@(smartypants)@\1-hoedown@" \
 		-i "${S}"/Makefile
+	patches_src_prepare
 	multilib_copy_sources
 }
