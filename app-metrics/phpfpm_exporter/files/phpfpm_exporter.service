@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus PHP-FPM exporter
+Documentation=https://github.com/vmercierfr/phpfpm-prometheus-exporter
+After=network-online.target
+
+[Service]
+User=prometheus
+Restart=on-failure
+ExecStart=/usr/bin/%p $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+
