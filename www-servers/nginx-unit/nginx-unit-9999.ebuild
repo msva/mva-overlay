@@ -1,48 +1,46 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} pypy3 )
+PYTHON_COMPAT=( python3_{8..11} pypy3 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby25 ruby26 ruby27 ruby30"
+USE_RUBY="ruby27 ruby30 ruby31"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-3 php7-4 php8-0"
+USE_PHP="php7-4 php8-0 php8-1"
 
-inherit systemd php-ext-source-r3 python-r1 ruby-ng flag-o-matic patches
-#golang-base
-[[ "${PV}" = 9999 ]] && inherit git-r3
+inherit systemd php-ext-source-r3 python-r1 ruby-ng toolchain-funcs flag-o-matic patches
+# golang-base
 
 DESCRIPTION="Dynamic web and application server"
 HOMEPAGE="https://unit.nginx.org/"
-
+LICENSE="Apache-2.0"
+SLOT="0"
 
 if [[ "${PV}" = 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/nginx/unit"
-	KEYWORDS=""
 	MY_P="${P}"
+	inherit git-r3
 else
 	MY_P="${P//nginx-}"
 	SRC_URI="https://unit.nginx.org/download/${MY_P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
-LICENSE="Apache-2.0"
-SLOT="0"
-
 UNIT_MODULES="perl php python ruby"
 IUSE="debug examples ipv6 ssl +unix-sockets"
-REQUIRED_USE="unit_modules_python? ( ${PYTHON_REQUIRED_USE} )"
 
 for mod in $UNIT_MODULES; do
 	IUSE="${IUSE} unit_modules_${mod}"
 done
+
+REQUIRED_USE="unit_modules_python? ( ${PYTHON_REQUIRED_USE} )"
 
 DEPEND="
 	unit_modules_perl? (
@@ -87,7 +85,7 @@ src_prepare() {
 	sed -i '/^CFLAGS/d' auto/make || die
 
 	patches_src_prepare
-	tc-env_build
+	tc-export_build_env
 }
 
 _unit_java_configure() {
@@ -101,7 +99,8 @@ _unit_java_configure() {
 	# give user a way to specify exact the vm they want.
 }
 _unit_go_configure() {
-	./configure go --go-path="$(get_golibdir_gopath)" # multislot?
+	# ./configure go --go-path="$(get_golibdir_gopath)" # deprecated golang-base eclass
+	./configure go --go-path="${EPREFIX}/usr/lib/go" # multislot?
 }
 _unit_nodejs_configure() {
 	./configure nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
@@ -111,7 +110,7 @@ _unit_perl_configure() {
 }
 _unit_php_configure() {
 	for impl in $(php_get_slots); do
-		./configure php --config="/usr/$(get_libdir)/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/lib/${impl}/$(get_libdir)"
+		./configure php --config="/usr/$(get_libdir)/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/$(get_libdir)/${impl}/$(get_libdir)" || die "Failed to configure PHP module for ${impl} target"
 	done
 }
 _unit_python_configure() {
@@ -121,11 +120,11 @@ _unit_python_configure() {
 	python_foreach_impl _unit_python_configure_each
 }
 _unit_ruby_configure() {
-	_unit_ruby_configure_each() {
+	each_ruby_configure() {
 		cd "${WORKDIR}/${MY_P}"
 		./configure ruby --ruby="${RUBY}" --module="$(basename ${RUBY})"
 	}
-	_ruby_each_implementation _unit_ruby_configure_each
+	ruby-ng_src_configure
 }
 
 src_configure() {
@@ -163,7 +162,7 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/init/"${PN}".service
 	newconfd "${FILESDIR}"/init/"${PN}".confd "${PN}"
 	newinitd "${FILESDIR}"/init/"${PN}".initd "${PN}"
-	dodir "/etc/${PN}/"
 	insinto "/etc/${PN}/"
+	dodir "/etc/${PN}/"
 	newins "${FILESDIR}/config/config.json" "config.json"
 }

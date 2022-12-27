@@ -1,7 +1,0 @@
-#!/bin/sh
-. "${EPREFIX}"/etc/conf.d/unit 2>/dev/null
-
-CONTROL_SOCKET="${CONTROL_SOCKET-/run/control.unit.sock}"
-CONFIG="${CONFIG-/etc/unit/config.json}"
-
-curl -sS --unix-socket "${CONTROL_SOCKET}" localhost > "${CONFIG}"

@@ -6,9 +6,9 @@ After=network-online.target
 [Service]
 Type=forking
 PIDFile=/run/nginx-unit.pid
-#EnvironmentFile=-/etc/conf.d/unit
-ExecStart=/usr/sbin/unitd
-# $UNITD_OPTIONS
+EnvironmentFile=-/etc/conf.d/nginx-unit
+ExecStart=/usr/sbin/unitd $UNITD_OPTIONS
+
 #ExecReload=-/usr/bin/nginx-unit-loadconfig
 #ExecStop=-/usr/bin/nginx-unit-saveconfig
 
