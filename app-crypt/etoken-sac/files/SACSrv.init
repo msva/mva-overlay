@@ -15,7 +15,7 @@ start_stop_daemon_start_args="-k 000"
 start_stop_daemon_stop_args="-R TERM/2/KILL/5"
 
 depend() {
-        need pcscd
+	need pcscd
 }
 
 checkconfig() {

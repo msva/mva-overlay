@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit eutils multilib rpm
+inherit rpm
 
 DESCRIPTION="SafeNet (Aladdin) eTokens Middleware (PRO, NG OTP, Flash, Java)"
 
@@ -28,8 +28,6 @@ SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
 IUSE="ssl multilib minimal"
 
-REQUIRED_USE="amd64? ( multilib )"
-
 # TODO:
 # - minimal useflag (I can't do it now, since
 #   it seems like I brake my token and it is uninitialized now)
@@ -47,6 +45,7 @@ RDEPEND="
 	media-libs/hal-flash
 "
 DEPEND="${RDEPEND}"
+BDEPEND="app-arch/unzip"
 
 QA_PREBUILT="*"
 QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
