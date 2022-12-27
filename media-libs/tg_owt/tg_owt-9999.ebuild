@@ -18,7 +18,7 @@ if [[ "${PV}" == *9999* ]]; then
 		-src/third_party/pipewire
 	)
 else
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 	#	~ppc64"
 	#	^ libyuv (not a big deal, actually), clang-runtime[libcxx], libcxx (!)
 	EGIT_COMMIT="621f3da55331733bf0d1b223786b96b68c03dca1"
