@@ -13,7 +13,7 @@ if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/randy408/libspng"
 else
 	SRC_URI="https://github.com/randy408/${PN}/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~x86 ~amd64 ~arm ~arm64"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
 LICENSE="BSD"
@@ -21,8 +21,10 @@ SLOT="0"
 
 IUSE="static-libs examples miniz threads optimizations"
 
+REQUIRED_USE="arm? ( !miniz ) arm64? ( !miniz )"
+
 RDEPEND="
-	miniz? ( dev-libs/miniz )
+	!arm? ( !arm64? ( miniz? ( dev-libs/miniz ) ) )
 	!miniz? ( sys-libs/zlib )
 "
 
