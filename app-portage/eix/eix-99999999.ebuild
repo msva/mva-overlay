@@ -1,26 +1,24 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
+
 WANT_LIBTOOL=none
 AUTOTOOLS_AUTO_DEPEND=no
 MESON_AUTO_DEPEND=no
+
 inherit autotools bash-completion-r1 meson tmpfiles
 
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
-case ${PV} in
-99999999*)
-	EGIT_REPO_URI="https://github.com/vaeth/${PN}.git"
+if [[ "${PV}" == 9999* ]]; then
 	inherit git-r3
-	SRC_URI=""
-	KEYWORDS=""
-	PROPERTIES="live";;
-*)
+	EGIT_REPO_URI="https://github.com/vaeth/${PN}.git"
+else
+	KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~x64-cygwin ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 	RESTRICT="mirror"
 	EGIT_COMMIT="470c9d35ed91bfac3f808c5e8625c61a04234b8f"
 	SRC_URI="https://github.com/vaeth/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
-	S="${WORKDIR}/${PN}-${EGIT_COMMIT}";;
-esac
+	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
+fi
 
 DESCRIPTION="Search and query ebuilds"
 HOMEPAGE="https://github.com/vaeth/eix/"
@@ -34,23 +32,29 @@ for i in ${PLOCALES}; do
 done
 IUSE+=" +meson nls optimization +required-use security +src-uri strong-optimization strong-security sqlite swap-remote tools"
 
-BOTHDEPEND="nls? ( virtual/libintl )
-	sqlite? ( >=dev-db/sqlite-3:= )"
-RDEPEND="${BOTHDEPEND}
+BOTHDEPEND="
+	nls? ( virtual/libintl )
+	sqlite? ( >=dev-db/sqlite-3:= )
+"
+RDEPEND="
+	${BOTHDEPEND}
 	>=app-shells/push-3.1
-	>=app-shells/quoter-4.1"
-DEPEND="${BOTHDEPEND}
+	>=app-shells/quoter-4.1
+"
+BDEPEND="
+	${BOTHDEPEND}
 	meson? (
 		>=dev-util/meson-0.41.0
 		>=dev-util/ninja-1.7.2
 		strong-optimization? ( >=sys-devel/gcc-config-1.9.1 )
 		nls? ( sys-devel/gettext )
 	)
-	!meson? ( ${AUTOTOOLS_DEPEND} >=sys-devel/gettext-0.19.6 )"
+	!meson? ( ${AUTOTOOLS_DEPEND} >=sys-devel/gettext-0.19.6 )
+"
 
 pkg_setup() {
 	# remove stale cache file to prevent collisions
-	local old_cache="${EROOT}var/cache/${PN}"
+	local old_cache="${EROOT}/var/cache/${PN}"
 	test -f "${old_cache}" && rm -f -- "${old_cache}"
 }
 
@@ -157,7 +161,7 @@ src_install() {
 }
 
 pkg_postinst() {
-	local obs="${EROOT}var/cache/eix.previous"
+	local obs="${EROOT}/var/cache/eix.previous"
 	if test -f "${obs}"; then
 		ewarn "Found obsolete ${obs}, please remove it"
 	fi
@@ -166,6 +170,6 @@ pkg_postinst() {
 
 pkg_postrm() {
 	if [ -z "${REPLACED_BY_VERSION}" ]; then
-		rm -rf -- "${EROOT}var/cache/${PN}"
+		rm -rf -- "${EROOT}/var/cache/${PN}"
 	fi
 }
