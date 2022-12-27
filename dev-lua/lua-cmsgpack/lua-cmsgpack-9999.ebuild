@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -15,6 +15,7 @@ EGIT_REPO_URI="https://github.com/antirez/lua-cmsgpack"
 LICENSE="BSD-2"
 SLOT="0"
 IUSE="test"
+RESTRICT="!test? ( test )"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="${LUA_DEPS}"
 DEPEND="${RDEPEND}"
