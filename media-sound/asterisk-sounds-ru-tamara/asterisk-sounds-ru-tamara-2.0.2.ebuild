@@ -1,27 +1,27 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-
-inherit eutils
+EAPI=8
 
 DESCRIPTION="Asterisk's russian sounds. \"Tamara\" pack."
-HOMEPAGE="http://asteriskforum.ru/"
+HOMEPAGE="https://asteriskforum.ru/"
 SRC_URI="
-http://val.bmstu.ru/unix/voip/Russian-Tamara-2.0.2-ulaw.tar.gz
-http://nettips.ru/files/asterisk/Russian-Tamara-2.0.2-ulaw.tar.gz
+	https://val.bmstu.ru/unix/voip/Russian-Tamara-2.0.2-ulaw.tar.gz
+	https://nettips.ru/files/asterisk/Russian-Tamara-2.0.2-ulaw.tar.gz
 "
 
 KEYWORDS="~amd64 ~x86"
 
 LICENSE="GPL-3"
 SLOT="0"
-IUSE=""
 
 DEPEND=">=net-misc/asterisk-1.6.2.0"
 RDEPEND="${DEPEND}"
 
+S="${WORKDIR}"
+
 src_unpack() {
+	default
 	unpack "./Russian-Tamara-2.0.2-ulaw/sounds.tar.gz"
 }
 
