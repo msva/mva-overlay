@@ -56,7 +56,7 @@ for i=1,#arg do
 						if mnt_k[name_i].kids[1].value:match("Misbakh%-Solov[a-z]*v") then -- since there is another devs and maintainers called Vadim, search me by last name (pattern here is because there was two notations)
 							mnt_k[email_i].kids[1].value=mva_email
 							if desc_i>0 then
-								mnt_k[desc_i].kids[1].value="Also, you can find me on IRC (FreeNode) as mva, or in Telegram as @mva_name"
+								mnt_k[desc_i].kids[1].value="Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name"
 							end -- if(desc)
 						end -- if(mva)
 					end -- email/name_i>0
