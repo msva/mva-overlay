@@ -1,43 +1,63 @@
-diff -NaurBwd a/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp b/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp
---- a/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp	2022-12-29 03:22:18.737445637 +0700
-+++ b/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp	2022-12-29 03:11:09.737385713 +0700
-@@ -103,7 +103,7 @@
+From 0846aca2b682f7bce43fefb83d880518b503bf32 Mon Sep 17 00:00:00 2001
+From: Ilya Fedin <fedin-ilja2010@ya.ru>
+Date: Wed, 7 Dec 2022 01:25:33 +0400
+Subject: [PATCH] Fix build with clang
+
+---
+ base/platform/linux/base_last_input_linux.cpp | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp b/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp
+index aefae77..891cb96 100644
+--- a/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp
++++ b/Telegram/lib_base/base/platform/linux/base_last_input_linux.cpp
+@@ -103,7 +103,9 @@ std::optional<crl::time> FreedesktopDBusLastUserInputTime() {
  			"org.freedesktop.DBus.Error.AccessDenied",
  		};
  
 -		const auto errorName = Gio::DBus::ErrorUtils::get_remote_error(e);
-+		const auto errorName = Gio::DBus::ErrorUtils::get_remote_error(e).raw();
++		const auto errorName = Gio::DBus::ErrorUtils::get_remote_error(
++			e).raw();
++
  		if (ranges::contains(NotSupportedErrors, errorName)) {
  			NotSupported = true;
  			return std::nullopt;
-@@ -163,7 +163,7 @@
+@@ -163,7 +165,9 @@ std::optional<crl::time> MutterDBusLastUserInputTime() {
  			"org.freedesktop.DBus.Error.AccessDenied",
  		};
  
 -		const auto errorName = Gio::DBus::ErrorUtils::get_remote_error(e);
-+		const auto errorName = Gio::DBus::ErrorUtils::get_remote_error(e).raw();
++		const auto errorName = Gio::DBus::ErrorUtils::get_remote_error(
++			e).raw();
++
  		if (ranges::contains(NotSupportedErrors, errorName)) {
  			NotSupported = true;
  			return std::nullopt;
-diff -NaurBwd a/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp b/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp
---- a/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp	2022-12-29 03:22:31.844977199 +0700
-+++ b/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp	2022-12-29 03:12:39.218178489 +0700
-@@ -77,14 +77,7 @@
- 			Gio::DBus::BusType::SESSION);
- 
- 		const auto activatable = [&] {
--			try {
--				return ranges::contains(
--					base::Platform::DBus::ListActivatableNames(connection),
+From 826c887d6bb53edab8246e7fe94b554712cbd8f6 Mon Sep 17 00:00:00 2001
+From: Ilya Fedin <fedin-ilja2010@ya.ru>
+Date: Wed, 7 Dec 2022 01:27:36 +0400
+Subject: [PATCH] Fix build with clang
+
+---
+ .../platform/linux/notifications_manager_linux.cpp        | 8 +++++---
+ Telegram/SourceFiles/platform/linux/specific_linux.cpp    | 3 ++-
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp b/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp
+index 92fe1df738cf8..93c6aaf1deaf8 100644
+--- a/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp
++++ b/Telegram/SourceFiles/platform/linux/notifications_manager_linux.cpp
+@@ -80,7 +80,8 @@ std::unique_ptr<base::Platform::DBus::ServiceWatcher> CreateServiceWatcher() {
+ 			try {
+ 				return ranges::contains(
+ 					base::Platform::DBus::ListActivatableNames(connection),
 -					Glib::ustring(std::string(kService)));
--			} catch (...) {
--				// avoid service restart loop in sandboxed environments
++					std::string(kService),
++					&Glib::ustring::raw);
+ 			} catch (...) {
+ 				// avoid service restart loop in sandboxed environments
  				return true;
--			}
- 		}();
- 
- 		return std::make_unique<base::Platform::DBus::ServiceWatcher>(
-@@ -129,7 +122,7 @@
+@@ -129,7 +130,7 @@ void StartServiceAsync(Fn<void()> callback) {
  						};
  
  						const auto errorName =
@@ -46,32 +66,27 @@ diff -NaurBwd a/Telegram/SourceFiles/platform/linux/notifications_manager_linux.
  
  						if (!ranges::contains(NotSupportedErrors, errorName)) {
  							throw e;
-@@ -163,13 +156,7 @@
- 		}();
- 
- 		static const auto activatable = [&] {
--			try {
--				return ranges::contains(
--					DBus::ListActivatableNames(connection),
+@@ -166,7 +167,8 @@ bool GetServiceRegistered() {
+ 			try {
+ 				return ranges::contains(
+ 					DBus::ListActivatableNames(connection),
 -					Glib::ustring(std::string(kService)));
--			} catch (...) {
--				return false;
-+				return true;
--			}
- 		}();
++					std::string(kService),
++					&Glib::ustring::raw);
+ 			} catch (...) {
+ 				return false;
+ 			}
+diff --git a/Telegram/SourceFiles/platform/linux/specific_linux.cpp b/Telegram/SourceFiles/platform/linux/specific_linux.cpp
+index b1f1f8884c3ad..1638e83c7e33b 100644
+--- a/Telegram/SourceFiles/platform/linux/specific_linux.cpp
++++ b/Telegram/SourceFiles/platform/linux/specific_linux.cpp
+@@ -264,7 +264,8 @@ void LaunchGApplication() {
  
- 		return hasOwner || activatable;
-diff -NaurBwd a/Telegram/SourceFiles/platform/linux/specific_linux.cpp b/Telegram/SourceFiles/platform/linux/specific_linux.cpp
---- a/Telegram/SourceFiles/platform/linux/specific_linux.cpp	2022-12-29 03:22:37.072790370 +0700
-+++ b/Telegram/SourceFiles/platform/linux/specific_linux.cpp	2022-12-29 03:12:44.891975201 +0700
-@@ -262,9 +262,7 @@
- 		} catch (...) {
- 		}
- 
--		if (ranges::contains(
--			activatableNames,
+ 		if (ranges::contains(
+ 			activatableNames,
 -			"org.freedesktop.Notifications")) {
-+		if (true) {
++			"org.freedesktop.Notifications",
++			&Glib::ustring::raw)) {
  			return true;
  		}
  
