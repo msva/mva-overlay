@@ -55,7 +55,8 @@ diff -NaurBwd a/Telegram/SourceFiles/platform/linux/notifications_manager_linux.
 -					DBus::ListActivatableNames(connection),
 -					Glib::ustring(std::string(kService)));
 -			} catch (...) {
- 				return false;
+-				return false;
++				return true;
 -			}
  		}();
  
