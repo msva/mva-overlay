@@ -19,25 +19,19 @@ EGIT_SUBMODULES=(
 	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc}
 )
 
-# XXX: REMOVE THAT WHEN @preston will bump submodule in repo
-# XXX: DON'T remove until that. It fixes randlom crashes in 4.1.1 and 9999 (as of 09.09.22)
-# EGIT_OVERRIDE_COMMIT_DESKTOP_APP_LIB_UI="4d2fc25d03e7f0234a047fe1de3ad3b1beb82e4c"
-
 if [[ "${PV}" == 9999 ]]; then
 	EGIT_BRANCH="dev"
 else
 	# TODO: tarballs
 	EGIT_COMMIT="v${PV}"
-	KEYWORDS="~amd64 ~arm64 ~x86"
-	# ~riscv # blocked by tg_owt and tgvoip
-	# ~ppc64 # blocked by libcxx. Although, proven to build (with gcc) and work by @gyakovlev
+	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 	# ~arm # blocked by range in gentoo-repo
 	# ~mipsel # blocked by all :(
 fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug enchant +hunspell libcxx lto +pipewire pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
+IUSE="custom-api-id +dbus debug enchant +hunspell lto +pipewire pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
 
 MYPATCHES=(
 	"hide-banned"
@@ -75,10 +69,6 @@ COMMON_DEPEND="
 		dev-libs/libdbusmenu-qt[qt5(+)]
 		dev-cpp/glibmm:2.68=
 	)
-	libcxx? (
-		sys-devel/clang:=
-		sys-devel/clang-runtime:=[libcxx]
-	)
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio[daemon(+)] )
 	)
@@ -86,8 +76,8 @@ COMMON_DEPEND="
 		media-video/pipewire[sound-server(+)]
 		media-sound/pulseaudio[-daemon(+)]
 	)
-	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[libcxx(-)=,pulseaudio(-)=,pipewire(-)=] )
-	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[libcxx(-)=,threads(-),-cache(-)] )
+	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[pulseaudio(-)=,pipewire(-)=] )
+	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
 	enchant? ( app-text/enchant:= )
 	hunspell? ( >=app-text/hunspell-1.7:= )
 	sys-libs/zlib:=[minizip]
@@ -96,7 +86,7 @@ COMMON_DEPEND="
 		media-libs/libjpeg-turbo:=
 		media-libs/libyuv:=
 		<dev-libs/openssl-3.0
-		media-libs/tg_owt[pipewire(-)=,libcxx(-)=]
+		>=media-libs/tg_owt-0_pre20221215[pipewire(-)=]
 	)
 	wayland? ( kde-frameworks/kwayland:= )
 	webkit? ( net-libs/webkit-gtk:= )
@@ -154,19 +144,19 @@ pkg_pretend() {
 		fi
 	fi
 
-	if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -gt "12.0" && [[ -z "${TG_FORCE_GCC12}" ]]; then
-		eerror "${PN} was known to fail compilation with GCC >=12, but it may be fixed already"
-	   	eerror "(Unfortunately, I still have no spare time to test with both compilers every time, so I only test time to time)."
-		eerror "Please, cpnsider to use either GCC versions newer than 8 and older than 12, or clang (older than 15 :) )."
-		eerror "You can use package.env for setting CC/CXX on per-package level."
-		eerror "Alternatively, you can set TG_FORCE_GCC12=1 to override this check (and have a chance to fail during compilation)."
-		einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
-		einfo  "fixes for compilation problems you'd meet with skipping the check :)"
-	fi
+	# if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -gt "12.0" && [[ -z "${TG_FORCE_GCC12}" ]]; then
+	# 	eerror "${PN} was known to fail compilation with GCC >=12, but it may be fixed already"
+	#    	eerror "(Unfortunately, I still have no spare time to test with both compilers every time, so I only test time to time)."
+	# 	eerror "Please, cpnsider to use either GCC versions newer than 8 and older than 12, or clang (older than 15 :) )."
+	# 	eerror "You can use package.env for setting CC/CXX on per-package level."
+	# 	eerror "Alternatively, you can set TG_FORCE_GCC12=1 to override this check (and have a chance to fail during compilation)."
+	# 	einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
+	# 	einfo  "fixes for compilation problems you'd meet with skipping the check :)"
+	# fi
 
 	if tc-is-clang && ver_test "$(clang-major-version).$(clang-minor-version)" -gt "15.0" && [[ -z "${TG_FORCE_CLANG15}" ]]; then
 		eerror "${PN} is known to fail compilation with Clang >=15."
-		eerror "Please, use either Clang versions newer than older than 15."
+		eerror "Please, use either Clang versions older than 15."
 		eerror "You can use package.env for setting CC/CXX on per-package level."
 		eerror "Alternatively, you can set TG_FORCE_CLANG15=1 to override this check (and most probably fail during compilation)."
 		einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
@@ -182,14 +172,6 @@ pkg_pretend() {
 			eerror "Qt5 is incompatible with LTO builds using clang at this moment."
 			eerror "Ref: https://bugreports.qt.io/browse/QTBUG-61710"
 			die "Please, read the error above."
-		fi
-	fi
-
-	if [[ $(get-flag stdlib) == "libc++" ]]; then
-		if ! tc-is-clang; then
-			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
-		elif ! use libcxx; then
-			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
 		fi
 	fi
 
@@ -242,15 +224,11 @@ src_prepare() {
 	patches_src_prepare
 #	cmake_src_prepare
 #	^ to be used when will be ported to gentoo repo
-
-	if use libcxx; then
-		export CC="clang" CXX="clang++ -stdlib=libc++"
-	fi
 }
 
 src_configure() {
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
-	append-cppflags '-DNDEBUG' # Telegram sets that in code (and I also forced that in ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
+	append-cppflags '-DNDEBUG' # Telegram sets that in code (and I also forced that here and in libtgvoip ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
 	use lto && (
 		append-flags '-flto'
 		append-ldflags '-flto'
@@ -271,7 +249,7 @@ src_configure() {
 		#-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON # header only lib, some git version. prevents warnings.
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 
-		# Qt6 is not packaged in Gentoo at the moment.
+		# Qt6 is masked in Gentoo at the moment.
 		-DDESKTOP_APP_QT6=OFF
 
 		# Upstream does not need crash reports from custom builds anyway

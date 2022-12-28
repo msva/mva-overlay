@@ -1,23 +1,7 @@
 --- a/CMakeLists.txt	2022-07-16 03:16:24.787968321 +0700
 +++ b/CMakeLists.txt	2022-07-16 03:18:49.018072001 +0700
-@@ -147,7 +147,6 @@ set_target_properties(tg_owt PROPERTIES
- 
- target_link_libraries(tg_owt
- PRIVATE
--    tg_owt::libcrc32c
-     tg_owt::libpffft
-     tg_owt::librnnoise
-     tg_owt::libsrtp
-@@ -2610,7 +2609,6 @@
- 
- set(export_targets
-     ${tg_owt_export}
--    libcrc32c
-     libpffft
-     librnnoise
-     libsrtp
-@@ -2631,6 +2629,12 @@ if (NOT LIBYUV_FOUND)
-     list(APPEND export_targets libyuv)
+@@ -2676,6 +2674,12 @@ if (NOT LIBYUV_FOUND)
+     list(APPEND export_targets libcrc32c)
  endif()
  
 +include(CheckLibraryExists)

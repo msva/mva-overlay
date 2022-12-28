@@ -1,9 +1,9 @@
 --- a/src/modules/desktop_capture/desktop_capture_options.h
 +++ b/modules/desktop_capture/desktop_capture_options.h
-@@ -177,6 +177,9 @@ class RTC_EXPORT DesktopCaptureOptions {
-       rtc::scoped_refptr<SharedScreenCastStream> stream) {
-     screencast_stream_ = stream;
-   }
+@@ -197,6 +197,9 @@ #if defined(WEBRTC_USE_PIPEWIRE)
+ 
+   void set_height(uint32_t height) { height_ = height; }
+   uint32_t get_height() const { return height_; }
 +#else
 +  bool allow_pipewire() const { return false; }
 +  void set_allow_pipewire(bool allow) { }

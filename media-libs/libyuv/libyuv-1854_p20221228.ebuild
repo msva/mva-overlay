@@ -12,7 +12,7 @@ HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv/"
 SRC_URI="https://dev.gentoo.org/~mva/distfiles/${P}.tar.gz"
 
 LICENSE="BSD"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 SLOT="0/${PV}"
 
 IUSE="static-libs test tools"
@@ -48,6 +48,7 @@ src_prepare() {
 
 			# help linker to see just-built libyuv.so if we're doing clean install and prefer it over system-wide if we're upgrading
 			append-ldflags '-L.'
+			# append-ldflags '-lm'
 		fi
 	else
 		sed -i \
@@ -55,6 +56,11 @@ src_prepare() {
 			-e '/^INSTALL.* PROGRAMS /d' \
 			CMakeLists.txt
 	fi
+	#
+	sed -i \
+		-e '/ yuvconstants /d' \
+		CMakeLists.txt
+	# ^ broken anyway ATM, cries about undefined reference to roundf, and linking to libm doest help
 	if ! use static-libs; then
 		sed -i \
 			-e '/ly_lib_static/d' \

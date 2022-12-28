@@ -9,7 +9,7 @@
   <use>
     <flag name="cache">Enable cache support</flag>
     <flag name="dumptree">Enable logging the rlottie tree</flag>
-    <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> and link against <pkg>sys-libs/libcxx</pkg></flag>
+    <!-- <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> and link against <pkg>sys-libs/libcxx</pkg></flag> -->
     <flag name="log">Enable logging</flag>
     <flag name="module">Build Image module</flag>
     <flag name="threads">Support threading</flag>

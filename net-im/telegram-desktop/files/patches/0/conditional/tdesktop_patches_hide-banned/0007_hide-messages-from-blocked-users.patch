@@ -1,6 +1,6 @@
---- a/Telegram/SourceFiles/history/history_message.cpp
-+++ b/Telegram/SourceFiles/history/history_message.cpp
-@@ -294,6 +294,11 @@ HistoryMessage::HistoryMessage(
+--- a/Telegram/SourceFiles/history/history_item.cpp
++++ b/Telegram/SourceFiles/history/history_item.cpp
+@@ -264,6 +264,11 @@ HistoryItem::HistoryItem(
  		FlagsFromMTP(id, data.vflags().v, localFlags),
  		data.vdate().v,
  		data.vfrom_id() ? peerFromMTP(*data.vfrom_id()) : PeerId(0)) {
@@ -9,24 +9,24 @@
 +	if (pd->isUser() && pd->asUser()->isBlocked()) {
 +		return;
 +	}
- 	auto config = CreateConfig();
- 	if (const auto forwarded = data.vfwd_from()) {
- 		forwarded->match([&](const MTPDmessageFwdHeader &data) {
+ 	const auto media = data.vmedia();
+ 	const auto checked = media
+ 		? CheckMessageMedia(*media)
 --- a/Telegram/SourceFiles/history/view/history_view_message.cpp
 +++ b/Telegram/SourceFiles/history/view/history_view_message.cpp
-@@ -486,6 +486,8 @@ void Message::applyGroupAdminChanges(
+@@ -507,6 +507,8 @@ void Message::applyGroupAdminChanges(
  
  QSize Message::performCountOptimalSize() {
- 	const auto item = message();
+ 	const auto item = data();
 +	PeerData* pd = item->from();
 +	if (pd->isUser() && pd->asUser()->isBlocked()) return QSize(0,0);
  	const auto markup = item->inlineReplyMarkup();
- 	validateText();
- 	validateInlineKeyboard(markup);
-@@ -681,6 +683,8 @@ void Message::draw(
+ 	const auto reactionsKey = [&] {
+ 		return embedReactionsInBottomInfo()
+@@ -750,6 +752,8 @@ void Message::draw(
  	}
  
- 	const auto item = message();
+ 	const auto item = data();
 +	PeerData* pd = item->from();
 +	if (pd->isUser() && pd->asUser()->isBlocked()) return;
  	const auto media = this->media();

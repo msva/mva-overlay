@@ -8,9 +8,10 @@
   </maintainer>
   <use>
     <flag name="alsa">Enable ALSA support</flag>
+    <flag name="dsp">Enable signal processing (echo cancellation, noise suppression, and automatic gain control)</flag>
     <flag name="pulseaudio">Enable PulseAudio support</flag>
     <flag name="pipewire">Enable PipeWire support (actually, only force needed dependencies)</flag>
-    <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> against <pkg>sys-libs/libcxx</pkg></flag>
+    <!-- <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> against <pkg>sys-libs/libcxx</pkg></flag> -->
     <flag name="static-libs">Build static library</flag>
   </use>
   <upstream>

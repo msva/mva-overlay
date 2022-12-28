@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake flag-o-matic toolchain-funcs
+inherit cmake flag-o-matic
 
 DESCRIPTION="WebRTC (video) library (fork) for Telegram clients"
 HOMEPAGE="https://github.com/desktop-app/tg_owt"
@@ -18,36 +18,28 @@ if [[ "${PV}" == *9999* ]]; then
 		-src/third_party/pipewire
 	)
 else
-	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
-	#	~ppc64"
-	#	^ libyuv (not a big deal, actually), clang-runtime[libcxx], libcxx (!)
-	EGIT_COMMIT="621f3da55331733bf0d1b223786b96b68c03dca1"
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+	EGIT_COMMIT="1512ef693a7469d7dbc61191ecc0b487bc7f594f"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
 
 LICENSE="BSD"
 SLOT="0"
-IUSE="libcxx pipewire +X"
+IUSE="pipewire screencast +X"
 
-REQUIRED_USE="X"
-#ppc64? ( !libcxx )"
+REQUIRED_USE="screencast? ( pipewire )"
 
 # Bundled libs:
 # - libsrtp (project uses private APIs)
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
 RDEPEND="
-	dev-cpp/abseil-cpp:=[cxx17(+)]
+	>=dev-cpp/abseil-cpp-20220623.1:=[cxx17(+)]
 	dev-libs/crc32c
 	dev-libs/libevent:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
-	libcxx? (
-		sys-devel/clang:=
-		sys-devel/clang-runtime:=[libcxx]
-		sys-libs/libcxx:=
-	)
 	media-libs/libjpeg-turbo:=
 	>=media-libs/libvpx-1.10.0:=
 	media-libs/libyuv
@@ -73,14 +65,14 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
-	dev-lang/yasm
 "
+#	dev-lang/yasm
 
 PATCHES=(
 	"${FILESDIR}/0000_pkgconfig.patch"
-	"${FILESDIR}/${PN}-0_pre20210626-allow-disabling-pipewire.patch"
-	"${FILESDIR}/${PN}-0_pre20221103-allow-disabling-pulseaudio.patch"
-	"${FILESDIR}/${PN}-0_pre20210626-expose-set_allow_pipewire.patch"
+	"${FILESDIR}/${PN}-0_pre20221215-allow-disabling-pipewire.patch"
+	"${FILESDIR}/${PN}-0_pre20221215-allow-disabling-pulseaudio.patch"
+	"${FILESDIR}/${PN}-0_pre20221215-expose-set_allow_pipewire.patch"
 	"${FILESDIR}/libyuv.patch"
 	"${FILESDIR}/libyuv_2.patch"
 	"${FILESDIR}/libyuv_3.patch"
@@ -89,22 +81,6 @@ PATCHES=(
 	"${FILESDIR}/patch-cmake-absl-external.patch"
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
 )
-
-pkg_pretend() {
-	if use libcxx; then
-		export CC="clang" CXX="clang++ -stdlib=libc++"
-	# elif tc-is-clang; then
-	# 	eerror "Clang builds fails for now, see https://github.com/desktop-app/tg_owt/issues/83"
-	fi
-
-	if [[ $(get-flag stdlib) == "libc++" ]]; then
-		if ! tc-is-clang; then
-			die "Building with libcxx (aka libc++) as stdlib requires using clang as compiler. Please set CC/CXX in portage.env"
-		elif ! use libcxx; then
-			die "Building with libcxx (aka libc++) as stdlib requires some dependencies to be also built with it. Please, set USE=libcxx on ${PN} to handle that."
-		fi
-	fi
-}
 
 src_prepare() {
 	cp "${FILESDIR}"/"${PN}".pc.in "${S}" || die "failed to copy pkgconfig template"
@@ -171,9 +147,28 @@ src_configure() {
 		-DTG_OWT_USE_X11=$(usex X ON OFF)
 		-DTG_OWT_USE_PIPEWIRE=$(usex pipewire ON OFF)
 		-DTG_OWT_DLOPEN_PIPEWIRE=$(usex pipewire ON OFF)
-		# -DTG_OWT_BUILD_AUDIO_BACKENDS=$(usex alsa ON OFF)
-		# -DTG_OWT_BUILD_PULSE_BACKEND=$(usex pulseaudio ON OFF)
 	)
 
 	cmake_src_configure
+}
+src_install() {
+	cmake_src_install
+
+	# Save about 15MB of useless headers
+	rm -r "${ED}/usr/include/tg_owt/rtc_base/third_party" || die
+	rm -r "${ED}/usr/include/tg_owt/common_audio/third_party" || die
+	rm -r "${ED}/usr/include/tg_owt/modules/third_party" || die
+	rm -r "${ED}/usr/include/tg_owt/third_party" || die
+
+	# Install a few headers anyway, as required by net-im/telegram-desktop...
+	local headers=(
+		# third_party/libyuv/include
+		rtc_base/third_party/sigslot
+		rtc_base/third_party/base64
+	)
+	for dir in "${headers[@]}"; do
+	    pushd "${S}/src/${dir}" > /dev/null || die
+	    find -type f -name "*.h" -exec install -Dm644 '{}' "${ED}/usr/include/tg_owt/${dir}/{}" \; || die
+		popd > /dev/null || die
+	done
 }

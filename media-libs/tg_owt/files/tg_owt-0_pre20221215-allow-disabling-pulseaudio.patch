@@ -1,24 +1,20 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -24,11 +24,16 @@
- option(TG_OWT_USE_PIPEWIRE "Use pipewire for desktop capture on non-Apple Unix." ON)
- option(TG_OWT_DLOPEN_PIPEWIRE "dlopen pipewire 0.3 for desktop capture on non-Apple Unix." ${not_packaged_build})
+@@ -26,7 +26,12 @@
+ cmake_dependent_option(TG_OWT_USE_PIPEWIRE "Use pipewire for desktop capture." ON "UNIX; NOT APPLE" OFF)
+ cmake_dependent_option(TG_OWT_DLOPEN_PIPEWIRE "dlopen pipewire for desktop capture." ${not_packaged_build} TG_OWT_USE_PIPEWIRE OFF)
  option(TG_OWT_BUILD_AUDIO_BACKENDS "Build webrtc audio backends." OFF)
 +option(TG_OWT_BUILD_PULSE_BACKEND "Build pulseaudio audio backend on non-Apple Unix." ON)
- 
- if (NOT UNIX OR APPLE)
-     set(TG_OWT_USE_PIPEWIRE OFF)
- endif()
- 
++
 +if (NOT TG_OWT_BUILD_AUDIO_BACKENDS)
 +    set(TG_OWT_BUILD_PULSE_BACKEND OFF)
 +endif()
-+
+ 
  if (BUILD_SHARED_LIBS)
      set(CMAKE_POSITION_INDEPENDENT_CODE ON)
      message(WARNING
-@@ -162,9 +167,11 @@
- link_libvpx(tg_owt)
+@@ -176,9 +181,11 @@
+ link_crc32c(tg_owt)
  
  if (TG_OWT_BUILD_AUDIO_BACKENDS AND (UNIX AND NOT APPLE))
 -    link_libalsa(tg_owt)
@@ -30,8 +26,8 @@
 +    endif()
  endif()
  
- if (NOT WIN32 AND NOT APPLE)
-@@ -2218,12 +2225,6 @@
+ include(cmake/libwebrtcbuild.cmake)
+@@ -2478,12 +2485,6 @@
          modules/audio_device/linux/audio_mixer_manager_alsa_linux.h
          modules/audio_device/linux/latebindingsymboltable_linux.cc
          modules/audio_device/linux/latebindingsymboltable_linux.h
@@ -44,7 +40,7 @@
          modules/audio_device/mac/audio_device_mac.cc
          modules/audio_device/mac/audio_device_mac.h
          modules/audio_device/mac/audio_mixer_manager_mac.cc
-@@ -2243,6 +2244,17 @@
+@@ -2503,6 +2504,17 @@
      )
  endif()
  
@@ -64,7 +60,7 @@
          rtc_base/win32.cc
 --- a/cmake/libwebrtcbuild.cmake
 +++ b/cmake/libwebrtcbuild.cmake
-@@ -50,8 +50,13 @@
+@@ -52,8 +52,13 @@
      target_compile_definitions(libwebrtcbuild
      INTERFACE
          WEBRTC_ENABLE_LINUX_ALSA

@@ -11,7 +11,7 @@
     Heavily patched by destop-app upstream (@preston, telegram-desktop developer)
   </longdescription>
   <use>
-    <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> against <pkg>sys-libs/libcxx</pkg></flag>
+    <!-- <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> against <pkg>sys-libs/libcxx</pkg></flag> -->
     <flag name="pipewire">Add <pkg>media-video/pipewire</pkg> support</flag>
     <flag name="X">Support functionality that requires Xorg server (like screen recording)</flag>
   </use>
