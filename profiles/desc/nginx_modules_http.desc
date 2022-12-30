@@ -5,57 +5,45 @@
 
 # Keep it sorted.
 rrd - Enadle 3rd party rrd module
-balancer - TODO
 mirror - Mirror Module
 ajp - AJP Module
-var - Array-Var Module
-request - AuthRequest Module
+array_var - Array-Var Module
+auth_request - AuthRequest Module
 coolkit - CoolKit Module
 ctpp - CTPP2 template engine Module
 drizzle - This module adds the ability to &quot;talk&quot; with MySQL-like server
 echo - Echo Module
-session - Encrypted Sessions Module
+encrypted_session - Encrypted Sessions Module
 enmemcache - Enmemcache Module
-input - Form-Input Module
-audio - HLS Audio Module
+form_input - Form-Input Module
+hls_audio - HLS Audio Module
 iconv - Iconv Module
 lua - This module adds native Lua support to NginX
-python - This module adds native Python support to NginX
-upstream - Lua Upstream Module
+lua_upstream - Lua Upstream Module
 memc - MEMC Module
 nchan - Nchan Module
 ndk - This module is like SDK for some another modules (so, it is only needed as dependency for them)
-njs - This module adds native JavaScript support in NginX
+javascript - This module adds native JavaScript support in NginX
 pagespeed - Pagespeed module
 passenger - Phusion Passenger Application Server (supporting node.js, ruby, python and so on)
-enterprise - Phusion Passenger Application Server (supporting node.js, ruby, python and so on). Enterprise version.
+passenger_enterprise - Phusion Passenger Application Server (supporting node.js, ruby, python and so on). Enterprise version.
 postgres - This module adds the ability to &quot;talk&quot; to PostgreSQL server
 rdns - This module adds hostname based (reverse-dns lookup) acces lists
-csv - RDS CSV Module
-json - RDS JSON Module
+rds_csv - RDS CSV Module
+rds_json - RDS JSON Module
 redis - This module adds the ability to &quot;talk&quot; with Redis server
-filter - Replace Filter Module
-misc - Set-Misc Module
+replace_filter - Replace Filter Module
+set_misc - Set-Misc Module
 slice - Enable slices support (read documentation before using this in production)
-cache - This module adds the ability to cache static files
+slowfs_cache - This module adds the ability to cache static files
+cache_purge - TODO
 srcache - SRCache module
-supervisord - Supervisord module
-dyups - Dynamic Upstreams Module
-fair - Upstream Fair Module
-hash - Upstream Hash Module
-keepalive - Upstream Keepalive Module
-conn - Upstream LeastConn Module
-zone - Upstream Zone Module
+upstream_hash - Upstream Hash Module
+upstream_keepalive - Upstream Keepalive Module
+upstream_least_conn - Upstream LeastConn Module
+upstream_zone - Upstream Zone Module
 v2 - HTTP2 support
 xss - XSS Module
 array_var - TODO
 encrypted_session - TODO
 ey_balancer - TODO
-form_input - TODO
-hls_audio - TODO
-lua_upstream - TODO
-passenger_enterprise - TODO
-rds_csv - TODO
-rds_json - TODO
-replace_filter - TODO
-set_misc - TODO

@@ -4,19 +4,15 @@
 # This file contains descriptions of NGINX_MODULES_STREAM USE_EXPAND flags.
 
 # Keep it sorted.
-python - This module adds native Python support to NginX
-status - TODO
 access - Access module (stream)
 geo - GEO module (stream)
 geoip - GEOIP module (stream)
-conn - LimitConn Module (stream)
+limit_conn - LimitConn Module (stream)
 lua - This module adds native Lua support to NginX (stream module API)
 map - Mapping module (stream)
 return - Return module (stream)
-clients - Split Clients Module (stream)
-hash - Upstream Hash Module (stream)
-conn - Upstream LeastConn Module (stream)
-zone - Upstream Zone Module (stream)
-dtls - Enable DTLS Support (experimental)
+split_clients - Split Clients Module (stream)
+upstream_hash - Upstream Hash Module (stream)
+upstream_least_conn - Upstream LeastConn Module (stream)
+upstream_zone - Upstream Zone Module (stream)
 traffic_status - TODO
-
