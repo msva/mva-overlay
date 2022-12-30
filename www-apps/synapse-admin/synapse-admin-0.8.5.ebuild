@@ -30,7 +30,7 @@ src_install() {
 }
 
 pkg_postinst() {
-#	local mydir="${ROOT%/}/${VHOST_ROOT}/${MY_HTDOCSBASE}/${PN}"
+#	local mydir="${EROOT}/${VHOST_ROOT}/${MY_HTDOCSBASE}/${PN}"
 #	if [ ! -e $mydir/config.json ]; then
 #		einfo Please copy config.sample.json to config.json
 #		einfo in $mydir and tune it to your needs
