@@ -5,6 +5,6 @@
     <email>spamslepnoga@inbox.ru</email>
   </maintainer>
   <use>
-    <flag name="md5"/>
+    <flag name="md5">Add support for md5 hashing function</flag>
   </use>
 </pkgmetadata>
