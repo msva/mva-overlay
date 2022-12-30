@@ -34,6 +34,8 @@ else
 fi
 
 UNIT_MODULES="perl php python ruby"
+# go java nodejs
+# ^ not needed, as can (and should) be installed with language package managers as vendored dependency while building application.
 IUSE="debug examples ipv6 ssl +unix-sockets"
 
 for mod in $UNIT_MODULES; do
