@@ -35,7 +35,7 @@ RDEPEND="
 	heif? ( media-libs/libheif[${MULTILIB_USEDEP}] )
 	imagequant? ( media-gfx/libimagequant )
 	nifti? ( media-libs/nifti[${MULTILIB_USEDEP}] )
-	jpeg? ( virtual/jpeg:0=[${MULTILIB_USEDEP}] )
+	jpeg? ( media-libs/libjpeg-turbo:0=[${MULTILIB_USEDEP}] )
 	jpeg-xl? ( media-libs/libjxl[${MULTILIB_USEDEP}] )
 	lcms? ( media-libs/lcms[${MULTILIB_USEDEP}] )
 	imagemagick? ( media-gfx/imagemagick )
@@ -70,7 +70,7 @@ BDEPEND="
 	)
 "
 
-REQUIRED_USE="^^ ( imagemagick graphicsmagick )"
+REQUIRED_USE="graphicsmagick? ( !imagemagick )"
 
 DOCS=(ChangeLog README.md)
 
