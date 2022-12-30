@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: patches.eclass
@@ -6,7 +6,7 @@
 # mva
 # @AUTHOR:
 # mva
-# @BLURB:
+# @BLURB: autopatching magic (pretty useful for me, but criticized for obscurity and looks like not suitable for gentoo repo)
 # @DESCRIPTION:
 # Eclass that checks for patches directories existance and auto-add them into PATCHES=()
 
