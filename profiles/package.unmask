@@ -1,6 +1,6 @@
 media-libs/hal-flash
-www-client/phantomjs
-dev-java/jdbc-oracle-bin
+# www-client/phantomjs
+# dev-java/jdbc-oracle-bin
 
 #travis-hack/start
 #dev-lang/lua

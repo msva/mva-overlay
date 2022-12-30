@@ -1,6 +1,0 @@
-luajit - Enable support for dev-lang/luajit
-systemtap - Install trace files for <pkg>dev-util/systemtap</pkg>
-lua_targets_lua51 - Enable Lua 5.1 interpreter target
-lua_targets_lua52 - Enable Lua 5.2 interpreter target
-lua_targets_lua53 - Enable Lua 5.3 interpreter target
-lua_targets_luajit2 - Enable LuaJIT 2 interpreter target

@@ -1,9 +1,5 @@
-move net-im/jitsi-meet net-im/jitsi-meet-electron-bin
-move net-im/jitsi-meet-bin net-im/jitsi-meet-electron-bin
 move net-im/rocketchat-bin net-im/rocketchat-desktop-bin
-
 move net-im/slack-bin net-im/slack
-
 move net-analyzer/prometheus app-metrics/prometheus
 move net-analyzer/prometheus-alertmanager app-metrics/alertmanager
 move net-analyzer/prometheus-pushgateway app-metrics/pushgateway
@@ -19,7 +15,5 @@ move net-analyzer/prometheus-haproxy_exporter app-metrics/haproxy_exporter
 move net-analyzer/prometheus-nginx_exporter app-metrics/nginx_exporter
 move net-analyzer/prometheus-phpfpm_exporter app-metrics/phpfpm_exporter
 move net-analyzer/prometheus-unbound_exporter app-metrics/unbound_exporter
-
 move sys-apps/libtsm dev-libs/libtsm
-
 move www-apps/modsecurity dev-libs/modsecurity
