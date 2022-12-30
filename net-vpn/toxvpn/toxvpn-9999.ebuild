@@ -20,7 +20,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	dev-libs/nlohmann-json
+	dev-cpp/nlohmann_json
 "
 
 src_configure() {
