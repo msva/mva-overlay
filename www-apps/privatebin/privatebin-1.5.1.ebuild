@@ -5,22 +5,19 @@ EAPI=8
 
 inherit webapp
 
-DESCRIPTION="A minimalist, open source online pastebin where the server has zero knowledge of pasted data"
+DESCRIPTION="A minimalist pastebin where the server has zero knowledge of pasted data"
 HOMEPAGE="https://privatebin.info/"
 SRC_URI="https://github.com/PrivateBin/PrivateBin/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
-#SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
 RDEPEND="
-	>=dev-lang/php-7[fpm,zlib,gd]
+	dev-lang/php[zlib,gd]
 "
 DEPEND="
 	app-admin/webapp-config
 "
-
 
 S=${WORKDIR}/PrivateBin-${PV}
 
