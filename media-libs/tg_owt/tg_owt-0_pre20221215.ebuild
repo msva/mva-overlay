@@ -35,7 +35,7 @@ REQUIRED_USE="screencast? ( pipewire )"
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
 RDEPEND="
-	>=dev-cpp/abseil-cpp-20220623.1:=[cxx17(+)]
+	>=dev-cpp/abseil-cpp-20220623.1:=
 	dev-libs/crc32c
 	dev-libs/libevent:=
 	dev-libs/openssl:=
