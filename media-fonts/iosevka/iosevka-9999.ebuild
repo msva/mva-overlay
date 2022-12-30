@@ -8,7 +8,6 @@ inherit font git-r3
 DESCRIPTION="Open source coding font"
 HOMEPAGE="https://be5invis.github.io/Iosevka"
 EGIT_REPO_URI="https://github.com/be5invis/Iosevka"
-SRC_URI=""
 
 LICENSE="OFL-1.1"
 SLOT="0"
