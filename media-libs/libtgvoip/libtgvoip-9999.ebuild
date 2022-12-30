@@ -79,6 +79,7 @@ src_configure() {
 		--disable-dsp  # WebRTC is linked from tg_owt
 		$(use_with alsa)
 		$(use_with pulseaudio pulse)
+		$(use_with pipewire pulse)
 	)
 	if use dsp; then
 		append-cppflags "-I${ESYSROOT}/usr/include/tg_owt"
