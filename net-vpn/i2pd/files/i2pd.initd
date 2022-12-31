@@ -11,8 +11,10 @@ user="${I2PD_USER}:${I2PD_GROUP}"
 start_stop_daemon_args="
     --user \"${user}\"
     --pidfile \"${I2PD_PID}\"
-    --progress --retry 'SIGTERM/20/SIGKILL/20'
+    --progress
 "
+retry="SIGTERM/20/SIGKILL/20"
+
 I2PD_PID_DIR=$(dirname "${I2PD_PID}")
 
 extra_started_commands="graceful"
@@ -33,6 +35,11 @@ start_pre() {
     fi
     checkpath -f -o "${user}" "${I2PD_LOG}"
     checkpath -d -m 0750 -o "${user}" "${I2PD_PID_DIR}"
+}
+
+stop_post() {
+    # #808845
+    rm -f "${I2PD_PID}"
 }
 
 graceful() {
