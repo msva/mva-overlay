@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake systemd git-r3
+inherit cmake systemd tmpfiles git-r3
 
 DESCRIPTION="An open source instant messaging transport"
 HOMEPAGE="https://spectrum.im"
@@ -12,7 +12,6 @@ EGIT_REPO_URI="https://github.com/SpectrumIM/spectrum2"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS=""
 
 IUSE_PLUGINS="frotz irc purple skype sms twitter whatsapp xmpp"
 IUSE="debug doc mysql postgres sqlite test ${IUSE_PLUGINS}"
@@ -48,6 +47,7 @@ RDEPEND="
 	sms? ( app-mobilephone/smstools )
 	sqlite? ( dev-db/sqlite:3 )
 	skype? ( x11-plugins/pidgin-skypeweb )
+	twitter? ( net-misc/curl )
 	whatsapp? ( net-im/transwhat )
 "
 # TODO:
@@ -60,9 +60,11 @@ DEPEND="
 BDEPEND="
 	sys-devel/gettext
 	doc? ( app-doc/doxygen )
+	test? ( dev-util/cppunit )
 "
 
-REQUIRED_USE="|| ( sqlite mysql postgres )"
+REQUIRED_USE="|| ( sqlite mysql postgres ) test? ( irc )"
+RESTRICT="!test? ( test )"
 
 src_prepare() {
 	# Respect users LDFLAGS
@@ -79,20 +81,21 @@ src_configure() {
 		-DENABLE_MYSQL="$(usex mysql)"
 		-DENABLE_PQXX="$(usex postgres)"
 		-DENABLE_PURPLE="$(usex purple)"
+		$(usex irc '-DENABLE_QT4=OFF' '')
 		-DENABLE_SMSTOOLS3="$(usex sms)"
 		-DENABLE_SQLITE3="$(usex sqlite)"
 		-DENABLE_TESTS="$(usex test)"
 		-DENABLE_TWITTER="$(usex twitter)"
 		-DENABLE_XMPP="$(usex xmpp)"
 		-DLIB_INSTALL_DIR="$(get_libdir)"
-		$(usex postgres '-DCMAKE_CXX_STANDARD=14' '')
 	)
 
 	cmake_src_configure
 }
 
 src_test() {
-	cd tests/libtransport && "${EPYTHON}" ../start.py || die
+	cd "${BUILD_DIR}/tests/libtransport" || die
+	./libtransport_test || die
 }
 
 src_install() {
@@ -108,4 +111,8 @@ src_install() {
 	systemd_newtmpfilesd "${FILESDIR}"/spectrum2.tmpfiles-r1 spectrum2.conf
 
 	einstalldocs
+}
+
+pkg_postinst() {
+	tmpfiles_process spectrum2.conf
 }
