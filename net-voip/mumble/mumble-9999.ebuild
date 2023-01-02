@@ -17,7 +17,7 @@ EGIT_SUBMODULES=(
 	# 3rdparty/tracy
 )
 
-inherit cmake xdg git-r3
+inherit cmake xdg flag-o-matic multilib git-r3
 
 DESCRIPTION="Mumble is an open source, low-latency, high quality voice chat software"
 HOMEPAGE="http://mumble.info/"
@@ -31,6 +31,8 @@ IUSE="+alsa +dbus debug g15 g15-emulator jack lto multilib optimization +overlay
 REQUIRED_USE="
 	g15-emulator? ( g15 )
 "
+
+RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-libs/openssl-1.0.0b:0=
@@ -191,7 +193,7 @@ src_install() {
 		# The 32bit overlay library gets built when multilib is enabled.
 		# Install it into the correct 32bit lib dir.
 		local libdir_64="/usr/$(get_libdir)/mumble"
-		local libdir_32="/usr/$(get_abi_var LIBDIR x86)/mumble"
+		local libdir_32="/usr/$(get_abi_LIBDIR x86)/mumble"
 		dodir ${libdir_32}
 		mv "${ED}"/${libdir_64}/libmumbleoverlay.x86.so* \
 			"${ED}"/${libdir_32}/ || die
