@@ -3,7 +3,9 @@
 
 EAPI=8
 
-inherit mercurial
+LUA_COMPAT=( lua5-{1..4} luajit )
+
+inherit lua mercurial
 
 DESCRIPTION="Add-on modules for Prosody IM Server written in Lua."
 HOMEPAGE="https://modules.prosody.im/"
@@ -12,7 +14,7 @@ EHG_REPO_URI="https://hg.prosody.im/prosody-modules"
 LICENSE="MIT"
 SLOT="0"
 
-IUSE="misc luajit"
+IUSE="misc"
 
 PROSODY_MODULES="
 	addressing adhoc-account-management adhoc-blacklist adhoc-dataforms-demo
@@ -142,11 +144,11 @@ RDEPEND="
 		dev-lua/luafilesystem
 	)
 	prosody_modules_onions? (
-		|| (
-			dev-lang/luajit
-			dev-lua/LuaBitOp
-			dev-lua/lua-bit32
-			>=dev-lang/lua-5.2
+		lua_targets_lua5-1? (
+			|| (
+				dev-lua/LuaBitOp
+				dev-lua/lua-bit32
+			)
 		)
 	)
 	prosody_modules_couchdb? (
@@ -159,13 +161,12 @@ RDEPEND="
 		dev-lua/luasec
 	)
 	prosody_modules_auth-internal-yubikey? (
-		|| (
-			dev-lang/luajit
-			dev-lua/LuaBitOp
-			dev-lua/lua-bit32
-			>=dev-lang/lua-5.2
+		lua_targets_lua5-1? (
+			|| (
+				dev-lua/LuaBitOp
+				dev-lua/lua-bit32
+			)
 		)
-		luajit? ( dev-lang/luajit )
 		dev-lua/yubikey-lua
 	)
 	prosody_modules_auth-dovecot? (
