@@ -5,7 +5,7 @@ EAPI=8
 
 LUA_COMPAT=( lua{5-1,jit} )
 
-inherit lua git-r3 toolchain-funcs
+inherit lua git-r3
 
 DESCRIPTION="Compatibility module providing Lua-5.2-style APIs for Lua 5.1"
 HOMEPAGE="https://github.com/keplerproject/lua-compat-5.2"
