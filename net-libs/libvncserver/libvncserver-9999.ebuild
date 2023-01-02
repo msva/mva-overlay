@@ -14,28 +14,24 @@ EGIT_REPO_URI="https://github.com/LibVNC/${PN}"
 LICENSE="GPL-2"
 # No sub slot wanted (yet), see #578958
 SLOT="0"
-IUSE="+24bpp examples +filetransfer ffmpeg gcrypt gnutls ipv6 +jpeg libressl +png sasl sdl ssl systemd test +threads websockets X +zlib"
+IUSE="+24bpp examples +filetransfer ffmpeg gcrypt gnutls ipv6 +jpeg lzo +png sasl sdl ssl systemd test +threads websockets X +zlib"
 REQUIRED_USE="!gnutls? ( ssl? ( threads ) )"
+RESTRICT="!test? ( test )"
 
 DEPEND="
 	sasl? ( dev-libs/cyrus-sasl:2= )
-	gcrypt? ( >=dev-libs/libgcrypt-1.5.3:0=[${MULTILIB_USEDEP}] )
+	gcrypt? ( dev-libs/libgcrypt:=[${MULTILIB_USEDEP}] )
 	gnutls? (
-		>=net-libs/gnutls-2.12.23-r6:0=[${MULTILIB_USEDEP}]
-		>=dev-libs/libgcrypt-1.5.3:0=[${MULTILIB_USEDEP}]
+		net-libs/gnutls:=[${MULTILIB_USEDEP}]
+		dev-libs/libgcrypt:=[${MULTILIB_USEDEP}]
 	)
-	!gnutls? (
-		ssl? (
-			!libressl? ( >=dev-libs/openssl-1.0.1h-r2:0=[${MULTILIB_USEDEP}] )
-			libressl? ( dev-libs/libressl:0=[${MULTILIB_USEDEP}] )
-		)
-	)
+	!gnutls? ( ssl? ( dev-libs/openssl:=[${MULTILIB_USEDEP}] ) )
 	examples? (
-		ffmpeg? ( >=media-video/ffmpeg-3.1:= )
+		ffmpeg? ( media-video/ffmpeg:= )
 		sdl? ( media-libs/libsdl:0= )
 		X? ( x11-libs/libX11:0= )
 	)
-	jpeg? ( >=virtual/jpeg-0-r2:0[${MULTILIB_USEDEP}] )
+	jpeg? ( media-libs/libjpeg-turbo:=[${MULTILIB_USEDEP}] )
 	png? ( >=media-libs/libpng-1.6.10:0=[${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd:= )
 	zlib? ( >=sys-libs/zlib-1.2.8-r1:0=[${MULTILIB_USEDEP}] )"
