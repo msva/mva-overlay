@@ -3,12 +3,11 @@
 
 EAPI=8
 
-inherit cmake toolchain-funcs desktop
+inherit cmake desktop
 
 if [[ ${PV} == 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/tora-tool/tora"
 	inherit git-r3
-	SRC_URI=""
 else
 	SRC_URI="https://github.com/tora-tool/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 fi
@@ -19,7 +18,6 @@ IUSE="debug mysql oracle oci8-instant-client postgres +experimental"
 
 SLOT="0"
 LICENSE="GPL-2"
-KEYWORDS=""
 
 RDEPEND="
 	dev-libs/ferrisloki
@@ -32,7 +30,7 @@ RDEPEND="
 	dev-qt/qtwidgets:5=
 	dev-qt/qtxml:5=
 	dev-qt/qtxmlpatterns:5=
-	oci8-instant-client? ( dev-db/oracle-instantclient-basic )
+	oci8-instant-client? ( dev-db/oracle-instantclient )
 	postgres? ( dev-db/postgresql:* )
 "
 DEPEND="
