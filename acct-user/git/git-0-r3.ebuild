@@ -8,7 +8,7 @@ inherit acct-user
 DESCRIPTION="Git repository hosting user"
 
 IUSE="git gitea gitolite gitprep"
-REQUIRED_USE="^^ ( git gitea gitolite gitprep )"
+REQUIRED_USE="?? ( git gitea gitolite gitprep )"
 
 ACCT_USER_ID=196
 ACCT_USER_HOME_OWNER=git:git
