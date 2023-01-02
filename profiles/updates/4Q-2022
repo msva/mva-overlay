@@ -1,3 +1,5 @@
+move net-im/jitsi-meet net-im/jitsi-meet-electron-bin
+move net-im/jitsi-meet-bin net-im/jitsi-meet-electron-bin
 move net-im/rocketchat-bin net-im/rocketchat-desktop-bin
 move net-im/slack-bin net-im/slack
 move net-analyzer/prometheus app-metrics/prometheus
