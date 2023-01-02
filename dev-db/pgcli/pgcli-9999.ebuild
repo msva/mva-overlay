@@ -3,10 +3,9 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 
-DISTUTILS_SINGLE_IMPL=yes
-DISTUTILS_USE_SETUPTOOLS=rdepend
+DISTUTILS_USE_PEP517=setuptools
 
 inherit distutils-r1 git-r3
 
@@ -16,7 +15,6 @@ EGIT_REPO_URI="https://github.com/dbcli/pgcli"
 
 LICENSE="BSD MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="keyring +ssh"
 
 RDEPEND="$(python_gen_cond_dep '
