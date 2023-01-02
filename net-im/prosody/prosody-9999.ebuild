@@ -8,13 +8,12 @@ LUA_REQ_USE="deprecated(+)"
 
 inherit lua-single systemd tmpfiles toolchain-funcs mercurial
 
-DESCRIPTION="Prosody is a flexible communications server for Jabber/XMPP written in Lua."
-HOMEPAGE="http://prosody.im/"
-EHG_REPO_URI="http://hg.prosody.im/trunk"
+DESCRIPTION="Prosody is a modern XMPP communication server"
+HOMEPAGE="https://prosody.im/"
+EHG_REPO_URI="https://hg.prosody.im/trunk"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="icu +idn +libevent ldap migration mysql postgres selinux +sqlite +ssl test +zlib"
 REQUIRED_USE="
 	^^ ( icu idn )
@@ -87,8 +86,8 @@ src_configure() {
 		--sysconfdir="${EPREFIX}/etc/prosody"
 		--with-lua-include="${EPREFIX}/$(lua_get_include_dir)"
 		--with-lua-lib="${EPREFIX}/$(lua_get_cmod_dir)"
-		--cflags="${CFLAGS} -Wall -fPIC -std=c99"
-		--ldflags="${LDFLAGS} -shared"
+		# --cflags="${CFLAGS} -Wall -fPIC -std=c99"
+		# --ldflags="${LDFLAGS} -shared"
 	)
 
 	use lua_single_target_luajit && {
