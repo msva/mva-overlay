@@ -3,12 +3,11 @@
 
 EAPI=8
 
-inherit vcs-snapshot cmake
+inherit cmake
 
-COMMIT_ID="b44b1fad854c726dda3ec7bfc96fe2d437d4343f"
 DESCRIPTION="Free and simple TrueCrypt Implementation based on dm-crypt"
 HOMEPAGE="https://github.com/bwalex/tc-play"
-SRC_URI="https://github.com/bwalex/tc-play/tarball/${COMMIT_ID} -> ${P}.tar.gz"
+SRC_URI="https://github.com/bwalex/tc-play/archive/v${PN}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
@@ -19,13 +18,13 @@ S="${WORKDIR}"/${P}
 # Tests need root privileges, access to /dev/loop0 and mostly fail
 RESTRICT="test"
 
-RDEPEND+="
+RDEPEND="
 	dev-libs/libgpg-error
 	>=dev-libs/libgcrypt-1.5.0:0
 	sys-apps/util-linux
 	sys-fs/lvm2
 "
-DEPEND+=" ${RDEPEND}"
+DEPEND=" ${RDEPEND}"
 
 # without some kernel modules, this isn't going to work
 CONFIG_CHECK="~CRYPTO_RMD160 ~CRYPTO_SHA512 ~CRYPTO_WP512 ~CRYPTO_LRW
