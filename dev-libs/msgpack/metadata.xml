@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <longdescription>MessagePack is a binary-based efficient data interchange format</longdescription>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
   <use>
-    <flag name="boost"/>
-    <flag name="cxx"/>
-    <flag name="cxx11"/>
+    <flag name="boost">Build <pkg>dev-libs/boost</pkg> bindings</flag>
+    <flag name="cxx">Also install CXX version</flag>
     <!-- <flag name="static-libs"></flag>-->
-    <flag name="test"/>
   </use>
 </pkgmetadata>

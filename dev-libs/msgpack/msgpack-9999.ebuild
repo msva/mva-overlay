@@ -3,23 +3,24 @@
 
 EAPI=8
 
-CMAKE_ECLASS=cmake
 inherit cmake-multilib git-r3
 
 EGIT_REPO_URI="https://github.com/${PN}/${PN}-c.git"
 EGIT_BRANCH="c_master"
-KEYWORDS=""
 
 DESCRIPTION="MessagePack is a binary-based efficient data interchange format"
 HOMEPAGE="http://msgpack.org/ https://github.com/msgpack/msgpack-c/"
 
-LICENSE="Apache-2.0"
+LICENSE="Boost-1.0"
 SLOT="0/2"
 IUSE="+cxx boost doc static-libs test examples"
+RESTRICT="!test? ( test )"
 
+BDEPEND="doc? ( app-doc/doxygen[dot] )"
+RDEPEND="
+	boost? ( dev-libs/boost[context,${MULTILIB_USEDEP}] )
+"
 DEPEND="
-	cxx? ( dev-libs/boost[context,${MULTILIB_USEDEP}] )
-	doc? ( app-doc/doxygen[dot] )
 	test? (
 		>=dev-cpp/gtest-1.6.0-r2[${MULTILIB_USEDEP}]
 		sys-libs/zlib[${MULTILIB_USEDEP}]
