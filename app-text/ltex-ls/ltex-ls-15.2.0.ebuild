@@ -27,7 +27,7 @@ CP_DEPEND="
 	dev-java/jaxb-api:2
 	dev-java/jaxb-runtime:4
 	dev-java/picocli:0
-	dev-java/protobuf-java:0/30
+	dev-java/protobuf-java:0
 	dev-java/stax2-api:0
 	dev-java/woodstox-core:0
 	dev-java/json:0
@@ -61,6 +61,22 @@ src_prepare() {
 
 src_compile() { :; }
 
+_gen-cp() {
+	debug-print-function ${FUNCNAME} "${@}"
+
+	local atom
+	for atom in ${CP_DEPEND}; do
+		if [[ ${atom} =~ /(([[:alnum:]+_-]+)-[0-9]+(\.[0-9]+)*[a-z]?(_[[:alnum:]]+)*(-r[0-9]*)?|[[:alnum:]+_-]+):([[:alnum:]+_.-]+) ]]; then
+			atom=${BASH_REMATCH[2]:-${BASH_REMATCH[1]}}
+			[[ ${BASH_REMATCH[6]} != 0 ]] && atom+=-${BASH_REMATCH[6]}
+			local regex="(^|\s|,)${atom}($|\s|,)"
+			[[ ${!1} =~ ${regex} ]] || declare -g ${1}+=${!1:+,}${atom}
+		else
+			die "Invalid CP_DEPEND atom ${atom}, ensure a SLOT is included"
+		fi
+	done
+}
+
 src_install() {
 	java-pkg_dojar lib/*.jar
 
@@ -71,6 +87,6 @@ src_install() {
 	dodoc ACKNOWLEDGMENTS.md README.md
 
 	unset MY_DEPEND
-	java-pkg_gen-cp MY_DEPEND
+	_gen-cp MY_DEPEND
 	java-pkg_register-dependency "${MY_DEPEND}"
 }
