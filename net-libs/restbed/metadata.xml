@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
   <longdescription>Restbed is a comprehensive and consistent programming model for building applications that require seamless and secure communication over HTTP</longdescription>
+  <use>
+    <flag name="ipc">Build unix domain socket layer support</flag>
+  </use>
 </pkgmetadata>
