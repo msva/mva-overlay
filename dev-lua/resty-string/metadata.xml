@@ -9,4 +9,7 @@
   <use>
     <flag name="naive-random">Enable Naive random implementation</flag>
   </use>
+  <upstream>
+    <remote-id type="github">openresty/lua-resty-string</remote-id>
+  </upstream>
 </pkgmetadata>
