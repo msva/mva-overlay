@@ -8,4 +8,7 @@
   <use>
     <flag name="rdma">RDMA support</flag>
   </use>
+  <upstream>
+    <remote-id type="github">chaos/diod</remote-id>
+  </upstream>
 </pkgmetadata>
