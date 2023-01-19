@@ -50,9 +50,10 @@ src_prepare() {
 	default
 
 	rm lib/{slf4j,guava,icu4j,junit,hamcrest-core,FastInfoset,animal-sniffer-annotations}*.jar || die
-	# rm lib/jansi*.jar || die # somewhy brakes removing it causes ltex-ls to stop produce colors/boldness (ascii-sequences)
+	# rm lib/jansi*.jar || die # somewhy removing it causes ltex-ls to stop produce colors/boldness ascii-sequences
 	rm lib/checker-qual-*.jar || die # may cuse breakages. Needs testing.
-	rm lib/{commons-{lang3,text,logging},error_prone_annotations,failureaccess,istack-commons-runtime,j2objc-annotations,jackson,jaxb-api,json,picocli,protobuf-java,stax2-api,woodstox-core}*.jar || die
+	rm lib/{commons-{lang3,text,logging},error_prone_annotations,failureaccess,istack-commons-runtime}*.jar || die
+	rm lib/{j2objc-annotations,jackson,jaxb-api,json,picocli,protobuf-java,stax2-api,woodstox-core}*.jar || die
 
 	mv lib/"${P/x-l/xl}".jar lib/"${PN}".jar || die
 
@@ -65,8 +66,9 @@ _gen-cp() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	local atom
+	local pat="/(([[:alnum:]+_-]+)-[0-9]+(\.[0-9]+)*[a-z]?(_[[:alnum:]]+)*(-r[0-9]*)?|[[:alnum:]+_-]+):([[:alnum:]+_.-]+)"
 	for atom in ${CP_DEPEND}; do
-		if [[ ${atom} =~ /(([[:alnum:]+_-]+)-[0-9]+(\.[0-9]+)*[a-z]?(_[[:alnum:]]+)*(-r[0-9]*)?|[[:alnum:]+_-]+):([[:alnum:]+_.-]+) ]]; then
+		if [[ ${atom} =~ ${pat} ]]; then
 			atom=${BASH_REMATCH[2]:-${BASH_REMATCH[1]}}
 			[[ ${BASH_REMATCH[6]} != 0 ]] && atom+=-${BASH_REMATCH[6]}
 			local regex="(^|\s|,)${atom}($|\s|,)"
