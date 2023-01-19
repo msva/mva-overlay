@@ -10,4 +10,7 @@
     <flag name="uwsgi">Enable support for uwsgi protocol</flag>
     <flag name="fcgi">Enable support for fastcgi protocol</flag>
   </use>
+  <upstream>
+    <remote-id type="github">keplerproject/wsapi</remote-id>
+  </upstream>
 </pkgmetadata>

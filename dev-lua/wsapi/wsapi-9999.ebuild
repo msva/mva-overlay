@@ -45,7 +45,15 @@ src_prepare() {
 each_lua_make() {
 	pushd "${BUILD_DIR}"
 	if use fcgi; then
-		$(tc-getCC) ${CFLAGS} -fPIC ${LDFLAGS} -shared "-I$(lua_get_include_dir)" -o src/fastcgi/lfcgi.so src/fastcgi/lfcgi.c -lfcgi
+		$(tc-getCC) \
+			${CFLAGS} \
+			-fPIC \
+			${LDFLAGS} \
+			-shared \
+			"-I$(lua_get_include_dir)" \
+			-o src/fastcgi/lfcgi.so \
+			src/fastcgi/lfcgi.c \
+			-lfcgi
 	fi
 	popd
 }
