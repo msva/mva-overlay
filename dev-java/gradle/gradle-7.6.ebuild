@@ -42,7 +42,8 @@ src_prepare() {
 src_compile() {
 	local inst_target="install"
 	use doc && inst_target="installAll"
-#	TERM=dumb ./gradlew --console=rich --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist || die 'Gradle build failed'
+#	TERM=dumb ./gradlew --console=rich --gradle-user-home "${WORKDIR}" "${inst_target}" -Pgradle_installPath=dist \
+#		|| die 'Gradle build failed'
 ##	^^^^^^^^^ - buildtime workaround of https://github.com/gradle/gradle/issues/4426
 	EGRADLE_BIN="./gradlew" egradle "${inst_target}" -Pgradle_installPath=dist
 }
