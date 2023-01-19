@@ -11,4 +11,7 @@
     <flag name="low-ram">Split build to many files, which adds possibility to build on machines with low RAM values by price of longer compilation time</flag>
     <flag name="lto">Enable Link Time Optimizations</flag>
   </use>
+  <upstream>
+    <remote-id type="github">tdlib/td</remote-id>
+  </upstream>
 </pkgmetadata>
