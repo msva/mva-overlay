@@ -11,4 +11,7 @@
     <flag name="json">Enable JSON support</flag>
     <flag name="python">Enable Python support</flag>
   </use>
+  <upstream>
+    <remote-id type="github">vysheng/tg</remote-id>
+  </upstream>
 </pkgmetadata>

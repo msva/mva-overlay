@@ -35,7 +35,10 @@ pkg_setup() {
 	use lua && lua-single_pkg_setup
 	use python && python-single-r1_pkg_setup
 
-	eerror "This shit doesn't build anyway: -Werrors of many kinds, linking errors (tries to link from /lib on amd64), and so on"
+	eerror "This shit doesn't build anyway:"
+	eerror "-Werrors of many kinds,"
+	eerror "linking errors (tries to link from /lib on amd64),"
+	eerror "and so on"
 }
 
 src_configure() {
