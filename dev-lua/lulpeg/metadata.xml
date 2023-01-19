@@ -9,4 +9,7 @@
   <use>
     <flag name="lpeg-replace">Install this package as replace of <pkg>dev-lua/lpeg</pkg></flag>
   </use>
+  <upstream>
+    <remote-id type="github">pygy/LuLPeg</remote-id>
+  </upstream>
 </pkgmetadata>
