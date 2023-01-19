@@ -9,4 +9,7 @@
   <use>
     <flag name="system-ffmpeg">Use system <pkg>media-video/ffmpeg</pkg> instead of bundled</flag>
   </use>
+  <upstream>
+    <remote-id type="github">jitsi/jitsi-meet-electron</remote-id>
+  </upstream>
 </pkgmetadata>
