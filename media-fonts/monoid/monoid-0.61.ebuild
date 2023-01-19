@@ -9,9 +9,11 @@ MONOISOME_SHA="f99f8de71dfd77b11fd1247e551ab6e33915f1e0"
 
 DESCRIPTION="Open source coding font"
 HOMEPAGE="https://larsenwork.com/monoid https://github.com/larsenwork/monoid"
+
+GH="https://github.com/larsenwork/${PN}"
 SRC_URI="
 	mirror://gentoo/${P}.tar.gz
-	monoisome? ( https://github.com/larsenwork/monoid/raw/${MONOISOME_SHA}/Monoisome/Monoisome-Regular.ttf -> Monoisome-Regular-${MONOISOME_SHA}.ttf )
+	monoisome? ( ${GH}/raw/${MONOISOME_SHA}/Monoisome/Monoisome-Regular.ttf -> Monoisome-Regular-${MONOISOME_SHA}.ttf )
 "
 
 LICENSE="MIT OFL-1.1"
