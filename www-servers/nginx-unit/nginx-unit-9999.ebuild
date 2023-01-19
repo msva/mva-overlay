@@ -34,6 +34,8 @@ else
 fi
 
 UNIT_MODULES="perl php python ruby"
+# go java nodejs
+# ^ not needed, as unit stuf normally installs with language package managers as vendored dependency of application
 IUSE="debug examples ipv6 ssl +unix-sockets"
 
 for mod in $UNIT_MODULES; do
@@ -110,7 +112,11 @@ _unit_perl_configure() {
 }
 _unit_php_configure() {
 	for impl in $(php_get_slots); do
-		./configure php --config="/usr/$(get_libdir)/${impl}/bin/php-config" --module="${impl/.}" --lib-path="/usr/$(get_libdir)/${impl}/$(get_libdir)" || die "Failed to configure PHP module for ${impl} target"
+		./configure php \
+			--config="/usr/$(get_libdir)/${impl}/bin/php-config" \
+			--module="${impl/.}" \
+			--lib-path="/usr/$(get_libdir)/${impl}/$(get_libdir)" \
+		|| die "Failed to configure PHP module for ${impl} target"
 	done
 }
 _unit_python_configure() {
