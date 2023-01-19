@@ -17,4 +17,7 @@
     <flag name="proxy-openssl">Build DHT proxy with OpenSSL</flag>
     <flag name="push-notifications">Enable push notifications support</flag>
   </use>
+  <upstream>
+    <remote-id type="github">savoirfairelinux/opendht</remote-id>
+  </upstream>
 </pkgmetadata>
