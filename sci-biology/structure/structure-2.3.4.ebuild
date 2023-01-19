@@ -5,10 +5,11 @@ EAPI=8
 
 DESCRIPTION="Package for using multi-locus genotype data to investigate population structure"
 HOMEPAGE="http://pritchardlab.stanford.edu/structure.html"
+BASE="https://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}"
 SRC_URI="
-	http://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}_kernel_source.tar.gz -> ${PN}_kernel_source-${PV}.tar.gz
-	java? ( http://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}_frontend_source.tar.gz -> ${PN}_frontend_source-${PV}.tar.gz )
-	doc? ( http://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}_doc.pdf -> ${PN}_doc-${PV}.pdf )
+	${BASE}_kernel_source.tar.gz -> ${PN}_kernel_source-${PV}.tar.gz
+	java? ( ${BASE}_frontend_source.tar.gz -> ${PN}_frontend_source-${PV}.tar.gz )
+	doc? (  ${BASE}_doc.pdf -> ${PN}_doc-${PV}.pdf )
 "
 
 KEYWORDS="~amd64 ~x86"
