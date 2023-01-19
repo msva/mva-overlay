@@ -9,4 +9,7 @@
   <use>
     <flag name="system-unicode-data">Use <pkg>app-i18n/unicode-data</pkg> to regenerate known unicode ranges table</flag>
   </use>
+  <upstream>
+    <remote-id type="github">starwing/luautf8</remote-id>
+  </upstream>
 </pkgmetadata>
