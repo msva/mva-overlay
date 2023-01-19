@@ -75,8 +75,12 @@ src_prepare() {
 src_configure() {
 	if use qt5 ; then
 		pushd src/gui-qt > /dev/null || die
-		eqmake5 \
-			'DEFINES+=DATA_DIR=\\\"'"${EPREFIX}"'/usr/share/${PN}/\\\" CONFIG_DIR=\\\"'"${EPREFIX}"'/etc/${PN}/\\\" DOC_DIR=\\\"'"${EPREFIX}"'/usr/share/doc/${PF}/\\\"'
+		defines=(
+			'DATA_DIR=\\\"'"${EPREFIX}"'/usr/share/${PN}/\\\"'
+			'CONFIG_DIR=\\\"'"${EPREFIX}"'/etc/${PN}/\\\"'
+			'DOC_DIR=\\\"'"${EPREFIX}"'/usr/share/doc/${PF}/\\\"'
+		)
+		eqmake5 'DEFINES+='"${defines[@]}"
 		popd > /dev/null || die
 	fi
 }
