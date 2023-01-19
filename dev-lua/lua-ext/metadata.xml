@@ -9,4 +9,7 @@
   <use>
     <flag name="gcmem">Add "gcmem" extension</flag>
   </use>
+  <upstream>
+    <remote-id type="github">thenumbernine/lua-ext</remote-id>
+  </upstream>
 </pkgmetadata>
