@@ -11,4 +11,7 @@
     <flag name="system-lzma">Use <pkg>app-arch/lzma</pkg> instead of bundled version</flag>
     <flag name="system-zlib">Use <pkg>sys-libs/zlib</pkg> instead of bundled version</flag>
   </use>
+  <upstream>
+    <remote-id type="github">mkottman/ltn12ce</remote-id>
+  </upstream>
 </pkgmetadata>
