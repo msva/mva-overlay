@@ -9,4 +9,7 @@
   <use>
     <flag name="moonscript">Also compile to moonscript, to use with <pkg>dev-lua/moonscript</pkg></flag>
   </use>
+  <upstream>
+    <remote-id type="github">leafo/lapis</remote-id>
+  </upstream>
 </pkgmetadata>
