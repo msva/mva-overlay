@@ -9,4 +9,7 @@
   <use>
     <flag name="static-mongoc">Build mongoc statically</flag>
   </use>
+  <upstream>
+    <remote-id type="github">mongodb/mongo-cxx-driver</remote-id>
+  </upstream>
 </pkgmetadata>
