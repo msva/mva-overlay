@@ -6,4 +6,8 @@
     <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
+  <upstream>
+    <remote-id type="bitbucket">olegoandreev/purple-vk-plugin</remote-id>
+    <remote-id type="github">SergeyDjam/purple-vk-plugin</remote-id>
+  </upstream>
 </pkgmetadata>
