@@ -33,7 +33,13 @@ src_prepare() {
 
 	# Remove Lua autodetection
 	# Respect users CFLAGS
-	sed -e '/LUAPATH :=/d' -e '/LUAPATH_FN =/d' -e '/HAVE_API_FN =/d' -e '/WITH_API_FN/d' -e 's/-O2//g' -i GNUmakefile || die
+	sed \
+		-e '/LUAPATH :=/d' \
+		-e '/LUAPATH_FN =/d' \
+		-e '/HAVE_API_FN =/d' \
+		-e '/WITH_API_FN/d' \
+		-e 's/-O2//g' \
+	-i GNUmakefile || die
 
 	lua_copy_sources
 }
