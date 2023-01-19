@@ -4,4 +4,7 @@
   <maintainer type="person">
     <email>gentoo-overlay@mva.name</email>
   </maintainer>
+  <upstream>
+    <remote-id type="sourceforge">inkscape-tables</remote-id>
+  </upstream>
 </pkgmetadata>
