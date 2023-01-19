@@ -10,4 +10,7 @@
     <flag name="webfonts">Install so called &quot;web&quot; fonts (woff{,2}, eot)</flag>
     <flag name="icons">Install &quot;icons&quot; version of the font (svgs)</flag>
   </use>
+  <upstream>
+    <remote-id type="github">konpa/devicon</remote-id>
+  </upstream>
 </pkgmetadata>
