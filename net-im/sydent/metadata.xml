@@ -9,4 +9,7 @@
   <use>
     <flag name='gammu'>Use <pkg>app-mobilephone/gammu</pkg> to send SMS</flag>
   </use>
+  <upstream>
+    <remote-id type="github">matrix-org/sydent</remote-id>
+  </upstream>
 </pkgmetadata>
