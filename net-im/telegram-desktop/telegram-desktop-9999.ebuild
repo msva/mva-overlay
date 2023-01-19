@@ -121,7 +121,8 @@ RESTRICT="!test? ( test )"
 
 pkg_pretend() {
 	if use wayland && use webkit; then
-		ewarn "If you use Wayland as you main graphic system, keep in mind that embedded webview (webkit) that is used for payments doesn't work with it."
+		ewarn "If you use Wayland as you main graphic system, keep in mind that embedded webview (webkit),"
+		ewarn "which is used for payments, doesn't work on 'clean' wayland (without xwayland mode)."
 	fi
 	if ! use webrtc; then
 		eerror "Telegram Desktop's upstream made webrtc mandatory for build."
@@ -140,25 +141,18 @@ pkg_pretend() {
 			eerror "- /etc/portage/make.conf (globally, so all applications you'll build will see that ID and HASH"
 			eerror "- /etc/portage/env/${CATEGORY}/${PN} (privately for this package builds)"
 			eerror ""
-			die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables if you want custom-api-id USE-flag"
+			die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables"
 		fi
 	fi
 
-	# if tc-is-gcc && ver_test "$(gcc-major-version).$(gcc-minor-version)" -gt "12.0" && [[ -z "${TG_FORCE_GCC12}" ]]; then
-	# 	eerror "${PN} was known to fail compilation with GCC >=12, but it may be fixed already"
-	#    	eerror "(Unfortunately, I still have no spare time to test with both compilers every time, so I only test time to time)."
-	# 	eerror "Please, cpnsider to use either GCC versions newer than 8 and older than 12, or clang (older than 15 :) )."
-	# 	eerror "You can use package.env for setting CC/CXX on per-package level."
-	# 	eerror "Alternatively, you can set TG_FORCE_GCC12=1 to override this check (and have a chance to fail during compilation)."
-	# 	einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
-	# 	einfo  "fixes for compilation problems you'd meet with skipping the check :)"
-	# fi
-
-	if tc-is-clang && ver_test "$(clang-major-version).$(clang-minor-version)" -gt "15.0" && [[ -z "${TG_FORCE_CLANG15}" ]]; then
+	if tc-is-clang &&
+	ver_test "$(clang-major-version).$(clang-minor-version)" -gt "15.0" &&
+	[[ -z "${TG_FORCE_CLANG15}" ]]; then
 		eerror "${PN} is known to fail compilation with Clang >=15."
 		eerror "Please, use either Clang versions older than 15."
 		eerror "You can use package.env for setting CC/CXX on per-package level."
-		eerror "Alternatively, you can set TG_FORCE_CLANG15=1 to override this check (and most probably fail during compilation)."
+		eerror "Alternatively, you can set TG_FORCE_CLANG15=1 to override this check"
+		eerror "(and most probably fail during compilation)."
 		einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
 		einfo  "fixes for compilation problems you'd meet with skipping the check :)"
 		die "Clang >= 15 is not supported ATM by tdesktop upstream, read 'eerror's above for advices."
@@ -180,10 +174,12 @@ pkg_pretend() {
 		eerror "Build will definitelly fail. You've been warned!"
 		eerror "Even if you have custom patches to make it build, there is another issue:"
 		ewarn ""
-		ewarn "Unfortunately, ${PN} uses custom modifications over rlottie (which aren't accepted by upstream, since they made it another way)."
+		ewarn "Unfortunately, ${PN} uses custom modifications over rlottie"
+		ewarn "(which aren't accepted by upstream, since they made it another way)."
 		ewarn "This leads to following facts:"
 		ewarn "  - Colors replacement maps are not working when you link against system rlottie package."
-		ewarn "      That means, for example, that 'giant animated emojis' will ignore skin-tone colors and will always be yellow"
+		ewarn "      That means, for example, that 'giant animated emojis' will ignore skin-tone colors"
+		ewarn "      and will always be yellow"
 		ewarn "      Ref: https://github.com/Samsung/rlottie/pull/252"
 		ewarn "  - Crashes on some stickerpacks"
 		ewarn "      Probably related to: https://github.com/Samsung/rlottie/pull/262"
@@ -196,7 +192,8 @@ src_unpack() {
 	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
 	use system-variant && EGIT_SUBMODULES+=(-Telegram/ThirdParty/variant)
-	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie}) # Ref: https://bugs.gentoo.org/752417
+	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
+	# ^ Ref: https://bugs.gentoo.org/752417
 
 	git-r3_src_unpack
 }
@@ -228,7 +225,10 @@ src_prepare() {
 
 src_configure() {
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
-	append-cppflags '-DNDEBUG' # Telegram sets that in code (and I also forced that here and in libtgvoip ebuild to have the same behaviour), and segfaults on voice calls on mismatch (if tg was built with it, and deps are built without it, and vice versa)
+	append-cppflags '-DNDEBUG' # Telegram sets that in code
+	# (and I also forced that here and in libtgvoip ebuild to have the same behaviour),
+	# and segfaults on voice calls on mismatch
+	# (if tg was built with it, and deps are built without it, and vice versa)
 	use lto && (
 		append-flags '-flto'
 		append-ldflags '-flto'
@@ -264,7 +264,6 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex !dbus)
 
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
-		# https://github.com/desktop-app/lib_ui/commit/d5a37c74b17b2c06b0d37f9a16129c70e0581c57#diff-1e7de1ae2d059d21e1dd75d5812d5a34b0222cef273b7c3a2af62eb747f9d20aR273-R281
 
 		-DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X)
 
@@ -280,7 +279,8 @@ src_configure() {
 		-DTDESKTOP_API_ID=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_ID}" "611335")
 		-DTDESKTOP_API_HASH=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_HASH}" "d524b414d21f4d37f08684c1df41ac9c")
 
-#		-DDESKTOP_APP_LOTTIE_USE_CACHE=NO # in case of caching bugs. Maybe also useful with system-rlottie[cache]. TODO: test that idea.
+#		-DDESKTOP_APP_LOTTIE_USE_CACHE=NO
+#		# in case of caching bugs. Maybe also useful with system-rlottie[cache]. TODO: test that idea.
 	)
 	cmake_src_configure
 }
