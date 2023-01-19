@@ -8,4 +8,7 @@
   <use>
     <flag name="zeromq">Use net-libs/zeromq for queues management</flag>
   </use>
+  <upstream>
+    <remote-id type="github">cleverca22/toxvpn</remote-id>
+  </upstream>
 </pkgmetadata>
