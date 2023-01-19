@@ -9,4 +9,7 @@
   <use>
     <flag name="completion">Add support for completions</flag>
   </use>
+  <upstream>
+    <remote-id type="github">jdesgats/ILuaJIT</remote-id>
+  </upstream>
 </pkgmetadata>
