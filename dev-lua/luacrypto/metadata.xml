@@ -10,4 +10,7 @@
     <flag name="openssl">Use OpenSSL as crypto backend</flag>
     <flag name="gcrypt">Use libgcrypt as crypto backend</flag>
   </use>
+  <upstream>
+    <remote-id type="github">msva/lua-crypto</remote-id>
+  </upstream>
 </pkgmetadata>
