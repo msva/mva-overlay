@@ -10,4 +10,7 @@
     <flag name="lint">Support for linting</flag>
     <flag name="format">Support for formatting</flag>
   </use>
+  <upstream>
+    <remote-id type="github">Alloyed/lua-lsp</remote-id>
+  </upstream>
 </pkgmetadata>
