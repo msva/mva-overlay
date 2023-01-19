@@ -4,4 +4,7 @@
   <maintainer type="person">
     <email>jazzvoid@gmail.com</email>
   </maintainer>
+  <upstream>
+    <remote-id type="github">42wim/matterbridge</remote-id>
+  </upstream>
 </pkgmetadata>
