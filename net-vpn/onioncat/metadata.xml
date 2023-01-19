@@ -14,4 +14,7 @@
     <flag name="rtt">enable inband RTT measurement</flag>
     <flag name="i2p">install GarliCat (I2P-version)</flag>
   </use>
+  <upstream>
+    <remote-id type="github">rahra/onioncat</remote-id>
+  </upstream>
 </pkgmetadata>
