@@ -524,7 +524,7 @@ HOMEPAGE="
 #	nginx_modules_stream_dtls? ( https://nginx.org/patches/dtls/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff )
 #	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 SRC_URI="
-	https://nginx.org/download/${P}.tar.gz -> ${P}.tar.gz
+	https://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_pagespeed? (
 		${HTTP_PAGESPEED_MODULE_URI} -> ${HTTP_PAGESPEED_MODULE_P}.tar.gz
 		x86? ( ${HTTP_PAGESPEED_PSOL_URI/__ARCH__/ia32} -> ${HTTP_PAGESPEED_PSOL_P}.x86.tar.gz )
@@ -534,9 +534,11 @@ SRC_URI="
 	nginx_modules_http_rdns? ( ${HTTP_RDNS_MODULE_URI} -> ${HTTP_RDNS_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_hls_audio? ( ${HTTP_HLS_AUDIO_MODULE_URI} -> ${HTTP_HLS_AUDIO_MODULE_P}.tar.gz )
-	nginx_modules_http_encrypted_session? ( ${HTTP_ENCRYPTED_SESSION_MODULE_URI} -> ${HTTP_ENCRYPTED_SESSION_MODULE_P}.tar.gz )
+	nginx_modules_http_encrypted_session? (
+		${HTTP_ENCRYPTED_SESSION_MODULE_URI} -> ${HTTP_ENCRYPTED_SESSION_MODULE_P}.tar.gz
+	)
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
-	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} -> ${HTTP_CTPP_MODULE_P}.tar.gz )
+	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} )
 	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
@@ -585,9 +587,15 @@ SRC_URI="
 	nginx_modules_http_auth_ldap? ( ${HTTP_AUTH_LDAP_MODULE_URI} -> ${HTTP_AUTH_LDAP_MODULE_P}.tar.gz )
 	nginx_modules_stream_lua? ( ${STREAM_LUA_MODULE_URI} -> ${STREAM_LUA_MODULE_P}.tar.gz )
 	nginx_modules_core_rtmp? ( ${CORE_RTMP_MODULE_URI} -> ${CORE_RTMP_MODULE_P}.tar.gz )
-	nginx_modules_http_vhost_traffic_status? ( ${HTTP_VHOST_TRAFFIC_STATUS_MODULE_URI} -> ${HTTP_VHOST_TRAFFIC_STATUS_MODULE_P}.tar.gz )
-	nginx_modules_stream_traffic_status? ( ${STREAM_TRAFFIC_STATUS_MODULE_URI} -> ${STREAM_TRAFFIC_STATUS_MODULE_P}.tar.gz )
-	nginx_modules_core_stream_traffic_status? ( ${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_URI} -> ${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P}.tar.gz )
+	nginx_modules_http_vhost_traffic_status? (
+		${HTTP_VHOST_TRAFFIC_STATUS_MODULE_URI} -> ${HTTP_VHOST_TRAFFIC_STATUS_MODULE_P}.tar.gz
+	)
+	nginx_modules_stream_traffic_status? (
+		${STREAM_TRAFFIC_STATUS_MODULE_URI} -> ${STREAM_TRAFFIC_STATUS_MODULE_P}.tar.gz
+	)
+	nginx_modules_core_stream_traffic_status? (
+		${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_URI} -> ${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P}.tar.gz
+	)
 	nginx_modules_http_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
 	nginx_modules_stream_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
 	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.tar.gz )
@@ -1019,10 +1027,14 @@ src_prepare() {
 	sed -i -e '/koi-/d' -e '/win-/d' auto/install || die
 
 	# Increasing error string (to have possibility to get all modules in nginx -V output)
-	sed -i -e "/^#define NGX_MAX_ERROR_STR/s|\(NGX_MAX_ERROR_STR\).*|\1 ${NGINX_MAX_ERROR_LENGTH:-4096}|" "${S}"/src/core/ngx_log.h
+	sed -i \
+		-e "/^#define NGX_MAX_ERROR_STR/s|\(NGX_MAX_ERROR_STR\).*|\1 ${NGINX_MAX_ERROR_LENGTH:-4096}|" \
+		"${S}"/src/core/ngx_log.h
 
 	# Increasing maximum dyn modules amount
-	sed -i -e "/^#define NGX_MAX_DYNAMIC_MODULES/s|\(NGX_MAX_DYNAMIC_MODULES\).*|\1 ${NGINX_MAX_DYNAMIC_MODULES:-256}|" "${S}"/src/core/ngx_module.c
+	sed -i \
+		-e "/^#define NGX_MAX_DYNAMIC_MODULES/s|\(NGX_MAX_DYNAMIC_MODULES\).*|\1 ${NGINX_MAX_DYNAMIC_MODULES:-256}|" \
+		"${S}"/src/core/ngx_module.c
 
 	# don't install to /etc/nginx/ if not in use
 	local module
@@ -1081,7 +1093,8 @@ src_prepare() {
 
 		sed \
 			-e 's#local/include#include#' \
-			-i "${HTTP_PASSENGER_SRC_WD}"/src/ruby_supportlib/phusion_passenger/platform_info/cxx_portability.rb || die "cxx_portability.rb"
+			-i "${HTTP_PASSENGER_SRC_WD}"/src/ruby_supportlib/phusion_passenger/platform_info/cxx_portability.rb ||
+				die "cxx_portability.rb"
 
 		sed -r \
 			-e '/is_nan_helper/s@(return) (::isnan)@\1 std\2@' \
@@ -1807,7 +1820,8 @@ pkg_postinst() {
 				# We are updating an installation where we already informed
 				# that we are mitigating HTTPoxy per default
 				_has_to_show_httpoxy_mitigation_notice=0
-				debug-print "No need to inform about HTTPoxy mitigation ... information was already shown for existing installation!"
+				debug-print "No need to inform about HTTPoxy mitigation."
+				debug-print "Information was already shown for existing installation!"
 			else
 				_has_to_show_httpoxy_mitigation_notice=1
 				debug-print "Need to inform about HTTPoxy mitigation!"
