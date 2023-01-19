@@ -9,4 +9,7 @@
     <flag name="fuse">Add fuse helper</flag>
     <flag name="gui">Build Qt GUI</flag>
   </use>
+  <upstream>
+    <remote-id type="github">whoozle/android-file-transfer-linux</remote-id>
+  </upstream>
 </pkgmetadata>
