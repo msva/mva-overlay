@@ -9,4 +9,7 @@
   <use>
     <flag name="libwebp">Use <pkg>media-libs/libwebp</pkg></flag>
   </use>
+  <upstream>
+    <remote-id type="github">majn/telegram-purple</remote-id>
+  </upstream>
 </pkgmetadata>
