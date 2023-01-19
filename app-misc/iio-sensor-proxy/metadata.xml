@@ -5,4 +5,7 @@
     <email>radhermit@gentoo.org</email>
     <name>Tim Harder</name>
   </maintainer>
+  <upstream>
+    <remote-id type="github">hadess/iio-sensor-proxy</remote-id>
+  </upstream>
 </pkgmetadata>
