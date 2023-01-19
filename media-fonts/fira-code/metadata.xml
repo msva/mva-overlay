@@ -9,4 +9,7 @@
   <use>
     <flag name="webfonts">Install so called &quot;web&quot; fonts (woff{,2}, eot)</flag>
   </use>
+  <upstream>
+    <remote-id type="github">tonsky/FiraCode</remote-id>
+  </upstream>
 </pkgmetadata>
