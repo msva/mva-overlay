@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>mva@gentoo.org</email>
-		<description>
-			If you have any issues, please contact me via e-mail, IRC (Libera.Chat) or Telegram (@mva_name)
-		</description>
-		<name>Vadim A. Misbakh-Soloviov</name>
-	</maintainer>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <description>
+      If you have any issues, please contact me via e-mail, IRC (Libera.Chat) or Telegram (@mva_name)
+    </description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="github">NIFTI-Imaging/nifti_clib</remote-id>
+  </upstream>
 </pkgmetadata>
