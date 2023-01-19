@@ -20,4 +20,7 @@
   <use>
     <flag name="savedconfig">Allows individual selection of firmware files</flag>
   </use>
+  <upstream>
+    <remote-id type="github">kvalo/ath10k-firmware</remote-id>
+  </upstream>
 </pkgmetadata>
