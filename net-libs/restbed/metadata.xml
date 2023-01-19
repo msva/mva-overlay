@@ -10,4 +10,7 @@
   <use>
     <flag name="ipc">Build unix domain socket layer support</flag>
   </use>
+  <upstream>
+    <remote-id type="github">Corvusoft/restbed</remote-id>
+  </upstream>
 </pkgmetadata>
