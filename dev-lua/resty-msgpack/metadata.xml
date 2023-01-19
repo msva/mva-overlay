@@ -9,4 +9,7 @@
   <use>
     <flag name="messagepack-compat">Install MessagePack wrapper</flag>
   </use>
+  <upstream>
+    <remote-id type="github">chronolaw/lua-resty-msgpack</remote-id>
+  </upstream>
 </pkgmetadata>
