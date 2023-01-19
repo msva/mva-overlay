@@ -44,8 +44,8 @@ BDEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	nftables? ( net-misc/ethertypes )
-	!<net-firewall/arptables-0.0.5-r1
 "
+# !<net-firewall/arptables-0.0.5-r1
 # !<net-firewall/ebtables-2.0.11-r1
 
 IDEPEND=">=app-eselect/eselect-iptables-20220320"
