@@ -11,4 +11,7 @@
     <flag name="cxx">Also install CXX version</flag>
     <!-- <flag name="static-libs"></flag>-->
   </use>
+  <upstream>
+    <remote-id type="github">msgpack/msgpack-c</remote-id>
+  </upstream>
 </pkgmetadata>
