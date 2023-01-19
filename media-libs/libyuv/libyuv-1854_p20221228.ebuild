@@ -46,7 +46,8 @@ src_prepare() {
 				-e '/.*target_link_libraries.*yuvconvert.*JPEG_LIBRARY.*/{p;s@yuvconvert@${ly_lib_shared}@}' \
 				CMakeLists.txt
 
-			# help linker to see just-built libyuv.so if we're doing clean install and prefer it over system-wide if we're upgrading
+			# help linker to see just-built libyuv.so if we're doing clean install
+			# and prefer it over system-wide if we're upgrading
 			append-ldflags '-L.'
 			# append-ldflags '-lm'
 		fi
