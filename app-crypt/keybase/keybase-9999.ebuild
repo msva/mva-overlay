@@ -63,7 +63,7 @@ src_compile() {
 		use x86 && arch="ia32"
 		use amd64 && arch="x64"
 		cd ../shared/desktop
-		sed -i -e '/let aps /{s@platform, arch@arch, platform@}' "package.desktop.tsx" # typo? TODO: report
+		# sed -i -e '/let aps /{s@platform, arch@arch, platform@}' "package.desktop.tsx" # typo? TODO: report
 		type cross-env-shell &>/dev/null || npm install cross-env --legacy-peer-deps || die
 		npm run package -- --platform linux --arch "${arch}" --appVersion "${PV}" || die
 		# npm run build-prod -- --platform linux --arch "${arch}" --appVersion "${PV}" || die
@@ -86,16 +86,16 @@ src_install() {
 		# unbundle
 		use system-libglvnd || (
 			rm -f libGLESv2.so libEGL.so
-			ln -s /usr/$(get_libdir)/libGLESv2.so /opt/keybase/libGLESv2.so
-			ln -s /usr/$(get_libdir)/libEGL.so /opt/keybase/libEGL.so
+			dosym ../../usr/$(get_libdir)/libGLESv2.so /opt/keybase/libGLESv2.so
+			dosym ../../usr/$(get_libdir)/libEGL.so /opt/keybase/libEGL.so
 		)
 		use system-ffmpeg || (
 			rm -f libffmpeg.so
-			ln -s /usr/$(get_libdir)/chromium/libffmpeg.so /opt/keybase/libffmpeg.so
+			dosym ../../usr/$(get_libdir)/chromium/libffmpeg.so /opt/keybase/libffmpeg.so
 		)
 		use system-vulkan || (
 			rm -f libvulkan.so.1
-			ln -s /usr/$(get_libdir)/libvulkan.so.1 /opt/keybase/libvulkan.so.1
+			dosym ../../usr/$(get_libdir)/libvulkan.so.1 /opt/keybase/libvulkan.so.1
 		)
 		insinto "/opt/keybase"
 		exeinto "/opt/keybase"
