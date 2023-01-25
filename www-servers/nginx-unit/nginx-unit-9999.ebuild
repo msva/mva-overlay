@@ -133,10 +133,15 @@ _unit_ruby_configure() {
 	ruby-ng_src_configure
 }
 
+my_econf() {
+	echo ./configure "${@}"
+	./configure "${@}"
+}
+
 src_configure() {
 	append-cflags $(test-flags-CC -fPIC)
-	./configure \
-		--cc="${CC}" \
+	my_econf \
+		--cc="$(tc-getCC)" \
 		--cc-opt="${CFLAGS}" \
 		--ld-opt="${LDFLAGS}" \
 		--prefix="/usr" \
@@ -164,11 +169,7 @@ src_install() {
 	emake DESTDIR="${D}" install libunit-install
 	diropts -m 0770
 	keepdir /var/lib/"${PN}"
-	dobin "${FILESDIR}"/util/"${PN}"-{save,load}config
 	systemd_dounit "${FILESDIR}"/init/"${PN}".service
 	newconfd "${FILESDIR}"/init/"${PN}".confd "${PN}"
 	newinitd "${FILESDIR}"/init/"${PN}".initd "${PN}"
-	insinto "/etc/${PN}/"
-	dodir "/etc/${PN}/"
-	newins "${FILESDIR}/config/config.json" "config.json"
 }
