@@ -57,6 +57,7 @@ COMMON_DEPEND="
 	>=dev-qt/qtnetwork-5.15:5[ssl]
 	>=dev-qt/qtsvg-5.15:5
 	>=dev-qt/qtwidgets-5.15:5[png,X?]
+	kde-frameworks/kcoreaddons:=
 	media-fonts/open-sans:*
 	media-libs/fontconfig:=
 	media-libs/rnnoise:=
