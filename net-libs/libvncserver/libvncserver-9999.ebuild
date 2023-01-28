@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake patches multilib-minimal git-r3
+inherit cmake multilib-minimal git-r3
 
 MY_PN="LibVNCServer"
 
@@ -56,6 +56,8 @@ multilib_src_configure() {
 		-DWITH_IPv6=$(usex ipv6 ON OFF)
 		-DWITH_WEBSOCKETS=$(usex websockets on off)
 		-DWITH_SASL=$(usex sasl ON OFF)
+		-DWITH_EXAMPLES=$(usex examples ON OFF)
+		-DWITH_TESTS=$(usex test ON OFF)
 	)
 	cmake_src_configure
 }
