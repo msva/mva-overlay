@@ -13,7 +13,7 @@ PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-4 php8-0 php8-1"
+USE_PHP="php7-4 php8-0 php8-1 php8-2"
 
 inherit systemd php-ext-source-r3 python-r1 ruby-ng toolchain-funcs flag-o-matic patches
 # golang-base
@@ -70,6 +70,11 @@ DEPEND="
 RDEPEND="${DEPEND}"
 S="${WORKDIR}/${MY_P}"
 
+my_econf() {
+	echo ./configure "${@}"
+	./configure "${@}"
+}
+
 src_unpack() {
 	# prevent ruby-ng
 	if [[ "${PV}" == 9999 ]]; then
@@ -92,7 +97,7 @@ src_prepare() {
 
 _unit_java_configure() {
 	unset _JAVA_OPTIONS # breaks the build if defined
-	./configure java --home="${NGINX_UNIT_JAVA_HOME:-/etc/java-config-2/current-system-vm}" # multislot?
+	my_econf java --home="${NGINX_UNIT_JAVA_HOME:-/etc/java-config-2/current-system-vm}" # multislot?
 	# ^ if we will use just ${JAVA_HOME}, then it will be the same result
 	# as if we called it without the --home (it takes that by itself)
 	# Also, JAVA_HOME can be inherited from user's environment (so,
@@ -102,17 +107,17 @@ _unit_java_configure() {
 }
 _unit_go_configure() {
 	# ./configure go --go-path="$(get_golibdir_gopath)" # deprecated golang-base eclass
-	./configure go --go-path="${EPREFIX}/usr/lib/go" # multislot?
+	my_econf go --go-path="${EPREFIX}/usr/lib/go" # multislot?
 }
 _unit_nodejs_configure() {
-	./configure nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
+	my_econf nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
 }
 _unit_perl_configure() {
-	./configure perl
+	my_econf perl
 }
 _unit_php_configure() {
 	for impl in $(php_get_slots); do
-		./configure php \
+		my_econf php \
 			--config="/usr/$(get_libdir)/${impl}/bin/php-config" \
 			--module="${impl/.}" \
 			--lib-path="/usr/$(get_libdir)/${impl}/$(get_libdir)" \
@@ -121,21 +126,16 @@ _unit_php_configure() {
 }
 _unit_python_configure() {
 	_unit_python_configure_each() {
-		./configure python --config="${EPYTHON}-config" --module="${EPYTHON/.}"
+		my_econf python --config="${EPYTHON}-config" --module="${EPYTHON/.}"
 	}
 	python_foreach_impl _unit_python_configure_each
 }
 _unit_ruby_configure() {
 	each_ruby_configure() {
 		cd "${WORKDIR}/${MY_P}"
-		./configure ruby --ruby="${RUBY}" --module="$(basename ${RUBY})"
+		my_econf ruby --ruby="${RUBY}" --module="$(basename ${RUBY})"
 	}
 	ruby-ng_src_configure
-}
-
-my_econf() {
-	echo ./configure "${@}"
-	./configure "${@}"
 }
 
 src_configure() {
