@@ -64,7 +64,7 @@ COMMON_DEPEND="
 	media-libs/libyuv:=
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
-	media-video/ffmpeg:=[opus]
+	media-video/ffmpeg:=[opus,vpx]
 	dbus? (
 		dev-qt/qtdbus:5
 		dev-libs/libdbusmenu-qt[qt5(+)]
