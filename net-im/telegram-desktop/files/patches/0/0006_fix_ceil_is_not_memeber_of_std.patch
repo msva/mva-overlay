@@ -1,0 +1,12 @@
+diff '--color=auto' -Nurp tdesktop-4.6.0-full.orig/Telegram/lib_ui/ui/style/style_core_font.h tdesktop-4.6.0-full/Telegram/lib_ui/ui/style/style_core_font.h
+--- tdesktop-4.6.0-full.orig/Telegram/lib_ui/ui/style/style_core_font.h	2023-02-03 18:46:55.000000000 +0200
++++ tdesktop-4.6.0-full/Telegram/lib_ui/ui/style/style_core_font.h	2023-02-04 00:35:40.306001824 +0200
+@@ -11,6 +11,8 @@
+ #include <QtGui/QFont>
+ #include <QtGui/QFontMetrics>
+ 
++#include <cmath>
++
+ namespace style {
+ namespace internal {
+ 
