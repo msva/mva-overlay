@@ -31,7 +31,7 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug enchant +hunspell lto +pipewire pulseaudio +spell +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
+IUSE="custom-api-id +dbus debug enchant +hunspell lto +pipewire pulseaudio +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
 
 MYPATCHES=(
 	"hide-banned"
@@ -112,9 +112,7 @@ BDEPEND="
 "
 
 REQUIRED_USE="
-	spell? (
-		^^ ( enchant hunspell )
-	)
+	^^ ( enchant hunspell )
 	webkit? ( dbus )
 "
 
@@ -188,7 +186,6 @@ pkg_pretend() {
 }
 
 src_unpack() {
-	use spell || EGIT_SUBMODULES+=(-Telegram/lib_spellcheck)
 	use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
 	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
@@ -256,7 +253,6 @@ src_configure() {
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
 
-		-DDESKTOP_APP_DISABLE_SPELLCHECK=$(usex !spell)
 		-DDESKTOP_APP_USE_ENCHANT=$(usex enchant)  # enables enchant and disables hunspell
 
 		# Unbundling:
