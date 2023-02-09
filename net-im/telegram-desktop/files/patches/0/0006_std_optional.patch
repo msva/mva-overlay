@@ -1,0 +1,11 @@
+diff '--color=auto' -Nurp telegram-desktop-4.6.2.orig/Telegram/SourceFiles/payments/stripe/stripe_card_validator.h telegram-desktop-4.6.2/Telegram/SourceFiles/payments/stripe/stripe_card_validator.h
+--- telegram-desktop-4.6.2.orig/Telegram/SourceFiles/payments/stripe/stripe_card_validator.h	2023-02-09 11:40:28.557442671 +0200
++++ telegram-desktop-4.6.2/Telegram/SourceFiles/payments/stripe/stripe_card_validator.h	2023-02-09 11:42:52.767313423 +0200
+@@ -9,6 +9,7 @@ https://github.com/telegramdesktop/tdesk
+ 
+ #include "stripe/stripe_card.h"
+ #include <vector>
++#include <optional>
+ 
+ class QDate;
+ 
