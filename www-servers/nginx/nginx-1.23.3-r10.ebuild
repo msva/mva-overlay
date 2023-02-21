@@ -28,7 +28,7 @@ DTLS_COMPAT_VERSION="1.13.9"
 HTTP_BROTLI_MODULE_A="google"
 HTTP_BROTLI_MODULE_PN="ngx_brotli"
 HTTP_BROTLI_MODULE_PV="1.0.0rc"
-HTTP_BROTLI_MODULE_SHA="6e975bcb015f62e1f303054897783355e2a877dc"
+HTTP_BROTLI_MODULE_SHA="6e975bc"
 HTTP_BROTLI_MODULE_P="${HTTP_BROTLI_MODULE_PN}-${HTTP_BROTLI_MODULE_SHA:-${HTTP_BROTLI_MODULE_PV}}"
 HTTP_BROTLI_MODULE_URI="https://github.com/${HTTP_BROTLI_MODULE_A}/${HTTP_BROTLI_MODULE_PN}/archive/${HTTP_BROTLI_MODULE_SHA:-v${HTTP_BROTLI_MODULE_PV}}.tar.gz"
 HTTP_BROTLI_MODULE_WD="${WORKDIR}/${HTTP_BROTLI_MODULE_P}"
@@ -52,13 +52,13 @@ STREAM_TRAFFIC_STATUS_MODULE_URI="https://github.com/${STREAM_TRAFFIC_STATUS_MOD
 STREAM_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${STREAM_TRAFFIC_STATUS_MODULE_P}"
 
 # http_vhost_traffic_status (https://github.com/vozlt/nginx-module-stream-sts/tags, BSD license)
-CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_A="vozlt"
-CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PN="nginx-module-stream-sts"
-CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PV="0.1.1"
-#CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_SHA=""
-CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P="${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PN}-${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_SHA:-${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PV}}"
-CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_URI="https://github.com/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_A}/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PN}/archive/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_SHA:-v${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_PV}}.tar.gz"
-CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P}"
+CORE_STREAM_TRAFFIC_STATUS_MODULE_A="vozlt"
+CORE_STREAM_TRAFFIC_STATUS_MODULE_PN="nginx-module-stream-sts"
+CORE_STREAM_TRAFFIC_STATUS_MODULE_PV="0.1.1"
+# CORE_STREAM_TRAFFIC_STATUS_MODULE_SHA=""
+CORE_STREAM_TRAFFIC_STATUS_MODULE_P="${CORE_STREAM_TRAFFIC_STATUS_MODULE_PN}-${CORE_STREAM_TRAFFIC_STATUS_MODULE_SHA:-${CORE_STREAM_TRAFFIC_STATUS_MODULE_PV}}"
+CORE_STREAM_TRAFFIC_STATUS_MODULE_URI="https://github.com/${CORE_STREAM_TRAFFIC_STATUS_MODULE_A}/${CORE_STREAM_TRAFFIC_STATUS_MODULE_PN}/archive/${CORE_STREAM_TRAFFIC_STATUS_MODULE_SHA:-v${CORE_STREAM_TRAFFIC_STATUS_MODULE_PV}}.tar.gz"
+CORE_STREAM_TRAFFIC_STATUS_MODULE_WD="${WORKDIR}/${CORE_STREAM_TRAFFIC_STATUS_MODULE_P}"
 
 # geoip2 (https://github.com/leev/ngx_http_geoip2_module/tags, BSD-2)
 HTTP_GEOIP2_MODULE_A="leev"
@@ -82,7 +82,7 @@ HTTP_ENMEMCACHE_MODULE_WD="${WORKDIR}/${HTTP_ENMEMCACHE_MODULE_P}"
 HTTP_RDNS_MODULE_A="flant"
 HTTP_RDNS_MODULE_PN="nginx-http-rdns"
 HTTP_RDNS_MODULE_PV="0.0"
-HTTP_RDNS_MODULE_SHA="f1d00ada305fc4b7505e7bb7009f804567fae881"
+HTTP_RDNS_MODULE_SHA="f1d00ad"
 HTTP_RDNS_MODULE_P="${HTTP_RDNS_MODULE_PN}-${HTTP_RDNS_MODULE_SHA:-${HTTP_RDNS_MODULE_PV}}"
 HTTP_RDNS_MODULE_URI="https://github.com/${HTTP_RDNS_MODULE_A}/${HTTP_RDNS_MODULE_PN}/archive/${HTTP_RDNS_MODULE_SHA:-${HTTP_RDNS_MODULE_PV}}.tar.gz"
 HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
@@ -90,7 +90,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="6.0.16"
+HTTP_PASSENGER_MODULE_PV="6.0.17"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -127,7 +127,7 @@ HTTP_PAGESPEED_MODULE_A="apache"
 HTTP_PAGESPEED_MODULE_PN="incubator-pagespeed-ngx"
 HTTP_PAGESPEED_MODULE_PV="1.13.35.2-stable"
 # HTTP_PAGESPEED_MODULE_PV="1.14.33.1-RC1"
-HTTP_PAGESPEED_MODULE_SHA="71e24c1c47113acb5924d8cb523d572b376e9dd0"
+HTTP_PAGESPEED_MODULE_SHA="71e24c1"
 HTTP_PAGESPEED_MODULE_P="${HTTP_PAGESPEED_MODULE_PN}-${HTTP_PAGESPEED_MODULE_SHA:-${HTTP_PAGESPEED_MODULE_PV}}"
 HTTP_PAGESPEED_MODULE_URI="https://github.com/${HTTP_PAGESPEED_MODULE_A}/${HTTP_PAGESPEED_MODULE_PN}/archive/${HTTP_PAGESPEED_MODULE_SHA:-v${HTTP_PAGESPEED_MODULE_PV}}.tar.gz"
 HTTP_PAGESPEED_MODULE_WD="${WORKDIR}/${HTTP_PAGESPEED_MODULE_P}"
@@ -164,6 +164,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
 HTTP_NCHAN_MODULE_PV="1.3.6"
+HTTP_NCHAN_MODULE_SHA="1eb05da"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -189,7 +190,7 @@ HTTP_ENCRYPTED_SESSION_MODULE_WD="${WORKDIR}/${HTTP_ENCRYPTED_SESSION_MODULE_P}"
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
 HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
 HTTP_PUSH_STREAM_MODULE_PV="0.5.5"
-HTTP_PUSH_STREAM_MODULE_SHA="8c02220d484d7848bc8e3a6d9b1c616987e86f66"
+HTTP_PUSH_STREAM_MODULE_SHA="8c02220"
 HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}"
 HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}.tar.gz"
 HTTP_PUSH_STREAM_MODULE_WD="${WORKDIR}/${HTTP_PUSH_STREAM_MODULE_P}"
@@ -238,7 +239,7 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
 # HTTP_LUA_MODULE_PV="0.10.23"
-HTTP_LUA_MODULE_SHA="f488965b89238e0bba11c13fdb9b11b4a0f20d67"
+HTTP_LUA_MODULE_SHA="5e05fa3adb0d2492ecaaf2cb76498e23765aa6ab"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
@@ -247,7 +248,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
 # STREAM_LUA_MODULE_PV="0.0.11"
-STREAM_LUA_MODULE_SHA="ae02d9ac1f1dda4aeb36184dc2a5d2436c23ecd0"
+STREAM_LUA_MODULE_SHA="2ef14f373b991b911c4eb5d09aa333352be9a756"
 STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
 STREAM_LUA_MODULE_URI="https://github.com/${STREAM_LUA_MODULE_A}/${STREAM_LUA_MODULE_PN}/archive/${STREAM_LUA_MODULE_SHA:-v${STREAM_LUA_MODULE_PV}}.tar.gz"
 STREAM_LUA_MODULE_WD="${WORKDIR}/${STREAM_LUA_MODULE_P}"
@@ -255,7 +256,7 @@ STREAM_LUA_MODULE_WD="${WORKDIR}/${STREAM_LUA_MODULE_P}"
 # http_drizzle NginX Drizzle module (https://github.com/openresty/drizzle-nginx-module/tags, BSD)
 HTTP_DRIZZLE_MODULE_A="openresty"
 HTTP_DRIZZLE_MODULE_PN="drizzle-nginx-module"
-HTTP_DRIZZLE_MODULE_PV="0.1.11"
+HTTP_DRIZZLE_MODULE_PV="0.1.12"
 #HTTP_DRIZZLE_MODULE_SHA="12543067e0d2edd296cdf9266e6c7c919e65130b"
 HTTP_DRIZZLE_MODULE_P="${HTTP_DRIZZLE_MODULE_PN}-${HTTP_DRIZZLE_MODULE_SHA:-${HTTP_DRIZZLE_MODULE_PV}}"
 HTTP_DRIZZLE_MODULE_URI="https://github.com/${HTTP_DRIZZLE_MODULE_A}/${HTTP_DRIZZLE_MODULE_PN}/archive/${HTTP_DRIZZLE_MODULE_SHA:-v${HTTP_DRIZZLE_MODULE_PV}}.tar.gz"
@@ -290,7 +291,7 @@ HTTP_MEMC_MODULE_WD="${WORKDIR}/${HTTP_MEMC_MODULE_P}"
 # NginX RDS-JSON module (https://github.com/openresty/rds-json-nginx-module/tags, BSD)
 HTTP_RDS_JSON_MODULE_A="openresty"
 HTTP_RDS_JSON_MODULE_PN="rds-json-nginx-module"
-HTTP_RDS_JSON_MODULE_PV="0.15"
+HTTP_RDS_JSON_MODULE_PV="0.16"
 HTTP_RDS_JSON_MODULE_P="${HTTP_RDS_JSON_MODULE_PN}-${HTTP_RDS_JSON_MODULE_SHA:-${HTTP_RDS_JSON_MODULE_PV}}"
 HTTP_RDS_JSON_MODULE_URI="https://github.com/${HTTP_RDS_JSON_MODULE_A}/${HTTP_RDS_JSON_MODULE_PN}/archive/${HTTP_RDS_JSON_MODULE_SHA:-v${HTTP_RDS_JSON_MODULE_PV}}.tar.gz"
 HTTP_RDS_JSON_MODULE_WD="${WORKDIR}/${HTTP_RDS_JSON_MODULE_P}"
@@ -306,8 +307,8 @@ HTTP_RDS_CSV_MODULE_WD="${WORKDIR}/${HTTP_RDS_CSV_MODULE_P}"
 # NginX SRCache module (https://github.com/openresty/srcache-nginx-module/tags, BSD)
 HTTP_SRCACHE_MODULE_A="openresty"
 HTTP_SRCACHE_MODULE_PN="srcache-nginx-module"
-HTTP_SRCACHE_MODULE_PV="0.32"
-HTTP_SRCACHE_MODULE_SHA="be22ac0dcd9245aadcaca3220da96a0c1a0285a7"
+HTTP_SRCACHE_MODULE_PV="0.33"
+#HTTP_SRCACHE_MODULE_SHA="be22ac0dcd9245aadcaca3220da96a0c1a0285a7"
 HTTP_SRCACHE_MODULE_P="${HTTP_SRCACHE_MODULE_PN}-${HTTP_SRCACHE_MODULE_SHA:-${HTTP_SRCACHE_MODULE_PV}}"
 HTTP_SRCACHE_MODULE_URI="https://github.com/${HTTP_SRCACHE_MODULE_A}/${HTTP_SRCACHE_MODULE_PN}/archive/${HTTP_SRCACHE_MODULE_SHA:-v${HTTP_SRCACHE_MODULE_PV}}.tar.gz"
 HTTP_SRCACHE_MODULE_WD="${WORKDIR}/${HTTP_SRCACHE_MODULE_P}"
@@ -331,7 +332,7 @@ HTTP_XSS_MODULE_WD="${WORKDIR}/${HTTP_XSS_MODULE_P}"
 # NginX Array-Var module (https://github.com/openresty/array-var-nginx-module/tags, BSD)
 HTTP_ARRAY_VAR_MODULE_A="openresty"
 HTTP_ARRAY_VAR_MODULE_PN="array-var-nginx-module"
-HTTP_ARRAY_VAR_MODULE_PV="0.05"
+HTTP_ARRAY_VAR_MODULE_PV="0.06"
 HTTP_ARRAY_VAR_MODULE_P="${HTTP_ARRAY_VAR_MODULE_PN}-${HTTP_ARRAY_VAR_MODULE_SHA:-${HTTP_ARRAY_VAR_MODULE_PV}}"
 HTTP_ARRAY_VAR_MODULE_URI="https://github.com/${HTTP_ARRAY_VAR_MODULE_A}/${HTTP_ARRAY_VAR_MODULE_PN}/archive/${HTTP_ARRAY_VAR_MODULE_SHA:-v${HTTP_ARRAY_VAR_MODULE_PV}}.tar.gz"
 HTTP_ARRAY_VAR_MODULE_WD="${WORKDIR}/${HTTP_ARRAY_VAR_MODULE_P}"
@@ -466,7 +467,7 @@ HTTP_AUTH_PAM_MODULE_WD="${WORKDIR}/${HTTP_AUTH_PAM_MODULE_P}"
 HTTP_RRD_MODULE_A="evanmiller"
 HTTP_RRD_MODULE_PN="mod_rrd_graph"
 HTTP_RRD_MODULE_PV="0.2.0"
-HTTP_RRD_MODULE_SHA="9b749a2d4b8ae47c313054b5a23b982e9a285c54"
+HTTP_RRD_MODULE_SHA="9b749a2"
 HTTP_RRD_MODULE_P="${HTTP_RRD_MODULE_PN}-${HTTP_RRD_MODULE_SHA:-${HTTP_RRD_MODULE_PV}}"
 HTTP_RRD_MODULE_URI="https://github.com/${HTTP_RRD_MODULE_A}/${HTTP_RRD_MODULE_PN}/archive/${HTTP_RRD_MODULE_SHA:-${HTTP_RRD_MODULE_PV}}.tar.gz"
 HTTP_RRD_MODULE_WD="${WORKDIR}/${HTTP_RRD_MODULE_P}"
@@ -486,7 +487,7 @@ HTTP_STICKY_MODULE_WD="${WORKDIR}/${HTTP_STICKY_MODULE_A}-${HTTP_STICKY_MODULE_P
 HTTP_AJP_MODULE_A="msva"
 HTTP_AJP_MODULE_PN="nginx_ajp_module"
 HTTP_AJP_MODULE_PV="0.3.0"
-HTTP_AJP_MODULE_SHA="fcbb2ccca4901d317ecd7a9dabb3fec9378ff40f"
+HTTP_AJP_MODULE_SHA="fcbb2cc"
 HTTP_AJP_MODULE_P="${HTTP_AJP_MODULE_PN}-${HTTP_AJP_MODULE_SHA:-${HTTP_AJP_MODULE_PV}}"
 HTTP_AJP_MODULE_URI="https://github.com/${HTTP_AJP_MODULE_A}/${HTTP_AJP_MODULE_PN}/archive/${HTTP_AJP_MODULE_SHA:-v${HTTP_AJP_MODULE_PV}}.tar.gz"
 HTTP_AJP_MODULE_WD="${WORKDIR}/${HTTP_AJP_MODULE_P}"
@@ -504,7 +505,7 @@ STREAM_JAVASCRIPT_MODULE_WD="${HTTP_JAVASCRIPT_MODULE_WD}"
 HTTP_AUTH_LDAP_MODULE_A="kvspb"
 HTTP_AUTH_LDAP_MODULE_PN="nginx-auth-ldap"
 HTTP_AUTH_LDAP_MODULE_PV="0.1"
-HTTP_AUTH_LDAP_MODULE_SHA="83c059b73566c2ee9cbda920d91b66657cf120b7"
+HTTP_AUTH_LDAP_MODULE_SHA="83c059b"
 HTTP_AUTH_LDAP_MODULE_P="${HTTP_AUTH_LDAP_MODULE_PN}-${HTTP_AUTH_LDAP_MODULE_SHA-:${HTTP_AUTH_LDAP_MODULE_PV}}"
 HTTP_AUTH_LDAP_MODULE_URI="https://github.com/${HTTP_AUTH_LDAP_MODULE_A}/${HTTP_AUTH_LDAP_MODULE_PN}/archive/${HTTP_AUTH_LDAP_MODULE_SHA:-${HTTP_AUTH_LDAP_MODULE_PV}}.tar.gz"
 HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
@@ -594,7 +595,7 @@ SRC_URI="
 		${STREAM_TRAFFIC_STATUS_MODULE_URI} -> ${STREAM_TRAFFIC_STATUS_MODULE_P}.tar.gz
 	)
 	nginx_modules_core_stream_traffic_status? (
-		${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_URI} -> ${CORE_STREAM_SERVER_TRAFFIC_STATUS_MODULE_P}.tar.gz
+		${CORE_STREAM_TRAFFIC_STATUS_MODULE_URI} -> ${CORE_STREAM_TRAFFIC_STATUS_MODULE_P}.tar.gz
 	)
 	nginx_modules_http_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
 	nginx_modules_stream_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
@@ -1184,15 +1185,17 @@ opt_mod() {
 
 ext_mod() {
 	local mod=${1} p="${2}" dm=
+	use "nginx_modules_${mod}" || return
 	if [[ -z "${p}" ]]; then
 		# It's Voodoo time!
 		p="${mod^^}_MODULE_WD";
 		p="${!p}";
+		# p=$(find $(dirname ${p}) -maxdepth 1 -name "$(basename ${p})*"
 	fi
 	if ! use static && [[ "${_NGX__NG_M_DYN}" =~ "${mod}:" ]]; then
 		dm="-dynamic"
 	fi
-	use "nginx_modules_${mod}" && echo "--add${dm}-module=${p}"
+	echo "--add${dm}-module=${p}*"
 }
 
 std_mod() {
@@ -1455,173 +1458,173 @@ src_install() {
 # http_push_stream
 	if use nginx_modules_http_push_stream; then
 		docinto "${HTTP_PUSH_STREAM_MODULE_P}"
-		dodoc "${HTTP_PUSH_STREAM_MODULE_WD}"/{CHANGELOG.textile,README.textile}
+		dodoc "${HTTP_PUSH_STREAM_MODULE_WD}"*/{CHANGELOG.textile,README.textile}
 	fi
 
 # http_ctpp
 	if use nginx_modules_http_ctpp; then
 		docinto "${HTTP_CTPP_MODULE_P}"
-		dodoc "${HTTP_CTPP_MODULE_WD}"/{CHANGELOG-ru,README}
+		dodoc "${HTTP_CTPP_MODULE_WD}"*/{CHANGELOG-ru,README}
 	fi
 
 # http_cache_purge
 	if use nginx_modules_http_cache_purge; then
 		docinto "${HTTP_CACHE_PURGE_MODULE_P}"
-		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md}
+		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"*/{CHANGES,README.md}
 	fi
 
 # http_nchan
 	if use nginx_modules_http_nchan; then
 		docinto "${HTTP_NCHAN_MODULE_P}"
-		dodoc "${HTTP_NCHAN_MODULE_WD}"/README.md
+		dodoc "${HTTP_NCHAN_MODULE_WD}"*/README.md
 	fi
 
 # http_upload_progress
 	if use nginx_modules_http_upload_progress; then
 		docinto "${HTTP_UPLOAD_PROGRESS_MODULE_P}"
-		dodoc "${HTTP_UPLOAD_PROGRESS_MODULE_WD}"/README
+		dodoc "${HTTP_UPLOAD_PROGRESS_MODULE_WD}"*/README
 	fi
 
 # http_fancyindex
 	if use nginx_modules_http_fancyindex; then
 		docinto "${HTTP_FANCYINDEX_MODULE_P}"
-		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/{README.rst,HACKING.md}
+		dodoc "${HTTP_FANCYINDEX_MODULE_WD}"*/{README.rst,HACKING.md}
 	fi
 
 # http_ey_balancer
 	if use nginx_modules_http_ey_balancer; then
 		docinto "${HTTP_EY_BALANCER_MODULE_P}"
-		dodoc "${HTTP_EY_BALANCER_MODULE_WD}"/README
+		dodoc "${HTTP_EY_BALANCER_MODULE_WD}"*/README
 	fi
 
 # http_ndk
 	if use nginx_modules_http_ndk; then
 		docinto "${HTTP_NDK_MODULE_P}"
-		dodoc "${HTTP_NDK_MODULE_WD}"/README.md
+		dodoc "${HTTP_NDK_MODULE_WD}"*/README.md
 	fi
 
 # http_headers_more
 	if use nginx_modules_http_headers_more; then
 		docinto "${HTTP_HEADERS_MORE_MODULE_P}"
-		dodoc "${HTTP_HEADERS_MORE_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_HEADERS_MORE_MODULE_WD}"*/README.markdown
 	fi
 
 # http_encrypted_session
 	if use nginx_modules_http_encrypted_session; then
 		docinto "${HTTP_ENCRYPTED_SESSION_MODULE_P}"
-		dodoc "${HTTP_ENCRYPTED_SESSION_MODULE_WD}"/README.md
+		dodoc "${HTTP_ENCRYPTED_SESSION_MODULE_WD}"*/README.md
 	fi
 
 # http_lua
 	if use nginx_modules_http_lua; then
 		docinto "${HTTP_LUA_MODULE_P}"
-		dodoc "${HTTP_LUA_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_LUA_MODULE_WD}"*/README.markdown
 		use systemtap && (
 			insinto /usr/share/systemtap
-			doins -r "${HTTP_LUA_MODULE_WD}"/tapset
+			doins -r "${HTTP_LUA_MODULE_WD}"*/tapset
 		)
 	fi
 
 # stream_lua
 	if use nginx_modules_stream_lua; then
 		docinto "${STREAM_LUA_MODULE_P}"
-		dodoc "${STREAM_LUA_MODULE_WD}"/{valgrind.suppress,README.md}
+		dodoc "${STREAM_LUA_MODULE_WD}"*/{valgrind.suppress,README.md}
 	fi
 
 # http_lua_upstream
 	if use nginx_modules_http_lua_upstream; then
 		docinto "${HTTP_LUA_UPSTREAM_MODULE_P}"
-		dodoc "${HTTP_LUA_UPSTREAM_MODULE_WD}"/README.md
+		dodoc "${HTTP_LUA_UPSTREAM_MODULE_WD}"*/README.md
 	fi
 
 # http_replace_filter
 	if use nginx_modules_http_replace_filter; then
 		docinto "${HTTP_REPLACE_FILTER_MODULE_P}"
-		dodoc "${HTTP_REPLACE_FILTER_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_REPLACE_FILTER_MODULE_WD}"*/README.markdown
 	fi
 
 # http_form_input
 	if use nginx_modules_http_form_input; then
 		docinto "${HTTP_FORM_INPUT_MODULE_P}"
-		dodoc "${HTTP_FORM_INPUT_MODULE_WD}"/README.md
+		dodoc "${HTTP_FORM_INPUT_MODULE_WD}"*/README.md
 	fi
 
 # http_echo
 	if use nginx_modules_http_echo; then
 		docinto "${HTTP_ECHO_MODULE_P}"
-		dodoc "${HTTP_ECHO_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_ECHO_MODULE_WD}"*/README.markdown
 	fi
 
 # http_srcache
 	if use nginx_modules_http_srcache; then
 		docinto "${HTTP_SRCACHE_MODULE_P}"
-		dodoc "${HTTP_SRCACHE_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_SRCACHE_MODULE_WD}"*/README.markdown
 	fi
 
 # http_memc
 	if use nginx_modules_http_memc; then
 		docinto "${HTTP_MEMC_MODULE_P}"
-		dodoc "${HTTP_MEMC_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_MEMC_MODULE_WD}"*/README.markdown
 	fi
 
 # http_redis
 	if use nginx_modules_http_redis; then
 		docinto "${HTTP_REDIS_MODULE_P}"
-		dodoc "${HTTP_REDIS_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_REDIS_MODULE_WD}"*/README.markdown
 	fi
 
 # http_drizzle
 	if use nginx_modules_http_drizzle; then
 		docinto "${HTTP_DRIZZLE_MODULE_P}"
-		dodoc "${HTTP_DRIZZLE_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_DRIZZLE_MODULE_WD}"*/README.markdown
 	fi
 
 # http_rds_json
 	if use nginx_modules_http_rds_json; then
 		docinto "${HTTP_RDS_JSON_MODULE_P}"
-		dodoc "${HTTP_RDS_JSON_MODULE_WD}"/README.md
+		dodoc "${HTTP_RDS_JSON_MODULE_WD}"*/README.md
 	fi
 
 # http_rds_csv
 	if use nginx_modules_http_rds_csv; then
 		docinto "${HTTP_RDS_CSV_MODULE_P}"
-		dodoc "${HTTP_RDS_CSV_MODULE_WD}"/README.md
+		dodoc "${HTTP_RDS_CSV_MODULE_WD}"*/README.md
 	fi
 
 # http_postgres
 	if use nginx_modules_http_postgres; then
 		docinto "${HTTP_POSTGRES_MODULE_P}"
-		dodoc "${HTTP_POSTGRES_MODULE_WD}"/README.md
+		dodoc "${HTTP_POSTGRES_MODULE_WD}"*/README.md
 	fi
 
 # http_coolkit
 	if use nginx_modules_http_coolkit; then
 		docinto "${HTTP_COOLKIT_MODULE_P}"
-		dodoc "${HTTP_COOLKIT_MODULE_WD}"/README
+		dodoc "${HTTP_COOLKIT_MODULE_WD}"*/README
 	fi
 
 # http_set_misc
 	if use nginx_modules_http_set_misc; then
 		docinto "${HTTP_SET_MISC_MODULE_P}"
-		dodoc "${HTTP_SET_MISC_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_SET_MISC_MODULE_WD}"*/README.markdown
 	fi
 
 # http_xss
 	if use nginx_modules_http_xss; then
 		docinto "${HTTP_XSS_MODULE_P}"
-		dodoc "${HTTP_XSS_MODULE_WD}"/README.md
+		dodoc "${HTTP_XSS_MODULE_WD}"*/README.md
 	fi
 
 # http_array_var
 	if use nginx_modules_http_array_var; then
 		docinto "${HTTP_ARRAY_VAR_MODULE_P}"
-		dodoc "${HTTP_ARRAY_VAR_MODULE_WD}"/README.md
+		dodoc "${HTTP_ARRAY_VAR_MODULE_WD}"*/README.md
 	fi
 
 # http_iconv
 	if use nginx_modules_http_iconv; then
 		docinto "${HTTP_ICONV_MODULE_P}"
-		dodoc "${HTTP_ICONV_MODULE_WD}"/README.markdown
+		dodoc "${HTTP_ICONV_MODULE_WD}"*/README.markdown
 	fi
 
 # http_supervisord
@@ -1633,7 +1636,7 @@ src_install() {
 # http_slowfs_cache
 	if use nginx_modules_http_slowfs_cache; then
 		docinto "${HTTP_SLOWFS_CACHE_MODULE_P}"
-		dodoc "${HTTP_SLOWFS_CACHE_MODULE_WD}"/{CHANGES,README.md}
+		dodoc "${HTTP_SLOWFS_CACHE_MODULE_WD}"*/{CHANGES,README.md}
 	fi
 
 # http_passenger
@@ -1644,32 +1647,32 @@ src_install() {
 
 	if use nginx_modules_http_upstream_check; then
 		docinto "${HTTP_UPSTREAM_CHECK_MODULE_P}"
-		dodoc "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/{README,CHANGES}
+		dodoc "${HTTP_UPSTREAM_CHECK_MODULE_WD}"*/{README,CHANGES}
 	fi
 
 	if use nginx_modules_http_metrics; then
 		docinto "${HTTP_METRICS_MODULE_P}"
-		dodoc "${HTTP_METRICS_MODULE_WD}"/README.md
+		dodoc "${HTTP_METRICS_MODULE_WD}"*/README.md
 	fi
 
 	if use nginx_modules_http_naxsi; then
 		insinto /etc/nginx
-		doins "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/naxsi_core.rules
+		doins "${HTTP_NAXSI_MODULE_WD}"*/../naxsi_config/naxsi_core.rules
 	fi
 
 	if use nginx_modules_core_rtmp; then
 		docinto "${CORE_RTMP_MODULE_P}"
-		dodoc "${CORE_RTMP_MODULE_WD}"/{AUTHORS,README.md,stat.xsl}
+		dodoc "${CORE_RTMP_MODULE_WD}"*/{AUTHORS,README.md,stat.xsl}
 	fi
 
 	if use nginx_modules_http_dav_ext; then
 		docinto "${HTTP_DAV_EXT_MODULE_P}"
-		dodoc "${HTTP_DAV_EXT_MODULE_WD}"/README.rst
+		dodoc "${HTTP_DAV_EXT_MODULE_WD}"*/README.rst
 	fi
 
 	if use nginx_modules_http_hls_audio; then
 		docinto "${HTTP_HLS_AUDIO_MODULE_P}"
-		dodoc "${HTTP_HLS_AUDIO_MODULE_WD}"/{README.md,nginx.conf}
+		dodoc "${HTTP_HLS_AUDIO_MODULE_WD}"*/{README.md,nginx.conf}
 	fi
 
 	if use nginx_modules_http_pagespeed; then
@@ -1677,7 +1680,7 @@ src_install() {
 		use static && bin="NginX binary"
 
 		docinto "${HTTP_PAGESPEED_MODULE_P}"
-		dodoc "${HTTP_PAGESPEED_MODULE_WD}"/README.md
+		dodoc "${HTTP_PAGESPEED_MODULE_WD}"*/README.md
 
 		ewarn ""
 		ewarn "You'll see a QA warning about RWX segments in the ${bin} a bit below."
@@ -1694,36 +1697,36 @@ src_install() {
 
 	if use nginx_modules_http_auth_pam; then
 		docinto "${HTTP_AUTH_PAM_MODULE_P}"
-		dodoc "${HTTP_AUTH_PAM_MODULE_WD}"/{README.md,ChangeLog}
+		dodoc "${HTTP_AUTH_PAM_MODULE_WD}"*/{README.md,ChangeLog}
 	fi
 
 	if use nginx_modules_http_security; then
 		docinto "${HTTP_SECURITY_MODULE_P}"
-		dodoc "${HTTP_SECURITY_MODULE_WD}"/{CHANGES,README.md,AUTHORS}
+		dodoc "${HTTP_SECURITY_MODULE_WD}"*/{CHANGES,README.md,AUTHORS}
 		use systemtap && (
 			insinto /usr/share/systemtap/tapset
-			doins "${HTTP_SECURITY_MODULE_WD}"/ngx-modsec.stp
+			doins "${HTTP_SECURITY_MODULE_WD}"*/ngx-modsec.stp
 		)
 	fi
 
 	if use nginx_modules_http_sticky; then
 		docinto ${HTTP_STICKY_MODULE_P}
-		dodoc "${HTTP_STICKY_MODULE_WD}"/{README.md,Changelog.txt,docs/sticky.pdf}
+		dodoc "${HTTP_STICKY_MODULE_WD}"*/{README.md,Changelog.txt,docs/sticky.pdf}
 	fi
 
 	if use nginx_modules_http_ajp; then
 		docinto ${HTTP_AJP_MODULE_P}
-		dodoc "${HTTP_AJP_MODULE_WD}"/README*
+		dodoc "${HTTP_AJP_MODULE_WD}"*/README*
 	fi
 
 	if ( use nginx_modules_http_javascript || use nginx_modules_stream_javascript ); then
 		docinto ${HTTP_JAVASCRIPT_MODULE_P}
-		dodoc "${HTTP_JAVASCRIPT_MODULE_WD}"/../README
+		dodoc "${HTTP_JAVASCRIPT_MODULE_WD}"*/../README
 	fi
 
 	if use nginx_modules_http_auth_ldap; then
 		docinto ${HTTP_AUTH_LDAP_MODULE_P}
-		dodoc "${HTTP_AUTH_LDAP_MODULE_WD}"/example.conf
+		dodoc "${HTTP_AUTH_LDAP_MODULE_WD}"*/example.conf
 	fi
 }
 
