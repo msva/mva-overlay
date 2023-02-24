@@ -1,4 +1,7 @@
+dev-java/commons-text
+dev-java/picocli
 media-libs/hal-flash
+
 # www-client/phantomjs
 # dev-java/jdbc-oracle-bin
 
