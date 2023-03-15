@@ -18,7 +18,7 @@ SRC_URI="
 
 HOMEPAGE="https://gosuslugi.ru/"
 LICENSE="all-rights-reserved"
-RESTRICT="mirror"
+RESTRICT="mirror strip"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~x64-macos"
 

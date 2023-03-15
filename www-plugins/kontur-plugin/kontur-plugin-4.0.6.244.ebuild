@@ -8,14 +8,14 @@ inherit unpacker patches
 DESCRIPTION="Cryptographic browser plugin for SKB Kontur services"
 
 SRC_URI="
-	amd64? ( https://help.kontur.ru/files/kontur.plugin_amd64.${PV}.deb -> ${P}.deb )
+	amd64? ( https://help.kontur.ru/plugin/dist/kontur.plugin_amd64.deb -> ${P}.deb )
 "
-HOMEPAGE="https://help.kontur.ru/"
+	# amd64? ( https://help.kontur.ru/files/kontur.plugin_amd64.${PV}.deb -> ${P}.deb )
+HOMEPAGE="https://help.kontur.ru/plugin/"
 LICENSE="EULA"
 RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64"
-# x64-macos"
 
 RDEPEND="
 	app-accessibility/at-spi2-core
@@ -45,9 +45,15 @@ src_unpack() {
 	unpack_deb ${A}
 }
 
+src_prepare() {
+	mv usr/share/doc/kontur.plugin usr/share/doc/"${PF}"
+	gzip -d usr/share/doc/"${PF}"/changelog.gz
+	default
+}
+
 src_install() {
 	insinto /
-	doins -r usr/{lib,$(get_libdir)} etc opt
+	doins -r usr etc opt
 	exeinto /opt/kontur.plugin
 	doexe opt/kontur.plugin/{kontur.plugin.host,pkcs11/{jcverify,*.so}}
 }

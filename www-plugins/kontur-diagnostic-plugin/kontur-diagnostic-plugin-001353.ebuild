@@ -8,13 +8,14 @@ inherit unpacker patches
 DESCRIPTION="System diagnostic browser plugin for SKB Kontur services"
 
 SRC_URI="
-	amd64? ( https://help.kontur.ru/files/diag.plugin_amd64.${PV}.deb -> ${P}.deb )
+	amd64? ( https://api.kontur.ru/drive/v1/public/diag/files/diag.plugin_amd64.${PV}.deb -> ${P}.deb )
 "
-#	x64-macos? ( https://help.kontur.ru/files/diag.plugin-3.1.0.209.000837.pkg )
+# x64-macos? ( https://help.kontur.ru/files/diag.plugin-3.1.0.209.000837.pkg )
+# amd64? ( https://help.kontur.ru/files/diag.plugin_amd64.${PV}.deb -> ${P}.deb )
 # https://help.kontur.ru/files/diag.plugin-3.1.0.210-1.x86_64.000865.rpm
 HOMEPAGE="https://help.kontur.ru/"
 LICENSE="EULA"
-RESTRICT="mirror"
+RESTRICT="mirror strip"
 SLOT="0"
 KEYWORDS="~amd64"
 # x64-macos"
