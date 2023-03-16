@@ -1,0 +1,631 @@
+#!/bin/sh
+# description: Services for CryptoPro CSP
+# processname: N/A # kchansrv
+# pidfile: N/A # /var/run/kchansrv.pid
+# chkconfig: 345 50 60
+### BEGIN INIT INFO
+# Provides:		cprocsp
+# Required-Start:	$network $syslog
+# Required-Stop:	$network $syslog
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	Start and stop CSP servers
+# Description:		Start and stop CSP servers
+#			
+#			
+### END INIT INFO
+
+# disable any X11 bio_gui if it's installed
+unset DISPLAY
+
+old_path=$PATH
+PATH=/usr/xpg4/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+for SETLIMITS in /opt/cprocsp/sbin/amd64/set_hsm_ulimits.sh /opt/cprocsp/sbin/amd64/set_hsm_ulimits.sh /opt/cprocsp/sbin/ia32/set_hsm_ulimits.sh
+do
+      test "/set_hsm_ulimits.sh" = "$SETLIMITS" && continue
+      test -f $SETLIMITS || continue
+      . $SETLIMITS
+done
+
+lsb_sanity_check()
+{
+#    test -r /etc/mcst_version && return 1
+#    test -f /lib/lsb/init-functions || return 1
+#    if ! test -r /etc/debian_version; then
+#      test -f /usr/bin/lsb_release || return 1
+#      test "`/usr/bin/lsb_release |sed 's/^.*core-\([[:digit:]]*\)\.[[:digit:]]*-.*$/\1/'`" -ge 3 || return 1   
+#      test -f /usr/lib/lsb/install_initd || return 1
+#      test -f /usr/lib/lsb/remove_initd || return 1
+#    fi
+    test -f /etc/debian_version || return 1
+    return 0
+}
+
+if test -z ""; then
+    if lsb_sanity_check
+    then
+#	. /lib/lsb/init-functions
+
+	daemon_status()
+	{
+	    my_pid=`pidofproc ${1+"$@"}`
+	    if test -n "$my_pid";then
+		echo "$1 is running (pid $my_pid)"
+		return 0
+	    else
+		echo "$1 is stopped"
+		return 1
+	    fi
+	}
+    else
+	if test -f /etc/init.d/functions
+	then
+	    . /etc/init.d/functions
+	else
+	    echo "Error: Unknown non-lsb linux"
+	    exit 1
+	fi
+
+	if test -f /etc/altlinux-release || test -f /etc/mcst_version; then
+	    daemon_status()
+	    {
+		my_pid=`pidofproc ${1+"$@"}`
+		if test -n "$my_pid";then
+		    echo "$1 is running (pid $my_pid)"
+		    return 0
+		else
+		    echo "$1 is stopped"
+		    return 1
+		fi
+	    }
+
+            if test -f /etc/mcst_version; then
+	         start_daemon()
+	         {
+	             start-stop-daemon --start --exec $*
+                     return $?
+	         }
+	    fi
+	else
+	    daemon_status()
+	    {
+		status ${1+"$@"}
+	    }
+
+	    start_daemon()
+	    {
+		my_nice=
+		my_force=
+		while [ "$1" != "${1##[-+]}" ]; do
+			case $1 in
+			     -f)
+				my_force="--force"
+				shift
+				;;
+			     -n)
+				my_nice=$2
+				shift ; shift
+				;;
+			esac
+		done
+		LSB=LSB-1.1 daemon ${my_force:-} ${my_nice:-} $*
+		return $?
+	    }
+	fi
+    fi
+fi
+
+serv_list()
+{
+  test -f $1 && for i in `$1 -ini '\config\services' -enum section`; do
+    $1 -ini \\config\\services\\$i\\StartService -view
+  done
+}
+PID_FILE=/var/run/cprocsp.pid
+
+SERVICE_LIST="bad_service"
+fill_service_list() {
+  ERR_CPCONFIG_NOT_FOUND=1
+  SERVICE_LIST=""
+  #for sdir in /opt/cprocsp/sbin/amd64 /opt/cprocsp/sbin/amd64;do
+  for sdir in /opt/cprocsp/sbin/amd64 /opt/cprocsp/sbin/ia32;do
+    test -f $sdir/cpconfig && ERR_CPCONFIG_NOT_FOUND=0 && for serv_to_start in `serv_list $sdir/cpconfig`
+    do 
+      server_to_start=$sdir/$serv_to_start
+      if test -f $server_to_start && test x"`echo $SERVICE_LIST|fgrep $serv_to_start`" = x; then
+        SERVICE_LIST="$SERVICE_LIST $serv_to_start" 
+        eval SERVER_$serv_to_start=$server_to_start
+      fi
+    done
+  done
+  return $ERR_CPCONFIG_NOT_FOUND
+}
+
+core_count() {
+  if test -f /proc/cpuinfo; then
+    # Linux
+    grep -c ^processor /proc/cpuinfo
+  elif command -v sysctl >/dev/null && sysctl hw.ncpu >/dev/null 2>&1; then
+    # FreeBSD, MacOS, iOS
+    sysctl hw.ncpu | awk '{print $2}'
+  elif command -v prtconf >/dev/null; then
+    # Solaris
+    prtconf | grep -c 'cpu[^s]'
+  elif command -v lsdev >/dev/null; then
+    # AIX
+    lsdev -Cc processor -S A | wc -l
+  fi
+}
+
+verify_file() {
+  CPVERIFY="$1"
+  CPVERIFY_ALG="$2"
+  file="$3"
+  hash="$4"
+
+  $CPVERIFY $CPVERIFY_ALG "$file" "$hash"
+  cpverify_ret=$?
+  if test $cpverify_ret -ne 0; then
+    logger CryptoPro CSP: error while checking "$file" integrity. Expected hash: "$hash". Got hash: `$CPVERIFY -mk "$file" $CPVERIFY_ALG`. Error code: $cpverify_ret.    
+    mv -f "$file" "$file".corrupted
+    return $cpverify_ret
+  fi
+}
+
+# Usage: wait_for_all_processes [PID...]
+# Returns 0 if exit codes of all processes are 0, otherwise returns 1.
+wait_for_all_processes() {
+  wait_retval=0
+  for pid in "$@"; do
+    wait $pid
+    if test $? -ne 0; then
+      wait_retval=1
+    fi
+  done
+  return $wait_retval
+}
+
+# check_func переопределяется в lcdfunctions. Интерфейсы функций должны совпадать.
+check_func() {
+  check_stop=0
+  trap "check_stop=1"  2 3 15
+  for CPVERIFY in /opt/cprocsp/bin/amd64/cpverify /opt/cprocsp/bin/amd64/cpverify /opt/cprocsp/bin/ia32/cpverify
+  do
+      test "/cpverify" = "$CPVERIFY" && continue
+      test -f $CPVERIFY || continue
+      $CPVERIFY 1>/dev/null 2>&1 && break
+  done
+  CPVERIFY_ALG="-alg GR3411_2012_256"
+
+  echo $$ >$PID_FILE
+
+  RET=0
+  child_pids=""
+
+  max_processes=`core_count`
+  # if core_count failed, use 1 process by default
+  test -n "$max_processes" || max_processes=1
+  test "$max_processes" -gt 0 2>/dev/null || max_processes=1
+
+  iteration=0
+  while test $check_stop = 0 && test -n "$*"
+  do
+    file="$1"
+    hash="$2"
+    shift ; shift
+    verify_file "$CPVERIFY" "$CPVERIFY_ALG" "$file" "$hash" &
+    child_pids="$child_pids $!"
+
+    iteration=`expr $iteration + 1`
+    if test $iteration -eq $max_processes; then
+      wait_for_all_processes $child_pids || RET=3
+      child_pids=""
+      iteration=0
+    fi
+  done
+  wait_for_all_processes $child_pids || RET=3
+
+  rm $PID_FILE
+  trap 2 3 15
+  return $RET
+}
+test -f /opt/cprocsp/sbin/amd64/lcdfunctions && . /opt/cprocsp/sbin/amd64/lcdfunctions
+test -f /opt/cprocsp/sbin/ia32/lcdfunctions && . /opt/cprocsp/sbin/ia32/lcdfunctions
+test -f /opt/cprocsp/sbin/amd64/lcdfunctions && . /opt/cprocsp/sbin/amd64/lcdfunctions
+
+pause_after_start() {
+  if test -z ""; then
+    # will set $my_pid:
+    daemon_status $1 > /dev/null
+    j=0
+    max=10
+    while test $j -lt $max; do
+      j=`expr $j + 1`
+      service_status=`ps -A -o stat,pid,user,time,args | grep $my_pid | grep -v grep | awk '{print $1}'`
+      if echo $service_status | grep D > /dev/null; then
+        sleep 1
+      else
+        break
+      fi
+    done
+  else
+    sleep 3
+  fi
+}
+
+kill_service() {
+  arg="$1"
+  ret=0
+ 
+  if daemon_status $arg >/dev/null; then
+    j=0
+    max=10
+    echo
+    while test $j -lt $max; do
+      j=`expr $j + 1`
+      killproc $arg
+      ret=$?
+      if test $ret -ne 0; then
+        break
+      fi
+      if daemon_status $arg >/dev/null; then
+        sleep 1
+      else
+        break
+      fi
+    done
+   
+    if test $j -eq $max; then
+      ret=1
+    fi
+  fi
+ 
+  return $ret
+}
+
+stop_check() {
+   test -f $PID_FILE || return 0
+   check_pid=`cat $PID_FILE`
+   if test x$1 != xforce 
+   then
+      if kill -0 $check_pid 2>/dev/null
+      then
+        test x`find $PID_FILE -mtime 0` != x && return 1
+      else
+	rm $PID_FILE
+	return 0
+      fi
+   fi
+   kill $check_pid 2>/dev/null
+   if test $? != 0
+   then
+	rm $PID_FILE
+	return 0
+   fi
+
+   i=0
+   while test $i -lt 180
+   do
+	kill -0 $check_pid 2>/dev/null || return 0
+	sleep 1
+	i=`expr $i + 1`
+   done
+   kill -9 $check_pid
+   if ! kill -0 $check_pid 2>/dev/null; then
+     rm $PID_FILE
+   fi
+   return 0
+}
+
+# Accepts list of pairs $filename $hash.
+# Calculates size of each file and outputs list of triples $size $filename $hash.
+add_file_sizes() {
+  while test -n "$*"; do
+    file="$1"
+    hash="$2"
+    shift ; shift
+    file_size=`du -k "$file" 2>/dev/null | awk '{print $1}'`
+    if test -z "$file_size"; then
+      file_size=0
+    fi
+    echo "$file_size $file $hash"
+  done
+}
+
+cpcsp_check() {
+  stop_check
+  ret=$?
+  while [ $ret -ne 0 ] ; do
+    echo "Other check process is running. Wait..."
+    sleep 2
+    stop_check
+    ret=$?
+  done
+  list=${1:-`ls -d /opt/cprocsp/lib/hashes/*`}
+  if test -n "$list"; then
+    file_hash_pairs=`cat $list`
+    # Sort the list by file size to distribute workload between processes more evenly.
+    sorted_list=`add_file_sizes $file_hash_pairs | sort -n | awk '{$1 = ""; print $0}'`
+    check_func $sorted_list
+  fi
+  return $?
+}
+
+wait_for_cryptsrv_launch() {
+  _periods="$1"
+  _sleep_time="$2"
+  _command="$3"
+  _i=1
+  echo
+  while [ "$_i" -le "$_periods" ]; do
+    sleep "$_sleep_time"
+    # print only commands, find cryptsrv among them
+    (ps -A -o comm | grep '^cryptsrv$') > /dev/null
+    if [ $? -eq 0 ]; then
+      echo "cryptsrv was successfully launched"
+      return 0
+    fi
+    _i=`expr "$_i" + 1`
+  done
+  echo "Error: couldn't launch cryptsrv. Try running '$_command' manually."
+  return 1
+}
+
+#start_daemon()
+#{
+#  daemon_name=$1
+#     sleep 1
+#     echo "$daemon_name </dev/null >/dev/null 2>&1" | at now 2>/dev/null
+#     # cryptsrv should start almost instantly, so we don't wait for more than 15 seconds
+#     periods=5
+#     sleep_time=3
+#     wait_for_cryptsrv_launch "$periods" "$sleep_time" "$daemon_name"
+# /usr/sbin/daemon -f -c $daemon_name
+# ( cd / ; nohup $daemon_name </dev/null >/dev/null 2>&1 )
+#  ret=$?
+#  if test $ret -eq 0; then
+#    printf ": ok\n"
+#  else
+#    printf ": error $ret\n"
+#  fi
+#  return $ret
+#}
+
+#killproc()
+#{
+#  PIDS=`ps -A -o comm,pid|awk "/$1 /{print \\$2}"`
+#  if test -n "$PIDS"; then
+#    kill $PIDS
+#    ret=$?
+#    if test $ret -eq 0; then
+#      printf ": ok\n"
+#    else
+#      printf ": error\n"
+#    fi
+#  else
+#    printf ": nothing to kill\n"
+#  fi
+#  # TODO: CPCSP-4142: return $ret
+#  return 0
+#}
+
+#daemon_status()
+#{
+#  ps -A -o comm,pid|sed -ne "/^.*$1/{s/ \{1,\}/ /g
+#P
+#}"|awk '{print}END{exit NR==0;}' 
+#}
+
+cpcsp_locks_clean() {
+  if type lsof > /dev/null 2>&1 ;
+  then
+    # get csp opened files
+    lsof_list=`lsof -F n|grep "/var/opt/cprocsp/tmp"|sed -n 's#^n\(/var/opt/cprocsp.*\)#\1#p'`
+    # delete 1-day-old tmp files that are not opened by anyone
+    find "/var/opt/cprocsp/tmp" -type f -mtime +1 -name ".*" | while read tmp_file_path; do
+      lsof_match_tmp=0
+      echo "$lsof_list" | while read lsof_file_path; do
+        if test "$lsof_file_path" = "$tmp_file_path"; then
+           lsof_match_tmp=1
+           break
+        fi
+      done
+      if test $lsof_match_tmp -eq 0; then
+        rm -f "$tmp_file_path"
+      fi
+    done
+  else
+    # delete 14-days-old files
+    find "/var/opt/cprocsp/tmp" -type f -mtime +14 -name ".*" -exec rm -f "{}" \;
+  fi
+}
+
+cpcsp_clean()
+{
+  cpcsp_locks_clean
+  for mnt in /var/opt/cprocsp/mnt/* ; do
+    if [ -d $mnt ] ; then
+      LANG=C LC_ALL=C umount $mnt 2>&1 | \
+	  grep -v 'not mounted' | \
+	  grep -v 'not in mnttab' | \
+	  grep -v 'not a file system root directory' 1>&2
+    fi
+  done
+  # TODO: respect unmount errors
+  true
+}
+    
+cpcsp_start() {
+#  ulimit -d unlimited
+  fill_service_list || return $?
+  for i in $SERVICE_LIST; do
+    test x$1 = xrestart && test x$i = xsrv_wrapper && continue  
+    printf "Starting $i"
+    # Precedence of 64-bit version over 32-bit one.
+    eval start_daemon \$SERVER_$i
+    RET=$?
+    pause_after_start $i
+  echo
+  test $RET -eq 0 && test -d /var/lock/subsys && touch /var/lock/subsys/$i
+    test $RETVAL -eq 0 && RETVAL=$RET
+  done
+}
+#full copy of cpcsp_stop but not stoping srv_wrapper. need it for call it from inside of srv_wrapper
+cpcsp_hsmstop() {
+  fill_service_list || return $?
+  for i in $SERVICE_LIST; do
+    test x$i = xsrv_wrapper && continue  
+    printf "Shutting down $i"
+    kill_service $i
+    RET=$?
+    test $RET -eq 0 && rm -f /var/lock/subsys/$i
+    test $RETVAL -eq 0 && RETVAL=$RET
+    if test $RET -ne 0; then
+      echo "Error stopping service"
+      break
+    fi
+  done
+  cpcsp_clean
+}
+
+cpcsp_stop() {
+  fill_service_list || return $?
+  for i in $SERVICE_LIST; do
+    test x$1 = xrestart && test x$i = xsrv_wrapper && continue  
+    printf "Shutting down $i"
+    kill_service $i
+    RET=$?  
+    test $RET -eq 0 && rm -f /var/lock/subsys/$i
+    test $RETVAL -eq 0 && RETVAL=$RET
+    if test $RET -ne 0; then
+      echo "Error stopping service"
+      break
+    fi
+  done
+  cpcsp_clean
+}
+
+repair_var() {
+    if ! test -d /var/opt/cprocsp ;
+    then
+	mkdir -p /var/opt/cprocsp
+	mkdir /var/opt/cprocsp/keys
+	mkdir /var/opt/cprocsp/users
+	mkdir /var/opt/cprocsp/tmp
+	mkdir /var/opt/cprocsp/mnt
+
+	chown -R root /var/opt/cprocsp
+
+	chmod 775 /var/opt/cprocsp
+	chmod 777 /var/opt/cprocsp/keys
+	chmod 1777 /var/opt/cprocsp/users
+	chmod 777 /var/opt/cprocsp/tmp
+	chmod 775 /var/opt/cprocsp/mnt
+    fi
+}
+
+# function for (re)starting cryptsrv via cron in FreeBSD
+# pkg in FreeBSD >= 10.2 kills all processes launched in install/remove scripts (CPCSP-7947)
+cron_operation() {
+    if [ -z "" ]; then
+        return 0
+    fi
+
+    echo
+    # if cryptsrv is already launched then we shouldn't launch it again
+    # print only commands, find cryptsrv among them
+    (ps -A -o comm | grep '^cryptsrv$') > /dev/null
+    if [ $? -eq 0 ]; then
+        echo "cryptsrv is already launched."
+    else
+        operation=$1
+        shift
+        arguments=$*
+        command="/etc/init.d/cprocsp $operation $arguments"
+        config='/var/cron/tabs/root'
+        config_copy="${config}.tmpcopy"
+        if [ -r $config ] && [ -w $config ]; then
+            echo "Launching cryptsrv..."
+            echo "Please wait, it may take up to one minute."
+            # make temporary copy of cron config for root
+            cp $config $config_copy
+            # try to launch cryptsrv every minute via cron
+            echo >> $config
+            echo "* * * * * $command" >> $config
+            # cron is launched every minute, so we shouldn't wait for cryptsrv launch for more than 65 seconds
+            periods=13
+            sleep_time=5
+            wait_for_cryptsrv_launch "$periods" "$sleep_time" "$command"
+            # restore cron config
+            mv $config_copy $config
+        else
+            echo "Error: couldn't get access to $config and launch cryptsrv."
+            return 1
+        fi
+    fi
+    return 0
+}
+
+RETVAL=0
+case "$1" in
+  start)
+    test "x$2" = "xrestart" ||
+#	repair_var;
+		cpcsp_check;
+		RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    cpcsp_clean
+    cpcsp_start $2
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  stop)
+    cpcsp_stop $2
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  hsmstop)
+    cpcsp_hsmstop $2
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  restart)
+    cpcsp_stop restart
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    cpcsp_start restart
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  status)
+    fill_service_list
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    for i in $SERVICE_LIST; do
+      daemon_status $i
+      RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    done
+    ;;
+  check)
+    shift
+    cpcsp_locks_clean
+    cpcsp_check $*
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  stop_check)
+    shift
+    stop_check $*
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  cron_start)
+    shift
+    cron_operation start $*
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  cron_restart)
+    shift
+    cron_operation restart $*
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status|check|stop_check}"
+    RETVAL=1
+    ;;
+esac
+
+PATH=$old_path
+exit $RETVAL
