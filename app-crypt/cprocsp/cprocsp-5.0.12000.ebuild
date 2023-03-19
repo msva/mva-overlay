@@ -93,17 +93,18 @@ src_unpack() {
 	mv etc/udev usr/lib/udev
 
 	# alt-compat
-	# rm lib64/ld-lsb-x86-64.so.3
+	# rm "${arch}"/ld-lsb-x86-64.so.3
 	rm etc/init.d/cprocsp
 
-	touch etc/debian_version
-	echo "jessie/sid" > etc/debian_version
+#	!!! Brakes CMake !!!
+#	touch etc/debian_version
+#	echo "jessie/sid" > etc/debian_version
 
-	cp etc/opt/cprocsp/config64.ini{,.backup}
+	cp etc/opt/cprocsp/config64.ini{,.backup} # What about non-64bit installs?
 
-	ln -s librdrjacarta.so.5.0.0 opt/cprocsp/lib/amd64/librdrjacarta.so.1.0
+	ln -s librdrjacarta.so.5.0.0 opt/cprocsp/lib/"${arch}"/librdrjacarta.so.1.0
 
-	rm opt/cprocsp/sbin/amd64/oauth_gtk2
+	rm opt/cprocsp/sbin/"${arch}"/oauth_gtk2 # requires long outdated webkitgtk1
 }
 
 src_install() {
@@ -129,8 +130,9 @@ src_install() {
 	keepdir /var/opt/cprocsp/tmp
 	keepdir /var/opt/cprocsp/users
 	keepdir /var/opt/cprocsp/users/stores
+	keepdir /var/opt/cprocsp/mnt
 
-	insinto /etc/opt/cprocsp/
+	insinto /etc/opt/cprocsp
 
 	# ini файлы с форума https://forum.calculate-linux.org/t/csp-v-4-5/9989/246
 	doins ${FILESDIR}/config64-kc1.ini
@@ -139,13 +141,16 @@ src_install() {
 	doins ${FILESDIR}/config64-5.0.12000.ini
 	doins ${FILESDIR}/goodconfig64.ini
 
-	newinitd ${FILESDIR}/cprocsp-5.0.12000 cprocsp
+	newinitd "${FILESDIR}/${P}" cprocsp
 	# TODO: make it just script, and make normal openrc init-file
 	# TODO: systemd unit
 
 	newenvd - "99${PN}" <<-_EOF_
 		PATH=/opt/cprocsp/bin/${arch}:/opt/cprocsp/sbin/${arch}
 	_EOF_
+
+	insinto /usr/share
+	doins -r opt/cprocsp/share/*
 }
 
 pkg_postinst() {
@@ -153,8 +158,10 @@ pkg_postinst() {
 	chmod 1777 /var/opt/cprocsp/keys
 	chmod 1777 /var/opt/cprocsp/users
 	chmod 1777 /var/opt/cprocsp/tmp
+	chmod 775 /var/opt/cprocsp/mnt
 
 	ebegin "Running postinstall script (pre-configuring)"
-	bash /etc/opt/cprocsp/cprocsp_postinstal_all_scripts.sh &>/dev/null
+	bash /etc/opt/cprocsp/cprocsp_postinstal_all_scripts.sh &>"${T}/postinst.log"
 	eend $?
+	cat "${T}/postinst.log"
 }

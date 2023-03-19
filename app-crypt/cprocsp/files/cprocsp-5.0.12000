@@ -1,19 +1,5 @@
-#!/bin/sh
-# description: Services for CryptoPro CSP
-# processname: N/A # kchansrv
-# pidfile: N/A # /var/run/kchansrv.pid
-# chkconfig: 345 50 60
-### BEGIN INIT INFO
-# Provides:		cprocsp
-# Required-Start:	$network $syslog
-# Required-Stop:	$network $syslog
-# Default-Start:	2 3 4 5
-# Default-Stop:		0 1 6
-# Short-Description:	Start and stop CSP servers
-# Description:		Start and stop CSP servers
-#			
-#			
-### END INIT INFO
+#!/bin/bash
+# vim: ft=bash
 
 # disable any X11 bio_gui if it's installed
 unset DISPLAY
@@ -21,104 +7,33 @@ unset DISPLAY
 old_path=$PATH
 PATH=/usr/xpg4/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
-for SETLIMITS in /opt/cprocsp/sbin/amd64/set_hsm_ulimits.sh /opt/cprocsp/sbin/amd64/set_hsm_ulimits.sh /opt/cprocsp/sbin/ia32/set_hsm_ulimits.sh
+for SETLIMITS in /opt/cprocsp/sbin/amd64/set_hsm_ulimits.sh /opt/cprocsp/sbin/ia32/set_hsm_ulimits.sh
 do
       test "/set_hsm_ulimits.sh" = "$SETLIMITS" && continue
       test -f $SETLIMITS || continue
       . $SETLIMITS
 done
 
-lsb_sanity_check()
-{
-#    test -r /etc/mcst_version && return 1
-#    test -f /lib/lsb/init-functions || return 1
-#    if ! test -r /etc/debian_version; then
-#      test -f /usr/bin/lsb_release || return 1
-#      test "`/usr/bin/lsb_release |sed 's/^.*core-\([[:digit:]]*\)\.[[:digit:]]*-.*$/\1/'`" -ge 3 || return 1   
-#      test -f /usr/lib/lsb/install_initd || return 1
-#      test -f /usr/lib/lsb/remove_initd || return 1
-#    fi
-    test -f /etc/debian_version || return 1
-    return 0
-}
-
-if test -z ""; then
-    if lsb_sanity_check
-    then
-#	. /lib/lsb/init-functions
-
-	daemon_status()
-	{
-	    my_pid=`pidofproc ${1+"$@"}`
-	    if test -n "$my_pid";then
+daemon_status() {
+	my_pid=`pidofproc ${1+"$@"}`
+	if test -n "$my_pid"; then
 		echo "$1 is running (pid $my_pid)"
 		return 0
-	    else
+	else
 		echo "$1 is stopped"
 		return 1
-	    fi
-	}
-    else
-	if test -f /etc/init.d/functions
-	then
-	    . /etc/init.d/functions
-	else
-	    echo "Error: Unknown non-lsb linux"
-	    exit 1
 	fi
+}
+. /etc/init.d/functions.sh
 
-	if test -f /etc/altlinux-release || test -f /etc/mcst_version; then
-	    daemon_status()
-	    {
-		my_pid=`pidofproc ${1+"$@"}`
-		if test -n "$my_pid";then
-		    echo "$1 is running (pid $my_pid)"
-		    return 0
-		else
-		    echo "$1 is stopped"
-		    return 1
-		fi
-	    }
+start_daemon() {
+	start-stop-daemon --start --exec $*
+	return $?
+}
 
-            if test -f /etc/mcst_version; then
-	         start_daemon()
-	         {
-	             start-stop-daemon --start --exec $*
-                     return $?
-	         }
-	    fi
-	else
-	    daemon_status()
-	    {
-		status ${1+"$@"}
-	    }
-
-	    start_daemon()
-	    {
-		my_nice=
-		my_force=
-		while [ "$1" != "${1##[-+]}" ]; do
-			case $1 in
-			     -f)
-				my_force="--force"
-				shift
-				;;
-			     -n)
-				my_nice=$2
-				shift ; shift
-				;;
-			esac
-		done
-		LSB=LSB-1.1 daemon ${my_force:-} ${my_nice:-} $*
-		return $?
-	    }
-	fi
-    fi
-fi
-
-serv_list()
-{
-  test -f $1 && for i in `$1 -ini '\config\services' -enum section`; do
+serv_list() {
+  test -f $1 &&
+	for i in `$1 -ini '\config\services' -enum section`; do
     $1 -ini \\config\\services\\$i\\StartService -view
   done
 }
@@ -128,8 +43,7 @@ SERVICE_LIST="bad_service"
 fill_service_list() {
   ERR_CPCONFIG_NOT_FOUND=1
   SERVICE_LIST=""
-  #for sdir in /opt/cprocsp/sbin/amd64 /opt/cprocsp/sbin/amd64;do
-  for sdir in /opt/cprocsp/sbin/amd64 /opt/cprocsp/sbin/ia32;do
+  for sdir in /opt/cprocsp/sbin/amd64 /opt/cprocsp/sbin/ia32; do
     test -f $sdir/cpconfig && ERR_CPCONFIG_NOT_FOUND=0 && for serv_to_start in `serv_list $sdir/cpconfig`
     do 
       server_to_start=$sdir/$serv_to_start
@@ -143,18 +57,10 @@ fill_service_list() {
 }
 
 core_count() {
-  if test -f /proc/cpuinfo; then
-    # Linux
-    grep -c ^processor /proc/cpuinfo
-  elif command -v sysctl >/dev/null && sysctl hw.ncpu >/dev/null 2>&1; then
-    # FreeBSD, MacOS, iOS
-    sysctl hw.ncpu | awk '{print $2}'
-  elif command -v prtconf >/dev/null; then
-    # Solaris
-    prtconf | grep -c 'cpu[^s]'
-  elif command -v lsdev >/dev/null; then
-    # AIX
-    lsdev -Cc processor -S A | wc -l
+	if command -v nproc >/dev/null; then
+		nproc
+	else
+		grep -c ^processor /proc/cpuinfo
   fi
 }
 
@@ -190,7 +96,7 @@ wait_for_all_processes() {
 check_func() {
   check_stop=0
   trap "check_stop=1"  2 3 15
-  for CPVERIFY in /opt/cprocsp/bin/amd64/cpverify /opt/cprocsp/bin/amd64/cpverify /opt/cprocsp/bin/ia32/cpverify
+  for CPVERIFY in /opt/cprocsp/bin/amd64/cpverify /opt/cprocsp/bin/ia32/cpverify
   do
       test "/cpverify" = "$CPVERIFY" && continue
       test -f $CPVERIFY || continue
@@ -232,7 +138,6 @@ check_func() {
 }
 test -f /opt/cprocsp/sbin/amd64/lcdfunctions && . /opt/cprocsp/sbin/amd64/lcdfunctions
 test -f /opt/cprocsp/sbin/ia32/lcdfunctions && . /opt/cprocsp/sbin/ia32/lcdfunctions
-test -f /opt/cprocsp/sbin/amd64/lcdfunctions && . /opt/cprocsp/sbin/amd64/lcdfunctions
 
 pause_after_start() {
   if test -z ""; then
@@ -455,7 +360,7 @@ cpcsp_clean()
   # TODO: respect unmount errors
   true
 }
-    
+
 cpcsp_start() {
 #  ulimit -d unlimited
   fill_service_list || return $?
@@ -471,6 +376,7 @@ cpcsp_start() {
     test $RETVAL -eq 0 && RETVAL=$RET
   done
 }
+
 #full copy of cpcsp_stop but not stoping srv_wrapper. need it for call it from inside of srv_wrapper
 cpcsp_hsmstop() {
   fill_service_list || return $?
@@ -507,66 +413,25 @@ cpcsp_stop() {
 }
 
 repair_var() {
-    if ! test -d /var/opt/cprocsp ;
-    then
-	mkdir -p /var/opt/cprocsp
-	mkdir /var/opt/cprocsp/keys
-	mkdir /var/opt/cprocsp/users
-	mkdir /var/opt/cprocsp/tmp
-	mkdir /var/opt/cprocsp/mnt
+	if ! test -d /var/opt/cprocsp; then
+		mkdir -p /var/opt/cprocsp
+		mkdir /var/opt/cprocsp/keys
+		mkdir /var/opt/cprocsp/users
+		mkdir /var/opt/cprocsp/tmp
+		mkdir /var/opt/cprocsp/mnt
 
-	chown -R root /var/opt/cprocsp
+		chown -R root /var/opt/cprocsp
 
-	chmod 775 /var/opt/cprocsp
-	chmod 777 /var/opt/cprocsp/keys
-	chmod 1777 /var/opt/cprocsp/users
-	chmod 777 /var/opt/cprocsp/tmp
-	chmod 775 /var/opt/cprocsp/mnt
-    fi
+		chmod 775 /var/opt/cprocsp
+		chmod 1777 /var/opt/cprocsp/keys
+		chmod 1777 /var/opt/cprocsp/users
+		chmod 1777 /var/opt/cprocsp/tmp
+		chmod 775 /var/opt/cprocsp/mnt
+	fi
 }
 
 # function for (re)starting cryptsrv via cron in FreeBSD
 # pkg in FreeBSD >= 10.2 kills all processes launched in install/remove scripts (CPCSP-7947)
-cron_operation() {
-    if [ -z "" ]; then
-        return 0
-    fi
-
-    echo
-    # if cryptsrv is already launched then we shouldn't launch it again
-    # print only commands, find cryptsrv among them
-    (ps -A -o comm | grep '^cryptsrv$') > /dev/null
-    if [ $? -eq 0 ]; then
-        echo "cryptsrv is already launched."
-    else
-        operation=$1
-        shift
-        arguments=$*
-        command="/etc/init.d/cprocsp $operation $arguments"
-        config='/var/cron/tabs/root'
-        config_copy="${config}.tmpcopy"
-        if [ -r $config ] && [ -w $config ]; then
-            echo "Launching cryptsrv..."
-            echo "Please wait, it may take up to one minute."
-            # make temporary copy of cron config for root
-            cp $config $config_copy
-            # try to launch cryptsrv every minute via cron
-            echo >> $config
-            echo "* * * * * $command" >> $config
-            # cron is launched every minute, so we shouldn't wait for cryptsrv launch for more than 65 seconds
-            periods=13
-            sleep_time=5
-            wait_for_cryptsrv_launch "$periods" "$sleep_time" "$command"
-            # restore cron config
-            mv $config_copy $config
-        else
-            echo "Error: couldn't get access to $config and launch cryptsrv."
-            return 1
-        fi
-    fi
-    return 0
-}
-
 RETVAL=0
 case "$1" in
   start)
@@ -609,16 +474,6 @@ case "$1" in
   stop_check)
     shift
     stop_check $*
-    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
-    ;;
-  cron_start)
-    shift
-    cron_operation start $*
-    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
-    ;;
-  cron_restart)
-    shift
-    cron_operation restart $*
     RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
     ;;
   *)
