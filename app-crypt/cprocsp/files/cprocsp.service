@@ -1,0 +1,10 @@
+[Unit]
+Description=CryproPro Service
+
+[Service]
+Type=oneshot
+ExecStart=/etc/init.d/cprocsp start
+ExecStop=/etc/init.d/cprocsp stop
+
+[Install]
+WantedBy=multi-user.target

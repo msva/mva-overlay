@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit rpm
+inherit rpm systemd
 
 DESCRIPTION="CryptoPro Crypto Provider"
 
@@ -142,8 +142,8 @@ src_install() {
 	doins ${FILESDIR}/goodconfig64.ini
 
 	newinitd "${FILESDIR}/${P}" cprocsp
-	# TODO: make it just script, and make normal openrc init-file
-	# TODO: systemd unit
+	# ^ make it just script, and make normal openrc init-file
+	systemd_dounit "${FILESDIR}/${PN}.service"
 
 	newenvd - "99${PN}" <<-_EOF_
 		PATH=/opt/cprocsp/bin/${arch}:/opt/cprocsp/sbin/${arch}
