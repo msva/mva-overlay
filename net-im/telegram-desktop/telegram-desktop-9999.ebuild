@@ -68,7 +68,7 @@ COMMON_DEPEND="
 	dbus? (
 		dev-qt/qtdbus:5
 		dev-libs/libdbusmenu-qt[qt5(+)]
-		dev-cpp/glibmm:2.68=
+		>=dev-cpp/glibmm-2.76
 	)
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio[daemon(+)] )
