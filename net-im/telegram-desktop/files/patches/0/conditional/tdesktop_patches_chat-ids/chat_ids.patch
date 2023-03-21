@@ -73,9 +73,9 @@ index 2a9a051a2e..6088042911 100644
  
 +rpl::producer<TextWithEntities> IDValue(not_null<PeerData*> peer, int type) {
 +	if (type == 0) {
-+		return rpl::single(QString("-%1").arg(peer->id.value)) | Ui::Text::ToWithEntities();
++		return rpl::single(QString("-%1").arg(peer->id.value-0x1000000000000)) | Ui::Text::ToWithEntities();
 +	} else if (type == 1) {
-+		return rpl::single(QString("-100%1").arg(peer->id.value)) | Ui::Text::ToWithEntities();
++		return rpl::single(QString("-100%1").arg(peer->id.value-0x2000000000000)) | Ui::Text::ToWithEntities();
 +	}
 +	else {
 +		return rpl::single(QString("%1").arg(peer->id.value)) | Ui::Text::ToWithEntities();
