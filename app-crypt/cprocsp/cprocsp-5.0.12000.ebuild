@@ -141,6 +141,19 @@ src_install() {
 	doins ${FILESDIR}/config64-5.0.12000.ini
 	doins ${FILESDIR}/goodconfig64.ini
 
+	case "${arch}" in
+		ia32)
+			insinto /etc
+			newins "${FILESDIR}"/ifcx86.cfg ifc.cfg
+			# touch "${T}/.import_ifc"
+			;;
+		amd64)
+			insinto /etc
+			newins "${FILESDIR}"/ifcx64.cfg ifc.cfg
+			# touch "${T}/.import_ifc"
+			;;
+	esac
+
 	newinitd "${FILESDIR}/${P}" cprocsp
 	# ^ make it just script, and make normal openrc init-file
 	systemd_dounit "${FILESDIR}/${PN}.service"
@@ -154,6 +167,8 @@ src_install() {
 }
 
 pkg_postinst() {
+	local arch=$(_get_arch)
+
 	# TODO: think about better permissions
 	chmod 1777 /var/opt/cprocsp/keys
 	chmod 1777 /var/opt/cprocsp/users
@@ -164,4 +179,8 @@ pkg_postinst() {
 	bash /etc/opt/cprocsp/cprocsp_postinstal_all_scripts.sh &>"${T}/postinst.log"
 	eend $?
 	cat "${T}/postinst.log"
+
+	# if [[ -f "${T}/.import_ifc" ]]; then
+	# 	/opt/cprocsp/bin/"${arch}"/csptestf -absorb -certs -autoprov
+	# fi
 }

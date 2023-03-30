@@ -46,10 +46,13 @@ src_install() {
 	doins -r usr etc opt
 	dobin usr/bin/ifc_chrome_host
 	keepdir /var/log/ifc
-	fperms 777 /var/log/ifc
+	fperms 1777 /var/log/ifc
+
+	insinto /etc/chromium/native-messaging-hosts
+	doins etc/opt/chrome/native-messaging-hosts/ru.rtlabs.ifcplugin.json
 }
 
-pkg_postinst() {
-	cd /etc/update_ccid_boundle
-	sh ./update_ccid_boundle.sh
-}
+#pkg_postinst() {
+#	cd /etc/update_ccid_boundle
+#	sh ./update_ccid_boundle.sh
+#}
