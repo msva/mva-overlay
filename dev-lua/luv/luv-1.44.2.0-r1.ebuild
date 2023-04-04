@@ -54,7 +54,7 @@ src_prepare() {
 # - but given how messy it would be, don't bother unless someone actually requests
 # luv multi-impl support.
 each_lua_configure() {
-	lua_compat_dir="${WORKDIR}/lua-compat-5.3-${LUA_COMPAT_PV}"
+	lua_compat_dir="${WORKDIR}/lua-compat-5.3-${LC_PV}"
 
 	local mycmakeargs=(
 		-DBUILD_MODULE=ON
