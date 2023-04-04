@@ -1,0 +1,12 @@
+diff -NaurBwdp a/Telegram/SourceFiles/core/sandbox.cpp b/Telegram/SourceFiles/core/sandbox.cpp
+--- a/Telegram/SourceFiles/core/sandbox.cpp	2023-04-01 22:40:59.078517051 +0700
++++ b/Telegram/SourceFiles/core/sandbox.cpp	2023-04-01 22:41:36.614241794 +0700
+@@ -123,7 +123,7 @@ int Sandbox::start() {
+ 	}
+ 
+ #ifdef Q_OS_LINUX
+-	_localServer.setSocketOptions(QLocalServer::AbstractNamespaceOption);
++	// _localServer.setSocketOptions(QLocalServer::AbstractNamespaceOption);
+ #endif
+ 
+ 	connect(

@@ -16,6 +16,8 @@ if [[ "${PV}" == *9999* ]]; then
 		-src/third_party/libyuv
 		-src/third_party/libvpx/source/libvpx
 		-src/third_party/pipewire
+		-src/third_party/abseil-cpp
+		-src/third_party/crc32c/src
 	)
 else
 	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
@@ -45,7 +47,7 @@ RDEPEND="
 	media-libs/libyuv
 	media-libs/openh264:=
 	media-libs/opus
-	media-video/ffmpeg:=
+	media-video/ffmpeg:=[opus,vpx,openh264]
 	pipewire? (
 		dev-libs/glib:2
 		media-video/pipewire:=
@@ -82,6 +84,22 @@ PATCHES=(
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
 )
 
+pkg_pretend() {
+	if has_version '>=dev-libs/openssl-3.0'; then
+		eerror "!!!!!!!!!!!!!!!"
+		eerror "!!! WARNING !!!"
+		eerror "!!!!!!!!!!!!!!!"
+		eerror ""
+		eerror "There is known issue that ${P} can't connect to group audio/video chats if you use >=openssl-3."
+		eerror "Also, as for me, it neither able to connect to 1-to-1 calls (even P2P, not only through servers)."
+		eerror ""
+		eerror "You have been warned!"
+		ewarn "Refs:"
+		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/26108"
+		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/24692"
+	fi
+}
+
 src_prepare() {
 	cp "${FILESDIR}"/"${PN}".pc.in "${S}" || die "failed to copy pkgconfig template"
 
@@ -107,7 +125,8 @@ src_prepare() {
 	sed -i -e '/desktop_capture\/screen_capturer_integration_test/d' CMakeLists.txt || die
 	sed -i -e '/desktop_capture\/window_finder_unittest/d' CMakeLists.txt || die
 
-	rm -r "${S}"/src/third_party/{abseil-cpp,libvpx,libyuv,openh264,pipewire}
+	rm -r "${S}"/src/third_party/{abseil-cpp,libvpx,libyuv,openh264,crc32c}
+	# ,pipewire}
 	# libsrtp,
 	# rnnoise,
 

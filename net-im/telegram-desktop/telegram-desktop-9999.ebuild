@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake flag-o-matic toolchain-funcs xdg
+inherit xdg cmake optfeature flag-o-matic toolchain-funcs
 
 inherit git-r3
 # ^ TODO: conditional (only for 9999)? maybe port to tarballs before moving to gentoo repo.
@@ -16,7 +16,8 @@ HOMEPAGE="https://desktop.telegram.org"
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop.git"
 EGIT_SUBMODULES=(
 	'*'
-	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc}
+	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,dispatch}
+	#,kimageformats,kcoreaddons}
 )
 
 if [[ "${PV}" == 9999 ]]; then
@@ -31,7 +32,13 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug enchant +hunspell lto +pipewire pulseaudio +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
+IUSE="custom-api-id +dbus debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
+
+REQUIRED_USE="
+	^^ ( enchant hunspell )
+	webkit? ( dbus )
+	qt6-imageformats? ( qt6 )
+"
 
 MYPATCHES=(
 	"hide-banned"
@@ -45,19 +52,20 @@ for p in ${MYPATCHES[@]}; do
 	IUSE="${IUSE} tdesktop_patches_${p}"
 done
 
+KIMAGEFORMATS_RDEPEND="
+	media-libs/libavif:=
+	media-libs/libheif:=
+	media-libs/libjxl
+"
+# kde-frameworks/kimageformats
+# kde-frameworks/kcoreaddons
 COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
-	dev-libs/jemalloc:=[-lazy-lock]
 	dev-libs/openssl:=
 	dev-libs/xxhash:=
-	>=dev-qt/qtcore-5.15:5
-	>=dev-qt/qtgui-5.15:5[dbus?,jpeg,png,wayland?,X?]
-	>=dev-qt/qtimageformats-5.15:5
-	>=dev-qt/qtnetwork-5.15:5[ssl]
-	>=dev-qt/qtsvg-5.15:5
-	>=dev-qt/qtwidgets-5.15:5[png,X?]
-	kde-frameworks/kcoreaddons:=
+	dev-libs/libdispatch
+	dev-libs/libsigc++:2
 	media-fonts/open-sans:*
 	media-libs/fontconfig:=
 	media-libs/rnnoise:=
@@ -65,10 +73,33 @@ COMMON_DEPEND="
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
 	media-video/ffmpeg:=[opus,vpx]
+	sys-libs/zlib:=[minizip]
 	dbus? (
 		dev-qt/qtdbus:5
 		dev-libs/libdbusmenu-qt[qt5(+)]
 		>=dev-cpp/glibmm-2.76
+	)
+	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
+	!qt6? (
+		>=dev-qt/qtcore-5.15:5
+		>=dev-qt/qtgui-5.15:5[dbus?,jpeg,png,wayland?,X?]
+		>=dev-qt/qtimageformats-5.15:5
+		>=dev-qt/qtnetwork-5.15:5[ssl]
+		>=dev-qt/qtsvg-5.15:5
+		>=dev-qt/qtwidgets-5.15:5[png,X?]
+		kde-frameworks/kcoreaddons:=
+	)
+	qt6? (
+		dev-qt/qt5compat:6
+		dev-qt/qtbase:6[dbus?,gui,network,opengl,widgets,X?]
+		dev-qt/qtimageformats:6
+		dev-qt/qtsvg:6
+		wayland? ( dev-qt/qtwayland:6 )
+		qt6-imageformats? ( ${KIMAGEFORMATS_RDEPEND} )
+	)
+	X? (
+		x11-libs/libxcb:=
+		x11-libs/xcb-util-keysyms
 	)
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio[daemon(+)] )
@@ -81,15 +112,18 @@ COMMON_DEPEND="
 	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
 	enchant? ( app-text/enchant:= )
 	hunspell? ( >=app-text/hunspell-1.7:= )
-	sys-libs/zlib:=[minizip]
 	webrtc? (
 		dev-cpp/abseil-cpp:=
 		media-libs/libjpeg-turbo:=
 		media-libs/libyuv:=
-		<dev-libs/openssl-3.0
-		>=media-libs/tg_owt-0_pre20221215[pipewire(-)=]
+		dev-libs/openssl:=
+		>=media-libs/tg_owt-0_pre20221215[pipewire(-)=,screencast=,X=]
 	)
-	wayland? ( kde-frameworks/kwayland:= )
+	wayland? (
+		kde-frameworks/kwayland:=
+		dev-libs/wayland-protocols:=
+		dev-libs/plasma-wayland-protocols:=
+	)
 	webkit? ( net-libs/webkit-gtk:= )
 	X? ( x11-libs/libxcb:= )
 "
@@ -111,17 +145,25 @@ BDEPEND="
 	amd64? ( dev-lang/yasm )
 "
 
-REQUIRED_USE="
-	^^ ( enchant hunspell )
-	webkit? ( dbus )
-"
-
 RESTRICT="!test? ( test )"
 
 pkg_pretend() {
+	if has_version '>=dev-libs/openssl-3.0'; then
+		eerror "!!!!!!!!!!!!!!!"
+		eerror "!!! WARNING !!!"
+		eerror "!!!!!!!!!!!!!!!"
+		eerror ""
+		eerror "There is known issue that ${P} can't connect to group audio/video chats if you use >=openssl-3."
+		eerror "Also, as for me, it neither able to connect to 1-to-1 calls (even P2P, not only through servers)."
+		eerror ""
+		eerror "You have been warned!"
+		ewarn "Refs:"
+		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/26108"
+		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/24692"
+	fi
 	if use wayland && use webkit; then
 		ewarn "If you use Wayland as you main graphic system, keep in mind that embedded webview (webkit),"
-		ewarn "which is used for payments, doesn't work on 'clean' wayland (without xwayland mode)."
+		ewarn "which is used for payments, may not work on 'clean' wayland (without xwayland mode)."
 	fi
 	if ! use webrtc; then
 		eerror "Telegram Desktop's upstream made webrtc mandatory for build."
@@ -130,8 +172,7 @@ pkg_pretend() {
 	fi
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
-			einfo "Your custom ApiId is ${TELEGRAM_CUSTOM_API_ID}"
-			einfo "Your custom ApiHash is ${TELEGRAM_CUSTOM_API_HASH}"
+			einfo "${P} was built with your custom ApiId and ApiHash"
 		else
 			eerror ""
 			eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
@@ -144,22 +185,9 @@ pkg_pretend() {
 		fi
 	fi
 
-	if tc-is-clang &&
-	ver_test "$(clang-major-version).$(clang-minor-version)" -gt "15.0" &&
-	[[ -z "${TG_FORCE_CLANG15}" ]]; then
-		eerror "${PN} is known to fail compilation with Clang >=15."
-		eerror "Please, use either Clang versions older than 15."
-		eerror "You can use package.env for setting CC/CXX on per-package level."
-		eerror "Alternatively, you can set TG_FORCE_CLANG15=1 to override this check"
-		eerror "(and most probably fail during compilation)."
-		einfo  "Although, if you're C++ programmer, it would be nice if you'd send PR with"
-		einfo  "fixes for compilation problems you'd meet with skipping the check :)"
-		die "Clang >= 15 is not supported ATM by tdesktop upstream, read 'eerror's above for advices."
-	fi
-
 	if get-flag -flto >/dev/null || use lto; then
 		eerror ""
-		eerror "Keep in mind, that building with LTO takes about ~20G RAM, and final binary size will be about 2.5G."
+		eerror "Keep in mind, that building with LTO may take about 20G RAM, and (unstripped) binary size may be about 2.5G."
 		if tc-is-clang; then
 			eerror ""
 			eerror "Qt5 is incompatible with LTO builds using clang at this moment."
@@ -216,6 +244,21 @@ src_prepare() {
 #		^ Maybe just wipe it out instead of trying to fix?
 #		^ There are not so mush useful compiler flags, actually.
 
+	# Bundle kde-frameworks/kimageformats for qt6, since it's impossible to
+	#   build in gentoo right now.
+	if use qt6-imageformats; then
+		sed -e 's/DESKTOP_APP_USE_PACKAGED_LAZY/TRUE/' -i \
+			cmake/external/kimageformats/CMakeLists.txt || die
+		printf "%s\n" \
+			'Q_IMPORT_PLUGIN(QAVIFPlugin)' \
+			'Q_IMPORT_PLUGIN(HEIFPlugin)' \
+			'Q_IMPORT_PLUGIN(QJpegXLPlugin)' \
+			>> cmake/external/qt/qt_static_plugins/qt_static_plugins.cpp || die
+	fi
+
+	# kde-frameworks/kcoreaddons is bundled when using qt6, see:
+	#   cmake/external/kcoreaddons/CMakeLists.txt
+
 	patches_src_prepare
 #	cmake_src_prepare
 #	^ to be used when will be ported to gentoo repo
@@ -244,11 +287,13 @@ src_configure() {
 	)
 
 	local mycmakeargs=(
-		#-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON # header only lib, some git version. prevents warnings.
+		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=$(usex !system-expected)  # header only lib, some git version. prevents warnings.
+		-DQT_VERSION_MAJOR=$(usex qt6 6 5)
+
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 
 		# Qt6 is masked in Gentoo at the moment.
-		-DDESKTOP_APP_QT6=OFF
+		# -DDESKTOP_APP_QT6=OFF
 
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
@@ -259,6 +304,8 @@ src_configure() {
 		-DDESKTOP_APP_USE_PACKAGED=ON # Main
 
 		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex !dbus)
+
+		-DDESKTOP_APP_DISABLE_JEMALLOC=$(usex !jemalloc)
 
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
 
@@ -288,6 +335,44 @@ pkg_preinst() {
 
 pkg_postinst() {
 	xdg_pkg_postinst
+	if ! use X && ! use screencast; then
+		ewarn "both the 'X' and 'screencast' USE flags are disabled, screen sharing won't work!"
+		ewarn
+	fi
+	if has_version '<dev-qt/qtcore-5.15.2-r10'; then
+		ewarn "Versions of dev-qt/qtcore lower than 5.15.2-r10 might cause telegram"
+		ewarn "to crash when pasting big images from the clipboard."
+		ewarn
+	fi
+	if ! use jemalloc && use elibc_glibc; then
+		# https://github.com/telegramdesktop/tdesktop/issues/16084
+		# https://github.com/desktop-app/cmake_helpers/pull/91#issuecomment-881788003
+		ewarn "Disabling USE=jemalloc on glibc systems may cause very high RAM usage!"
+		ewarn "Do NOT report issues about RAM usage without enabling this flag first."
+		ewarn
+	fi
+	if use qt6; then
+		ewarn "Qt6 support in gentoo is experimental."
+		ewarn "Please report any issues you may find, but don't expect"
+		ewarn "everything to work correctly as of yet."
+		ewarn
+	fi
+	if use wayland && ! use qt6; then
+		ewarn "Wayland-specific integrations have been deprecated with Qt5."
+		ewarn "The app will continue to function under wayland, but some"
+		ewarn "functionality may be reduced."
+		ewarn "These integrations are only supported when built with Qt6."
+		ewarn
+	fi
+	if use qt6 && ! use qt6-imageformats; then
+		elog "Enable USE=qt6-imageformats for AVIF, HEIF and JpegXL support"
+		elog
+	fi
+	optfeature_header
+	optfeature "shop payment support (requires USE=dbus enabled)" net-libs/webkit-gtk:4
+	if ! use qt6; then
+		optfeature "AVIF, HEIF and JpegXL image support" kde-frameworks/kimageformats[avif,heif,jpegxl]
+	fi
 }
 
 pkg_postrm() {

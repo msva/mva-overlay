@@ -38,7 +38,7 @@ RDEPEND="
 	)
 	dev-libs/openssl:=
 	media-libs/opus
-	pulseaudio? ( media-sound/pulseaudio[daemon(-)] )
+	pulseaudio? ( !pipewire? ( media-sound/pulseaudio[daemon(-)] ) )
 	pipewire? (
 		media-sound/pulseaudio[-daemon(+)]
 		media-video/pipewire[sound-server(-)]
