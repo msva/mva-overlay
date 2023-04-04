@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake flag-o-matic
+inherit cmake-multilib flag-o-matic
 
 DESCRIPTION="Open source project that includes YUV scaling and conversion functionality"
 HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv/"
@@ -34,7 +34,7 @@ DOCS=( AUTHORS LICENSE PATENTS README.{md,chromium} )
 PATCHES="${FILESDIR}/${P//_p*}-cmake-libdir.patch"
 
 S="${WORKDIR}"
-BUILD_DIR="${S}/build"
+# BUILD_DIR="${S}/build"
 
 src_prepare() {
 	cmake_src_prepare
@@ -69,7 +69,7 @@ src_prepare() {
 	fi
 }
 
-src_configure() {
+multilib_src_configure() {
 	local mycmakeargs=(-Wno-dev)
 	if use test; then
 		mycmakeargs+=(-DTEST=ON)
@@ -77,17 +77,17 @@ src_configure() {
 	cmake_src_configure
 }
 
-src_compile() {
+multilib_src_compile() {
 	cmake_src_compile libyuv.so
 	if use static-libs; then
 		cmake_src_compile libyuv.a
 	fi
-	if use tools; then
+	if use tools && multilib_is_native_abi; then
 		cmake_src_compile yuvconvert
 	fi
 }
 
-src_install() {
+multilib_src_install() {
 	cmake_src_install
 	insinto /usr/$(get_libdir)/pkgconfig
 	cat "${FILESDIR}/${PN}.pc.in" | \
