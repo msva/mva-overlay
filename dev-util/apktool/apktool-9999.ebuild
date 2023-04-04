@@ -9,7 +9,7 @@ HOMEPAGE="https://ibotpeaches.github.io/Apktool/"
 
 if [[ "${PV}" =~ 9999 ]]; then
 	inherit git-r3
-	EGVIT_REPO_URI="https://github.com/iBotPeaches/Apktool"
+	EGIT_REPO_URI="https://github.com/iBotPeaches/Apktool"
 else
 	SRC_URI="https://github.com/iBotPeaches/Apktool/archive/v${PV/_}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
