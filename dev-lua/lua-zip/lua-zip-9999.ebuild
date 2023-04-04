@@ -8,8 +8,8 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit cmake lua git-r3
 
 DESCRIPTION="Lua bindings to libzip"
-HOMEPAGE="https://git.osuv.de/m/lua-zip"
-EGIT_REPO_URI="https://git.osuv.de/m/lua-zip"
+HOMEPAGE="https://github.com/brimworks/lua-zip"
+EGIT_REPO_URI="https://github.com/brimworks/lua-zip"
 
 LICENSE="MIT"
 SLOT="0"

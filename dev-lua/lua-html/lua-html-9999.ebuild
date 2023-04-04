@@ -3,7 +3,7 @@
 
 EAPI=8
 
-LUA_COMPAT=( lua{5-{1..4},jit} )
+LUA_COMPAT=( lua5-1 )
 
 inherit lua git-r3 toolchain-funcs
 
@@ -49,8 +49,8 @@ each_lua_test() {
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
 	myemakeargs=(
-		CFLAGS="${CFLAGS} $($(tc-getPKG_CONFIG) --cflags-only-I libxml-2.0) -fPIC -c"
-		LDFLAGS="${LDFLAGS} $($(tc-getPKG_CONFIG) --libs-only-L libxml-2.0) -fPIC"
+		CFLAGS="${CFLAGS} $($(tc-getPKG_CONFIG) --cflags-only-I libxml-2.0) $($(tc-getPKG_CONFIG) --cflags-only-I ${ELUA}) -fPIC -c"
+		LDFLAGS="${LDFLAGS} -Wl,--no-as-needed $($(tc-getPKG_CONFIG) --libs libxml-2.0) -fPIC"
 		CC=$(tc-getCC)
 		LD=$(tc-getLD)
 	)
