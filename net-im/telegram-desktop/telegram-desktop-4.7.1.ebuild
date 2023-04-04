@@ -117,7 +117,7 @@ COMMON_DEPEND="
 		media-libs/libjpeg-turbo:=
 		media-libs/libyuv:=
 		dev-libs/openssl:=
-		>=media-libs/tg_owt-0_pre20221215[pipewire(-)=,screencast=,X=]
+		>=media-libs/tg_owt-0_pre20230401[pipewire(-)=,screencast=,X=]
 	)
 	wayland? (
 		kde-frameworks/kwayland:=

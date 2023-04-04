@@ -34,7 +34,7 @@ RDEPEND="
 	alsa? ( media-libs/alsa-lib )
 	dsp? (
 		dev-cpp/abseil-cpp:=
-		>=media-libs/tg_owt-0_pre20221215:=
+		>=media-libs/tg_owt-0_pre20230401:=
 	)
 	dev-libs/openssl:=
 	media-libs/opus
