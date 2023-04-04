@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/syncthing/syncthing"
 
 LICENSE="Apache-2.0 BSD BSD-2 CC0-1.0 ISC MIT MPL-2.0 Unlicense"
 SLOT="0"
-IUSE="+new-gui selinux tools"
+IUSE="new-gui selinux tools"
 
 RDEPEND="
 	acct-group/syncthing
@@ -59,7 +59,7 @@ src_compile() {
 	local version="$(git describe --always)"
 
 	GOARCH= ego run build.go -version "v${version##v}" -no-upgrade -build-out=bin/ \
-		$(usex new-gui "--with-next-gen-gui") \
+		$(usex new-gui "--with-next-gen-gui" "") \
 		${GOARCH:+-goarch="${GOARCH}"} \
 		install $(usex tools "all" "")
 }
