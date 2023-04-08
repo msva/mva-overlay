@@ -22,6 +22,8 @@ DEPEND="
 	${RDEPEND}
 "
 
+src_compile() { :; }
+
 each_lua_install() {
 	insinto "$(lua_get_lmod_dir)"
 	doins -r lib/resty
