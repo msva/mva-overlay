@@ -1,0 +1,25 @@
+From 045d33dfbc714e95464b295be4b5a864db82e7e6 Mon Sep 17 00:00:00 2001
+From: tastytea <tastytea@tastytea.de>
+Date: Mon, 29 Aug 2022 19:57:45 +0200
+Subject: [PATCH] find qmake5
+
+---
+ qt-libpaths/libpaths.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qt-libpaths/libpaths.go b/qt-libpaths/libpaths.go
+index bf59118..db1c4ae 100644
+--- a/qt-libpaths/libpaths.go
++++ b/qt-libpaths/libpaths.go
+@@ -18,7 +18,7 @@ func find(b []byte) string {
+ func get() (string, error) {
+ 	var err error
+ 	var output []byte
+-	for _, it := range []string{"qmake", "qmake-qt5"} {
++	for _, it := range []string{"qmake5", "qmake", "qmake-qt5"} {
+ 		output, err = exec.Command(it, "-query").Output()
+ 		if err != nil {
+ 			continue
+-- 
+2.35.1
+
