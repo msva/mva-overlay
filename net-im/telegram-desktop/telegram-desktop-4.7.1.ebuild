@@ -46,6 +46,7 @@ MYPATCHES=(
 	"wide-baloons"
 	"chat-ids"
 	"increase-limits"
+	"ignore-restrictions"
 )
 USE_EXPAND_VALUES_TDESKTOP_PATCHES="${MYPATCHES[@]}"
 for p in ${MYPATCHES[@]}; do
@@ -149,6 +150,7 @@ RESTRICT="!test? ( test )"
 
 pkg_pretend() {
 	if has_version '>=dev-libs/openssl-3.0'; then
+		eerror ""
 		eerror "!!!!!!!!!!!!!!!"
 		eerror "!!! WARNING !!!"
 		eerror "!!!!!!!!!!!!!!!"
@@ -157,22 +159,29 @@ pkg_pretend() {
 		eerror "Also, as for me, it neither able to connect to 1-to-1 calls (even P2P, not only through servers)."
 		eerror ""
 		eerror "You have been warned!"
-		ewarn "Refs:"
-		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/26108"
-		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/24692"
+		eerror "Refs:"
+		eerror " - https://github.com/telegramdesktop/tdesktop/issues/26108"
+		eerror " - https://github.com/telegramdesktop/tdesktop/issues/24692"
+		eerror ""
 	fi
 	if use wayland && use webkit; then
+		ewarn ""
 		ewarn "If you use Wayland as you main graphic system, keep in mind that embedded webview (webkit),"
 		ewarn "which is used for payments, may not work on 'clean' wayland (without xwayland mode)."
+		ewarn ""
 	fi
 	if ! use webrtc; then
+		eerror ""
 		eerror "Telegram Desktop's upstream made webrtc mandatory for build."
 		eerror "We're working on patch to make it possible to disable it again, but it isn't ready atm."
 		eerror "So, if build will fail - it is not a bug, you've been warned"
+		eerror ""
 	fi
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
+			einfo ""
 			einfo "${P} was built with your custom ApiId and ApiHash"
+			einfo ""
 		else
 			eerror ""
 			eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
@@ -194,9 +203,11 @@ pkg_pretend() {
 			eerror "Ref: https://bugreports.qt.io/browse/QTBUG-61710"
 			die "Please, read the error above."
 		fi
+		eerror ""
 	fi
 
 	if use system-rlottie; then
+		eerror ""
 		eerror "Currently, ${PN} is totally incompatible with Samsung's rlottie, and uses custom bundled fork."
 		eerror "Build will definitelly fail. You've been warned!"
 		eerror "Even if you have custom patches to make it build, there is another issue:"
@@ -210,6 +221,7 @@ pkg_pretend() {
 		ewarn "      Ref: https://github.com/Samsung/rlottie/pull/252"
 		ewarn "  - Crashes on some stickerpacks"
 		ewarn "      Probably related to: https://github.com/Samsung/rlottie/pull/262"
+		ewarn ""
 	fi
 }
 
@@ -287,7 +299,9 @@ src_configure() {
 	)
 
 	local mycmakeargs=(
-		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=$(usex !system-expected)  # header only lib, some git version. prevents warnings.
+		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=$(usex !system-expected)
+		# ^ header only lib, some git version. prevents warnings.
+
 		-DQT_VERSION_MAJOR=$(usex qt6 6 5)
 
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"

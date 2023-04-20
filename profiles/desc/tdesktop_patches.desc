@@ -5,8 +5,9 @@
 
 # Keep it sorted.
 wide-baloons - Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keeping tons of empty space
-chat-ids - Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keeping tons of empty space
-hide-banned - Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keeping tons of empty space
-hide-sponsored-messages - Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keeping tons of empty space
-increase-limits - Apply custom patch to make text baloons in chat journal follow longest line width on adaptive widescreen layout, instead of using short ones and keeping tons of empty space
+chat-ids - Apply custom patch to show chat IDs (groups, contacts, cnahhels)
+hide-banned - Apply custom patch to hide messages from users in your blacklist
+hide-sponsored-messages - Apply custom patch to hide sponsored messages in channels
+increase-limits - Apply custom patch to ignore (run-time, not server-side) limits on accounts, folders, and so on)
+ignore-restrictions - Apply custom patch to ignore copy restrictions on text and/or media
 

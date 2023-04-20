@@ -7,7 +7,7 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or `/etc/portage/env/{CAT}/{PN}`)</flag>
+    <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or in "/etc/portage/env/${CAT}/${PN}")</flag>
     <flag name="dbus">Enable D-Bus integration</flag>
     <flag name="webrtc">Enable WebRTC integration</flag>
     <flag name="enchant">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
@@ -20,6 +20,7 @@
     <flag name="system-libtgvoip">Use system-wide installed <pkg>media-libs/libtgvoip</pkg> instead of bundled one</flag>
     <flag name="system-rlottie">Use system-wide installed <pkg>media-libs/rlottie</pkg> instead of bundled one</flag>
     <flag name="system-variant">Use system-wide installed <pkg>dev-cpp/variant</pkg> instead of bundled one</flag>
+    <flag name="qt6-imageformats">Use bundled <pkg>kde-frameworks/kimageformats</pkg> patched for Qt6 instead of system one</flag>
   </use>
   <upstream>
     <remote-id type="github">telegramdesktop/tdesktop</remote-id>
