@@ -20,7 +20,7 @@ SLOT="0"
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	default
+	LUA_INCLUDE_DIR=$(lua_get_include_dir) default
 	popd
 }
 
