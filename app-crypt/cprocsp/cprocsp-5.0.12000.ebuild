@@ -7,29 +7,58 @@ inherit rpm systemd
 
 DESCRIPTION="CryptoPro Crypto Provider"
 
-SRC_URI="${P}_${ARCH}.tgz"
+SRC_URI="
+	x86? ( ${P}_x86.tgz )
+	amd64? ( ${P}_amd64.tgz )
+	arm? ( ${P}_arm.tgz )
+	arm64? ( ${P}_arm64.tgz )
+"
+# ${P}_${ARCH}.tgz
+# pkgdev doesn't support ${ARCH} ATM and throws an error
 
 HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 LICENSE="Crypto-Pro"
-RESTRICT="fetch mirror strip"
+RESTRICT="bindist fetch mirror strip"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
+DEPEND="
+	app-accessibility/at-spi2-core
+	dev-libs/glib
+	dev-libs/libusb-compat
+	media-libs/fontconfig
+	media-libs/freetype
+	sys-libs/pam
+	sys-libs/zlib
+	x11-libs/cairo
+	x11-libs/gdk-pixbuf
+	x11-libs/gtk+:2
+	x11-libs/libSM
+	x11-libs/libX11
+	x11-libs/libXxf86vm
+	x11-libs/pango
+"
 RDEPEND="
-	>=sys-apps/pcsc-lite-1.4.99
-	virtual/libusb:0
-	sys-apps/dbus
+	app-crypt/ccid
+	>=dev-libs/libp11-0.4.0
+	x86? ( dev-libs/opensc )
+	amd64? ( dev-libs/opensc )
 	media-libs/libpng:0
 	media-libs/fontconfig
-	>=dev-libs/libp11-0.4.0
-	media-libs/hal-flash
-	virtual/libcrypt:=
-	dev-libs/opensc
-	app-crypt/ccid
+	sys-apps/dbus
 	sys-apps/lsb-release
+	>=sys-apps/pcsc-lite-1.4.99
 	sys-apps/pcsc-tools
+	virtual/libcrypt:=
+	virtual/libusb:0
+	${DEPEND}
 "
-DEPEND="${RDEPEND}"
+# media-libs/libcanberra[gtk2]
+# x11-misc/appmenu-gtk-module[gtk2]
+# ^ Actually, having gtk2 on them doesn't strictly needed.
+# It works just fine without it. It might be added just to silence warnings on startup, but gtk2 is deprecated.
+# keepeng them in case upstream will go crazy and make them mandatory.
+
 BDEPEND="app-arch/rpm2targz"
 
 QA_PREBUILT="opt/cprocsp/*"
@@ -64,7 +93,8 @@ pkg_nofetch() {
 	local arch=$(_get_arch)
 	einfo "Please, open this link in the browser: ${BASE_URL}/${v//.}/$(ver_cut 3)/linux-${arch}.tgz"
 	einfo "(registration/login needed)"
-	einfo "Then download it and place it at ${PORTAGE_ACTUAL_DISTDIR}/${A}"
+	einfo "Then download it, and place at ${PORTAGE_ACTUAL_DISTDIR}/${A}"
+	ewarn "Post an issue on GH in case of checksums mismatch"
 }
 
 src_unpack() {
@@ -100,11 +130,11 @@ src_unpack() {
 #	touch etc/debian_version
 #	echo "jessie/sid" > etc/debian_version
 
-	cp etc/opt/cprocsp/config64.ini{,.backup} # What about non-64bit installs?
+	# cp etc/opt/cprocsp/config64.ini{,.backup} || die # What about non-64bit installs?
 
-	ln -s librdrjacarta.so.5.0.0 opt/cprocsp/lib/"${arch}"/librdrjacarta.so.1.0
+	ln -s librdrjacarta.so.5.0.0 opt/cprocsp/lib/"${arch}"/librdrjacarta.so.1.0 || die
 
-	rm opt/cprocsp/sbin/"${arch}"/oauth_gtk2 # requires long outdated webkitgtk1
+	rm opt/cprocsp/sbin/"${arch}"/oauth_gtk2 || die # linked against long outdated webkitgtk1
 }
 
 src_install() {
@@ -134,28 +164,8 @@ src_install() {
 
 	insinto /etc/opt/cprocsp
 
-	# ini файлы с форума https://forum.calculate-linux.org/t/csp-v-4-5/9989/246
-	doins ${FILESDIR}/config64-kc1.ini
-	doins ${FILESDIR}/config64-kc2.ini
-	doins ${FILESDIR}/config64-donnstro.ini
-	doins ${FILESDIR}/config64-5.0.12000.ini
-	doins ${FILESDIR}/goodconfig64.ini
-
-	case "${arch}" in
-		ia32)
-			insinto /etc
-			newins "${FILESDIR}"/ifcx86.cfg ifc.cfg
-			# touch "${T}/.import_ifc"
-			;;
-		amd64)
-			insinto /etc
-			newins "${FILESDIR}"/ifcx64.cfg ifc.cfg
-			# touch "${T}/.import_ifc"
-			;;
-	esac
-
 	newinitd "${FILESDIR}/${P}" cprocsp
-	# ^ make it just script, and make normal openrc init-file
+	# TODO: ^ make it just script, and make normal openrc init-file
 	systemd_dounit "${FILESDIR}/${PN}.service"
 
 	newenvd - "99${PN}" <<-_EOF_
@@ -168,6 +178,7 @@ src_install() {
 
 pkg_postinst() {
 	local arch=$(_get_arch)
+	local pi_st
 
 	# TODO: think about better permissions
 	chmod 1777 /var/opt/cprocsp/keys
@@ -176,11 +187,21 @@ pkg_postinst() {
 	chmod 775 /var/opt/cprocsp/mnt
 
 	ebegin "Running postinstall script (pre-configuring)"
-	bash /etc/opt/cprocsp/cprocsp_postinstal_all_scripts.sh &>"${T}/postinst.log"
-	eend $?
-	cat "${T}/postinst.log"
+		bash /etc/opt/cprocsp/cprocsp_postinstal_all_scripts.sh &>"${T}/postinst.log"
+		pi_st=$?
+	eend "${pi_st}"
+	if [[ "${pi_st}" -gt 0 ]]; then
+		eerror "Something gone wrong during postinstall. It is not necessarily bad, but check the log just in case:"
+		eerror "=================="
+		cat "${T}/postinst.log"
+		eerror "=================="
+	fi
 
-	# if [[ -f "${T}/.import_ifc" ]]; then
-	# 	/opt/cprocsp/bin/"${arch}"/csptestf -absorb -certs -autoprov
-	# fi
+	einfo "You may want to run following command as user (not root):"
+	einfo "    /opt/cprocsp/bin/"${arch}"/csptestf -absorb -certs -autoprov"
+	einfo "to import cryptocontainers and certificates from token"
+
+	if [[ -f "/etc/ifc.cfg" ]]; then
+		einfo "before trying to use it on GosUslugi site"
+	fi
 }

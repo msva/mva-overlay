@@ -14,7 +14,7 @@ SRC_URI="
 
 HOMEPAGE="https://gosuslugi.ru/"
 LICENSE="all-rights-reserved"
-RESTRICT="mirror strip"
+RESTRICT="fetch mirror strip"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
@@ -40,28 +40,39 @@ pkg_nofetch() {
 	else
 		die "Unsupported architecture!"
 	fi
-	eerror "Distribution file for plugin not found!"
-	eerror "Please, dowload file named ${pkg} from ${BASE_URI}"
-	eerror "and place it as ${PORTAGE_ACTUAL_DISTDIR}/${A}"
+
+	eerror "Please, open ${BASE_URI}, download file named ${pkg} (downloading may start automatically)"
+	eerror "and copy/move/symlink it to ${PORTAGE_ACTUAL_DISTDIR}/${A}"
 }
 
 src_unpack() {
 	unpack_deb ${A}
-	rm usr/lib/mozilla/plugins/lib/libcapi_engine_linux.so
 }
 
 src_install() {
+	local cfg
+	if use amd64; then
+		cfg="ifcx64.cfg"
+	elif use x86; then
+		cfg="ifcx86.cfg"
+	else
+		die "Unsupported architecture!"
+	fi
+
+	rm usr/lib/mozilla/plugins/lib/libcapi_engine_linux.so || die # linked against missing libs
+	rm -r etc/update_ccid_boundle || die # unnneeded crap
+	rm etc/ifc.cfg || die # broken encoding, missing cprocsp pkcs11 driver
+
+	insinto /etc
+	newins "${FILESDIR}/${cfg}" ifc.cfg
+
 	insinto /
 	doins -r usr etc opt
 	dobin usr/bin/ifc_chrome_host
-	keepdir /var/log/ifc
-	fperms 1777 /var/log/ifc
+
+	keepdir /var/log/ifc/engine_logs
+	touch "${ED}"/var/log/ifc/engine_logs/engine.log # otherwise it tries to create it as user, with 777 on path
 
 	insinto /etc/chromium/native-messaging-hosts
 	doins etc/opt/chrome/native-messaging-hosts/ru.rtlabs.ifcplugin.json
 }
-
-#pkg_postinst() {
-#	cd /etc/update_ccid_boundle
-#	sh ./update_ccid_boundle.sh
-#}

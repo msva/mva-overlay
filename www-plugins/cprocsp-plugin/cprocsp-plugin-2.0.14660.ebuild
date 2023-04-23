@@ -7,22 +7,26 @@ inherit rpm
 
 DESCRIPTION="CryptoPro Browser Plugin (with additional bundled stuff)"
 
-SRC_URI="${P}_${ARCH}.tar.gz"
+SRC_URI="
+	x86? ( ${P}_x86.tar.gz )
+	amd64? ( ${P}_amd64.tar.gz )
+	arm64? ( ${P}_arm64.tar.gz )
+"
+# ${P}_${ARCH}.tar.gz
+# pkgdev doesn't support ${ARCH} ATM and throws an error
+#	arm? ( ${P}_arm.tar.gz )
+# ^ can't figure out what would be proper user-agennt to download it to generate manifest.
+# Help wanted.
 
 HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 LICENSE="Crypto-Pro"
-RESTRICT="fetch mirror strip"
+RESTRICT="bindist fetch mirror strip"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm64 ~x86"
+# ~arm
 
 RDEPEND="
-	>=sys-apps/pcsc-lite-1.4.99
-	virtual/libusb:0
-	sys-apps/dbus
-	media-libs/libpng:0
-	media-libs/fontconfig
-	>=dev-libs/libp11-0.4.0
-	media-libs/hal-flash
+	app-crypt/cprocsp
 "
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/rpm"
@@ -75,7 +79,10 @@ src_unpack() {
 		cprocsp-pki-phpcades
 	)
 	for f in ${PKGS[@]} ${ADD_PKGS[@]}; do
-		find "../cades-linux-${arch}" -name "${f}*${arch}.rpm" | while read r; do rpm_unpack "./${r}"; done
+		local a=${arch}
+		[[ "${arch}" == "arm64" ]] && a="aarch64"
+		# dunno why they named it arm64 everywhere (including debs), but rpms are named aarch64
+		find "../cades-linux-${arch}" -name "${f}*${a}.rpm" | while read r; do rpm_unpack "./${r}"; done
 	done
 }
 
