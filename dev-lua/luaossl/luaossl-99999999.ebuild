@@ -14,7 +14,7 @@ EGIT_REPO_URI="https://github.com/wahern/luaossl/"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
+# KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 IUSE="examples"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 
