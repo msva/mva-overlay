@@ -71,8 +71,16 @@ src_install() {
 	dobin usr/bin/ifc_chrome_host
 
 	keepdir /var/log/ifc/engine_logs
-	touch "${ED}"/var/log/ifc/engine_logs/engine.log # otherwise it tries to create it as user, with 777 on path
 
 	insinto /etc/chromium/native-messaging-hosts
 	doins etc/opt/chrome/native-messaging-hosts/ru.rtlabs.ifcplugin.json
+}
+
+pkg_postinst() {
+	# otherwise it tries to create it as user, with 777 on path
+	local log="/var/log/ifc/engine_logs/engine.log"
+	touch "${log}"
+	fperms 666 "${log}" # plugin doesn't work otherwise
+	# (all users who run it should be able to write in it, or plugin crashes)
+	# TODO: think about proper fix before moving to gentoo repo.
 }
