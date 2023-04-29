@@ -23,5 +23,6 @@
     <flag name="ssl-cert-cb">Patch NginX for ssl callback support</flag>
     <flag name="systemtap">Install systemtap tapset files for some modules</flag>
     <flag name="stream">Enable Stream NginX core module</flag>
+    <flag name="pcre2">Build with <pkg>dev-libs/libpcre2</pkg></flag>
   </use>
 </pkgmetadata>
