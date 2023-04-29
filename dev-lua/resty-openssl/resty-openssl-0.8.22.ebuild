@@ -12,7 +12,9 @@ HOMEPAGE="https://github.com/fffonion/lua-resty-openssl"
 EGIT_REPO_URI="https://github.com/fffonion/lua-resty-openssl"
 
 if [[ "${PV}" != 9999 ]]; then
-	KEYWORDS="~amd64 ~arm ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86 ~amd64-linux ~x86-linux"
+	# ppc ppc64 riscv
+	# ^ nginx
 	EGIT_COMMIT="v${PV}"
 fi
 
@@ -21,7 +23,7 @@ SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
-	www-servers/nginx:*[nginx_modules_http_lua,ssl]
+	>=www-servers/nginx-1.24.0-r10[nginx_modules_http_lua,lua_single_target_luajit,ssl]
 	dev-libs/openssl:0
 "
 DEPEND="
