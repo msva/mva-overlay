@@ -18,10 +18,11 @@ if [[ "${PV}" == *9999* ]]; then
 		-src/third_party/pipewire
 		-src/third_party/abseil-cpp
 		-src/third_party/crc32c/src
+		# -src/third_party/libsrtp # TODO: unbundle
 	)
 else
 	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
-	EGIT_COMMIT="d85b53d12e9f32e3fd556a247af16b1a52a4a565"
+	EGIT_COMMIT="9d120195334db4f232c925529aa7601656dc59d7"
 	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
