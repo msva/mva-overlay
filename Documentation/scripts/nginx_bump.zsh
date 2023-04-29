@@ -62,7 +62,7 @@ awk \
 		elif grep -q "^${pkg_name}_SHA=" "${NGE}"; then
 			grep "^${pkg_name}_SHA=" "${NGE}" | IFS== read -r pkg_sha_var pkg_sha;
 			pkg_sha=${pkg_sha//\"}
-			pkg_sha_new=$(curl -Ls ${taglink/tags/commit\/HEAD} 2>/dev/null | awk '/sha-block.*commit/{print gensub(/.*"sha .*">([^<]*)<.*/,"\\1","g",$0); exit}');
+      pkg_sha_new=$(curl -Ls ${taglink/tags/commit\/HEAD} 2>/dev/null | awk '/Permalink/{print gensub(/.*<a href.*\/commit\/([^"]*)" [^>]*>.*/,"\\1","g",$0); exit}'); #/sha-block.*commit/{print gensub(/.*"sha .*">([^<]*)<.*/,"\\1","g",$0); exit}');
 			[[ "${pkg_sha_new}" != "${pkg_sha}" ]] && (
 				sed -e "/^${pkg_name}_SHA=/s|${pkg_sha}|${pkg_sha_new}|" -i "${NGE}" &&
 				echo "[${pkg_name}] SHA updated: from ${pkg_sha} to ${pkg_sha_new}"
