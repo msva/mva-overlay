@@ -18,6 +18,8 @@ if [[ "${PV}" != 9999 ]]; then
 	EGIT_COMMIT="v${PV}"
 fi
 
+IUSE="+lua_targets_luajit"
+
 LICENSE="BSD"
 SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"

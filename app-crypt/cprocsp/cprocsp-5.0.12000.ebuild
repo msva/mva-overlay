@@ -59,7 +59,10 @@ RDEPEND="
 # It works just fine without it. It might be added just to silence warnings on startup, but gtk2 is deprecated.
 # keepeng them in case upstream will go crazy and make them mandatory.
 
-BDEPEND="app-arch/rpm2targz"
+BDEPEND="
+	app-arch/rpm2targz
+	app-alternatives/bzip2
+"
 
 QA_PREBUILT="opt/cprocsp/*"
 
@@ -135,6 +138,8 @@ src_unpack() {
 	ln -s librdrjacarta.so.5.0.0 opt/cprocsp/lib/"${arch}"/librdrjacarta.so.1.0 || die
 
 	rm opt/cprocsp/sbin/"${arch}"/oauth_gtk2 || die # linked against long outdated webkitgtk1
+
+	bzip2 -d -c < "${FILESDIR}"/cprocsp_postinstal_all_scripts.sh.bz2 > "${T}"/postinst.bash
 }
 
 src_install() {
@@ -150,8 +155,8 @@ src_install() {
 	exeinto /opt/cprocsp/lib/"${arch}"
 	doexe opt/cprocsp/lib/${arch}/*
 
-	exeinto /etc/opt/cprocsp
-	doexe ${FILESDIR}/cprocsp_postinstal_all_scripts.sh
+	# exeinto /etc/opt/cprocsp
+	# doexe ${FILESDIR}/cprocsp_postinstal_all_scripts.sh
 
 	keepdir /var/opt/cprocsp/dsrf
 	keepdir /var/opt/cprocsp/dsrf/db1
@@ -187,7 +192,7 @@ pkg_postinst() {
 	chmod 775 /var/opt/cprocsp/mnt
 
 	ebegin "Running postinstall script (pre-configuring)"
-		bash /etc/opt/cprocsp/cprocsp_postinstal_all_scripts.sh &>"${T}/postinst.log"
+		bash "${T}"/postinst.bash &>"${T}/postinst.log"
 		pi_st=$?
 	eend "${pi_st}"
 	if [[ "${pi_st}" -gt 0 ]]; then
@@ -199,9 +204,5 @@ pkg_postinst() {
 
 	einfo "You may want to run following command as user (not root):"
 	einfo "    /opt/cprocsp/bin/"${arch}"/csptestf -absorb -certs -autoprov"
-	einfo "to import cryptocontainers and certificates from token"
-
-	if [[ -f "/etc/ifc.cfg" ]]; then
-		einfo "before trying to use it on GosUslugi site"
-	fi
+	einfo "to import cryptocontainers and certificates from USB-smartcard (aka token)"
 }

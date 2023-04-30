@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>gentoo@tastytea.de</email>
-		<name>tastytea</name>
-	</maintainer>
-	<upstream>
-		<bugs-to>https://github.com/CLD2Owners/cld2/issues</bugs-to>
-	</upstream>
+  <maintainer type="person">
+    <email>mva@gentoo.org</email>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
+  </maintainer>
+  <upstream>
+    <bugs-to>https://github.com/CLD2Owners/cld2/issues</bugs-to>
+    <remote-id type="github">CLD2Owners/cld2</remote-id>
+  </upstream>
 </pkgmetadata>

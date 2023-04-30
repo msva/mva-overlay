@@ -20,7 +20,7 @@ HOMEPAGE="https://www.rutoken.ru/support/download/rutoken-plugin/"
 LICENSE="all-rights-reserved"
 RESTRICT="fetch mirror strip"
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 RDEPEND="
 	sys-apps/pcsc-lite

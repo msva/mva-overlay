@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit autotools multilib-minimal git-r3
+inherit autotools multilib-minimal git-r3 multibuild
 
 DESCRIPTION="A portable fork of NaCl, a higher-level cryptographic library"
 HOMEPAGE="https://github.com/jedisct1/libsodium"

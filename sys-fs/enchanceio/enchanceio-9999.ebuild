@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit git-r3 linux-info linux-mod
+inherit git-r3 linux-mod
 
 DESCRIPTION="SSD caching software, based on Facebook's open source Flashcache project"
 HOMEPAGE="https://github.com/stec-inc/EnhanceIO"

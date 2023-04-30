@@ -30,7 +30,6 @@ src_unpack() {
 	go-module_live_vendor
 }
 
-
 src_prepare() {
 	# QBS Authors is fucking sadists.
 	# And people who took already dead (and such complicated) buildsystems

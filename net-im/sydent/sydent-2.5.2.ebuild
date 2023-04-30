@@ -4,8 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517="poetry"
-PYTHON_COMPAT=( python3_{9..10} )
-# ^ python-gammu blocks bump to 11
+PYTHON_COMPAT=( python3_{9..11} )
 
 inherit distutils-r1
 

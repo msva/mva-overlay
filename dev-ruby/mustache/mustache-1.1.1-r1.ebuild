@@ -10,7 +10,7 @@ RUBY_FAKEGEM_TASK_TEST=""
 RUBY_FAKEGEM_TASK_DOC="man:build"
 RUBY_FAKEGEM_EXTRADOC="README.md"
 
-inherit multilib ruby-fakegem
+inherit ruby-fakegem
 
 DESCRIPTION="Mustache is a framework-agnostic way to render logic-free views"
 HOMEPAGE="https://mustache.github.com/"

@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 # Skeleton command:
-# java-ebuilder --generate-ebuild --workdir . --pom pom.xml --download-uri mirror://apache//commons/text/source/commons-text-1.10.0-src.tar.gz --slot 0 --keywords "~amd64 ~ppc64 ~x86" --ebuild commons-text-1.10.0.ebuild
+# java-ebuilder --generate-ebuild --workdir . --pom pom.xml
+# --download-uri mirror://apache//commons/text/source/commons-text-1.10.0-src.tar.gz
+# --slot 0 --keywords "~amd64 ~ppc64 ~x86" --ebuild commons-text-1.10.0.ebuild
 
 EAPI=8
 
