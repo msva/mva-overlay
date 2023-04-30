@@ -3,13 +3,12 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
-    <name>Vadim A. Misbakh-Soloviov</name>
+    <name>Vadim Misbakh-Soloviov</name>
   </maintainer>
   <use>
     <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or in "/etc/portage/env/${CAT}/${PN}")</flag>
     <flag name="dbus">Enable D-Bus integration</flag>
-    <flag name="webrtc">Enable WebRTC integration</flag>
+    <!-- <flag name="webrtc">Enable WebRTC integration</flag> -->
     <flag name="enchant">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
     <flag name="hunspell">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
     <flag name="lto">Enable Link Time Optimizations (build will take 20+G RAM and binary will be about 2G)</flag>

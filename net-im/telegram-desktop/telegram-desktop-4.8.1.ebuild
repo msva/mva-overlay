@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit xdg cmake optfeature flag-o-matic toolchain-funcs
+inherit xdg cmake optfeature flag-o-matic
 
 inherit git-r3
 # ^ TODO: conditional (only for 9999)? maybe port to tarballs before moving to gentoo repo.
@@ -32,11 +32,11 @@ fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +webkit +webrtc +X"
+IUSE="custom-api-id +dbus debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +X"
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
-	webkit? ( dbus )
+	dbus
 	qt6-imageformats? ( qt6 )
 "
 
@@ -113,19 +113,17 @@ COMMON_DEPEND="
 	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
 	enchant? ( app-text/enchant:= )
 	hunspell? ( >=app-text/hunspell-1.7:= )
-	webrtc? (
-		dev-cpp/abseil-cpp:=
-		media-libs/libjpeg-turbo:=
-		media-libs/libyuv:=
-		dev-libs/openssl:=
-		>=media-libs/tg_owt-0_pre20230401[pipewire(-)=,screencast=,X=]
-	)
+	dev-cpp/abseil-cpp:=
+	media-libs/libjpeg-turbo:=
+	media-libs/libyuv:=
+	dev-libs/openssl:=
+	>=media-libs/tg_owt-0_pre20230401[pipewire(-)=,screencast=,X=]
 	wayland? (
 		kde-frameworks/kwayland:=
 		dev-libs/wayland-protocols:=
 		dev-libs/plasma-wayland-protocols:=
 	)
-	webkit? ( net-libs/webkit-gtk:= )
+	net-libs/webkit-gtk:=
 	X? ( x11-libs/libxcb:= )
 "
 
@@ -149,33 +147,24 @@ BDEPEND="
 RESTRICT="!test? ( test )"
 
 pkg_pretend() {
-	if has_version '>=dev-libs/openssl-3.0'; then
-		eerror ""
-		eerror "!!!!!!!!!!!!!!!"
-		eerror "!!! WARNING !!!"
-		eerror "!!!!!!!!!!!!!!!"
-		eerror ""
-		eerror "There is known issue that ${P} can't connect to group audio/video chats if you use >=openssl-3."
-		eerror "Also, as for me, it neither able to connect to 1-to-1 calls (even P2P, not only through servers)."
-		eerror ""
-		eerror "You have been warned!"
-		eerror "Refs:"
-		eerror " - https://github.com/telegramdesktop/tdesktop/issues/26108"
-		eerror " - https://github.com/telegramdesktop/tdesktop/issues/24692"
-		eerror ""
-	fi
-	if use wayland && use webkit; then
+
+	for p in ${MYPATCHES[@]}; do
+		if use "tdesktop_patches_${p}"; then
+			ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
+			ewarn "!!!!!!!! WARNNING !!!!!!!"
+			ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
+			ewarn "You have enabled some custom patches!"
+			ewarn "Some of them can violate TOS of Telegram and can (but non necessary will) lead to ban of your account on TG main network."
+			ewarn "Please, be careful."
+			einfo "Also, note that none of that patches have any chance to be ported to ${PN} ebuild in Gentoo repo"
+		fi
+	done
+
+	if ! use wayland || ! use qt6; then
 		ewarn ""
-		ewarn "If you use Wayland as you main graphic system, keep in mind that embedded webview (webkit),"
-		ewarn "which is used for payments, may not work on 'clean' wayland (without xwayland mode)."
+		ewarn "Keep in mind that embedded webview (based on webkit), may not work in runtime."
+		ewarn "Upstream has reworked it in sych way that it only guaranteed to work under Wayland+Qt6"
 		ewarn ""
-	fi
-	if ! use webrtc; then
-		eerror ""
-		eerror "Telegram Desktop's upstream made webrtc mandatory for build."
-		eerror "We're working on patch to make it possible to disable it again, but it isn't ready atm."
-		eerror "So, if build will fail - it is not a bug, you've been warned"
-		eerror ""
 	fi
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
@@ -192,18 +181,6 @@ pkg_pretend() {
 			eerror ""
 			die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables"
 		fi
-	fi
-
-	if get-flag -flto >/dev/null || use lto; then
-		eerror ""
-		eerror "Keep in mind, that building with LTO may take about 20G RAM, and (unstripped) binary size may be about 2.5G."
-		if tc-is-clang; then
-			eerror ""
-			eerror "Qt5 is incompatible with LTO builds using clang at this moment."
-			eerror "Ref: https://bugreports.qt.io/browse/QTBUG-61710"
-			die "Please, read the error above."
-		fi
-		eerror ""
 	fi
 
 	if use system-rlottie; then
@@ -293,9 +270,6 @@ src_configure() {
 		-Wno-switch
 		-DLIBDIR="$(get_libdir)"
 		-DTDESKTOP_DISABLE_AUTOUPDATE
-		$(usex webrtc "" "-DDESKTOP_APP_DISABLE_WEBRTC_INTEGRATION")
-		$(usex webkit "" "-DDESKTOP_APP_DISABLE_WEBKITGTK")
-		# Currently, only needs for "paymens" functionality, and also doesn't work on Wayland, and also with mutter WM.
 	)
 
 	local mycmakeargs=(
@@ -324,8 +298,6 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
 
 		-DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X)
-
-		$(usex webrtc "" "-DDESKTOP_APP_DISABLE_WEBRTC_INTEGRATION=ON")
 
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
 
@@ -383,7 +355,6 @@ pkg_postinst() {
 		elog
 	fi
 	optfeature_header
-	optfeature "shop payment support (requires USE=dbus enabled)" net-libs/webkit-gtk:4
 	if ! use qt6; then
 		optfeature "AVIF, HEIF and JpegXL image support" kde-frameworks/kimageformats[avif,heif,jpegxl]
 	fi
