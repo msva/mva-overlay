@@ -21,7 +21,7 @@ jobs:
           repository: gentoo-mirror/gentoo
           path: gentoo
       - run: |
-          mkdir -p /etc/portage
+          sudo mkdir -p /etc/portage
           echo -e "[DEFAULT]\nmain-repo = gentoo\n\n[gentoo]\nlocation = ${{ github.workspace }}/gentoo\n\n[mva]\nlocation = ${{ github.workspace }}/mva" > /etc/portage/repos.conf
       - uses: actions/setup-python@v3
         with:
