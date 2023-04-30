@@ -23,7 +23,7 @@ jobs:
       - run: |
           sudo mkdir -p /etc/portage
           echo -e "[DEFAULT]\nmain-repo = gentoo\n\n[gentoo]\nlocation = ${{ github.workspace }}/gentoo\n\n[mva]\nlocation = ${{ github.workspace }}/mva" | sudo tee /etc/portage/repos.conf
-          sudo ln -s ${{ github.workspace }}/gentoo/profiles/default/linux/amd64/17.1
+          sudo ln -s ${{ github.workspace }}/gentoo/profiles/default/linux/amd64/17.1 /etc/portage/make.profile
       - uses: actions/setup-python@v3
         with:
           python-version: "3.10"
