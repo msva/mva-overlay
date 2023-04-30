@@ -23,7 +23,11 @@ if [[ "${PV}" == *9999* ]]; then
 else
 	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 	EGIT_COMMIT="9d120195334db4f232c925529aa7601656dc59d7"
-	SRC_URI="https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
+	SRTP_PV="2.5.0"
+	SRC_URI="
+		https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz
+		https://github.com/cisco/libsrtp/archive/refs/tags/v2.5.0.tar.gz -> libsrtp-${SRTP_PV}.tar.gz
+	"
 	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
 fi
 
@@ -85,19 +89,13 @@ PATCHES=(
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
 )
 
-pkg_pretend() {
-	if has_version '>=dev-libs/openssl-3.0'; then
-		eerror "!!!!!!!!!!!!!!!"
-		eerror "!!! WARNING !!!"
-		eerror "!!!!!!!!!!!!!!!"
-		eerror ""
-		eerror "There is known issue that ${P} can't connect to group audio/video chats if you use >=openssl-3."
-		eerror "Also, as for me, it neither able to connect to 1-to-1 calls (even P2P, not only through servers)."
-		eerror ""
-		eerror "You have been warned!"
-		ewarn "Refs:"
-		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/26108"
-		ewarn " - https://github.com/telegramdesktop/tdesktop/issues/24692"
+src_unpack() {
+	if [[ "${PV}" == 9999 ]]; then
+		git-r3_src_unpack
+	else
+		default
+		rmdir "${S}"/src/third_party/libsrtp
+		cp -rl "${WORKDIR}"/libsrtp-"${SRTP_PV}" "${S}"/src/third_party/libsrtp
 	fi
 }
 
