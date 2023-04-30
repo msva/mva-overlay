@@ -1,4 +1,4 @@
-name: CI for ${{ github.repository }}
+name: CI
 # run-name: ${{ github.actor }} 🚀
 on: [push]
 jobs:
