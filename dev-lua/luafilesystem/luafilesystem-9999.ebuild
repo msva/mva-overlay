@@ -9,13 +9,13 @@ inherit lua git-r3 toolchain-funcs
 DESCRIPTION="File System Library for the Lua Programming Language"
 HOMEPAGE="https://keplerproject.github.io/luafilesystem/"
 
-EGIT_REPO_URI="https://github.com/keplerproject/${PN}"
+EGIT_REPO_URI="https://github.com/lunarmodules/${PN}"
 
 LICENSE="MIT"
 SLOT="0"
 IUSE="doc"
 
-HTML_DOCS=(doc/us/.)
+# HTML_DOCS=(doc/us/.)
 DOCS=(README.md)
 
 lua_compile() {
