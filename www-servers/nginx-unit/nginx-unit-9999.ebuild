@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python3_{8..11} pypy3 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby27 ruby30 ruby31"
+USE_RUBY="ruby30 ruby31 ruby32"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
@@ -74,6 +74,11 @@ my_econf() {
 	echo ./configure "${@}"
 	./configure "${@}"
 }
+
+pkg_setup() {
+	use unit_modules_ruby && ruby-ng_pkg_setup
+}
+
 
 src_unpack() {
 	# prevent ruby-ng
