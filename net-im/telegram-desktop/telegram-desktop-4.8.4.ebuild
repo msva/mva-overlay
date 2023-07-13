@@ -67,6 +67,7 @@ COMMON_DEPEND="
 	dev-libs/xxhash:=
 	dev-libs/libdispatch
 	dev-libs/libsigc++:2
+	dev-libs/libfmt:=
 	media-fonts/open-sans:*
 	media-libs/fontconfig:=
 	media-libs/rnnoise:=
