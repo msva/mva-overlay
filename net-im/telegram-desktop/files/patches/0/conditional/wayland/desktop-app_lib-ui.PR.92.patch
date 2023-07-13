@@ -40,14 +40,16 @@ index bb67d85..6e94c88 100644
  generate_palette(lib_ui ui/colors.palette)
  generate_styles(lib_ui ${src_loc} "${style_files}" ui/colors.palette)
  generate_emoji(lib_ui emoji.txt emoji_suggestions/emoji_autocomplete.json)
-@@ -279,10 +292,19 @@ if (DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
+@@ -279,11 +292,20 @@ if (DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION)
  elseif(LINUX)
      remove_target_sources(lib_ui ${src_loc} ui/platform/linux/ui_linux_wayland_integration_dummy.cpp)
 
 +  if (DESKTOP_APP_QT6)
      qt_generate_wayland_protocol_client_sources(lib_ui
      FILES
+-        ${third_party_loc}/wayland/protocol/wayland.xml
 -        ${third_party_loc}/wayland-protocols/stable/xdg-shell/xdg-shell.xml
++        ${wayland_protocols_loc}/../wayland/protocol/wayland.xml
 +        ${wayland_protocols_loc}/stable/xdg-shell/xdg-shell.xml
 +    )
 +  else()

@@ -147,18 +147,20 @@ BDEPEND="
 RESTRICT="!test? ( test )"
 
 pkg_pretend() {
-
 	for p in ${MYPATCHES[@]}; do
 		if use "tdesktop_patches_${p}"; then
-			ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
-			ewarn "!!!!!!!! WARNNING !!!!!!!"
-			ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
-			ewarn "You have enabled some custom patches!"
-			ewarn "Some of them can violate TOS of Telegram and can (but non necessary will) lead to ban of your account on TG main network."
-			ewarn "Please, be careful."
-			einfo "Also, note that none of that patches have any chance to be ported to ${PN} ebuild in Gentoo repo"
+			tdesktop_patches_warn=1
 		fi
 	done
+	if [[ -n "${tdesktop_patches_warn}" ]]; then
+		ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
+		ewarn "!!!!!!!! WARNNING !!!!!!!"
+		ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
+		ewarn "You have enabled some custom patches!"
+		ewarn "Some of them can violate TOS of Telegram and can (but non necessary will) lead to ban of your account on TG main network."
+		ewarn "Please, be careful."
+		einfo "Also, note that none of that patches have any chance to be ported to ${PN} ebuild in Gentoo repo"
+	fi
 
 	if ! use wayland || ! use qt6; then
 		ewarn ""
