@@ -24,6 +24,7 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="
 	dev-python/lsprotocol[${PYTHON_USEDEP}]
+	>=dev-python/typeguard-3.0.0[${PYTHON_USEDEP}]
 	<dev-python/typeguard-4.0.0[${PYTHON_USEDEP}]
 "
 DEPEND="
