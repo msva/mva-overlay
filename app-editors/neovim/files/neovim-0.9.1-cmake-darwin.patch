@@ -1,9 +1,10 @@
 --- a/src/nvim/CMakeLists.txt
 +++ b/src/nvim/CMakeLists.txt
-@@ -394,10 +394,6 @@ foreach(gen_include ${prop})
-   list(APPEND gen_cflags "-I${gen_include}")
+@@ -415,11 +415,7 @@ foreach(gen_include ${prop})
+     list(APPEND gen_cflags "-I${gen_include}")
+   endforeach()
  endforeach()
- list(APPEND gen_cflags "-I${DEPS_PREFIX}/include")
+
 -if(APPLE AND CMAKE_OSX_SYSROOT)
 -  list(APPEND gen_cflags "-isysroot")
 -  list(APPEND gen_cflags "${CMAKE_OSX_SYSROOT}")
