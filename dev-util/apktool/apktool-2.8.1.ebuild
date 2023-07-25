@@ -26,8 +26,8 @@ DEPEND="
 "
 
 src_prepare() {
-	rm -r brut.apktool/apktool-lib/src/test
-	# ^ wants to connect to X11 -> fails -> brakes build
+	# rm -r brut.apktool/apktool-lib/src/test
+	# # ^ wants to connect to X11 -> fails -> brakes build
 
 	default
 	java-pkg-2_src_prepare
