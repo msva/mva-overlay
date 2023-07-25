@@ -26,17 +26,17 @@ else
 	# TODO: tarballs
 	EGIT_COMMIT="v${PV}"
 	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
-	# ~arm # blocked by range in gentoo-repo
+	# ~arm # blocked by dispatch in gentoo-repo
 	# ~mipsel # blocked by all :(
 fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
-IUSE="custom-api-id +dbus debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-gsl +system-expected +system-libtgvoip system-rlottie +system-variant test +wayland +X"
+#IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast system-gsl +system-expected +system-libtgvoip system-rlottie test +wayland +X"
+IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +X"
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
-	dbus
 	qt6-imageformats? ( qt6 )
 "
 
@@ -76,15 +76,13 @@ COMMON_DEPEND="
 	media-libs/opus:=
 	media-video/ffmpeg:=[opus,vpx]
 	sys-libs/zlib:=[minizip]
-	dbus? (
-		dev-qt/qtdbus:5
-		dev-libs/libdbusmenu-qt[qt5(+)]
-		>=dev-cpp/glibmm-2.76
-	)
+	>=dev-cpp/glibmm-2.77:2.68
 	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
 	!qt6? (
 		>=dev-qt/qtcore-5.15:5
-		>=dev-qt/qtgui-5.15:5[dbus?,jpeg,png,wayland?,X?]
+		dev-qt/qtdbus:5
+		dev-libs/libdbusmenu-qt[qt5(+)]
+		>=dev-qt/qtgui-5.15:5[dbus,jpeg,png,wayland?,X?]
 		>=dev-qt/qtimageformats-5.15:5
 		>=dev-qt/qtnetwork-5.15:5[ssl]
 		>=dev-qt/qtsvg-5.15:5
@@ -92,26 +90,27 @@ COMMON_DEPEND="
 		kde-frameworks/kcoreaddons:=
 	)
 	qt6? (
-		dev-qt/qt5compat:6
-		dev-qt/qtbase:6[dbus?,gui,network,opengl,widgets,X?]
+		dev-qt/qtbase:6[dbus,gui,network,opengl,widgets,X?]
 		dev-qt/qtimageformats:6
 		dev-qt/qtsvg:6
 		wayland? ( dev-qt/qtwayland:6 )
-		qt6-imageformats? ( ${KIMAGEFORMATS_RDEPEND} )
+		qt6-imageformats? (
+			dev-qt/qtimageformats:6=
+			${KIMAGEFORMATS_RDEPEND}
+		)
 	)
 	X? (
 		x11-libs/libxcb:=
 		x11-libs/xcb-util-keysyms
 	)
 	pulseaudio? (
-		!pipewire? ( media-sound/pulseaudio[daemon(+)] )
+		!pipewire? ( media-sound/pulseaudio-daemon )
 	)
 	pipewire? (
 		media-video/pipewire[sound-server(+)]
-		media-sound/pulseaudio[-daemon(+)]
+		!media-sound/pulseaudio-daemon
 	)
 	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[pulseaudio(-)=,pipewire(-)=] )
-	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
 	enchant? ( app-text/enchant:= )
 	hunspell? ( >=app-text/hunspell-1.7:= )
 	dev-cpp/abseil-cpp:=
@@ -135,14 +134,15 @@ DEPEND="
 "
 BDEPEND="
 	${COMMON_DEPEND}
-	system-variant? ( dev-cpp/variant:= )
-	system-expected? ( >dev-cpp/tl-expected-1.0.0:= )
-	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
-	>=dev-cpp/range-v3-0.10.0:=
 	>=dev-util/cmake-3.16
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
 "
+
+#	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
+#	system-expected? ( >dev-cpp/tl-expected-1.0.0:= )
+#	>=dev-cpp/range-v3-0.10.0:=
+#	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
 
 RESTRICT="!test? ( test )"
 
@@ -185,43 +185,48 @@ pkg_pretend() {
 		fi
 	fi
 
-	if use system-rlottie; then
-		eerror ""
-		eerror "Currently, ${PN} is totally incompatible with Samsung's rlottie, and uses custom bundled fork."
-		eerror "Build will definitelly fail. You've been warned!"
-		eerror "Even if you have custom patches to make it build, there is another issue:"
-		ewarn ""
-		ewarn "Unfortunately, ${PN} uses custom modifications over rlottie"
-		ewarn "(which aren't accepted by upstream, since they made it another way)."
-		ewarn "This leads to following facts:"
-		ewarn "  - Colors replacement maps are not working when you link against system rlottie package."
-		ewarn "      That means, for example, that 'giant animated emojis' will ignore skin-tone colors"
-		ewarn "      and will always be yellow"
-		ewarn "      Ref: https://github.com/Samsung/rlottie/pull/252"
-		ewarn "  - Crashes on some stickerpacks"
-		ewarn "      Probably related to: https://github.com/Samsung/rlottie/pull/262"
-		ewarn ""
-	fi
+	# if use system-rlottie; then
+	# 	eerror ""
+	# 	eerror "Currently, ${PN} is totally incompatible with Samsung's rlottie, and uses custom bundled fork."
+	# 	eerror "Build will definitelly fail. You've been warned!"
+	# 	eerror "Even if you have custom patches to make it build, there is another issue:"
+	# 	ewarn ""
+	# 	ewarn "Unfortunately, ${PN} uses custom modifications over rlottie"
+	# 	ewarn "(which aren't accepted by upstream, since they made it another way)."
+	# 	ewarn "This leads to following facts:"
+	# 	ewarn "  - Colors replacement maps are not working when you link against system rlottie package."
+	# 	ewarn "      That means, for example, that 'giant animated emojis' will ignore skin-tone colors"
+	# 	ewarn "      and will always be yellow"
+	# 	ewarn "      Ref: https://github.com/Samsung/rlottie/pull/252"
+	# 	ewarn "  - Crashes on some stickerpacks"
+	# 	ewarn "      Probably related to: https://github.com/Samsung/rlottie/pull/262"
+	# 	ewarn ""
+	# fi
 }
 
 src_unpack() {
-	use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
-	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
+	# Temporary (?) broken (has a bug in std::variant), and fixed in bundled version.
+	# use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
+
+#	# XXX: maybe de-unbundle those? Anyway, they're header-only libraries...
+#	#  Moreover, upstream recommends to use bundled versions to avoid artefacts 🤷
+#	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
+
 	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
-	use system-variant && EGIT_SUBMODULES+=(-Telegram/ThirdParty/variant)
-	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
+
+#	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
 	# ^ Ref: https://bugs.gentoo.org/752417
 
 	git-r3_src_unpack
 }
 
 src_prepare() {
-	use system-rlottie || (
-	# Ref: https://bugs.gentoo.org/752417
-		sed -i \
-			-e 's/DESKTOP_APP_USE_PACKAGED/0/' \
-			cmake/external/rlottie/CMakeLists.txt || die
-	)
+	# use system-rlottie || (
+	# # Ref: https://bugs.gentoo.org/752417
+	# 	sed -i \
+	# 		-e 's/DESKTOP_APP_USE_PACKAGED/0/' \
+	# 		cmake/external/rlottie/CMakeLists.txt || die
+	# )
 
 	sed -i \
 		-e '/-W.*/d' \
@@ -250,6 +255,13 @@ src_prepare() {
 	# kde-frameworks/kcoreaddons is bundled when using qt6, see:
 	#   cmake/external/kcoreaddons/CMakeLists.txt
 
+	# Happily fail if libraries aren't found...
+	find -type f -name 'CMakeLists.txt' \
+		\! -path "./cmake/external/expected/CMakeLists.txt" \
+		-print0 | xargs -0 sed -i \
+		-e '/pkg_check_modules(/s/[^ ]*)/REQUIRED &/' \
+		-e '/find_package(/s/)/ REQUIRED)/' || die
+
 	patches_src_prepare
 #	cmake_src_prepare
 #	^ to be used when will be ported to gentoo repo
@@ -275,7 +287,7 @@ src_configure() {
 	)
 
 	local mycmakeargs=(
-		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=$(usex !system-expected)
+		# -DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=$(usex !system-expected)
 		# ^ header only lib, some git version. prevents warnings.
 
 		-DQT_VERSION_MAJOR=$(usex qt6 6 5)
@@ -292,8 +304,6 @@ src_configure() {
 
 		# Unbundling:
 		-DDESKTOP_APP_USE_PACKAGED=ON # Main
-
-		-DDESKTOP_APP_DISABLE_DBUS_INTEGRATION=$(usex !dbus)
 
 		-DDESKTOP_APP_DISABLE_JEMALLOC=$(usex !jemalloc)
 

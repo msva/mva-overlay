@@ -78,13 +78,16 @@ diff --git a/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp b/Tel
 index f25cecb..214b889 100644
 --- a/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp
 +++ b/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp
-@@ -852,8 +852,7 @@ QSize OverlayWidget::flipSizeByRotation(QSize size) const {
+@@ -994,10 +994,7 @@ QSize OverlayWidget::flipSizeByRotation(
  }
  
  bool OverlayWidget::hasCopyMediaRestriction() const {
--	return (_history && !_history->peer->allowsForwarding())
+-	const auto story = _stories ? _stories->story() : nullptr;
+-	return (story && !story->canDownload())
+-		|| (_history && !_history->peer->allowsForwarding())
 -		|| (_message && _message->forbidsSaving());
-+	return false; 
++	return false;
  }
  
  bool OverlayWidget::showCopyMediaRestriction() {
+
