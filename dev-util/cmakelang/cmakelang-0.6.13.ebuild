@@ -17,6 +17,8 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
+DOCS=("${PN}"/doc/README.rst)
+
 RDEPEND="
 	dev-python/pyyaml[${PYTHON_USEDEP}]
 	dev-python/jinja[${PYTHON_USEDEP}]
@@ -38,6 +40,6 @@ python_install() {
 	local root=${D}/_${EPYTHON}
 	esetup.py install "${DISTUTILS_ARGS[@]}" --skip-build --root="${root}"
 	multibuild_merge_root "${root}" "${D}"
-	qa_hack _distutils-r1_wrap_scripts
+	qa_hack _distutils-r1_wrap_scripts /usr/bin
 	python_optimize
 }
