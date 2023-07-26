@@ -23,8 +23,6 @@ LUA_COMPAT=( luajit )
 
 RUBY_OPTIONAL="yes"
 
-DTLS_COMPAT_VERSION="1.13.9"
-
 # ngx_brotli (https://github.com/google/ngx_brotli/tags, BSD-2)
 HTTP_BROTLI_MODULE_A="google"
 HTTP_BROTLI_MODULE_PN="ngx_brotli"
@@ -379,12 +377,6 @@ HTTP_COOLKIT_MODULE_P="${HTTP_COOLKIT_MODULE_PN}-${HTTP_COOLKIT_MODULE_SHA:-${HT
 HTTP_COOLKIT_MODULE_URI="https://github.com/${HTTP_COOLKIT_MODULE_A}/${HTTP_COOLKIT_MODULE_PN}/archive/${HTTP_COOLKIT_MODULE_SHA:-${HTTP_COOLKIT_MODULE_PV}}.tar.gz"
 HTTP_COOLKIT_MODULE_WD="${WORKDIR}/${HTTP_COOLKIT_MODULE_P}"
 
-# NginX Supervisord module (https://labs.frickle.com/nginx_ngx_supervisord/, BSD-2)
-HTTP_SUPERVISORD_MODULE_PV="1.4"
-HTTP_SUPERVISORD_MODULE_P="ngx_supervisord-${HTTP_SUPERVISORD_MODULE_PV}"
-HTTP_SUPERVISORD_MODULE_URI="https://labs.frickle.com/files/${HTTP_SUPERVISORD_MODULE_P}.tar.gz"
-HTTP_SUPERVISORD_MODULE_WD="${WORKDIR}/${HTTP_SUPERVISORD_MODULE_P}"
-
 # http_slowfs_cache (https://github.com/FRiCKLE/ngx_slowfs_cache/tags, BSD-2)
 HTTP_SLOWFS_CACHE_MODULE_A="FRiCKLE"
 HTTP_SLOWFS_CACHE_MODULE_PN="ngx_slowfs_cache"
@@ -425,7 +417,7 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 HTTP_NAXSI_MODULE_A="wargio"
 HTTP_NAXSI_MODULE_PN="naxsi"
 HTTP_NAXSI_MODULE_PV="1.4"
-HTTP_NAXSI_MODULE_SHA="3e621aeefd5a81aec40f19b57718e6ceaa1fcf3f"
+HTTP_NAXSI_MODULE_SHA="3005e29991e13fcb860f74be008fb6c25338862e"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
@@ -520,15 +512,10 @@ SSL_DEPS_SKIP=1
 inherit ssl-cert toolchain-funcs ruby-ng perl-module flag-o-matic systemd pax-utils lua-single patches
 # ^^^ keep ruby before perl, since ruby sets S=WORKDIR, and perl restores
 
-# TODO: EAPI=8
-
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="
 	https://sysoev.ru/nginx/
 	"
-# broken
-#	nginx_modules_stream_dtls? ( https://nginx.org/patches/dtls/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff )
-#	nginx_modules_http_supervisord? ( ${HTTP_SUPERVISORD_MODULE_URI} -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 SRC_URI="
 	https://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_pagespeed? (
@@ -684,6 +671,7 @@ NGINX_MODULES_OPT="
 	http_sub
 	http_xslt
 	http_v2
+	http_v3
 	stream_geoip
 	stream_realip
 	stream_ssl_preread
@@ -751,8 +739,6 @@ NGINX_MODULES_3P="
 	core_rtmp
 	core_stream_traffic_status
 "
-#	stream_dtls
-#	http_supervisord
 
 NGINX_MODULES_DYN="
 	http_geoip
@@ -794,7 +780,6 @@ NGINX_MODULES_DYN="
 	stream_lua
 	core_rtmp
 "
-#	stream_dtls
 
 REQUIRED_USE="
 	nginx_modules_http_grpc? ( nginx_modules_http_v2 )
@@ -830,17 +815,16 @@ REQUIRED_USE="
 	nginx_modules_http_fancyindex? ( nginx_modules_http_addition )
 	nginx_modules_http_security? ( pcre )
 	pcre-jit? ( || ( pcre pcre2 ) )
+	ktls? ( ssl )
 	http2? ( nginx_modules_http_v2 )
+	http3? ( nginx_modules_http_v3 )
 	rrd? ( nginx_modules_http_rrd )
 	rtmp? ( nginx_modules_core_rtmp )
 	nginx_modules_stream_traffic_status? ( nginx_modules_core_stream_traffic_status )
 	nginx_modules_core_stream_traffic_status? ( nginx_modules_stream_traffic_status )
 "
-#	dtls? ( nginx_modules_stream_dtls stream ssl )
-#	nginx_modules_stream_dtls? ( stream ssl )
-#	nginx_modules_http_supervisord? ( busy-upstream )
 
-IUSE="aio busy-upstream debug +http +http-cache libatomic mail pam +pcre pcre-jit pcre2 perftools rrd ssl ssl-cert-cb stream threads vim-syntax selinux http2 systemtap +static rtmp userland_GNU"
+IUSE="aio busy-upstream debug +http http2 http3 +http-cache ktls libatomic mail pam +pcre pcre-jit pcre2 perftools rrd ssl ssl-cert-cb stream threads vim-syntax selinux systemtap +static rtmp"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 	f=
@@ -864,9 +848,10 @@ CDEPEND="
 	ssl? ( dev-libs/openssl:0= )
 	http2? ( dev-libs/openssl:0= )
 	http-cache? (
-		userland_GNU? (
-			dev-libs/openssl:0=
-		)
+		dev-libs/openssl:0=
+	)
+	ktls? (
+		>=dev-libs/openssl-3:0=[ktls]
 	)
 	nginx_modules_http_brotli? ( app-arch/brotli:= )
 	nginx_modules_http_geoip? ( dev-libs/geoip )
@@ -880,7 +865,7 @@ CDEPEND="
 	nginx_modules_http_ctpp? ( www-apps/ctpp2 >=sys-devel/gcc-4.6:* )
 	nginx_modules_http_postgres? ( dev-db/postgresql:*[threads=] )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
-	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl:* ) )
+	nginx_modules_http_secure_link? ( dev-libs/openssl:* )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_stream_lua? (
 		>=dev-lang/luajit-2
@@ -1038,7 +1023,6 @@ pkg_setup() {
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	PORTAGE_QUIET=1 default
-#	use nginx_modules_stream_dtls && cp "${DISTDIR}/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff" "${S}/"
 }
 
 src_prepare() {
@@ -1067,8 +1051,6 @@ src_prepare() {
 			sed -i -e "/${module}/d" auto/install || die
 		fi
 	done
-
-#	use nginx_modules_stream_dtls && PATCHES+=("${S}/${PN}-${DTLS_COMPAT_VERSION}-dtls-experimental.diff")
 
 	if use nginx_modules_http_hls_audio; then
 		# compatibility with new ffmpeg
@@ -1286,7 +1268,7 @@ src_configure() {
 		myconf+=("--without-pcre2")
 	fi
 
-	if use http || use http-cache; then
+	if use http || use http-cache || use http2 || use http3 || use nginx_modules_http_javascript; then
 		export http_enabled=1
 	fi
 
@@ -1294,7 +1276,7 @@ src_configure() {
 		export mail_enabled=1
 	fi
 
-	if use stream; then
+	if use stream || use nginx_modules_stream_geoip2 || use nginx_modules_stream_javascript; then
 		export stream_enabled=1
 	fi
 
@@ -1651,12 +1633,6 @@ src_install() {
 		dodoc "${HTTP_ICONV_MODULE_WD}"/README.markdown
 	fi
 
-# http_supervisord
-#	if use nginx_modules_http_supervisord; then
-#		docinto "${HTTP_SUPERVISORD_MODULE_P}"
-#		dodoc "${HTTP_SUPERVISORD_MODULE_WD}"/README
-#	fi
-
 # http_slowfs_cache
 	if use nginx_modules_http_slowfs_cache; then
 		docinto "${HTTP_SLOWFS_CACHE_MODULE_P}"
@@ -1766,11 +1742,12 @@ pkg_postinst() {
 		fi
 	fi
 
-	if use nginx_modules_http_lua && use nginx_modules_http_v2; then
+	if use nginx_modules_http_lua && ( use nginx_modules_http_v2 || use nginx_modules_http_v3 ); then
 		ewarn ""
 		ewarn "Lua 3rd party module author warns against using ${P} with"
 		ewarn "NGINX_MODULES_HTTP=\"lua v2\". For more info, see https://git.io/OldLsg"
 		ewarn "and https://github.com/openresty/lua-nginx-module/issues?q=is%3Aissue+is%3Aopen+http2"
+		ewarn "Same for HTTP3 module"
 	fi
 
 	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then

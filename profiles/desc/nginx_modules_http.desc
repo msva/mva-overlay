@@ -43,6 +43,7 @@ upstream_keepalive - Upstream Keepalive Module
 upstream_least_conn - Upstream LeastConn Module
 upstream_zone - Upstream Zone Module
 v2 - HTTP2 support
+v3 - HTTP3 support
 xss - XSS Module
 array_var - TODO
 encrypted_session - TODO

@@ -12,6 +12,8 @@
     <flag name="http">Enable HTTP NginX core module</flag>
     <flag name="http-cache">Enable HTTP cache support</flag>
     <flag name="http2">Enable HTTP2 support</flag>
+    <flag name="http3">Enable HTTP3 support</flag>
+    <flag name="ktls">Enable Kernel TLS offload (kTLS)</flag>
     <flag name="libatomic">Force libatomic_ops library usage:atomic memory update operations</flag>
     <!-- <flag name="luajit">Build NginX against LuaJIT, instead of PUC-Rio Lua</flag> -->
     <flag name="mail">Enable Mail NginX core module</flag>
