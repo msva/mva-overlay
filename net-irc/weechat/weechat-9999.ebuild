@@ -106,17 +106,17 @@ src_prepare() {
 	done
 
 	# install only required documentation ; en always
-	for i in $(grep add_subdirectory doc/CMakeLists.txt \
-			| sed -e 's/.*add_subdirectory(\(..\)).*/\1/' -e '/en/d'); do
+	for i in $(sed -ne '/set.*_LANG.* en /{s@.*_LANG \([^)]*\))$@\1@;s@en@@g;p}'
+		doc/CMakeLists.txt | xargs -n1 | sort -u); do
 		if ! has ${i} ${LINGUAS-${i}} ; then
 			sed -i \
-				-e '/add_subdirectory('${i}')/d' \
+				-e '/set[^ ]*_LANG/s@ ${i}@@' \
 				doc/CMakeLists.txt || die
 		fi
 	done
 
 	# install docs in correct directory
-	sed -i "s#\${DATAROOTDIR}/doc/\${PROJECT_NAME}#\0-${PV}/html#" doc/*/CMakeLists.txt || die
+	sed -i "s#\${DATAROOTDIR}/doc/\${PROJECT_NAME}#\0-${PVR}/html#" doc/CMakeLists.txt || die
 
 	if [[ ${CHOST} == *-darwin* ]]; then
 		# fix linking error on Darwin
