@@ -163,7 +163,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
 HTTP_NCHAN_MODULE_PV="1.3.6"
-HTTP_NCHAN_MODULE_SHA="cc705a948cf6797f669b64649605f007f6f26a42"
+HTTP_NCHAN_MODULE_SHA="ff48ec7e50cbd63ece8aab9468acf5aaa9a1f0b7"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -1200,7 +1200,7 @@ ext_mod() {
 	if ! use static && [[ "${_NGX__NG_M_DYN}" =~ "${mod}:" ]]; then
 		dm="-dynamic"
 	fi
-	echo "--add${dm}-module=${p}*"
+	echo "--add${dm}-module=${p}"
 }
 
 std_mod() {

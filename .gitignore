@@ -1,5 +1,6 @@
 .gitignore
-Documentation/bad/*
+.directory
+/metadata/Documentation/bad/*
 profiles/use.local.desc
 metadata/cache
 metadata/md5-cache

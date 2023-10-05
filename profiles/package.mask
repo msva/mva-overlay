@@ -3,3 +3,6 @@ dev-db/proxysql
 
 # Not ready yet
 net-im/keywee
+
+# deprecated buildsystem
+dev-util/cmake-language-server

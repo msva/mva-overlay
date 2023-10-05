@@ -3,6 +3,7 @@
 
 EAPI=8
 PYTHON_COMPAT=( python3_{9..11} )
+# ^ py 3.12 - ldap3
 DISTUTILS_USE_PEP517=setuptools
 
 PYPI_NO_NORMALIZE=1
@@ -21,7 +22,7 @@ KEYWORDS="~amd64 ~arm64 ~x86"
 RDEPEND="
 	>=dev-python/twisted-15.1.0[${PYTHON_USEDEP}]
 	>=dev-python/ldap3-2.8[${PYTHON_USEDEP}]
-	dev-python/service_identity[${PYTHON_USEDEP}]
+	dev-python/service-identity[${PYTHON_USEDEP}]
 "
 
 RESTRICT="test"

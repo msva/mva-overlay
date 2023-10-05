@@ -4,7 +4,7 @@
 EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{8..12} )
 
 inherit lua-single python-single-r1 git-r3 flag-o-matic
 

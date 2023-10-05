@@ -3,11 +3,11 @@
 
 EAPI=8
 
-inherit linux-mod
+inherit linux-info
 
 DESCRIPTION="Data acquisition tool for V&A VA18B and clones (as PeakTech 3375) multimeter"
-HOMEPAGE="http://multimeter.schewe.com/"
-SRC_URI="http://multimeter.schewe.com/${P}.tar.gz"
+HOMEPAGE="https://multimeter.schewe.com/"
+SRC_URI="https://multimeter.schewe.com/${P}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -19,7 +19,7 @@ DOCS=( README )
 
 pkg_setup() {
 	CONFIG_CHECK="~USB_SERIAL_SPCP8X5"
-	linux-mod_pkg_setup
+	linux-info_pkg_setup
 }
 
 src_install() {

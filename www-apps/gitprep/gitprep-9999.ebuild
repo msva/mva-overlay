@@ -14,7 +14,7 @@ LICENSE="|| ( Artistic GPL-1+ )"
 SLOT="0"
 
 RDEPEND="
-	=acct-user/git-0-r3[gitprep]
+	>=acct-user/git-0-r4[gitprep]
 	acct-group/git
 	dev-perl/Mojolicious-Plugin-INIConfig
 	dev-perl/Mojolicious

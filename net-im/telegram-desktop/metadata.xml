@@ -7,7 +7,7 @@
   </maintainer>
   <use>
     <flag name="custom-api-id">Use custom API ID and API HASH (you must set it either in make.conf or in "/etc/portage/env/${CAT}/${PN}")</flag>
-    <flag name="dbus">Enable D-Bus integration</flag>
+    <!-- <flag name="dbus">Enable D-Bus integration</flag> -->
     <!-- <flag name="webrtc">Enable WebRTC integration</flag> -->
     <flag name="enchant">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
     <flag name="hunspell">Use <pkg>app-text/enchant</pkg> for spell checking</flag>

@@ -5,7 +5,7 @@ EAPI=8
 
 DISTUTILS_USE_PEP517=pdm
 DISTUTILS_SINGLE_IMPL=1
-PYTHON_COMPAT=( python3_{10..11} )
+PYTHON_COMPAT=( python3_{10..12} )
 inherit distutils-r1
 
 distutils_enable_tests pytest
@@ -32,11 +32,11 @@ RDEPEND="
 	${COMMON_DEPEND}
 	dev-util/cmake
 "
-BDEPEND="
-	test? (
-		$(python_gen_cond_dep '
-			dev-python/pytest-datadir[${PYTHON_USEDEP}]
-			dev-python/cattrs[${PYTHON_USEDEP}]
-		')
-	)
-"
+# BDEPEND="
+# 	test? (
+# 		$(python_gen_cond_dep '
+# 			dev-python/pytest-datadir[${PYTHON_USEDEP}]
+# 			dev-python/cattrs[${PYTHON_USEDEP}]
+# 		')
+# 	)
+# "

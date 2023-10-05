@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} pypy3 )
+PYTHON_COMPAT=( python3_{8..12} pypy3 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
@@ -78,7 +78,6 @@ my_econf() {
 pkg_setup() {
 	use unit_modules_ruby && ruby-ng_pkg_setup
 }
-
 
 src_unpack() {
 	# prevent ruby-ng

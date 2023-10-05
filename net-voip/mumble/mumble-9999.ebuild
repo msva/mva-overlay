@@ -73,7 +73,7 @@ RDEPEND="
 	portaudio? ( media-libs/portaudio )
 	pulseaudio? ( || (
 		media-sound/apulse
-		media-sound/pulseaudio
+		media-sound/pulseaudio-daemon
 		media-video/pipewire
 	) )
 	speech-dispatcher? ( >=app-accessibility/speech-dispatcher-0.8.0 )

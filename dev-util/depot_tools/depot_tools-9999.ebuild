@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{8..12} )
 
 inherit wrapper git-r3 python-r1
 
@@ -28,11 +28,6 @@ src_prepare() {
 	rm -r win_toolchain bootstrap
 
 	mkdir "${DOCS_DIR}" "${WORKDIR}/stuff"
-
-	# # FIXME: When depot_tools will be compatible with py3
-	# grep -rl 'exec python' | xargs sed \
-	# 	-e 's@exec python@exec python2@' -i
-	# #
 
 	sed -n \
 	-e '1p;/^base_dir/p;$p' \

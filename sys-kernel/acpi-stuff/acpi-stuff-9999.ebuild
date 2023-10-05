@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit linux-mod
+inherit linux-mod-r1
 
 DESCRIPTION="Few modules for ACPI debugging"
 HOMEPAGE="https://github.com/Lekensteyn/acpi-stuff"
@@ -24,9 +24,10 @@ DEPEND="
 	sys-kernel/linux-headers
 "
 
-MODULE_NAMES="acpi_dump_info(kernel/drivers/acpi:${S}/acpi_dump_info) pcidev(kernel/drivers/acpi:${S}/pcidev)"
-
-pkg_setup() {
-	linux-mod_pkg_setup
-	BUILD_TARGETS="default"
+src_compile() {
+	local modlist=(
+		acpi_dump_info="kernel/drivers/acpi:${S}/acpi_dump_info"
+		pcidev="kernel/drivers/acpi:${S}/pcidev"
+	)
+	linux-mod-r1_src_compile
 }

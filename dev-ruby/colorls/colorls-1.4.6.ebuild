@@ -6,7 +6,7 @@ EAPI=8
 RUBY_FAKEGEM_EXTRAINSTALL="zsh"
 RUBY_FAKEGEM_BINDIR="exe"
 
-USE_RUBY="ruby27 ruby30 ruby31"
+USE_RUBY="ruby30 ruby31 ruby32"
 
 inherit ruby-fakegem
 
@@ -19,7 +19,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 # ~arm   - missing in rainbow
 # ~arm64 - missing everywhere
-# 2022: still the issue...
+# 2024: still the issue...
 
 ruby_add_rdepend '
 	dev-ruby/filesize:*
