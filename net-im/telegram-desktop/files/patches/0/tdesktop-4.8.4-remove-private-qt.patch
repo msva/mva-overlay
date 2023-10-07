@@ -8,12 +8,15 @@ https://bugs.gentoo.org/908500
 
 --- tdesktop-4.8.4-full.orig/Telegram/lib_ui/ui/rp_widget.cpp
 +++ tdesktop-4.8.4-full/Telegram/lib_ui/ui/rp_widget.cpp
-@@ -12,38 +12,9 @@
- 
+@@ -13,41 +13,9 @@
  #include <QtGui/QWindow>
  #include <QtGui/QtEvents>
+ #include <QtGui/QColorSpace>
 -#include <private/qwidget_p.h>
 -
+-// Patching out this code without patching out all other private API usage
+-// and the Qt::{Core,Gui,Widgets}Private cmake dependency is asking
+-// for memory corruption
 -class TWidgetPrivate : public QWidgetPrivate {
 -public:
 -#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
@@ -48,3 +51,4 @@ https://bugs.gentoo.org/908500
  	[[maybe_unused]] static const auto Once = [] {
  		auto format = QSurfaceFormat::defaultFormat();
  		format.setSwapInterval(0);
+

@@ -8,8 +8,8 @@ inherit cmake git-r3
 DESCRIPTION="Range library for C++14/17/20, basis for C++20's std::ranges"
 HOMEPAGE="https://github.com/ericniebler/range-v3"
 EGIT_REPO_URI="https://github.com/ericniebler/range-v3"
-EGIT_COMMIT="0487cca29e352e8f16bbd91fda38e76e39a0ed28"
-#SRC_URI="https://github.com/ericniebler/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+# EGIT_COMMIT="0487cca29e352e8f16bbd91fda38e76e39a0ed28"
+# SRC_URI="https://github.com/ericniebler/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Boost-1.0"
 SLOT="0"

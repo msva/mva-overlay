@@ -76,6 +76,7 @@ COMMON_DEPEND="
 	media-libs/opus:=
 	media-video/ffmpeg:=[opus,vpx]
 	sys-libs/zlib:=[minizip]
+	dev-libs/glib:=
 	>=dev-cpp/glibmm-2.77:2.68
 	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
 	!qt6? (
@@ -137,11 +138,12 @@ BDEPEND="
 	>=dev-util/cmake-3.16
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
+	>=dev-cpp/range-v3-0.10.0:=
+	dev-libs/gobject-introspection:=
 "
 
 #	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
 #	system-expected? ( >dev-cpp/tl-expected-1.0.0:= )
-#	>=dev-cpp/range-v3-0.10.0:=
 #	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
 
 RESTRICT="!test? ( test )"

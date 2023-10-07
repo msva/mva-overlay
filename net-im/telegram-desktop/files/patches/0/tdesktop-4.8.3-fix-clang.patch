@@ -20,7 +20,7 @@ namespace GObject {
  			Gio::DBusMethodInvocation invocation) {
  		base::Integration::Instance().enterFromEventLoop([&] {
  			_commandRequests.fire_copy(
-@@ -232,23 +232,23 @@
+@@ -234,16 +234,16 @@ SystemMediaControls::Private::Private()
  		return true;
  	});
  	player().property_loop_status().signal_notify().connect([=](
@@ -30,7 +30,7 @@ namespace GObject {
 +			gi::repository::GObject::ParamSpec) {
  		base::Integration::Instance().enterFromEventLoop([&] {
  			_commandRequests.fire_copy(
- 				LoopStatusToCommand(player().get_loop_status()));
+ 				LoopStatusToCommand(player().get_loop_status().value_or("")));
  		});
  	});
  	player().property_shuffle().signal_notify().connect([=](
@@ -38,8 +38,10 @@ namespace GObject {
 -			GObject::ParamSpec) {
 +			gi::repository::GObject::Object,
 +			gi::repository::GObject::ParamSpec) {
- 		base::Integration::Instance().enterFromEventLoop([&] {
- 			_commandRequests.fire_copy(Command::Shuffle);
+ 		if (playerData().inSetShuffle) {
+ 			return;
+ 		}
+@@ -252,8 +252,8 @@ SystemMediaControls::Private::Private()
  		});
  	});
  	player().property_volume().signal_notify().connect([=](

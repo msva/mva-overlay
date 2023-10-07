@@ -78,16 +78,18 @@ diff --git a/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp b/Tel
 index f25cecb..214b889 100644
 --- a/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp
 +++ b/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp
-@@ -994,10 +994,7 @@ QSize OverlayWidget::flipSizeByRotation(
+@@ -1029,13 +1029,7 @@ QSize OverlayWidget::flipSizeByRotation(
  }
  
- bool OverlayWidget::hasCopyMediaRestriction() const {
--	const auto story = _stories ? _stories->story() : nullptr;
--	return (story && !story->canDownload())
--		|| (_history && !_history->peer->allowsForwarding())
+ bool OverlayWidget::hasCopyMediaRestriction(bool skipPremiumCheck) const {
+-	if (const auto story = _stories ? _stories->story() : nullptr) {
+-		return skipPremiumCheck
+-			? !story->canDownloadIfPremium()
+-			: !story->canDownloadChecked();
+-	}
+-	return (_history && !_history->peer->allowsForwarding())
 -		|| (_message && _message->forbidsSaving());
 +	return false;
  }
  
- bool OverlayWidget::showCopyMediaRestriction() {
-
+ bool OverlayWidget::showCopyMediaRestriction(bool skipPRemiumCheck) {

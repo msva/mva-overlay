@@ -1,0 +1,138 @@
+diff -ru a/Telegram/SourceFiles/history/history_item_components.cpp b/Telegram/SourceFiles/history/history_item_components.cpp
+--- a/Telegram/SourceFiles/history/history_item_components.cpp	1970-01-01 06:00:00.000000000 +0600
++++ b/Telegram/SourceFiles/history/history_item_components.cpp	2023-09-22 19:55:06.414790851 +0600
+@@ -552,7 +552,10 @@
+ 	const auto pausedSpoiler = context.paused
+ 		|| On(PowerSaving::kChatSpoiler);
+ 	if (w > st::msgReplyBarSkip) {
+-		if (replyToMsg || replyToStory) {
++		auto blocked = replyToMsg
++			&& replyToMsg->from()->isUser()
++			&& replyToMsg->from()->asUser()->isBlocked();
++		if ((replyToMsg && (!blocked)) || replyToStory) {
+ 			const auto media = replyToMsg ? replyToMsg->media() : nullptr;
+ 			auto hasPreview = (replyToStory && replyToStory->hasReplyPreview()) || (media && media->hasReplyPreview());
+ 			if (hasPreview && w < st::msgReplyBarSkip + st::msgReplyBarSize.height()) {
+@@ -645,7 +648,10 @@
+ }
+ 
+ QString HistoryMessageReply::statePhrase() const {
+-	return (replyToMsgId || replyToStoryId)
++	auto blocked = replyToMsg
++		&& replyToMsg->from()->isUser()
++		&& replyToMsg->from()->asUser()->isBlocked();
++	return ((replyToMsgId && (!blocked)) || replyToStoryId)
+ 		? tr::lng_profile_loading(tr::now)
+ 		: storyReply
+ 		? tr::lng_deleted_story(tr::now)
+diff -ru a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFiles/history/history_widget.cpp
+--- a/Telegram/SourceFiles/history/history_widget.cpp	1970-01-01 06:00:00.000000000 +0600
++++ b/Telegram/SourceFiles/history/history_widget.cpp	2023-09-22 20:00:03.007374659 +0600
+@@ -829,6 +829,21 @@
+ 		}
+ 	}, lifetime());
+ 
++	session().changes().peerUpdates(
++		Data::PeerUpdate::Flag::IsBlocked
++	) | rpl::start_with_next([=] {
++		crl::on_main(this, [=] {
++			if (_history) {
++				_history->forceFullResize();
++				if (_migrated) {
++					_migrated->forceFullResize();
++				}
++				updateHistoryGeometry();
++				update();
++			}
++		});
++	}, lifetime());
++
+ 	_topBar->membersShowAreaActive(
+ 	) | rpl::start_with_next([=](bool active) {
+ 		setMembersShowAreaActive(active);
+diff -ru a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
+--- a/Telegram/SourceFiles/history/view/history_view_element.cpp	1970-01-01 06:00:00.000000000 +0600
++++ b/Telegram/SourceFiles/history/view/history_view_element.cpp	2023-09-22 20:01:58.251711974 +0600
+@@ -42,6 +42,7 @@
+ #include "ui/item_text_options.h"
+ #include "ui/painter.h"
+ #include "data/data_session.h"
++#include "data/data_user.h"
+ #include "data/data_groups.h"
+ #include "data/data_forum.h"
+ #include "data/data_forum_topic.h"
+@@ -611,6 +612,10 @@
+ }
+ 
+ bool Element::isHidden() const {
++	if (data()->from()->isUser()
++		&& data()->from()->asUser()->isBlocked()) {
++		return true;
++	}
+ 	return isHiddenByGroup();
+ }
+ 
+diff -ru a/Telegram/SourceFiles/main/main_session.cpp b/Telegram/SourceFiles/main/main_session.cpp
+--- a/Telegram/SourceFiles/main/main_session.cpp	1970-01-01 06:00:00.000000000 +0600
++++ b/Telegram/SourceFiles/main/main_session.cpp	2023-09-22 20:03:45.975983794 +0600
+@@ -11,6 +11,7 @@
+ #include "api/api_updates.h"
+ #include "api/api_send_progress.h"
+ #include "api/api_user_privacy.h"
++#include "api/api_blocked_peers.h"
+ #include "main/main_account.h"
+ #include "main/main_domain.h"
+ #include "main/main_session_settings.h"
+@@ -74,6 +75,43 @@
+ 	return MTP::ConfigFields().internalLinksDomain;
+ }
+ 
++void InitializeBlockedPeers(not_null<Main::Session*> session) {
++	const auto offset = std::make_shared<int>(0);
++	const auto allLoaded = std::make_shared<bool>(false);
++	const auto applySlice = [=](
++			const Api::BlockedPeers::Slice &slice,
++			auto self) -> void {
++		if (slice.list.empty()) {
++			*allLoaded = true;
++		}
++
++		*offset += slice.list.size();
++		for (const auto &item : slice.list) {
++			if (const auto peer = session->data().peerLoaded(item.id)) {
++				peer->setIsBlocked(true);
++			}
++		}
++		if (*offset >= slice.total) {
++			*allLoaded = true;
++		}
++
++		if (!*allLoaded) {
++			session->api().blockedPeers().request(
++				*offset,
++				[=](const Api::BlockedPeers::Slice &slice) {
++					self(slice, self);
++				});
++		}
++	};
++
++	session->api().blockedPeers().slice(
++	) | rpl::take(
++		1
++	) | rpl::start_with_next([=](const Api::BlockedPeers::Slice &result) {
++		applySlice(result, applySlice);
++	}, session->lifetime());
++}
++
+ } // namespace
+ 
+ Session::Session(
+@@ -181,6 +219,7 @@
+ 	_api->requestNotifySettings(MTP_inputNotifyChats());
+ 	_api->requestNotifySettings(MTP_inputNotifyBroadcasts());
+ 
++	InitializeBlockedPeers(this);
+ 	Core::App().downloadManager().trackSession(this);
+ }
+ 
+
