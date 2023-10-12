@@ -80,21 +80,24 @@ COMMON_DEPEND="
 	>=dev-cpp/glibmm-2.77:2.68
 	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
 	!qt6? (
-		>=dev-qt/qtcore-5.15:5
-		dev-qt/qtdbus:5
+		>=dev-qt/qtcore-5.15:5=
+		dev-qt/qtdbus:5=
 		dev-libs/libdbusmenu-qt[qt5(+)]
-		>=dev-qt/qtgui-5.15:5[dbus,jpeg,png,wayland?,X?]
-		>=dev-qt/qtimageformats-5.15:5
-		>=dev-qt/qtnetwork-5.15:5[ssl]
-		>=dev-qt/qtsvg-5.15:5
-		>=dev-qt/qtwidgets-5.15:5[png,X?]
+		>=dev-qt/qtgui-5.15:5[dbus,jpeg,png,wayland?,X?]=
+		>=dev-qt/qtimageformats-5.15:5=
+		>=dev-qt/qtnetwork-5.15:5[ssl]=
+		>=dev-qt/qtsvg-5.15:5=
+		>=dev-qt/qtwidgets-5.15:5[png,X?]=
 		kde-frameworks/kcoreaddons:=
+		wayland? (
+			dev-qt/qtwayland:5=
+		)
 	)
 	qt6? (
-		dev-qt/qtbase:6[dbus,gui,network,opengl,widgets,X?]
-		dev-qt/qtimageformats:6
-		dev-qt/qtsvg:6
-		wayland? ( dev-qt/qtwayland:6 )
+		dev-qt/qtbase:6[dbus,gui,network,opengl,widgets,X?]=
+		dev-qt/qtimageformats:6=
+		dev-qt/qtsvg:6=
+		wayland? ( dev-qt/qtwayland:6= )
 		qt6-imageformats? (
 			dev-qt/qtimageformats:6=
 			${KIMAGEFORMATS_RDEPEND}
