@@ -63,12 +63,15 @@ KIMAGEFORMATS_RDEPEND="
 COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
+	>=dev-cpp/glibmm-2.77:2.68=
+	>=dev-libs/glib-2.77:=
+	>=dev-libs/gobject-introspection-1.77:=
 	dev-libs/openssl:=
 	dev-libs/xxhash:=
 	dev-libs/libdispatch
 	dev-libs/libsigc++:2
 	dev-libs/libfmt:=
-	media-fonts/open-sans:*
+	media-fonts/open-sans
 	media-libs/fontconfig:=
 	media-libs/rnnoise:=
 	media-libs/libyuv:=
@@ -76,25 +79,23 @@ COMMON_DEPEND="
 	media-libs/opus:=
 	media-video/ffmpeg:=[opus,vpx]
 	sys-libs/zlib:=[minizip]
-	dev-libs/glib:=
-	>=dev-cpp/glibmm-2.77:2.68
 	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
 	!qt6? (
 		>=dev-qt/qtcore-5.15:5=
 		dev-qt/qtdbus:5=
 		dev-libs/libdbusmenu-qt[qt5(+)]
-		>=dev-qt/qtgui-5.15:5[dbus,jpeg,png,wayland?,X?]=
+		>=dev-qt/qtgui-5.15:5=[dbus,jpeg,png,wayland?,X?]
 		>=dev-qt/qtimageformats-5.15:5=
-		>=dev-qt/qtnetwork-5.15:5[ssl]=
+		>=dev-qt/qtnetwork-5.15:5=[ssl]
 		>=dev-qt/qtsvg-5.15:5=
-		>=dev-qt/qtwidgets-5.15:5[png,X?]=
+		>=dev-qt/qtwidgets-5.15:5=[png,X?]
 		kde-frameworks/kcoreaddons:=
 		wayland? (
 			dev-qt/qtwayland:5=
 		)
 	)
 	qt6? (
-		dev-qt/qtbase:6[dbus,gui,network,opengl,widgets,X?]=
+		dev-qt/qtbase:6=[dbus,gui,network,opengl,widgets,X?]
 		dev-qt/qtimageformats:6=
 		dev-qt/qtsvg:6=
 		wayland? ( dev-qt/qtwayland:6= )
@@ -120,7 +121,7 @@ COMMON_DEPEND="
 	dev-cpp/abseil-cpp:=
 	media-libs/libjpeg-turbo:=
 	media-libs/libyuv:=
-	>=media-libs/tg_owt-0_pre20230401[pipewire(-)=,screencast=,X=]
+	>=media-libs/tg_owt-0_pre20230401:=[pipewire(-)=,screencast=,X=]
 	wayland? (
 		kde-frameworks/kwayland:=
 		dev-libs/wayland-protocols:=
@@ -135,14 +136,12 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
+	>=dev-cpp/range-v3-0.10.0:=
 "
 BDEPEND="
-	${COMMON_DEPEND}
 	>=dev-util/cmake-3.16
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
-	>=dev-cpp/range-v3-0.10.0:=
-	dev-libs/gobject-introspection:=
 "
 
 #	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
