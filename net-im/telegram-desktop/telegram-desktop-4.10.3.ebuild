@@ -33,7 +33,7 @@ fi
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
 #IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast system-gsl +system-expected +system-libtgvoip system-rlottie test +wayland +X"
-IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +X"
+IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
@@ -63,27 +63,27 @@ KIMAGEFORMATS_RDEPEND="
 COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
-	>=dev-cpp/glibmm-2.77:2.68=
-	>=dev-libs/glib-2.77:=
-	>=dev-libs/gobject-introspection-1.77:=
-	dev-libs/openssl:=
-	dev-libs/xxhash:=
+	dev-cpp/abseil-cpp:=
+	>=dev-cpp/glibmm-2.77:2.68
+	>=dev-libs/glib-2.77:2
+	>=dev-libs/gobject-introspection-1.77
 	dev-libs/libdispatch
-	dev-libs/libsigc++:2
-	dev-libs/libfmt:=
-	media-fonts/open-sans
-	media-libs/fontconfig:=
-	media-libs/rnnoise:=
-	media-libs/libyuv:=
+	dev-libs/openssl:=
+	dev-libs/protobuf
+	dev-libs/xxhash
+	media-libs/libjpeg-turbo:=
+	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[pulseaudio(-)=,pipewire(-)=] )
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
+	media-libs/rnnoise:=
 	media-video/ffmpeg:=[opus,vpx]
 	sys-libs/zlib:=[minizip]
+	virtual/opengl
+	enchant? ( app-text/enchant:= )
+	hunspell? ( >=app-text/hunspell-1.7:= )
 	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
 	!qt6? (
 		>=dev-qt/qtcore-5.15:5=
-		dev-qt/qtdbus:5=
-		dev-libs/libdbusmenu-qt[qt5(+)]
 		>=dev-qt/qtgui-5.15:5=[dbus,jpeg,png,wayland?,X?]
 		>=dev-qt/qtimageformats-5.15:5=
 		>=dev-qt/qtnetwork-5.15:5=[ssl]
@@ -93,14 +93,24 @@ COMMON_DEPEND="
 		wayland? (
 			dev-qt/qtwayland:5=
 		)
+		webkit? (
+			>=dev-qt/qtdeclarative-5.15:5=
+			>=dev-qt/qtwayland-5.15:5=
+		)
+		dev-qt/qtdbus:5=
+		dev-libs/libdbusmenu-qt[qt5(+)]
 	)
 	qt6? (
-		dev-qt/qtbase:6=[dbus,gui,network,opengl,widgets,X?]
-		dev-qt/qtimageformats:6=
-		dev-qt/qtsvg:6=
-		wayland? ( dev-qt/qtwayland:6= )
+		>=dev-qt/qtbase-6.5:6=[dbus,gui,network,opengl,wayland?,widgets,X?]
+		>=dev-qt/qtimageformats-6.5:6=
+		>=dev-qt/qtsvg-6.5:6=
+		wayland? ( >=dev-qt/qtwayland-6.5:6=[compositor] )
+		webkit? (
+			>=dev-qt/qtdeclarative-6.5:6
+			>=dev-qt/qtwayland-6.5:6[compositor]
+		)
 		qt6-imageformats? (
-			dev-qt/qtimageformats:6=
+			>=dev-qt/qtimageformats-6.5:6=
 			${KIMAGEFORMATS_RDEPEND}
 		)
 	)
@@ -108,6 +118,11 @@ COMMON_DEPEND="
 		x11-libs/libxcb:=
 		x11-libs/xcb-util-keysyms
 	)
+	dev-libs/libsigc++:2
+	dev-libs/libfmt:=
+	media-fonts/open-sans
+	media-libs/fontconfig:=
+	media-libs/libyuv:=
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio-daemon )
 	)
@@ -115,11 +130,6 @@ COMMON_DEPEND="
 		media-video/pipewire[sound-server(+)]
 		!media-sound/pulseaudio-daemon
 	)
-	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[pulseaudio(-)=,pipewire(-)=] )
-	enchant? ( app-text/enchant:= )
-	hunspell? ( >=app-text/hunspell-1.7:= )
-	dev-cpp/abseil-cpp:=
-	media-libs/libjpeg-turbo:=
 	media-libs/libyuv:=
 	>=media-libs/tg_owt-0_pre20230401:=[pipewire(-)=,screencast=,X=]
 	wayland? (
@@ -127,26 +137,31 @@ COMMON_DEPEND="
 		dev-libs/wayland-protocols:=
 		dev-libs/plasma-wayland-protocols:=
 	)
-	net-libs/webkit-gtk:=
-	X? ( x11-libs/libxcb:= )
 "
 
 RDEPEND="
 	${COMMON_DEPEND}
+	net-libs/webkit-gtk:=
 "
 DEPEND="
 	${COMMON_DEPEND}
 	>=dev-cpp/range-v3-0.10.0:=
 "
+#		system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
+#		^ TG upstream uses patched bundled version.
+#		>=dev-cpp/cppgir-0_p20230926
+#		^ WFM even without it 🤷
 BDEPEND="
 	>=dev-util/cmake-3.16
+	>=dev-util/gdbus-codegen-2.77
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
 "
 
 #	system-rlottie? ( >=media-libs/rlottie-0_pre20190818:=[threads(-),-cache(-)] )
+#		^ TG upstream uses patched bundled version.
 #	system-expected? ( >dev-cpp/tl-expected-1.0.0:= )
-#	system-gsl? ( >dev-cpp/ms-gsl-2.0.0:= )
+#		^ TG upstream uses patched bundled version.
 
 RESTRICT="!test? ( test )"
 
