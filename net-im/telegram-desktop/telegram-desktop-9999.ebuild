@@ -33,7 +33,7 @@ fi
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
 #IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast system-gsl +system-expected +system-libtgvoip system-rlottie test +wayland +X"
-IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
@@ -118,9 +118,10 @@ COMMON_DEPEND="
 		x11-libs/libxcb:=
 		x11-libs/xcb-util-keysyms
 	)
+	dev-libs/boost:=
 	dev-libs/libsigc++:2
 	dev-libs/libfmt:=
-	media-fonts/open-sans
+	!fonts? ( media-fonts/open-sans )
 	media-libs/fontconfig:=
 	media-libs/libyuv:=
 	pulseaudio? (
@@ -275,11 +276,21 @@ src_prepare() {
 	#   cmake/external/kcoreaddons/CMakeLists.txt
 
 	# Happily fail if libraries aren't found...
-	find -type f -name 'CMakeLists.txt' \
+	find -type f \( -name 'CMakeLists.txt' -o -name '*.cmake' \) \
 		\! -path "./cmake/external/expected/CMakeLists.txt" \
+		\! -path './cmake/external/qt/package.cmake' \
+		\! -path './Telegram/lib_webview/CMakeLists.txt' \
 		-print0 | xargs -0 sed -i \
 		-e '/pkg_check_modules(/s/[^ ]*)/REQUIRED &/' \
 		-e '/find_package(/s/)/ REQUIRED)/' || die
+	# Make sure to check the excluded files for new
+	# CMAKE_DISABLE_FIND_PACKAGE entries.
+
+	# Control QtDBus dependency from here, to avoid messing with QtGui.
+	if ! use dbus; then
+		sed -e '/find_package(Qt[^ ]* OPTIONAL_COMPONENTS/s/DBus *//' \
+			-i cmake/external/qt/package.cmake || die
+	fi
 
 	patches_src_prepare
 #	cmake_src_prepare
@@ -305,16 +316,24 @@ src_configure() {
 		-DTDESKTOP_DISABLE_AUTOUPDATE
 	)
 
+	local qt=$(usex qt6 6 5)
 	local mycmakeargs=(
 		# -DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=$(usex !system-expected)
 		# ^ header only lib, some git version. prevents warnings.
 
-		-DQT_VERSION_MAJOR=$(usex qt6 6 5)
+		-DQT_VERSION_MAJOR=${qt}
+
+		# Control automagic dependencies on certain packages
+		## Header-only lib, some git version.
+		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}Quick=$(usex !webkit)
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}QuickWidgets=$(usex !webkit)
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}WaylandClient=$(usex !wayland)
+		## Only used in Telegram/lib_webview/CMakeLists.txt
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}WaylandCompositor=$(usex !webkit)
+
 
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
-
-		# Qt6 is masked in Gentoo at the moment.
-		# -DDESKTOP_APP_QT6=OFF
 
 		# Upstream does not need crash reports from custom builds anyway
 		-DDESKTOP_APP_DISABLE_CRASH_REPORTS=ON
@@ -333,6 +352,9 @@ src_configure() {
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
 
 		-DTDESKTOP_API_TEST=$(usex test)
+
+		## Use system fonts instead of bundled ones
+		-DDESKTOP_APP_USE_PACKAGED_FONTS=$(usex !fonts)
 
 		# Snapcraft (snap, flatpack, whatever) API keys:
 		# As of my discussion with John Preston, he specifically asked TG servers owners to never ban snap's keys:
