@@ -142,7 +142,7 @@ COMMON_DEPEND="
 
 RDEPEND="
 	${COMMON_DEPEND}
-	net-libs/webkit-gtk:=
+	webkit? ( net-libs/webkit-gtk:= )
 "
 DEPEND="
 	${COMMON_DEPEND}
