@@ -33,7 +33,7 @@ fi
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
 #IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast system-gsl +system-expected +system-libtgvoip system-rlottie test +wayland +X"
-IUSE="custom-api-id debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )

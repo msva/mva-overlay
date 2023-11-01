@@ -12,7 +12,7 @@ if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 else
 	if [[ "${PV}" == *_pre* ]]; then
-		EGIT_COMMIT="532b4970752ec2bf90e2003e0779bebd8f01500d"
+		EGIT_COMMIT="06983098037603a4b2e5f7a8ba665da32857a631"
 	fi
 	MY_PV="${EGIT_COMMIT:-${PV}}"
 	SRC_URI="https://github.com/telegramdesktop/${PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
