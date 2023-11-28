@@ -1,34 +1,46 @@
-diff -ru a/Telegram/SourceFiles/history/history_item_components.cpp b/Telegram/SourceFiles/history/history_item_components.cpp
---- a/Telegram/SourceFiles/history/history_item_components.cpp	1970-01-01 06:00:00.000000000 +0600
-+++ b/Telegram/SourceFiles/history/history_item_components.cpp	2023-09-22 19:55:06.414790851 +0600
-@@ -552,7 +552,10 @@
- 	const auto pausedSpoiler = context.paused
- 		|| On(PowerSaving::kChatSpoiler);
- 	if (w > st::msgReplyBarSkip) {
--		if (replyToMsg || replyToStory) {
-+		auto blocked = replyToMsg
-+			&& replyToMsg->from()->isUser()
-+			&& replyToMsg->from()->asUser()->isBlocked();
-+		if ((replyToMsg && (!blocked)) || replyToStory) {
- 			const auto media = replyToMsg ? replyToMsg->media() : nullptr;
- 			auto hasPreview = (replyToStory && replyToStory->hasReplyPreview()) || (media && media->hasReplyPreview());
- 			if (hasPreview && w < st::msgReplyBarSkip + st::msgReplyBarSize.height()) {
-@@ -645,7 +648,10 @@
- }
- 
- QString HistoryMessageReply::statePhrase() const {
--	return (replyToMsgId || replyToStoryId)
-+	auto blocked = replyToMsg
-+		&& replyToMsg->from()->isUser()
-+		&& replyToMsg->from()->asUser()->isBlocked();
-+	return ((replyToMsgId && (!blocked)) || replyToStoryId)
- 		? tr::lng_profile_loading(tr::now)
- 		: storyReply
- 		? tr::lng_deleted_story(tr::now)
-diff -ru a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFiles/history/history_widget.cpp
---- a/Telegram/SourceFiles/history/history_widget.cpp	1970-01-01 06:00:00.000000000 +0600
-+++ b/Telegram/SourceFiles/history/history_widget.cpp	2023-09-22 20:00:03.007374659 +0600
-@@ -829,6 +829,21 @@
+diff -ur a/Telegram/SourceFiles/history/view/history_view_reply.cpp b/Telegram/SourceFiles/history/view/history_view_reply.cpp
+--- a/Telegram/SourceFiles/history/view/history_view_reply.cpp	2023-11-07 08:54:22.057455500 +0600
++++ b/Telegram/SourceFiles/history/view/history_view_reply.cpp	2023-11-09 19:43:28.914523641 +0600
+@@ -475,9 +475,12 @@
+ 				+ std::min(_text.maxWidth(), st::maxSignatureSize)),
+ 			st::normalFont->height);
+ 	_maxWidth = std::max(nameMaxWidth, optimalTextSize.width());
+-	if (!data->displaying()) {
++	auto blocked = message
++		&& message->from()->isUser()
++		&& message->from()->asUser()->isBlocked();
++	if (!data->displaying() || blocked) {
+ 		const auto unavailable = data->unavailable();
+-		_stateText = ((fields.messageId || fields.storyId) && !unavailable)
++		_stateText = (((fields.messageId && (!blocked)) || fields.storyId) && !unavailable)
+ 			? tr::lng_profile_loading(tr::now)
+ 			: fields.storyId
+ 			? tr::lng_deleted_story(tr::now)
+@@ -666,12 +669,15 @@
+ 		+ st::historyReplyPadding.top()
+ 		+ (st::msgServiceNameFont->height * (_nameTwoLines ? 2 : 1));
+ 	if (w > st::historyReplyPadding.left()) {
+-		if (_displaying) {
++		const auto data = view->data()->Get<HistoryMessageReply>();
++		const auto message = data
++			? data->resolvedMessage.get()
++			: nullptr;
++		auto blocked = message
++			&& message->from()->isUser()
++			&& message->from()->asUser()->isBlocked();
++		if (_displaying && (!blocked)) {
+ 			if (hasPreview) {
+-				const auto data = view->data()->Get<HistoryMessageReply>();
+-				const auto message = data
+-					? data->resolvedMessage.get()
+-					: nullptr;
+ 				const auto media = message ? message->media() : nullptr;
+ 				const auto image = media
+ 					? media->replyPreview()
+diff -ur a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFiles/history/history_widget.cpp
+--- a/Telegram/SourceFiles/history/history_widget.cpp	2023-11-01 02:41:23.623049094 +0600
++++ b/Telegram/SourceFiles/history/history_widget.cpp	2023-11-01 02:51:20.558082883 +0600
+@@ -813,6 +813,21 @@
  		}
  	}, lifetime());
  
@@ -50,9 +62,9 @@ diff -ru a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFile
  	_topBar->membersShowAreaActive(
  	) | rpl::start_with_next([=](bool active) {
  		setMembersShowAreaActive(active);
-diff -ru a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
---- a/Telegram/SourceFiles/history/view/history_view_element.cpp	1970-01-01 06:00:00.000000000 +0600
-+++ b/Telegram/SourceFiles/history/view/history_view_element.cpp	2023-09-22 20:01:58.251711974 +0600
+diff -ur a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
+--- a/Telegram/SourceFiles/history/view/history_view_element.cpp	2023-11-01 02:41:23.626382456 +0600
++++ b/Telegram/SourceFiles/history/view/history_view_element.cpp	2023-11-01 02:52:47.375481677 +0600
 @@ -42,6 +42,7 @@
  #include "ui/item_text_options.h"
  #include "ui/painter.h"
@@ -61,7 +73,7 @@ diff -ru a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram
  #include "data/data_groups.h"
  #include "data/data_forum.h"
  #include "data/data_forum_topic.h"
-@@ -611,6 +612,10 @@
+@@ -683,6 +684,10 @@
  }
  
  bool Element::isHidden() const {
@@ -72,9 +84,9 @@ diff -ru a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram
  	return isHiddenByGroup();
  }
  
-diff -ru a/Telegram/SourceFiles/main/main_session.cpp b/Telegram/SourceFiles/main/main_session.cpp
---- a/Telegram/SourceFiles/main/main_session.cpp	1970-01-01 06:00:00.000000000 +0600
-+++ b/Telegram/SourceFiles/main/main_session.cpp	2023-09-22 20:03:45.975983794 +0600
+diff -ur a/Telegram/SourceFiles/main/main_session.cpp b/Telegram/SourceFiles/main/main_session.cpp
+--- a/Telegram/SourceFiles/main/main_session.cpp	2023-11-01 02:41:23.646382625 +0600
++++ b/Telegram/SourceFiles/main/main_session.cpp	2023-11-01 02:56:34.480730048 +0600
 @@ -11,6 +11,7 @@
  #include "api/api_updates.h"
  #include "api/api_send_progress.h"
@@ -88,40 +100,40 @@ diff -ru a/Telegram/SourceFiles/main/main_session.cpp b/Telegram/SourceFiles/mai
  }
  
 +void InitializeBlockedPeers(not_null<Main::Session*> session) {
-+	const auto offset = std::make_shared<int>(0);
-+	const auto allLoaded = std::make_shared<bool>(false);
-+	const auto applySlice = [=](
-+			const Api::BlockedPeers::Slice &slice,
-+			auto self) -> void {
-+		if (slice.list.empty()) {
-+			*allLoaded = true;
-+		}
++       const auto offset = std::make_shared<int>(0);
++       const auto allLoaded = std::make_shared<bool>(false);
++       const auto applySlice = [=](
++                       const Api::BlockedPeers::Slice &slice,
++                       auto self) -> void {
++               if (slice.list.empty()) {
++                       *allLoaded = true;
++               }
 +
-+		*offset += slice.list.size();
-+		for (const auto &item : slice.list) {
-+			if (const auto peer = session->data().peerLoaded(item.id)) {
-+				peer->setIsBlocked(true);
-+			}
-+		}
-+		if (*offset >= slice.total) {
-+			*allLoaded = true;
-+		}
++               *offset += slice.list.size();
++               for (const auto &item : slice.list) {
++                       if (const auto peer = session->data().peerLoaded(item.id)) {
++                               peer->setIsBlocked(true);
++                       }
++               }
++               if (*offset >= slice.total) {
++                       *allLoaded = true;
++               }
 +
-+		if (!*allLoaded) {
-+			session->api().blockedPeers().request(
-+				*offset,
-+				[=](const Api::BlockedPeers::Slice &slice) {
-+					self(slice, self);
-+				});
-+		}
-+	};
++               if (!*allLoaded) {
++                       session->api().blockedPeers().request(
++                               *offset,
++                               [=](const Api::BlockedPeers::Slice &slice) {
++                                       self(slice, self);
++                               });
++               }
++       };
 +
-+	session->api().blockedPeers().slice(
-+	) | rpl::take(
-+		1
-+	) | rpl::start_with_next([=](const Api::BlockedPeers::Slice &result) {
-+		applySlice(result, applySlice);
-+	}, session->lifetime());
++       session->api().blockedPeers().slice(
++       ) | rpl::take(
++               1
++       ) | rpl::start_with_next([=](const Api::BlockedPeers::Slice &result) {
++               applySlice(result, applySlice);
++       }, session->lifetime());
 +}
 +
  } // namespace

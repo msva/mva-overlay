@@ -8,7 +8,7 @@ https://bugs.gentoo.org/908500
 
 --- tdesktop-4.8.4-full.orig/Telegram/lib_ui/ui/rp_widget.cpp
 +++ tdesktop-4.8.4-full/Telegram/lib_ui/ui/rp_widget.cpp
-@@ -13,41 +13,9 @@
+@@ -13,40 +13,9 @@
  #include <QtGui/QWindow>
  #include <QtGui/QtEvents>
  #include <QtGui/QColorSpace>
@@ -22,14 +22,13 @@ https://bugs.gentoo.org/908500
 -#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
 -	QPlatformBackingStoreRhiConfig rhiConfig() const override {
 -		const auto q = static_cast<TWidget*>(q_ptr);
--		if (!q->testAttribute(Qt::WA_WState_Created)) {
+-		if (!q->testAttribute(Qt::WA_WState_Created)
+-			|| (!q->testAttribute(Qt::WA_NativeWindow)
+-				&& !q->isWindow())) {
 -			return QWidgetPrivate::rhiConfig();
 -		}
 -		if (const auto config = q->rhiConfig()) {
 -			return *config;
--		}
--		if (::Platform::IsMac10_14OrGreater()) {
--			return { QPlatformBackingStoreRhiConfig::Metal };
 -		}
 -		// We can't specify the widget here as q_evaluateRhiConfig is called
 -		// in QWidgetWindow constructor, while windowHandle is set right after
