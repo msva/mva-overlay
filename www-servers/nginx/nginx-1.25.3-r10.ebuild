@@ -27,7 +27,7 @@ RUBY_OPTIONAL="yes"
 HTTP_BROTLI_MODULE_A="google"
 HTTP_BROTLI_MODULE_PN="ngx_brotli"
 HTTP_BROTLI_MODULE_PV="1.0.0rc"
-HTTP_BROTLI_MODULE_SHA="6e975bcb015f62e1f303054897783355e2a877dc"
+HTTP_BROTLI_MODULE_SHA=""
 HTTP_BROTLI_MODULE_P="${HTTP_BROTLI_MODULE_PN}-${HTTP_BROTLI_MODULE_SHA:-${HTTP_BROTLI_MODULE_PV}}"
 HTTP_BROTLI_MODULE_URI="https://github.com/${HTTP_BROTLI_MODULE_A}/${HTTP_BROTLI_MODULE_PN}/archive/${HTTP_BROTLI_MODULE_SHA:-v${HTTP_BROTLI_MODULE_PV}}.tar.gz"
 HTTP_BROTLI_MODULE_WD="${WORKDIR}/${HTTP_BROTLI_MODULE_P}"
@@ -89,7 +89,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="6.0.18"
+HTTP_PASSENGER_MODULE_PV="6.0.19"
 #HTTP_PASSENGER_MODULE_SHA=""
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -171,7 +171,7 @@ HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
 # http_headers_more (https://github.com/openresty/headers-more-nginx-module/tags, BSD)
 HTTP_HEADERS_MORE_MODULE_A="openresty"
 HTTP_HEADERS_MORE_MODULE_PN="headers-more-nginx-module"
-HTTP_HEADERS_MORE_MODULE_PV="0.34"
+HTTP_HEADERS_MORE_MODULE_PV="0.36"
 #HTTP_HEADERS_MORE_MODULE_SHA="a744defdfac1d6874152a51e3a8a604a85354a2c"
 HTTP_HEADERS_MORE_MODULE_P="${HTTP_HEADERS_MORE_MODULE_PN}-${HTTP_HEADERS_MORE_MODULE_SHA:-${HTTP_HEADERS_MORE_MODULE_PV}}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/${HTTP_HEADERS_MORE_MODULE_A}/${HTTP_HEADERS_MORE_MODULE_PN}/archive/${HTTP_HEADERS_MORE_MODULE_SHA:-v${HTTP_HEADERS_MORE_MODULE_PV}}.tar.gz"
@@ -220,7 +220,7 @@ HTTP_EY_BALANCER_MODULE_WD="${WORKDIR}/${HTTP_EY_BALANCER_MODULE_P}"
 # http_ndk, NginX DevKit module (https://github.com/simpl/ngx_devel_kit/tags, BSD)
 HTTP_NDK_MODULE_A="simpl"
 HTTP_NDK_MODULE_PN="ngx_devel_kit"
-HTTP_NDK_MODULE_PV="0.3.2"
+HTTP_NDK_MODULE_PV="0.3.3"
 HTTP_NDK_MODULE_P="${HTTP_NDK_MODULE_PN}-${HTTP_NDK_MODULE_SHA:-${HTTP_NDK_MODULE_PV}}"
 HTTP_NDK_MODULE_URI="https://github.com/${HTTP_NDK_MODULE_A}/${HTTP_NDK_MODULE_PN}/archive/${HTTP_NDK_MODULE_SHA:-v${HTTP_NDK_MODULE_PV}}.tar.gz"
 HTTP_NDK_MODULE_WD="${WORKDIR}/${HTTP_NDK_MODULE_P}"
@@ -237,7 +237,7 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.25"
+HTTP_LUA_MODULE_PV="0.10.26rc1"
 # HTTP_LUA_MODULE_SHA="5e05fa3adb0d2492ecaaf2cb76498e23765aa6ab"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
@@ -246,7 +246,7 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 # stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
-STREAM_LUA_MODULE_PV="0.0.13"
+STREAM_LUA_MODULE_PV="0.0.14rc1"
 # STREAM_LUA_MODULE_SHA="2ef14f373b991b911c4eb5d09aa333352be9a756"
 STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
 STREAM_LUA_MODULE_URI="https://github.com/${STREAM_LUA_MODULE_A}/${STREAM_LUA_MODULE_PN}/archive/${STREAM_LUA_MODULE_SHA:-v${STREAM_LUA_MODULE_PV}}.tar.gz"
@@ -416,8 +416,8 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/${HTTP_METRICS_MODULE_P}"
 # naxsi-core (https://github.com/wargio/naxsi/tags, GPLv2+)
 HTTP_NAXSI_MODULE_A="wargio"
 HTTP_NAXSI_MODULE_PN="naxsi"
-HTTP_NAXSI_MODULE_PV="1.4"
-HTTP_NAXSI_MODULE_SHA="3005e29991e13fcb860f74be008fb6c25338862e"
+HTTP_NAXSI_MODULE_PV="1.6"
+#HTTP_NAXSI_MODULE_SHA="3005e29991e13fcb860f74be008fb6c25338862e"
 HTTP_NAXSI_MODULE_P="${HTTP_NAXSI_MODULE_PN}-${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}"
 HTTP_NAXSI_MODULE_URI="https://github.com/${HTTP_NAXSI_MODULE_A}/${HTTP_NAXSI_MODULE_PN}/archive/${HTTP_NAXSI_MODULE_SHA:-${HTTP_NAXSI_MODULE_PV}}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/${HTTP_NAXSI_MODULE_P}/naxsi_src"
@@ -787,8 +787,8 @@ REQUIRED_USE="
 	nginx_modules_stream_lua? ( ssl ssl-cert-cb )
 	nginx_modules_http_lua? (
 		${LUA_REQUIRED_USE}
-		pcre
-		!pcre2
+		|| ( pcre pcre2 )
+		pcre2? ( pcre-jit )
 		nginx_modules_http_ndk
 		nginx_modules_http_rewrite
 		ssl? ( ssl-cert-cb )
@@ -1260,13 +1260,13 @@ src_configure() {
 		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
 		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
 		# XXX: temp kludge. TODO: think on proper fix
-		myconf+=("--without-pcre2")
+		# myconf+=("--without-pcre2")
 	fi
 
-	if use nginx_modules_http_pagespeed; then
+	# if use nginx_modules_http_pagespeed; then
 		# XXX: temp kludge. TODO: think on proper fix
-		myconf+=("--without-pcre2")
-	fi
+		# myconf+=("--without-pcre2")
+	# fi
 
 	if use http || use http-cache || use http2 || use http3 || use nginx_modules_http_javascript; then
 		export http_enabled=1
@@ -1303,7 +1303,7 @@ src_configure() {
 		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
 		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
 		# XXX: temp kludge. TODO: think on proper fix
-		myconf+=("--without-pcre2")
+		# myconf+=("--without-pcre2")
 	fi
 
 	if [[ -n "${stream_enabled}" ]]; then
