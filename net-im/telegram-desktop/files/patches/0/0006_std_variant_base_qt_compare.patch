@@ -1,0 +1,11 @@
+--- a/Telegram/lib_base/base/qt/qt_compare.h	2023-12-14 15:19:42.768067277 +0700
++++ b/Telegram/lib_base/base/qt/qt_compare.h	2023-12-14 15:19:50.983810426 +0700
+@@ -11,6 +11,8 @@
+ 
+ #include <QString>
+ 
++#include "base/variant.h"
++
+ #if !defined(__apple_build_version__) || (__apple_build_version__ > 12000032)
+ 
+ template <typename P>

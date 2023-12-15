@@ -1,0 +1,11 @@
+--- a/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp	2023-12-15 19:34:07.460074282 +0700
++++ b/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp	2023-12-15 19:33:56.835429082 +0700
+@@ -159,7 +159,7 @@ WebPage::WebPage(
+ 	const auto &data = _parent->data()->history()->owner();
+ 	const auto details = data.sponsoredMessages().lookupDetails(
+ 		_parent->data()->fullId());
+-	auto result = std::make_optional<SponsoredData>();
++	std::optional<SponsoredData> result {};
+ 	result->buttonText = details.buttonText;
+ 	result->hasExternalLink = (details.externalLink == _data->url);
+ #ifdef _DEBUG

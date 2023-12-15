@@ -134,7 +134,7 @@ COMMON_DEPEND="
 	media-libs/libyuv:=
 	>=media-libs/tg_owt-0_pre20230401:=[pipewire(-)=,screencast=,X=]
 	wayland? (
-		kde-frameworks/kwayland:=
+		kde-plasma/kwayland:=
 		dev-libs/wayland-protocols:=
 		dev-libs/plasma-wayland-protocols:=
 	)
