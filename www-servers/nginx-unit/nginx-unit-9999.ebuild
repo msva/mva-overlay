@@ -7,13 +7,13 @@ PYTHON_COMPAT=( python3_{8..12} pypy3 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby30 ruby31 ruby32"
+USE_RUBY="ruby31 ruby32"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php7-4 php8-0 php8-1 php8-2"
+USE_PHP="php8-1 php8-2"
 
 inherit systemd php-ext-source-r3 python-r1 ruby-ng toolchain-funcs flag-o-matic patches
 # golang-base
@@ -67,6 +67,9 @@ DEPEND="
 #	unit_modules_java? (
 #		virtual/jre:*
 #	)
+#	unit_modules_wasm? (
+#		dev-util/wasmer
+#	)
 RDEPEND="${DEPEND}"
 S="${WORKDIR}/${MY_P}"
 
@@ -91,9 +94,14 @@ src_unpack() {
 src_prepare() {
 	sed -r \
 		-e 's@-Werror@@g' \
-		-i auto/cc/test
+		-i auto/cc/test || die
 
 	sed -i '/^CFLAGS/d' auto/make || die
+
+	sed \
+		-e '/NXT_LOGDIR/d' \
+		-e '/NXT_RUNSTATEDIR/d' \
+		-i auto/make || die "Failed to monkeypatch QA issues with installation"
 
 	patches_src_prepare
 	tc-export_build_env
@@ -109,13 +117,22 @@ _unit_java_configure() {
 	# That's why I decided to manually set system-vm, but still
 	# give user a way to specify exact the vm they want.
 }
-_unit_go_configure() {
-	# ./configure go --go-path="$(get_golibdir_gopath)" # deprecated golang-base eclass
-	my_econf go --go-path="${EPREFIX}/usr/lib/go" # multislot?
-}
-_unit_nodejs_configure() {
-	my_econf nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
-}
+# _unit_go_configure() {
+# 	# Actually, it is used as external, so all the configuration made on app (and go) side
+# 	# ./configure go --go-path="$(get_golibdir_gopath)" # deprecated golang-base eclass
+# 	my_econf go --go-path="${EPREFIX}/usr/lib/go" # multislot?
+# }
+#_unit_nodejs_configure() {
+#	# Actually, it is used as external, so all the configuration made on app (and nodejs) side
+#	# my_econf nodejs --node-gyp="/usr/$(get_libdir)/node_modules/npm/bin/node-gyp-bin/node-gyp"
+#}
+#_unit_wasm_configure() {
+#		# there is only wasmer on gentoo repo ATM. Default wasmtime is only on 3party overlay
+#	my_econf wasm \
+#		--runtime="wasmer" \
+#		--include=... \
+#		--lib-path=... \
+#}
 _unit_perl_configure() {
 	my_econf perl
 }
@@ -144,20 +161,29 @@ _unit_ruby_configure() {
 
 src_configure() {
 	append-cflags $(test-flags-CC -fPIC)
+	local opt=(
+		--prefix="/usr"
+		--modulesdir="/usr/$(get_libdir)/${PN}"
+		--libdir="/usr/$(get_libdir)"
+		--localstatedir="/var"
+		--runstatedir="/run/${PN}"
+		--statedir="/var/lib/${PN}"
+		--logdir="/var/log"
+		--tmpdir="/tmp"
+		--pid="/run/${PN}.pid"
+		--log="/var/log/${PN}.log"
+		$(usex ipv6 '' "--no-ipv6")
+		$(usex unix-sockets "--control=unix:/run/${PN}.sock" "--no-unix-sockets")
+		$(usex ssl "--openssl" "")
+		$(usex debug "--debug" "")
+		# --njs
+	)
 	my_econf \
+		${opt[@]} \
 		--cc="$(tc-getCC)" \
 		--cc-opt="${CFLAGS}" \
 		--ld-opt="${LDFLAGS}" \
-		--prefix="/usr" \
-		--modules="$(get_libdir)/${PN}" \
-		--state="/var/lib/${PN}" \
-		--tmp="/tmp" \
-		--pid="/run/${PN}.pid" \
-		--log="/var/log/${PN}.log" \
-		$(usex ipv6 '' "--no-ipv6") \
-		$(usex unix-sockets "--control=unix:/run/${PN}.sock" "--no-unix-sockets") \
-		$(usex ssl "--openssl" "") \
-		$(usex debug "--debug" "")
+	|| die "Core configuration failed!"
 
 	for mod in $UNIT_MODULES; do
 		use "unit_modules_${mod}" && "_unit_${mod}_configure"
@@ -174,6 +200,7 @@ src_install() {
 	diropts -m 0770
 	keepdir /var/lib/"${PN}"
 	systemd_dounit "${FILESDIR}"/init/"${PN}".service
+	systemd_install_dropin "${PN}".service "${FILESDIR}"/init/"${PN}".service.conf
 	newconfd "${FILESDIR}"/init/"${PN}".confd "${PN}"
 	newinitd "${FILESDIR}"/init/"${PN}".initd "${PN}"
 }

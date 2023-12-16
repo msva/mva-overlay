@@ -6,8 +6,7 @@ After=network-online.target
 [Service]
 Type=forking
 PIDFile=/run/nginx-unit.pid
-EnvironmentFile=-/etc/conf.d/nginx-unit
-ExecStart=/usr/sbin/unitd $UNITD_OPTIONS
+ExecStart=/usr/sbin/unitd
 
 [Install]
 WantedBy=multi-user.target

@@ -1,7 +1,2 @@
 #UNITD_OPTIONS="--tmp /tmp --log /var/log/unitd.log --control unix:/run/nginx-unit.sock"
 #UNITD_OPTIONS="--tmp /tmp --log /var/log/unitd.log --control localhost:99"
-
-# If you're using systemd, please, avoid writing here any openrc-related stuff and functions.
-# Only variables are supported (as it used as EnvironmentFile).
-# And, actually, only UNITD_OPTIONS is used ATM.
-
