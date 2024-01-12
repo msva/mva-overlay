@@ -1,0 +1,12 @@
+Title: Crypto-PRO CSP package now ships browser plugin within
+Author: Vadim A. Misbakh-Soloviov <overlay.news.nginx.en@mva.name>
+Posted: 2024-01-13
+Revision: 1
+News-Item-Format: 2.0
+Display-If-Installed: www-plugins/cprocsp-plugin
+
+Crypto-PRO CSP pacgae now bundles browser plugin within itself, and
+also develpoers said that they will no more update separately pacgaged one
+anymore.
+Please, consider removing www-plugins/cprocsp-plugin and update to the last
+version of app-crypt/cprocsp (5.0.12900)

@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,26 +7,26 @@ inherit rpm
 
 DESCRIPTION="CryptoPro Browser Plugin (with additional bundled stuff)"
 
+BASE_SRC_URI="https://cryptopro.ru/sites/default/files/products/cades/current_release_2_0/cades-linux"
 SRC_URI="
-	x86? ( ${P}_x86.tar.gz )
-	amd64? ( ${P}_amd64.tar.gz )
-	arm64? ( ${P}_arm64.tar.gz )
+	x86? ( ${BASE_SRC_URI}-ia32.tar.gz -> ${P}_x86.tar.gz )
+	amd64? ( ${BASE_SRC_URI}-amd64.tar.gz -> ${P}_amd64.tar.gz )
+	arm64? ( ${BASE_SRC_URI}-arm64.tar.gz -> ${P}_arm64.tar.gz )
+	arm? ( ${BASE_SRC_URI}-armhf.tar.gz -> ${P}_arm.tar.gz )
+	mips? ( ${BASE_SRC_URI}-mipsel.tar.gz -> ${P}_mipsel.tar.gz )
 "
 # ${P}_${ARCH}.tar.gz
 # pkgdev doesn't support ${ARCH} ATM and throws an error
-#	arm? ( ${P}_arm.tar.gz )
-# ^ can't figure out what would be proper user-agennt to download it to generate manifest.
-# Help wanted.
 
 HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 LICENSE="Crypto-Pro"
-RESTRICT="bindist fetch mirror strip"
+RESTRICT="bindist mirror strip"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~x86"
-# ~arm
+KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
 
 RDEPEND="
 	app-crypt/cprocsp
+	!>=app-crypt/cprocsp-5.0.12900
 "
 DEPEND="${RDEPEND}"
 BDEPEND="app-arch/rpm"
@@ -52,17 +52,20 @@ _get_arch() {
 		aarch64)
 			_got_arch="arm64"
 			;;
+		mips*)
+			_got_arch="mipsel"
+			;;
 	esac
 	export _got_arch
 	echo "${_got_arch}"
 }
 
-pkg_nofetch() {
-	local PLUGIN_URL="https://cryptopro.ru/products/cades/plugin/get_2_0"
-	einfo "Please, open this link in the browser: ${PLUGIN_URL}"
-	einfo "(registration/login needed)"
-	einfo "Then download it and place it at ${PORTAGE_ACTUAL_DISTDIR}/${A}"
-	ewarn "Post an issue on GH in case of checksums mismatch"
+pkg_setup() {
+	if [[ "${MERGE_TYPE}" != "binary" ]]; then
+		ewarn "If you will get checksums mismatch then upstream, probably discontinued separate 'browser plugin' packages"
+		ewarn "Upgrade app-crypt/cprocsp to >= 5.0.12900 (it includes browser plugin)"
+		ewarn "Also, place an issue on overlay's issue tracker on GitHub, please"
+	fi
 }
 
 src_unpack() {
@@ -80,8 +83,6 @@ src_unpack() {
 	)
 	for f in ${PKGS[@]} ${ADD_PKGS[@]}; do
 		local a=${arch}
-		[[ "${arch}" == "arm64" ]] && a="aarch64"
-		# dunno why they named it arm64 everywhere (including debs), but rpms are named aarch64
 		find "../cades-linux-${arch}" -name "${f}*${a}.rpm" | while read r; do rpm_unpack "./${r}"; done
 	done
 }
@@ -91,12 +92,13 @@ src_unpack() {
 #}
 
 src_install() {
+	local arch=$(_get_arch)
 	insinto /
 	doins -r opt etc usr
-	exeinto /opt/cprocsp/bin/amd64
-	doexe opt/cprocsp/bin/amd64/*
+	exeinto /opt/cprocsp/bin/"${arch}"
+	doexe opt/cprocsp/bin/"${arch}"/*
 	# exeinto /opt/cprocsp/sbin/amd64
 	# doexe opt/cprocsp/sbin/amd64/*
-	exeinto /opt/cprocsp/lib/amd64
-	doexe opt/cprocsp/lib/amd64/*
+	exeinto /opt/cprocsp/lib/"${arch}"
+	doexe opt/cprocsp/lib/"${arch}"/*
 }
