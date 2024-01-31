@@ -447,6 +447,10 @@ case "$1" in
     cpcsp_stop $2
     RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
     ;;
+  repair_var)
+    cpcsp_hsmstop $2
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+    ;;
   hsmstop)
     cpcsp_hsmstop $2
     RET=$?; test $RETVAL -eq 0 && RETVAL=$RET

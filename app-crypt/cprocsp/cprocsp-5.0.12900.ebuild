@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit rpm systemd
+inherit rpm systemd xdg udev
 
 DESCRIPTION="CryptoPro Crypto Provider"
 
@@ -13,8 +13,6 @@ SRC_URI="
 	arm? ( ${P}_arm.tgz )
 	arm64? ( ${P}_arm64.tgz )
 "
-# ${P}_${ARCH}.tgz
-# pkgdev doesn't support ${ARCH} ATM and throws an error
 
 HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 LICENSE="Crypto-Pro"
@@ -41,6 +39,7 @@ DEPEND="
 RDEPEND="
 	app-crypt/ccid
 	>=dev-libs/libp11-0.4.0
+	dev-libs/libxml2
 	x86? ( dev-libs/opensc )
 	amd64? ( dev-libs/opensc )
 	media-libs/libpng:0
@@ -97,15 +96,19 @@ pkg_nofetch() {
 	einfo "Please, open this link in the browser: ${BASE_URL}/${v//.}/$(ver_cut 3)/linux-${arch}.tgz"
 	einfo "(registration/login needed)"
 	einfo "Then download it, and place at ${PORTAGE_ACTUAL_DISTDIR}/${A}"
-	ewarn "Post an issue on GH in case of checksums mismatch"
+	ewarn "Please, post an issue on GitHub in case of checksums mismatch"
 }
 
 src_unpack() {
 	local uname_m=$(uname -m)
 	local arch=$(_get_arch);
+	local libdir=$(get_libdir)
+
 	default
+
 	mkdir -p "${S}"
 	cd "${S}"
+
 	PKGS=( # Packages that usually installed by CryptoPro installer
 		lsb-cprocsp-{base,rdr,kc1,capilite,ca-certs,pkcs11}
 		cprocsp-{curl,rdr}
@@ -116,30 +119,26 @@ src_unpack() {
 		cprocsp-{stunnel,xer2print,cptools}
 		cprocsp-ipsec-{genpsk,ike}
 		ifd-rutokens
+		cprocsp-pki{,-{plugin,cades}} # ,phpcades}}
 	)
 	for f in ${PKGS[@]} ${ADD_PKGS[@]}; do
 		find "../linux-${arch}" -name "${f}*.rpm" | while read r; do rpm_unpack "./${r}"; done
 	done
 
-	mv tmp opt/cprocsp
-	mkdir -p usr/lib
-	mv etc/udev usr/lib/udev
+	mkdir -p usr/lib || die
+	mv etc/udev usr/lib/udev || die
 
-	# alt-compat
-	# rm "${arch}"/ld-lsb-x86-64.so.3
-	rm etc/init.d/cprocsp
+	mkdir -p usr/${libdir}/readers/usb || die
+	mv usr/${libdir}/pcsc/drivers/* usr/${libdir}/readers/usb/ || die
 
-#	!!! Brakes CMake !!!
-#	touch etc/debian_version
-#	echo "jessie/sid" > etc/debian_version
+	mv opt/cprocsp/share/* usr/share/ || die
+	rmdir opt/cprocsp/share || die
+
+	mkdir -p usr/lib/mozilla/plugins || die
+	cp -lL opt/cprocsp/lib/${arch}/libnpcades.so usr/lib/mozilla/plugins/ || die
 
 	# cp etc/opt/cprocsp/config64.ini{,.backup} || die # What about non-64bit installs?
-
-	ln -s librdrjacarta.so.5.0.0 opt/cprocsp/lib/"${arch}"/librdrjacarta.so.1.0 || die
-
-	rm opt/cprocsp/sbin/"${arch}"/oauth_gtk2 || die # linked against long outdated webkitgtk1
-
-	bzip2 -d -c < "${FILESDIR}"/cprocsp_postinstal_all_scripts.sh.bz2 > "${T}"/postinst.bash
+	bzip2 -d -c < "${FILESDIR}"/cprocsp_postinstal_all_scripts.sh.bz2 > "${T}"/postinst.bash || die
 }
 
 src_install() {
@@ -155,9 +154,6 @@ src_install() {
 	exeinto /opt/cprocsp/lib/"${arch}"
 	doexe opt/cprocsp/lib/${arch}/*
 
-	# exeinto /etc/opt/cprocsp
-	# doexe ${FILESDIR}/cprocsp_postinstal_all_scripts.sh
-
 	keepdir /var/opt/cprocsp/dsrf
 	keepdir /var/opt/cprocsp/dsrf/db1
 	keepdir /var/opt/cprocsp/dsrf/db2
@@ -167,7 +163,12 @@ src_install() {
 	keepdir /var/opt/cprocsp/users/stores
 	keepdir /var/opt/cprocsp/mnt
 
-	insinto /etc/opt/cprocsp
+	# insinto /etc/opt/cprocsp
+
+	# alt-compat
+	# rm "${arch}"/ld-lsb-x86-64.so.3
+	# rm etc/init.d/cprocsp
+	mv etc/init.d/cprocsp opt/cprocsp/cprocsp.init || die # FIXME:
 
 	newinitd "${FILESDIR}/${P}" cprocsp
 	# TODO: ^ make it just script, and make normal openrc init-file
@@ -176,20 +177,13 @@ src_install() {
 	newenvd - "99${PN}" <<-_EOF_
 		PATH=/opt/cprocsp/bin/${arch}:/opt/cprocsp/sbin/${arch}
 	_EOF_
-
-	insinto /usr/share
-	doins -r opt/cprocsp/share/*
 }
 
 pkg_postinst() {
 	local arch=$(_get_arch)
 	local pi_st
 
-	# TODO: think about better permissions
-	chmod 1777 /var/opt/cprocsp/keys
-	chmod 1777 /var/opt/cprocsp/users
-	chmod 1777 /var/opt/cprocsp/tmp
-	chmod 775 /var/opt/cprocsp/mnt
+	/etc/init.d/cprocsp repair_var
 
 	ebegin "Running postinstall script (pre-configuring)"
 		bash "${T}"/postinst.bash &>"${T}/postinst.log"
@@ -201,6 +195,9 @@ pkg_postinst() {
 		cat "${T}/postinst.log"
 		eerror "=================="
 	fi
+
+	xdg_desktop_database_update
+	udev_reload
 
 	einfo "You may want to run following command as user (not root):"
 	einfo "    /opt/cprocsp/bin/"${arch}"/csptestf -absorb -certs -autoprov"
