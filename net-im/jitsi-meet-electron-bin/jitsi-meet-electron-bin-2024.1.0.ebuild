@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -10,7 +10,10 @@ inherit desktop xdg unpacker chromium-2
 
 DESCRIPTION="Desktop application for Jitsi Meet built with Electron"
 HOMEPAGE="https://github.com/jitsi/jitsi-meet-electron"
-SRC_URI="https://github.com/jitsi/jitsi-meet-electron/releases/download/v${PV}/jitsi-meet-amd64.deb -> ${P}.deb"
+SRC_URI="
+	amd64? ( https://github.com/jitsi/jitsi-meet-electron/releases/download/v${PV}/jitsi-meet-amd64.deb -> ${P}-amd64.deb )
+	arm64? ( https://github.com/jitsi/jitsi-meet-electron/releases/download/v${PV}/jitsi-meet-arm64.deb -> ${P}-arm64.deb )
+"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -26,10 +29,10 @@ RDEPEND="
 	dev-libs/nss
 	x11-libs/libXtst
 	app-accessibility/at-spi2-core:2
-	system-ffmpeg? ( <media-video/ffmpeg-4.3[chromium] )
+	system-ffmpeg? ( media-video/ffmpeg[chromium] )
 "
 
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~arm64"
 S="${WORKDIR}"
 
 src_install() {
@@ -55,11 +58,4 @@ src_install() {
 
 	# fperms +x /usr/bin/jitsi-meet
 	fperms +x "/opt/Jitsi Meet/jitsi-meet"
-}
-
-pkg_postinst() {
-	elog
-	elog "Please switch to net-im/jitsi-meet (renaming package)"
-	elog
-
 }
