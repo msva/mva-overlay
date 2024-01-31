@@ -7,7 +7,7 @@ inherit desktop wrapper
 MY_PN="SweetHome3D"
 
 DESCRIPTION="Sweet Home 3D is a free interior design application."
-HOMEPAGE="http://sweethome3d.com/"
+HOMEPAGE="https://sweethome3d.com/"
 SRC_URI="
 	amd64? ( mirror://sourceforge/sweethome3d/${MY_PN}-${PV}-linux-x64.tgz )
 	x86? ( mirror://sourceforge/sweethome3d/${MY_PN}-${PV}-linux-x86.tgz )
