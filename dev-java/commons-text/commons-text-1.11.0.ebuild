@@ -15,11 +15,11 @@ inherit java-pkg-2 java-pkg-simple
 
 DESCRIPTION="Apache Commons Text is a library focused on algorithms working on strings"
 HOMEPAGE="https://commons.apache.org/proper/commons-text/"
-SRC_URI="https://archive.apache.org/dist/commons/text/source/"
+SRC_URI="https://archive.apache.org/dist/commons/text/source/${P}-src.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="amd64 ppc64 x86"
+KEYWORDS="~amd64 ~ppc64 ~x86"
 
 # Common dependencies
 # POM: pom.xml
