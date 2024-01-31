@@ -10,9 +10,10 @@ inherit desktop xdg unpacker chromium-2
 
 DESCRIPTION="Desktop application for Jitsi Meet built with Electron"
 HOMEPAGE="https://github.com/jitsi/jitsi-meet-electron"
+BASE_SRC_URI="https://github.com/jitsi/${PN//-bin}/releases/download/v${PV}/${PN//-electron-bin}"
 SRC_URI="
-	amd64? ( https://github.com/jitsi/jitsi-meet-electron/releases/download/v${PV}/jitsi-meet-amd64.deb -> ${P}-amd64.deb )
-	arm64? ( https://github.com/jitsi/jitsi-meet-electron/releases/download/v${PV}/jitsi-meet-arm64.deb -> ${P}-arm64.deb )
+	amd64? ( ${BASE_SRC_URI}-amd64.deb -> ${P}-amd64.deb )
+	arm64? ( ${BASE_SRC_URI}-arm64.deb -> ${P}-arm64.deb )
 "
 
 LICENSE="Apache-2.0"
