@@ -34,9 +34,6 @@ RDEPEND="
 	${DEPEND}
 	vde? ( net-misc/vde )
 "
-BDEPEND="
-	>=dev-util/meson-0.50.1
-"
 
 #REQUIRED_USE="^^ ( ssl gcrypt )"
 

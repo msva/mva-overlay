@@ -153,7 +153,6 @@ DEPEND="
 #		>=dev-cpp/cppgir-0_p20230926
 #		^ WFM even without it 🤷
 BDEPEND="
-	>=dev-util/cmake-3.16
 	>=dev-util/gdbus-codegen-2.77
 	virtual/pkgconfig
 	amd64? ( dev-lang/yasm )
@@ -331,7 +330,6 @@ src_configure() {
 		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}WaylandClient=$(usex !wayland)
 		## Only used in Telegram/lib_webview/CMakeLists.txt
 		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}WaylandCompositor=$(usex !webkit)
-
 
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 

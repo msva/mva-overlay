@@ -13,12 +13,11 @@ SRC_URI="https://dl.google.com/android/repository/${PN}-r${PV}-linux.zip"
 LICENSE="android"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 RESTRICT="bindist mirror strip installsources test"
 
 RDEPEND="
 	>=dev-util/android-sdk-update-manager-10
-	>=sys-devel/make-3.81
+	dev-build/make
 	sys-libs/ncurses-compat:5[tinfo]
 	virtual/libcrypt
 "
@@ -37,6 +36,16 @@ pkg_pretend() {
 
 pkg_setup() {
 	check-reqs_pkg_setup
+}
+
+src_prepare() {
+	default
+	rm -r toolchains/llvm/prebuilt/linux-x86_64/musl/lib/i686-unknown-linux-musl || die
+	# linked against missing 32bit libc_musl.so (only 64bit shipped)
+	# patchelf --set-rpath '$ORIGIN/:$ORIGIN/..' \
+	# toolchains/llvm/prebuilt/linux-x86_64/musl/lib/i686-unknown-linux-musl/libc++.so.1
+	# patchelf --set-rpath '$ORIGIN/:$ORIGIN/..' \
+	# toolchains/llvm/prebuilt/linux-x86_64/musl/lib/x86_64-unknown-linux-musl/libc++.so.1
 }
 
 src_configure() {

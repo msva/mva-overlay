@@ -59,7 +59,7 @@ DEPEND="
 "
 BDEPEND="
 	sys-devel/gettext
-	doc? ( app-doc/doxygen )
+	doc? ( app-text/doxygen )
 	test? ( dev-util/cppunit )
 "
 

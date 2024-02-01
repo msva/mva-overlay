@@ -23,7 +23,6 @@ SLOT="0"
 RDEPEND="sys-libs/zlib"
 BDEPEND="
 	${RDEPEND}
-	dev-util/cmake
 "
 
 src_prepare() {

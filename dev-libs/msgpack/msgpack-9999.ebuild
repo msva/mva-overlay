@@ -16,7 +16,7 @@ SLOT="0/2"
 IUSE="+cxx boost doc static-libs test examples"
 RESTRICT="!test? ( test )"
 
-BDEPEND="doc? ( app-doc/doxygen[dot] )"
+BDEPEND="doc? ( app-text/doxygen[dot] )"
 RDEPEND="
 	boost? ( dev-libs/boost[context,${MULTILIB_USEDEP}] )
 "

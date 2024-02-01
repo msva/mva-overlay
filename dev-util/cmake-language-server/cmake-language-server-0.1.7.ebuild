@@ -30,7 +30,7 @@ COMMON_DEPEND="
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="
 	${COMMON_DEPEND}
-	dev-util/cmake
+	dev-build/cmake
 "
 # BDEPEND="
 # 	test? (

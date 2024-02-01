@@ -18,7 +18,7 @@ DEPEND="
 	>=sys-devel/bison-3.0
 	sys-devel/flex
 	oniguruma? ( dev-libs/oniguruma[static-libs?] )
-	test? ( dev-util/valgrind )
+	test? ( dev-debug/valgrind )
 "
 RDEPEND="
 	!static-libs? (

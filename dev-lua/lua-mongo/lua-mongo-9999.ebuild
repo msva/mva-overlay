@@ -19,7 +19,6 @@ DEPEND="
 	>=dev-libs/mongo-c-driver-1.16
 "
 RDEPEND="${DEPEND}"
-BDEPEND="dev-util/cmake"
 
 src_prepare() {
 	cmake_src_prepare

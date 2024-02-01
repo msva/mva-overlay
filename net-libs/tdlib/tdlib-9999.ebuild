@@ -11,18 +11,16 @@ EGIT_REPO_URI="https://github.com/tdlib/td"
 
 LICENSE="Boost-1.0"
 SLOT="0"
-KEYWORDS=""
 IUSE="+cli doc debug java lto low-ram test"
 
 BDEPEND="
-	>=dev-util/cmake-3.0.2
 	|| (
 		sys-devel/gcc
 		sys-devel/clang
 	)
 	dev-util/gperf
 	dev-lang/php[cli]
-	doc? ( app-doc/doxygen )
+	doc? ( app-text/doxygen )
 	java? ( virtual/jdk:= )
 "
 RDEPEND="

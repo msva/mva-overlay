@@ -5,14 +5,16 @@ EAPI=8
 
 PYTHON_COMPAT=( python3_{8..12} )
 
-inherit git-r3 cmake python-r1
+inherit cmake python-r1
 
 DESCRIPTION="A lightweight C++11 Distributed Hash Table implementation"
-HOMEPAGE="https://github.com/savoirfairelinux/opendht/blob/master/README.md"
-EGIT_REPO_URI="https://github.com/savoirfairelinux/${PN}.git"
+HOMEPAGE="https://github.com/savoirfairelinux/opendht"
 
-if ! [[ "${PV}" == 9999* ]]; then
-	EGIT_COMMIT="${PV}"
+if [[ "${PV}" == 9999* ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/savoirfairelinux/${PN}"
+else
+	SRC_URI="https://github.com/savoirfairelinux/opendht/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
 fi
 
@@ -28,7 +30,7 @@ DEPEND="
 	python? ( dev-python/cython[${PYTHON_USEDEP}] )
 	tools? ( sys-libs/readline:0 )
 	proxy-openssl? ( dev-libs/openssl:= )
-	doc? ( app-doc/doxygen )
+	doc? ( app-text/doxygen )
 "
 RDEPEND="
 	${DEPEND}

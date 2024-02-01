@@ -22,8 +22,6 @@ else
 	S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
 fi
 
-BDEPEND=">=dev-util/meson-0.50.1"
-
 src_configure() {
 	local emesonargs=(
 		$(meson_use threads thread)

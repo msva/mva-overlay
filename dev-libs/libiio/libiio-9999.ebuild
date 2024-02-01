@@ -13,7 +13,6 @@ EGIT_SUBMODULES=( "*" "-deps/wingetopt" )
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc examples ipv6 +xml"
 
 RDEPEND="
@@ -29,7 +28,7 @@ RDEPEND="
 # TODO: examples? ( python, mono, ... )
 DEPEND="
 	${RDEPEND}
-	doc? ( app-doc/doxygen )
+	doc? ( app-text/doxygen )
 "
 
 src_prepare() {

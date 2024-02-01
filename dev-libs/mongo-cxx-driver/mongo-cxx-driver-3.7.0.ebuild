@@ -22,7 +22,6 @@ RDEPEND="
 	>=dev-libs/mongo-c-driver-1.17.0
 	static-mongoc? ( dev-libs/mongo-c-driver[static-libs] )
 "
-BDEPEND="dev-util/cmake"
 
 S="${WORKDIR}/${PN}-r${MY_PV}"
 

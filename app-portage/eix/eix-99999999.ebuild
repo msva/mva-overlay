@@ -7,7 +7,7 @@ WANT_LIBTOOL=none
 AUTOTOOLS_AUTO_DEPEND=no
 MESON_AUTO_DEPEND=no
 
-inherit autotools bash-completion-r1 meson tmpfiles
+inherit autotools bash-completion-r1 meson ninja-utils tmpfiles
 
 if [[ "${PV}" == 9999* ]]; then
 	inherit git-r3
@@ -43,13 +43,13 @@ RDEPEND="
 "
 BDEPEND="
 	${BOTHDEPEND}
+	nls? ( sys-devel/gettext )
 	meson? (
-		>=dev-util/meson-0.41.0
-		>=dev-util/ninja-1.7.2
+		>=dev-build/meson
+		${NINJA_DEPEND}
 		strong-optimization? ( >=sys-devel/gcc-config-1.9.1 )
-		nls? ( sys-devel/gettext )
 	)
-	!meson? ( ${AUTOTOOLS_DEPEND} >=sys-devel/gettext-0.19.6 )
+	!meson? ( ${AUTOTOOLS_DEPEND} )
 "
 
 pkg_setup() {

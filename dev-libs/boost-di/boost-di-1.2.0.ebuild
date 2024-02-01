@@ -23,7 +23,6 @@ fi
 
 DEPEND="dev-libs/boost"
 RDEPEND="${DEPEND}"
-BDEPEND="dev-util/cmake"
 
 src_prepare() {
 	# TODO: maybe replace with non-monkey patch someday?

@@ -61,12 +61,12 @@ RDEPEND="
 BDEPEND="
 	${RDEPEND}
 	gtk-doc? (
-		dev-util/gtk-doc-am
+		dev-build/gtk-doc-am
 		dev-util/gtk-doc
 		pandoc? ( virtual/pandoc )
 	)
 	doxygen? (
-		app-doc/doxygen
+		app-text/doxygen
 	)
 "
 

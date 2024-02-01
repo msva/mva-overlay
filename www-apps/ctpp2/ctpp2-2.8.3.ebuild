@@ -19,8 +19,6 @@ DEPEND="
 	md5? ( dev-libs/openssl:* )
 "
 
-BDEPEND=">=dev-util/cmake-2.8"
-
 RDEPEND="${DEPEND}"
 
 PATCHES="${FILESDIR}/patches/*.patch"

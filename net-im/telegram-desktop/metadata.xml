@@ -19,6 +19,7 @@
     <flag name="system-libtgvoip">Use system-wide installed <pkg>media-libs/libtgvoip</pkg> instead of bundled one</flag>
     <!-- <flag name="system-rlottie">Use system-wide installed <pkg>media-libs/rlottie</pkg> instead of bundled one</flag> -->
     <!-- <flag name="system-variant">Use system-wide installed <pkg>dev-cpp/variant</pkg> instead of bundled one</flag> -->
+    <flag name="fonts">Whether to use bundled fonts, or look for correspondig fonts in user's system</flag>
     <flag name="qt6-imageformats">Use bundled <pkg>kde-frameworks/kimageformats</pkg> patched for Qt6 instead of system one</flag>
   </use>
   <upstream>

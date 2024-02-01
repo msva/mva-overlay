@@ -17,7 +17,7 @@ LICENSE="MIT"
 IUSE="debug valgrind lua52compat openresty +optimization"
 
 RDEPEND="
-	valgrind? ( dev-util/valgrind )
+	valgrind? ( dev-debug/valgrind )
 "
 DEPEND="
 	${RDEPEND}

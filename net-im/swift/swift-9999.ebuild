@@ -50,7 +50,6 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	>=dev-util/scons-3.0.1-r3
 	client? ( dev-qt/linguist-tools:5 )
 	test? ( net-dns/avahi )
 "

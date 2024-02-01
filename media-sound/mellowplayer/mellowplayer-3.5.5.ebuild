@@ -30,7 +30,11 @@ DEPEND="
 	>=dev-qt/qtwebengine-5.9:5[-bindist,widgets]
 	>=dev-qt/qttranslations-5.9:5
 	>=dev-qt/qtgraphicaleffects-5.9:5
+	dev-qt/qhotkey
 	dev-libs/libevent
+	dev-libs/spdlog
+	dev-libs/boost-di
+	dev-libs/libfmt
 	media-libs/mesa
 "
 
@@ -39,17 +43,27 @@ RDEPEND="
 	widevine? ( www-plugins/chrome-binary-plugins:* )
 	x11-libs/libnotify
 "
-
-BDEPEND=">=dev-util/cmake-3.10"
-
 # www-plugins/adobe-flash:*
 
 src_prepare(){
 	use widevine && PATCHES=( "${FILESDIR}/widevine-path.patch" )
+
+	# Intentionally brake all the tries to fetch bundled crap from git (network-sandbox)
+	sed \
+		-e '/FetchContent_MakeAvailable/d' \
+		-i cmake/dependencies/*.cmake
+
+	# link to external, but not bundled spdlog. And libfmt unbundled from it
+	sed \
+		-e '/target_link_libraries/{s@spdlog::spdlog@spdlog fmt@}' \
+		-i src/lib/infrastructure/CMakeLists.txt
+
 	cmake_src_prepare
 }
 
 src_configure(){
+	# Actuall, there is no more gcc<6 and clang<10 in the gentoo repo.
+	# Maybe drop that?
 	if test-flags-CXX -std=c++17;then
 		if tc-is-gcc; then
 			[ $(gcc-major-version) -lt 6 ] && die "You need at least GCC 6.0 in order to build ${MY_PN}"
@@ -60,6 +74,15 @@ src_configure(){
 	else
 		die "You need a c++17 compatible compiler in order to build ${MY_PN}"
 	fi
+
+	# local mycmakeargs=()
+
+	# current gentoo ebuild removes bundled libfmt (heades-only lib) from spdlog
+	# but don't wipe out its calls from installed spdlog headers that depends on it.
+	# Fortunatellym spdlog upstream have following "ifdef" to enforce external libfmt and avoid that problem.
+	# TODO: report this bug against spdlog on bgo and place link here (until it will be fixed).
+	append-cxxflags '-DSPDLOG_FMT_EXTERNAL=1'
+
 	cmake_src_configure
 }
 

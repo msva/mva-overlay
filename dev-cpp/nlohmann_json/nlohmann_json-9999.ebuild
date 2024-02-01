@@ -12,10 +12,9 @@ EGIT_BRANCH="develop"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 IUSE="doc"
 
-DEPEND="doc? ( app-doc/doxygen )"
+DEPEND="doc? ( app-text/doxygen )"
 
 DOCS=( docs/README.md )
 
