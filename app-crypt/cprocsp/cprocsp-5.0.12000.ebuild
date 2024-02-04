@@ -113,7 +113,6 @@ src_unpack() {
 		cprocsp-{stunnel,xer2print,cptools}
 		cprocsp-ipsec-{genpsk,ike}
 		ifd-rutokens
-		cprocsp-pki{,-{plugin,cades}} # ,phpcades}}
 	)
 
 	# TODO: USE-flags for readers, browser plugin, curl, stunnel and so on
@@ -122,8 +121,11 @@ src_unpack() {
 		find "../linux-${arch}" -name "${f}*.rpm" | while read r; do rpm_unpack "./${r}"; done
 	done
 
-	mkdir -p usr/lib || die
-	mv etc/udev usr/lib/udev || die
+	rm opt/cprocsp/sbin/"${arch}"/oauth_gtk2 || die # linked against long outdated webkitgtk1
+	mv tmp opt/cprocsp
+
+	mkdir -p usr/lib
+	mv etc/udev usr/lib/udev
 
 	mkdir -p usr/${libdir}/readers/usb || die
 	mv usr/${libdir}/pcsc/drivers/* usr/${libdir}/readers/usb/ || die
