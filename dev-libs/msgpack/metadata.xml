@@ -9,7 +9,7 @@
   <use>
     <flag name="boost">Build <pkg>dev-libs/boost</pkg> bindings</flag>
     <flag name="cxx">Also install CXX version</flag>
-    <!-- <flag name="static-libs"></flag>-->
+    <!-- <flag name="static-libs"></flag> -->
   </use>
   <upstream>
     <remote-id type="github">msgpack/msgpack-c</remote-id>

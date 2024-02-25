@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer type="person">
-		<email>gentoo@tastytea.de</email>
-		<name>Ronny (tastytea) Gutbrod</name>
-	</maintainer>
-	<upstream>
-		<remote-id type="pypi">pygls</remote-id>
-	</upstream>
+  <maintainer type="person">
+    <email>gentoo@tastytea.de</email>
+    <name>Ronny (tastytea) Gutbrod</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="pypi">pygls</remote-id>
+  </upstream>
 </pkgmetadata>

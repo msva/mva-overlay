@@ -7,9 +7,9 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name="gradient">Enable "gradient" feature</flag>
-    <flag name="cache">Enable "cache" feature</flag>
-    <flag name="fileno">Enable "fileno" feature</flag>
-    <flag name="udp">Enable "udp" feature</flag>
+    <flag name="gradient">Enable &quot;gradient&quot; feature</flag>
+    <flag name="cache">Enable &quot;cache&quot; feature</flag>
+    <flag name="fileno">Enable &quot;fileno&quot; feature</flag>
+    <flag name="udp">Enable &quot;udp&quot; feature</flag>
   </use>
 </pkgmetadata>

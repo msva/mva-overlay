@@ -6,10 +6,7 @@
     <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <longdescription>
-    VoIP library for Telegram clients mostly based on Google's WebRTC and similar stuff.
-    Heavily patched by destop-app upstream (@preston, telegram-desktop developer)
-  </longdescription>
+  <longdescription>VoIP library for Telegram clients mostly based on Google's WebRTC and similar stuff. Heavily patched by destop-app upstream (@preston, telegram-desktop developer)</longdescription>
   <use>
     <!-- <flag name="libcxx">Build with <pkg>sys-devel/clang</pkg> against <pkg>sys-libs/libcxx</pkg></flag> -->
     <flag name="pipewire">Add <pkg>media-video/pipewire</pkg> support</flag>

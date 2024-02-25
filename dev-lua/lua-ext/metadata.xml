@@ -7,7 +7,7 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name="gcmem">Add "gcmem" extension</flag>
+    <flag name="gcmem">Add &quot;gcmem&quot; extension</flag>
   </use>
   <upstream>
     <remote-id type="github">thenumbernine/lua-ext</remote-id>

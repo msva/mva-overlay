@@ -7,8 +7,8 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name="area">Install "Area" Plugin</flag>
-    <flag name="goto">Install "Goto" Plugin</flag>
-    <flag name="mapnotes">Install "Map Notes" Plugin</flag>
+    <flag name="area">Install &quot;Area&quot; Plugin</flag>
+    <flag name="goto">Install &quot;Goto&quot; Plugin</flag>
+    <flag name="mapnotes">Install &quot;Map Notes&quot; Plugin</flag>
   </use>
 </pkgmetadata>

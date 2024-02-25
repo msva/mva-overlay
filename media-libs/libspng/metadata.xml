@@ -3,14 +3,12 @@
 <pkgmetadata>
   <maintainer type="person">
     <email>mva@gentoo.org</email>
-    <description>
-      If you have any issues, please contact me via e-mail, IRC (Libera.Chat) or Telegram (@mva_name)
-    </description>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name='miniz'>Use <pkg>dev-libs/miniz</pkg> as compression library</flag>
-    <flag name='optimizations'>Various optimizations</flag>
+    <flag name="miniz">Use <pkg>dev-libs/miniz</pkg> as compression library</flag>
+    <flag name="optimizations">Various optimizations</flag>
   </use>
   <upstream>
     <remote-id type="github">randy408/libspng</remote-id>

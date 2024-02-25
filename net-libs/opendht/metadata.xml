@@ -10,7 +10,7 @@
     <flag name="python">Install Python bindings. Requires <pkg>dev-python/cython</pkg>.</flag>
     <flag name="tools">Install extra opendht tools (dhtchat, dhtnode and dhtscanner).</flag>
     <flag name="dht-index">Build DHT indexation feature</flag>
-    <flag name="http-client">Build embedded http(s) client (conflicts with "proxy" options)</flag>
+    <flag name="http-client">Build embedded http(s) client (conflicts with &quot;proxy&quot; options)</flag>
     <flag name="proxy-client">Enable DHT proxy client, use Restinio and jsoncpp</flag>
     <flag name="proxy-server">Enable DHT proxy server, use Restinio and jsoncpp</flag>
     <flag name="proxy-server-identity">Allow clients to use the node identity</flag>

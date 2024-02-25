@@ -1,11 +1,11 @@
-xml=require"slaxdom"
-mva_email="mva@gentoo.org"
+local xml=require"slaxdom"
+local mva_email="mva@gentoo.org"
 
 local indent = 2
 local char = "[a-zA-Z0-9().,-]"
 
-for i=1,#arg do
-	metadata_xml=arg[i]
+for c=1,#arg do
+	local metadata_xml=arg[c]
 
 	if not metadata_xml then
 		-- actually, can should never happen, but let's keep it in case if universe will brake
@@ -13,11 +13,11 @@ for i=1,#arg do
 		os.exit(1)
 	end
 
-	f,err=io.open(metadata_xml,"rb");
+	local f,err=io.open(metadata_xml,"rb");
 	if not f then
 		print(err); os.exit(1)
 	end
-	s=f:read("*a");
+	local s=f:read("*a");
 
 	s = s
 			:gsub("(<!)(DOCTYPE[^>]*)(>)","%1--%2--%3") -- Workaround for SLAXML bug as it doesn't currently support DOCTYPE
@@ -26,7 +26,7 @@ for i=1,#arg do
 			:gsub("\t"," ") -- substitute tabs with spaces
 			:gsub("  *"," ") -- substitute many spaces in a row with one
 
-	metadata = xml:dom(s,{
+	local metadata = xml:dom(s,{
 					simple=true, -- simpler structure (no kids made from whitespaces)
 					stripWhitespace=true -- strip other whitespaces
 				})
@@ -53,7 +53,9 @@ for i=1,#arg do
 						end -- if(mnt_k)
 					end -- for(iii)
 					if email_i>0 and name_i>0 then
-						if mnt_k[name_i].kids[1].value:match("Misbakh%-Solov[a-z]*v") then -- since there is another devs and maintainers called Vadim, search me by last name (pattern here is because there was two notations)
+						if mnt_k[name_i].kids[1].value:match("Misbakh%-Solov[a-z]*v") then
+						-- since there is another devs and maintainers called Vadim,
+						-- search me by last name (pattern here is because there was two notations)
 							mnt_k[email_i].kids[1].value=mva_email
 							if desc_i>0 then
 								mnt_k[desc_i].kids[1].value="Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name"
@@ -81,7 +83,7 @@ print((
 			{
 				indent=indent,
 				sort=true,
-				omit
+				-- omit
 			}
 		)
 		:gsub(  -- workaround over slaxml bug of not handling DOCTYPE
@@ -100,6 +102,10 @@ print((
 			"(</pkg>)[\n]*[ ]*(</)",
 			"%1%2"
 		)
+		:gsub( -- same, but handle case of starting <pgk>
+			"(>)[\n]*[ ]*(<pkg>)",
+			"%1%2"
+			)
 		:gsub( -- add space right before <pkg/>
 			"("..char..")[\n]*[ ]*(<pkg>[^<]*</pkg>)",
 			"%1 %2"
@@ -108,6 +114,16 @@ print((
 			"(<pkg>[^<]*</pkg>)("..(char:gsub(".,",""))..")",
 			"%1 %2"
 		)
+		:gsub( -- handle comment ending glued to end of the tag
+			"(>)(-->)",
+			"%1 %2"
+			)
+		:gsub(
+			"$",
+			"\n"
+		)
 	))
 	f:close();
 end
+
+-- vim: ft=lua ts=2 sw=2 sts=2 noet

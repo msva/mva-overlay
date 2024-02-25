@@ -2,9 +2,9 @@
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-                <email>eras@gentoo.org</email>
-                <name>Eray Aslan</name>
-        </maintainer>
+    <email>eras@gentoo.org</email>
+    <name>Eray Aslan</name>
+  </maintainer>
   <use>
     <flag name="argon2">Add support for ARGON2 password schemes</flag>
     <flag name="managesieve">Add managesieve protocol support</flag>

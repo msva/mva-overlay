@@ -6,13 +6,5 @@
     <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-   <longdescription lang="en">
-    LibrePCB is a free EDA software to develop printed circuit boards.
-    Cross-platform, multilingual (both application and library elements), intuitive, modern and easy-to-use graphical user interface.
-      - All-In-One: project management + library/schematic/board editors
-      - Very powerful library design with some innovative concepts
-      - Human-readable file formats for both libraries and projects
-      - Multi-PCB feature (different PCB variants of the same schematic)
-      - Automatic netlist synchronisation between schematic and board
-   </longdescription>
+  <longdescription lang="en">LibrePCB is a free EDA software to develop printed circuit boards. Cross-platform, multilingual (both application and library elements), intuitive, modern and easy-to-use graphical user interface. All-In-One: project management + library/schematic/board editors; Very powerful library design with some innovative concepts; Human-readable file formats for both libraries and projects; Multi-PCB feature (different PCB variants of the same schematic); Automatic netlist synchronisation between schematic and board</longdescription>
 </pkgmetadata>
