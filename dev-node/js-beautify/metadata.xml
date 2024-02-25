@@ -7,6 +7,6 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">beautify-web/js-beautify</remote-id>
+    <remote-id type="github">beautifier/js-beautify</remote-id>
   </upstream>
 </pkgmetadata>

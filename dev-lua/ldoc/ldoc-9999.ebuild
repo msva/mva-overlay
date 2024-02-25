@@ -8,8 +8,8 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3
 
 DESCRIPTION="A LuaDoc-compatible documentation generation system"
-HOMEPAGE="https://github.com/stevedonovan/LDoc/"
-EGIT_REPO_URI="https://github.com/stevedonovan/LDoc/"
+HOMEPAGE="https://github.com/lunarmodules/ldoc"
+EGIT_REPO_URI="https://github.com/lunarmodules/ldoc"
 
 LICENSE="MIT"
 SLOT="0"

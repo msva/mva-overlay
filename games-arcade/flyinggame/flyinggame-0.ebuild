@@ -6,8 +6,8 @@ EAPI=8
 inherit desktop wrapper
 
 DESCRIPTION="A game prototype by Maurice (mari0 author)"
-HOMEPAGE="http://stabyourself.net/other/"
-SRC_URI="http://stabyourself.net/dl.php?file=${PN}/${PN}.love -> ${P}.zip"
+HOMEPAGE="https://stabyourself.net/other/"
+SRC_URI="https://stabyourself.net/dl.php?file=${PN}/${PN}.love -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"

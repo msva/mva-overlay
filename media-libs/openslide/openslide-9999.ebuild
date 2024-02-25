@@ -4,7 +4,7 @@
 EAPI=8
 
 DESCRIPTION="C library with simple interface to read virtual slides"
-HOMEPAGE="http://openslide.org/"
+HOMEPAGE="https://openslide.org/"
 if [[ "${PV}" == *9999* ]]; then
 	inherit git-r3 meson
 	EGIT_REPO_URI="https://github.com/openslide/openslide"

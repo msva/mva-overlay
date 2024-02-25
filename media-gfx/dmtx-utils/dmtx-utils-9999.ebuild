@@ -6,7 +6,7 @@ EAPI=8
 inherit autotools git-r3
 
 DESCRIPTION="Tools for reading and writing Data Matrix barcodes"
-HOMEPAGE="http://www.libdmtx.org/"
+HOMEPAGE="https://github.com/dmtx/dmtx-utils/"
 EGIT_REPO_URI="https://github.com/dmtx/${PN}"
 
 LICENSE="LGPL-2.1"

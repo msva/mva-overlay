@@ -7,6 +7,6 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">pavouk/lgi</remote-id>
+    <remote-id type="github">lgi-devs/lgi</remote-id>
   </upstream>
 </pkgmetadata>

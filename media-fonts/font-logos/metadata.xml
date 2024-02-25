@@ -6,7 +6,7 @@
     <name>Vadim A Misbakh-Soloviov</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">lukas-w/font-linux</remote-id>
+    <remote-id type="github">lukas-w/font-logos</remote-id>
   </upstream>
   <use>
     <flag name="webfonts">Build web versions (woff) of the font (and it's variants)</flag>

@@ -12,8 +12,6 @@ EGIT_REPO_URI="https://github.com/shuxiao9058/luaformatter"
 
 LICENSE="EPL-1.0"
 SLOT="0"
-KEYWORDS=""
-IUSE=""
 
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 DEPEND="${LUA_DEPS}"

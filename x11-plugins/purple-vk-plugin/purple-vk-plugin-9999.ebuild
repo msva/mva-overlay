@@ -6,7 +6,7 @@ EAPI=8
 inherit cmake git-r3
 
 DESCRIPTION="Pidgin plugin for vk.com social network"
-HOMEPAGE="https://bitbucket.org/olegoandreev/purple-vk-plugin https://github.com/SergeyDjam/purple-vk-plugin"
+HOMEPAGE="https://github.com/SergeyDjam/purple-vk-plugin"
 
 EGIT_REPO_URI="https://github.com/SergeyDjam/purple-vk-plugin"
 

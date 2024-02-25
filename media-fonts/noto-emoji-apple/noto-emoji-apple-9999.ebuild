@@ -8,7 +8,7 @@ inherit font git-r3
 MY_PN="noto-fonts-emoji-apple"
 
 DESCRIPTION="Google Noto Emoji Fonts replaced with Apple branded emoji"
-HOMEPAGE="https://gitlab.com/timescam/noto-fonts-emoji-apple https://forum.xda-developers.com/apps/magisk/magisk-ios-13-2-emoji-t3993487"
+HOMEPAGE="https://gitlab.com/timescam/noto-fonts-emoji-apple https://xdaforums.com/t/magisk-module-ios-13-2-emoji.3993487/"
 EGIT_REPO_URI="https://gitlab.com/timescam/noto-fonts-emoji-apple.git"
 
 LICENSE="Apache-2.0 OFL-1.1"

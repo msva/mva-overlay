@@ -6,7 +6,7 @@ EAPI=8
 inherit toolchain-funcs git-r3
 
 DESCRIPTION="Limits the CPU usage of a process"
-HOMEPAGE="http://cpulimit.sourceforge.net"
+HOMEPAGE="https://cpulimit.sourceforge.net"
 EGIT_REPO_URI="https://github.com/opsengine/cpulimit"
 
 LICENSE="GPL-2"

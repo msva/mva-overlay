@@ -10,7 +10,6 @@ ajp - AJP Module
 array_var - Array-Var Module
 auth_request - AuthRequest Module
 coolkit - CoolKit Module
-ctpp - CTPP2 template engine Module
 drizzle - This module adds the ability to &quot;talk&quot; with MySQL-like server
 echo - Echo Module
 encrypted_session - Encrypted Sessions Module
@@ -26,7 +25,6 @@ ndk - This module is like SDK for some another modules (so, it is only needed as
 javascript - This module adds native JavaScript support in NginX
 pagespeed - Pagespeed module
 passenger - Phusion Passenger Application Server (supporting node.js, ruby, python and so on)
-passenger_enterprise - Phusion Passenger Application Server (supporting node.js, ruby, python and so on). Enterprise version.
 postgres - This module adds the ability to &quot;talk&quot; to PostgreSQL server
 rdns - This module adds hostname based (reverse-dns lookup) acces lists
 rds_csv - RDS CSV Module

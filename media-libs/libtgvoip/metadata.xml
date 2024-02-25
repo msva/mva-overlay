@@ -15,7 +15,7 @@
     <flag name="static-libs">Build static library</flag>
   </use>
   <upstream>
-    <remote-id type="github">grishka/libtgvoip</remote-id>
-    <bugs-to>https://github.com/grishka/libtgvoip/issues</bugs-to>
+    <remote-id type="github">telegramdesktop/libtgvoip</remote-id>
+    <bugs-to>https://github.com/telegramdesktop/libtgvoip/issues</bugs-to>
   </upstream>
 </pkgmetadata>

@@ -4,7 +4,7 @@
 EAPI=8
 
 DESCRIPTION="Tool to undelete files from FAT file systems"
-HOMEPAGE="http://fatback.sourceforge.net/"
+HOMEPAGE="https://fatback.sourceforge.net/"
 SRC_URI="mirror://sourceforge/project/${PN}/${PN}/${P}/${P}.tar.gz"
 
 LICENSE="GPL-2"

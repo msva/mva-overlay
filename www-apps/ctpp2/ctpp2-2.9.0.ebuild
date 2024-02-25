@@ -6,8 +6,8 @@ EAPI=8
 inherit cmake
 
 DESCRIPTION="Tool, separating data processing (business logic) from data presentation"
-HOMEPAGE="http://ctpp.havoc.ru/ http://ctpp.havoc.ru/en/"
-SRC_URI="http://ctpp.havoc.ru/download/${P}.tar.gz"
+HOMEPAGE="https://ctpp.havoc.ru/ https://ctpp.havoc.ru/en/"
+SRC_URI="https://ctpp.havoc.ru/download/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="2"

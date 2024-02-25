@@ -8,7 +8,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua toolchain-funcs
 
 DESCRIPTION="Lua bindings for libmpack"
-HOMEPAGE="https://github.com/tarruda/libmpack/"
+HOMEPAGE="https://github.com/libmpack/libmpack"
 SRC_URI="https://github.com/libmpack/libmpack-lua/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 #EGIT_REPO_URI="https://github.com/tarruda/libmpack/"
 S="${WORKDIR}/libmpack-lua-${PV}"

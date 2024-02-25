@@ -16,7 +16,6 @@
     <flag name="X">Support functionality that requires Xorg server (like screen recording)</flag>
   </use>
   <upstream>
-    <remote-id type="github">desktop-app/libtgvoip</remote-id>
-    <bugs-to>https://github.com/desktop-app/libtgvoip/issues</bugs-to>
+    <remote-id type="github">desktop-app/tg_owt</remote-id>
   </upstream>
 </pkgmetadata>

@@ -13,7 +13,6 @@ EGIT_REPO_URI="https://github.com/jung-kurt/luahpdf"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc examples"
 
 REQUIRED_USE="${LUA_REQUIRED_USE}"

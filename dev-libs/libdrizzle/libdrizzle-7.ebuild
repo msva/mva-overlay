@@ -9,7 +9,7 @@ inherit multilib-minimal
 
 DESCRIPTION="Snapshot of dev-db/drizzle sources which can be built as shared library"
 HOMEPAGE="https://github.com/openresty/drizzle-nginx-module"
-SRC_URI="http://agentzh.org/misc/nginx/${MY_P}.tar.gz"
+SRC_URI="https://openresty.org/download/${MY_P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -18,10 +18,6 @@ KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
-#	sed -r \
-#		-e '/^PREFIX=/s@(PREFIX)=.*@\1=/usr@' \
-#		-e '/^INSTALL_LIB/s@lib@$(LIBDIR_${ABI})@' \
-#		-i Makefile
 	sed -r \
 	-e 's|python (config/pandora-plugin)|python2 \1|' \
 	-i Makefile.in

@@ -7,6 +7,6 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">tarruda/libmpack</remote-id>
+    <remote-id type="github">libmpack/libmpack</remote-id>
   </upstream>
 </pkgmetadata>

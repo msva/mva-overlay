@@ -8,13 +8,11 @@ PYTHON_COMPAT=( python3_{8..12} )
 
 inherit git-r3 distutils-r1
 
-MY_PN="sorted_containers"
+MY_PN="python-sortedcontainers"
 
 DESCRIPTION="Python Sorted Container Types: SortedList, SortedDict, and SortedSet"
-HOMEPAGE="https://github.com/grantjenks/sorted_containers"
+HOMEPAGE="https://github.com/grantjenks/python-sortedcontainers"
 EGIT_REPO_URI="https://github.com/grantjenks/${MY_PN}"
-#/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-#S="${WORKDIR}/${MY_PN}-${PV}"
 
 LICENSE="Apache-2.0"
 SLOT="0"

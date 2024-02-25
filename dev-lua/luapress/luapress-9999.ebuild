@@ -8,7 +8,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3
 
 DESCRIPTION="Static sites generator (from markdown files)"
-HOMEPAGE="http://luapress.org"
+HOMEPAGE="https://github.com/Fizzadar/Luapress"
 EGIT_REPO_URI="https://github.com/Fizzadar/Luapress"
 
 LICENSE="MIT"

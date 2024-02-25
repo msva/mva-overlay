@@ -10,11 +10,8 @@ MY_P="${PN}-${EGIT_COMMIT}"
 inherit lua toolchain-funcs git-r3
 
 DESCRIPTION="Networking support library for the Lua language"
-HOMEPAGE="
-	http://www.tecgraf.puc-rio.br/~diego/professional/luasocket/
-	https://github.com/diegonehab/luasocket
-"
-EGIT_REPO_URI="https://github.com/diegonehab/luasocket"
+HOMEPAGE="https://github.com/lunarmodules/luasocket"
+EGIT_REPO_URI="https://github.com/lunarmodules/luasocket"
 
 LICENSE="MIT"
 SLOT="0"

@@ -8,7 +8,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="DBI module for Lua"
-HOMEPAGE="https://code.google.com/p/luadbi"
+HOMEPAGE="https://code.google.com/archive/p/luadbi"
 EGIT_REPO_URI="https://github.com/mwild1/luadbi"
 
 LICENSE="MIT"

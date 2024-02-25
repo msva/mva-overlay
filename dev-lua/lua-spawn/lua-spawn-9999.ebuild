@@ -21,9 +21,6 @@ DEPEND="
 	${LUA_DEPS}
 	dev-lua/lunix[${LUA_USEDEP}]
 "
-RDEPEND="
-	${RDEPEND}
-"
 
 src_prepare() {
 	default

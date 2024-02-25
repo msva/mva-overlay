@@ -19,13 +19,13 @@ MY_P_COMPAT="x32 Compatibility/RPM/SAC-32-CompatibilityPack-${MY_PV}"
 SRC_PV=${PV%.*}
 SRC_PV=${SRC_PV/./_}
 
-SRC_URI="http://online.payment.ru/drivers/SAC_${SRC_PV}_Linux.zip"
+SRC_URI="https://online.payment.ru/drivers/SAC_${SRC_PV}_Linux.zip"
 
-HOMEPAGE="http://aladdin-rd.ru"
+HOMEPAGE="https://aladdin-rd.ru"
 LICENSE="EULA"
 RESTRICT="mirror"
 SLOT="0"
-KEYWORDS="-* ~amd64 ~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="ssl multilib minimal"
 
 # TODO:

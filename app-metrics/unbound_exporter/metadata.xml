@@ -6,6 +6,6 @@
     <name>Vadim Misbakh-Soloviov</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">prometheus/prometheus-haproxy_exporter</remote-id>
+    <remote-id type="github">letsencrypt/unbound_exporter</remote-id>
   </upstream>
 </pkgmetadata>

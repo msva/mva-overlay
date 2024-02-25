@@ -6,12 +6,11 @@ EAPI=8
 inherit cmake git-r3 flag-o-matic java-pkg-opt-2
 
 DESCRIPTION="Memory Efficient Serialization Library"
-HOMEPAGE="http://google.github.io/flatbuffers/"
+HOMEPAGE="https://flatbuffers.dev/"
 EGIT_REPO_URI="https://github.com/google/flatbuffers"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc examples java"
 
 RDEPEND="

@@ -15,10 +15,7 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="examples"
 
-RDEPEND=""
-DEPEND="
-	${RDEPEND}
-"
+RDEPEND="${LUA_DEPS}"
 
 each_lua_prepare() {
 	pushd "${BUILD_DIR}"

@@ -5,7 +5,7 @@ EAPI=8
 inherit java-pkg-2 gradle
 
 DESCRIPTION="A tool for reverse engineering 3rd party, closed, binary Android apps"
-HOMEPAGE="https://ibotpeaches.github.io/Apktool/"
+HOMEPAGE="https://apktool.org/"
 
 if [[ "${PV}" =~ 9999 ]]; then
 	inherit git-r3

@@ -7,6 +7,6 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">ittner/lua-iconv</remote-id>
+    <remote-id type="github">lunarmodules/lua-iconv</remote-id>
   </upstream>
 </pkgmetadata>

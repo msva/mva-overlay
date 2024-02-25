@@ -1,4 +1,4 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -20,11 +20,10 @@ EGIT_SUBMODULES=(
 inherit cmake xdg flag-o-matic multilib git-r3
 
 DESCRIPTION="Mumble is an open source, low-latency, high quality voice chat software"
-HOMEPAGE="http://mumble.info/"
+HOMEPAGE="https://mumble.info/"
 
 LICENSE="BSD MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="+alsa +dbus debug g15 g15-emulator jack lto multilib optimization +overlay nls pipewire +plugins portaudio pulseaudio qtspeech speech-dispatcher static +system-opus +system-rnnoise +system-speex test zeroconf"
 # system-celt
 

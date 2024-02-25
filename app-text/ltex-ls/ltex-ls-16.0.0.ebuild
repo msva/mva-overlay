@@ -5,7 +5,7 @@ EAPI=8
 inherit java-pkg-2
 
 DESCRIPTION="LSP language server for LanguageTool supporting LaTeX, Markdown, and others"
-HOMEPAGE="https://valentjn.github.io/ltex"
+HOMEPAGE="https://valentjn.github.io/ltex/"
 SRC_URI="https://github.com/valentjn/ltex-ls/releases/download/${PV}/${P}.tar.gz"
 
 LICENSE="MPL-2.0"

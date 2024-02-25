@@ -7,7 +7,7 @@ inherit desktop wrapper
 
 DESCRIPTION="A tetris game with physics"
 HOMEPAGE="https://stabyourself.net/nottetris2/"
-SRC_URI="http://stabyourself.net/dl.php?file=${PN}2/${PN}2-source.zip -> ${P}.zip"
+SRC_URI="https://stabyourself.net/dl.php?file=${PN}2/${PN}2-source.zip -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
 

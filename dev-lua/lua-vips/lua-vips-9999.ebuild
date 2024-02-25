@@ -8,8 +8,8 @@ LUA_COMPAT=( luajit )
 inherit lua git-r3
 
 DESCRIPTION="fast, low-memory-use image processing for luajit"
-HOMEPAGE="https://github.com/jcupitt/lua-vips"
-EGIT_REPO_URI="https://github.com/jcupitt/lua-vips"
+HOMEPAGE="https://github.com/libvips/lua-vips"
+EGIT_REPO_URI="https://github.com/libvips/lua-vips"
 
 LICENSE="MIT"
 SLOT="0"

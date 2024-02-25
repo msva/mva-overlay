@@ -9,8 +9,8 @@ LUA_REQ_USE="deprecated(+)"
 inherit lua toolchain-funcs git-r3
 
 DESCRIPTION="Lua binding for OpenSSL library to provide TLS/SSL communication"
-HOMEPAGE="https://github.com/brunoos/luasec"
-EGIT_REPO_URI="https://github.com/brunoos/luasec"
+HOMEPAGE="https://github.com/lunarmodules/luasec"
+EGIT_REPO_URI="https://github.com/lunarmodules/luasec"
 
 LICENSE="MIT"
 SLOT="0"

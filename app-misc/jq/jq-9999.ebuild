@@ -6,7 +6,7 @@ EAPI=8
 inherit autotools git-r3 patches
 
 DESCRIPTION="Command-line JSON processor"
-HOMEPAGE="http://stedolan.github.io/jq/"
+HOMEPAGE="https://stedolan.github.io/jq/"
 EGIT_REPO_URI="https://github.com/stedolan/jq"
 
 LICENSE="GPL-2"

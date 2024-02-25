@@ -16,5 +16,5 @@ EGIT_REPO_URI="https://github.com/sviehb/jefferson"
 LICENSE="MIT"
 SLOT="0"
 
-DEPEND="dev-python/python-cstruct"
+DEPEND="dev-python/cstruct"
 RDEPEND="${DEPEND}"

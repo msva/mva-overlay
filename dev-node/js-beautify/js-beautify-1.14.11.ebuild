@@ -4,7 +4,7 @@
 EAPI=8
 
 DESCRIPTION="Beautifier for javascript https://beautifier.io"
-HOMEPAGE="https://github.com/beautify-web/js-beautify"
+HOMEPAGE="https://github.com/beautifier/js-beautify"
 
 LICENSE="MIT"
 SLOT="0"

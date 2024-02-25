@@ -3,14 +3,14 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..11} )
+PYTHON_COMPAT=( python3_{8..12} )
 
 DISTUTILS_USE_PEP517=setuptools
 
 inherit distutils-r1 git-r3
 
 DESCRIPTION="Postgres CLI with autocompletion and syntax highlighting"
-HOMEPAGE="http://pgcli.com/ https://pypi.python.org/pypi/pgcli"
+HOMEPAGE="https://pypi.org/project/pgcli/"
 EGIT_REPO_URI="https://github.com/dbcli/pgcli"
 
 LICENSE="BSD MIT"
@@ -18,7 +18,7 @@ SLOT="0"
 IUSE="keyring +ssh"
 
 RDEPEND="$(python_gen_cond_dep '
-	>=dev-python/cli_helpers-2.2.1[${PYTHON_USEDEP}]
+	>=dev-python/cli-helpers-2.2.1[${PYTHON_USEDEP}]
 	>=dev-python/click-7.0[${PYTHON_USEDEP}]
 	>=dev-python/configobj-5.0.6[${PYTHON_USEDEP}]
 	>=dev-python/pendulum-2.1.0[${PYTHON_USEDEP}]

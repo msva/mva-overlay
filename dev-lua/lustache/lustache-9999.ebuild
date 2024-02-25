@@ -8,7 +8,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3
 
 DESCRIPTION="Markdown engine"
-HOMEPAGE="http://olivinelabs.com/lustache"
+HOMEPAGE="https://olivinelabs.com/lustache/"
 EGIT_REPO_URI="https://github.com/Olivine-Labs/lustache"
 
 LICENSE="MIT"

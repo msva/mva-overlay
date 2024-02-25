@@ -6,8 +6,7 @@ EAPI=8
 inherit autotools multilib-minimal git-r3
 
 DESCRIPTION="Barcode data matrix reading and writing library"
-HOMEPAGE="http://www.libdmtx.org/"
-SRC_URI=""
+HOMEPAGE="https://github.com/dmtx/libdmtx/"
 
 EGIT_REPO_URI="https://github.com/dmtx/libdmtx"
 

@@ -13,7 +13,7 @@ else
 fi
 
 DESCRIPTION="TOra - Toolkit For Oracle"
-HOMEPAGE="http://torasql.com/"
+HOMEPAGE="https://torasql.com/"
 IUSE="debug mysql oracle oci8-instant-client postgres +experimental"
 
 SLOT="0"

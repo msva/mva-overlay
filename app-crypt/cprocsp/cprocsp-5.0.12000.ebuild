@@ -17,7 +17,7 @@ SRC_URI="
 HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 LICENSE="Crypto-Pro"
 RESTRICT="bindist fetch mirror strip"
-SLOT="0"
+SLOT="0/5.0.12000"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 DEPEND="
@@ -136,7 +136,8 @@ src_unpack() {
 	mkdir -p usr/lib/mozilla/plugins || die
 	cp -lL opt/cprocsp/lib/${arch}/libnpcades.so usr/lib/mozilla/plugins/ || die
 
-	# cp etc/opt/cprocsp/config64.ini{,.backup} || die # TODO: What about non-64bit installs? (need someone with 32bit setup)
+	# cp etc/opt/cprocsp/config64.ini{,.backup} || die
+	# ^  TODO: What about non-64bit installs? (need someone with 32bit setup)
 	bzip2 -d -c < "${FILESDIR}"/cprocsp_postinstal_all_scripts.sh.bz2 > "${T}"/postinst.bash || die
 }
 
@@ -169,7 +170,7 @@ src_install() {
 	# rm etc/init.d/cprocsp
 	mv etc/init.d/cprocsp opt/cprocsp/cprocsp.init || die # FIXME:
 
-	newinitd "${FILESDIR}/${P}" cprocsp
+	newinitd "${FILESDIR}/${PN}-5.0.12900" cprocsp
 	# TODO: ^ make it just script, and make normal openrc init-file
 	systemd_dounit "${FILESDIR}/${PN}.service"
 

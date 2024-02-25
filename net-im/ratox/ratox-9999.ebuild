@@ -6,7 +6,7 @@ EAPI=8
 inherit git-r3
 
 DESCRIPTION="A minimal FIFO based client for Tox"
-HOMEPAGE="https://git.2f30.org/ratox"
+HOMEPAGE="https://git.2f30.org/ratox/"
 EGIT_REPO_URI="git://git.2f30.org/ratox.git"
 
 LICENSE="ISC"

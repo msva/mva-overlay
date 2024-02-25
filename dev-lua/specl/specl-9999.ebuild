@@ -16,8 +16,6 @@ EGIT_REPO_URI="https://github.com/gvvaughan/specl"
 LICENSE="MIT"
 SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
-RDEPEND="${LUA_DEPS}"
-DEPEND="${RDEPEND}"
 IUSE="doc"
 
 RDEPEND="

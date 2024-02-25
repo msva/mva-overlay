@@ -6,8 +6,8 @@ EAPI=8
 inherit wrapper desktop
 
 DESCRIPTION="Nice perspective based puzzle game. You flatten the view to move across gaps"
-HOMEPAGE="http://stabyourself.net/orthorobot/"
-SRC_URI="http://stabyourself.net/dl.php?file=${PN}/${PN}-source.zip -> ${P}.zip"
+HOMEPAGE="https://stabyourself.net/orthorobot/"
+SRC_URI="https://stabyourself.net/dl.php?file=${PN}/${PN}-source.zip -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"

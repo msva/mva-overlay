@@ -15,7 +15,7 @@ else
 fi
 
 DESCRIPTION="An IPv4/IPv6 Subnet Calculator"
-HOMEPAGE="https://www.uni-due.de/~be0001/subnetcalc/"
+HOMEPAGE="https://www.nntb.no/~dreibh/subnetcalc/"
 
 LICENSE="GPL-3"
 SLOT="0"

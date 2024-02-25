@@ -6,8 +6,8 @@ EAPI=8
 inherit go-module git-r3
 
 DESCRIPTION="official go language server"
-HOMEPAGE="https://github.com/golang/tools/blob/master/gopls"
-EGIT_REPO_URI="https://github.com/golang/tools.git"
+HOMEPAGE="https://github.com/golang/tools/tree/master/gopls"
+EGIT_REPO_URI="https://github.com/golang/tools"
 
 S="${WORKDIR}/${P}/${PN}"
 

@@ -95,12 +95,6 @@ HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
 HTTP_PASSENGER_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_MODULE_P}/src/nginx_module"
 
-# http_passenger_enterprise (https://github.com/phusion/passenger/tags, MIT)
-HTTP_PASSENGER_E_MODULE_PV="5.1.2"
-HTTP_PASSENGER_E_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-enterprise-${HTTP_PASSENGER_E_MODULE_PV}"
-HTTP_PASSENGER_E_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/enterprise-${HTTP_PASSENGER_E_MODULE_PV}.tar.gz"
-HTTP_PASSENGER_E_MODULE_WD="${WORKDIR}/${HTTP_PASSENGER_E_MODULE_P}/src/nginx_module"
-
 # http_passenger_union_station_hooks_core (https://github.com/phusion/union_station_hooks_core/tags, MIT)
 HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_A="phusion"
 HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_PN="union_station_hooks_core"
@@ -194,11 +188,11 @@ HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODU
 HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}.tar.gz"
 HTTP_PUSH_STREAM_MODULE_WD="${WORKDIR}/${HTTP_PUSH_STREAM_MODULE_P}"
 
-# http_ctpp2 (https://ngx-ctpp.vbart.ru/ (ru) https://ngx-ctpp.vbart.info/ (en), BSD)
-HTTP_CTPP_MODULE_PV="0.5"
-HTTP_CTPP_MODULE_P="ngx_ctpp2-${HTTP_CTPP_MODULE_PV}"
-HTTP_CTPP_MODULE_URI="https://dl.vbart.ru/ngx-ctpp/${HTTP_CTPP_MODULE_P}.tar.gz"
-HTTP_CTPP_MODULE_WD="${WORKDIR}/${HTTP_CTPP_MODULE_P}"
+# # http_ctpp2 (https://ngx-ctpp.vbart.ru/ (ru) https://ngx-ctpp.vbart.info/ (en), BSD)
+# HTTP_CTPP_MODULE_PV="0.5"
+# HTTP_CTPP_MODULE_P="ngx_ctpp2-${HTTP_CTPP_MODULE_PV}"
+# HTTP_CTPP_MODULE_URI="https://dl.vbart.ru/ngx-ctpp/${HTTP_CTPP_MODULE_P}.tar.gz"
+# HTTP_CTPP_MODULE_WD="${WORKDIR}/${HTTP_CTPP_MODULE_P}"
 
 # http_cache_purge (https://github.com/nginx-modules/ngx_cache_purge/tags, BSD-2)
 HTTP_CACHE_PURGE_MODULE_A="nginx-modules"
@@ -217,8 +211,8 @@ HTTP_EY_BALANCER_MODULE_P="${HTTP_EY_BALANCER_MODULE_PN}-${HTTP_EY_BALANCER_MODU
 HTTP_EY_BALANCER_MODULE_URI="https://github.com/${HTTP_EY_BALANCER_MODULE_A}/${HTTP_EY_BALANCER_MODULE_PN}/archive/${HTTP_EY_BALANCER_MODULE_SHA:-v${HTTP_EY_BALANCER_MODULE_PV}}.tar.gz"
 HTTP_EY_BALANCER_MODULE_WD="${WORKDIR}/${HTTP_EY_BALANCER_MODULE_P}"
 
-# http_ndk, NginX DevKit module (https://github.com/simpl/ngx_devel_kit/tags, BSD)
-HTTP_NDK_MODULE_A="simpl"
+# http_ndk, NginX DevKit module (https://github.com/vision5/ngx_devel_kit/tags, BSD)
+HTTP_NDK_MODULE_A="vision5"
 HTTP_NDK_MODULE_PN="ngx_devel_kit"
 HTTP_NDK_MODULE_PV="0.3.3"
 HTTP_NDK_MODULE_P="${HTTP_NDK_MODULE_PN}-${HTTP_NDK_MODULE_SHA:-${HTTP_NDK_MODULE_PV}}"
@@ -443,8 +437,8 @@ CORE_RTMP_MODULE_P="${CORE_RTMP_MODULE_PN}-${CORE_RTMP_MODULE_SHA:-${CORE_RTMP_M
 CORE_RTMP_MODULE_URI="https://github.com/${CORE_RTMP_MODULE_A}/${CORE_RTMP_MODULE_PN}/archive/${CORE_RTMP_MODULE_SHA:-v${CORE_RTMP_MODULE_PV}}.tar.gz"
 CORE_RTMP_MODULE_WD="${WORKDIR}/${CORE_RTMP_MODULE_P}"
 
-# mod_security for nginx (https://github.com/SpiderLabs/ModSecurity-nginx/tags, Apache-2.0)
-HTTP_SECURITY_MODULE_A="SpiderLabs"
+# mod_security for nginx (https://github.com/owasp-modsecurity/ModSecurity-nginx/tags, Apache-2.0)
+HTTP_SECURITY_MODULE_A="owasp-modsecurity"
 HTTP_SECURITY_MODULE_PN="ModSecurity-nginx"
 HTTP_SECURITY_MODULE_PV="1.0.3"
 #HTTP_SECURITY_MODULE_SHA="a2a5858d249222938c2f5e48087a922c63d7f9d8"
@@ -452,8 +446,8 @@ HTTP_SECURITY_MODULE_P="${HTTP_SECURITY_MODULE_PN}-${HTTP_SECURITY_MODULE_SHA:-$
 HTTP_SECURITY_MODULE_URI="https://github.com/${HTTP_SECURITY_MODULE_A}/${HTTP_SECURITY_MODULE_PN}/archive/${HTTP_SECURITY_MODULE_SHA:-v${HTTP_SECURITY_MODULE_PV}}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
 
-# http_auth_pam (https://github.com/stogh/ngx_http_auth_pam_module/tags, BSD-2)
-HTTP_AUTH_PAM_MODULE_A="stogh"
+# http_auth_pam (https://github.com/sto/ngx_http_auth_pam_module/tags, BSD-2)
+HTTP_AUTH_PAM_MODULE_A="sto"
 HTTP_AUTH_PAM_MODULE_PN="ngx_http_auth_pam_module"
 HTTP_AUTH_PAM_MODULE_PV="1.5.5"
 HTTP_AUTH_PAM_MODULE_P="${HTTP_AUTH_PAM_MODULE_PN}-${HTTP_AUTH_PAM_MODULE_SHA:-${HTTP_AUTH_PAM_MODULE_PV}}"
@@ -531,7 +525,6 @@ SRC_URI="
 		${HTTP_ENCRYPTED_SESSION_MODULE_URI} -> ${HTTP_ENCRYPTED_SESSION_MODULE_P}.tar.gz
 	)
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
-	nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} )
 	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( ${HTTP_EY_BALANCER_MODULE_URI} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
@@ -563,11 +556,6 @@ SRC_URI="
 	nginx_modules_http_dav_ext? ( ${HTTP_DAV_EXT_MODULE_URI} -> ${HTTP_DAV_EXT_MODULE_P}.tar.gz )
 	nginx_modules_http_security? ( ${HTTP_SECURITY_MODULE_URI} -> ${HTTP_SECURITY_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_pam? ( ${HTTP_AUTH_PAM_MODULE_URI} -> ${HTTP_AUTH_PAM_MODULE_P}.tar.gz )
-	nginx_modules_http_passenger_enterprise? (
-		${HTTP_PASSENGER_E_MODULE_URI} -> ${HTTP_PASSENGER_E_MODULE_P}.tar.gz
-		${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_P}.tar.gz
-		${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOOKS_RAILS_P}.tar.gz
-	)
 	nginx_modules_http_passenger? (
 		${HTTP_PASSENGER_MODULE_URI} -> ${HTTP_PASSENGER_MODULE_P}.tar.gz
 		${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_URI} -> ${HTTP_PASSENGER_UNION_STATION_HOOOKS_CORE_P}.tar.gz
@@ -596,6 +584,7 @@ SRC_URI="
 	nginx_modules_stream_geoip2? ( ${HTTP_GEOIP2_MODULE_URI} -> ${HTTP_GEOIP2_MODULE_P}.tar.gz )
 	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.tar.gz )
 "
+	# nginx_modules_http_ctpp? ( ${HTTP_CTPP_MODULE_URI} )
 LICENSE="
 	BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_enmemcache? ( Apache-2.0 )
@@ -715,12 +704,10 @@ NGINX_MODULES_3P="
 	http_xss
 	http_iconv
 	http_upload_progress
-	http_ctpp
 	http_fancyindex
 	http_metrics
 	http_dav_ext
 	http_passenger
-	http_passenger_enterprise
 	http_auth_pam
 	http_hls_audio
 	http_sticky
@@ -739,6 +726,7 @@ NGINX_MODULES_3P="
 	core_rtmp
 	core_stream_traffic_status
 "
+# http_ctpp
 
 NGINX_MODULES_DYN="
 	http_geoip
@@ -772,7 +760,6 @@ NGINX_MODULES_DYN="
 	http_fancyindex
 	http_dav_ext
 	http_passenger
-	http_passenger_enterprise
 	http_auth_pam
 	http_ajp
 	stream_javascript
@@ -811,7 +798,6 @@ REQUIRED_USE="
 	nginx_modules_http_hls_audio? ( nginx_modules_http_lua )
 	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
 	nginx_modules_http_push_stream? ( ssl )
-	nginx_modules_http_passenger_enterprise? ( !nginx_modules_http_passenger )
 	nginx_modules_http_fancyindex? ( nginx_modules_http_addition )
 	nginx_modules_http_security? ( pcre )
 	pcre-jit? ( || ( pcre pcre2 ) )
@@ -862,7 +848,6 @@ CDEPEND="
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
-	nginx_modules_http_ctpp? ( www-apps/ctpp2 >=sys-devel/gcc-4.6:* )
 	nginx_modules_http_postgres? ( dev-db/postgresql:= )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( dev-libs/openssl:= )
@@ -889,17 +874,11 @@ CDEPEND="
 		dev-libs/libev
 		dev-libs/libuv
 	)
-	nginx_modules_http_passenger_enterprise? (
-		$(ruby_implementations_depend)
-		>=dev-ruby/rake-0.8.1
-		!!www-apache/passenger
-		dev-libs/libev
-		dev-libs/libuv
-	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	nginx_modules_http_drizzle? ( dev-libs/libdrizzle )
 	virtual/libcrypt:=
 "
+# nginx_modules_http_ctpp? ( www-apps/ctpp2 >=sys-devel/gcc-4.6:* )
 
 RDEPEND="
 	${CDEPEND}
@@ -978,7 +957,7 @@ pkg_setup() {
 		ewarn ""
 	fi
 
-	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
+	if use nginx_modules_http_passenger; then
 		ewarn ""
 		ewarn "I've no more mental powers to support the Passenger builds."
 		ewarn "I'll still bump passenger module on new releases, but since now"
@@ -1080,11 +1059,7 @@ src_prepare() {
 			-i "${HTTP_LUA_MODULE_WD}/config"
 	fi
 
-	if use nginx_modules_http_passenger_enterprise; then
-		HTTP_PASSENGER_MODULE_WD="${HTTP_PASSENGER_E_MODULE_WD}"
-	fi
-
-	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
+	if use nginx_modules_http_passenger; then
 		# Gentoo'izing and de-apache'ing:
 		local HTTP_PASSENGER_SRC_WD="$(realpath ${HTTP_PASSENGER_MODULE_WD}/../..)"
 
@@ -1166,11 +1141,11 @@ src_prepare() {
 		cp -rl "${HTTP_PAGESPEED_PSOL_WD}" "${HTTP_PAGESPEED_MODULE_WD}"/ || die "Failed to insert psol"
 	fi
 
-	if use nginx_modules_http_ctpp; then
-		sed \
-			-e '/throw(ngx_int_t)/s@@noexcept(false)@' \
-			-i "${HTTP_CTPP_MODULE_WD}/sources/ctpp2_process.cpp"
-	fi
+	# if use nginx_modules_http_ctpp; then
+	# 	sed \
+	# 		-e '/throw(ngx_int_t)/s@@noexcept(false)@' \
+	# 		-i "${HTTP_CTPP_MODULE_WD}/sources/ctpp2_process.cpp"
+	# fi
 
 	patches_src_prepare
 }
@@ -1328,7 +1303,7 @@ src_configure() {
 		myconf+=("--user=${PN}" "--group=${PN}")
 	fi
 
-	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
+	if use nginx_modules_http_passenger; then
 		local passenger_target="nginx"
 		if ! use static; then
 			passenger_target="nginx:as_dynamic_module"
@@ -1370,8 +1345,6 @@ src_configure() {
 		sedargs+=(-e "s|/${P}/|/|g;s|/naxsi_src||g")
 	use nginx_modules_http_passenger &&
 		sedargs+=(-e "s|/${P}/|/|g;s|/src/nginx_module||g;s|/src_module||g;s|(passenger)-release|\1|")
-	use nginx_modules_http_passenger_enterprise &&
-		sedargs+=(-e "s|/${P}/|/|g;s|/src/nginx_module||g;s|/src_module||g")
 
 	sed -i -r "${sedargs[@]}" "${S}/objs/ngx_auto_config.h"
 
@@ -1467,11 +1440,11 @@ src_install() {
 		dodoc "${HTTP_PUSH_STREAM_MODULE_WD}"/{CHANGELOG.textile,README.textile}
 	fi
 
-# http_ctpp
-	if use nginx_modules_http_ctpp; then
-		docinto "${HTTP_CTPP_MODULE_P}"
-		dodoc "${HTTP_CTPP_MODULE_WD}"/{CHANGELOG-ru,README}
-	fi
+# # http_ctpp
+# 	if use nginx_modules_http_ctpp; then
+# 		docinto "${HTTP_CTPP_MODULE_P}"
+# 		dodoc "${HTTP_CTPP_MODULE_WD}"/{CHANGELOG-ru,README}
+# 	fi
 
 # http_cache_purge
 	if use nginx_modules_http_cache_purge; then
@@ -1640,7 +1613,7 @@ src_install() {
 	fi
 
 # http_passenger
-	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
+	if use nginx_modules_http_passenger; then
 		each_ruby_install() { passenger_install; }
 		ruby-ng_src_install
 	fi
@@ -1750,7 +1723,7 @@ pkg_postinst() {
 		ewarn "Same for HTTP3 module"
 	fi
 
-	if use nginx_modules_http_passenger || use nginx_modules_http_passenger_enterprise; then
+	if use nginx_modules_http_passenger; then
 		ewarn ""
 		ewarn "Please, keep notice, that 'passenger_root' directive"
 		ewarn "should point to exactly location of 'locations.ini'"

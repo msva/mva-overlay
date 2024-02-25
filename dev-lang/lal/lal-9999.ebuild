@@ -13,7 +13,6 @@ EGIT_REPO_URI="https://github.com/WeirdConstructor/lal"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc"
 
 REQUIRED_USE="${LUA_REQUIRED_USE}"

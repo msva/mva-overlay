@@ -2,6 +2,11 @@
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>gentoo-overlay@mva.name</email>
+    <email>mva@gentoo.org</email>
+    <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
+    <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
+  <upstream>
+    <remote-id type="github">dmtx/dmtx-utils</remote-id>
+  </upstream>
 </pkgmetadata>

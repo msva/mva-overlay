@@ -5,11 +5,10 @@ EAPI=8
 inherit cmake git-r3
 
 DESCRIPTION="A high-performance multi-threaded backup toolset for MySQL and Drizzle"
-HOMEPAGE="https://github.com/maxbube/mydumper"
-EGIT_REPO_URI="https://github.com/maxbube/${PN}"
+HOMEPAGE="https://github.com/mydumper/mydumper"
+EGIT_REPO_URI="https://github.com/mydumper/${PN}"
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
 IUSE="doc"
 
 RDEPEND="

@@ -7,12 +7,12 @@ inherit autotools git-r3
 #mercurial
 
 DESCRIPTION="Facebook plugin for libpurple (Pidgin)"
-HOMEPAGE="https://github.com/jgeboski/purple-facebook"
+HOMEPAGE="https://github.com/dequis/purple-facebook"
 
 LICENSE="GPL-2"
 SLOT="0"
 
-EGIT_REPO_URI="https://github.com/jgeboski/purple-facebook"
+EGIT_REPO_URI="https://github.com/dequis/purple-facebook"
 
 DEPEND="
 	net-im/pidgin

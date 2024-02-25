@@ -8,7 +8,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Binding of libevent for Lua"
-HOMEPAGE="http://luaforge.net/projects/luaevent"
+HOMEPAGE="https://github.com/harningt/luaevent"
 EGIT_REPO_URI="https://github.com/harningt/luaevent"
 
 LICENSE="LGPL-2.1"

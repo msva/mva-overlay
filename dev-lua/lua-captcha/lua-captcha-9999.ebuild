@@ -15,7 +15,6 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="jpeg png examples"
 
-REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
 	dev-lua/lua-gd[${LUA_USEDEP}]
@@ -23,7 +22,10 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-REQUIRED_USE="|| ( jpeg png )"
+REQUIRED_USE="
+	${LUA_REQUIRED_USE}
+	|| ( jpeg png )
+"
 
 src_compile() { :; }
 

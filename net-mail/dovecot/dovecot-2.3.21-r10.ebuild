@@ -11,7 +11,7 @@ inherit autotools flag-o-matic lua-single ssl-cert systemd toolchain-funcs
 MY_P="${P/_/.}"
 #MY_S="${PN}-ce-${PV}"
 major_minor="$(ver_cut 1-2)"
-sieve_version="0.5.18"
+sieve_version="0.5.21"
 if [[ ${PV} == *_rc* ]]; then
 	rc_dir="rc/"
 else
@@ -27,13 +27,13 @@ SRC_URI="https://dovecot.org/releases/${major_minor}/${rc_dir}${MY_P}.tar.gz
 DESCRIPTION="An IMAP and POP3 server written with security primarily in mind"
 HOMEPAGE="https://www.dovecot.org/"
 
-SLOT="0"
+SLOT="0/${PV}"
 LICENSE="LGPL-2.1 MIT"
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 
 IUSE_DOVECOT_AUTH="kerberos ldap lua mysql pam postgres sqlite"
 IUSE_DOVECOT_COMPRESS="lz4 zstd"
-IUSE_DOVECOT_OTHER="argon2 caps doc ipv6 lucene managesieve rpc
+IUSE_DOVECOT_OTHER="argon2 caps doc lucene managesieve rpc
 	selinux sieve solr static-libs stemmer suid systemd tcpd textcat unwind"
 
 IUSE="${IUSE_DOVECOT_AUTH} ${IUSE_DOVECOT_COMPRESS} ${IUSE_DOVECOT_OTHER}"
@@ -59,7 +59,7 @@ DEPEND="
 	lz4? ( app-arch/lz4 )
 	mysql? ( dev-db/mysql-connector-c:0= )
 	pam? ( sys-libs/pam:= )
-	postgres? ( dev-db/postgresql:* !dev-db/postgresql[ldap,threads] )
+	postgres? ( dev-db/postgresql:* )
 	rpc? ( net-libs/libtirpc:= net-libs/rpcsvc-proto )
 	selinux? ( sec-policy/selinux-dovecot )
 	solr? ( net-misc/curl dev-libs/expat )
@@ -80,7 +80,7 @@ RDEPEND="
 	acct-group/dovenull
 	acct-user/dovecot
 	acct-user/dovenull
-	net-mail/mailbase
+	net-mail/mailbase[pam?]
 	"
 
 S="${WORKDIR}/${MY_P}"
@@ -88,8 +88,9 @@ S="${WORKDIR}/${MY_P}"
 PATCHES=(
 	"${FILESDIR}/${PN}"-autoconf-lua-version-v3.patch
 	"${FILESDIR}/${PN}"-socket-name-too-long.patch
-	"${FILESDIR}/${P}"-slibtool.patch # 782631
+	"${FILESDIR}/${PN}"-2.3.19.1-slibtool.patch # 782631
 	"${FILESDIR}"/CVE-2022-30550.patch
+	"${FILESDIR}/${PN}"-openssl-3.patch
 )
 
 pkg_setup() {
@@ -102,14 +103,7 @@ pkg_setup() {
 
 src_prepare() {
 	default
-
-	# if use lua_single_target_luajit; then
-	# 	sed -r \
-	# 		-e "/PKG_CHECK_MODULES\([LUA],/s@\[LUA\]@[LUAJIT]@" \
-	# 		-i "${S}"/m4/want_lua.m4
-	# fi
-
-	# bug 657108
+	# bug 657108, 782631
 	#elibtoolize
 	eautoreconf
 
@@ -184,6 +178,9 @@ src_compile() {
 }
 
 src_test() {
+	# bug #340791 and bug #807178
+	local -x NOVALGRIND=true
+
 	default
 	if use sieve || use managesieve; then
 		cd "../dovecot-${major_minor}-pigeonhole-${sieve_version}" || die "cd failed"
@@ -194,9 +191,6 @@ src_test() {
 src_install() {
 	default
 
-	# insecure:
-	# use suid && fperms u+s /usr/libexec/dovecot/deliver
-	# better:
 	if use suid; then
 		einfo "Changing perms to allow deliver to be suided"
 		fowners root:mail "/usr/libexec/dovecot/dovecot-lda"
@@ -247,12 +241,6 @@ src_install() {
 			's/#!include auth-system.conf.ext/!include auth-system.conf.ext/' \
 			"${confd}/10-auth.conf" \
 			|| die "failed to update PAM settings in 10-auth.conf"
-	fi
-
-	# Disable ipv6 if necessary
-	if ! use ipv6; then
-		sed -i -e 's/^#listen = \*, ::/listen = \*/g' "${conf}" \
-			|| die "failed to update listen settings in dovecot.conf"
 	fi
 
 	# Update ssl cert locations
@@ -314,6 +302,4 @@ pkg_postinst() {
 		SSL_ORGANIZATION="${SSL_ORGANIZATION:-Dovecot IMAP Server}"
 		install_cert /etc/ssl/dovecot/server
 	fi
-
-	elog "Please read https://doc.dovecot.org/installation_guide/upgrading/ for upgrade notes."
 }

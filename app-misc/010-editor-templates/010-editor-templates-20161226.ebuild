@@ -4,8 +4,8 @@
 EAPI=8
 
 DESCRIPTION="010 Editor Templates"
-HOMEPAGE="http://www.sweetscape.com/010editor/templates/"
-SRC_URI="http://www.sweetscape.com/010editor/templates/files/010EditorTemplates.zip -> ${P}.zip"
+HOMEPAGE="https://www.sweetscape.com/010editor/templates/"
+SRC_URI="https://www.sweetscape.com/010editor/templates/files/010EditorTemplates.zip -> ${P}.zip"
 
 LICENSE="EULA"
 SLOT="0"

@@ -7,7 +7,7 @@ inherit cmake
 
 DESCRIPTION="Free and simple TrueCrypt Implementation based on dm-crypt"
 HOMEPAGE="https://github.com/bwalex/tc-play"
-SRC_URI="https://github.com/bwalex/tc-play/archive/v${PN}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/bwalex/tc-play/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"

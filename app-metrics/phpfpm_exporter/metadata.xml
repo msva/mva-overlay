@@ -6,6 +6,6 @@
     <name>Vadim Misbakh-Soloviov</name>
   </maintainer>
   <upstream>
-    <remote-id type="github">vmercierfr/phpfpm-prometheus-exporter</remote-id>
+    <remote-id type="github">blablacar/phpfpm-prometheus-exporter</remote-id>
   </upstream>
 </pkgmetadata>

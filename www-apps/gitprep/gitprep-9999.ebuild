@@ -6,7 +6,7 @@ EAPI=8
 inherit perl-module git-r3
 
 DESCRIPTION="Github clone. you can install Github system into your unix/linux machine."
-HOMEPAGE="http://gitprep.yukikimoto.com/"
+HOMEPAGE="https://github.com/yuki-kimoto/gitprep/"
 EGIT_REPO_URI="https://github.com/yuki-kimoto/gitprep"
 RESTRICT="test"
 
@@ -54,7 +54,7 @@ src_prepare() {
 }
 
 src_compile() {
-	./setup_database
+	./setup_database # ?
 }
 
 src_install() {

@@ -8,6 +8,6 @@
   </maintainer>
   <upstream>
     <remote-id type="launchpad">mydumper</remote-id>
-    <remote-id type="github">maxbube/mydumper</remote-id>
+    <remote-id type="github">mydumper/mydumper</remote-id>
   </upstream>
 </pkgmetadata>

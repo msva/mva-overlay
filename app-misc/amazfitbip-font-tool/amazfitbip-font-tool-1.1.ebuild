@@ -7,8 +7,8 @@ PYTHON_COMPAT=(python3_{8..12} pypy3)
 inherit python-r1
 
 DESCRIPTION="Amazfit Bip Font Parser (& Packer)"
-HOMEPAGE="https://myamazfit.ru/threads/parser-shriftov-amazfit-bip.96/"
-SRC_URI="https://gist.github.com/raw/7ffbab5b23b35207525a7a05295cf67e -> bip_font_tool-${PV}.py"
+HOMEPAGE="https://web.archive.org/web/20220517220033/https://myamazfit.ru/threads/parser-shriftov-amazfit-bip.96/"
+SRC_URI="https://gist.githubusercontent.com/raw/7ffbab5b23b35207525a7a05295cf67e -> bip_font_tool-${PV}.py"
 
 LICENSE="MIT"
 SLOT="0"

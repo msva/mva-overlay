@@ -6,7 +6,7 @@ EAPI=8
 inherit cmake
 
 DESCRIPTION="A global shortcut/hotkey library for desktop Qt applications"
-HOMEPAGE="https://skycoder42.github.io/QHotkey"
+HOMEPAGE="https://github.com/skycoder42/QHotkey"
 
 MY_PN="QHotkey"
 

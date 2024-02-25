@@ -5,11 +5,11 @@ EAPI=8
 inherit java-pkg-2 gradle
 
 DESCRIPTION="A tool for reverse engineering 3rd party, closed, binary Android apps"
-HOMEPAGE="https://ibotpeaches.github.io/Apktool/"
+HOMEPAGE="https://apktool.org/"
 
 if [[ "${PV}" =~ 9999 ]]; then
 	inherit git-r3
-	EGVIT_REPO_URI="https://github.com/iBotPeaches/Apktool"
+	EGIT_REPO_URI="https://github.com/iBotPeaches/Apktool"
 else
 	SRC_URI="https://github.com/iBotPeaches/Apktool/archive/v${PV/_}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~x86"
@@ -26,8 +26,8 @@ DEPEND="
 "
 
 src_prepare() {
-	# rm -r brut.apktool/apktool-lib/src/test
-	# # ^ wants to connect to X11 -> fails -> brakes build
+	rm -r brut.apktool/apktool-lib/src/test
+	# ^ wants to connect to X11 -> fails -> brakes build
 
 	default
 	java-pkg-2_src_prepare

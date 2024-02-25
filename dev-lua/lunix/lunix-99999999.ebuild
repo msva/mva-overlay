@@ -8,7 +8,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Lua Unix Module"
-HOMEPAGE="http://25thandclement.com/~william/projects/lunix.html"
+HOMEPAGE="https://github.com/wahern/lunix"
 EGIT_REPO_URI="https://github.com/wahern/lunix"
 
 LICENSE="MIT"

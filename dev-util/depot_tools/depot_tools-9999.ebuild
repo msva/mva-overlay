@@ -8,7 +8,7 @@ PYTHON_COMPAT=( python3_{8..12} )
 inherit wrapper git-r3 python-r1
 
 DESCRIPTION="Chromium scripts to manage interaction with dependencies"
-HOMEPAGE="https://dev.chromium.org/developers/how-tos/install-depot-tools"
+HOMEPAGE="https://www.chromium.org/developers/how-tos/install-depot-tools/"
 EGIT_REPO_URI="https://chromium.googlesource.com/chromium/tools/depot_tools.git"
 LICENSE="GPL-2"
 SLOT="0"

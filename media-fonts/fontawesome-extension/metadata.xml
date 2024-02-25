@@ -10,6 +10,6 @@
     <flag name="webfonts">Install so called &quot;web&quot; fonts (woff{,2}, eot)</flag>
   </use>
   <upstream>
-    <remote-id type="github">AndreLGava/font-awesome-extension</remote-id>
+    <remote-id type="github">AndreLZGava/font-awesome-extension</remote-id>
   </upstream>
 </pkgmetadata>

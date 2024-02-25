@@ -8,7 +8,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3
 
 DESCRIPTION="Lua GeoIP Library"
-HOMEPAGE="https://agladysh.github.io/lua-geoip"
+HOMEPAGE="https://github.com/agladysh/lua-geoip"
 EGIT_REPO_URI="https://github.com/agladysh/lua-geoip"
 
 LICENSE="MIT"

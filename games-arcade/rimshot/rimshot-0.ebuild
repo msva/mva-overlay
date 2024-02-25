@@ -6,8 +6,8 @@ EAPI=8
 inherit desktop wrapper
 
 DESCRIPTION="Nice application to work with drumbeats and play in 'Guitar Anti-Hero'"
-HOMEPAGE="http://stabyourself.net/rimshot/"
-SRC_URI="http://stabyourself.net/dl.php?file=${PN}/${PN}-source.zip -> ${P}.zip"
+HOMEPAGE="https://stabyourself.net/rimshot/"
+SRC_URI="https://stabyourself.net/dl.php?file=${PN}/${PN}-source.zip -> ${P}.zip"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"

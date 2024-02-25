@@ -45,7 +45,7 @@ BDEPEND="
 	${BOTHDEPEND}
 	nls? ( sys-devel/gettext )
 	meson? (
-		>=dev-build/meson
+		dev-build/meson
 		${NINJA_DEPEND}
 		strong-optimization? ( >=sys-devel/gcc-config-1.9.1 )
 	)

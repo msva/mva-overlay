@@ -8,8 +8,8 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua toolchain-funcs
 
 DESCRIPTION="A simple tool, that help you to glue lua script with interpreter"
-HOMEPAGE="https://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/index.html#srlua"
-SRC_URI="https://webserver2.tecgraf.puc-rio.br/~lhf/ftp/lua/ar/${P}.tar.gz"
+HOMEPAGE="https://web.tecgraf.puc-rio.br/~lhf/ftp/lua/index.html#srlua"
+SRC_URI="https://web.tecgraf.puc-rio.br/~lhf/ftp/lua/ar/${P}.tar.gz"
 
 LICENSE="public-domain"
 SLOT="0"

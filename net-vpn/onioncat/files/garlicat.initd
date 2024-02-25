@@ -10,7 +10,7 @@ start() {
 		--start \
 		--pidfile "${PIDFILE}" \
 		--quiet \
-		--exec /usr/bin/gcat -- -P "${PIDFILE}" ${GCAT_OPTS} >/dev/null 2>&1
+		--exec /usr/bin/ocat -- -P "${PIDFILE}" ${GCAT_OPTS} >/dev/null 2>&1
 	eend $?
 }
 

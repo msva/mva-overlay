@@ -6,7 +6,7 @@ EAPI=8
 inherit meson
 
 DESCRIPTION="C++14 Dependency Injection Library"
-HOMEPAGE="https://boost-ext.github.io/di"
+HOMEPAGE="https://boost-ext.github.io/di/"
 LICENSE="Boost-1.0"
 SLOT="0"
 

@@ -9,7 +9,7 @@ EGIT_REPO_URI="https://github.com/${PN}/${PN}-c.git"
 EGIT_BRANCH="c_master"
 
 DESCRIPTION="MessagePack is a binary-based efficient data interchange format"
-HOMEPAGE="http://msgpack.org/ https://github.com/msgpack/msgpack-c/"
+HOMEPAGE="https://msgpack.org/ https://github.com/msgpack/msgpack-c/"
 
 LICENSE="Boost-1.0"
 SLOT="0/2"

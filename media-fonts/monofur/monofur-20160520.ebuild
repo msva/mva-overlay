@@ -7,9 +7,9 @@ S="${WORKDIR}"
 inherit font
 
 DESCRIPTION="Monofur, a good fixed width font for development"
-HOMEPAGE="http://www.dafont.com/monofur.font"
+HOMEPAGE="https://www.dafont.com/monofur.font"
 
-SRC_URI="http://img.dafont.com/dl/?f=monofur -> ${P}.zip"
+SRC_URI="https://img.dafont.com/dl/?f=monofur -> ${P}.zip"
 LICENSE="OFL"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"

@@ -9,8 +9,8 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3 toolchain-funcs virtualx
 
 DESCRIPTION="Dynamic Lua binding to GObject libraries using GObject-Introspection"
-HOMEPAGE="https://github.com/pavouk/lgi"
-EGIT_REPO_URI="https://github.com/pavouk/lgi"
+HOMEPAGE="https://github.com/lgi-devs/lgi"
+EGIT_REPO_URI="https://github.com/lgi-devs/lgi"
 
 LICENSE="MIT"
 SLOT="0"

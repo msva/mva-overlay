@@ -6,8 +6,8 @@ EAPI=8
 inherit desktop wrapper
 
 DESCRIPTION="Proprietary freeware multimedia map of several Russian and Ukrainian towns"
-HOMEPAGE="http://2gis.ru"
-SRC_URI="http://download.2gis.ru/arhives/2GISShell-${PV}.orig.zip"
+HOMEPAGE="https://2gis.ru"
+SRC_URI="https://download.2gis.ru/arhives/2GISShell-${PV}.orig.zip"
 
 LICENSE="2Gis-ru"
 SLOT="0"

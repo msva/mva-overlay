@@ -14,7 +14,6 @@ EGIT_MIN_CLONE_TYPE="single"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
 
 IUSE="gcrypt gui +legacy +lzo +lz4 +ncurses +readline systemd tools uml vde upnp +zlib"
 

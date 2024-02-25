@@ -11,6 +11,6 @@
     <flag name="icons">Install &quot;icons&quot; version of the font (svgs)</flag>
   </use>
   <upstream>
-    <remote-id type="github">konpa/devicon</remote-id>
+    <remote-id type="github">devicons/devicon</remote-id>
   </upstream>
 </pkgmetadata>

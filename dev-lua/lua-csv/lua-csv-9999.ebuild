@@ -15,7 +15,6 @@ LICENSE="MIT"
 SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="${LUA_DEPS}"
-DEPEND="${DEPEND}"
 
 each_lua_install() {
 	insinto "$(lua_get_lmod_dir)"

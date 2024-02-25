@@ -1,20 +1,24 @@
-# Copyright 1999-2023 Gentoo Authors
+# Copyright 1999-2024 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
 inherit systemd
 
-C_SHA="8e7f6eb655e342d14c2f06411d9c0c459b8f6f8f"
-
 DESCRIPTION="An IP-Transparent Tor Hidden Service Connector"
-HOMEPAGE="https://www.onioncat.org/"
-SRC_URI="https://github.com/rahra/onioncat/archive/${C_SHA}.tar.gz -> ${P}.tar.gz"
+HOMEPAGE="https://github.com/rahra/onioncat/"
+
+if [[ "${PV}" = 9999 ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/rahra/onioncat"
+else
+	SRC_URI="https://github.com/rahra/onioncat/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
+	KEYWORDS="~amd64 ~x86"
+fi
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="debug +http log +queue relay +rtt i2p"
+IUSE="debug +http log +queue +rtt i2p"
 
 RDEPEND="
 	net-vpn/tor
@@ -43,7 +47,6 @@ src_configure() {
 		$(use_enable log packet-log)
 		$(use_enable http handle-http)
 		$(use_enable queue packet-queue)
-		$(use_enable !relay check-ipsrc)
 		$(use_enable rtt)
 	)
 
@@ -52,8 +55,6 @@ src_configure() {
 
 src_install() {
 	default
-
-	use i2p || rm "${ED}/usr/bin/gcat"
 
 	use i2p && (
 		newinitd "${FILESDIR}"/garlicat.initd garlicat
@@ -67,9 +68,4 @@ src_install() {
 
 	insinto /var/lib/tor
 	doins glob_id.txt hosts.onioncat
-}
-
-pkg_postinst() {
-	einfo "See https://www.onioncat.org/configuration/"
-	einfo "for configuration guide."
 }

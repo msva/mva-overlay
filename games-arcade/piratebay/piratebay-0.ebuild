@@ -6,8 +6,8 @@ EAPI=8
 inherit desktop wrapper
 
 DESCRIPTION="A physics based game made for Devmania 2011 Overnight Contest"
-HOMEPAGE="http://gamejams.schattenkind.net/2011/10/pirate-bay.html"
-SRC_URI="http://sience.schattenkind.net/devmania/piratebay.love -> ${P}.zip"
+HOMEPAGE="https://gamejams.schattenkind.net/2011/10/pirate-bay.html"
+SRC_URI="https://sience.schattenkind.net/devmania/piratebay.love -> ${P}.zip"
 LICENSE="ZLIB"
 SLOT="0"
 # Temporary broken. When I fix it — i'll unmask it

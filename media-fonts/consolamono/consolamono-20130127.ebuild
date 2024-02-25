@@ -9,8 +9,8 @@ inherit font
 SHA1="61cc2afcc4eca96efe7c6ebf178d39df"
 
 DESCRIPTION="Open Font by Wojciech Kalinowski"
-HOMEPAGE="http://openfontlibrary.org/font/consolamono"
-SRC_URI="http://openfontlibrary.org/assets/downloads/${PN}/${SHA1}/${PN}.zip -> ${P}.zip"
+HOMEPAGE="https://fontlibrary.org/en/font/consolamono"
+SRC_URI="https://fontlibrary.org/assets/downloads/${PN}/${SHA1}/${PN}.zip -> ${P}.zip"
 
 LICENSE="OFL"
 SLOT="0"

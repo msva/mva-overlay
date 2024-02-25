@@ -6,7 +6,7 @@ EAPI=8
 inherit git-r3
 
 DESCRIPTION="A high performance, high availability, protocol aware proxy for MySQL and forks"
-HOMEPAGE="http://www.proxysql.com"
+HOMEPAGE="https://www.proxysql.com"
 LICENSE="GPL-3"
 SLOT="0"
 

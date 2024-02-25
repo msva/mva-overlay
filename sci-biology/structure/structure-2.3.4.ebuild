@@ -4,7 +4,7 @@
 EAPI=8
 
 DESCRIPTION="Package for using multi-locus genotype data to investigate population structure"
-HOMEPAGE="http://pritchardlab.stanford.edu/structure.html"
+HOMEPAGE="https://web.stanford.edu/group/pritchardlab/structure.html"
 BASE="https://web.stanford.edu/group/pritchardlab/${PN}_software/release_versions/v${PV}/${PN}"
 SRC_URI="
 	${BASE}_kernel_source.tar.gz -> ${PN}_kernel_source-${PV}.tar.gz

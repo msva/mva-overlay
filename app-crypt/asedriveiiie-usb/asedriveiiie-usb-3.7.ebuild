@@ -4,7 +4,7 @@
 EAPI=8
 
 DESCRIPTION="ASEDriveIIIe USB Card Reader"
-HOMEPAGE="http://www.athena-scs.com"
+HOMEPAGE="https://www.athena-scs.com/"
 SRC_URI="https://web.archive.org/web/20180601000000/http://www.athena-scs.com/downloads/${P}.tar.bz2"
 LICENSE="BSD"
 SLOT="0"

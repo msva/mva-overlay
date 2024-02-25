@@ -56,7 +56,7 @@ src_compile() {
 	lua_foreach_impl each_lua_compile
 }
 
-src_compile() {
+src_install() {
 	lua_foreach_impl each_lua_install
 	if use examples; then
 		DOCS+=(examples)

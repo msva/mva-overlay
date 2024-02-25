@@ -8,6 +8,7 @@
   </maintainer>
   <upstream>
     <remote-id type="github">dbcli/pgcli</remote-id>
+    <remote-id type="pypi">pgcli</remote-id>
   </upstream>
   <use>
     <flag name="keyring">Add support for keyrings feature</flag>

@@ -6,7 +6,7 @@ EAPI=8
 inherit git-r3
 
 DESCRIPTION="Whatsapp plugin for libpurple (Pidgin)"
-HOMEPAGE="https://davidgf.net/page/39/"
+HOMEPAGE="https://www.davidgf.net/2013/09/15/whatsapp_purple/index.html"
 
 LICENSE="GPL-2"
 SLOT="0"
