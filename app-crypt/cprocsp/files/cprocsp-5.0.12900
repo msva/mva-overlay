@@ -15,25 +15,25 @@ do
 done
 
 daemon_status() {
-	my_pid=`pidofproc ${1+"$@"}`
-	if test -n "$my_pid"; then
-		echo "$1 is running (pid $my_pid)"
-		return 0
-	else
-		echo "$1 is stopped"
-		return 1
-	fi
+  my_pid=`pidofproc ${1+"$@"}`
+  if test -n "$my_pid"; then
+    echo "$1 is running (pid $my_pid)"
+    return 0
+  else
+    echo "$1 is stopped"
+    return 1
+  fi
 }
 . /etc/init.d/functions.sh
 
 start_daemon() {
-	start-stop-daemon --start --exec $*
-	return $?
+  start-stop-daemon --start --exec $*
+  return $?
 }
 
 serv_list() {
   test -f $1 &&
-	for i in `$1 -ini '\config\services' -enum section`; do
+  for i in `$1 -ini '\config\services' -enum section`; do
     $1 -ini \\config\\services\\$i\\StartService -view
   done
 }
@@ -57,10 +57,10 @@ fill_service_list() {
 }
 
 core_count() {
-	if command -v nproc >/dev/null; then
-		nproc
-	else
-		grep -c ^processor /proc/cpuinfo
+  if command -v nproc >/dev/null; then
+    nproc
+  else
+    grep -c ^processor /proc/cpuinfo
   fi
 }
 
@@ -198,23 +198,23 @@ stop_check() {
       then
         test x`find $PID_FILE -mtime 0` != x && return 1
       else
-	rm $PID_FILE
-	return 0
+  rm $PID_FILE
+  return 0
       fi
    fi
    kill $check_pid 2>/dev/null
    if test $? != 0
    then
-	rm $PID_FILE
-	return 0
+  rm $PID_FILE
+  return 0
    fi
 
    i=0
    while test $i -lt 180
    do
-	kill -0 $check_pid 2>/dev/null || return 0
-	sleep 1
-	i=`expr $i + 1`
+  kill -0 $check_pid 2>/dev/null || return 0
+  sleep 1
+  i=`expr $i + 1`
    done
    kill -9 $check_pid
    if ! kill -0 $check_pid 2>/dev/null; then
@@ -352,9 +352,9 @@ cpcsp_clean()
   for mnt in /var/opt/cprocsp/mnt/* ; do
     if [ -d $mnt ] ; then
       LANG=C LC_ALL=C umount $mnt 2>&1 | \
-	  grep -v 'not mounted' | \
-	  grep -v 'not in mnttab' | \
-	  grep -v 'not a file system root directory' 1>&2
+    grep -v 'not mounted' | \
+    grep -v 'not in mnttab' | \
+    grep -v 'not a file system root directory' 1>&2
     fi
   done
   # TODO: respect unmount errors
@@ -412,22 +412,21 @@ cpcsp_stop() {
   cpcsp_clean
 }
 
+check_create_dir() {
+  if [[ -d "${1}" ]]; then
+    chown "root" "${1}"
+    chmod "${2:-775}" "${1}"
+  else
+    mkdir -p "${1}" -m "${2:-775}"
+  fi
+}
+
 repair_var() {
-	if ! test -d /var/opt/cprocsp; then
-		mkdir -p /var/opt/cprocsp
-		mkdir /var/opt/cprocsp/keys
-		mkdir /var/opt/cprocsp/users
-		mkdir /var/opt/cprocsp/tmp
-		mkdir /var/opt/cprocsp/mnt
-
-		chown -R root /var/opt/cprocsp
-
-		chmod 775 /var/opt/cprocsp
-		chmod 1777 /var/opt/cprocsp/keys
-		chmod 1777 /var/opt/cprocsp/users
-		chmod 1777 /var/opt/cprocsp/tmp
-		chmod 775 /var/opt/cprocsp/mnt
-	fi
+  check_create_dir /var/opt/cprocsp 775
+  check_create_dir /var/opt/cprocsp/keys 1777
+  check_create_dir /var/opt/cprocsp/users 1777
+  check_create_dir /var/opt/cprocsp/tmp 1777
+  check_create_dir /var/opt/cprocsp/mnt 775
 }
 
 # function for (re)starting cryptsrv via cron in FreeBSD
@@ -436,9 +435,9 @@ RETVAL=0
 case "$1" in
   start)
     test "x$2" = "xrestart" ||
-#	repair_var;
-		cpcsp_check;
-		RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
+#  repair_var;
+    cpcsp_check;
+    RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
     cpcsp_clean
     cpcsp_start $2
     RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
