@@ -24,7 +24,8 @@ daemon_status() {
     return 1
   fi
 }
-. /etc/init.d/functions.sh
+
+# [[ -f /etc/init.d/functions.sh ]] && source /etc/init.d/functions.sh
 
 start_daemon() {
   start-stop-daemon --start --exec $*
@@ -447,7 +448,7 @@ case "$1" in
     RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
     ;;
   repair_var)
-    cpcsp_hsmstop $2
+    repair_var
     RET=$?; test $RETVAL -eq 0 && RETVAL=$RET
     ;;
   hsmstop)
