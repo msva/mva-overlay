@@ -89,7 +89,7 @@ HTTP_RDNS_MODULE_WD="${WORKDIR}/${HTTP_RDNS_MODULE_P}"
 # http_passenger (https://github.com/phusion/passenger/tags, MIT)
 HTTP_PASSENGER_MODULE_A="phusion"
 HTTP_PASSENGER_MODULE_PN="passenger"
-HTTP_PASSENGER_MODULE_PV="6.0.20"
+HTTP_PASSENGER_MODULE_PV="6.0.22"
 #HTTP_PASSENGER_MODULE_SHA="0"
 HTTP_PASSENGER_MODULE_P="${HTTP_PASSENGER_MODULE_PN}-${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}"
 HTTP_PASSENGER_MODULE_URI="https://github.com/${HTTP_PASSENGER_MODULE_A}/${HTTP_PASSENGER_MODULE_PN}/archive/${HTTP_PASSENGER_MODULE_SHA:-release-${HTTP_PASSENGER_MODULE_PV}}.tar.gz"
@@ -157,7 +157,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/${HTTP_UPLOAD_PROGRESS_MODULE_P}"
 HTTP_NCHAN_MODULE_A="slact"
 HTTP_NCHAN_MODULE_PN="nchan"
 HTTP_NCHAN_MODULE_PV="1.3.6"
-HTTP_NCHAN_MODULE_SHA="4461dbe99aecb51bf1afe6d00404c610f6ef706e"
+HTTP_NCHAN_MODULE_SHA="b4d6b42fea761af0ff06dce990f0caa11a7e8132"
 HTTP_NCHAN_MODULE_P="${HTTP_NCHAN_MODULE_PN}-${HTTP_NCHAN_MODULE_SHA:-${HTTP_NCHAN_MODULE_PV}}"
 HTTP_NCHAN_MODULE_URI="https://github.com/${HTTP_NCHAN_MODULE_A}/${HTTP_NCHAN_MODULE_PN}/archive/${HTTP_NCHAN_MODULE_SHA:-v${HTTP_NCHAN_MODULE_PV}}.tar.gz"
 HTTP_NCHAN_MODULE_WD="${WORKDIR}/${HTTP_NCHAN_MODULE_P}"
@@ -182,8 +182,8 @@ HTTP_ENCRYPTED_SESSION_MODULE_WD="${WORKDIR}/${HTTP_ENCRYPTED_SESSION_MODULE_P}"
 # http_push_stream (https://github.com/wandenberg/nginx-push-stream-module/tags, BSD)
 HTTP_PUSH_STREAM_MODULE_A="wandenberg"
 HTTP_PUSH_STREAM_MODULE_PN="nginx-push-stream-module"
-HTTP_PUSH_STREAM_MODULE_PV="0.5.5"
-HTTP_PUSH_STREAM_MODULE_SHA="f858fc01e809bc87cc667e1cdd38fc35492cd2f5"
+HTTP_PUSH_STREAM_MODULE_PV="0.6.0"
+#HTTP_PUSH_STREAM_MODULE_SHA="f858fc01e809bc87cc667e1cdd38fc35492cd2f5"
 HTTP_PUSH_STREAM_MODULE_P="${HTTP_PUSH_STREAM_MODULE_PN}-${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}"
 HTTP_PUSH_STREAM_MODULE_URI="https://github.com/${HTTP_PUSH_STREAM_MODULE_A}/${HTTP_PUSH_STREAM_MODULE_PN}/archive/${HTTP_PUSH_STREAM_MODULE_SHA:-${HTTP_PUSH_STREAM_MODULE_PV}}.tar.gz"
 HTTP_PUSH_STREAM_MODULE_WD="${WORKDIR}/${HTTP_PUSH_STREAM_MODULE_P}"
@@ -231,8 +231,8 @@ HTTP_REDIS_MODULE_WD="${WORKDIR}/${HTTP_REDIS_MODULE_P}"
 # http_lua, NginX Lua module (https://github.com/openresty/lua-nginx-module/tags, BSD)
 HTTP_LUA_MODULE_A="openresty"
 HTTP_LUA_MODULE_PN="lua-nginx-module"
-HTTP_LUA_MODULE_PV="0.10.26"
-# HTTP_LUA_MODULE_SHA="5e05fa3adb0d2492ecaaf2cb76498e23765aa6ab"
+# HTTP_LUA_MODULE_PV="0.10.26"
+HTTP_LUA_MODULE_SHA="b5d1688ae722538ba4dc8a7ec08820a08abfb93d"
 HTTP_LUA_MODULE_P="${HTTP_LUA_MODULE_PN}-${HTTP_LUA_MODULE_SHA:-${HTTP_LUA_MODULE_PV}}"
 HTTP_LUA_MODULE_URI="https://github.com/${HTTP_LUA_MODULE_A}/${HTTP_LUA_MODULE_PN}/archive/${HTTP_LUA_MODULE_SHA:-v${HTTP_LUA_MODULE_PV}}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
@@ -240,8 +240,8 @@ HTTP_LUA_MODULE_WD="${WORKDIR}/${HTTP_LUA_MODULE_P}"
 # stream_lua, NginX Lua module (https://github.com/openresty/stream-lua-nginx-module/tags, BSD)
 STREAM_LUA_MODULE_A="openresty"
 STREAM_LUA_MODULE_PN="stream-lua-nginx-module"
-STREAM_LUA_MODULE_PV="0.0.14"
-# STREAM_LUA_MODULE_SHA="2ef14f373b991b911c4eb5d09aa333352be9a756"
+# STREAM_LUA_MODULE_PV="0.0.14"
+STREAM_LUA_MODULE_SHA="bea8a0c0de94cede71554f53818ac0267d675d63"
 STREAM_LUA_MODULE_P="${STREAM_LUA_MODULE_PN}-${STREAM_LUA_MODULE_SHA:-${STREAM_LUA_MODULE_PV}}"
 STREAM_LUA_MODULE_URI="https://github.com/${STREAM_LUA_MODULE_A}/${STREAM_LUA_MODULE_PN}/archive/${STREAM_LUA_MODULE_SHA:-v${STREAM_LUA_MODULE_PV}}.tar.gz"
 STREAM_LUA_MODULE_WD="${WORKDIR}/${STREAM_LUA_MODULE_P}"
@@ -496,7 +496,7 @@ STREAM_JAVASCRIPT_MODULE_WD="${HTTP_JAVASCRIPT_MODULE_WD}"
 HTTP_AUTH_LDAP_MODULE_A="kvspb"
 HTTP_AUTH_LDAP_MODULE_PN="nginx-auth-ldap"
 HTTP_AUTH_LDAP_MODULE_PV="0.1"
-HTTP_AUTH_LDAP_MODULE_SHA="83c059b73566c2ee9cbda920d91b66657cf120b7"
+HTTP_AUTH_LDAP_MODULE_SHA="241200eac8e4acae74d353291bd27f79e5ca3dc4"
 HTTP_AUTH_LDAP_MODULE_P="${HTTP_AUTH_LDAP_MODULE_PN}-${HTTP_AUTH_LDAP_MODULE_SHA-:${HTTP_AUTH_LDAP_MODULE_PV}}"
 HTTP_AUTH_LDAP_MODULE_URI="https://github.com/${HTTP_AUTH_LDAP_MODULE_A}/${HTTP_AUTH_LDAP_MODULE_PN}/archive/${HTTP_AUTH_LDAP_MODULE_SHA:-${HTTP_AUTH_LDAP_MODULE_PV}}.tar.gz"
 HTTP_AUTH_LDAP_MODULE_WD="${WORKDIR}/${HTTP_AUTH_LDAP_MODULE_P}"
@@ -810,7 +810,7 @@ REQUIRED_USE="
 	nginx_modules_core_stream_traffic_status? ( nginx_modules_stream_traffic_status )
 "
 
-IUSE="aio busy-upstream debug +http http2 http3 +http-cache ktls libatomic mail pam +pcre pcre-jit pcre2 perftools rrd ssl ssl-cert-cb stream threads vim-syntax selinux systemtap +static rtmp"
+IUSE="aio busy-upstream debug +http http2 http3 +http-cache ktls libatomic mail pam pcre pcre-jit +pcre2 perftools rrd ssl ssl-cert-cb stream threads vim-syntax selinux systemtap +static rtmp"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 	f=
@@ -1234,8 +1234,6 @@ src_configure() {
 	if use nginx_modules_http_lua; then
 		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
 		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
-		# XXX: temp kludge. TODO: think on proper fix
-		# myconf+=("--without-pcre2")
 	fi
 
 	# if use nginx_modules_http_pagespeed; then
@@ -1277,8 +1275,6 @@ src_configure() {
 	if use nginx_modules_stream_lua; then
 		export LUAJIT_LIB=$($(tc-getPKG_CONFIG) --variable libdir luajit)
 		export LUAJIT_INC=$($(tc-getPKG_CONFIG) --variable includedir luajit)
-		# XXX: temp kludge. TODO: think on proper fix
-		# myconf+=("--without-pcre2")
 	fi
 
 	if [[ -n "${stream_enabled}" ]]; then

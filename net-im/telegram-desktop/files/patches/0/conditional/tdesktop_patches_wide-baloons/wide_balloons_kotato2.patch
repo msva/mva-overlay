@@ -286,21 +286,21 @@ diff -ur a/Telegram/SourceFiles/history/view/media/history_view_photo.cpp b/Tele
 diff -ur a/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp b/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp
 --- a/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp	1970-01-01 06:00:00.000000000 +0600
 +++ b/Telegram/SourceFiles/history/view/media/history_view_web_page.cpp	2023-11-01 03:59:58.492863190 +0600
-@@ -357,6 +357,8 @@
- 		maxWidth += margins.left() + _openButtonWidth + margins.right();
+@@ -475,6 +475,8 @@ QSize WebPage::countOptimalSize() {
+ 			+ _openButton.maxWidth();
  	}
- 	maxWidth += padding.left() + padding.right();
+ 	maxWidth += rect::m::sum::h(padding);
 +	accumulate_min(maxWidth, st::msgMaxWidth);
 +	accumulate_max(maxWidth, _parent->plainMaxWidth());
- 	minHeight += padding.top() + padding.bottom();
+ 	minHeight += rect::m::sum::v(padding);
  
  	if (_asArticle) {
-@@ -371,6 +373,7 @@
+@@ -489,6 +491,7 @@ QSize WebPage::countCurrentSize(int newW
  	}
  
- 	auto padding = inBubblePadding() + innerMargin();
+ 	const auto padding = inBubblePadding() + innerMargin();
 +	accumulate_min(newWidth, maxWidth());
- 	auto innerWidth = newWidth - padding.left() - padding.right();
+ 	const auto innerWidth = newWidth - rect::m::sum::h(padding);
  	auto newHeight = 0;
  
 diff -ur a/Telegram/SourceFiles/window/themes/window_theme_preview.cpp b/Telegram/SourceFiles/window/themes/window_theme_preview.cpp

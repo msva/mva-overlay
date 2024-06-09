@@ -291,6 +291,13 @@ src_prepare() {
 			-i cmake/external/qt/package.cmake || die
 	fi
 
+
+	# HACK: tmp
+	sed -r \
+		-e '1i#include <QJsonObject>' \
+		-i "${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_card.h" \
+			"${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_error.h"
+
 	patches_src_prepare
 #	cmake_src_prepare
 #	^ to be used when will be ported to gentoo repo
