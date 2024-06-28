@@ -28,6 +28,8 @@ BDEPEND="
 	${BDEPEND}
 	dev-libs/protobuf
 "
+DEPEND="dev-qt/qtwebsockets:5"
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	default
