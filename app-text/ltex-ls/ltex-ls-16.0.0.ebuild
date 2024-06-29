@@ -16,7 +16,7 @@ CP_DEPEND="
 	dev-java/slf4j-api:0
 	dev-java/slf4j-nop:0
 	dev-java/guava:0
-	dev-java/icu4j:70
+	dev-java/icu4j:0
 	dev-java/jansi:2
 	dev-java/commons-lang:3.6
 	dev-java/commons-logging:0
