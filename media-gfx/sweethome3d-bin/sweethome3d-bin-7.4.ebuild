@@ -8,9 +8,10 @@ MY_PN="SweetHome3D"
 
 DESCRIPTION="Sweet Home 3D is a free interior design application."
 HOMEPAGE="https://sweethome3d.com/"
+SF_URI="https://downloads.sourceforge.net/${PN//-bin}/${MY_PN}/${MY_PN}-${PV}/${MY_PN}-${PV}-linux"
 SRC_URI="
-	amd64? ( mirror://sourceforge/project/${PN//-bin}/${MY_PN}/${MY_PN}-${PV}/${MY_PN}-${PV}-linux-x64.tgz )
-	x86? ( mirror://sourceforge/project/${PN//-bin}/${MY_PN}/${MY_PN}-${PV}/${MY_PN}-${PV}-linux-x86.tgz )
+	amd64? ( ${SF_URI}-x64.tgz )
+	x86? ( ${SF_URI}-x86.tgz )
 "
 LICENSE="GPL-3"
 IUSE="gtk3"
@@ -38,12 +39,23 @@ src_install() {
 	clp=$(find lib -name '*jar' | xargs | sed -e "s@lib/@${inst_path}/lib/@g" -e "s@ @:@g")
 	java_vars=( "\${JAVA_HOME}/bin/java" "\${_JAVA_OPTIONS}" )
 
-	use gtk3 && java_vars+=( "-Dawt.useSystemAAFontSettings=gasp -Dswing.aatext=true -Dsun.java2d.xrender=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel" )
+	if use gtk3; then
+		java_vars+=(
+			"-Dawt.useSystemAAFontSettings=gasp"
+			"-Dswing.aatext=true"
+			"-Dsun.java2d.xrender=true"
+			"-Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
+		)
+	fi
+
+	# Only compatible with openjdk>=17 (and also the only way to make it work there)
+	# But OTOH, I don't know how to make it compatible with <17 and >=17 at the same time 🤷
+	# ref: https://sourceforge.net/p/sweethome3d/bugs/1021/
+	java_vars+=( "--add-opens=java.desktop/sun.awt=ALL-UNNAMED" )
 
 	insinto "${inst_path}"
 	doins -r *
 
-	# make_wrapper "${MY_PN}" "${java_vars[*]} -Xmx2g -classpath \"${clp}\" -Djava.library.path=${inst_path}/lib/java3d-1.6 -Djogamp.gluegen.UseTempJarCache=false -Dcom.eteks.sweethome3d.applicationId=SweetHome3D#Installer com.eteks.sweethome3d.SweetHome3D -open"
 	make_wrapper "${MY_PN}" "${java_vars[*]} -Xmx2g -classpath \"${clp}\" -Djava.library.path=${inst_path}/lib:${inst_path}/lib/yafaray -Djogamp.gluegen.UseTempJarCache=false -Dcom.eteks.sweethome3d.applicationId=SweetHome3D#Installer com.eteks.sweethome3d.SweetHome3D -open"
 
 	doicon "${MY_PN}Icon.png"
