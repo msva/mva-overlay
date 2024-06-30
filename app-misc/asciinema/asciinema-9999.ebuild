@@ -3,13 +3,20 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{9..12} )
+PYTHON_COMPAT=( python3_{9..13} )
 DISTUTILS_USE_PEP517=setuptools
-inherit distutils-r1 git-r3
+inherit distutils-r1
 
 DESCRIPTION="Command line recorder for asciinema.org service"
 HOMEPAGE="https://asciinema.org/ https://pypi.org/project/asciinema/"
-EGIT_REPO_URI="https://github.com/${PN}/${PN}"
+
+if [[ "${PV}" == *9999* ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://github.com/${PN}/${PN}"
+else
+	SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.gh.tar.gz"
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+fi
 
 LICENSE="GPL-3+"
 SLOT="0"

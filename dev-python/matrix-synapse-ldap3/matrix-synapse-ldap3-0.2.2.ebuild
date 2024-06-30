@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{9..11} )
-# ^ py 3.12 - ldap3
+PYTHON_COMPAT=( python3_{9..12} )
+# ^ py 3.13 - ldap3
 DISTUTILS_USE_PEP517=setuptools
 
 PYPI_NO_NORMALIZE=1
@@ -15,7 +15,7 @@ HOMEPAGE="https://github.com/matrix-org/matrix-synapse-ldap3"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
 # arm
 # ^ ldap3
 
