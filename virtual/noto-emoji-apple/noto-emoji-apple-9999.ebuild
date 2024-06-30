@@ -6,6 +6,10 @@ EAPI=8
 DESCRIPTION="Noto Emoji (patched for Apple emojis) virtual package"
 
 SLOT="0"
-KEYWORDS="amd64 arm arm64 loong ppc64 riscv x86"
 
-RDEPEND="media-fonts/noto-emoji[apple-icons]"
+RDEPEND="
+	|| (
+		media-fonts/noto-emoji[apple-icons(-)]
+		media-fonts/noto-emoji[apple-icons(-)]
+	)
+"

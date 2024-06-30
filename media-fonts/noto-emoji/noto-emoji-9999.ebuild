@@ -24,7 +24,8 @@ DOCS=( README.md )
 pkg_pretend() {
 	if ! use apple-icons; then
 		die "\tThis ebuild currently only supports installing noto-emoji-apple." \
-			"\n\tThe package name was hijacked from google's noto package because it appeared as mandatory dependency for plasma" \
+			"\n\tThe package name was hijacked from google's noto package" \
+				"because it appeared as mandatory dependency for plasma" \
 			"\n\t(so it became a blocker for this font, but many users would consider apple's emojis beautifier)" \
 			"\n\t(but it is probably no way for apple-patched font to be packaged 'officialy'" \
 			"\n\t(as well as come to plasma) because of potential licensing issues)" \
@@ -32,6 +33,6 @@ pkg_pretend() {
 			"\n\tYou are seeing this message because you should make conscious decision" \
 			"\n\twhether you want to get hijacked font with apple emojis, or original google ones" \
 			"\n" \
-			"\n\tTL;DR: Please, just enable 'apple' USE-flag on ${CATEGORY}/${P}::${PORTAGE_REPO_NAME}"
+			"\n\tTL;DR: Please, just enable 'apple-icons' USE-flag on '=${CATEGORY}/${P}'"
 	fi
 }
