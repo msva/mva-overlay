@@ -15,7 +15,7 @@ else
 	SRC_URI="https://github.com/kika/fixedsys/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 fi
 
-LICENSE="OFL"
+LICENSE="OFL-1.1"
 SLOT="0"
 
 FONT_SUFFIX="ttf"

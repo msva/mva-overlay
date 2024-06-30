@@ -9,7 +9,7 @@ DESCRIPTION="A programming font with ligatures"
 HOMEPAGE="https://github.com/tonsky/FiraCode"
 EGIT_REPO_URI="https://github.com/tonsky/FiraCode"
 
-LICENSE="OFL"
+LICENSE="OFL-1.1"
 SLOT="0"
 IUSE="truetype webfonts"
 

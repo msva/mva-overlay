@@ -12,7 +12,7 @@ DESCRIPTION="Open Font by Wojciech Kalinowski"
 HOMEPAGE="https://fontlibrary.org/en/font/consolamono"
 SRC_URI="https://fontlibrary.org/assets/downloads/${PN}/${SHA1}/${PN}.zip -> ${P}.zip"
 
-LICENSE="OFL"
+LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"
 
