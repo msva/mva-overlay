@@ -16,7 +16,6 @@ KEYWORDS="~amd64"
 RESTRICT="bindist mirror strip installsources test"
 
 RDEPEND="
-	>=dev-util/android-sdk-update-manager-10
 	dev-build/make
 	sys-libs/ncurses-compat:5[tinfo]
 	virtual/libcrypt
@@ -89,4 +88,9 @@ src_install() {
 	echo "SEARCH_DIRS_MASK=\"${EPREFIX}/${ANDROID_NDK_DIR}\"" > "${T}/80${PN}" || die
 	insinto "/etc/revdep-rebuild"
 	doins "${T}/80${PN}"
+}
+
+pkg_postinst() {
+	einfo "Probably, you will need to install dev-util/android-sdk-update-manager"
+	einfo "And install SDK and tools through it"
 }
