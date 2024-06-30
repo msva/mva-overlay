@@ -16,7 +16,7 @@ if [[ "${PV}" == 9999* ]]; then
 	EGIT_REPO_URI="https://git.code.sf.net/p/${PN}/Git"
 else
 	KEYWORDS="~amd64"
-	SRC_URI="mirror://sourceforge/project/${PN}/${P}/${P}-src.tar.xz"
+	SRC_URI="https://downloads.sourceforge.net/project/${PN}/${P}/${P}-src.tar.xz"
 	S="${WORKDIR}/${P}-src"
 fi
 

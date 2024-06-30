@@ -5,7 +5,7 @@ EAPI=8
 
 DESCRIPTION="Extracts files from network packet captures"
 HOMEPAGE="https://tcpxtract.sourceforge.net/"
-SRC_URI="mirror://sourceforge/project/${PN}/${PN}/${PV}/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/project/${PN}/${PN}/${PV}/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"

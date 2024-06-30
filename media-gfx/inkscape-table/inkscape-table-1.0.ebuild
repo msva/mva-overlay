@@ -5,7 +5,7 @@ EAPI=8
 
 DESCRIPTION="Table support for inkscape"
 HOMEPAGE="https://sourceforge.net/projects/inkscape-tables/"
-SRC_URI="mirror://sourceforge/inkscape-tables/${P}.tar.gz"
+SRC_URI="https://downloads.sourceforge.net/inkscape-tables/${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
