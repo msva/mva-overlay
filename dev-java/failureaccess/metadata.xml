@@ -6,14 +6,14 @@
     <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-	<longdescription lang="en">
+  <longdescription lang="en">
 Contains com.google.common.util.concurrent.internal.InternalFutureFailureAccess
 and InternalFutures. Most users will never need to use this artifact. Its
 classes are conceptually a part of Guava, but they're in this separate artifact
 so that Android libraries can use them without pulling in all of Guava (just as
 they can use ListenableFuture by depending on the listenablefuture artifact).
-	</longdescription>
-	<upstream>
-		<remote-id type="github">google/guava</remote-id>
-	</upstream>
+  </longdescription>
+  <upstream>
+    <remote-id type="github">google/guava</remote-id>
+  </upstream>
 </pkgmetadata>
