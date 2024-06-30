@@ -9,7 +9,7 @@ MONOISOME_SHA="0673c8d6728df093faee9f183b6dfa62939df8c0"
 MONOID_SHA="2db2d289f4e61010dd3f44e09918d9bb32fb96fd"
 
 DESCRIPTION="Open source coding font"
-HOMEPAGE="https://larsenwork.com/monoid https://github.com/larsenwork/monoid"
+HOMEPAGE="https://larsenwork.com/monoid/ https://github.com/larsenwork/monoid"
 
 GH="https://github.com/larsenwork/${PN}"
 SRC_URI="
