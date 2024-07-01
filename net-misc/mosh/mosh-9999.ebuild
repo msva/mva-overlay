@@ -7,7 +7,9 @@ inherit autotools bash-completion-r1 git-r3
 
 DESCRIPTION="Mobile shell that supports roaming and intelligent local echo"
 HOMEPAGE="https://mosh.org"
-EGIT_REPO_URI="https://github.com/mobile-shell/mosh"
+#EGIT_REPO_URI="https://github.com/mobile-shell/mosh"
+EGIT_REPO_URI="https://github.com/alphallc/mosh"
+EGIT_BRANCH="patched"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -40,7 +42,7 @@ QA_CONFIGURE_OPTIONS="--disable-static"
 # [0] - avoid sandbox-violation calling git describe in Makefile.
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.2.5-git-version.patch
-	"${FILESDIR}"/${PN}-9999-konsole-support.patch
+	# "${FILESDIR}"/${PN}-9999-konsole-support.patch
 )
 
 src_prepare() {
