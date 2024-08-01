@@ -8,8 +8,8 @@ index 5f4dabe00..5bfe70c8b 100644
  
 -	static constexpr auto kMaxAccounts = 3;
 -	static constexpr auto kPremiumMaxAccounts = 6;
-+	static constexpr auto kMaxAccounts = 100;
-+	static constexpr auto kPremiumMaxAccounts = 100;
++	static constexpr auto kMaxAccounts = 255;
++	static constexpr auto kPremiumMaxAccounts = 255;
  
  	explicit Domain(const QString &dataName);
  	~Domain();

@@ -1,7 +1,7 @@
 diff --git i/Telegram/SourceFiles/data/data_sponsored_messages.cpp w/Telegram/SourceFiles/data/data_sponsored_messages.cpp
 index 10e69d37b..fbcb20158 100644
---- i/Telegram/SourceFiles/data/data_sponsored_messages.cpp
-+++ w/Telegram/SourceFiles/data/data_sponsored_messages.cpp
+--- i/Telegram/SourceFiles/data/components/sponsored_messages.cpp
++++ w/Telegram/SourceFiles/data/components/sponsored_messages.cpp
 @@ -21,7 +21,7 @@ https://github.com/telegramdesktop/tdesk
  namespace Data {
  namespace {

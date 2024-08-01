@@ -1,0 +1,30 @@
+From 41fc593251bb2f5be3075348ec0ed07405ba1ae9 Mon Sep 17 00:00:00 2001
+From: Ilya Fedin <fedin-ilja2010@ya.ru>
+Date: Thu, 1 Aug 2024 00:19:24 +0400
+Subject: [PATCH] CMake: Remove some unused files from build
+
+---
+ CMakeLists.txt | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a36752b2..63a910f0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -947,8 +947,6 @@ PRIVATE
+     modules/audio_coding/codecs/ilbc/vq4.c
+     modules/audio_coding/codecs/ilbc/window32_w32.c
+     modules/audio_coding/codecs/ilbc/xcorr_coef.c
+-    modules/audio_coding/neteq/tools/neteq_rtp_dump_input.cc
+-    modules/audio_coding/neteq/tools/neteq_rtp_dump_input.h
+     modules/audio_coding/neteq/reorder_optimizer.cc
+     modules/audio_coding/neteq/reorder_optimizer.h
+     modules/audio_coding/neteq/underrun_optimizer.cc
+@@ -2020,7 +2018,6 @@ PRIVATE
+     logging/rtc_event_log/fake_rtc_event_log.cc
+     logging/rtc_event_log/fake_rtc_event_log_factory.cc
+     logging/rtc_event_log/ice_logger.cc
+-    logging/rtc_event_log/rtc_event_log_impl.cc
+     logging/rtc_event_log/rtc_event_log2_proto_include.h
+     logging/rtc_event_log/rtc_event_processor_order.h
+     logging/rtc_event_log/rtc_stream_config.cc

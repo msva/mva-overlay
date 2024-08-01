@@ -3,9 +3,9 @@ index 25473426f..bb4c7d425 100644
 --- a/Telegram/SourceFiles/core/launcher.cpp
 +++ b/Telegram/SourceFiles/core/launcher.cpp
 @@ -330,6 +330,13 @@ int Launcher::exec() {
- 
  	// Must be started before Sandbox is created.
  	Platform::start();
+ 	ThirdParty::start();
 +
 +#if defined(Q_OS_LINUX64)
 +	QCoreApplication::addLibraryPath("/usr/lib64/qt5/plugins");

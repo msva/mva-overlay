@@ -13,49 +13,61 @@ if [[ "${PV}" == *9999* ]]; then
 	inherit git-r3
 	EGIT_SUBMODULES=(
 		'*'
-		-src/third_party/libyuv
-		-src/third_party/libvpx/source/libvpx
-		-src/third_party/pipewire
+		# -src/third_party/libyuv
 		-src/third_party/abseil-cpp
+		# TEMP: requires masked-in-gentoo version
+		# XXX: anyway doesn't help.
+		# TODO: try to fix, or wait for unmasking of corresponnding version
 		-src/third_party/crc32c/src
 		# -src/third_party/libsrtp # TODO: unbundle
 	)
 else
 	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
-	EGIT_COMMIT="592b14d13bf9103226e90a83571e24c49f6bfdcd"
-	SRTP_PV="2.5.0"
+	TG_OWT_COMMIT="e9d103e2480e0983bf464debc371b049cdd83648"
+	LIBYUV_COMMIT="04821d1e7d60845525e8db55c7bcd41ef5be9406"
+	LIBSRTP_COMMIT="a566a9cfcd619e8327784aa7cff4a1276dc1e895"
+	ABSL_COMMIT="d7aaad83b488fd62bd51c81ecf16cd938532cc0a"
+	# check https://github.com/desktop-app/tg_owt/tree/master/src periodically for srtp and others commits
 	SRC_URI="
-		https://github.com/desktop-app/${PN}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz
-		https://github.com/cisco/libsrtp/archive/refs/tags/v2.5.0.tar.gz -> libsrtp-${SRTP_PV}.tar.gz
+		https://github.com/desktop-app/tg_owt/archive/${TG_OWT_COMMIT}.tar.gz -> ${P}.tar.gz
+		https://github.com/cisco/libsrtp/archive/${LIBSRTP_COMMIT}.tar.gz -> libsrtp-${LIBSRTP_COMMIT}.tar.gz
+		https://gitlab.com/chromiumsrc/libyuv/-/archive/${LIBYUV_COMMIT}/libyuv-${LIBYUV_COMMIT}.tar.bz2
 	"
-	S="${WORKDIR}/${PN}-${EGIT_COMMIT}"
+		# https://github.com/abseil/abseil-cpp/archive/${ABSL_COMMIT}.tar.gz -> abseil-cpp-${ABSL_COMMIT}.tar.gz
+	S="${WORKDIR}/${PN}-${TG_OWT_COMMIT}"
+	# Upstream libyuv: https://chromium.googlesource.com/libyuv/libyuv
 fi
 
 LICENSE="BSD"
-SLOT="0"
+SLOT="0/${PV##*pre}"
 IUSE="pipewire screencast +X"
 
 REQUIRED_USE="screencast? ( pipewire )"
 
 # Bundled libs:
+# - abseil-cpp (requires masked-in-gentoo version)
+# - libyuv (no stable versioning, www-client/chromium and media-libs/libvpx bundle it
 # - libsrtp (project uses private APIs)
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
+	# >=dev-cpp/abseil-cpp-20220623.1:=
 RDEPEND="
-	>=dev-cpp/abseil-cpp-20220623.1:=
 	dev-libs/crc32c
 	dev-libs/libevent:=
 	dev-libs/openssl:=
-	dev-libs/protobuf:=
 	media-libs/libjpeg-turbo:=
 	>=media-libs/libvpx-1.10.0:=
-	media-libs/libyuv
 	media-libs/openh264:=
 	media-libs/opus
 	media-video/ffmpeg:=[opus,vpx,openh264]
 	pipewire? (
 		dev-libs/glib:2
 		media-video/pipewire:=
+	)
+	screencast? (
+		media-libs/libglvnd
+		media-libs/mesa
+		x11-libs/libdrm
 	)
 	X? (
 		x11-libs/libX11
@@ -68,10 +80,12 @@ RDEPEND="
 		x11-libs/libXtst
 	)
 "
+#	media-libs/libyuv
 #	net-libs/libsrtp
 DEPEND="${RDEPEND}"
 BDEPEND="
 	virtual/pkgconfig
+	X? ( x11-base/xorg-proto )
 "
 #	dev-lang/yasm
 
@@ -80,34 +94,32 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0_pre20221215-allow-disabling-pipewire.patch"
 	"${FILESDIR}/${PN}-0_pre20221215-allow-disabling-pulseaudio.patch"
 	"${FILESDIR}/${PN}-0_pre20221215-expose-set_allow_pipewire.patch"
-	"${FILESDIR}/libyuv.patch"
-	"${FILESDIR}/libyuv_2.patch"
-	"${FILESDIR}/libyuv_3.patch"
-	"${FILESDIR}/libyuv_4.patch"
 	"${FILESDIR}/fix-clang-emplace.patch"
 	"${FILESDIR}/patch-cmake-absl-external.patch"
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
+	"${FILESDIR}/135.patch"
 )
 
 src_unpack() {
 	if [[ "${PV}" == 9999 ]]; then
 		git-r3_src_unpack
 	else
-		default
-		rmdir "${S}"/src/third_party/libsrtp
-		cp -rl "${WORKDIR}"/libsrtp-"${SRTP_PV}" "${S}"/src/third_party/libsrtp
+		unpack "${P}.tar.gz"
+		unpack "libyuv-${LIBYUV_COMMIT}.tar.bz2"
+		mv -T "libyuv-${LIBYUV_COMMIT}" "${S}/src/third_party/libyuv" || die
+		unpack "libsrtp-${LIBSRTP_COMMIT}.tar.gz"
+		mv -T "libsrtp-${LIBSRTP_COMMIT}" "${S}/src/third_party/libsrtp" || die
+		# unpack "abseil-cpp-${ABSL_COMMIT}.tar.gz"
+		# mv -T "abseil-cpp-${ABSL_COMMIT}" "${S}/src/third_party/abseil-cpp" || die
 	fi
 }
 
 src_prepare() {
 	cp "${FILESDIR}"/"${PN}".pc.in "${S}" || die "failed to copy pkgconfig template"
 
-	sed -i '/include(cmake\/libvpx.cmake)/d' CMakeLists.txt || die
-	sed -i '/include(cmake\/libyuv.cmake)/d' CMakeLists.txt || die
+	# sed -i '/include(cmake\/libyuv.cmake)/d' CMakeLists.txt || die
 
 	sed -i '/include(cmake\/libabsl.cmake)/d' CMakeLists.txt || die
-	sed -i '/include(cmake\/libopenh264.cmake)/d' CMakeLists.txt || die
-	sed -i '/include(cmake\/libevent.cmake)/d' CMakeLists.txt || die
 	sed -i '/include(cmake\/libcrc32c.cmake)/d' CMakeLists.txt || die
 
 	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
@@ -124,31 +136,38 @@ src_prepare() {
 	sed -i -e '/desktop_capture\/screen_capturer_integration_test/d' CMakeLists.txt || die
 	sed -i -e '/desktop_capture\/window_finder_unittest/d' CMakeLists.txt || die
 
-	rm -r "${S}"/src/third_party/{abseil-cpp,libvpx,libyuv,openh264,crc32c}
-	# ,pipewire}
+	# rm -r "${S}"/src/third_party/crc32c
+	# abseil-cpp,
+	rm -r "${S}"/src/third_party/{crc32c,abseil-cpp}
+	# libyuv,
+	# pipewire,
 	# libsrtp,
 	# rnnoise,
 
-	sed \
-		-e '/#include/s@third_party/libyuv/include/@@' \
-		-i \
-			"${S}"/src/sdk/objc/unittests/frame_buffer_helpers.mm \
-			"${S}"/src/sdk/objc/unittests/RTCCVPixelBuffer_xctest.mm \
-			"${S}"/src/sdk/objc/components/video_frame_buffer/RTCCVPixelBuffer.mm \
-			"${S}"/src/sdk/objc/components/video_codec/RTCVideoEncoderH264.mm \
-			"${S}"/src/sdk/objc/api/video_frame_buffer/RTCNativeI420Buffer.mm \
-			"${S}"/src/sdk/android/src/jni/java_i420_buffer.cc \
-			"${S}"/src/modules/video_coding/codecs/av1/dav1d_decoder.cc \
-			"${S}"/src/api/video/i444_buffer.cc || die
+	# sed \
+	# 	-e '/#include/s@third_party/libyuv/include/@@' \
+	# 	-i \
+	# 		"${S}"/src/sdk/objc/unittests/frame_buffer_helpers.mm \
+	# 		"${S}"/src/sdk/objc/unittests/RTCCVPixelBuffer_xctest.mm \
+	# 		"${S}"/src/sdk/objc/components/video_frame_buffer/RTCCVPixelBuffer.mm \
+	# 		"${S}"/src/sdk/objc/components/video_codec/RTCVideoEncoderH264.mm \
+	# 		"${S}"/src/sdk/objc/api/video_frame_buffer/RTCNativeI420Buffer.mm \
+	# 		"${S}"/src/sdk/android/src/jni/java_i420_buffer.cc \
+	# 		"${S}"/src/modules/video_coding/codecs/av1/dav1d_decoder.cc \
+	# 		"${S}"/src/api/video/i444_buffer.cc || die
 
-	sed \
-		-e '/#include/s@third_party/crc32c/src/include/@@' \
-		-i \
-			"${S}"/src/net/dcsctp/packet/crc32c.cc  || die
-
-	sed \
-		-e "1i#include <cstdint>" \
-		-i "${S}/src/common_video/h265/h265_pps_parser.h" || die
+	# FIXME: abseil-cpp related things (absl::string_view casts)
+	# tg_owt uses git-almost-HEAD (april's commit) link in submodule, and for now it is only release from january.
+	# So, we're unable to upgrade
+	sed -r \
+		-e "/[ ]*(group_name = )(kDefaultProbingScreenshareBweSettings)/s@@\1(std::string)\2@" \
+		-i "${S}/src/rtc_base/experiments/alr_experiment.cc" || die
+	sed -r \
+		-e "/[ \t]*transaction_id.insert/s@(magic_cookie)@(std::string)\1@" \
+		-i "${S}/src/api/transport/stun.cc" || die
+	sed -r \
+		-e "/(candidate_stats->candidate_type = )(candidate.type_name)/s@@\1(std::string)\2@" \
+		-i "${S}/src/pc/rtc_stats_collector.cc" || die
 
 	cmake_src_prepare
 }
@@ -164,7 +183,7 @@ src_configure() {
 	local mycmakeargs=(
 		-DTG_OWT_PACKAGED_BUILD=ON
 		-DBUILD_SHARED_LIBS=ON
-		-DTG_OWT_USE_PROTOBUF=ON
+		# -DTG_OWT_USE_PROTOBUF=ON
 		-DTG_OWT_USE_X11=$(usex X ON OFF)
 		-DTG_OWT_USE_PIPEWIRE=$(usex pipewire ON OFF)
 		-DTG_OWT_DLOPEN_PIPEWIRE=$(usex pipewire ON OFF)
@@ -183,7 +202,7 @@ src_install() {
 
 	# Install a few headers anyway, as required by net-im/telegram-desktop...
 	local headers=(
-		# third_party/libyuv/include
+		third_party/libyuv/include
 		rtc_base/third_party/sigslot
 		rtc_base/third_party/base64
 	)
