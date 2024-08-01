@@ -1,0 +1,300 @@
+# ChangeLog for www-client/yandex-browser-beta
+# Copyright 1999-2020 Gentoo Authors; Distributed under the GPL v2
+# (auto-generated from git log)
+
+*yandex-browser-beta-20.8.0.864_p1 (09 Sep 2020)
+
+  09 Sep 2020;  <st@gentoo.org> +yandex-browser-beta-20.8.0.864_p1.ebuild,
+  -yandex-browser-beta-19.6.2.594_p1-r0.ebuild:
+  www-client/yandex-browser-beta: v20.8.0.864
+
+*yandex-browser-beta-19.6.2.594_p1-r0 (23 Jul 2019)
+
+  23 Jul 2019; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-19.3.1.777_p1-r0.ebuild,
+  +yandex-browser-beta-19.6.2.594_p1-r0.ebuild:
+  Bump Ya.Browser to version 19.6.2.594
+  Bump codecs to version 19.6.2.594(74.0.3729.169)
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.68, Repoman-2.3.16
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-19.4.2.698_p1-r0 (14 May 2019)
+
+  14 May 2019; Alexander <alex@ws54.tk>
+  yandex-browser-beta-19.3.1.777_p1-r0.ebuild,
+  +yandex-browser-beta-19.4.2.698_p1-r0.ebuild:
+  Bump Ya.Browser to version 19.4.2.698
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.66, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-19.3.1.777_p1-r0 (22 Mar 2019)
+
+  22 Mar 2019; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-19.1.0.2494_p1-r0.ebuild,
+  +yandex-browser-beta-19.3.1.777_p1-r0.ebuild:
+  Bump Ya.Browser to version 19.3.1.777
+  Bump codecs to version 72.0.3626.121
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.62-r1, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-19.1.0.2494_p1-r0 (26 Jan 2019)
+
+  26 Jan 2019; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.11.1.715_p1-r0.ebuild,
+  +yandex-browser-beta-19.1.0.2494_p1-r0.ebuild:
+  Bump Ya.Browser to version 19.1.0.2494
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.55, Repoman-2.3.12
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-18.11.1.715_p1-r0 (14 Jan 2019)
+
+  14 Jan 2019; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.10.0.2722_p1.ebuild,
+  +yandex-browser-beta-18.11.1.715_p1-r0.ebuild:
+  Bump Ya.Browser to version 18.11.1.715
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-18.10.0.2722_p1 (06 Nov 2018)
+
+  06 Nov 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.9.1.967_p1.ebuild,
+  +yandex-browser-beta-18.10.0.2722_p1.ebuild:
+  Bump Ya.Browser to version 18.10.0.2722
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-18.9.1.967_p1 (10 Oct 2018)
+
+  10 Oct 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.9.1.882_p1.ebuild,
+  +yandex-browser-beta-18.9.1.967_p1.ebuild:
+  Bump Ya.Browser to version 18.9.1.967
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-18.9.1.882_p1 (30 Sep 2018)
+
+  30 Sep 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.7.0.2767_p1.ebuild,
+  +yandex-browser-beta-18.9.1.882_p1.ebuild:
+  Bump Ya.Browser to version 18.9.1.882
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-18.7.0.2767_p1 (26 Aug 2018)
+
+  26 Aug 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.6.0.2300_p1.ebuild,
+  +yandex-browser-beta-18.7.0.2767_p1.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.44, Repoman-2.3.10
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-18.6.0.2300_p1 (20 Jul 2018)
+
+  20 Jul 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.4.0.2373_p1-r1.ebuild,
+  +yandex-browser-beta-18.6.0.2300_p1.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.40-r1, Repoman-2.3.9
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-18.4.0.2373_p1-r1 (23 Jun 2018)
+
+  23 Jun 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.4.0.2373_p1.ebuild,
+  +yandex-browser-beta-18.4.0.2373_p1-r1.ebuild:
+  Fixed link about codecs in browser ebuild from issue #12.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.40-r1, Repoman-2.3.9
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-18.4.0.2373_p1 (17 Jun 2018)
+
+  17 Jun 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.3.1.1122_p1.ebuild,
+  +yandex-browser-beta-18.4.0.2373_p1.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.40-r1, Repoman-2.3.9
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-18.3.1.1122_p1 (27 Apr 2018)
+
+  27 Apr 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-18.1.1.952_p1.ebuild,
+  +yandex-browser-beta-18.3.1.1122_p1.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.31, Repoman-2.3.9
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-18.1.1.952_p1 (27 Feb 2018)
+
+  27 Feb 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.11.1.1120_p1-r1.ebuild,
+  +yandex-browser-beta-18.1.1.952_p1.ebuild:
+  Bump version of YaBrowser and codecs.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-17.11.1.1120_p1-r1 (08 Feb 2018)
+
+  08 Feb 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.11.1.1120_p1.ebuild,
+  +yandex-browser-beta-17.11.1.1120_p1-r1.ebuild:
+  Fix dependences of codecs version in browser
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.24, Repoman-2.3.6
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-17.11.1.1120_p1 (04 Feb 2018)
+
+  04 Feb 2018; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.10.1.1202_p1.ebuild,
+  +yandex-browser-beta-17.11.1.1120_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.11.1.1120 version
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-17.10.1.1202_p1 (20 Dec 2017)
+
+  20 Dec 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.9.1.982_p1-r1.ebuild,
+  +yandex-browser-beta-17.10.1.1202_p1.ebuild:
+  Update:
+  * www-client/yandex-browser-beta to 17.10.1.1202 version
+  * www-plugins/yandex-browser-ffmpeg-codecs to 61.0.3163.100 version
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+  Package-Manager: Portage-2.3.19, Repoman-2.3.6
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-17.9.1.982_p1-r1 (27 Nov 2017)
+
+  27 Nov 2017; Alexander <alex@ws54.tk> metadata.xml,
+  -yandex-browser-beta-17.9.1.982_p1.ebuild,
+  +yandex-browser-beta-17.9.1.982_p1-r1.ebuild:
+  Adding variety support of ffmpeg codecs in browser.
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-17.9.1.982_p1 (31 Oct 2017)
+
+  31 Oct 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.7.1.802_p1.ebuild,
+  +yandex-browser-beta-17.9.1.982_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.9.1.982 version
+
+  Signed-off-by: Alexander <alex@ws54.tk>
+
+*yandex-browser-beta-17.7.1.802_p1 (30 Aug 2017)
+
+  30 Aug 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.6.1.835_p1-r1.ebuild,
+  +yandex-browser-beta-17.7.1.802_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.7.1.802 version
+
+  Package-Manager: Portage-2.3.7, Repoman-2.3.3
+  Manifest-Sign-Key: EF324203
+
+  29 Jul 2017; Vadim A. Misbakh-Soloviov <git@mva.name>
+  yandex-browser-beta-17.6.1.835_p1-r1.ebuild:
+  ya-browser: fix patchelf version and SUID on sandbox
+
+  29 Jul 2017; Vadim A. Misbakh-Soloviov <git@mva.name>
+  yandex-browser-beta-17.6.1.835_p1-r1.ebuild:
+  ya-browser: probably fix issue from #5 discussion
+
+*yandex-browser-beta-17.6.1.835_p1-r1 (29 Jul 2017)
+
+  29 Jul 2017; Vadim A. Misbakh-Soloviov <git@mva.name>
+  -yandex-browser-beta-17.6.1.835_p1.ebuild,
+  +yandex-browser-beta-17.6.1.835_p1-r1.ebuild:
+  bump ya-browser (fixing RPATH), moving ffmpeg-plugins to -bin
+
+*yandex-browser-beta-17.6.1.835_p1 (05 Jul 2017)
+
+  05 Jul 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.4.1.906_p1.ebuild,
+  +yandex-browser-beta-17.6.1.835_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.6.1.835 version
+
+  Package-Manager: Portage-2.3.6, Repoman-2.3.2
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-17.4.1.906_p1 (29 May 2017)
+
+  29 May 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.3.1.873_p1.ebuild,
+  +yandex-browser-beta-17.4.1.906_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.4.1.906 version
+
+  Package-Manager: Portage-2.3.6, Repoman-2.3.2
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-17.3.1.873_p1 (09 Apr 2017)
+
+  09 Apr 2017; Vadim A. Misbakh-Soloviov <git@mva.name>
+  -yandex-browser-beta-17.1.1.773_p1.ebuild,
+  +yandex-browser-beta-17.3.1.873_p1.ebuild:
+  yandex-browser-beta: bump + added security notice; fixes #2
+
+*yandex-browser-beta-17.1.1.773_p1 (12 Feb 2017)
+
+  12 Feb 2017; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-17.1.1.266_p1.ebuild,
+  +yandex-browser-beta-17.1.1.773_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.1.1.773 version
+
+  Package-Manager: Portage-2.3.3, Repoman-2.3.1
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-17.1.1.266_p1 (26 Dec 2016)
+
+  26 Dec 2016; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-16.11.0.1819_p1.ebuild,
+  +yandex-browser-beta-17.1.1.266_p1.ebuild:
+  Update www-client/yandex-browser-beta to 17.1.1.266 version
+
+  Package-Manager: Portage-2.3.3, Repoman-2.3.1
+  Manifest-Sign-Key: EF324203
+
+*yandex-browser-beta-16.11.0.1819_p1 (16 Nov 2016)
+
+  16 Nov 2016; Alexander <alex@ws54.tk>
+  -yandex-browser-beta-16.10.1.545_p1.ebuild,
+  +yandex-browser-beta-16.11.0.1819_p1.ebuild:
+  Update www-client/yandex-browser-beta to last version
+
+  Package-Manager: portage-2.3.2
+  Manifest-Sign-Key: EF324203
+
+  07 Nov 2016; Alexander <alex@ws54.tk>
+  yandex-browser-beta-16.10.1.545_p1.ebuild:
+  Fix SUID BUG again
+
+  Package-Manager: portage-2.3.2
+
+*yandex-browser-beta-16.10.1.545_p1 (23 Oct 2016)
+
+  23 Oct 2016; Vadim A. Misbakh-Soloviov <git@mva.name> +metadata.xml,
+  +yandex-browser-beta-16.10.1.545_p1.ebuild:
+  Init
