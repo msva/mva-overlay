@@ -44,7 +44,7 @@ MYPATCHES=(
 	"allow-disable-stories"
 	"hide-banned"
 	"hide-sponsored-messages"
-	# "wide-baloons"
+	"wide-baloons"
 	"chat-ids"
 	"increase-limits"
 	"ignore-restrictions"
@@ -68,6 +68,7 @@ COMMON_DEPEND="
 	>=dev-cpp/glibmm-2.77:2.68
 	>=dev-libs/glib-2.77:2
 	>=dev-libs/gobject-introspection-1.77
+	dev-libs/ada
 	dev-libs/libdispatch
 	dev-libs/openssl:=
 	dev-libs/protobuf

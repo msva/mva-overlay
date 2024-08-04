@@ -1,0 +1,11 @@
+--- a/Telegram/SourceFiles/ui/chat/chat.style	2024-08-02 09:26:52.899323105 +0700
++++ b/Telegram/SourceFiles/ui/chat/chat.style	2024-08-02 09:27:23.226355858 +0700
+@@ -11,7 +11,7 @@ using "ui/widgets/widgets.style";
+ using "ui/menu_icons.style";
+ using "chat_helpers/chat_helpers.style"; // GroupCallUserpics
+ 
+-msgMaxWidth: 430px;
++msgMaxWidth: 2430px;
+ msgFont: font(fsize);
+ msgNameFont: semiboldFont;
+ msgNameStyle: semiboldTextStyle;
