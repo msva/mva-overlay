@@ -12,6 +12,7 @@ DESCRIPTION="The web browser from Yandex"
 LICENSE="EULA"
 SLOT="0"
 IUSE="+ffmpeg-codecs"
+HOMEPAGE="https://github.com/deemru/Chromium-Gost"
 SRC_URI="
 	amd64? ( https://github.com/deemru/Chromium-Gost/releases/download/${PV}/${P}-linux-amd64.deb )
 "
@@ -21,7 +22,6 @@ KEYWORDS="~amd64"
 FFMPEG_PV="$(ver_cut 1)"
 BROWSER_HOME="opt/${PN}"
 MY_PN="${PN}-stable"
-
 
 RDEPEND="
 	dev-libs/expat
@@ -110,10 +110,14 @@ src_prepare() {
 	# 	-e 's|-stable||g' \
 	# 	-i usr/share/applications/${DESKTOP_FILE_NAME}.desktop || die
 
-	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome-sandbox" || die "Failed to fix library rpath (sandbox)"
-	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome" || die "Failed to fix library rpath (browser, chrome)"
-	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome-management-service" || die "Failed to fix library rpath (management-service)"
-	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome_crashpad_handler" || die "Failed to fix library rpath (chrome_crashpad_handler)"
+	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome-sandbox" ||
+		die "Failed to fix library rpath (sandbox)"
+	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome" ||
+		die "Failed to fix library rpath (browser, chrome)"
+	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome-management-service" ||
+		die "Failed to fix library rpath (management-service)"
+	patchelf --remove-rpath "${S}/${BROWSER_HOME}/chrome_crashpad_handler" ||
+		die "Failed to fix library rpath (chrome_crashpad_handler)"
 }
 
 src_install() {

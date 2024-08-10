@@ -10,4 +10,4 @@ hide-banned - Apply custom patch to hide messages from users in your blacklist
 hide-sponsored-messages - Apply custom patch to hide sponsored messages in channels
 increase-limits - Apply custom patch to ignore (run-time, not server-side) limits on accounts, folders, and so on)
 ignore-restrictions - Apply custom patch to ignore copy restrictions on text and/or media
-
+allow-disable-stories - Allow users to disable viewing "new stories" nottifications in sidebar 

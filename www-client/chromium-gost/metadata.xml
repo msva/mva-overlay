@@ -17,4 +17,7 @@
   <use>
     <flag name="ffmpeg-codecs">Use <pkg>media-video/ffmpeg-chromium</pkg> for multi-threaded ffmpeg codecs for the HTML5 &lt;audio&gt; and &lt;video&gt; tags</flag>
   </use>
+  <upstream>
+     <remote-id type="github">deemru/Chromium-Gost</remote-id>
+  </upstream>
 </pkgmetadata>

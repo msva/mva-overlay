@@ -14,5 +14,6 @@
   </use>
   <upstream>
     <remote-id type="github">desktop-app/tg_owt</remote-id>
+    <remote-id type="gitlab">chromiumsrc/libyuv</remote-id>
   </upstream>
 </pkgmetadata>
