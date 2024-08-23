@@ -21,8 +21,9 @@ each_lua_prepare() {
 	pushd "${BUILD_DIR}"
 	if [[ "${ELUA}" == *jit ]]; then
 		sed -r \
-			-e '/^CFLAGS/s@\$\(COMPAT_CFLAGS\) -I.@@' \
+			-e "/^CFLAGS/s@\$\(COMPAT_CFLAGS\) -I.@@" \
 			-e '/^CORE_C/s@(evdev/core.c) .*@\1@' \
+			-e '/^COMPAT_CFLAGS/d' \
 			-i Makefile
 
 		sed -r \
@@ -34,7 +35,7 @@ each_lua_prepare() {
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	default
+	emake MYCFLAGS="$(lua_get_CFLAGS)"
 	popd
 }
 

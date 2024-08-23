@@ -10,14 +10,14 @@ inherit lua mercurial
 DESCRIPTION="XMPP client library written in Lua."
 HOMEPAGE="https://code.matthewwild.co.uk/"
 EHG_REPO_URI="https://code.matthewwild.co.uk/${PN}/"
-RESTRICT="network-sandbox"
-# ^ :(
-# fetches depends from prosody's trunk during build
 
 LICENSE="MIT"
 SLOT="0"
 IUSE="examples"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
+RESTRICT="network-sandbox"
+# ^ :(
+# fetches depends from prosody's trunk during build
 
 RDEPEND="
 	${LUA_DEPS}
@@ -27,21 +27,29 @@ RDEPEND="
 	dev-lua/LuaBitOp[${LUA_USEDEP}]
 "
 DEPEND="${RDEPEND}"
-BDEPEND="dev-lua/squish"
-
-#src_unpack() {
-#	mercurial_src_unpack
-#	default
-#}
+# BDEPEND="dev-lua/squish"
 
 src_prepare() {
 	default
 	sed -r \
 		-e "s@^(PREFIX)=.*@\1=/usr@" \
-		-e "s@^(LUA_VERSION)=.*@\1=${ELUA##lua}@" \
 		-e '/\*\)/,/esac/{/echo/d;/exit 1/d}' \
-		-i configure
+		-i configure || die
 	lua_copy_sources
+	lua_foreach_impl each_lua_prepare
+}
+
+each_lua_prepare() {
+	pushd "${BUILD_DIR}"
+	sed -r \
+		-e "s@^(LUA_VERSION)\=.*@\1=${ELUA##lua}@" \
+		-e "s@^(LUA_INTERPRETER)\=.*@\1=${ELUA}@" \
+		-e "/^PROSODY_URL/s@0\.10@trunk@" \
+		-i ./configure || die
+	sed -r \
+		-e "1s@/lua[^/]*\$@/${ELUA}@" \
+		-i ./buildscripts/squish || die
+	popd
 }
 
 each_lua_configure() {

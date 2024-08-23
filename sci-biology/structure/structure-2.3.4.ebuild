@@ -12,15 +12,15 @@ SRC_URI="
 	doc? (  ${BASE}_doc.pdf -> ${PN}_doc-${PV}.pdf )
 "
 
-KEYWORDS="~amd64 ~x86"
-SLOT="0"
+S="${WORKDIR}/structure_kernel_src"
+
 LICENSE="GPL-2"
+SLOT="0"
+KEYWORDS="~amd64 ~x86"
+IUSE="java doc"
 RESTRICT="mirror"
 
-IUSE="java doc"
 RDEPEND="java? ( virtual/jre )"
-
-S="${WORKDIR}/structure_kernel_src"
 
 src_unpack() {
 	# Ignore PDF file in archive list

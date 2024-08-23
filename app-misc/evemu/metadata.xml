@@ -2,7 +2,10 @@
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
   <maintainer type="person">
-    <email>flo@geekplace.eu</email>
-    <description>Maintainer, CC him on bugs</description>
+    <email>mva@gentoo.org</email>
+    <name>Vadim Misbakh-Soloviov</name>
   </maintainer>
+  <upstream>
+    <remote-id type="freedesktop-gitlab">libevdev/evemu</remote-id>
+  </upstream>
 </pkgmetadata>

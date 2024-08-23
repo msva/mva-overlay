@@ -5,6 +5,7 @@ EAPI=8
 
 DESCRIPTION="C library with simple interface to read virtual slides"
 HOMEPAGE="https://openslide.org/"
+
 if [[ "${PV}" == *9999* ]]; then
 	inherit git-r3 meson
 	EGIT_REPO_URI="https://github.com/openslide/openslide"
@@ -13,8 +14,9 @@ else
 	KEYWORDS="~amd64 ~x86"
 	HTML_DOCS=("doc/html/.")
 fi
-SLOT="0"
+
 LICENSE="LGPL-2.1"
+SLOT="0"
 
 DEPEND="
 	media-libs/libjpeg-turbo

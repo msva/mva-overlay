@@ -48,7 +48,7 @@ each_lua_compile() {
 		LUA="${ELUA}"
 	)
 	${ELUA} build-aux/luke "${mylukeargs[@]}" || die
-	cp -nr html "${S}" || die
+	cp -r html "${S}" || die
 	popd
 }
 

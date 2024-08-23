@@ -12,10 +12,10 @@ DESCRIPTION="Reference Matrix Identity Verification and Lookup Server"
 HOMEPAGE="https://matrix.org/"
 
 SRC_URI="https://github.com/matrix-org/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-KEYWORDS="~amd64"
 
 LICENSE="Apache-2.0"
 SLOT="0"
+KEYWORDS="~amd64"
 
 IUSE="gammu"
 

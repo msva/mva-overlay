@@ -6,10 +6,10 @@ EAPI=8
 inherit go-module systemd git-r3
 
 DESCRIPTION="Prometheus exporter for HAProxy metrics"
-LICENSE="Apache-2.0"
 HOMEPAGE="https://github.com/prometheus/haproxy_exporter"
-EGIT_REPO_URI="https://github.com/prometheus/haproxy_exporter"
+LICENSE="Apache-2.0"
 SLOT="0"
+EGIT_REPO_URI="https://github.com/prometheus/haproxy_exporter"
 
 RDEPEND="
 	acct-user/prometheus

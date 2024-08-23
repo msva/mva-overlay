@@ -11,11 +11,11 @@ DESCRIPTION="Snapshot of dev-db/drizzle sources which can be built as shared lib
 HOMEPAGE="https://github.com/openresty/drizzle-nginx-module"
 SRC_URI="https://openresty.org/download/${MY_P}.tar.gz"
 
+S="${WORKDIR}/${MY_P}"
+
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-
-S="${WORKDIR}/${MY_P}"
 
 src_prepare() {
 	sed -r \

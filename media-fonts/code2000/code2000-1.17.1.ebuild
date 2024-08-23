@@ -3,18 +3,18 @@
 
 EAPI=8
 
-S="${WORKDIR}"
-inherit font
-
-BASE_SRC_URI="https://web.archive.org/web/20110108105420/http://code2000.net/"
-
 DESCRIPTION="TrueType font covering big piece of Unicode (at time of its creation)"
 HOMEPAGE="https://web.archive.org/web/20110108105420/code2000.net"
+
+BASE_SRC_URI="https://web.archive.org/web/20110108105420/http://code2000.net/"
 SRC_URI="
 	${BASE_SRC_URI}/CODE2000.ZIP
 	${BASE_SRC_URI}/CODE2001.ZIP
 	${BASE_SRC_URI}/CODE2002.ZIP
 "
+S="${WORKDIR}"
+
+inherit font
 
 LICENSE="GPL-3"
 SLOT="0"

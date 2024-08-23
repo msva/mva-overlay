@@ -20,8 +20,6 @@ inherit systemd php-ext-source-r3 python-r1 ruby-ng toolchain-funcs flag-o-matic
 
 DESCRIPTION="Dynamic web and application server"
 HOMEPAGE="https://unit.nginx.org/"
-LICENSE="Apache-2.0"
-SLOT="0"
 
 if [[ "${PV}" = 9999 ]]; then
 	EGIT_REPO_URI="https://github.com/nginx/unit"
@@ -32,6 +30,11 @@ else
 	SRC_URI="https://unit.nginx.org/download/${MY_P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
+
+S="${WORKDIR}/${MY_P}"
+
+LICENSE="Apache-2.0"
+SLOT="0"
 
 UNIT_MODULES="perl php python ruby"
 # go java nodejs
@@ -71,7 +74,6 @@ DEPEND="
 #		dev-util/wasmer
 #	)
 RDEPEND="${DEPEND}"
-S="${WORKDIR}/${MY_P}"
 
 my_econf() {
 	echo ./configure "${@}"

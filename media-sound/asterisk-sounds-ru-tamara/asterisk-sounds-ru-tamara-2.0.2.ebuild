@@ -10,15 +10,14 @@ SRC_URI="
 	https://nettips.ru/files/asterisk/Russian-Tamara-2.0.2-ulaw.tar.gz
 "
 
-KEYWORDS="~amd64 ~x86"
+S="${WORKDIR}"
 
 LICENSE="GPL-3"
 SLOT="0"
+KEYWORDS="~amd64 ~x86"
 
 DEPEND=">=net-misc/asterisk-1.6.2.0"
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}"
 
 src_unpack() {
 	default

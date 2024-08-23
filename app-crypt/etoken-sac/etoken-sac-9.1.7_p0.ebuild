@@ -6,6 +6,7 @@ EAPI=8
 inherit rpm
 
 DESCRIPTION="SafeNet (Aladdin) eTokens Middleware (PRO, NG OTP, Flash, Java)"
+HOMEPAGE="https://aladdin-rd.ru"
 
 #MAGIC_DATE="10.12.2013"
 
@@ -21,12 +22,13 @@ SRC_PV=${SRC_PV/./_}
 
 SRC_URI="https://online.payment.ru/drivers/SAC_${SRC_PV}_Linux.zip"
 
-HOMEPAGE="https://aladdin-rd.ru"
+S="${WORKDIR}/SAC_${SRC_PV}_Linux"
+
 LICENSE="EULA"
-RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="ssl multilib minimal"
+RESTRICT="mirror"
 
 # TODO:
 # - minimal useflag (I can't do it now, since
@@ -50,8 +52,6 @@ BDEPEND="app-arch/unzip"
 QA_PREBUILT="*"
 QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
 QA_MULTILIB_PATHS="usr/lib32/.* usr/lib64/.* lib32/.* lib64/.*"
-
-S="${WORKDIR}/SAC_${SRC_PV}_Linux"
 
 #pkg_nofetch() {
 #	einfo "Please send mail to Aladdin eToken TS <support.etoken@aladdin-rd.ru> and"

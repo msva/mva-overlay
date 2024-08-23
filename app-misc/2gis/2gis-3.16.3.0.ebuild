@@ -9,6 +9,8 @@ DESCRIPTION="Proprietary freeware multimedia map of several Russian and Ukrainia
 HOMEPAGE="https://2gis.ru"
 SRC_URI="https://download.2gis.ru/arhives/2GISShell-${PV}.orig.zip"
 
+S="${WORKDIR}"
+
 LICENSE="2Gis-ru"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -23,8 +25,6 @@ RDEPEND="
 	virtual/wine
 	data? ( app-misc/2gis-data )
 "
-
-S="${WORKDIR}"
 
 src_install() {
 	insinto /opt/${PN}

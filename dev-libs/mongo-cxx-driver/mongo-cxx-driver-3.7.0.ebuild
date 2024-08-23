@@ -11,6 +11,8 @@ DESCRIPTION="C++ Driver for MongoDB"
 HOMEPAGE="https://mongocxx.org"
 SRC_URI="https://github.com/mongodb/${PN}/archive/refs/tags/r${MY_PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/${PN}-r${MY_PV}"
+
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -22,8 +24,6 @@ RDEPEND="
 	>=dev-libs/mongo-c-driver-1.17.0
 	static-mongoc? ( dev-libs/mongo-c-driver[static-libs] )
 "
-
-S="${WORKDIR}/${PN}-r${MY_PV}"
 
 src_configure() {
 	local mycmakeargs=(

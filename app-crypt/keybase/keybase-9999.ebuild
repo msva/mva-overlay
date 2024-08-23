@@ -8,6 +8,8 @@ inherit go-module systemd
 DESCRIPTION="Client for keybase.io"
 HOMEPAGE="https://keybase.io/"
 
+S="${WORKDIR}/${P}/go"
+
 LICENSE="BSD"
 SLOT="0"
 
@@ -40,8 +42,6 @@ RDEPEND="
 		!system-libglvnd? ( media-libs/libglvnd )
 	)
 "
-
-S="${WORKDIR}/${P}/go"
 
 src_unpack() {
 	git-r3_src_unpack

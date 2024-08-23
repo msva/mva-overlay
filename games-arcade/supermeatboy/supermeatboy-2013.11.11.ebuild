@@ -12,6 +12,9 @@ DESCRIPTION="A platformer where you play as an animated cube of meat"
 HOMEPAGE="http://www.supermeatboy.com/"
 SRC_URI="${PN}-linux-${MY_PV}-bin"
 
+S="${WORKDIR}/data"
+GAMEDIR="/usr/share/${P}"
+
 LICENSE="GOG-EULA"
 # TODO: find proper license
 SLOT="0"
@@ -24,9 +27,6 @@ RDEPEND="
 	media-libs/libsdl2
 "
 BDEPEND="app-arch/zip"
-
-S="${WORKDIR}/data"
-GAMEDIR="/usr/share/${P}"
 
 pkg_nofetch() {
 	einfo "Please download ${A}"

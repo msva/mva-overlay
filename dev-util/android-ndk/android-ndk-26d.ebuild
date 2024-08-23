@@ -10,6 +10,8 @@ DESCRIPTION="Open Handset Alliance's Android NDK (Native Dev Kit)"
 HOMEPAGE="https://developer.android.com/ndk/"
 SRC_URI="https://dl.google.com/android/repository/${PN}-r${PV}-linux.zip"
 
+S="${WORKDIR}/${PN}-r${PV}"
+
 LICENSE="android"
 SLOT="0"
 KEYWORDS="~amd64"
@@ -21,8 +23,6 @@ RDEPEND="
 	virtual/libcrypt
 "
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}/${PN}-r${PV}"
 
 ANDROID_NDK_DIR="opt/${PN}"
 

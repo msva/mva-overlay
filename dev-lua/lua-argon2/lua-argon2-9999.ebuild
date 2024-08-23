@@ -42,7 +42,7 @@ src_prepare() {
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	$(tc-getCC) ${CFLAGS} -fPIC -shared "src/${PN#lua-}.c" ${LDFLAGS} -largon2 -o "${PN#lua-}.so" || die
+	$(tc-getCC) ${CFLAGS} $(lua_get_CFLAGS) -fPIC -shared "src/${PN#lua-}.c" ${LDFLAGS} -largon2 -o "${PN#lua-}.so" || die
 	popd
 }
 

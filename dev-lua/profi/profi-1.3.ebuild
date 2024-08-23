@@ -15,6 +15,8 @@ DESCRIPTION="a Lua Profiler"
 HOMEPAGE="https://gist.github.com/perky/2838755"
 SRC_URI="https://gist.github.com/${GIST_A}/${GIST_ID}/archive/${GIST_SHA}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/${GIST_ID}-${GIST_SHA}"
+
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
@@ -22,8 +24,6 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="${LUA_DEPS}"
 DEPEND="${RDEPEND}"
-
-S="${WORKDIR}/${GIST_ID}-${GIST_SHA}"
 
 each_lua_install() {
 	insinto "$(lua_get_lmod_dir)"

@@ -9,6 +9,8 @@ DESCRIPTION="A minimalist pastebin where the server has zero knowledge of pasted
 HOMEPAGE="https://privatebin.info/"
 SRC_URI="https://github.com/PrivateBin/PrivateBin/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/PrivateBin-${PV}"
+
 LICENSE="GPL-2"
 KEYWORDS="~amd64"
 
@@ -18,8 +20,6 @@ RDEPEND="
 DEPEND="
 	app-admin/webapp-config
 "
-
-S=${WORKDIR}/PrivateBin-${PV}
 
 pkg_setup() {
 	webapp_pkg_setup

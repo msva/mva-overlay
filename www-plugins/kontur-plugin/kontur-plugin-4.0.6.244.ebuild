@@ -6,16 +6,18 @@ EAPI=8
 inherit unpacker patches
 
 DESCRIPTION="Cryptographic browser plugin for SKB Kontur services"
+HOMEPAGE="https://help.kontur.ru/plugin/"
 
 SRC_URI="
 	amd64? ( https://help.kontur.ru/plugin/dist/kontur.plugin_amd64.deb -> ${P}.deb )
 "
 	# amd64? ( https://help.kontur.ru/files/kontur.plugin_amd64.${PV}.deb -> ${P}.deb )
-HOMEPAGE="https://help.kontur.ru/plugin/"
+S="${WORKDIR}"
+
 LICENSE="EULA"
-RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="~amd64"
+RESTRICT="mirror"
 
 RDEPEND="
 	app-accessibility/at-spi2-core
@@ -38,8 +40,6 @@ DEPEND="${RDEPEND}"
 
 QA_PREBUILT="*"
 QA_SONAME_NO_SYMLINK="usr/lib64/.*"
-
-S="${WORKDIR}"
 
 src_unpack() {
 	unpack_deb ${A}

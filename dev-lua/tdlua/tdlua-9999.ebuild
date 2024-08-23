@@ -3,7 +3,7 @@
 
 EAPI=8
 
-LUA_COMPAT=( lua{5-{1..4},jit} )
+LUA_COMPAT=( lua{5-{2..4},jit} )
 
 inherit cmake lua git-r3
 
@@ -11,22 +11,47 @@ DESCRIPTION="A basic interface between tdlib and lua"
 HOMEPAGE="https://github.com/giuseppeM99/tdlua"
 EGIT_REPO_URI="https://github.com/giuseppeM99/tdlua"
 
+EGIT_SUBMODULES=(
+	"*"
+	-td
+)
+
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="examples"
+IUSE="examples static-libs +system-tdlib system-libtgvoip voip"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="
 	${LUA_DEPS}
 	dev-libs/openssl:0=
 	media-libs/opus:0=
-	net-libs/tdlib:0=
+	system-libtgvoip? ( media-libs/libtgvoip:= )
+	system-tdlib? ( net-libs/tdlib:= )
+	lua_targets_luajit? ( dev-lang/luajit[lua52compat] )
 "
 DEPEND="${RDEPEND}"
 
-# TODO: unbubdle libtgvoip!
+src_unpack() {
+	if use system-libtgvoip || ! use voip; then
+		EGIT_SUBMODULES+=(-libtgvoip)
+	fi
+	git-r3_src_unpack
+}
 
 src_prepare() {
+	if use system-tdlib; then
+		sed -i -r \
+			-e '/add_subdirectory\(td\)/s@.*@find_package\(Td REQUIRED\)@' \
+			CMakeLists.txt
+	fi
+	if use system-libtgvoip; then
+		sed -i -r \
+			-e 's@libtgvoip/@tgvoip/@' \
+			LuaTDVoip.h LuaTDVoip.cpp
+		sed -i -r \
+			-e '/set\(TARGET\ "libtgvoip"\)/,/set_property\ \(TARGET\ libtgvoip\ PROPERTY\ CXX_STANDARD\ 11\)/d' \
+			CMakeLists.txt
+	fi
 	cmake_src_prepare
 	lua_copy_sources
 }
@@ -35,6 +60,8 @@ each_lua_configure() {
 	pushd "${BUILD_DIR}"
 	mycmakeargs=(
 		-DLUA_INCLUDE_DIR=$(lua_get_include_dir)
+		-DTDLUA_TD_STATIC=$(usex static-libs ON OFF)
+		-DTDLUA_CALLS=$(usex voip ON OFF)
 	)
 	cmake_src_configure
 	popd

@@ -6,12 +6,12 @@
     <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
-  <use>
-    <flag name="system-libtgvoip">Link against <pkg>media-libs/libtgvoip</pkg> instead of compiling bundled version</flag>
-    <flag name="system-tdlib">Link against <pkg>net-libs/tdlib</pkg> instead of compiling bundled version</flag>
-    <flag name="voip">Enable VoIP functionality (calls)</flag>
-  </use>
   <upstream>
-    <remote-id type="github">giuseppeM99/tdlua</remote-id>
+    <remote-id type="pypi">debugpy</remote-id>
+    <remote-id type="github">microsoft/debugpy</remote-id>
+    <maintainer status="unknown">
+      <email>ptvshelp@microsoft.com</email>
+      <name>Microsoft Corporation</name>
+    </maintainer>
   </upstream>
 </pkgmetadata>

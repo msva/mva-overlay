@@ -11,9 +11,8 @@ EGIT_REPO_URI="https://luajit.org/git/luajit-2.0.git"
 EGIT_BRANCH="v2.1"
 EGIT_MIN_CLONE_TYPE="single+tags"
 
-SLOT="2"
-
 LICENSE="MIT"
+SLOT="2"
 IUSE="debug valgrind lua52compat openresty +optimization"
 
 RDEPEND="

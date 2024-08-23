@@ -7,24 +7,26 @@
     <description>Also, you can find me on IRC (Libera.Chat) as mva, or in Telegram as @mva_name</description>
   </maintainer>
   <use>
+    <flag name="archive">Enable support for <pkg>app-arch/libarchive</pkg></flag>
     <flag name="analyze">Enable support for analyze feature</flag>
-    <flag name="cfitsio">Enable support for reading FITS images with <pkg>sci-libs/cfitsio</pkg></flag>
+    <flag name="fits">Enable support for reading FITS images with <pkg>sci-libs/cfitsio</pkg></flag>
     <flag name="cgif">Enable support for <pkg>media-libs/cgif</pkg></flag>
     <flag name="deprecated">Build deprecated components</flag>
-    <flag name="doxygen">Build C++ documentation</flag>
-    <flag name="gsf">Enable support for <pkg>gnome-extra/libgsf</pkg></flag>
+    <flag name="doc">Build C++ documentation</flag>
+    <!-- <flag name="gsf">Enable support for <pkg>gnome-extra/libgsf</pkg></flag> -->
     <flag name="heif">Enable support for <pkg>media-libs/libheif</pkg></flag>
+    <flag name="highway">Enable support for <pkg>dev-cpp/highway</pkg></flag>
     <flag name="imagequant">Enable support for <pkg>media-gfx/libimagequant</pkg></flag>
     <flag name="jpeg-xl">Enable support for JPEG XL files with <pkg>media-libs/libjxl</pkg></flag>
     <flag name="nifti">Enable support for <pkg>media-libs/nifti</pkg></flag>
     <flag name="nsgif">Enable support for <pkg>media-libs/libnsgif</pkg></flag>
-    <flag name="openjpeg">Enable support for <pkg>media-libs/openjpeg</pkg></flag>
+    <flag name="jpeg2k">Enable support for jpeg2k using <pkg>media-libs/openjpeg</pkg></flag>
     <flag name="pandoc">Rebuild GTK documentation templates from markdown sources using pandoc</flag>
-    <flag name="pangocairo">Enable support for <pkg>x11-libs/pango</pkg> and <pkg>x11-libs/cairo</pkg></flag>
-    <flag name="poppler">Enable support for <pkg>app-text/poppler</pkg></flag>
+    <flag name="pango">Enable support for <pkg>x11-libs/pango</pkg> and <pkg>x11-libs/cairo</pkg></flag>
+    <flag name="pdf">Enable support for PDF using <pkg>app-text/poppler</pkg></flag>
     <flag name="ppm">Enable support for PPM files</flag>
     <flag name="radiance">Enable support for radiance feature</flag>
-    <flag name="rsvg">Enable support for <pkg>gnome-base/librsvg</pkg></flag>
+    <flag name="svg">Enable support for SVG using <pkg>gnome-base/librsvg</pkg></flag>
     <flag name="spng">Enable support for <pkg>media-libs/libspng</pkg></flag>
     <flag name="matio">Enable support for reading images from Matlab files through <pkg>sci-libs/matio</pkg></flag>
     <flag name="openslide">Enable support for reading images from OpenSlide files through <pkg>media-libs/openslide</pkg> (currently conflicts with jpeg-turbo)</flag>

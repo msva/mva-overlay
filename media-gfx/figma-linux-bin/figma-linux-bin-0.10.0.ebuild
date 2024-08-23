@@ -8,11 +8,13 @@ DESCRIPTION="Unofficial desktop application for linux"
 HOMEPAGE="https://github.com/Figma-Linux/figma-linux"
 SRC_URI="amd64? ( https://github.com/Figma-Linux/figma-linux/releases/download/v${PV}/figma-linux_${PV}_linux_amd64.deb -> ${P}-amd64.deb )"
 
+S="${WORKDIR}"
+
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="-* ~amd64"
-RESTRICT="bindist mirror"
 IUSE="appindicator doc libnotify"
+RESTRICT="bindist mirror"
 
 RDEPEND="
 	app-accessibility/at-spi2-core
@@ -36,8 +38,6 @@ RDEPEND="
 "
 
 QA_PREBUILT="*"
-
-S=${WORKDIR}
 
 src_prepare() {
 	default

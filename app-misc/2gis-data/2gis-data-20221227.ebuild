@@ -6,6 +6,8 @@ EAPI=8
 DESCRIPTION="Data-files for ~app-misc/2gis-3 (wine-version)"
 HOMEPAGE="https://2gis.ru"
 
+S="${WORKDIR}"
+
 LICENSE="2Gis-ru"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -14,8 +16,6 @@ BDEPEND="app-arch/unzip"
 RDEPEND=">=app-misc/2gis-3.16.3.0"
 
 RESTRICT="mirror"
-
-S="${WORKDIR}"
 
 my_add_town() {
 	local town="${1}"

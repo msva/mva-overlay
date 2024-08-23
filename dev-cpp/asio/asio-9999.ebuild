@@ -9,6 +9,8 @@ DESCRIPTION="Asynchronous Network Library"
 HOMEPAGE="https://think-async.com/Asio/"
 EGIT_REPO_URI="https://github.com/chriskohlhoff/${PN}.git"
 
+S="${WORKDIR}/${P}/${PN}"
+
 LICENSE="Boost-1.0"
 SLOT="0"
 IUSE="doc examples ssl test"
@@ -20,8 +22,6 @@ RDEPEND="
 	ssl? ( dev-libs/openssl:0= )
 "
 DEPEND="${RDEPEND}"
-
-S=${WORKDIR}/${P}/${PN}
 
 src_prepare() {
 	eautoreconf

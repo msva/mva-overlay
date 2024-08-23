@@ -11,17 +11,17 @@ GENTOO_PATCHNAME="gentoo-apache-2.4.58"
 DESCRIPTION="Header files from the Apache Web Server"
 HOMEPAGE="https://httpd.apache.org/"
 
-LICENSE="Apache-2.0"
-SLOT="2"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x64-macos ~x64-solaris"
-
 SRC_URI="
 	mirror://apache/httpd/httpd-${PV}.tar.bz2
 	https://dev.gentoo.org/~${GENTOO_DEVELOPER}/dist/apache/${GENTOO_PATCHNAME}-${GENTOO_PATCHSTAMP}.tar.bz2
 "
+S="${WORKDIR}/httpd-${PV}"
+
+LICENSE="Apache-2.0"
+SLOT="2"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x64-macos ~x64-solaris"
 
 GENTOO_PATCHDIR="${WORKDIR}/${GENTOO_PATCHNAME}"
-S="${WORKDIR}/httpd-${PV}"
 
 PATCHES="${GENTOO_PATCHDIR}/patches/*.patch"
 

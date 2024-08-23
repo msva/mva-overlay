@@ -8,6 +8,9 @@ inherit desktop wrapper
 DESCRIPTION="A physics based game made for Devmania 2011 Overnight Contest"
 HOMEPAGE="https://gamejams.schattenkind.net/2011/10/pirate-bay.html"
 SRC_URI="https://sience.schattenkind.net/devmania/piratebay.love -> ${P}.zip"
+
+S="${WORKDIR}"
+
 LICENSE="ZLIB"
 SLOT="0"
 # Temporary broken. When I fix it — i'll unmask it
@@ -16,8 +19,6 @@ KEYWORDS="~amd64 ~arm ~x86"
 DEPEND=">=games-engines/love-0.8.0:*"
 RDEPEND="${DEPEND}"
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}"
 
 src_install() {
 	local dir="/usr/share/games/love/${PN}"

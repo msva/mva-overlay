@@ -6,9 +6,9 @@ EAPI=8
 inherit unpacker patches
 
 DESCRIPTION="Browser plugin to work with USB smartcards made under RuToken brand"
+HOMEPAGE="https://www.rutoken.ru/support/download/rutoken-plugin/"
 
 BASE_NAME="libnpRutokenPlugin_${PV}-1"
-
 SRC_URI="
 	amd64? ( ${BASE_NAME}_amd64.deb )
 	x86? ( ${BASE_NAME}_i386.deb )
@@ -16,11 +16,12 @@ SRC_URI="
 	arm64? ( ${BASE_NAME}_arm64.deb )
 "
 
-HOMEPAGE="https://www.rutoken.ru/support/download/rutoken-plugin/"
+S="${WORKDIR}"
+
 LICENSE="all-rights-reserved"
-RESTRICT="fetch mirror strip"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+RESTRICT="fetch mirror strip"
 
 RDEPEND="
 	sys-apps/pcsc-lite
@@ -29,8 +30,6 @@ DEPEND="${RDEPEND}"
 
 QA_PREBUILT="*"
 QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.* usr/lib/.* opt/aktivco/.*"
-
-S="${WORKDIR}"
 
 pkg_nofetch() {
 	eerror "Please, open ${HOMEPAGE} in your browser,"

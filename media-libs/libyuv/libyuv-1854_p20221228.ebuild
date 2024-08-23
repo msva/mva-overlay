@@ -11,9 +11,11 @@ HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv/"
 # Fetch from: https://chromium.googlesource.com/libyuv/libyuv.git/+archive/${EGIT_COMMIT}.tar.gz
 SRC_URI="https://dev.gentoo.org/~mva/distfiles/${P}.tar.gz"
 
+S="${WORKDIR}"
+
 LICENSE="BSD"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 SLOT="0/${PV}"
+KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 
 IUSE="static-libs test tools"
 
@@ -32,7 +34,6 @@ DOCS=( AUTHORS LICENSE PATENTS README.{md,chromium} )
 
 PATCHES="${FILESDIR}/${P//_p*}-cmake-libdir.patch"
 
-S="${WORKDIR}"
 # BUILD_DIR="${S}/build"
 
 src_prepare() {

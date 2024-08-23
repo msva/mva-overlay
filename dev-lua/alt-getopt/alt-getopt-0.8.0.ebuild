@@ -12,6 +12,8 @@ HOMEPAGE="https://github.com/cheusov/lua-alt-getopt"
 MY_P="lua-${P}"
 SRC_URI="https://github.com/cheusov/lua-${PN}/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}/lua-${P}"
+
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
@@ -19,8 +21,6 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 
 RDEPEND="${LUA_DEPS}"
 DEPEND="${RDEPEND}"
-
-S="${WORKDIR}/lua-${P}"
 
 src_compile() { :; }
 

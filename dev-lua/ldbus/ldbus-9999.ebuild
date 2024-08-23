@@ -29,12 +29,20 @@ src_prepare() {
 	default
 	cp "${FILESDIR}/GNUmakefile" "${S}/"
 	sed -r \
-		-e "s@lua5.3@${ELUA}@" \
 		-e "/^PKG_CONFIG/{s@=.*@= $(tc-getPKG_CONFIG)@}" \
-		-e '/^LUA_LIBDIR/d' \
 		-e '/install:/,${s@(\$\(LUA_LIBDIR\))@$(DESTDIR)/\1@g}' \
-		-i src/Makefile
+		-i src/Makefile || die
 	lua_copy_sources
+	lua_foreach_impl each_lua_prepare
+}
+
+each_lua_prepare() {
+	pushd "${BUILD_DIR}"
+	sed -r \
+		-e "/^LUA_PKGNAME/{s@=.*@= ${ELUA}@}" \
+		-e "/^LUA_LIBDIR/{s@=.*@= $(lua_get_cmod_dir)@}" \
+		-i src/Makefile || die
+	popd
 }
 
 each_lua_compile() {

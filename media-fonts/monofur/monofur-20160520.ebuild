@@ -3,13 +3,14 @@
 
 EAPI=8
 
-S="${WORKDIR}"
-inherit font
-
 DESCRIPTION="Monofur, a good fixed width font for development"
 HOMEPAGE="https://www.dafont.com/monofur.font"
 
 SRC_URI="https://img.dafont.com/dl/?f=monofur -> ${P}.zip"
+S="${WORKDIR}"
+
+inherit font
+
 LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"

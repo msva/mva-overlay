@@ -18,11 +18,11 @@ if [[ "${PV}" != 9999 ]]; then
 	EGIT_COMMIT="v${PV}"
 fi
 
-IUSE="+lua_targets_luajit"
-
 LICENSE="BSD"
 SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
+IUSE="+lua_targets_luajit"
+
 RDEPEND="
 	${LUA_DEPS}
 	>=www-servers/nginx-1.24.0-r10[nginx_modules_http_lua,lua_single_target_luajit,ssl]

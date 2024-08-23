@@ -37,6 +37,6 @@ src_compile() {
 }
 
 src_install() {
-	java-pkg_newjar "brut.apktool/apktool-cli/build/libs/${PN}-cli-all.jar"
+	java-pkg_newjar "brut.apktool/apktool-cli/build/libs/${PN}-cli.jar"
 	java-pkg_dolauncher ${PN} --java_args "-Xmx512M"
 }

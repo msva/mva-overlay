@@ -6,6 +6,8 @@ EAPI=8
 DESCRIPTION="Beautifier for javascript https://beautifier.io"
 HOMEPAGE="https://github.com/beautifier/js-beautify"
 
+S="${WORKDIR}/package"
+
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm"
@@ -21,8 +23,6 @@ NPM_BINS="
 
 # Requires 'src' directory
 NPM_PKG_DIRS="src"
-
-S="${WORKDIR}/package"
 
 inherit npmv1
 

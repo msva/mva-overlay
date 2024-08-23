@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake-multilib git-r3 multibuild
+inherit cmake-multilib git-r3
 
 EGIT_REPO_URI="https://github.com/${PN}/${PN}-c.git"
 EGIT_BRANCH="c_master"

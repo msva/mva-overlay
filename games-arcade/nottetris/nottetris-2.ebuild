@@ -8,6 +8,9 @@ inherit desktop wrapper
 DESCRIPTION="A tetris game with physics"
 HOMEPAGE="https://stabyourself.net/nottetris2/"
 SRC_URI="https://stabyourself.net/dl.php?file=${PN}2/${PN}2-source.zip -> ${P}.zip"
+
+S="${WORKDIR}"
+
 LICENSE="GPL-2"
 SLOT="0"
 
@@ -18,8 +21,6 @@ KEYWORDS="~amd64 ~arm ~x86"
 DEPEND=">=games-engines/love-0.8.0:*"
 RDEPEND="${DEPEND}"
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}"
 
 src_unpack() {
 	default

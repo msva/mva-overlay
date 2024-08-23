@@ -30,12 +30,15 @@ src_prepare() {
 		-e 's#(_LINK=)cc#\1$(CC)#' \
 		-e 's#(_REPORT=).*#\1#' \
 		Makefile
+	sed -i -r \
+		-e "/include[^a-z]*hpdf.h/i#include \<hpdf_version.h\>\n" \
+		hpdf.c
 	lua_copy_sources
 }
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	default
+	emake LUAINC="$(lua_get_CFLAGS)"
 	popd
 }
 

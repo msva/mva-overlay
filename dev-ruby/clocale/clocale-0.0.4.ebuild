@@ -10,11 +10,11 @@ inherit ruby-fakegem
 
 DESCRIPTION="A Ruby gem that wraps C locale functions"
 HOMEPAGE="https://github.com/avdv/clocale"
-LICENSE="MIT"
 
-RESTRICT="test"
+LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+RESTRICT="test"
 
 each_ruby_configure() {
 	${RUBY} -C "ext/${PN}" extconf.rb

@@ -14,6 +14,16 @@ SLOT="0"
 
 PATCHES="${FILESDIR}/${P}-makefile.patch"
 
+src_prepare() {
+	default
+	sed -r \
+		-e '/sys\/sysctl.h/d' \
+		-i src/cpulimit.c
+	sed -r \
+		-e '/signal.h.*$/a#include <libgen.h>' \
+		-i src/process_group.c
+}
+
 src_compile() {
 	emake CC="$(tc-getCC)" || die "emake failed"
 }

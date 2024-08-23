@@ -16,11 +16,12 @@ SRC_URI="
 	arm64? ( ${BASE_SRC_URI}-arm64.deb -> ${P}-arm64.deb )
 "
 
+S="${WORKDIR}"
+
 LICENSE="Apache-2.0"
 SLOT="0"
-
+KEYWORDS="~amd64 ~arm64"
 IUSE="system-ffmpeg"
-
 RESTRICT="bindist mirror splitdebug test"
 
 QA_PREBUILT="*"
@@ -32,9 +33,6 @@ RDEPEND="
 	app-accessibility/at-spi2-core:2
 	system-ffmpeg? ( media-video/ffmpeg[chromium] )
 "
-
-KEYWORDS="~amd64 ~arm64"
-S="${WORKDIR}"
 
 src_install() {
 	rm "opt/Jitsi Meet/chrome-sandbox" || die

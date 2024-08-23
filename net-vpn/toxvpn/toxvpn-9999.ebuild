@@ -9,9 +9,9 @@ DESCRIPTION="toxvpn allows one to make tunneled point to point connections over 
 HOMEPAGE="https://github.com/cleverca22/toxvpn"
 EGIT_REPO_URI="https://github.com/cleverca22/toxvpn.git"
 
-IUSE="static systemd zeromq"
 LICENSE="GPL-3"
 SLOT="0"
+IUSE="static systemd zeromq"
 
 RDEPEND="
 	net-libs/tox

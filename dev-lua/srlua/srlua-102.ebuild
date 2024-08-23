@@ -14,7 +14,7 @@ SRC_URI="https://web.tecgraf.puc-rio.br/~lhf/ftp/lua/ar/${P}.tar.gz"
 LICENSE="public-domain"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
-IUSE="+static-libs"
+# IUSE="+static-libs"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="${LUA_DEPS}"
 DEPEND="${RDEPEND}"
@@ -41,10 +41,11 @@ my_cc() {
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	local STATIC
-	use static-libs && STATIC="-static"
-	my_cc ${CFLAGS} ${LDFLAGS} -fPIC -o glue srglue.c
-	my_cc ${CFLAGS} ${LDFLAGS} -fPIC -o srlua srlua.c -Wl,-E ${STATIC} $(lua_get_LIBS) -ldl -lm
+	# local STATIC
+	# use static-libs && STATIC="-static"
+	my_cc ${CFLAGS} $(lua_get_CFLAGS) ${LDFLAGS} -fPIC -o glue srglue.c
+	my_cc ${CFLAGS} $(lua_get_CFLAGS) ${LDFLAGS} -fPIC -o srlua srlua.c -Wl,-E $(lua_get_LIBS) -ldl -lm
+	# my_cc ${CFLAGS} $(lua_get_CFLAGS) ${LDFLAGS} -fPIC -o srlua srlua.c -Wl,-E ${STATIC} $(lua_get_LIBS) -ldl -lm
 	popd
 }
 

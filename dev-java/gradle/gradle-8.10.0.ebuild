@@ -6,9 +6,9 @@ EAPI=8
 inherit java-pkg-2 gradle
 
 DESCRIPTION="A project automation and build tool with a Groovy based DSL"
+HOMEPAGE="https://gradle.org/"
 # SRC_URI="https://github.com/gradle/gradle-distributions/releases/download/v${PV}/${P%.0}-src.zip"
 SRC_URI="https://github.com/gradle/gradle/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
-HOMEPAGE="https://gradle.org/"
 LICENSE="Apache-2.0"
 SLOT="${PV}"
 

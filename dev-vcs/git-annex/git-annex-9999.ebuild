@@ -9,11 +9,11 @@ inherit haskell-cabal bash-completion-r1 git-r3 desktop
 DESCRIPTION="manage files with git, without checking their contents into git"
 HOMEPAGE="https://git-annex.branchable.com/"
 EGIT_REPO_URI="https://git.kitenet.net/git-annex"
-RESTRICT="test"
 
 LICENSE="AGPL-3"
 SLOT="0"
 IUSE="+assistant +benchmark +dbus debug doc +gitlfs +magicmime +pairing +torrentparser +webapp"
+RESTRICT="test"
 
 REQUIRED_USE="webapp? ( assistant )"
 

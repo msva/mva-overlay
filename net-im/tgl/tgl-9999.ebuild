@@ -5,14 +5,15 @@ EAPI=8
 
 inherit git-r3 flag-o-matic
 
+DESCRIPTION="Telegram library"
+HOMEPAGE="https://github.com/vysheng/tgl"
+
 EGIT_REPO_URI="https://github.com/vysheng/tgl.git"
 EGIT_BRANCH="master"
 
-IUSE="gcrypt +libevent"
-DESCRIPTION="Telegram library"
-HOMEPAGE="https://github.com/vysheng/tgl"
 LICENSE="LGPL-2.1+"
 SLOT="0"
+IUSE="gcrypt +libevent"
 
 DEPEND="
 	sys-libs/zlib

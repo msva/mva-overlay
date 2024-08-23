@@ -35,20 +35,23 @@ src_prepare() {
 	fi
 	sed -r \
 		-e 's@^(prefix).*@\1=/usr@' \
-		-e 's@(.*LUA_DIR.*/lua/.*shell )lua( -e "print.*)@\1${ELUA}\2@' \
 		-i Makefile
+		# -e 's@(.*LUA_DIR.*/lua/.*shell )lua( -e "print.*)@\1${ELUA}\2@' \
+		# -e '/\t\$\(CC\)/s,(\$\(LDFLAGS\)),$(CFLAGS) -I$(LUA_INCDIR) \1,' \
 	lua_copy_sources
 }
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	default
+	# default
+	emake CFLAGS="${CFLAGS} $(lua_get_CFLAGS)"
 	popd
 }
 
 each_lua_install() {
 	pushd "${BUILD_DIR}"
-	default
+	emake CFLAGS="${CFLAGS} $(lua_get_CFLAGS)"
+	# default
 	popd
 }
 

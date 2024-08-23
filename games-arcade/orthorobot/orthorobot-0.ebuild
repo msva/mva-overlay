@@ -8,6 +8,9 @@ inherit wrapper desktop
 DESCRIPTION="Nice perspective based puzzle game. You flatten the view to move across gaps"
 HOMEPAGE="https://stabyourself.net/orthorobot/"
 SRC_URI="https://stabyourself.net/dl.php?file=${PN}/${PN}-source.zip -> ${P}.zip"
+
+S="${WORKDIR}"
+
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
@@ -15,8 +18,6 @@ KEYWORDS="~amd64 ~arm ~x86"
 DEPEND=">=games-engines/love-0.8.0:*"
 RDEPEND="${DEPEND}"
 BDEPEND="app-arch/unzip"
-
-S="${WORKDIR}"
 
 src_unpack() {
 	default

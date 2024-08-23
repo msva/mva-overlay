@@ -16,6 +16,8 @@ else
 	KEYWORDS="~amd64 ~x86"
 fi
 
+# S="${WORKDIR}/${PN}-${C_SHA}"
+
 LICENSE="GPL-3"
 SLOT="0"
 IUSE="debug +http log +queue +rtt i2p"
@@ -29,8 +31,6 @@ RDEPEND="
 		)
 	)
 "
-
-S="${WORKDIR}/${PN}-${C_SHA}"
 
 src_prepare() {
 	sed -i \

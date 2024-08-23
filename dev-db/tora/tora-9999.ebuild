@@ -14,10 +14,10 @@ fi
 
 DESCRIPTION="TOra - Toolkit For Oracle"
 HOMEPAGE="https://torasql.com/"
-IUSE="debug mysql oracle oci8-instant-client postgres +experimental"
 
-SLOT="0"
 LICENSE="GPL-2"
+SLOT="0"
+IUSE="debug mysql oracle oci8-instant-client postgres +experimental"
 
 RDEPEND="
 	dev-libs/ferrisloki

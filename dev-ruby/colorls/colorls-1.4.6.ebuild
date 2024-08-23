@@ -12,14 +12,14 @@ inherit ruby-fakegem
 
 DESCRIPTION="A Ruby script that colorizes the ls output with color and icons"
 HOMEPAGE="https://github.com/athityakumar/colorls"
-LICENSE="MIT"
 
-RESTRICT="test"
+LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 # ~arm   - missing in rainbow
 # ~arm64 - missing everywhere
 # 2024: still the issue...
+RESTRICT="test"
 
 ruby_add_rdepend '
 	dev-ruby/filesize:*

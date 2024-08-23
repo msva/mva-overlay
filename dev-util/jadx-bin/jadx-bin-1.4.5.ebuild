@@ -12,6 +12,8 @@ DESCRIPTION="Android Dex to Java Decompiler"
 HOMEPAGE="https://github.com/skylot/jadx"
 SRC_URI="https://github.com/skylot/${MY_PN}/releases/download/v${PV}/${MY_P}.zip"
 
+S="${WORKDIR}"
+
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -22,8 +24,6 @@ DEPEND="
 	!!dev-util/jadx
 "
 BDEPEND="app-arch/unzip"
-
-S=${WORKDIR}
 
 src_install() {
 	insinto /opt/jadx/lib/

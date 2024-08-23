@@ -18,11 +18,11 @@ if [[ "${PV}" != 9999 ]]; then
 	EGIT_COMMIT="v${PV}"
 fi
 
-IUSE="moonscript openresty"
-
 LICENSE="MIT"
 SLOT="0"
 REQUIRED_USE="${LUA_REQUIRED_USE} openresty? ( lua_targets_luajit )"
+IUSE="moonscript openresty"
+
 DEPEND="
 	${LUA_DEPS}
 "

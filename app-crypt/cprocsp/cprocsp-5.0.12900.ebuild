@@ -6,6 +6,7 @@ EAPI=8
 inherit rpm systemd xdg udev
 
 DESCRIPTION="CryptoPro Crypto Provider"
+HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 
 SRC_URI="
 	x86? ( ${P}_x86.tgz )
@@ -14,11 +15,10 @@ SRC_URI="
 	arm64? ( ${P}_arm64.tgz )
 "
 
-HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 LICENSE="Crypto-Pro"
-RESTRICT="bindist fetch mirror strip"
 SLOT="0/5.0.12900"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+RESTRICT="bindist fetch mirror strip"
 
 DEPEND="
 	app-accessibility/at-spi2-core

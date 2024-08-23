@@ -6,7 +6,7 @@ EAPI=8
 MY_PN="${PN##lua-}"
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua git-r3 toolchain-funcs flag-o-matic
+inherit lua git-r3 toolchain-funcs
 
 DESCRIPTION="Lua bindings for dev-libs/xxhash (XXH32 only for now)"
 HOMEPAGE="https://github.com/mah0x211/lua-xxhash"
@@ -23,8 +23,12 @@ DEPEND="${RDEPEND}"
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	append-cflags "-I./src"
-	$(tc-getCC) ${CFLAGS} ${LDFLAGS} -fPIC -shared "src/${MY_PN}.c" "src/${MY_PN}_bind.c" -lxxhash -o "${MY_PN}".so || die
+	$(tc-getCC) \
+		${CFLAGS} $(lua_get_CFLAGS) -I./src \
+		${LDFLAGS} -fPIC -shared \
+		"src/${MY_PN}.c" "src/${MY_PN}_bind.c" \
+		-lxxhash \
+		-o "${MY_PN}".so || die
 	popd
 }
 

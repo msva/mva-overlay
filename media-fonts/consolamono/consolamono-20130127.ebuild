@@ -3,14 +3,14 @@
 
 EAPI=8
 
-S="${WORKDIR}"
-inherit font
-
-SHA1="61cc2afcc4eca96efe7c6ebf178d39df"
-
 DESCRIPTION="Open Font by Wojciech Kalinowski"
 HOMEPAGE="https://fontlibrary.org/en/font/consolamono"
+
+SHA1="61cc2afcc4eca96efe7c6ebf178d39df"
 SRC_URI="https://fontlibrary.org/assets/downloads/${PN}/${SHA1}/${PN}.zip -> ${P}.zip"
+S="${WORKDIR}"
+
+inherit font
 
 LICENSE="OFL-1.1"
 SLOT="0"

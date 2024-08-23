@@ -40,7 +40,7 @@ src_test() {
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	default
+	emake CFLAGS="${CFLAGS} $(lua_get_CFLAGS)"
 	popd
 }
 

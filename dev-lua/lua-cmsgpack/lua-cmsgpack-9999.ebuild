@@ -22,7 +22,7 @@ DEPEND="${RDEPEND}"
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	$(tc-getCC) -fPIC ${CFLAGS} ${LDFLAGS} -shared ${PN//-/_}.c -o ${MY_PN}.so || die
+	$(tc-getCC) -fPIC ${CFLAGS} $(lua_get_CFLAGS) ${LDFLAGS} -shared ${PN//-/_}.c -o ${MY_PN}.so || die
 	popd
 }
 

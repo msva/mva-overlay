@@ -5,7 +5,7 @@ EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua git-r3
+inherit lua git-r3 flag-o-matic
 
 DESCRIPTION="Lua binding to app-text/discount"
 HOMEPAGE="https://github.com/craigbarnes/lua-discount"
@@ -20,8 +20,9 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 each_lua_compile() {
+	append-cflags "$(lua_get_CFLAGS)"
 	pushd "${BUILD_DIR}"
-	emake discount.so
+	emake CFLAGS="${CFLAGS}" discount.so
 	popd
 }
 

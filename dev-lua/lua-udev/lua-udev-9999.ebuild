@@ -34,7 +34,8 @@ src_prepare() {
 
 each_lua_compile() {
 	pushd "${BUILD_DIR}"
-	$(tc-getCC) "${PN}.c" ${CFLAGS} ${LDFLAGS} -fPIC -shared -ludev -o udev.so || die "Unable to compile"
+	$(tc-getCC) "${PN}.c" ${CFLAGS} $(lua_get_CFLAGS) ${LDFLAGS} -fPIC -shared -ludev -o udev.so ||
+		die "Unable to compile"
 	popd
 }
 

@@ -11,12 +11,14 @@ inherit autotools flag-o-matic lua-single ssl-cert systemd toolchain-funcs
 MY_P="${P/_/.}"
 #MY_S="${PN}-ce-${PV}"
 major_minor="$(ver_cut 1-2)"
-sieve_version="0.5.21"
+sieve_version="0.5.21.1"
 if [[ ${PV} == *_rc* ]]; then
 	rc_dir="rc/"
 else
 	rc_dir=""
 fi
+DESCRIPTION="An IMAP and POP3 server written with security primarily in mind"
+HOMEPAGE="https://www.dovecot.org/"
 SRC_URI="https://dovecot.org/releases/${major_minor}/${rc_dir}${MY_P}.tar.gz
 	sieve? (
 	https://pigeonhole.dovecot.org/releases/${major_minor}/${rc_dir}${PN}-${major_minor}-pigeonhole-${sieve_version}.tar.gz
@@ -24,11 +26,9 @@ SRC_URI="https://dovecot.org/releases/${major_minor}/${rc_dir}${MY_P}.tar.gz
 	managesieve? (
 	https://pigeonhole.dovecot.org/releases/${major_minor}/${rc_dir}${PN}-${major_minor}-pigeonhole-${sieve_version}.tar.gz
 	) "
-DESCRIPTION="An IMAP and POP3 server written with security primarily in mind"
-HOMEPAGE="https://www.dovecot.org/"
-
-SLOT="0/${PV}"
+S="${WORKDIR}/${MY_P}"
 LICENSE="LGPL-2.1 MIT"
+SLOT="0/${PV}"
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~riscv ~s390 ~sparc ~x86"
 
 IUSE_DOVECOT_AUTH="kerberos ldap lua mysql pam postgres sqlite"
@@ -83,14 +83,13 @@ RDEPEND="
 	net-mail/mailbase[pam?]
 	"
 
-S="${WORKDIR}/${MY_P}"
-
 PATCHES=(
 	"${FILESDIR}/${PN}"-autoconf-lua-version-v3.patch
 	"${FILESDIR}/${PN}"-socket-name-too-long.patch
 	"${FILESDIR}/${PN}"-2.3.19.1-slibtool.patch # 782631
 	"${FILESDIR}"/CVE-2022-30550.patch
 	"${FILESDIR}/${PN}"-openssl-3.patch
+	"${FILESDIR}/${PN}"-typo-push.patch
 )
 
 pkg_setup() {

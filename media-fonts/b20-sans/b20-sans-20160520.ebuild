@@ -3,13 +3,14 @@
 
 EAPI=8
 
-S="${WORKDIR}"
-inherit font
-
 DESCRIPTION="B20 Sans, a sans-serif font"
 HOMEPAGE="https://www.dafont.com/b20-sans.font"
 
 SRC_URI="https://img.dafont.com/dl/?f=b20_sans -> ${P}.zip"
+S="${WORKDIR}"
+
+inherit font
+
 LICENSE="OFL-1.1"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"

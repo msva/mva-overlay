@@ -6,18 +6,20 @@ CHROMIUM_LANGS="af am ar bg bn ca cs da de el en-GB en-US es es-419 et fa fi fil
 
 inherit chromium-2 unpacker desktop wrapper pax-utils xdg
 
-RESTRICT="bindist mirror strip"
-
 DESCRIPTION="The web browser from Yandex"
-LICENSE="EULA"
-SLOT="0"
-IUSE="+ffmpeg-codecs"
 HOMEPAGE="https://github.com/deemru/Chromium-Gost"
+
 SRC_URI="
 	amd64? ( https://github.com/deemru/Chromium-Gost/releases/download/${PV}/${P}-linux-amd64.deb )
 "
 # -> ${P}.deb )
+S=${WORKDIR}
+
+LICENSE="EULA"
+SLOT="0"
 KEYWORDS="~amd64"
+IUSE="+ffmpeg-codecs"
+RESTRICT="bindist mirror strip"
 
 FFMPEG_PV="$(ver_cut 1)"
 BROWSER_HOME="opt/${PN}"
@@ -63,7 +65,6 @@ BDEPEND="
 
 QA_PREBUILT="*"
 QA_DESKTOP_FILE="usr/share/applications/yandex-browser.*\\.desktop"
-S=${WORKDIR}
 
 pkg_setup() {
 	chromium_suid_sandbox_check_kernel_config

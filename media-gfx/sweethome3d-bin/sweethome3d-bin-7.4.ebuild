@@ -13,14 +13,15 @@ SRC_URI="
 	amd64? ( ${SF_URI}-x64.tgz )
 	x86? ( ${SF_URI}-x86.tgz )
 "
-LICENSE="GPL-3"
-IUSE="gtk3"
-SLOT="0"
-KEYWORDS="~amd64 ~x86"
-
-RDEPEND="virtual/jre"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
+
+LICENSE="GPL-3"
+SLOT="0"
+KEYWORDS="~amd64 ~x86"
+IUSE="gtk3"
+
+RDEPEND="virtual/jre"
 
 # QA_PREBUILT="*java3d.*.so"
 

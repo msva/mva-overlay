@@ -6,6 +6,7 @@ EAPI=8
 inherit rpm
 
 DESCRIPTION="CryptoPro Browser Plugin (with additional bundled stuff)"
+HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 
 BASE_SRC_URI="https://cryptopro.ru/sites/default/files/products/cades/current_release_2_0/cades-linux"
 SRC_URI="
@@ -18,11 +19,10 @@ SRC_URI="
 # ${P}_${ARCH}.tar.gz
 # pkgdev doesn't support ${ARCH} ATM and throws an error
 
-HOMEPAGE="https://cryptopro.ru/products/csp/downloads"
 LICENSE="Crypto-Pro"
-RESTRICT="bindist mirror strip"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~x86"
+RESTRICT="bindist mirror strip"
 
 RDEPEND="
 	app-crypt/cprocsp

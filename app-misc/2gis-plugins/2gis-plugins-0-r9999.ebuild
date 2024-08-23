@@ -10,6 +10,9 @@ SRC_URI="
 	goto? ( https://download.2gis.ru/arhives/GoTo.zip -> 2GIS_Plugin_GoTo.zip )
 	mapnotes? ( https://download.2gis.ru/arhives/MapNotes.zip -> 2GIS_Plugin_MapNotes.zip )
 "
+
+S="${WORKDIR}"
+
 #	gps? ( http://download.2gis.ru/arhives/2GISPlugin_GPS-1.12.0.msi -> 2GIS_Plugin_GPS-1.12.0.7z )
 #	photo? ( http://download.2gis.ru/arhives/2GISPlugin_Photo-1.0.4.0.msi -> 2GIS_Plugin_Photo-1.0.4.0.7z )
 #	postcode? ( http://safegen.com/files/SafePostCode.msi -> 2GIS_Plugin_SafePostCode.7z )
@@ -23,8 +26,6 @@ IUSE="area goto mapnotes"
 
 BDEPEND="app-arch/unzip"
 RDEPEND="app-misc/2gis"
-
-S="${WORKDIR}"
 
 src_install() {
 	insinto /opt/2gis/Plugins/

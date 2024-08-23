@@ -50,11 +50,15 @@ each_lua_install() {
 }
 
 src_prepare() {
-	sed -i -r \
-		-e '/^INSTALL..DIRECTORY docs/d' \
-		-e '/^INSTALL..DIRECTORY tests/d' \
-		-e '/^INSTALL..FILES .* README /d' \
-		CMakeLists.txt
+	# sed -i -r \
+	# 	-e '/^INSTALL..DIRECTORY docs/d' \
+	# 	-e '/^INSTALL..DIRECTORY tests/d' \
+	# 	-e '/^INSTALL..FILES .* README /d' \
+	# 	CMakeLists.txt
+	# TODO:
+	# build is broken, but may probably be fixed with
+	# set_target_properties(core PROPERTIES LINKER_LANGUAGE C)
+	# or somethinng like that
 	cmake_src_prepare
 	lua_copy_sources
 }

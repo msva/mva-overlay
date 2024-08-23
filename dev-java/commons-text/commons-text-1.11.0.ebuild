@@ -17,6 +17,8 @@ DESCRIPTION="Apache Commons Text is a library focused on algorithms working on s
 HOMEPAGE="https://commons.apache.org/proper/commons-text/"
 SRC_URI="https://archive.apache.org/dist/commons/text/source/${P}-src.tar.gz"
 
+S="${WORKDIR}/${P}-src"
+
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc64 ~x86"
@@ -51,8 +53,6 @@ RDEPEND="
 	${CDEPEND}"
 
 DOCS=( CONTRIBUTING.md NOTICE.txt README.md RELEASE-NOTES.txt )
-
-S="${WORKDIR}/${P}-src"
 
 JAVA_AUTOMATIC_MODULE_NAME="org.apache.commons.text"
 JAVA_ENCODING="ISO-8859-1"

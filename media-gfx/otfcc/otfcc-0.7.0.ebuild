@@ -18,10 +18,9 @@ else
 	# ^ premake:5
 fi
 
-IUSE="debug"
-
 LICENSE="Apache-2.0"
 SLOT="0"
+IUSE="debug"
 
 BDEPEND="dev-util/premake:5"
 

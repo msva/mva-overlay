@@ -2,7 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-inherit meson-multilib vala
+
+PYTHON_COMPAT=( python3_{10..13} )
+inherit flag-o-matic meson-multilib python-single-r1 toolchain-funcs vala
 
 DESCRIPTION="VIPS Image Processing Library"
 if [[ "${PV}" == 9999 ]]; then
@@ -14,63 +16,101 @@ else
 fi
 HOMEPAGE="https://www.libvips.org/"
 
-LICENSE="LGPL-2.1"
-SLOT="0"
+LICENSE="LGPL-2.1+ MIT"
+SLOT="0/42"
 
-VIPS_BASE_OPTS="debug +deprecated doxygen gtk-doc +introspection vala pandoc"
-VIPS_EXT_LIBS="cgif cfitsio exif fftw fontconfig gsf heif nifti imagequant jpeg jpeg-xl lcms imagemagick graphicsmagick matio openexr openjpeg openslide orc pangocairo png poppler rsvg spng tiff webp zlib"
+VIPS_BASE_OPTS="debug +deprecated doc gtk-doc +introspection pandoc python test vala"
+VIPS_EXT_LIBS="archive cgif exif fftw fits fontconfig heif +highway nifti imagequant +jpeg jpeg2k jpeg-xl lcms imagemagick graphicsmagick matio openexr openslide orc pango pdf +png svg spng tiff webp"
 # pdfium quantizr
 VIPS_INT_LIBS="+nsgif +ppm +analyze +radiance"
 
 IUSE="${VIPS_BASE_OPTS} ${VIPS_EXT_LIBS} ${VIPS_INT_LIBS}"
 
 RDEPEND="
-	>=dev-libs/glib-2.6:2
-	introspection? ( dev-libs/gobject-introspection )
-	cfitsio? ( sci-libs/cfitsio[${MULTILIB_USEDEP}] )
+	dev-libs/glib:2[${MULTILIB_USEDEP}]
+	dev-libs/expat[${MULTILIB_USEDEP}]
+	virtual/libintl
+	archive? ( app-arch/libarchive:= )
 	cgif? ( media-libs/cgif[${MULTILIB_USEDEP}] )
-	exif? ( >=media-libs/libexif-0.6[${MULTILIB_USEDEP}] )
+	exif? ( media-libs/libexif[${MULTILIB_USEDEP}] )
 	fftw? ( sci-libs/fftw:3.0=[${MULTILIB_USEDEP}] )
-	gsf? ( gnome-extra/libgsf )
-	heif? ( media-libs/libheif[${MULTILIB_USEDEP}] )
+	fits? ( sci-libs/cfitsio:=[${MULTILIB_USEDEP}] )
+	fontconfig? ( media-libs/fontconfig[${MULTILIB_USEDEP}] )
+	heif? ( media-libs/libheif:=[${MULTILIB_USEDEP}] )
+	highway? ( >=dev-cpp/highway-1.0.5[${MULTILIB_USEDEP}] )
+	!highway? (
+		orc? ( dev-lang/orc[${MULTILIB_USEDEP}] )
+	)
+	imagemagick? (
+		!graphicsmagick? ( media-gfx/imagemagick:= )
+		graphicsmagick? ( media-gfx/graphicsmagick:= )
+	)
 	imagequant? ( media-gfx/libimagequant )
-	nifti? ( media-libs/nifti[${MULTILIB_USEDEP}] )
-	jpeg? ( media-libs/libjpeg-turbo:0=[${MULTILIB_USEDEP}] )
+	introspection? ( dev-libs/gobject-introspection )
+	jpeg? ( media-libs/libjpeg-turbo:=[${MULTILIB_USEDEP}] )
+	jpeg2k? ( media-libs/openjpeg:=[${MULTILIB_USEDEP}] )
 	jpeg-xl? ( media-libs/libjxl[${MULTILIB_USEDEP}] )
-	lcms? ( media-libs/lcms[${MULTILIB_USEDEP}] )
-	imagemagick? ( media-gfx/imagemagick )
-	graphicsmagick? ( media-gfx/graphicsmagick )
-	matio? ( >=sci-libs/matio-1.3.4 )
-	openexr? ( >=media-libs/openexr-1.2.2 )
-	openjpeg? ( media-libs/openjpeg[${MULTILIB_USEDEP}] )
+	lcms? ( media-libs/lcms:2[${MULTILIB_USEDEP}] )
+	matio? ( sci-libs/matio:= )
+	nifti? ( media-libs/nifti[${MULTILIB_USEDEP}] )
+	openexr? ( media-libs/openexr:= )
 	openslide? ( media-libs/openslide )
-	orc? ( >=dev-lang/orc-0.4.11[${MULTILIB_USEDEP}] )
-	pangocairo? (
+	pango? (
 		>=x11-libs/pango-1.8[${MULTILIB_USEDEP}]
 		x11-libs/cairo[${MULTILIB_USEDEP}]
 	)
-	png? ( >=media-libs/libpng-1.2.9:0=[${MULTILIB_USEDEP}] )
-	poppler? ( app-text/poppler )
+	pdf? (
+		app-text/poppler[cairo]
+		x11-libs/cairo
+	)
+	png? ( media-libs/libpng:=[${MULTILIB_USEDEP}] )
+	python? (
+		${PYTHON_DEPS}
+		$(python_gen_cond_dep 'dev-python/pycairo[${PYTHON_USEDEP}]')
+	)
 	spng? ( media-libs/libspng[${MULTILIB_USEDEP}] )
-	rsvg? ( gnome-base/librsvg[${MULTILIB_USEDEP}] )
-	tiff? ( media-libs/tiff:0=[${MULTILIB_USEDEP}] )
+	svg? (
+		gnome-base/librsvg:2[${MULTILIB_USEDEP}]
+		sys-libs/zlib:=[${MULTILIB_USEDEP}]
+		x11-libs/cairo[${MULTILIB_USEDEP}]
+	)
+	tiff? ( media-libs/tiff:=[${MULTILIB_USEDEP}] )
 	webp? ( media-libs/libwebp[${MULTILIB_USEDEP}] )
-	zlib? ( sys-libs/zlib[${MULTILIB_USEDEP}] )
-	vala? ( $(vala_depend) )
+"
+	# gsf? ( gnome-extra/libgsf )
+DEPEND="
+	${RDEPEND}
+	pango? ( x11-base/xorg-proto )
+	pdf? ( x11-base/xorg-proto )
+	svg? ( x11-base/xorg-proto )
+	test? (
+		tiff? ( media-libs/tiff[jpeg] )
+	)
 "
 BDEPEND="
-	${RDEPEND}
+	dev-util/glib-utils
+	sys-devel/gettext
 	gtk-doc? (
 		dev-build/gtk-doc-am
 		dev-util/gtk-doc
 		pandoc? ( virtual/pandoc )
 	)
-	doxygen? (
+	doc? (
 		app-text/doxygen
+		media-gfx/graphviz
 	)
+	python? ( ${PYTHON_DEPS} )
+	vala? ( $(vala_depend) )
 "
 
-REQUIRED_USE="graphicsmagick? ( !imagemagick )"
+REQUIRED_USE="
+	fontconfig? ( pango )
+	graphicsmagick? ( imagemagick )
+	python? ( ${PYTHON_REQUIRED_USE} )
+	test? ( jpeg png webp )
+	vala? ( introspection )
+"
+RESTRICT="!test? ( test )"
 
 DOCS=(ChangeLog README.md)
 
@@ -78,74 +118,79 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/vips/version.h
 )
 
+pkg_setup() {
+	use python && python-single-r1_pkg_setup
+}
+
 src_prepare() {
 	default
+
 	use vala && vala_setup
+
+	sed -i "s/'vips-doc'/'${PF}'/" cplusplus/meson.build || die
+
+	sed -i "/subdir('fuzz')/d" meson.build || die
 }
 
 multilib_src_configure() {
-	local magic="disabled"
-	local magickpkg
-	# TODO: port imagemagick to multilib, so it can be linked on non-native multilib ABIs too
-	if use imagemagick; then
-		magickpgk="MagickCore"
-		magick=$(meson_native_use_feature imagemagick magick)
-	elif use graphicsmagick; then
-		magickpkg="GraphicsMagick"
-		magick=$(meson_native_use_feature graphicsmagick magick)
-	fi
+	# workaround for bug in lld (bug #921728)
+	tc-ld-is-lld && filter-lto
 
-	# TODO: maybe, port to for-loops?
 	local emesonargs=(
 		# Base options
 		$(meson_use debug)
 		$(meson_use deprecated)
-		$(meson_native_use_bool doxygen)
+		$(meson_native_use_bool doc doxygen)
+		-Dexamples=false
 		$(meson_native_use_bool gtk-doc gtk_doc)
-		$(meson_native_use_bool introspection)
 		$(meson_use vala vapi)
 		-Dmodules=enabled
 
 		# External libs
 		# N.B.: TODO: port libs with meson_*_native in this block to multilib.
-		$(meson_feature cfitsio)
+		$(meson_feature archive)
 		$(meson_feature cgif)
 		$(meson_feature exif)
 		$(meson_feature fftw)
+		$(meson_feature fits cfitsio)
 		$(meson_feature fontconfig)
-		$(meson_native_use_feature gsf)
+		# $(meson_native_use_feature gsf)
 		$(meson_feature heif)
 		$(meson_feature heif heif-module)
+		$(meson_feature highway)
+		$(meson_native_use_feature imagemagick magick)
+		-Dmagick-package=$(usex graphicsmagick GraphicsMagick MagickCore)
+		# -Dmagick-features="[load,save]"
 		$(meson_native_use_feature imagequant)
+		$(meson_native_use_feature introspection)
 		$(meson_feature jpeg)
+		$(meson_feature jpeg2k openjpeg)
 		$(meson_feature jpeg-xl)
 		$(meson_feature jpeg-xl jpeg-xl-module)
 		$(meson_feature lcms)
-		${magick}
-		${magick//=/-module=}
-		-Dmagick-package="${magickpkg}"
-		# -Dmagick-features="[load,save]"
 		$(meson_native_use_feature matio)
 		$(meson_feature nifti)
 		$(usex nifti '-Dnifti-prefix-dir=/usr' '')
-		$(meson_native_use_feature openexr) # v2 - have multilib, v3 - don't 🤷; TODO: ask maintainer why?
-		$(meson_feature openjpeg)
+		$(meson_native_use_feature openexr) # v3 have no multilib, and v2 is no more in gentoo
 		$(meson_native_use_feature openslide)
 		$(meson_native_use_feature openslide openslide-module)
 		$(meson_feature orc)
-		$(meson_feature pangocairo)
+		$(meson_feature pango pangocairo)
 		# $(meson_feature pdfium)
-		-Dpdfium=disabled # fucking google "gn" buildsystem. I don't wan't to fuck with that to package pdfium, sorry.
+		-Dpdfium=disabled
+		# 👆fucking google "gn" buildsystem.
+		# I don't wan't to fuck with that to package pdfium, sorry.
+		# Use poppler instead.
 		$(meson_feature png)
-		$(meson_native_use_feature poppler)
-		$(meson_native_use_feature poppler poppler-module)
+		$(meson_native_use_feature pdf poppler)
+		$(meson_native_use_feature pdf poppler-module)
 		# $(meson_feature quantizr)
-		-Dquantizr=disabled # I've failed to find what is that lib at all 🤷; TODO: mutual exclusive with imagequant
-		$(meson_feature rsvg)
+		-Dquantizr=disabled # use imagequant instead
 		$(meson_feature spng)
+		$(meson_feature svg rsvg)
 		$(meson_feature tiff)
 		$(meson_feature webp)
-		$(meson_feature zlib)
+		$(meson_feature svg zlib) # zlib is currently only used by svgload.c
 
 		# Internal libs
 		$(meson_use nsgif)
@@ -158,5 +203,12 @@ multilib_src_configure() {
 
 multilib_src_install_all() {
 	einstalldocs
+
 	find "${D}" -xtype f -name '*.la' -print0
+
+	if use python; then
+		python_fix_shebang "${ED}"/usr/bin/vipsprofile
+	else
+		rm -- "${ED}"/usr/{bin/vipsprofile,share/man/man1/vipsprofile.1} || die
+	fi
 }

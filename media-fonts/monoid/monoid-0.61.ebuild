@@ -16,6 +16,9 @@ SRC_URI="
 	https://cdn.rawgit.com/larsenwork/monoid/${MONOID_SHA}/Monoid.zip
 	monoisome? ( ${GH}/raw/${MONOISOME_SHA}/Monoisome/Monoisome-Regular.ttf -> Monoisome-Regular-${MONOISOME_SHA}.ttf )
 "
+
+S="${WORKDIR}"
+
 BDEPEND="app-arch/unzip"
 
 LICENSE="MIT OFL-1.1"
@@ -25,9 +28,7 @@ IUSE="monoisome"
 RESTRICT="binchecks strip"
 
 FONT_SUFFIX="ttf"
-DOCS=( Readme.md )
-
-S="${WORKDIR}"
+HTML_DOCS=( Readme+License.html )
 
 src_unpack() {
 	default

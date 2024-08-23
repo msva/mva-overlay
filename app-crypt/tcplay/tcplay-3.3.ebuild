@@ -9,11 +9,12 @@ DESCRIPTION="Free and simple TrueCrypt Implementation based on dm-crypt"
 HOMEPAGE="https://github.com/bwalex/tc-play"
 SRC_URI="https://github.com/bwalex/tc-play/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz"
 
+S="${WORKDIR}"/${P}
+
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="static-libs test"
-S="${WORKDIR}"/${P}
 
 # Tests need root privileges, access to /dev/loop0 and mostly fail
 RESTRICT="test"

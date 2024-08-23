@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-LUA_COMPAT=( lua{5-{1..4},jit} )
+LUA_COMPAT=( lua{5-{2..4},jit} )
 
 inherit lua git-r3 toolchain-funcs
 
@@ -23,6 +23,7 @@ RDEPEND="${LUA_DEPS}"
 DEPEND="${RDEPEND}"
 BDEPEND="
 	${LUA_DEPS}
+	lua_targets_luajit? ( dev-lang/luajit[lua52compat] )
 	system-unicode-data? ( >=app-i18n/unicode-data-14.0.0 )
 	virtual/pkgconfig
 "
