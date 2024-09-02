@@ -15,9 +15,6 @@ if [[ "${PV}" == *9999* ]]; then
 		'*'
 		# -src/third_party/libyuv
 		-src/third_party/abseil-cpp
-		# TEMP: requires masked-in-gentoo version
-		# XXX: anyway doesn't help.
-		# TODO: try to fix, or wait for unmasking of corresponnding version
 		-src/third_party/crc32c/src
 		# -src/third_party/libsrtp # TODO: unbundle
 	)
@@ -45,13 +42,12 @@ IUSE="pipewire screencast +X"
 REQUIRED_USE="screencast? ( pipewire )"
 
 # Bundled libs:
-# - abseil-cpp (requires masked-in-gentoo version)
 # - libyuv (no stable versioning, www-client/chromium and media-libs/libvpx bundle it
 # - libsrtp (project uses private APIs)
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
-	# >=dev-cpp/abseil-cpp-20220623.1:=
 RDEPEND="
+	>=dev-cpp/abseil-cpp-20240116.2:=
 	dev-libs/crc32c
 	dev-libs/libevent:=
 	dev-libs/openssl:=
@@ -96,6 +92,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0_pre20221215-expose-set_allow_pipewire.patch"
 	"${FILESDIR}/fix-clang-emplace.patch"
 	"${FILESDIR}/patch-cmake-absl-external.patch"
+	# XXX: 👆comment for re-bundling absl
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
 	"${FILESDIR}/135.patch"
 )
@@ -111,6 +108,7 @@ src_unpack() {
 		mv -T "libsrtp-${LIBSRTP_COMMIT}" "${S}/src/third_party/libsrtp" || die
 		# unpack "abseil-cpp-${ABSL_COMMIT}.tar.gz"
 		# mv -T "abseil-cpp-${ABSL_COMMIT}" "${S}/src/third_party/abseil-cpp" || die
+		# XXX: 👆for re-bundling absl
 	fi
 }
 
@@ -120,6 +118,7 @@ src_prepare() {
 	# sed -i '/include(cmake\/libyuv.cmake)/d' CMakeLists.txt || die
 
 	sed -i '/include(cmake\/libabsl.cmake)/d' CMakeLists.txt || die
+	# XXX: 👆comment for re-bundling absl
 	sed -i '/include(cmake\/libcrc32c.cmake)/d' CMakeLists.txt || die
 
 	# sed -i '/include(cmake\/librnnoise.cmake)/d' CMakeLists.txt || die
@@ -137,7 +136,7 @@ src_prepare() {
 	sed -i -e '/desktop_capture\/window_finder_unittest/d' CMakeLists.txt || die
 
 	# rm -r "${S}"/src/third_party/crc32c
-	# abseil-cpp,
+	# XXX: 👆for re-bundling absl
 	rm -r "${S}"/src/third_party/{crc32c,abseil-cpp}
 	# libyuv,
 	# pipewire,
@@ -157,8 +156,11 @@ src_prepare() {
 	# 		"${S}"/src/api/video/i444_buffer.cc || die
 
 	# FIXME: abseil-cpp related things (absl::string_view casts)
-	# tg_owt uses git-almost-HEAD (april's commit) link in submodule, and for now it is only release from january.
-	# So, we're unable to upgrade
+	# tg_owt uses (when bundled) git-almost-HEAD (april's commit) link in submodule
+	# gentoo for now have only release january release.
+	# Upgrading to july release (placing it in overlay) doesn't help with build failure (without this) either
+	# Although, I guess it is related to this:
+	# https://github.com/gentoo/gentoo/pull/32281#issuecomment-1676404974
 	sed -r \
 		-e "/[ ]*(group_name = )(kDefaultProbingScreenshareBweSettings)/s@@\1(std::string)\2@" \
 		-i "${S}/src/rtc_base/experiments/alr_experiment.cc" || die
@@ -168,6 +170,8 @@ src_prepare() {
 	sed -r \
 		-e "/(candidate_stats->candidate_type = )(candidate.type_name)/s@@\1(std::string)\2@" \
 		-i "${S}/src/pc/rtc_stats_collector.cc" || die
+	# append-cppflags -I"${S}/src/third_party/abseil-cpp"
+	# XXX: 👆for re-bundling absl
 
 	cmake_src_prepare
 }
@@ -203,6 +207,8 @@ src_install() {
 	# Install a few headers anyway, as required by net-im/telegram-desktop...
 	local headers=(
 		third_party/libyuv/include
+		# third_party/abseil-cpp/absl
+		# XXX: 👆for re-bundling absl
 		rtc_base/third_party/sigslot
 		rtc_base/third_party/base64
 	)
