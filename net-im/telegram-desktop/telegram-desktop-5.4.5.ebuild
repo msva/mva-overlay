@@ -16,7 +16,7 @@ HOMEPAGE="https://desktop.telegram.org"
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop.git"
 EGIT_SUBMODULES=(
 	'*'
-	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,dispatch,xdg-desktop-portals}
+	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,xdg-desktop-portal}
 	#,kimageformats,kcoreaddons}
 )
 
@@ -25,15 +25,14 @@ if [[ "${PV}" == 9999 ]]; then
 else
 	# TODO: tarballs
 	EGIT_COMMIT="v${PV}"
-	KEYWORDS="~amd64 ~arm64 ~ppc64 ~riscv ~x86"
-	# ~arm # blocked by dispatch in gentoo-repo
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 	# ~mipsel # blocked by all :(
 fi
 
 LICENSE="GPL-3-with-openssl-exception"
 SLOT="0"
 #IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast system-gsl +system-expected +system-libtgvoip system-rlottie test +wayland +X"
-IUSE="custom-api-id dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
@@ -57,27 +56,27 @@ done
 KIMAGEFORMATS_RDEPEND="
 	media-libs/libavif:=
 	media-libs/libheif:=
-	media-libs/libjxl
+	>=media-libs/libjxl-0.8.0:=
 "
 # kde-frameworks/kimageformats
 # kde-frameworks/kcoreaddons
 COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
-	dev-cpp/abseil-cpp:=
+	>=dev-cpp/abseil-cpp-20240116.2:=
 	>=dev-cpp/glibmm-2.77:2.68
 	>=dev-libs/glib-2.77:2
 	>=dev-libs/gobject-introspection-1.77
-	dev-libs/ada
 	dev-libs/libdispatch
 	dev-libs/openssl:=
-	dev-libs/protobuf
+	>=dev-libs/protobuf-27.2
 	dev-libs/xxhash
 	media-libs/libjpeg-turbo:=
 	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[pulseaudio(-)=,pipewire(-)=] )
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
 	media-libs/rnnoise:=
+	>=media-libs/tg_owt-0_pre20240731:=[pipewire(-)=,screencast=,X=]
 	media-video/ffmpeg:=[opus,vpx]
 	sys-libs/zlib:=[minizip]
 	virtual/opengl
@@ -86,27 +85,29 @@ COMMON_DEPEND="
 	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
 	!qt6? (
 		>=dev-qt/qtcore-5.15:5=
-		>=dev-qt/qtgui-5.15:5=[dbus,jpeg,png,wayland?,X?]
+		>=dev-qt/qtgui-5.15:5=[dbus?,jpeg,png,wayland?,X?]
 		>=dev-qt/qtimageformats-5.15:5=
 		>=dev-qt/qtnetwork-5.15:5=[ssl]
 		>=dev-qt/qtsvg-5.15:5=
 		>=dev-qt/qtwidgets-5.15:5=[png,X?]
-		kde-frameworks/kcoreaddons:=
+		kde-frameworks/kcoreaddons:5=
 		wayland? (
 			dev-qt/qtwayland:5=
 		)
 		webkit? (
 			>=dev-qt/qtdeclarative-5.15:5=
-			>=dev-qt/qtwayland-5.15:5=
+			>=dev-qt/qtwayland-5.15:5=[compositor(+)]
 		)
-		dev-qt/qtdbus:5=
-		dev-libs/libdbusmenu-qt[qt5(+)]
+		dbus? (
+			dev-qt/qtdbus:5=
+			dev-libs/libdbusmenu-qt[qt5(+)]
+		)
 	)
 	qt6? (
-		>=dev-qt/qtbase-6.5:6=[dbus,gui,network,opengl,wayland?,widgets,X?]
+		>=dev-qt/qtbase-6.5:6=[dbus?,gui,network,opengl,wayland?,widgets,X?]
 		>=dev-qt/qtimageformats-6.5:6=
 		>=dev-qt/qtsvg-6.5:6=
-		wayland? ( >=dev-qt/qtwayland-6.5:6=[compositor] )
+		wayland? ( >=dev-qt/qtwayland-6.5:6=[compositor,qml] )
 		webkit? (
 			>=dev-qt/qtdeclarative-6.5:6
 			>=dev-qt/qtwayland-6.5:6[compositor]
@@ -120,6 +121,7 @@ COMMON_DEPEND="
 		x11-libs/libxcb:=
 		x11-libs/xcb-util-keysyms
 	)
+	dev-libs/ada
 	dev-libs/boost:=
 	dev-libs/libsigc++:2
 	dev-libs/libfmt:=
@@ -132,23 +134,30 @@ COMMON_DEPEND="
 		media-video/pipewire[sound-server(+)]
 		!media-sound/pulseaudio-daemon
 	)
-	>=media-libs/tg_owt-0_pre20230401:=[pipewire(-)=,screencast=,X=]
 	wayland? (
 		kde-plasma/kwayland:=
 		dev-libs/wayland-protocols:=
 		dev-libs/plasma-wayland-protocols:=
 	)
-	sys-apps/xdg-desktop-portal
+	sys-apps/xdg-desktop-portal:=
 "
 
 RDEPEND="
 	${COMMON_DEPEND}
-	webkit? ( net-libs/webkit-gtk:= )
+	webkit? (
+		|| (
+			net-libs/webkit-gtk:4.1=
+			net-libs/webkit-gtk:6=
+		)
+	)
 "
 DEPEND="
 	${COMMON_DEPEND}
-	>=dev-cpp/range-v3-0.10.0:=
+	>=dev-cpp/cppgir-2.0_p20240315
+	dev-cpp/range-v3
 "
+	# system-expected? ( dev-cpp/expected-lite )
+	# system-gsl? ( >=dev-cpp/ms-gsl-4 )
 BDEPEND="
 	>=dev-build/cmake-3.16
 	>=dev-cpp/cppgir-2.0_p20240315
@@ -232,6 +241,7 @@ src_unpack() {
 #	#  Moreover, upstream recommends to use bundled versions to avoid artefacts 🤷
 #	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 
+	( use arm && ! use arm64 ) || EGIT_SUBMODULES+=(-Telegram/ThirdParty/dispatch)
 	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
 
 #	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
@@ -247,18 +257,6 @@ src_prepare() {
 	# 		-e 's/DESKTOP_APP_USE_PACKAGED/0/' \
 	# 		cmake/external/rlottie/CMakeLists.txt || die
 	# )
-
-	# sed -i \
-	# 	-e '/-W.*/d' \
-	# 	-e '/PIC/a-Wno-error\n-Wno-all' \
-	# 	-e "$(usex debug '' 's@-g[a-zA-Z0-9]*@@')" \
-	# 	-e "$(usex lto '' 's@-flto@@')" \
-	# 	-e "s@-Ofast@@" \
-	# 	cmake/options_linux.cmake || die
-	#
-#		echo > cmake/options_linux.cmake
-#		^ Maybe just wipe it out instead of trying to fix?
-#		^ There are not so mush useful compiler flags, actually.
 
 	# Bundle kde-frameworks/kimageformats for qt6, since it's impossible to
 	#   build in gentoo right now.
@@ -291,11 +289,16 @@ src_prepare() {
 			-i cmake/external/qt/package.cmake || die
 	fi
 
-	# HACK: tmp
+	# HACK: tmp (nothing is more persistent than temporary, hehe)
 	sed -r \
 		-e '1i#include <QJsonObject>' \
 		-i "${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_card.h" \
-			"${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_error.h"
+			"${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_error.h" || die
+
+	# Use system xdg-portal things
+	sed -r \
+		-e '/generate_dbus\([^ ]*\ org.freedesktop.portal/{s@\$\{third_party_loc\}/xdg-desktop-portal/data@/usr/share/dbus-1/interfaces@}' \
+		-i "${S}/Telegram/lib_base/CMakeLists.txt" "${S}/Telegram/CMakeLists.txt" || die
 
 	patches_src_prepare
 # cmake_src_prepare
@@ -335,6 +338,8 @@ src_configure() {
 		-Wno-switch
 		-DLIBDIR="$(get_libdir)"
 		-DTDESKTOP_DISABLE_AUTOUPDATE
+		# XXX: temp (I hope) kludge (until abseil-cpp-2025+ will be in tree)
+		-I/usr/include/tg_owt/third_party/abseil-cpp
 	)
 
 	local qt=$(usex qt6 6 5)
