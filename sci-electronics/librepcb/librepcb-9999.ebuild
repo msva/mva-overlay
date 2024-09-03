@@ -13,36 +13,50 @@ SLOT="0"
 
 EGIT_REPO_URI="https://github.com/LibrePCB/LibrePCB"
 
+IUSE="opencascade qt6"
+
 BDEPEND="
-	dev-qt/linguist-tools:5
-"
+	app-arch/unzip
+	!qt6? ( dev-qt/linguist-tools:5 )
+	qt6? ( dev-qt/qttools:6[linguist] )"
 
 RDEPEND="
 	dev-cpp/muParser:=
-	dev-libs/quazip:=[qt5(+)]
-	dev-qt/qtcore:5
-	dev-qt/qtconcurrent:5
-	dev-qt/qtgui:5
-	dev-qt/qtnetwork:5[ssl]
-	dev-qt/qtopengl:5
-	dev-qt/qtprintsupport:5
-	dev-qt/qtsql:5
-	dev-qt/qtsvg:5
-	dev-qt/qtwidgets:5
-	dev-qt/qtxml:5
+	!qt6? (
+		dev-libs/quazip:=[qt5(+)]
+		dev-qt/qtconcurrent:5
+		dev-qt/qtcore:5
+		dev-qt/qtgui:5
+		dev-qt/qtnetwork:5[ssl]
+		dev-qt/qtopengl:5
+		dev-qt/qtprintsupport:5
+		dev-qt/qtquickcontrols2:5
+		dev-qt/qtsql:5[sqlite]
+		dev-qt/qtsvg:5
+		dev-qt/qtwidgets:5
+	)
+	qt6? (
+		dev-libs/quazip:=[qt6(-)]
+		dev-qt/qtbase[concurrent,gui,network,opengl,sql,sqlite,ssl,widgets]
+		dev-qt/qtdeclarative:6
+		dev-qt/qtsvg:6
+	)
+	opencascade? ( sci-libs/opencascade:= )
 	sys-libs/zlib
-	app-text/hoedown
-"
+	virtual/opengl"
 
 DEPEND="${RDEPEND}
-	dev-qt/qttest:5
-"
+	test? ( dev-cpp/gtest )
+	!qt6? ( dev-qt/qttest:5 )"
 
 src_configure() {
 	local mycmakeargs+=(
-		-DUNBUNDLE_QUAZIP=ON
+		-DBUILD_TESTS=$(usex test ON OFF)
+		-DQT_MAJOR_VERSION=$(usex qt6 6 5)
+		-DUNBUNDLE_GTEST=ON
 		-DUNBUNDLE_MUPARSER=ON
-		-DUNBUNDLE_HOEDOWN=ON
+		-DUNBUNDLE_QUAZIP=ON
+		-DUSE_OPENCASCADE=$(usex opencascade 1 0) )
 	)
 	cmake_src_configure
 }
@@ -50,6 +64,7 @@ src_configure() {
 src_test() {
 	cd "${BUILD_DIR}"/tests/unittests || die
 	# https://github.com/LibrePCB/LibrePCB/issues/516
+	# virtx ./librepcb-unittests --gtest_filter=-SystemInfoTest.testGetUsername
 	virtx ./librepcb-unittests --gtest_filter=-SystemInfoTest.testGetUsername:CategoryTreeModelTest.testSort:BoardPlaneFragmentsBuilderTest.testFragments:BoardGerberExportTest.test
 }
 
