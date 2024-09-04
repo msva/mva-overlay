@@ -146,8 +146,8 @@ RDEPEND="
 	${COMMON_DEPEND}
 	webkit? (
 		|| (
-			net-libs/webkit-gtk:4.1=
-			net-libs/webkit-gtk:6=
+			net-libs/webkit-gtk:4.1
+			net-libs/webkit-gtk:6
 		)
 	)
 "
