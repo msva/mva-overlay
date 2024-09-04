@@ -18,7 +18,8 @@ IUSE="opencascade qt6"
 BDEPEND="
 	app-arch/unzip
 	!qt6? ( dev-qt/linguist-tools:5 )
-	qt6? ( dev-qt/qttools:6[linguist] )"
+	qt6? ( dev-qt/qttools:6[linguist] )
+"
 
 RDEPEND="
 	dev-cpp/muParser:=
@@ -43,11 +44,13 @@ RDEPEND="
 	)
 	opencascade? ( sci-libs/opencascade:= )
 	sys-libs/zlib
-	virtual/opengl"
+	virtual/opengl
+"
 
 DEPEND="${RDEPEND}
 	test? ( dev-cpp/gtest )
-	!qt6? ( dev-qt/qttest:5 )"
+	!qt6? ( dev-qt/qttest:5 )
+"
 
 src_configure() {
 	local mycmakeargs+=(
@@ -56,7 +59,7 @@ src_configure() {
 		-DUNBUNDLE_GTEST=ON
 		-DUNBUNDLE_MUPARSER=ON
 		-DUNBUNDLE_QUAZIP=ON
-		-DUSE_OPENCASCADE=$(usex opencascade 1 0) )
+		-DUSE_OPENCASCADE=$(usex opencascade 1 0)
 	)
 	cmake_src_configure
 }
