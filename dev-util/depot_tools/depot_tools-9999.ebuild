@@ -30,7 +30,6 @@ pkg_pretend() {
 	die "If you need it in your work, please, help me to properly fix it"
 }
 
-
 src_prepare() {
 	rm -f *.bat *.ps1 *.exe ninja* LICENSE .git{i,a}* update_depot_tools*
 	rm -r win_toolchain bootstrap
