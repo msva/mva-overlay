@@ -21,7 +21,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	dev-lua/lua-stdlib[${LUA_USEDEP}]
-	dev-lua/ldoc[${LUA_USEDEP}]
+	dev-lua/ldoc
 "
 
 DOCS=(README.md NEWS.md)

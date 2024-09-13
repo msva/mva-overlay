@@ -18,7 +18,7 @@ REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
 	dev-lua/lua-cjson[${LUA_USEDEP}]
-	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+	doc? ( dev-lua/ldoc )
 "
 DEPEND="
 	${RDEPEND}

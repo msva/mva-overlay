@@ -16,7 +16,7 @@ SLOT="0"
 IUSE="doc"
 
 RDEPEND="
-	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+	doc? ( dev-lua/ldoc )
 	dev-lua/lua-std-normalize[${LUA_USEDEP}]
 "
 DEPEND="${RDEPEND}"

@@ -28,7 +28,7 @@ DEPEND="
 	dev-lua/lyaml[${LUA_USEDEP}]
 	dev-lua/lua-std-normalize[${LUA_USEDEP}]
 	doc? (
-		dev-lua/ldoc[${LUA_USEDEP}]
+		dev-lua/ldoc
 		sys-apps/help2man
 	)
 "

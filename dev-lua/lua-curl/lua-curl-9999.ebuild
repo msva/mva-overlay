@@ -22,7 +22,7 @@ RDEPEND="
 	${LUA_DEPS}
 "
 DEPEND="
-	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+	doc? ( dev-lua/ldoc )
 	${RDEPEND}
 "
 

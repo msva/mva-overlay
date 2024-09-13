@@ -12,7 +12,7 @@ S="${WORKDIR}"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="-* ~amd64"
+KEYWORDS="~amd64"
 IUSE="appindicator doc libnotify"
 RESTRICT="bindist mirror"
 
@@ -33,7 +33,7 @@ RDEPEND="
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
 	x11-misc/xdg-utils
-	appindicator? ( dev-libs/libappindicator )
+	appindicator? ( dev-libs/libayatana-appindicator )
 	libnotify? ( x11-libs/libnotify )
 "
 

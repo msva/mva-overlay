@@ -22,7 +22,7 @@ RDEPEND="
 "
 DEPEND="
 	${RDEPEND}
-	doc? ( dev-lua/ldoc[${LUA_USEDEP}] )
+	doc? ( dev-lua/ldoc )
 "
 each_lua_compile() {
 	default
