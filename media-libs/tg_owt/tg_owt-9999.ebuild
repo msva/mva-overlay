@@ -8,22 +8,11 @@ inherit cmake flag-o-matic
 DESCRIPTION="WebRTC (video) library (fork) for Telegram clients"
 HOMEPAGE="https://github.com/desktop-app/tg_owt"
 
-if [[ "${PV}" == *9999* ]]; then
-	EGIT_REPO_URI="https://github.com/desktop-app/${PN}"
-	inherit git-r3
-	EGIT_SUBMODULES=(
-		'*'
-		# -src/third_party/libyuv
-		-src/third_party/abseil-cpp
-		-src/third_party/crc32c/src
-		# -src/third_party/libsrtp # TODO: unbundle
-	)
-else
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
-	TG_OWT_COMMIT="e9d103e2480e0983bf464debc371b049cdd83648"
+if [[ ! "${PV}" = 9999* ]]; then
+	TG_OWT_COMMIT="dc17143230b5519f3c1a8da0079e00566bd4c5a8"
 	LIBYUV_COMMIT="04821d1e7d60845525e8db55c7bcd41ef5be9406"
 	LIBSRTP_COMMIT="a566a9cfcd619e8327784aa7cff4a1276dc1e895"
-	ABSL_COMMIT="d7aaad83b488fd62bd51c81ecf16cd938532cc0a"
+	# ABSL_COMMIT="d7aaad83b488fd62bd51c81ecf16cd938532cc0a"
 	# check https://github.com/desktop-app/tg_owt/tree/master/src periodically for srtp and others commits
 	SRC_URI="
 		https://github.com/desktop-app/tg_owt/archive/${TG_OWT_COMMIT}.tar.gz -> ${P}.tar.gz
@@ -33,10 +22,24 @@ else
 		# https://github.com/abseil/abseil-cpp/archive/${ABSL_COMMIT}.tar.gz -> abseil-cpp-${ABSL_COMMIT}.tar.gz
 	S="${WORKDIR}/${PN}-${TG_OWT_COMMIT}"
 	# Upstream libyuv: https://chromium.googlesource.com/libyuv/libyuv
+else
+	EGIT_REPO_URI="https://github.com/desktop-app/${PN}"
+	inherit git-r3
+	EGIT_SUBMODULES=(
+		'*'
+		# -src/third_party/libyuv
+		-src/third_party/abseil-cpp
+		-src/third_party/crc32c/src
+		# -src/third_party/libsrtp # TODO: unbundle
+	)
 fi
+# 👇 kludge for eix
+[[ "${PV}" = 9999* ]] && SLOT="0/${PV}"
+[[ "${PV}" = 9999* ]] || SLOT="0/${PV##*pre}"
+[[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+# 👆 kludge for eix
 
 LICENSE="BSD"
-SLOT="0/${PV##*pre}"
 IUSE="pipewire screencast +X"
 
 REQUIRED_USE="screencast? ( pipewire )"
@@ -48,8 +51,6 @@ REQUIRED_USE="screencast? ( pipewire )"
 # - rnnoise (private APIs)
 RDEPEND="
 	>=dev-cpp/abseil-cpp-20240116.2:=
-	dev-libs/crc32c
-	dev-libs/libevent:=
 	dev-libs/openssl:=
 	media-libs/libjpeg-turbo:=
 	>=media-libs/libvpx-1.10.0:=
@@ -60,8 +61,9 @@ RDEPEND="
 		dev-libs/glib:2
 		media-video/pipewire:=
 	)
+	dev-libs/crc32c
 	screencast? (
-		media-libs/libglvnd
+		media-libs/libglvnd[X=]
 		media-libs/mesa
 		x11-libs/libdrm
 	)
@@ -94,7 +96,6 @@ PATCHES=(
 	"${FILESDIR}/patch-cmake-absl-external.patch"
 	# XXX: 👆comment for re-bundling absl
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
-	"${FILESDIR}/135.patch"
 )
 
 src_unpack() {
@@ -179,6 +180,9 @@ src_prepare() {
 src_configure() {
 	append-flags '-fPIC'
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
+	# Defined by -DCMAKE_BUILD_TYPE=Release, avoids crashes
+	# See https://bugs.gentoo.org/754012
+	# EAPI 8 still wipes this flag.
 	append-cppflags '-DNDEBUG' # Telegram sets that in code
 	# (and I also forced that in ebuild to have the same behaviour),
 	# and segfaults on voice calls on mismatch

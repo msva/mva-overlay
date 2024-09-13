@@ -5,14 +5,11 @@ EAPI=8
 
 inherit xdg cmake optfeature flag-o-matic
 
-inherit git-r3
-# ^ TODO: conditional (only for 9999)? maybe port to tarballs before moving to gentoo repo.
 inherit patches
 # ^ TODO: drop before moving to gentoo repo, and port to manual selection
 
-DESCRIPTION="Official desktop client for Telegram"
-HOMEPAGE="https://desktop.telegram.org"
-
+inherit git-r3
+# ^ TODO: conditional (only for 9999)? maybe port to tarballs before moving to gentoo repo.
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop.git"
 EGIT_SUBMODULES=(
 	'*'
@@ -20,17 +17,22 @@ EGIT_SUBMODULES=(
 	#,kimageformats,kcoreaddons}
 )
 
-if [[ "${PV}" == 9999 ]]; then
+DESCRIPTION="Official desktop client for Telegram"
+HOMEPAGE="https://desktop.telegram.org"
+
+LICENSE="GPL-3-with-openssl-exception"
+SLOT="0"
+
+if [[ "${PV}" = 9999* ]]; then
 	EGIT_BRANCH="dev"
 else
 	# TODO: tarballs
 	EGIT_COMMIT="v${PV}"
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
-	# ~mipsel # blocked by all :(
 fi
+# 👇 kludge for eix
+[[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+# 👆 kludge for eix
 
-LICENSE="GPL-3-with-openssl-exception"
-SLOT="0"
 #IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast system-gsl +system-expected +system-libtgvoip system-rlottie test +wayland +X"
 IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
 
