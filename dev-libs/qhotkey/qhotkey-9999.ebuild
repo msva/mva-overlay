@@ -6,7 +6,10 @@ EAPI=8
 inherit cmake
 
 DESCRIPTION="A global shortcut/hotkey library for desktop Qt applications"
-HOMEPAGE="https://github.com/skycoder42/QHotkey"
+HOMEPAGE="https://github.com/Skycoder42/QHotkey"
+
+LICENSE="BSD-with-attribution"
+SLOT="0"
 
 MY_PN="QHotkey"
 
@@ -19,12 +22,23 @@ else
 	MY_P="${MY_PN}-${PV}"
 	S="${WORKDIR}/${MY_P}"
 fi
-
-LICENSE="BSD-with-attribution"
-SLOT="0"
+IUSE="qt6"
 
 DEPEND="
-	dev-qt/qtcore:5
-	dev-qt/qtgui:5
+	!qt6?	(
+			dev-qt/qtcore:5
+			dev-qt/qtx11extras:5
+		)
+	qt6?	(
+			dev-qt/qtbase:6
+		)
+	x11-libs/libX11
 "
 RDEPEND="${DEPEND}"
+
+src_configure() {
+	local mycmakeargs=(
+		-DQT_DEFAULT_MAJOR_VERSION:STRING=$(usex qt6 "6" "5")
+	)
+	cmake_src_configure
+}

@@ -7,15 +7,16 @@ PYTHON_COMPAT=( python3_{10..13} )
 inherit flag-o-matic meson-multilib python-single-r1 toolchain-funcs vala
 
 DESCRIPTION="VIPS Image Processing Library"
+HOMEPAGE="https://www.libvips.org/"
+
 if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/lib${PN}/lib${PN}"
 else
 	SRC_URI="https://github.com/lib${PN}/lib${PN}/archive/v${PV//_rc/-rc}.tar.gz -> lib${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86"
 fi
-HOMEPAGE="https://www.libvips.org/"
 
+[[ "${PV}" == 9999 ]] || KEYWORDS="~amd64 ~x86"
 LICENSE="LGPL-2.1+ MIT"
 SLOT="0/42"
 

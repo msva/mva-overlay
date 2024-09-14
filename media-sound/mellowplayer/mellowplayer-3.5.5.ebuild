@@ -30,7 +30,7 @@ DEPEND="
 	>=dev-qt/qtwebengine-5.9:5[-bindist,widgets]
 	>=dev-qt/qttranslations-5.9:5
 	>=dev-qt/qtgraphicaleffects-5.9:5
-	dev-qt/qhotkey
+	dev-libs/qhotkey
 	dev-libs/libevent
 	dev-libs/spdlog
 	dev-libs/boost-di

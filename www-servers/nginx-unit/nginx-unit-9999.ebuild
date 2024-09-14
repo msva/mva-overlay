@@ -73,7 +73,10 @@ DEPEND="
 #	unit_modules_wasm? (
 #		dev-util/wasmer
 #	)
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	acct-user/nginx-unit
+	acct-group/nginx-unit
+"
 
 my_econf() {
 	echo ./configure "${@}"
