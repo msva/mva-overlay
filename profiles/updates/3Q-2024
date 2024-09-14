@@ -1,1 +1,2 @@
 move games-indie/mari0 games-arcade/mari0
+move dev-qt/qhotkey dev-libs/qhotkey
