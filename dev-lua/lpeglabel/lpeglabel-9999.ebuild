@@ -14,15 +14,25 @@ EGIT_REPO_URI="https://github.com/sqmedeiros/lpeglabel"
 LICENSE="MIT"
 SLOT="0"
 
+lua_prepare() {
+	if [[ "${ELUA}" = "luajit" ]]; then
+		pushd "${BUILD_DIR}"
+		sed \
+			-e '/define luaL_newlib/d' \
+			-e '/(LUA_VERSION_NUM/a#define LUAI_FUNC	__attribute__((visibility("hidden"))) extern' \
+			-i lpltypes.h || die
+		popd
+	fi
+}
+
 src_prepare() {
-	use lua_targets_luajit && sed -i \
-		-e '/define luaL_newlib/d' \
-		-e '/(LUA_VERSION_NUM/a#define LUAI_FUNC	__attribute__((visibility("hidden"))) extern' \
-		lpltypes.h || die
 	default
+	lua_copy_sources
+	lua_foreach_impl lua_prepare
 }
 
 lua_compile() {
+	pushd "${BUILD_DIR}"
 	local compiler=(
 		"$(tc-getCC)"
 		"${CFLAGS}"
@@ -32,17 +42,21 @@ lua_compile() {
 		"-shared"
 		"${LDFLAGS}"
 		"-o ${PN}-${ELUA}.so"
-		{lplvm,lplcap,lpltree,lplcode,lplprint}.c
+		*.{c,h}
+#		{lplvm,lplcap,lpltree,lplcode,lplprint}.c
 	)
 	einfo "${compiler[@]}"
 	${compiler[@]} || die
+	popd
 }
 
 lua_install() {
+	pushd "${BUILD_DIR}"
 	exeinto "$(lua_get_cmod_dir)"
 	newexe "${PN}-${ELUA}.so" "${PN}.so"
 	insinto "$(lua_get_lmod_dir)"
 	doins relabel.lua
+	popd
 }
 
 src_compile() {
