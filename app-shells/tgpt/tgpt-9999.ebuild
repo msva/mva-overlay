@@ -3,17 +3,19 @@
 
 EAPI=8
 
-inherit go-module
+inherit go-module git-r3
 
 DESCRIPTION="AI Chatbots in terminal without needing API keys"
 HOMEPAGE="https://github.com/aandrew-me/tgpt"
 
-if ! [[ "${PV}" == *9999* ]]; then
-	SRC_URI="https://github.com/aandrew-me/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-else
-	inherit git-r3
-	EGIT_REPO_URI="https://github.com/aandrew-me/${PN}"
-fi
+EGIT_REPO_URI="https://github.com/aandrew-me/${PN}"
+
+# SRC_URI="https://github.com/aandrew-me/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+# 👆 I'm too lazy for bundling deps in tarball and putting it in my devspace
+# (or search a hosting for it).
+# So I'll just use go-module_live_vendor, which requires live ebuild 🤷
+
+[[ "${PV}" == *9999* ]] || EGIT_COMMIT="v${PV}"
 [[ "${PV}" == *9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 # XXX: kludge for eix
 # TODO: other go-supported arches
@@ -24,8 +26,7 @@ LICENSE="GPL-3"
 SLOT="0"
 
 src_unpack() {
-	[[ "${PV}" == *9999* ]] && git-r3_src_unpack
-	default
+	git-r3_src_unpack
 	go-module_live_vendor
 }
 
