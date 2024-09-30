@@ -87,6 +87,7 @@ DEPEND="
 	test? (
 		tiff? ( media-libs/tiff[jpeg] )
 	)
+	sci-libs/hdf5
 "
 BDEPEND="
 	dev-util/glib-utils
