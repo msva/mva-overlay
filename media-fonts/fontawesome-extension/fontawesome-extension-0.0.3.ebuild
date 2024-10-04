@@ -9,7 +9,7 @@ if [[ "${PV}" =~ "9999" ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/AndreLZGava/font-awesome-extension"
 else
-	KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~s390 ~sparc ~x86"
+	KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ppc ~ppc64 ~s390 ~sparc ~x86"
 	SRC_URI="https://github.com/AndreLZGava/font-awesome-extension/archive/v.${PV}.tar.gz -> ${P}.tar.gz"
 	src_unpack() {
 		default

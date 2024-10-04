@@ -13,4 +13,4 @@ SRC_URI="https://github.com/tmux-plugins/${PN}/archive/${MY_SHA:-v${PV}}.tar.gz 
 S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
 
 LICENSE="public-domain MIT"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86"
