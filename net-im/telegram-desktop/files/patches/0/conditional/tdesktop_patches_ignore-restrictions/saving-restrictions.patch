@@ -1,18 +1,3 @@
-diff --git a/Telegram/SourceFiles/core/click_handler_types.cpp b/Telegram/SourceFiles/core/click_handler_types.cpp
-index e3bbba7..5bc409d 100644
---- a/Telegram/SourceFiles/core/click_handler_types.cpp
-+++ b/Telegram/SourceFiles/core/click_handler_types.cpp
-@@ -333,9 +333,7 @@ void MonospaceClickHandler::onClick(ClickContext context) const {
- 	if (const auto controller = my.sessionWindow.get()) {
- 		auto &data = controller->session().data();
- 		const auto item = data.message(my.itemId);
--		const auto hasCopyRestriction = item
--			&& (!item->history()->peer->allowsForwarding()
--				|| item->forbidsForward());
-+		const auto hasCopyRestriction = false;
- 		if (hasCopyRestriction) {
- 			controller->showToast(item->history()->peer->isBroadcast()
- 				? tr::lng_error_nocopy_channel(tr::now)
 diff --git a/Telegram/SourceFiles/data/data_story.cpp b/Telegram/SourceFiles/data/data_story.cpp
 index d5faa43..c6b26dc 100644
 --- a/Telegram/SourceFiles/data/data_story.cpp

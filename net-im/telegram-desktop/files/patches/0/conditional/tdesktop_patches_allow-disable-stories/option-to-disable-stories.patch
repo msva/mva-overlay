@@ -5,11 +5,11 @@ index d3baee3..04ee5a4 100644
 @@ -8,6 +8,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
  #include "data/data_stories.h"
 
- #include "api/api_report.h"
-+#include "base/options.h"
  #include "base/unixtime.h"
++#include "base/options.h"
  #include "apiwrap.h"
  #include "core/application.h"
+ #include "data/data_changes.h"
 @@ -47,6 +48,14 @@ constexpr auto kPollingViewsPerPage = Story::kRecentViewersMax;
 
  using UpdateFlag = StoryUpdate::Flag;
