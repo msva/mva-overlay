@@ -18,10 +18,10 @@ diff --git a/Telegram/SourceFiles/info/profile/info_profile_actions.cpp b/Telegr
 index 2526057a2d..aae0ec7b16 100644
 --- a/Telegram/SourceFiles/info/profile/info_profile_actions.cpp
 +++ b/Telegram/SourceFiles/info/profile/info_profile_actions.cpp
-@@ -287,6 +287,19 @@ object_ptr<Ui::RpWidget> DetailsFiller::setupInfo() {
+@@ -1138,6 +1138,19 @@ object_ptr<Ui::RpWidget> DetailsFiller::setupInfo() {
+ 			});
  	};
  	if (const auto user = _peer->asUser()) {
- 		const auto controller = _controller->parentController();
 +		// Source from kotatogram
 +		if (user->isBot()) {
 +			addInfoOneLine(

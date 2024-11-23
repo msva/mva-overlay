@@ -33,8 +33,7 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-#IUSE="custom-api-id debug enchant +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast system-gsl +system-expected +system-libtgvoip system-rlottie test +wayland +X"
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-gsl +system-libtgvoip test +wayland +webkit +X"
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
@@ -66,7 +65,6 @@ COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
 	>=dev-cpp/abseil-cpp-20240116.2:=
-	>=dev-cpp/glibmm-2.77:2.68
 	>=dev-libs/glib-2.77:2
 	>=dev-libs/gobject-introspection-1.77
 	dev-libs/libdispatch
@@ -125,7 +123,6 @@ COMMON_DEPEND="
 	)
 	dev-libs/ada
 	dev-libs/boost:=
-	dev-libs/libsigc++:2
 	dev-libs/libfmt:=
 	!fonts? ( media-fonts/open-sans )
 	media-libs/fontconfig:=
@@ -143,6 +140,8 @@ COMMON_DEPEND="
 	)
 	sys-apps/xdg-desktop-portal:=
 "
+	# dev-libs/libsigc++:2
+	# >=dev-cpp/glibmm-2.77:2.68
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -159,8 +158,10 @@ DEPEND="
 	dev-cpp/range-v3
 "
 	# system-expected? ( dev-cpp/expected-lite )
-	# system-gsl? ( >=dev-cpp/ms-gsl-4 )
+	# system-gsl? ( >=dev-cpp/ms-gsl-4.1 )
+	# 👆 currently it's buildsystem anyway uses system one if it is anyhow installed
 BDEPEND="
+	>=dev-cpp/ms-gsl-4.1
 	>=dev-build/cmake-3.16
 	>=dev-cpp/cppgir-2.0_p20240315
 	dev-util/gdbus-codegen
@@ -236,8 +237,7 @@ pkg_pretend() {
 }
 
 src_unpack() {
-	# Temporary (?) broken (has a bug in std::variant), and fixed in bundled version.
-	# use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
+	use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
 
 #	# XXX: maybe de-unbundle those? Anyway, they're header-only libraries...
 #	#  Moreover, upstream recommends to use bundled versions to avoid artefacts 🤷
