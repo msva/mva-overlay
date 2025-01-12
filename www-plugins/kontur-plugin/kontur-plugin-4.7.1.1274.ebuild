@@ -8,10 +8,19 @@ inherit unpacker patches
 DESCRIPTION="Cryptographic browser plugin for SKB Kontur services"
 HOMEPAGE="https://help.kontur.ru/plugin/"
 
+MAGIC="002245"
+# 4.7.1.1274 = 002245
+# TODO: watch for it, guess pattern
+# (migrate to using magic as PV on fail)
+
 SRC_URI="
-	amd64? ( https://help.kontur.ru/plugin/dist/kontur.plugin_amd64.deb -> ${P}.deb )
+	amd64? ( https://api.kontur.ru/drive/v1/public/diag/files/kontur.plugin.${MAGIC}.deb )
 "
-	# amd64? ( https://help.kontur.ru/files/kontur.plugin_amd64.${PV}.deb -> ${P}.deb )
+# current, but no version:
+# 	amd64? ( https://help.kontur.ru/plugin/dist/kontur.plugin_amd64.deb -> ${P}.deb )
+# old:
+# 	amd64? ( https://help.kontur.ru/files/kontur.plugin_amd64.${PV}.deb -> ${P}.deb )
+
 S="${WORKDIR}"
 
 LICENSE="EULA"
@@ -46,6 +55,11 @@ src_unpack() {
 }
 
 src_prepare() {
+	rm -r opt/kontur.plugin/pkcs11
+	# 👆 makes plugin host application segfault.
+	# Started somewhere about 4.2
+	# Still happens on 4.7.1.1274
+
 	mv usr/share/doc/kontur.plugin usr/share/doc/"${PF}"
 	gzip -d usr/share/doc/"${PF}"/changelog.gz
 	default
@@ -55,5 +69,7 @@ src_install() {
 	insinto /
 	doins -r usr etc opt
 	exeinto /opt/kontur.plugin
-	doexe opt/kontur.plugin/{kontur.plugin.host,pkcs11/{jcverify,*.so}}
+	doexe opt/kontur.plugin/kontur.plugin.host
+	# exeinto /opt/kontur.plugin/pkcs11
+	# doexe opt/kontur.plugin/pkcs11/{jcverify,*.so}
 }
