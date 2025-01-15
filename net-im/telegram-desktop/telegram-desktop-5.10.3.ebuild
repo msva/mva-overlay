@@ -33,7 +33,8 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-gsl +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+# +system-gsl
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
