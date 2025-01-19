@@ -18,7 +18,7 @@ EAPI=8
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="ruby27 ruby30 ruby31 ruby32 ruby33"
+USE_RUBY="ruby31 ruby32 ruby33 ruby34"
 LUA_COMPAT=( luajit )
 
 RUBY_OPTIONAL="yes"
