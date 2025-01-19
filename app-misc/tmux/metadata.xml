@@ -6,6 +6,7 @@
 		<name>Gentoo Shell Tools Project</name>
 	</maintainer>
 	<use>
+		<flag name="sixel">Include sixel support</flag>
 		<flag name="utempter">Include libutempter support</flag>
 	</use>
 	<longdescription>
