@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{10..13} python3_13t )
 
 inherit distutils-r1 multibuild multiprocessing
 
@@ -21,7 +21,7 @@ DOCS=("${PN}"/doc/README.rst)
 
 RDEPEND="
 	dev-python/pyyaml[${PYTHON_USEDEP}]
-	dev-python/jinja[${PYTHON_USEDEP}]
+	dev-python/jinja2[${PYTHON_USEDEP}]
 	dev-python/six[${PYTHON_USEDEP}]
 "
 DEPEND="
