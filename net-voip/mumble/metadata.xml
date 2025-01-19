@@ -7,9 +7,7 @@
     <name>Vadim A. Misbakh-Soloviov</name>
   </maintainer>
   <use>
-    <flag name="g15">Enable support for the Logitech G15 LCD (and compatible devices).</flag>
     <flag name="lto">Build with Link Time Optimization</flag>
-    <flag name="g15-emulator">Emulate Logitech G15 things</flag>
     <flag name="optimization">Use some build optimizations</flag>
     <flag name="overlay">Enable overlay feature</flag>
     <flag name="pipewire"><pkg>media-video/pipewire</pkg> support</flag>
