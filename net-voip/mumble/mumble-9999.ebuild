@@ -24,12 +24,8 @@ HOMEPAGE="https://mumble.info/"
 
 LICENSE="BSD MIT"
 SLOT="0"
-IUSE="+alsa +dbus debug g15 g15-emulator jack lto multilib optimization +overlay nls pipewire +plugins portaudio pulseaudio qtspeech speech-dispatcher static +system-opus +system-rnnoise +system-speex test zeroconf"
+IUSE="+alsa +dbus debug jack lto multilib optimization +overlay nls pipewire +plugins portaudio pulseaudio qtspeech speech-dispatcher static +system-opus +system-rnnoise +system-speex test zeroconf"
 # system-celt
-
-REQUIRED_USE="
-	g15-emulator? ( g15 )
-"
 
 RESTRICT="!test? ( test )"
 
@@ -51,8 +47,6 @@ RDEPEND="
 	dev-qt/qtx11extras:5
 	dev-qt/qtxmlpatterns:5
 	app-crypt/qca:2=
-
-	g15? ( app-misc/g15daemon )
 
 	>=media-libs/libsndfile-1.0.20[-minimal]
 	alsa? ( media-libs/alsa-lib )
@@ -108,7 +102,7 @@ src_prepare() {
 	pushd 3rdparty &>/dev/null
 		rm -r GL jack pipewire portaudio pulseaudio
 		use system-opus || rm -r opus
-	   	use system-speex || rm -r speex*
+		use system-speex || rm -r speex*
 	popd &>/dev/null
 	sed \
 		-e '/TRACY_ON_DEMAND/s@ ON @ OFF @' \
@@ -172,9 +166,6 @@ src_configure() {
 		-Djackaudio=$(useb jack)
 		-Dportaudio=$(useb portaudio)
 		# -Dxinput2=ON
-
-		-Dg15=$(useb g15)
-		$(usex g15 "-Dg15-emulator=$(useb g15-emulator)" "")
 
 		-Dtranslations="$(usex nls)"
 

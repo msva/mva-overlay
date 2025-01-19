@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..13} pypy3 )
+PYTHON_COMPAT=( python3_{8..13} python3_13t pypy3 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
