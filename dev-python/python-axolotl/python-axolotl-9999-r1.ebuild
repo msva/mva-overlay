@@ -1,8 +1,8 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-PYTHON_COMPAT=( python3_{8..13} )
+PYTHON_COMPAT=( python3_{8..13} python3_13t )
 
 DISTUTILS_USE_PEP517=setuptools
 
@@ -16,7 +16,7 @@ LICENSE="GPL-3"
 SLOT="0"
 
 RDEPEND="
-	dev-python/protobuf-python[${PYTHON_USEDEP}]
+	dev-python/protobuf[${PYTHON_USEDEP}]
 	dev-python/cryptography[${PYTHON_USEDEP}]
 	dev-python/python-axolotl-curve25519[${PYTHON_USEDEP}]
 "
