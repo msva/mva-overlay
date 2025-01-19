@@ -14,6 +14,8 @@ EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop.git"
 EGIT_SUBMODULES=(
 	'*'
 	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,xdg-desktop-portal}
+	-Telegram/ThirdParty/GSL
+	# 👆 buildsystem anyway uses system ms-gsl if it is installed, so, no need for bundled, imho 🤷
 	#,kimageformats,kcoreaddons}
 )
 
@@ -33,7 +35,8 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip
+test +wayland +webkit +X"
 # +system-gsl
 
 REQUIRED_USE="
@@ -238,7 +241,7 @@ pkg_pretend() {
 }
 
 src_unpack() {
-	use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
+	# use system-gsl && EGIT_SUBMODULES+=(-Telegram/ThirdParty/GSL)
 
 #	# XXX: maybe de-unbundle those? Anyway, they're header-only libraries...
 #	#  Moreover, upstream recommends to use bundled versions to avoid artefacts 🤷
