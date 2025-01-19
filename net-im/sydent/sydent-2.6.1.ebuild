@@ -25,15 +25,15 @@ RDEPEND="
 	acct-user/sydent
 	acct-group/sydent
 	>=dev-python/attrs-19.1.0[${PYTHON_USEDEP}]
-	>=dev-python/jinja-3.0[${PYTHON_USEDEP}]
+	>=dev-python/jinja2-3.0[${PYTHON_USEDEP}]
 	>=dev-python/netaddr-0.7.0[${PYTHON_USEDEP}]
-	>=dev-python/matrix-common-1.2.1[${PYTHON_USEDEP}]
+	>=dev-python/matrix-common-1.1.0[${PYTHON_USEDEP}]
 	<dev-python/matrix-common-2.0.0[${PYTHON_USEDEP}]
 	>=dev-python/phonenumbers-8.12.32[${PYTHON_USEDEP}]
 	>=dev-python/pynacl-1.2.1[${PYTHON_USEDEP}]
 	>=dev-python/pyopenssl-16.0.0[${PYTHON_USEDEP}]
 	>=dev-python/pyyaml-3.11[${PYTHON_USEDEP}]
-	>=dev-python/service-identity-1.1.0[${PYTHON_USEDEP}]
+	>=dev-python/service-identity-1.0.0[${PYTHON_USEDEP}]
 	>=dev-python/signedjson-1.1.1[${PYTHON_USEDEP}]
 	>=dev-python/sortedcontainers-2.1.0[${PYTHON_USEDEP}]
 	>=dev-python/twisted-18.4.0[${PYTHON_USEDEP}]
