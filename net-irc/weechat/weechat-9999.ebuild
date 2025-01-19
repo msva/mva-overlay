@@ -1,12 +1,13 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
+GUILE_COMPAT=( 2-2 3-0 )
 LUA_COMPAT=( lua5-{1..4} luajit )
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{10..13} python3_13t )
 
-inherit cmake lua-single python-single-r1 xdg
+inherit cmake guile-single lua-single python-single-r1 xdg
 
 if [[ ${PV} == "9999" ]] ; then
 	inherit git-r3
@@ -34,14 +35,16 @@ INTERFACES="+ncurses +headless"
 # dev-lang/v8 was dropped from Gentoo so we can't enable javascript support
 # dev-lang/php eclass support is lacking, php plugins don't work. bug #705702
 SCRIPT_LANGS="guile lua +perl +python ruby tcl"
-LANGS=" cs de es fr hu it ja pl pt pt_BR ru tr"
-IUSE="doc enchant man nls selinux test +zstd ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
+LANGS=" cs de es fr hu it ja pl pt pt_BR ru sr tr"
+IUSE="doc enchant man nls relay-api selinux test +zstd ${SCRIPT_LANGS} ${PLUGINS} ${INTERFACES} ${NETWORKS}"
 
 REQUIRED_USE="
 	enchant? ( spell )
+	guile? ( ${GUILE_REQUIRED_USE} )
 	lua? ( ${LUA_REQUIRED_USE} )
 	python? ( ${PYTHON_REQUIRED_USE} )
 	test? ( headless nls )
+	relay-api? ( relay )
 "
 
 RDEPEND="
@@ -51,7 +54,7 @@ RDEPEND="
 	sys-libs/zlib:=
 	net-misc/curl[ssl]
 	charset? ( virtual/libiconv )
-	guile? ( >=dev-scheme/guile-2.0:12= )
+	guile? ( ${GUILE_DEPS} )
 	lua? ( ${LUA_DEPS} )
 	nls? ( virtual/libintl )
 	perl? (
@@ -59,6 +62,7 @@ RDEPEND="
 		virtual/libcrypt:=
 	)
 	python? ( ${PYTHON_DEPS} )
+	relay-api? ( dev-libs/cJSON )
 	ruby? ( dev-lang/ruby:= )
 	selinux? ( sec-policy/selinux-irc )
 	spell? (
@@ -80,21 +84,20 @@ BDEPEND+="
 	nls? ( >=sys-devel/gettext-0.15 )
 "
 
-# PATCHES=(
-# 	"${FILESDIR}"/${PN}-3.3-cmake_lua_version.patch
-# )
-
 DOCS="AUTHORS.md CHANGELOG.md CONTRIBUTING.md README.md"
 
 RESTRICT="!test? ( test )"
 
 pkg_setup() {
+	use guile && guile-single_pkg_setup
 	use lua && lua-single_pkg_setup
 	use python && python-single-r1_pkg_setup
 }
 
 src_prepare() {
 	cmake_src_prepare
+
+	use guile && guile_bump_sources
 
 	# install only required translations
 	local i
@@ -148,6 +151,7 @@ src_configure() {
 		# https://github.com/weechat/weechat/blob/v4.0.2/CMakeLists.txt#L144
 		# Impossible since php was dropped in net-irc/weechat-3.5.r1.ebuild. bug #705702
 		-DENABLE_DOC=OFF
+		-DENABLE_DOC_INCOMPLETE=$(usex doc)
 		-DENABLE_ENCHANT=$(usex enchant)
 		-DENABLE_EXEC=$(usex exec)
 		-DENABLE_FIFO=$(usex fifo)
@@ -161,6 +165,7 @@ src_configure() {
 		-DENABLE_PERL=$(usex perl)
 		-DENABLE_PYTHON=$(usex python)
 		-DENABLE_RELAY=$(usex relay)
+		-DENABLE_CJSON=$(usex relay-api)
 		-DENABLE_RUBY=$(usex ruby)
 		-DENABLE_SCRIPT=$(usex scripts)
 		-DENABLE_SCRIPTS=$(usex scripts)
@@ -185,6 +190,12 @@ src_test() {
 		eerror "en_US.UTF-8 locale is required to run ${PN}'s ${FUNCNAME}"
 		die "required locale missing"
 	fi
+}
+
+src_install() {
+	cmake_src_install
+
+	use guile && guile_unstrip_ccache
 }
 
 pkg_postinst() {
