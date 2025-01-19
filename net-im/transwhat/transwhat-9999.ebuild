@@ -3,7 +3,7 @@
 
 EAPI=8
 DISTUTILS_USE_PEP517="setuptools"
-PYTHON_COMPAT=( python3_{8..13} )
+PYTHON_COMPAT=( python3_{8..13} python3_13t )
 #pypy{,3} )
 # ^ protobuf
 inherit distutils-r1 git-r3
@@ -18,7 +18,7 @@ SLOT="0"
 
 RDEPEND="
 	dev-python/pyspectrum2[${PYTHON_USEDEP}]
-	dev-python/protobuf-python[${PYTHON_USEDEP}]
+	dev-python/protobuf[${PYTHON_USEDEP}]
 	dev-python/python-dateutil[${PYTHON_USEDEP}]
 	net-im/yowsup[${PYTHON_USEDEP}]
 "
