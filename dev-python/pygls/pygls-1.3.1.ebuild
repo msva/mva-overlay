@@ -1,10 +1,10 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{9..13} )
+PYTHON_COMPAT=( python3_{9..13} python3_13t )
 inherit distutils-r1 pypi
 
 DESCRIPTION="A pythonic generic language server"
@@ -15,18 +15,16 @@ HOMEPAGE="
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~arm64 ~x86"
-# arm arm64 ...
-# ^ cattrs
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="test"
 
 RESTRICT="!test? ( test )"
 
 RDEPEND="
 	dev-python/lsprotocol[${PYTHON_USEDEP}]
-	>=dev-python/typeguard-3.0.0[${PYTHON_USEDEP}]
-	<dev-python/typeguard-4.0.0[${PYTHON_USEDEP}]
+	dev-python/cattrs[${PYTHON_USEDEP}]
 "
+# websockets? ( dev-python/websockets[${PYTHON_USEDEP}] )
 DEPEND="
 	${RDEPEND}
 	dev-python/wheel[${PYTHON_USEDEP}]
