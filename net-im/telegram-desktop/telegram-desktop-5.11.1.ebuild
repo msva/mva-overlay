@@ -35,8 +35,7 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip
-test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
 # +system-gsl
 
 REQUIRED_USE="
@@ -80,7 +79,7 @@ COMMON_DEPEND="
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
 	media-libs/rnnoise:=
-	>=media-libs/tg_owt-0_pre20240731:=[pipewire(-)=,screencast=,X=]
+	>=media-libs/tg_owt-0_pre20240731:=[pipewire(+)=,screencast=,X=]
 	media-video/ffmpeg:=[opus,vpx]
 	sys-libs/zlib:=[minizip]
 	virtual/opengl
@@ -125,7 +124,7 @@ COMMON_DEPEND="
 		x11-libs/libxcb:=
 		x11-libs/xcb-util-keysyms
 	)
-	dev-libs/ada
+	dev-cpp/ada
 	dev-libs/boost:=
 	dev-libs/libfmt:=
 	!fonts? ( media-fonts/open-sans )
