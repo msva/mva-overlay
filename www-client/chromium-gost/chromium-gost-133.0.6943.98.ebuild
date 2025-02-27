@@ -18,7 +18,7 @@ S=${WORKDIR}
 LICENSE="EULA"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+ffmpeg-codecs"
+IUSE="+ffmpeg-codecs qt5 qt6"
 RESTRICT="bindist mirror strip"
 
 FFMPEG_PV="$(ver_cut 1)"
@@ -53,9 +53,14 @@ RDEPEND="
 	x11-libs/pango[X]
 	x11-misc/xdg-utils
 	sys-libs/libudev-compat
-	dev-qt/qtcore
-	dev-qt/qtgui
-	dev-qt/qtwidgets
+	qt5? (
+		dev-qt/qtcore:5
+		dev-qt/qtgui:5[X]
+		dev-qt/qtwidgets:5
+	)
+	qt6? (
+		dev-qt/qtbase:6[gui,widgets]
+	)
 	app-accessibility/at-spi2-core
 	${BLOCK}
 "
@@ -64,7 +69,12 @@ BDEPEND="
 "
 
 QA_PREBUILT="*"
-QA_DESKTOP_FILE="usr/share/applications/yandex-browser.*\\.desktop"
+QA_DESKTOP_FILE="usr/share/applications/.*\\.desktop"
+
+pkg_pretend() {
+	# Protect against people using autounmask overzealously
+	use amd64 || die "${PN} only works on amd64"
+}
 
 pkg_setup() {
 	chromium_suid_sandbox_check_kernel_config
@@ -91,6 +101,13 @@ src_prepare() {
 	pushd "${BROWSER_HOME}/locales" > /dev/null || die "Failed to cd into locales dir"
 		chromium_remove_language_paks
 	popd > /dev/null || die
+
+	if ! use qt5; then
+		rm "${BROWSER_HOME}/libqt5_shim.so" || die
+	fi
+	if ! use qt6; then
+		rm "${BROWSER_HOME}/libqt6_shim.so" || die
+	fi
 
 	local crap=(
 		"${BROWSER_HOME}/xdg-settings"
@@ -137,11 +154,9 @@ src_install() {
 		newicon -s "${size}" "$icon" "${MY_PN}.png"
 	done
 
+	dosym ../../../usr/"$(get_libdir)"/chromium/libffmpeg.so."${FFMPEG_PV}" "${BROWSER_HOME}"/libffmpeg.so || die
+
 	fowners root:root "/${BROWSER_HOME}/chrome-sandbox"
 	fperms 4711 "/${BROWSER_HOME}/chrome-sandbox"
 	pax-mark m "${ED}${BROWSER_HOME}/chrome-sandbox"
-}
-
-pkg_postinst() {
-	dosym ../../../usr/"$(get_libdir)"/chromium/libffmpeg.so."${FFMPEG_PV}" "${BROWSER_HOME}"/libffmpeg.so || die
 }
