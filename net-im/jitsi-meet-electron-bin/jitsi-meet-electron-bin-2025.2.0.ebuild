@@ -25,13 +25,31 @@ IUSE="system-ffmpeg"
 RESTRICT="bindist mirror splitdebug test"
 
 QA_PREBUILT="*"
-#Depends: libgtk-3-0, libnss3, libxtst6, xdg-utils, libatspi2.0-0, libuuid1
 RDEPEND="
-	x11-libs/gtk+:3
-	dev-libs/nss
-	x11-libs/libXtst
 	app-accessibility/at-spi2-core:2
+	dev-libs/expat
+	dev-libs/glib
+	dev-libs/nspr
+	dev-libs/nss
+	media-libs/alsa-lib
+	media-libs/mesa
 	system-ffmpeg? ( media-video/ffmpeg[chromium] )
+	net-print/cups
+	sys-apps/dbus
+	virtual/udev
+	x11-libs/cairo
+	x11-libs/gtk+:3
+	x11-libs/libX11
+	x11-libs/libXcomposite
+	x11-libs/libXdamage
+	x11-libs/libXext
+	x11-libs/libXfixes
+	x11-libs/libXrandr
+	x11-libs/libXtst
+	x11-libs/libdrm
+	x11-libs/libxcb
+	x11-libs/libxkbcommon
+	x11-libs/pango
 "
 
 src_install() {
