@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Vadim A. Misbakh-Soloviov
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,7 +13,7 @@ EGIT_REPO_URI="https://github.com/leafo/lapis"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE="moonscript"
+IUSE="lua-http moonscript"
 REQUIRED_USE="${LUA_REQUIRED_USE}"
 RDEPEND="
 	${LUA_DEPS}
