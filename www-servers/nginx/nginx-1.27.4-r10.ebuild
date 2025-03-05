@@ -774,7 +774,7 @@ REQUIRED_USE="
 	nginx_modules_stream_lua? ( ssl ssl-cert-cb )
 	nginx_modules_http_lua? (
 		${LUA_REQUIRED_USE}
-		|| ( pcre pcre2 )
+		^^ ( pcre pcre2 )
 		pcre2? ( pcre-jit )
 		nginx_modules_http_ndk
 		nginx_modules_http_rewrite
@@ -791,7 +791,7 @@ REQUIRED_USE="
 	nginx_modules_http_encrypted_session? ( nginx_modules_http_ndk ssl )
 	nginx_modules_http_array_var? ( nginx_modules_http_ndk )
 	nginx_modules_http_fastcgi? ( nginx_modules_http_realip )
-	nginx_modules_http_naxsi? ( nginx_modules_http_rewrite || ( pcre pcre2 ) )
+	nginx_modules_http_naxsi? ( nginx_modules_http_rewrite ^^ ( pcre pcre2 ) )
 	nginx_modules_http_pagespeed? ( pcre )
 	nginx_modules_http_postgres? ( nginx_modules_http_rewrite )
 	nginx_modules_http_dav_ext? ( nginx_modules_http_dav nginx_modules_http_xslt )
@@ -800,7 +800,7 @@ REQUIRED_USE="
 	nginx_modules_http_push_stream? ( ssl )
 	nginx_modules_http_fancyindex? ( nginx_modules_http_addition )
 	nginx_modules_http_security? ( pcre )
-	pcre-jit? ( || ( pcre pcre2 ) )
+	pcre-jit? ( ^^ ( pcre pcre2 ) )
 	ktls? ( ssl )
 	http2? ( nginx_modules_http_v2 )
 	http3? ( nginx_modules_http_v3 )

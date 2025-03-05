@@ -24,7 +24,12 @@ RDEPEND="
 	dev-lua/lua-cjson[${LUA_USEDEP}]
 	dev-lua/lpeg[${LUA_USEDEP}]
 	dev-lua/lua-rds-parser[${LUA_USEDEP}]
-	dev-lua/resty-upload[${LUA_USEDEP}]
+	lua-http? (
+		dev-lua/lua-http[$LUA_USEDEP]
+	)
+	!lua-http? (
+		dev-lua/resty-upload[${LUA_USEDEP}]
+	)
 "
 DEPEND="
 	${RDEPEND}
