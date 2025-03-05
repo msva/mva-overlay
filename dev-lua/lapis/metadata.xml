@@ -8,6 +8,7 @@
   </maintainer>
   <use>
     <flag name="moonscript">Also compile to moonscript, to use with <pkg>dev-lua/moonscript</pkg></flag>
+    <flag name="lua-http">Prefer lua-http SAPI over NginX (actually, dep-only flag)</flag>
   </use>
   <upstream>
     <remote-id type="github">leafo/lapis</remote-id>
