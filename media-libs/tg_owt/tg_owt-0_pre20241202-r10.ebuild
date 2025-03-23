@@ -96,6 +96,7 @@ PATCHES=(
 	"${FILESDIR}/patch-cmake-absl-external.patch"
 	# XXX: 👆comment for re-bundling absl
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
+	"${FILESDIR}/pipewire-mismatching-types.patch"
 )
 
 src_unpack() {
