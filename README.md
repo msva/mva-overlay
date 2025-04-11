@@ -7,6 +7,4 @@ This repo is kinda my "sandbox" and contains:
 - (or packages I forgot about for a long time ago)
 
 # CI status
-[![CI](https://github.com/msva/mva-overlay/actions/workflows/ci.yml/badge.svg)](https://github.com/msva/mva-overlay/actions/workflows/ci.yml)
-
-
+![CI](https://github.com/msva/mva-overlay/actions/workflows/pkgcheck.yml/badge.svg)
