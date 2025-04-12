@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 2025 mva
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -13,7 +13,7 @@ PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php8-1 php8-2 php8-3"
+USE_PHP="php8-2 php8-3 php8-4"
 
 inherit systemd php-ext-source-r3 python-r1 ruby-ng toolchain-funcs flag-o-matic patches
 # golang-base

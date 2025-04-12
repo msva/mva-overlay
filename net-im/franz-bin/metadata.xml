@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>git@mva.name</email>
+    <name>Vadim Misbakh-Soloviov</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="github">meetfranz/franz</remote-id>
+    <bugs-to>https://github.com/meetfranz/franz/issues</bugs-to>
+  </upstream>
+</pkgmetadata>

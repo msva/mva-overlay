@@ -33,7 +33,7 @@ RDEPEND="
 	dev-libs/nss
 	media-libs/alsa-lib
 	media-libs/mesa
-	system-ffmpeg? ( media-video/ffmpeg[chromium] )
+	system-ffmpeg? ( media-video/ffmpeg[chromium(-)] )
 	net-print/cups
 	sys-apps/dbus
 	virtual/udev
