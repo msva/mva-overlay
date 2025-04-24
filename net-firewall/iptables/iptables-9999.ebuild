@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,6 +7,7 @@ EAPI=8
 AUTOTOOLS_AUTO_DEPEND=no
 
 inherit systemd autotools toolchain-funcs flag-o-matic git-r3
+# usr-ldscript
 
 DESCRIPTION="Linux kernel (2.4+) firewall, NAT and packet mangling tools"
 HOMEPAGE="https://netfilter.org/projects/iptables/"
@@ -19,11 +20,11 @@ SLOT="0/11"
 IUSE="conntrack ipq ipv6 netlink nftables pcap static-libs"
 
 COMMON_DEPEND="
-	conntrack? ( net-libs/libnetfilter_conntrack )
+	conntrack? ( >=net-libs/libnetfilter_conntrack-1.0.6 )
 	netlink? ( net-libs/libnfnetlink )
 	nftables? (
-		>=net-libs/libmnl-1.0
-		>=net-libs/libnftnl-1.0.5
+		>=net-libs/libmnl-1.0:=
+		>=net-libs/libnftnl-1.2.6:=
 	)
 	pcap? ( net-libs/libpcap )
 "
@@ -31,6 +32,7 @@ COMMON_DEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	virtual/os-headers
+	>=sys-kernel/linux-headers-4.4:0
 "
 
 BDEPEND="
@@ -45,10 +47,15 @@ RDEPEND="
 	${COMMON_DEPEND}
 	nftables? ( net-misc/ethertypes )
 "
-# !<net-firewall/arptables-0.0.5-r1
-# !<net-firewall/ebtables-2.0.11-r1
+# NOTE: 👇 nonexistent blocker RDEPEND="...": no matches in repo history
+# 	!<net-firewall/ebtables-2.0.11-r1
+# 	!<net-firewall/arptables-0.0.5-r1
 
 IDEPEND=">=app-eselect/eselect-iptables-20220320"
+
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.8.4-no-symlinks.patch
+)
 
 src_prepare() {
 	# use the saner headers from the kernel
@@ -65,27 +72,32 @@ src_configure() {
 	# Hack around struct mismatches between userland & kernel for some ABIs. #472388
 	use amd64 && [[ ${ABI} == "x32" ]] && append-flags -fpack-struct
 
-	sed -i \
-		-e "/nfnetlink=[01]/s:=[01]:=$(usex netlink 1 0):" \
-		-e "/nfconntrack=[01]/s:=[01]:=$(usex conntrack 1 0):" \
-		configure || die
+	# sed -i \
+	# 	-e "/nfnetlink=[01]/s:=[01]:=$(usex netlink 1 0):" \
+	# 	-e "/nfconntrack=[01]/s:=[01]:=$(usex conntrack 1 0):" \
+	# 	configure || die
 
-	econf \
-		--sbindir="${EPREFIX}/sbin" \
-		--libexecdir="${EPREFIX}/$(get_libdir)" \
-		--enable-devel \
-		--enable-shared \
-		$(use_enable nftables) \
-		$(use_enable pcap bpf-compiler) \
-		$(use_enable pcap nfsynproxy) \
-		$(use_enable static-libs static) \
-		$(use_enable ipq) \
+	local myeconfargs=(
+		--sbindir="${EPREFIX}/sbin"
+		--libexecdir="${EPREFIX}/$(get_libdir)"
+		--enable-devel
+		--enable-shared
+		$(use_enable conntrack connlabel)
+		$(use_enable nftables)
+		$(use_enable netlink libnfnetlink)
+		$(use_enable pcap bpf-compiler)
+		$(use_enable pcap nfsynproxy)
+		$(use_enable static-libs static)
+		$(use_enable ipq)
 		$(use_enable ipv6)
+	)
+
+	econf "${myeconfargs[@]}"
 }
 
 src_compile() {
 	# Deal with parallel build errors.
-	use nftables && emake -C iptables xtables-config-parser.h
+	# use nftables && emake -C iptables xtables-config-parser.h
 	emake V=1
 }
 
@@ -96,7 +108,7 @@ src_install() {
 	# https://bugs.gentoo.org/881295
 	rm "${ED}/usr/bin/iptables-xml" || die
 
-	dodoc INCOMPATIBILITIES iptables/iptables.xslt
+	dodoc iptables/iptables.xslt
 
 	# all the iptables binaries are in /sbin, so might as well
 	# put these small files in with them
@@ -132,8 +144,8 @@ src_install() {
 		systemd_dounit "${FILESDIR}"/systemd/ip6tables{,-{re,}store}.service
 	fi
 
-	# Move important libs to /lib #332175
-	gen_usr_ldscript -a ip{4,6}tc iptc xtables
+	# # Move important libs to /lib #332175
+	# gen_usr_ldscript -a ip{4,6}tc iptc xtables
 
 	find "${ED}" -type f -name "*.la" -delete || die
 }
