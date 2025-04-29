@@ -13,15 +13,19 @@ if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/lib${PN}/lib${PN}"
 else
-	SRC_URI="https://github.com/lib${PN}/lib${PN}/archive/v${PV//_rc/-rc}.tar.gz -> lib${P}.tar.gz"
+	SRC_URI="https://github.com/lib${PN}/lib${PN}/archive/v${PV//_rc/-rc}.tar.gz -> ${P}.tar.gz"
 fi
 
 [[ "${PV}" == 9999 ]] || KEYWORDS="~amd64 ~x86"
 LICENSE="LGPL-2.1+ MIT"
-SLOT="0/42"
+SLOT="0/42" # soname
 
-VIPS_BASE_OPTS="debug +deprecated doc gtk-doc +introspection pandoc python test vala"
-VIPS_EXT_LIBS="archive cgif exif fftw fits fontconfig heif +highway nifti imagequant +jpeg jpeg2k jpeg-xl lcms imagemagick graphicsmagick matio openexr openslide orc pango pdf +png svg spng tiff webp"
+VIPS_BASE_OPTS="debug +deprecated doc cpp-docs +introspection pandoc python test vala"
+VIPS_EXT_LIBS="
+	archive cgif exif fftw fits fontconfig graphicsmagick heif +highway
+	nifti imagemagick imagequant +jpeg jpeg2k jpegxl lcms matio openexr
+	openslide orc pango pdf +png svg spng tiff webp
+"
 # pdfium quantizr
 VIPS_INT_LIBS="+nsgif +ppm +analyze +radiance"
 
@@ -50,7 +54,7 @@ RDEPEND="
 	introspection? ( dev-libs/gobject-introspection )
 	jpeg? ( media-libs/libjpeg-turbo:=[${MULTILIB_USEDEP}] )
 	jpeg2k? ( media-libs/openjpeg:=[${MULTILIB_USEDEP}] )
-	jpeg-xl? ( media-libs/libjxl[${MULTILIB_USEDEP}] )
+	jpegxl? ( media-libs/libjxl[${MULTILIB_USEDEP}] )
 	lcms? ( media-libs/lcms:2[${MULTILIB_USEDEP}] )
 	matio? ( sci-libs/matio:= )
 	nifti? ( media-libs/nifti[${MULTILIB_USEDEP}] )
@@ -92,18 +96,16 @@ DEPEND="
 BDEPEND="
 	dev-util/glib-utils
 	sys-devel/gettext
-	gtk-doc? (
-		dev-build/gtk-doc-am
-		dev-util/gtk-doc
-		pandoc? ( virtual/pandoc )
+	cpp-docs? (
+		app-text/doxygen
 	)
 	doc? (
-		app-text/doxygen
-		media-gfx/graphviz
+		dev-util/gi-docgen
 	)
 	python? ( ${PYTHON_DEPS} )
 	vala? ( $(vala_depend) )
 "
+# doc? media-gfx/graphviz
 
 REQUIRED_USE="
 	fontconfig? ( pango )
@@ -142,9 +144,9 @@ multilib_src_configure() {
 		# Base options
 		$(meson_use debug)
 		$(meson_use deprecated)
-		$(meson_native_use_bool doc doxygen)
+		$(meson_native_use_bool doc docs)
 		-Dexamples=false
-		$(meson_native_use_bool gtk-doc gtk_doc)
+		$(meson_native_use_bool cpp-docs cpp-docs)
 		$(meson_use vala vapi)
 		-Dmodules=enabled
 
@@ -167,8 +169,8 @@ multilib_src_configure() {
 		$(meson_native_use_feature introspection)
 		$(meson_feature jpeg)
 		$(meson_feature jpeg2k openjpeg)
-		$(meson_feature jpeg-xl)
-		$(meson_feature jpeg-xl jpeg-xl-module)
+		$(meson_feature jpegxl jpeg-xl)
+		$(meson_feature jpegxl jpeg-xl-module)
 		$(meson_feature lcms)
 		$(meson_native_use_feature matio)
 		$(meson_feature nifti)

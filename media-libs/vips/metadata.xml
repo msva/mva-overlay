@@ -12,12 +12,13 @@
     <flag name="fits">Enable support for reading FITS images with <pkg>sci-libs/cfitsio</pkg></flag>
     <flag name="cgif">Enable support for <pkg>media-libs/cgif</pkg></flag>
     <flag name="deprecated">Build deprecated components</flag>
-    <flag name="doc">Build C++ documentation</flag>
+    <flag name="doc">Build C++ documentation (requires <pkg>app-text/doxygen</pkg>)</flag>
+    <flag name="cpp-docs">Build C++ documentation (requires <pkg>dev-util/gi-docgen</pkg>)</flag>
     <!-- <flag name="gsf">Enable support for <pkg>gnome-extra/libgsf</pkg></flag> -->
     <flag name="heif">Enable support for <pkg>media-libs/libheif</pkg></flag>
     <flag name="highway">Enable support for <pkg>dev-cpp/highway</pkg></flag>
     <flag name="imagequant">Enable support for <pkg>media-gfx/libimagequant</pkg></flag>
-    <flag name="jpeg-xl">Enable support for JPEG XL files with <pkg>media-libs/libjxl</pkg></flag>
+    <!-- <flag name="jpegxl">Enable support for JPEG XL files with <pkg>media-libs/libjxl</pkg></flag> -->
     <flag name="nifti">Enable support for <pkg>media-libs/nifti</pkg></flag>
     <flag name="nsgif">Enable support for <pkg>media-libs/libnsgif</pkg></flag>
     <flag name="jpeg2k">Enable support for jpeg2k using <pkg>media-libs/openjpeg</pkg></flag>
