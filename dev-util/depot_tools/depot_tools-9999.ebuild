@@ -1,11 +1,11 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 2025 mva
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
 PYTHON_COMPAT=( python3_{8..13} python3_13t )
 
-inherit wrapper git-r3 python-r1
+inherit wrapper git-r3 python-r1 shell-completion
 
 DESCRIPTION="Chromium scripts to manage interaction with dependencies"
 HOMEPAGE="https://www.chromium.org/developers/how-tos/install-depot-tools/"
@@ -72,8 +72,7 @@ src_install() {
 	# doexe repo
 
 	if use zsh-completion; then
-		insinto /usr/share/zsh/site-functions
-		doins "${WORKDIR}"/stuff/zsh-goodies/_*
+		dozshcomp "${WORKDIR}"/stuff/zsh-goodies/_*
 	fi
 
 	python_foreach_impl python_fix_shebang -f -q "${D}${inspath}"

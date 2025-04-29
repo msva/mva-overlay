@@ -1,8 +1,8 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 2025 mva
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
-inherit readme.gentoo-r1 systemd patches
+inherit readme.gentoo-r1 systemd patches shell-completion
 
 DESCRIPTION="Scripts to support compressed swap devices or ramdisks with zram"
 HOMEPAGE="https://github.com/vaeth/zram-init/"
@@ -42,8 +42,7 @@ src_install() {
 	systemd_dounit systemd/system/*
 	insinto /etc/modprobe.d
 	doins modprobe.d/*
-	insinto /usr/share/zsh/site-functions
-	doins zsh/*
+	dozshcomp zsh/*
 	dodoc AUTHORS ChangeLog README.md
 	readme.gentoo_create_doc
 	into /

@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 2025 mva
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit bash-completion-r1 go-module git-r3
+inherit go-module git-r3 shell-completion
 
 DESCRIPTION="Command-line wrapper for git that makes you better at GitHub"
 HOMEPAGE="https://github.com/mislav/hub"
@@ -40,8 +40,7 @@ src_install() {
 
 	newbashcomp etc/${PN}.bash_completion.sh ${PN}
 
-	insinto /usr/share/zsh/site-functions
-	newins etc/hub.zsh_completion _${PN}
+	newzshcomp etc/${PN}.zsh_completion _${PN}
 
 	insinto /usr/share/vim/vimfiles
 	doins -r share/vim/vimfiles/*

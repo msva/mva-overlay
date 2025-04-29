@@ -1,9 +1,9 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 2025 mva
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
 
-inherit bash-completion-r1 go-module git-r3
+inherit go-module git-r3 shell-completion
 
 DESCRIPTION="A terminal client for GoTTY"
 HOMEPAGE="https://github.com/moul/gotty-client"
@@ -47,7 +47,6 @@ src_install() {
 	fi
 
 	if use zsh-completion; then
-		insinto /usr/share/zsh/site-functions
-		newins contrib/completion/zsh_autocomplete _${PN}
+		newzshcomp contrib/completion/zsh_autocomplete _${PN}
 	fi
 }
