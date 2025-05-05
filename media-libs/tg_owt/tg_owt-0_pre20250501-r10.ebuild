@@ -9,7 +9,7 @@ DESCRIPTION="WebRTC (video) library (fork) for Telegram clients"
 HOMEPAGE="https://github.com/desktop-app/tg_owt"
 
 if [[ ! "${PV}" = 9999* ]]; then
-	TG_OWT_COMMIT="be39b8c8d0db1f377118f813f0c4bd331d341d5e"
+	TG_OWT_COMMIT="c4192e8e2e10ccb72704daa79fa108becfa57b01"
 	LIBYUV_COMMIT="04821d1e7d60845525e8db55c7bcd41ef5be9406"
 	LIBSRTP_COMMIT="a566a9cfcd619e8327784aa7cff4a1276dc1e895"
 	# ABSL_COMMIT="d7aaad83b488fd62bd51c81ecf16cd938532cc0a"
@@ -96,7 +96,6 @@ PATCHES=(
 	"${FILESDIR}/patch-cmake-absl-external.patch"
 	# XXX: 👆comment for re-bundling absl
 	"${FILESDIR}/patch-cmake-crc32c-external.patch"
-	"${FILESDIR}/pipewire-mismatching-types.patch"
 )
 
 src_unpack() {

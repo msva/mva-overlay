@@ -29,8 +29,6 @@ REQUIRED_USE="?? ( lto java )"
 
 DOCS=( README.md )
 
-PATCHES=( "${FILESDIR}/${P}-fix-runpath.patch" )
-
 RESTRICT="!test? ( test )"
 
 src_prepare() {
@@ -54,6 +52,7 @@ src_configure() {
 		-DCMAKE_INSTALL_PREFIX=/usr
 		-DTD_ENABLE_JNI=$(usex java ON OFF)
 		-DTD_ENABLE_LTO=$(usex lto ON OFF)
+		-DTDE2E_ENABLE_INSTALL=ON
 
 		# According to TDLib build instructions, DOTNET=ON is only needed
 		# for using tdlib from C# under Windows through C++/CLI
@@ -94,4 +93,8 @@ src_install() {
 
 	use doc && local HTML_DOCS=( docs/html/. )
 	einstalldocs
+
+	# kludge for telegram-desktop
+	insinto /usr/include/td/e2e
+	doins tde2e/td/e2e/*.h
 }
