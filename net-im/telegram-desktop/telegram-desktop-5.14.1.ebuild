@@ -125,7 +125,10 @@ DEPEND="
 	${COMMON_DEPEND}
 	>=dev-cpp/cppgir-2.0_p20240315
 	dev-cpp/range-v3
+	net-libs/tdlib:=[e2e-includes]
 "
+	# 👆tdlib builds static libs, and so tdesktop links statically, so, no need to be in RDEPEND
+	#
 	# system-expected? ( dev-cpp/expected-lite )
 	# system-gsl? ( >=dev-cpp/ms-gsl-4.1 )
 	# 👆 currently it's buildsystem anyway uses system one if it is anyhow installed

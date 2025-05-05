@@ -11,7 +11,7 @@ EGIT_REPO_URI="https://github.com/tdlib/td"
 
 LICENSE="Boost-1.0"
 SLOT="0"
-IUSE="+cli doc debug java lto low-ram test"
+IUSE="+cli doc debug +e2e-includes java lto low-ram test"
 
 BDEPEND="
 	dev-util/gperf
@@ -94,7 +94,9 @@ src_install() {
 	use doc && local HTML_DOCS=( docs/html/. )
 	einstalldocs
 
-	# kludge for telegram-desktop
-	insinto /usr/include/td/e2e
-	doins tde2e/td/e2e/*.h
+	if use e2e-includes; then
+		# kludge for telegram-desktop
+		insinto /usr/include/td/e2e
+		doins tde2e/td/e2e/*.h
+	fi
 }
