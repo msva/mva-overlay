@@ -15,6 +15,8 @@ EGIT_SUBMODULES=(
 	'*'
 	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,xdg-desktop-portal,GSL,kimageformats,kcoreaddons}
 	# 👆 buildsystem anyway uses system ms-gsl if it is installed, so, no need for bundled, imho 🤷
+	-Telegram/ThirdParty/libtgvoip
+	# 👆 devs said it is not used anymore (but I found that it's submodule is still in the repo)
 )
 
 DESCRIPTION="Official desktop client for Telegram"
@@ -33,7 +35,7 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast test +wayland +webkit +X"
 # +system-gsl
 
 REQUIRED_USE="
@@ -66,7 +68,6 @@ COMMON_DEPEND="
 	>=dev-libs/protobuf-27.2
 	dev-libs/xxhash
 	media-libs/libjpeg-turbo:=
-	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[pulseaudio(-)=,pipewire(-)=] )
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
 	media-libs/rnnoise:=
@@ -125,7 +126,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	>=dev-cpp/cppgir-2.0_p20240315
 	dev-cpp/range-v3
-	net-libs/tdlib:=[e2e-includes]
+	net-libs/tdlib:=[e2e-private-stuff]
 "
 	# 👆tdlib builds static libs, and so tdesktop links statically, so, no need to be in RDEPEND
 	#
@@ -216,7 +217,6 @@ src_unpack() {
 #	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 
 	( use arm && ! use arm64 ) || EGIT_SUBMODULES+=(-Telegram/ThirdParty/dispatch)
-	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
 
 #	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
 	# ^ Ref: https://bugs.gentoo.org/752417
@@ -250,6 +250,9 @@ src_prepare() {
 		\! -path "./cmake/external/expected/CMakeLists.txt" \
 		\! -path './cmake/external/kcoreaddons/CMakeLists.txt' \
 		\! -path './cmake/external/kimageformats/CMakeLists.txt' \
+		\! -path './cmake/external/lz4/CMakeLists.txt' \
+		\! -path './cmake/external/opus/CMakeLists.txt' \
+		\! -path './cmake/external/xxhash/CMakeLists.txt' \
 		\! -path './cmake/external/qt/package.cmake' \
 		\! -path './Telegram/lib_webview/CMakeLists.txt' \
 		-print0 | xargs -0 sed -i \
@@ -304,9 +307,6 @@ src_configure() {
 	# See https://bugs.gentoo.org/866055
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
 	append-cppflags '-DNDEBUG' # Telegram sets that in code
-	# (and I also forced that here and in libtgvoip ebuild to have the same behaviour),
-	# and segfaults on voice calls on mismatch
-	# (if tg was built with it, and deps are built without it, and vice versa)
 
 	use lto && (
 		append-flags '-flto'
@@ -323,7 +323,7 @@ src_configure() {
 		-I/usr/include/tg_owt/third_party/abseil-cpp
 	)
 
-	local use_webkit_wayland=$(use webkit && use wayland && echo yes || echo no)
+	local use_webkit_wayland=$(use !webkit || use !wayland && echo yes || echo no)
 	local mycmakeargs=(
 		-DQT_VERSION_MAJOR=6
 

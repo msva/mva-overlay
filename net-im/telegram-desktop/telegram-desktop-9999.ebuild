@@ -13,10 +13,10 @@ inherit git-r3
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop.git"
 EGIT_SUBMODULES=(
 	'*'
-	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,xdg-desktop-portal}
-	-Telegram/ThirdParty/GSL
+	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,xdg-desktop-portal,GSL,kimageformats,kcoreaddons}
 	# 👆 buildsystem anyway uses system ms-gsl if it is installed, so, no need for bundled, imho 🤷
-	#,kimageformats,kcoreaddons}
+	-Telegram/ThirdParty/libtgvoip
+	# 👆 devs said it is not used anymore (but I found that it's submodule is still in the repo)
 )
 
 DESCRIPTION="Official desktop client for Telegram"
@@ -35,7 +35,7 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast +system-libtgvoip test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast test +wayland +webkit +X"
 # +system-gsl
 
 REQUIRED_USE="
@@ -57,13 +57,6 @@ for p in ${MYPATCHES[@]}; do
 	IUSE="${IUSE} tdesktop_patches_${p}"
 done
 
-KIMAGEFORMATS_RDEPEND="
-	media-libs/libavif:=
-	media-libs/libheif:=
-	>=media-libs/libjxl-0.8.0:=
-"
-# kde-frameworks/kimageformats
-# kde-frameworks/kcoreaddons
 COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
@@ -75,51 +68,19 @@ COMMON_DEPEND="
 	>=dev-libs/protobuf-27.2
 	dev-libs/xxhash
 	media-libs/libjpeg-turbo:=
-	system-libtgvoip? ( >media-libs/libtgvoip-2.4.4:=[pulseaudio(-)=,pipewire(-)=] )
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
 	media-libs/rnnoise:=
-	>=media-libs/tg_owt-0_pre20240731:=[pipewire(+)=,screencast=,X=]
+	>=media-libs/tg_owt-0_pre20250501:=[pipewire(+)=,screencast=,X=]
 	media-video/ffmpeg:=[opus,vpx]
 	sys-libs/zlib:=[minizip]
 	virtual/opengl
 	enchant? ( app-text/enchant:= )
 	hunspell? ( >=app-text/hunspell-1.7:= )
 	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
-	!qt6? (
-		>=dev-qt/qtcore-5.15:5=
-		>=dev-qt/qtgui-5.15:5=[dbus?,jpeg,png,wayland?,X?]
-		>=dev-qt/qtimageformats-5.15:5=
-		>=dev-qt/qtnetwork-5.15:5=[ssl]
-		>=dev-qt/qtsvg-5.15:5=
-		>=dev-qt/qtwidgets-5.15:5=[png,X?]
-		kde-frameworks/kcoreaddons:5=
-		wayland? (
-			dev-qt/qtwayland:5=
-		)
-		webkit? (
-			>=dev-qt/qtdeclarative-5.15:5=
-			>=dev-qt/qtwayland-5.15:5=[compositor(+)]
-		)
-		dbus? (
-			dev-qt/qtdbus:5=
-			dev-libs/libdbusmenu-qt[qt5(+)]
-		)
-	)
-	qt6? (
-		>=dev-qt/qtbase-6.5:6=[dbus?,gui,network,opengl,wayland?,widgets,X?]
-		>=dev-qt/qtimageformats-6.5:6=
-		>=dev-qt/qtsvg-6.5:6=
-		wayland? ( >=dev-qt/qtwayland-6.5:6=[compositor,qml] )
-		webkit? (
-			>=dev-qt/qtdeclarative-6.5:6
-			>=dev-qt/qtwayland-6.5:6[compositor]
-		)
-		qt6-imageformats? (
-			>=dev-qt/qtimageformats-6.5:6=
-			${KIMAGEFORMATS_RDEPEND}
-		)
-	)
+	>=dev-qt/qtbase-6.5:6=[dbus?,gui,network,opengl,wayland?,widgets,X?]
+	>=dev-qt/qtimageformats-6.5:6=
+	>=dev-qt/qtsvg-6.5:6=
 	X? (
 		x11-libs/libxcb:=
 		x11-libs/xcb-util-keysyms
@@ -128,6 +89,7 @@ COMMON_DEPEND="
 	dev-libs/boost:=
 	dev-libs/libfmt:=
 	!fonts? ( media-fonts/open-sans )
+	kde-frameworks/kcoreaddons:6=
 	media-libs/fontconfig:=
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio-daemon )
@@ -137,10 +99,15 @@ COMMON_DEPEND="
 		!media-sound/pulseaudio-daemon
 	)
 	wayland? (
+		>=dev-qt/qtwayland-6.5:6=[compositor,qml]
 		kde-plasma/kwayland:=
 		dev-libs/wayland-protocols:=
 		dev-libs/plasma-wayland-protocols:=
 	)
+	webkit? ( wayland? (
+		>=dev-qt/qtdeclarative-6.5:6
+		>=dev-qt/qtwayland-6.5:6[compositor]
+		) )
 	sys-apps/xdg-desktop-portal:=
 "
 	# dev-libs/libsigc++:2
@@ -159,7 +126,10 @@ DEPEND="
 	${COMMON_DEPEND}
 	>=dev-cpp/cppgir-2.0_p20240315
 	dev-cpp/range-v3
+	net-libs/tdlib:=[e2e-private-stuff]
 "
+	# 👆tdlib builds static libs, and so tdesktop links statically, so, no need to be in RDEPEND
+	#
 	# system-expected? ( dev-cpp/expected-lite )
 	# system-gsl? ( >=dev-cpp/ms-gsl-4.1 )
 	# 👆 currently it's buildsystem anyway uses system one if it is anyhow installed
@@ -247,7 +217,6 @@ src_unpack() {
 #	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 
 	( use arm && ! use arm64 ) || EGIT_SUBMODULES+=(-Telegram/ThirdParty/dispatch)
-	use system-libtgvoip && EGIT_SUBMODULES+=(-Telegram/ThirdParty/libtgvoip)
 
 #	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
 	# ^ Ref: https://bugs.gentoo.org/752417
@@ -263,23 +232,27 @@ src_prepare() {
 	# 		cmake/external/rlottie/CMakeLists.txt || die
 	# )
 
-	# Bundle kde-frameworks/kimageformats for qt6, since it's impossible to
-	#   build in gentoo right now.
-	if use qt6-imageformats; then
-		sed -e 's/DESKTOP_APP_USE_PACKAGED_LAZY/TRUE/' -i \
-			cmake/external/kimageformats/CMakeLists.txt || die
-		printf "%s\n" \
-			'Q_IMPORT_PLUGIN(QAVIFPlugin)' \
-			'Q_IMPORT_PLUGIN(HEIFPlugin)' \
-			'Q_IMPORT_PLUGIN(QJpegXLPlugin)' \
-			>> cmake/external/qt/qt_static_plugins/qt_static_plugins.cpp || die
-	fi
+	# # Bundle kde-frameworks/kimageformats for qt6, since it's impossible to
+	# #   build in gentoo right now.
+	# if use qt6-imageformats; then
+	# 	sed -e 's/DESKTOP_APP_USE_PACKAGED_LAZY/TRUE/' -i \
+	# 		cmake/external/kimageformats/CMakeLists.txt || die
+	# 	printf "%s\n" \
+	# 		'Q_IMPORT_PLUGIN(QAVIFPlugin)' \
+	# 		'Q_IMPORT_PLUGIN(HEIFPlugin)' \
+	# 		'Q_IMPORT_PLUGIN(QJpegXLPlugin)' \
+	# 		>> cmake/external/qt/qt_static_plugins/qt_static_plugins.cpp || die
+	# fi
 
 	# Happily fail if libraries aren't found...
 	find -type f \( -name 'CMakeLists.txt' -o -name '*.cmake' \) \
 		\! -path './Telegram/lib_webview/CMakeLists.txt' \
 		\! -path "./cmake/external/expected/CMakeLists.txt" \
 		\! -path './cmake/external/kcoreaddons/CMakeLists.txt' \
+		\! -path './cmake/external/kimageformats/CMakeLists.txt' \
+		\! -path './cmake/external/lz4/CMakeLists.txt' \
+		\! -path './cmake/external/opus/CMakeLists.txt' \
+		\! -path './cmake/external/xxhash/CMakeLists.txt' \
 		\! -path './cmake/external/qt/package.cmake' \
 		\! -path './Telegram/lib_webview/CMakeLists.txt' \
 		-print0 | xargs -0 sed -i \
@@ -305,6 +278,12 @@ src_prepare() {
 		-e '/generate_dbus\([^ ]*\ org.freedesktop.portal/{s@\$\{third_party_loc\}/xdg-desktop-portal/data@/usr/share/dbus-1/interfaces@}' \
 		-i "${S}/Telegram/lib_base/CMakeLists.txt" "${S}/Telegram/CMakeLists.txt" || die
 
+	# Control automagic dep only needed when USE="webkit wayland"
+	if ! use webkit || ! use wayland; then
+		sed -e 's/QT_CONFIG(wayland_compositor_quick)/0/' \
+			-i Telegram/lib_webview/webview/platform/linux/webview_linux_compositor.h || die
+	fi
+
 	patches_src_prepare
 # cmake_src_prepare
 #	^ to be used when will be ported to gentoo repo
@@ -328,9 +307,6 @@ src_configure() {
 	# See https://bugs.gentoo.org/866055
 	filter-flags '-DDEBUG' # produces bugs in bundled forks of 3party code
 	append-cppflags '-DNDEBUG' # Telegram sets that in code
-	# (and I also forced that here and in libtgvoip ebuild to have the same behaviour),
-	# and segfaults on voice calls on mismatch
-	# (if tg was built with it, and deps are built without it, and vice versa)
 
 	use lto && (
 		append-flags '-flto'
@@ -347,12 +323,9 @@ src_configure() {
 		-I/usr/include/tg_owt/third_party/abseil-cpp
 	)
 
-	local qt=$(usex qt6 6 5)
+	local use_webkit_wayland=$(use !webkit || use !wayland && echo yes || echo no)
 	local mycmakeargs=(
-		# -DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=$(usex !system-expected)
-		# ^ header only lib, some git version. prevents warnings.
-
-		-DQT_VERSION_MAJOR=${qt}
+		-DQT_VERSION_MAJOR=6
 
 		# Override new cmake.eclass defaults (https://bugs.gentoo.org/921939)
 		# Upstream never tests this any other way
@@ -361,13 +334,11 @@ src_configure() {
 		# Control automagic dependencies on certain packages
 		## Header-only lib, some git version.
 		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}Quick=$(usex !webkit)
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}QuickWidgets=$(usex !webkit)
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}WaylandClient=$(usex !wayland)
-		## Only used in Telegram/lib_webview/CMakeLists.txt
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt${qt}WaylandCompositor=$(usex !webkit)
-		## KF6CoreAddons is currently unavailable in ::gentoo
-		-DCMAKE_DISABLE_FIND_PACKAGE_KF${qt}CoreAddons=$(usex qt6)
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6Quick=${use_webkit_wayland}
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6QuickWidgets=${use_webkit_wayland}
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WaylandClient=$(usex !wayland)
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WaylandCompositor=${use_webkit_wayland}
+		# -DCMAKE_DISABLE_FIND_PACKAGE_KF6CoreAddons=ON
 
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
 
@@ -431,9 +402,7 @@ pkg_postinst() {
 		elog
 	fi
 	optfeature_header
-	if ! use qt6; then
-		optfeature "AVIF, HEIF and JpegXL image support" kde-frameworks/kimageformats[avif,heif,jpegxl]
-	fi
+	optfeature "AVIF, HEIF and JpegXL image support" kde-frameworks/kimageformats[avif,heif,jpegxl]
 }
 
 pkg_postrm() {

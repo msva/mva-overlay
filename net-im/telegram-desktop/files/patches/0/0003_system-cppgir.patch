@@ -4,17 +4,16 @@ https://github.com/desktop-app/cmake_helpers/issues/282
 https://github.com/desktop-app/cmake_helpers/pull/305
 --- tdesktop-4.10.0-full.orig/cmake/external/glib/CMakeLists.txt
 +++ tdesktop-4.10.0-full/cmake/external/glib/CMakeLists.txt
-@@ -7,14 +7,6 @@
+@@ -7,13 +7,6 @@
  add_library(external_glib INTERFACE IMPORTED GLOBAL)
  add_library(desktop-app::external_glib ALIAS external_glib)
  
--function(add_cppgir) # isolate scope
+-block()
 -    set(BUILD_TESTING OFF)
 -    set(BUILD_DOC OFF)
 -    set(BUILD_EXAMPLES OFF)
 -    add_subdirectory(cppgir EXCLUDE_FROM_ALL)
--endfunction()
--add_cppgir()
+-endblock()
 -
  include(generate_cppgir.cmake)
  generate_cppgir(external_glib Gio-2.0)
