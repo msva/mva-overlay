@@ -25,8 +25,12 @@ SLOT="0"
 IUSE="doc dht-index http-client proxy-client proxy-server proxy-server-identity proxy-openssl push-notifications python static-libs tools"
 
 DEPEND="
-	dev-libs/msgpack
-	net-libs/gnutls
+	dev-cpp/asio
+	dev-cpp/msgpack-cxx
+	|| (
+		net-libs/gnutls
+		dev-libs/nettle
+	)
 	python? ( dev-python/cython[${PYTHON_USEDEP}] )
 	tools? ( sys-libs/readline:0 )
 	proxy-openssl? ( dev-libs/openssl:= )
@@ -44,8 +48,6 @@ src_configure() {
 		-DOPENDHT_PYTHON=$(usex python)
 		-DOPENDHT_STATIC=$(usex static-libs)
 		-DOPENDHT_TOOLS=$(usex tools)
-		-DOPENDHT_SHARED=ON
-		-DOPENDHT_LOG=ON
 		-DOPENDHT_SYSTEMD=ON
 		-DOPENDHT_HTTP=$(usex http-client)
 		-DOPENDHT_INDEX=$(usex dht-index)
@@ -56,7 +58,6 @@ src_configure() {
 		-DOPENDHT_PROXY_OPENSSL=$(usex proxy-openssl)
 		-DOPENDHT_PUSH_NOTIFICATIONS=$(usex push-notifications)
 		-DOPENDHT_SANITIZE=OFF
-		-DOPENDHT_TESTS=OFF
 		-DOPENDHT_TESTS_NETWORK=OFF
 		-DOPENDHT_C=ON
 		-DOPENDHT_DOCUMENTATION=$(usex doc)
