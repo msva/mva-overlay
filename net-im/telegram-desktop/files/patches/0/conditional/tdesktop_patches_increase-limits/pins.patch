@@ -1,11 +1,14 @@
 diff -NaurBwdp a/Telegram/SourceFiles/data/data_session.cpp b/Telegram/SourceFiles/data/data_session.cpp
 --- a/Telegram/SourceFiles/data/data_session.cpp	2022-12-28 03:29:59.721281542 +0700
 +++ b/Telegram/SourceFiles/data/data_session.cpp	2022-12-28 03:35:05.748566381 +0700
-@@ -2138,45 +2138,28 @@ void Session::applyDialog(
+@@ -2138,48 +2138,28 @@ void Session::applyDialog(
  }
  
  bool Session::pinnedCanPin(not_null<Dialogs::Entry*> entry) const {
 -	if ([[maybe_unused]] const auto sublist = entry->asSublist()) {
+-		if (sublist->parentChat()) {
+-			return false;
+-		}
 -		const auto saved = &savedMessages();
 -		return pinnedChatsOrder(saved).size() < pinnedChatsLimit(saved);
 -	} else if (const auto topic = entry->asTopic()) {

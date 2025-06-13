@@ -90,6 +90,7 @@ COMMON_DEPEND="
 	dev-libs/libfmt:=
 	!fonts? ( media-fonts/open-sans )
 	kde-frameworks/kcoreaddons:6=
+	kde-frameworks/kimageformats:6=[avif,heif,jpegxl]
 	media-libs/fontconfig:=
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio-daemon )
@@ -249,7 +250,6 @@ src_prepare() {
 		\! -path './Telegram/lib_webview/CMakeLists.txt' \
 		\! -path "./cmake/external/expected/CMakeLists.txt" \
 		\! -path './cmake/external/kcoreaddons/CMakeLists.txt' \
-		\! -path './cmake/external/kimageformats/CMakeLists.txt' \
 		\! -path './cmake/external/lz4/CMakeLists.txt' \
 		\! -path './cmake/external/opus/CMakeLists.txt' \
 		\! -path './cmake/external/xxhash/CMakeLists.txt' \
@@ -258,6 +258,7 @@ src_prepare() {
 		-print0 | xargs -0 sed -i \
 		-e '/pkg_check_modules(/s/[^ ]*)/REQUIRED &/' \
 		-e '/find_package(/s/)/ REQUIRED)/' || die
+		# \! -path './cmake/external/kimageformats/CMakeLists.txt' \
 	# Make sure to check the excluded files for new
 	# CMAKE_DISABLE_FIND_PACKAGE entries.
 
@@ -366,6 +367,8 @@ src_configure() {
 		# TODO: (!!!!!!!) Ask Gentoo Council (or whatever) to get "official" Gentoo keys.
 		-DTDESKTOP_API_ID=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_ID}" "611335")
 		-DTDESKTOP_API_HASH=$(usex custom-api-id "${TELEGRAM_CUSTOM_API_HASH}" "d524b414d21f4d37f08684c1df41ac9c")
+
+		-DDESKTOP_APP_DISABLE_QT_PLUGINS=ON
 
 #		-DDESKTOP_APP_LOTTIE_USE_CACHE=NO
 #		# in case of caching bugs. Maybe also useful with system-rlottie[cache]. TODO: test that idea.
