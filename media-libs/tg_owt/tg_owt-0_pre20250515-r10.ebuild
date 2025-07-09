@@ -9,7 +9,7 @@ DESCRIPTION="WebRTC (video) library (fork) for Telegram clients"
 HOMEPAGE="https://github.com/desktop-app/tg_owt"
 
 if [[ ! "${PV}" = 9999* ]]; then
-	TG_OWT_COMMIT="c4192e8e2e10ccb72704daa79fa108becfa57b01"
+	TG_OWT_COMMIT="232ec410502e773024e8d83cfae83a52203306c0"
 	LIBYUV_COMMIT="04821d1e7d60845525e8db55c7bcd41ef5be9406"
 	LIBSRTP_COMMIT="a566a9cfcd619e8327784aa7cff4a1276dc1e895"
 	# ABSL_COMMIT="d7aaad83b488fd62bd51c81ecf16cd938532cc0a"
@@ -45,12 +45,12 @@ IUSE="pipewire screencast +X"
 REQUIRED_USE="screencast? ( pipewire )"
 
 # Bundled libs:
-# - libyuv (no stable versioning, www-client/chromium and media-libs/libvpx bundle it
+# - libyuv (no stable versioning, www-client/chromium and media-libs/libvpx bundle it)
 # - libsrtp (project uses private APIs)
 # - pffft (no stable versioning, patched)
 # - rnnoise (private APIs)
 RDEPEND="
-	>=dev-cpp/abseil-cpp-20240116.2:=
+	>=dev-cpp/abseil-cpp-20240722.0:=
 	dev-libs/openssl:=
 	media-libs/libjpeg-turbo:=
 	>=media-libs/libvpx-1.10.0:=
@@ -62,11 +62,6 @@ RDEPEND="
 		media-video/pipewire:=
 	)
 	dev-libs/crc32c
-	screencast? (
-		media-libs/libglvnd[X=]
-		media-libs/mesa
-		x11-libs/libdrm
-	)
 	X? (
 		x11-libs/libX11
 		x11-libs/libXcomposite
@@ -80,7 +75,14 @@ RDEPEND="
 "
 #	media-libs/libyuv
 #	net-libs/libsrtp
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	screencast? (
+		media-libs/libglvnd[X=]
+		media-libs/mesa
+		x11-libs/libdrm
+	)
+"
 BDEPEND="
 	virtual/pkgconfig
 	X? ( x11-base/xorg-proto )
@@ -93,9 +95,10 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0_pre20221215-allow-disabling-pulseaudio.patch"
 	"${FILESDIR}/${PN}-0_pre20221215-expose-set_allow_pipewire.patch"
 	# "${FILESDIR}/fix-clang-emplace.patch"
-	"${FILESDIR}/patch-cmake-absl-external.patch"
+#	"${FILESDIR}/patch-cmake-absl-external.patch"
 	# XXX: 👆comment for re-bundling absl
-	"${FILESDIR}/patch-cmake-crc32c-external.patch"
+	# "${FILESDIR}/patch-cmake-crc32c-external.patch"
+	"${FILESDIR}/${PN}-gcc16-build-fix.patch"
 )
 
 src_unpack() {
@@ -156,23 +159,23 @@ src_prepare() {
 	# 		"${S}"/src/modules/video_coding/codecs/av1/dav1d_decoder.cc \
 	# 		"${S}"/src/api/video/i444_buffer.cc || die
 
-	# FIXME: abseil-cpp related things (absl::string_view casts)
-	# tg_owt uses (when bundled) git-almost-HEAD (april's commit) link in submodule
-	# gentoo for now have only release january release.
-	# Upgrading to july release (placing it in overlay) doesn't help with build failure (without this) either
-	# Although, I guess it is related to this:
-	# https://github.com/gentoo/gentoo/pull/32281#issuecomment-1676404974
-	sed -r \
-		-e "/[ ]*(group_name = )(kDefaultProbingScreenshareBweSettings)/s@@\1(std::string)\2@" \
-		-i "${S}/src/rtc_base/experiments/alr_experiment.cc" || die
-	sed -r \
-		-e "/[ \t]*transaction_id.insert/s@(magic_cookie)@(std::string)\1@" \
-		-i "${S}/src/api/transport/stun.cc" || die
-	sed -r \
-		-e "/(candidate_stats->candidate_type = )(candidate.type_name)/s@@\1(std::string)\2@" \
-		-i "${S}/src/pc/rtc_stats_collector.cc" || die
-	# append-cppflags -I"${S}/src/third_party/abseil-cpp"
-	# XXX: 👆for re-bundling absl
+	# # FIXME: abseil-cpp related things (absl::string_view casts)
+	# # tg_owt uses (when bundled) git-almost-HEAD (april's commit) link in submodule
+	# # gentoo for now have only release january release.
+	# # Upgrading to july release (placing it in overlay) doesn't help with build failure (without this) either
+	# # Although, I guess it is related to this:
+	# # https://github.com/gentoo/gentoo/pull/32281#issuecomment-1676404974
+	# sed -r \
+	# 	-e "/[ ]*(group_name = )(kDefaultProbingScreenshareBweSettings)/s@@\1(std::string)\2@" \
+	# 	-i "${S}/src/rtc_base/experiments/alr_experiment.cc" || die
+	# sed -r \
+	# 	-e "/[ \t]*transaction_id.insert/s@(magic_cookie)@(std::string)\1@" \
+	# 	-i "${S}/src/api/transport/stun.cc" || die
+	# sed -r \
+	# 	-e "/(candidate_stats->candidate_type = )(candidate.type_name)/s@@\1(std::string)\2@" \
+	# 	-i "${S}/src/pc/rtc_stats_collector.cc" || die
+	# # append-cppflags -I"${S}/src/third_party/abseil-cpp"
+	# # XXX: 👆for re-bundling absl
 
 	cmake_src_prepare
 }
@@ -217,8 +220,8 @@ src_install() {
 		rtc_base/third_party/base64
 	)
 	for dir in "${headers[@]}"; do
-	    pushd "${S}/src/${dir}" > /dev/null || die
-	    find -type f -name "*.h" -exec install -Dm644 '{}' "${ED}/usr/include/tg_owt/${dir}/{}" \; || die
+		pushd "${S}/src/${dir}" > /dev/null || die
+		find -type f -name "*.h" -exec install -Dm644 '{}' "${ED}/usr/include/tg_owt/${dir}/{}" \; || die
 		popd > /dev/null || die
 	done
 }
