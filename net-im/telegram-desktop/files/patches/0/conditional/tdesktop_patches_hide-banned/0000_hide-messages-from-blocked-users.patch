@@ -1,7 +1,7 @@
 diff -ur a/Telegram/SourceFiles/history/view/history_view_reply.cpp b/Telegram/SourceFiles/history/view/history_view_reply.cpp
 --- a/Telegram/SourceFiles/history/view/history_view_reply.cpp	2023-11-07 08:54:22.057455500 +0600
 +++ b/Telegram/SourceFiles/history/view/history_view_reply.cpp	2023-11-09 19:43:28.914523641 +0600
-@@ -475,9 +475,12 @@
+@@ -592,9 +592,12 @@
  				+ std::min(_text.maxWidth(), st::maxSignatureSize)),
  			st::normalFont->height);
  	_maxWidth = std::max(nameMaxWidth, optimalTextSize.width());
@@ -16,7 +16,7 @@ diff -ur a/Telegram/SourceFiles/history/view/history_view_reply.cpp b/Telegram/S
  			? tr::lng_profile_loading(tr::now)
  			: fields.storyId
  			? tr::lng_deleted_story(tr::now)
-@@ -666,12 +669,15 @@
+@@ -783,12 +786,15 @@
  		+ st::historyReplyPadding.top()
  		+ (st::msgServiceNameFont->height * (_nameTwoLines ? 2 : 1));
  	if (w > st::historyReplyPadding.left()) {
@@ -40,7 +40,7 @@ diff -ur a/Telegram/SourceFiles/history/view/history_view_reply.cpp b/Telegram/S
 diff -ur a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFiles/history/history_widget.cpp
 --- a/Telegram/SourceFiles/history/history_widget.cpp	2023-11-01 02:41:23.623049094 +0600
 +++ b/Telegram/SourceFiles/history/history_widget.cpp	2023-11-01 02:51:20.558082883 +0600
-@@ -813,6 +813,21 @@
+@@ -947,6 +947,21 @@
  		}
  	}, lifetime());
  
@@ -65,15 +65,7 @@ diff -ur a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFile
 diff -ur a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
 --- a/Telegram/SourceFiles/history/view/history_view_element.cpp	2023-11-01 02:41:23.626382456 +0600
 +++ b/Telegram/SourceFiles/history/view/history_view_element.cpp	2023-11-01 02:52:47.375481677 +0600
-@@ -40,6 +40,7 @@
- #include "ui/item_text_options.h"
- #include "ui/painter.h"
- #include "data/data_session.h"
-+#include "data/data_user.h"
- #include "data/data_forum.h"
- #include "data/data_forum_topic.h"
- #include "data/data_sponsored_messages.h"
-@@ -683,6 +684,10 @@
+@@ -1006,6 +1006,10 @@
  }
  
  bool Element::isHidden() const {
@@ -95,7 +87,7 @@ diff -ur a/Telegram/SourceFiles/main/main_session.cpp b/Telegram/SourceFiles/mai
  #include "main/main_account.h"
  #include "main/main_domain.h"
  #include "main/main_session_settings.h"
-@@ -74,6 +75,43 @@
+@@ -87,6 +88,43 @@
  	return MTP::ConfigFields().internalLinksDomain;
  }
  
@@ -139,7 +131,7 @@ diff -ur a/Telegram/SourceFiles/main/main_session.cpp b/Telegram/SourceFiles/mai
  } // namespace
  
  Session::Session(
-@@ -181,6 +219,7 @@
+@@ -198,6 +236,7 @@
  	_api->requestNotifySettings(MTP_inputNotifyChats());
  	_api->requestNotifySettings(MTP_inputNotifyBroadcasts());
  

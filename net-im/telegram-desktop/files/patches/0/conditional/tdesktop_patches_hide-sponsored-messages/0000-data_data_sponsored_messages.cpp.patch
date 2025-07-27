@@ -2,16 +2,16 @@ diff --git i/Telegram/SourceFiles/data/data_sponsored_messages.cpp w/Telegram/So
 index 10e69d37b..fbcb20158 100644
 --- i/Telegram/SourceFiles/data/components/sponsored_messages.cpp
 +++ w/Telegram/SourceFiles/data/components/sponsored_messages.cpp
-@@ -21,7 +21,7 @@ https://github.com/telegramdesktop/tdesk
- namespace Data {
+@@ -29,7 +29,7 @@ https://github.com/telegramdesktop/tdesk
  namespace {
  
+ constexpr auto kMs = crl::time(1000);
 -constexpr auto kRequestTimeLimit = 5 * 60 * crl::time(1000);
 +constexpr auto kRequestTimeLimit = 9999999 * 60 * crl::time(1000);
  
- [[nodiscard]] bool TooEarlyForRequest(crl::time received) {
- 	return (received > 0) && (received + kRequestTimeLimit > crl::now());
-@@ -74,6 +74,9 @@ void SponsoredMessages::clearOldRequests
+ const auto kFlaggedPreload = ((MediaPreload*)quintptr(0x01));
+ 
+@@ -95,6 +95,9 @@ void SponsoredMessages::clearOldRequests
  
  SponsoredMessages::AppendResult SponsoredMessages::append(
  		not_null<History*> history) {
@@ -21,7 +21,7 @@ index 10e69d37b..fbcb20158 100644
  	if (isTopBarFor(history)) {
  		return SponsoredMessages::AppendResult::None;
  	}
-@@ -110,6 +113,9 @@ void SponsoredMessages::inject(
+@@ -131,6 +134,9 @@ void SponsoredMessages::inject(
  		MsgId injectAfterMsgId,
  		int betweenHeight,
  		int fallbackWidth) {
@@ -31,7 +31,7 @@ index 10e69d37b..fbcb20158 100644
  	if (!canHaveFor(history)) {
  		return;
  	}
-@@ -198,24 +204,17 @@ void SponsoredMessages::inject(
+@@ -237,29 +237,21 @@ void SponsoredMessages::inject(
  }
  
  bool SponsoredMessages::canHaveFor(not_null<History*> history) const {
@@ -41,6 +41,12 @@ index 10e69d37b..fbcb20158 100644
 -		return user->isBot();
 -	}
  	return false;
+ }
+ 
+ bool SponsoredMessages::canHaveFor(not_null<HistoryItem*> item) const {
+-	return item->history()->peer->isBroadcast()
+-		&& item->isRegular();
++	return false;
  }
  
  bool SponsoredMessages::isTopBarFor(not_null<History*> history) const {
@@ -53,9 +59,9 @@ index 10e69d37b..fbcb20158 100644
  }
  
  void SponsoredMessages::request(not_null<History*> history, Fn<void()> done) {
-+	if (1) {
-+		return;
-+	}
++  if (1) {
++    return;
++  }
  	if (!canHaveFor(history)) {
  		return;
  	}

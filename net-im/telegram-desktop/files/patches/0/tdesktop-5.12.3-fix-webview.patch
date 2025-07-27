@@ -12,7 +12,7 @@ In file included from /var/tmp/portage/net-im/telegram-desktop-5.12.3-r2/work/td
 
 --- tdesktop-5.12.3-full.orig/Telegram/lib_ui/ui/widgets/buttons.cpp
 +++ tdesktop-5.12.3-full/Telegram/lib_ui/ui/widgets/buttons.cpp
-@@ -795,7 +795,7 @@
+@@ -803,7 +803,7 @@
  
  SettingsButton::SettingsButton(
  	QWidget *parent,
@@ -23,7 +23,7 @@ In file included from /var/tmp/portage/net-im/telegram-desktop-5.12.3-r2/work/td
  , _st(st)
 --- tdesktop-5.12.3-full.orig/Telegram/lib_ui/ui/widgets/buttons.h
 +++ tdesktop-5.12.3-full/Telegram/lib_ui/ui/widgets/buttons.h
-@@ -273,7 +273,7 @@
+@@ -276,7 +276,7 @@
  		const style::SettingsButton &st = st::defaultSettingsButton);
  	SettingsButton(
  		QWidget *parent,
