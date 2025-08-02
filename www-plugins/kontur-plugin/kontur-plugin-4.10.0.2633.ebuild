@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,18 +8,19 @@ inherit unpacker patches
 DESCRIPTION="Cryptographic browser plugin for SKB Kontur services"
 HOMEPAGE="https://help.kontur.ru/plugin/"
 
-MAGIC="002245"
+MAGIC="002434"
 # 4.7.1.1274 = 002245
+# 4,10.0.2633 = 002434
 # TODO: watch for it, guess pattern
 # (migrate to using magic as PV on fail)
 
 SRC_URI="
 	amd64? ( https://api.kontur.ru/drive/v1/public/diag/files/kontur.plugin.${MAGIC}.deb )
 "
-# current, but no version:
-# 	amd64? ( https://help.kontur.ru/plugin/dist/kontur.plugin_amd64.deb -> ${P}.deb )
-# old:
-# 	amd64? ( https://help.kontur.ru/files/kontur.plugin_amd64.${PV}.deb -> ${P}.deb )
+# on bump:
+#  check where https://help.kontur.ru/files/kontur.plugin_amd64.deb redirects
+# version:
+#  curl -sL https://help.kontur.ru/files/kontur.plugin_amd64.deb | bsdtar -xO control.tar.gz | bsdtar -xO control
 
 S="${WORKDIR}"
 
@@ -59,6 +60,7 @@ src_prepare() {
 	# 👆 makes plugin host application segfault.
 	# Started somewhere about 4.2
 	# Still happens on 4.7.1.1274
+	# TODO: check on 4.10+
 
 	mv usr/share/doc/kontur.plugin usr/share/doc/"${PF}"
 	gzip -d usr/share/doc/"${PF}"/changelog.gz

@@ -1,7 +1,15 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
+
+MAGIC=002396
+
+# on bump:
+#  check where https://help.kontur.ru/files/diag.plugin_amd64.deb redirects
+# version:
+#  curl -s https://help.kontur.ru/files/diag.plugin_amd64.deb | bsdtar -xO control.tar.gz | bsdtar -xO control
+
 
 inherit unpacker patches
 
@@ -9,7 +17,7 @@ DESCRIPTION="System diagnostic browser plugin for SKB Kontur services"
 
 HOMEPAGE="https://help.kontur.ru/"
 SRC_URI="
-	amd64? ( https://api.kontur.ru/drive/v1/public/diag/files/diag.plugin_amd64.${PV}.deb -> ${P}.deb )
+	amd64? ( https://api.kontur.ru/drive/v1/public/diag/files/diag.plugin_amd64_signed.${MAGIC}.deb -> ${P}.deb )
 "
 # x64-macos? ( https://help.kontur.ru/files/diag.plugin-3.1.0.209.000837.pkg )
 # amd64? ( https://help.kontur.ru/files/diag.plugin_amd64.${PV}.deb -> ${P}.deb )
