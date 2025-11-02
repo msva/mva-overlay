@@ -207,12 +207,5 @@ multilib_src_configure() {
 
 multilib_src_install_all() {
 	einstalldocs
-
 	find "${D}" -xtype f -name '*.la' -print0
-
-	if use python; then
-		python_fix_shebang "${ED}"/usr/bin/vipsprofile
-	else
-		rm -- "${ED}"/usr/{bin/vipsprofile,share/man/man1/vipsprofile.1} || die
-	fi
 }
