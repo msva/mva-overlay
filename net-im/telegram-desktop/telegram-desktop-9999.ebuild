@@ -32,15 +32,14 @@ else
 	EGIT_COMMIT="v${PV}"
 fi
 # 👇 kludge for eix
-[[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~riscv ~x86"
+[[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio qt6 qt6-imageformats +screencast test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio +screencast test +wayland +webkit +X"
 # +system-gsl
 
 REQUIRED_USE="
 	^^ ( enchant hunspell )
-	qt6-imageformats? ( qt6 )
 "
 
 MYPATCHES=(
@@ -61,37 +60,34 @@ COMMON_DEPEND="
 	!net-im/telegram-desktop-bin
 	app-arch/lz4:=
 	>=dev-cpp/abseil-cpp-20240116.2:=
+	dev-cpp/ada
+	dev-libs/boost:=
 	>=dev-libs/glib-2.77:2
 	>=dev-libs/gobject-introspection-1.77
 	dev-libs/libdispatch
+	dev-libs/libfmt:=
 	dev-libs/openssl:=
 	>=dev-libs/protobuf-27.2
 	dev-libs/xxhash
+	>=dev-qt/qtbase-6.5:6=[dbus?,gui,network,opengl,wayland?,widgets,X?]
+	>=dev-qt/qtimageformats-6.5:6=
+	>=dev-qt/qtsvg-6.5:6=
+	enchant? ( app-text/enchant:= )
+	!fonts? ( media-fonts/open-sans )
+	hunspell? ( >=app-text/hunspell-1.7:= )
+	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
+	kde-frameworks/kcoreaddons:6=
+	kde-frameworks/kimageformats:6=[avif,heif,jpegxl]
+	media-libs/fontconfig:=
 	media-libs/libjpeg-turbo:=
 	media-libs/openal:=[pipewire=]
 	media-libs/opus:=
 	media-libs/rnnoise:=
 	>=media-libs/tg_owt-0_pre20250501:=[pipewire(+)=,screencast=,X=]
 	media-video/ffmpeg:=[opus,vpx]
+	sys-apps/xdg-desktop-portal:=
 	sys-libs/zlib:=[minizip]
 	virtual/opengl
-	enchant? ( app-text/enchant:= )
-	hunspell? ( >=app-text/hunspell-1.7:= )
-	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
-	>=dev-qt/qtbase-6.5:6=[dbus?,gui,network,opengl,wayland?,widgets,X?]
-	>=dev-qt/qtimageformats-6.5:6=
-	>=dev-qt/qtsvg-6.5:6=
-	X? (
-		x11-libs/libxcb:=
-		x11-libs/xcb-util-keysyms
-	)
-	dev-cpp/ada
-	dev-libs/boost:=
-	dev-libs/libfmt:=
-	!fonts? ( media-fonts/open-sans )
-	kde-frameworks/kcoreaddons:6=
-	kde-frameworks/kimageformats:6=[avif,heif,jpegxl]
-	media-libs/fontconfig:=
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio-daemon )
 	)
@@ -109,7 +105,10 @@ COMMON_DEPEND="
 		>=dev-qt/qtdeclarative-6.5:6
 		>=dev-qt/qtwayland-6.5:6[compositor]
 		) )
-	sys-apps/xdg-desktop-portal:=
+	X? (
+		x11-libs/libxcb:=
+		x11-libs/xcb-util-keysyms
+	)
 "
 	# dev-libs/libsigc++:2
 	# >=dev-cpp/glibmm-2.77:2.68
@@ -135,14 +134,16 @@ DEPEND="
 	# system-gsl? ( >=dev-cpp/ms-gsl-4.1 )
 	# 👆 currently it's buildsystem anyway uses system one if it is anyhow installed
 BDEPEND="
-	>=dev-cpp/ms-gsl-4.1
+	amd64? ( dev-lang/yasm )
 	>=dev-build/cmake-3.16
 	>=dev-cpp/cppgir-2.0_p20240315
+	>=dev-cpp/ms-gsl-4.1
 	dev-util/gdbus-codegen
 	virtual/pkgconfig
 	wayland? ( dev-util/wayland-scanner )
-	amd64? ( dev-lang/yasm )
 "
+# dev-cpp/cld3:=
+# dev-libs/qr-code-generator:=
 
 RESTRICT="!test? ( test )"
 
@@ -152,6 +153,7 @@ pkg_pretend() {
 			tdesktop_patches_warn=1
 		fi
 	done
+
 	if [[ -n "${tdesktop_patches_warn}" ]]; then
 		ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
 		ewarn "!!!!!!!! WARNING !!!!!!!"
@@ -162,12 +164,6 @@ pkg_pretend() {
 		einfo "Also, note that none of that patches have any chance to be ported to ${PN} ebuild in Gentoo repo"
 	fi
 
-	if ! use wayland || ! use qt6; then
-		ewarn ""
-		ewarn "Keep in mind that embedded webview (based on webkit), may not work in runtime."
-		ewarn "Upstream has reworked it in sych way that it only guaranteed to work under Wayland+Qt6"
-		ewarn ""
-	fi
 	if use custom-api-id; then
 		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
 			einfo ""
@@ -324,7 +320,8 @@ src_configure() {
 		-I/usr/include/tg_owt/third_party/abseil-cpp
 	)
 
-	local use_webkit_wayland=$(use !webkit || use !wayland && echo yes || echo no)
+	local no_webkit_wayland=$(use webkit && use wayland && echo no || echo yes)
+	local use_webkit_wayland=$(use webkit || use wayland && echo yes || echo no)
 	local mycmakeargs=(
 		-DQT_VERSION_MAJOR=6
 
@@ -335,10 +332,24 @@ src_configure() {
 		# Control automagic dependencies on certain packages
 		## Header-only lib, some git version.
 		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6Quick=${use_webkit_wayland}
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6QuickWidgets=${use_webkit_wayland}
+
+		# Control automagic dependencies on certain packages
+		## These libraries are only used in lib_webview, for wayland
+		## See Telegram/lib_webview/webview/platform/linux/webview_linux_compositor.h
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6Quick=${no_webkit_wayland}
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6QuickWidgets=${no_webkit_wayland}
+		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WaylandCompositor=${no_webkit_wayland}
+
 		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WaylandClient=$(usex !wayland)
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WaylandCompositor=${use_webkit_wayland}
+
+		# Make sure dependencies that aren't patched to be REQUIRED in
+		# src_prepare, are found.  This was suggested to me by the telegram
+		# devs, in lieu of having explicit flags in the build system.
+		-DCMAKE_REQUIRE_FIND_PACKAGE_Qt6DBus=$(usex dbus)
+		-DCMAKE_REQUIRE_FIND_PACKAGE_Qt6Quick=${use_webkit_wayland}
+		-DCMAKE_REQUIRE_FIND_PACKAGE_Qt6QuickWidgets=${use_webkit_wayland}
+		-DCMAKE_REQUIRE_FIND_PACKAGE_Qt6WaylandCompositor=${use_webkit_wayland}
+
 		# -DCMAKE_DISABLE_FIND_PACKAGE_KF6CoreAddons=ON
 
 		-DCMAKE_CXX_FLAGS:="${mycxxflags[*]}"
@@ -376,6 +387,13 @@ src_configure() {
 	cmake_src_configure
 }
 
+src_compile() {
+	# There's a bug where sometimes, it will rebuild/relink during src_install
+	# Make sure that happens here, instead.
+	cmake_build
+	cmake_build
+}
+
 pkg_preinst() {
 	xdg_pkg_preinst
 }
@@ -392,17 +410,6 @@ pkg_postinst() {
 		ewarn "Disabling USE=jemalloc on glibc systems may cause very high RAM usage!"
 		ewarn "Do NOT report issues about RAM usage without enabling this flag first."
 		ewarn
-	fi
-	if use wayland && ! use qt6; then
-		ewarn "Wayland-specific integrations have been deprecated with Qt5."
-		ewarn "The app will continue to function under wayland, but some"
-		ewarn "functionality may be reduced."
-		ewarn "These integrations are only supported when built with Qt6."
-		ewarn
-	fi
-	if use qt6 && ! use qt6-imageformats; then
-		elog "Enable USE=qt6-imageformats for AVIF, HEIF and JpegXL support"
-		elog
 	fi
 	optfeature_header
 	optfeature "AVIF, HEIF and JpegXL image support" kde-frameworks/kimageformats[avif,heif,jpegxl]
