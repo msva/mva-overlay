@@ -321,7 +321,7 @@ src_configure() {
 	)
 
 	local no_webkit_wayland=$(use webkit && use wayland && echo no || echo yes)
-	local use_webkit_wayland=$(use webkit || use wayland && echo yes || echo no)
+	local use_webkit_wayland=$(use webkit && use wayland && echo yes || echo no)
 	local mycmakeargs=(
 		-DQT_VERSION_MAJOR=6
 
