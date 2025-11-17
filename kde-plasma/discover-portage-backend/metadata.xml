@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>gentoo@trustcrypt.net</email>
+		<name>Vladislav Tislenko (keklick1337)</name>
+	</maintainer>
+	<longdescription>
+		A native Portage package manager backend for KDE Discover on Gentoo Linux systems.
+		This provides Portage integration into KDE Discover, allowing Gentoo users 
+		to manage their system packages through the familiar Discover graphical interface 
+		instead of command-line tools like emerge.
+		
+		Features include package browsing, search, installation, removal, USE flag management,
+		and category navigation.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">keklick1337/discover-portage-backend</remote-id>
+	</upstream>
+</pkgmetadata>
