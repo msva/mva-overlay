@@ -29,6 +29,7 @@ DEPEND="
 
 RDEPEND="
 	${DEPEND}
+	app-eselect/eselect-repository
 	app-portage/portage-utils
 	app-portage/eix
 	app-portage/gentoolkit
@@ -56,12 +57,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	elog "Portage Backend for KDE Discover has been installed."
-	elog ""
-	elog "To start using it:"
-	elog "  1. Restart DBus: sudo systemctl restart dbus"
-	elog "  2. Restart Discover: killall plasma-discover && plasma-discover &"
-	elog ""
 	elog "Note: This is early-stage software. Use with caution on production systems."
 	elog ""
 	elog "For more information, see:"
