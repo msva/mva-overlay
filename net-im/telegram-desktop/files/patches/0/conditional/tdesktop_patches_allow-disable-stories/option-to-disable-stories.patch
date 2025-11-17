@@ -34,18 +34,18 @@ index d3baee3..04ee5a4 100644
  StoriesSourceInfo StoriesSource::info() const {
  	return {
  		.id = peer->id,
-@@ -459,6 +470,11 @@ Story *Stories::parseAndApply(
+@@ -534,6 +534,11 @@ Story *Stories::parseAndApply(
  		not_null<PeerData*> peer,
  		const MTPDstoryItem &data,
  		TimeId now) {
 +
-+	if (DisableStories.value()) {
-+		return nullptr;
-+	}
++  if (DisableStories.value()) {
++    return nullptr;
++  }
 +
- 	const auto media = ParseMedia(_owner, data.vmedia());
- 	if (!media) {
- 		return nullptr;
+ 	const auto id = data.vid().v;
+ 	const auto fullId = FullStoryId{ peer->id, id };
+ 	auto &stories = _stories[peer->id];
 diff --git a/Telegram/SourceFiles/data/data_stories.h b/Telegram/SourceFiles/data/data_stories.h
 index 1cc3bb3..b42ef79 100644
 --- a/Telegram/SourceFiles/data/data_stories.h
