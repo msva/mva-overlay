@@ -13,7 +13,7 @@ EGIT_MIN_CLONE_TYPE="single+tags"
 
 LICENSE="MIT"
 SLOT="2"
-IUSE="debug valgrind lua52compat openresty +optimization"
+IUSE="debug valgrind lua52compat openresty +optimization static-libs"
 
 RDEPEND="
 	valgrind? ( dev-debug/valgrind )
@@ -117,6 +117,7 @@ multilib_src_compile() {
 		TARGET_STRIP="true" \
 		MULTILIB="$(get_libdir)" \
 		LMULTILIB="$(get_libdir)" \
+		BUILDMODE="$(usex static-libs mixed dynamic)" \
 		XCFLAGS="${xcflags[*]} -fPIC" ${opt}
 }
 
