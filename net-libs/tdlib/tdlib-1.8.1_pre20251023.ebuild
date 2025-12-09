@@ -11,7 +11,7 @@ EGIT_REPO_URI="https://github.com/tdlib/td"
 
 LICENSE="Boost-1.0"
 SLOT="0"
-IUSE="+cli doc debug e2e-private-stuff java lto low-ram test"
+IUSE="+cli doc debug +tde2e java lto low-ram test"
 
 BDEPEND="
 	dev-util/gperf
@@ -21,7 +21,7 @@ BDEPEND="
 "
 RDEPEND="
 	dev-libs/openssl:0=
-	sys-libs/zlib
+	virtual/zlib
 "
 
 if [[ "${PV}" == *_pre* ]]; then
@@ -42,27 +42,30 @@ DOCS=( README.md )
 RESTRICT="!test? ( test )"
 
 src_prepare() {
-	if use test; then
-		sed -i -e '/run_all_tests/! {/all_tests/d}' \
-			test/CMakeLists.txt || die
-	else
-		sed -i \
-			-e '/enable_testing/d' \
-			-e '/add_subdirectory.*test/d' \
-			CMakeLists.txt || die
-	fi
-	# user reported that for now, tests segfaults on glibc and musl
+	sed -e '/add_library(/s/ STATIC//' \
+		-i CMakeLists.txt */CMakeLists.txt || die
+	sed -e '/set(INSTALL_STATIC_TARGETS /s/ tdjson_static TdJsonStatic//' \
+		-e '/generate_pkgconfig(tdjson_static /d' \
+		-i CMakeLists.txt || die
 
-	if use e2e-private-stuff; then
-		sed -r \
-			-e '/TDE2E_ENABLE_INSTALL/,/TDUTILS_USE_EXTERNAL_DEPENDENCIES/{' \
-				-e '/set\(/s@ FORCE@@' \
-				-e 's@if \(TD_E2E_ONLY\)@if (TRUE)@' \
-				-e '/return\(\)/d' \
-				-e '/generate_pkgconfig\(/d' \
-			-e '}' \
-			-i CMakeLists.txt || die
-	fi
+	# Benchmarks take way too long to compile
+	sed -e '/add_subdirectory(benchmark)/d' \
+		-i CMakeLists.txt || die
+
+	# Fix tests linking
+	sed -e 's/target_link_libraries(run_all_tests PRIVATE /&tdmtproto /' \
+		-i test/CMakeLists.txt
+
+	# if use test; then
+	# 	sed -i -e '/run_all_tests/! {/all_tests/d}' \
+	# 		test/CMakeLists.txt || die
+	# else
+	# 	sed -i \
+	# 		-e '/enable_testing/d' \
+	# 		-e '/add_subdirectory.*test/d' \
+	# 		CMakeLists.txt || die
+	# fi
+	# # user reported that for now, tests segfaults on glibc and musl
 
 	cmake_src_prepare
 }
@@ -73,6 +76,7 @@ src_configure() {
 		-DCMAKE_INSTALL_PREFIX=/usr
 		-DTD_ENABLE_JNI=$(usex java ON OFF)
 		-DTD_ENABLE_LTO=$(usex lto ON OFF)
+		-DTDE2E_INSTALL_INCLUDES=ON
 
 		# According to TDLib build instructions, DOTNET=ON is only needed
 		# for using tdlib from C# under Windows through C++/CLI
@@ -82,16 +86,18 @@ src_configure() {
 		# -DEMSCRIPTEN=$(usex javascript ON OFF) # Somehow makes GCC to stop seeing pthreads.h
 	)
 
-	use e2e-private-stuff && mycmakeargs+=(
-		-DTDE2E_ENABLE_INSTALL=ON
-		-DTDE2E_INSTALL_INCLUDES=ON
-	)
-
 	cmake_src_configure
 
 	if use low-ram; then
 		cmake --build "${BUILD_DIR}" --target prepare_cross_compiling || die
 		php SplitSource.php || die
+	fi
+
+	if use tde2e; then
+		# Generate cmake configuration files for the e2e-only variant
+		# These are required by certain programs which depend on "tde2e"
+		mycmakeargs+=( -DTD_E2E_ONLY=ON )
+		BUILD_DIR="${S}_tde2e" cmake_src_configure
 	fi
 }
 
@@ -100,6 +106,10 @@ src_compile() {
 
 	if use doc; then
 		doxygen Doxyfile || die "Could not build docs with doxygen"
+	fi
+
+	if use tde2e; then
+		BUILD_DIR="${S}_tde2e" cmake_src_compile
 	fi
 }
 
@@ -120,9 +130,15 @@ src_install() {
 	use doc && local HTML_DOCS=( docs/html/. )
 	einstalldocs
 
-	# if use e2e-private-stuff; then
-	# 	# kludge for telegram-desktop
-	# 	insinto /usr/include/td/e2e
-	# 	doins tde2e/td/e2e/*.h
-	# fi
+	if use tde2e; then
+		# Install the tde2e headers
+		insinto /usr/include/td/e2e
+		doins tde2e/td/e2e/e2e_api.h tde2e/td/e2e/e2e_errors.h
+
+		# Install the tde2e cmake files
+		cd "${S}_tde2e" || die
+		insinto /usr/$(get_libdir)/cmake/tde2e
+		doins tde2eConfig.cmake tde2eConfigVersion.cmake
+		doins CMakeFiles/Export/*/tde2eStaticTargets*.cmake
+	fi
 }

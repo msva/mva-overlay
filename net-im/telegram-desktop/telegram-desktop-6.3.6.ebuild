@@ -13,7 +13,7 @@ inherit git-r3
 EGIT_REPO_URI="https://github.com/telegramdesktop/tdesktop.git"
 EGIT_SUBMODULES=(
 	'*'
-	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,jemalloc,wayland-protocols,plasma-wayland-protocols,xdg-desktop-portal,GSL,kimageformats,kcoreaddons}
+	-Telegram/ThirdParty/{xxHash,Catch,lz4,libdbusmenu-qt,fcitx{5,}-qt{,5},hime,hunspell,nimf,qt5ct,range-v3,wayland-protocols,plasma-wayland-protocols,xdg-desktop-portal,GSL,kimageformats,kcoreaddons,expected,cld3,QR}
 	# 👆 buildsystem anyway uses system ms-gsl if it is installed, so, no need for bundled, imho 🤷
 	-Telegram/ThirdParty/libtgvoip
 	# 👆 devs said it is not used anymore (but I found that it's submodule is still in the repo)
@@ -35,7 +35,7 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +jemalloc lto pipewire pulseaudio +screencast test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +libdispatch lto pipewire pulseaudio +screencast test +wayland +webkit +X"
 # +system-gsl
 
 REQUIRED_USE="
@@ -61,13 +61,15 @@ COMMON_DEPEND="
 	app-arch/lz4:=
 	>=dev-cpp/abseil-cpp-20240116.2:=
 	dev-cpp/ada
+	dev-cpp/cld3:=
 	dev-libs/boost:=
 	>=dev-libs/glib-2.77:2
 	>=dev-libs/gobject-introspection-1.77
-	dev-libs/libdispatch
+	libdispatch? ( dev-libs/libdispatch )
 	dev-libs/libfmt:=
 	dev-libs/openssl:=
 	>=dev-libs/protobuf-27.2
+	dev-libs/qr-code-generator:=
 	dev-libs/xxhash
 	>=dev-qt/qtbase-6.5:6=[dbus?,gui,network,opengl,wayland?,widgets,X?]
 	>=dev-qt/qtimageformats-6.5:6=
@@ -75,7 +77,6 @@ COMMON_DEPEND="
 	enchant? ( app-text/enchant:= )
 	!fonts? ( media-fonts/open-sans )
 	hunspell? ( >=app-text/hunspell-1.7:= )
-	jemalloc? ( dev-libs/jemalloc:=[-lazy-lock] )
 	kde-frameworks/kcoreaddons:6=
 	kde-frameworks/kimageformats:6=[avif,heif,jpegxl]
 	media-libs/fontconfig:=
@@ -86,7 +87,7 @@ COMMON_DEPEND="
 	>=media-libs/tg_owt-0_pre20250501:=[pipewire(+)=,screencast=,X=]
 	media-video/ffmpeg:=[opus,vpx]
 	sys-apps/xdg-desktop-portal:=
-	sys-libs/zlib:=[minizip]
+	virtual/minizip:=
 	virtual/opengl
 	pulseaudio? (
 		!pipewire? ( media-sound/pulseaudio-daemon )
@@ -96,14 +97,14 @@ COMMON_DEPEND="
 		!media-sound/pulseaudio-daemon
 	)
 	wayland? (
-		>=dev-qt/qtwayland-6.5:6=[compositor,qml]
+		>=dev-qt/qtwayland-6.5:6=[compositor(+),qml]
 		kde-plasma/kwayland:=
 		dev-libs/wayland-protocols:=
 		dev-libs/plasma-wayland-protocols:=
 	)
 	webkit? ( wayland? (
 		>=dev-qt/qtdeclarative-6.5:6
-		>=dev-qt/qtwayland-6.5:6[compositor]
+		>=dev-qt/qtwayland-6.5:6[compositor(+)]
 		) )
 	X? (
 		x11-libs/libxcb:=
@@ -112,6 +113,10 @@ COMMON_DEPEND="
 "
 	# dev-libs/libsigc++:2
 	# >=dev-cpp/glibmm-2.77:2.68
+# XXX: 👆 qtwayland >= 6.10.0 missing 'compositor' USE-flag,
+# and I'm not 100% sure if it really defaults to build wayland server
+# (as in called in 6.9) anyway, or it moved somewhere outside dev-qt/*
+# (as I didn't find it anymore)
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -126,7 +131,9 @@ DEPEND="
 	${COMMON_DEPEND}
 	>=dev-cpp/cppgir-2.0_p20240315
 	dev-cpp/range-v3
-	net-libs/tdlib:=[e2e-private-stuff]
+	net-libs/tdlib:=[tde2e(-)]
+	dev-cpp/expected
+	dev-cpp/expected-lite
 "
 	# 👆tdlib builds static libs, and so tdesktop links statically, so, no need to be in RDEPEND
 	#
@@ -142,8 +149,6 @@ BDEPEND="
 	virtual/pkgconfig
 	wayland? ( dev-util/wayland-scanner )
 "
-# dev-cpp/cld3:=
-# dev-libs/qr-code-generator:=
 
 RESTRICT="!test? ( test )"
 
@@ -164,45 +169,37 @@ pkg_pretend() {
 		einfo "Also, note that none of that patches have any chance to be ported to ${PN} ebuild in Gentoo repo"
 	fi
 
-	if use custom-api-id; then
-		if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
-			einfo ""
-			einfo "${P} was built with your custom ApiId and ApiHash"
-			einfo ""
-		else
-			eerror ""
-			eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
-			eerror "which are required for custom-api-id USE-flag."
-			eerror "You can set them either in:"
-			eerror "- /etc/portage/make.conf (globally, so all applications you'll build will see that ID and HASH"
-			eerror "- /etc/portage/env/${CATEGORY}/${PN} (privately for this package builds)"
-			eerror ""
-			die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables"
+	if [[ ${MERGE_TYPE} != binary ]]; then
+		if use custom-api-id; then
+			if [[ -n "${TELEGRAM_CUSTOM_API_ID}" ]] && [[ -n "${TELEGRAM_CUSTOM_API_HASH}" ]]; then
+				einfo ""
+				einfo "${P} was built with your custom ApiId and ApiHash"
+				einfo ""
+			else
+				eerror ""
+				eerror "It seems you did not set one or both of TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables,"
+				eerror "which are required for custom-api-id USE-flag."
+				eerror "You can set them either in:"
+				eerror "- /etc/portage/make.conf (globally, so all applications you'll build will see that ID and HASH"
+				eerror "- /etc/portage/env/${CATEGORY}/${PN} (privately for this package builds)"
+				eerror ""
+				die "You should correctly set both TELEGRAM_CUSTOM_API_ID and TELEGRAM_CUSTOM_API_HASH variables"
+			fi
 		fi
-	fi
-
-	# if use system-rlottie; then
-	# 	eerror ""
-	# 	eerror "Currently, ${PN} is totally incompatible with Samsung's rlottie, and uses custom bundled fork."
-	# 	eerror "Build will definitelly fail. You've been warned!"
-	# 	eerror "Even if you have custom patches to make it build, there is another issue:"
-	# 	ewarn ""
-	# 	ewarn "Unfortunately, ${PN} uses custom modifications over rlottie"
-	# 	ewarn "(which aren't accepted by upstream, since they made it another way)."
-	# 	ewarn "This leads to following facts:"
-	# 	ewarn "  - Colors replacement maps are not working when you link against system rlottie package."
-	# 	ewarn "      That means, for example, that 'giant animated emojis' will ignore skin-tone colors"
-	# 	ewarn "      and will always be yellow"
-	# 	ewarn "      Ref: https://github.com/Samsung/rlottie/pull/252"
-	# 	ewarn "  - Crashes on some stickerpacks"
-	# 	ewarn "      Probably related to: https://github.com/Samsung/rlottie/pull/262"
-	# 	ewarn ""
-	# fi
-	if has ccache ${FEATURES}; then
-		ewarn "ccache does not work with ${PN} out of the box"
-		ewarn "due to usage of precompiled headers"
-		ewarn "check bug https://bugs.gentoo.org/715114 for more info"
-		ewarn
+		if has ccache ${FEATURES}; then
+			ewarn "ccache does not work with ${PN} out of the box"
+			ewarn "due to usage of precompiled headers"
+			ewarn "check bug https://bugs.gentoo.org/715114 for more info"
+			ewarn
+		fi
+		if tc-is-clang && [[ $(tc-get-cxx-stdlib) = libstdc++ ]]; then
+			ewarn "this package frequently fails to compile with clang"
+			ewarn "in combination with libstdc++."
+			ewarn "please use libc++, or build this package with gcc."
+			ewarn "(if you have a patch or a fix, please open a"
+			ewarn "bug report about it)"
+			ewarn
+		fi
 	fi
 }
 
@@ -215,36 +212,13 @@ src_unpack() {
 
 	( use arm && ! use arm64 ) || EGIT_SUBMODULES+=(-Telegram/ThirdParty/dispatch)
 
-#	use system-rlottie && EGIT_SUBMODULES+=(-Telegram/{lib_rlottie,ThirdParty/rlottie})
-	# ^ Ref: https://bugs.gentoo.org/752417
-
 	git-r3_src_unpack
 }
 
 src_prepare() {
-	# use system-rlottie || (
-	# # Ref: https://bugs.gentoo.org/752417
-	# 	sed -i \
-	# 		-e 's/DESKTOP_APP_USE_PACKAGED/0/' \
-	# 		cmake/external/rlottie/CMakeLists.txt || die
-	# )
-
-	# # Bundle kde-frameworks/kimageformats for qt6, since it's impossible to
-	# #   build in gentoo right now.
-	# if use qt6-imageformats; then
-	# 	sed -e 's/DESKTOP_APP_USE_PACKAGED_LAZY/TRUE/' -i \
-	# 		cmake/external/kimageformats/CMakeLists.txt || die
-	# 	printf "%s\n" \
-	# 		'Q_IMPORT_PLUGIN(QAVIFPlugin)' \
-	# 		'Q_IMPORT_PLUGIN(HEIFPlugin)' \
-	# 		'Q_IMPORT_PLUGIN(QJpegXLPlugin)' \
-	# 		>> cmake/external/qt/qt_static_plugins/qt_static_plugins.cpp || die
-	# fi
-
 	# Happily fail if libraries aren't found...
 	find -type f \( -name 'CMakeLists.txt' -o -name '*.cmake' \) \
 		\! -path './Telegram/lib_webview/CMakeLists.txt' \
-		\! -path "./cmake/external/expected/CMakeLists.txt" \
 		\! -path './cmake/external/kcoreaddons/CMakeLists.txt' \
 		\! -path './cmake/external/lz4/CMakeLists.txt' \
 		\! -path './cmake/external/opus/CMakeLists.txt' \
@@ -253,10 +227,28 @@ src_prepare() {
 		\! -path './Telegram/lib_webview/CMakeLists.txt' \
 		-print0 | xargs -0 sed -i \
 		-e '/pkg_check_modules(/s/[^ ]*)/REQUIRED &/' \
-		-e '/find_package(/s/)/ REQUIRED)/' || die
+		-e '/find_package(/s/)/ REQUIRED)/' \
+		-e '/find_library(/s/)/ REQUIRED)/' || die
+		# \! -path "./cmake/external/expected/CMakeLists.txt" \
 		# \! -path './cmake/external/kimageformats/CMakeLists.txt' \
 	# Make sure to check the excluded files for new
 	# CMAKE_DISABLE_FIND_PACKAGE entries.
+
+	# Some packages are found through pkg_check_modules, rather than find_package
+	sed -e '/find_package(lz4 /d' -i cmake/external/lz4/CMakeLists.txt || die
+	sed -e '/find_package(Opus /d' -i cmake/external/opus/CMakeLists.txt || die
+	sed -e '/find_package(xxHash /d' -i cmake/external/xxhash/CMakeLists.txt || die
+
+	# Greedily remove ThirdParty directories, keep only ones that interest us
+	local keep=(
+		rlottie  # Patched, not recommended to unbundle by upstream
+		libprisma  # Telegram-specific library, no stable releases
+		tgcalls  # Telegram-specific library, no stable releases
+		# xdg-desktop-portal  # Only a few xml files are used with gdbus-codegen
+	)
+	for x in Telegram/ThirdParty/*; do
+		has "${x##*/}" "${keep[@]}" || rm -r "${x}" || die
+	done
 
 	# Control QtDBus dependency from here, to avoid messing with QtGui.
 	if ! use dbus; then
@@ -264,11 +256,12 @@ src_prepare() {
 			-i cmake/external/qt/package.cmake || die
 	fi
 
-	# HACK: tmp (nothing is more persistent than temporary, hehe)
-	sed -r \
-		-e '1i#include <QJsonObject>' \
-		-i "${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_card.h" \
-			"${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_error.h" || die
+	# XXX: checking if it is non needed anymore. Ping me if I pushed that to GH
+	# # HACK: tmp (nothing is more persistent than temporary, hehe)
+	# sed -r \
+	# 	-e '1i#include <QJsonObject>' \
+	# 	-i "${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_card.h" \
+	# 		"${S}/Telegram/SourceFiles/payments/smartglocal/smartglocal_error.h" || die
 
 	# Use system xdg-portal things
 	sed -r \
@@ -280,6 +273,12 @@ src_prepare() {
 		sed -e 's/QT_CONFIG(wayland_compositor_quick)/0/' \
 			-i Telegram/lib_webview/webview/platform/linux/webview_linux_compositor.h || die
 	fi
+
+	# Shut the CMake 4 QA checker up by removing unused CMakeLists files
+	rm Telegram/ThirdParty/rlottie/CMakeLists.txt || die
+	rm cmake/external/glib/cppgir/expected-lite/example/CMakeLists.txt || die
+	rm cmake/external/glib/cppgir/expected-lite/test/CMakeLists.txt || die
+	rm cmake/external/glib/cppgir/expected-lite/CMakeLists.txt || die
 
 	patches_src_prepare
 # cmake_src_prepare
@@ -317,8 +316,11 @@ src_configure() {
 		-DLIBDIR="$(get_libdir)"
 		-DTDESKTOP_DISABLE_AUTOUPDATE
 		# XXX: temp (I hope) kludge (until abseil-cpp-2025+ will be in tree)
-		-I/usr/include/tg_owt/third_party/abseil-cpp
+		# -I/usr/include/tg_owt/third_party/abseil-cpp
 	)
+
+	# https://github.com/telegramdesktop/tdesktop/issues/17437#issuecomment-1001160398
+	use !libdispatch && append-cppflags -DCRL_FORCE_QT
 
 	local no_webkit_wayland=$(use webkit && use wayland && echo no || echo yes)
 	local use_webkit_wayland=$(use webkit && use wayland && echo yes || echo no)
@@ -331,7 +333,7 @@ src_configure() {
 
 		# Control automagic dependencies on certain packages
 		## Header-only lib, some git version.
-		-DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON
+		# -DCMAKE_DISABLE_FIND_PACKAGE_tl-expected=ON
 
 		# Control automagic dependencies on certain packages
 		## These libraries are only used in lib_webview, for wayland
@@ -339,8 +341,6 @@ src_configure() {
 		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6Quick=${no_webkit_wayland}
 		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6QuickWidgets=${no_webkit_wayland}
 		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WaylandCompositor=${no_webkit_wayland}
-
-		-DCMAKE_DISABLE_FIND_PACKAGE_Qt6WaylandClient=$(usex !wayland)
 
 		# Make sure dependencies that aren't patched to be REQUIRED in
 		# src_prepare, are found.  This was suggested to me by the telegram
@@ -364,7 +364,6 @@ src_configure() {
 
 		-DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X)
 		# -DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
-		-DDESKTOP_APP_DISABLE_JEMALLOC=$(usex !jemalloc)
 
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
 
@@ -383,6 +382,9 @@ src_configure() {
 
 #		-DDESKTOP_APP_LOTTIE_USE_CACHE=NO
 #		# in case of caching bugs. Maybe also useful with system-rlottie[cache]. TODO: test that idea.
+
+		## See tdesktop-*-libdispatch.patch
+		-DDESKTOP_APP_USE_LIBDISPATCH=$(usex libdispatch)
 	)
 	cmake_src_configure
 }
@@ -404,11 +406,10 @@ pkg_postinst() {
 		ewarn "both the 'X' and 'screencast' USE flags are disabled, screen sharing won't work!"
 		ewarn
 	fi
-	if ! use jemalloc && use elibc_glibc; then
-		# https://github.com/telegramdesktop/tdesktop/issues/16084
-		# https://github.com/desktop-app/cmake_helpers/pull/91#issuecomment-881788003
-		ewarn "Disabling USE=jemalloc on glibc systems may cause very high RAM usage!"
-		ewarn "Do NOT report issues about RAM usage without enabling this flag first."
+	if ! use libdispatch; then
+		ewarn "Disabling USE=libdispatch may cause performance degradation"
+		ewarn "due to fallback to poor QThreadPool! Please see"
+		ewarn "https://github.com/telegramdesktop/tdesktop/wiki/The-Packaged-Building-Mode"
 		ewarn
 	fi
 	optfeature_header
