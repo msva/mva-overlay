@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=OpenWebStart
+NoDisplay=true
+Exec=/bin/sh /opt/OpenWebStart/javaws %f
+Icon=/opt/OpenWebStart/.install4j/javaws.png
+MimeType=application/x-java-jnlp-file
