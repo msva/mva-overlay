@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit cmake git-r3
+inherit cmake git-r3 java-pkg-opt-2
 
 DESCRIPTION="Cross-platform library for building Telegram clients"
 HOMEPAGE="https://github.com/tdlib/td"
@@ -67,6 +67,7 @@ src_prepare() {
 	# fi
 	# # user reported that for now, tests segfaults on glibc and musl
 
+	java-pkg-opt-2_src_prepare
 	cmake_src_prepare
 }
 
@@ -85,6 +86,12 @@ src_configure() {
 		# -DTD_EXPERIMENTAL_WATCH_OS=$(usex watch-os ON OFF) # Requires "Foundation" library. TBD.
 		# -DEMSCRIPTEN=$(usex javascript ON OFF) # Somehow makes GCC to stop seeing pthreads.h
 	)
+
+	if use java; then
+		export JAVA_HOME="$(java-config -g JAVA_HOME)"
+		export JAVA_AWT_INCLUDE_PATH="${JAVA_HOME}/include"
+		export JAVA_JVM_LIBRARY="${JAVA_HOME}/lib/server/libjvm.so"
+	fi
 
 	cmake_src_configure
 
