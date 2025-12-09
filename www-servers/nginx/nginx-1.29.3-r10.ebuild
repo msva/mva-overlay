@@ -1,7 +1,11 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
+
+
+# TODO:
+# rewrite to eclass as in gentoo repo
 
 # XXX: Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
@@ -18,7 +22,7 @@ EAPI=8
 
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
-USE_RUBY="ruby31 ruby32 ruby33 ruby34"
+USE_RUBY="ruby32 ruby33 ruby34"
 LUA_COMPAT=( luajit )
 
 RUBY_OPTIONAL="yes"
@@ -810,7 +814,7 @@ REQUIRED_USE="
 	nginx_modules_core_stream_traffic_status? ( nginx_modules_stream_traffic_status )
 "
 
-IUSE="aio busy-upstream debug +http http2 http3 +http-cache ktls libatomic mail pam pcre pcre-jit +pcre2 perftools rrd ssl ssl-cert-cb stream threads vim-syntax selinux systemtap +static rtmp"
+IUSE="aio busy-upstream debug +http http2 http3 +http-cache ktls libatomic mail pam pcre pcre-jit +pcre2 perftools rrd ssl ssl-cert-cb stream threads selinux systemtap +static rtmp"
 
 for mod in $NGINX_MODULES_STD $NGINX_MODULES_OPT $NGINX_MODULES_3P; do
 	f=
@@ -882,8 +886,9 @@ CDEPEND="
 
 RDEPEND="
 	${CDEPEND}
-	acct-group/nginx
+	app-misc/mime-types[nginx]
 	selinux? ( sec-policy/selinux-nginx )
+	!app-vim/nginx-syntax
 "
 DEPEND="
 	${CDEPEND}
@@ -899,8 +904,8 @@ BDEPEND="
 #QA_EXECSTACK="usr/sbin/nginx"
 ##QA_WX_LOAD="usr/sbin/nginx"
 
+	# vim-syntax? ( ~app-vim/nginx-syntax-${PV} )
 PDEPEND="
-	vim-syntax? ( ~app-vim/nginx-syntax-${PV} )
 	nginx_modules_stream_lua? (
 		dev-lua/resty-core
 		dev-lua/resty-lrucache
@@ -1375,6 +1380,10 @@ passenger_install() {
 }
 
 src_install() {
+	# Install vimfiles from 'contrib/vim'.
+	insinto /usr/share/vim/vimfiles
+	doins -r contrib/vim/*
+
 	emake DESTDIR="${D}" install
 
 	host-is-pax && pax-mark m "${ED}/usr/sbin/nginx"
