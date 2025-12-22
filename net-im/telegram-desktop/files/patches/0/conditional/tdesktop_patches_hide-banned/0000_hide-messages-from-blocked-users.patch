@@ -46,7 +46,7 @@ diff -ur a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFile
  
 +	session().changes().peerUpdates(
 +		Data::PeerUpdate::Flag::IsBlocked
-+	) | rpl::start_with_next([=] {
++	) | rpl::on_next([=] {
 +		crl::on_main(this, [=] {
 +			if (_history) {
 +				_history->forceFullResize();
@@ -60,7 +60,7 @@ diff -ur a/Telegram/SourceFiles/history/history_widget.cpp b/Telegram/SourceFile
 +	}, lifetime());
 +
  	_topBar->membersShowAreaActive(
- 	) | rpl::start_with_next([=](bool active) {
+ 	) | rpl::on_next([=](bool active) {
  		setMembersShowAreaActive(active);
 diff -ur a/Telegram/SourceFiles/history/view/history_view_element.cpp b/Telegram/SourceFiles/history/view/history_view_element.cpp
 --- a/Telegram/SourceFiles/history/view/history_view_element.cpp	2023-11-01 02:41:23.626382456 +0600
@@ -123,7 +123,7 @@ diff -ur a/Telegram/SourceFiles/main/main_session.cpp b/Telegram/SourceFiles/mai
 +       session->api().blockedPeers().slice(
 +       ) | rpl::take(
 +               1
-+       ) | rpl::start_with_next([=](const Api::BlockedPeers::Slice &result) {
++       ) | rpl::on_next([=](const Api::BlockedPeers::Slice &result) {
 +               applySlice(result, applySlice);
 +       }, session->lifetime());
 +}
