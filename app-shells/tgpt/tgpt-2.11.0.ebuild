@@ -25,6 +25,8 @@ RDEPEND="!app-shells/tgpt-bin"
 LICENSE="GPL-3"
 SLOT="0"
 
+# QA_PREBUILT="usr/bin/${PN}"
+
 src_unpack() {
 	git-r3_src_unpack
 	go-module_live_vendor
@@ -34,17 +36,22 @@ src_prepare() {
 	default
 	# get rid of auto-updating functionality
 	sed -r \
-		-e '/case\ \*isUpdate:/,/update\(\)/d' \
-		-e '/fmt.Printf.*Update\ program\ /{s@.*@fmt.Printf\(""\)@}' \
+		-e '/case\ \*isUpdate:/,/helper.Update\([^\))]*\)/d' \
+		-e '/isUpdate.*Update\ program/d' \
+		-e '/executablePath/d' \
+		-e '/execPath,\ err/,/\t\}/d' \
 		-i main.go || die
 	sed -r \
-		-e '/^func\ update\(\)\ \{/,/^\}/d' \
+		-e '/^func\ Update\([^\)]*\)\ \{/,/^\}/d' \
+		-e '/fmt.Print.*Update\ program/{s@.*@//@}' \
 		-e '/golang.org.*semver/d' \
-		-i helper.go || die
+		-e '/github.com\/aandrew-me\/tgpt\/v2\/src\/client/d' \
+		-i src/helper/helper.go || die
 }
 
 src_compile() {
-	ego build -trimpath -ldflags="-s -w"
+	ego build
+ 	# -trimpath -ldflags="-s -w"
 }
 
 src_install() {
