@@ -24,7 +24,10 @@ else
 fi
 
 RDEPEND="
-	www-servers/nginx:*[nginx_modules_http_lua]
+	|| (
+		www-servers/nginx:*[nginx_modules_http_lua(-)]
+		www-nginx/ngx-lua-module
+	)
 "
 
 DOCS=(README.md)
