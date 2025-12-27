@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -22,23 +22,16 @@ else
 	MY_P="${MY_PN}-${PV}"
 	S="${WORKDIR}/${MY_P}"
 fi
-IUSE="qt6"
 
 DEPEND="
-	!qt6?	(
-			dev-qt/qtcore:5
-			dev-qt/qtx11extras:5
-		)
-	qt6?	(
-			dev-qt/qtbase:6
-		)
+	dev-qt/qtbase:6
 	x11-libs/libX11
 "
 RDEPEND="${DEPEND}"
 
 src_configure() {
 	local mycmakeargs=(
-		-DQT_DEFAULT_MAJOR_VERSION:STRING=$(usex qt6 "6" "5")
+		-DQT_DEFAULT_MAJOR_VERSION:STRING=6
 	)
 	cmake_src_configure
 }
