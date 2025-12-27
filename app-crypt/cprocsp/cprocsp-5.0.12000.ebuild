@@ -27,7 +27,7 @@ DEPEND="
 	media-libs/fontconfig
 	media-libs/freetype
 	sys-libs/pam
-	sys-libs/zlib
+	virtual/zlib
 	x11-libs/cairo
 	x11-libs/gdk-pixbuf
 	x11-libs/gtk+:2
