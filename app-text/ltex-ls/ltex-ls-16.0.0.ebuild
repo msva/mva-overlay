@@ -22,7 +22,7 @@ CP_DEPEND="
 	dev-java/commons-logging:0
 	dev-java/commons-text:0
 	dev-java/jackson-core:0
-	dev-java/jackson-annotations:2
+	dev-java/jackson-annotations:0
 	dev-java/jackson-databind:0
 	dev-java/jaxb-api:2
 	dev-java/jaxb-runtime:4
