@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -20,7 +20,7 @@ RDEPEND="
 	${LUA_DEPS}
 	system-bzip? ( app-arch/bzip2 )
 	system-lzma? ( app-arch/xz-utils )
-	system-zlib? ( sys-libs/zlib )
+	system-zlib? ( virtual/zlib )
 "
 #	system-polarssl? ( net-libs/polarssl )
 
