@@ -1,4 +1,4 @@
-# Copyright 2025 Gentoo Authors
+# Copyright 2026 mva
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -7,14 +7,15 @@ MY_PV=${PV//'.'/'_'}
 
 README_GENTOO_SUFFIX="-r1"
 
-inherit unpacker desktop readme.gentoo-r1 xdg-utils
+inherit unpacker desktop readme.gentoo-r1 xdg-utils java-pkg-2
 
 DESCRIPTION="Run Web Start based applications after the release of Java 11"
 HOMEPAGE="https://openwebstart.com/"
 SRC_URI="https://github.com/karakun/OpenWebStart/releases/download/v${PV}/OpenWebStart_linux_${MY_PV}.deb"
 
+S="${WORKDIR}"
+
 LICENSE="GPL-2 GPL-2-with-linking-exception LGPL-2"
-IUSE=""
 SLOT="0"
 KEYWORDS="~amd64"
 
@@ -23,8 +24,6 @@ RDEPEND="
 "
 
 RESTRICT="bindist mirror strip test"
-
-S="${WORKDIR}"
 
 xxpkg_setup() {
 	JAVA_PKG_WANT_BUILD_VM="openjdk-${SLOT} openjdk-bin-${SLOT}"
@@ -47,13 +46,13 @@ xxpkg_setup() {
 		fi
 	done
 
-	if has_version --host-root dev-java/openjdk:${SLOT}; then
+	if has_version dev-java/openjdk:${SLOT}; then
 		export JAVA_HOME=${EPREFIX}/usr/$(get_libdir)/openjdk-${SLOT}
 		export JDK_HOME="${JAVA_HOME}"
 		export ANT_RESPECT_JAVA_HOME=true
 	else
 		if [[ ${MERGE_TYPE} != "binary" ]]; then
-			JDK_HOME=$(best_version --host-root dev-java/openjdk-bin:${SLOT})
+			JDK_HOME=$(best_version dev-java/openjdk-bin:${SLOT})
 			[[ -n ${JDK_HOME} ]] || die "Build VM not found!"
 			JDK_HOME=${JDK_HOME#*/}
 			JDK_HOME=${EPREFIX}/opt/${JDK_HOME%-r*}
@@ -64,9 +63,7 @@ xxpkg_setup() {
 	fi
 }
 
-src_compile() {
-	echo binary, no cc
-}
+src_compile() { :; }
 
 src_install() {
 	default
@@ -79,7 +76,11 @@ src_install() {
 }
 
 pkg_postinst() {
-	xdg-icon-resource install --size 512 --context mimetypes "/opt/OpenWebStart/App-Icon-512.png" application-x-java-jnlp-file
+	xdg-icon-resource install \
+		--size 512 \
+		--context mimetypes \
+		"/opt/OpenWebStart/App-Icon-512.png" \
+		application-x-java-jnlp-file
 	xdg_icon_cache_update
 	xdg_desktop_database_update
 	xdg_mimeinfo_database_update
