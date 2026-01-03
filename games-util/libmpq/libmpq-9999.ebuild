@@ -14,7 +14,7 @@ SLOT="0"
 
 DEPEND="
 	app-arch/bzip2
-	sys-libs/zlib
+	virtual/zlib
 "
 RDEPEND="${DEPEND}"
 
