@@ -20,7 +20,7 @@ fi
 LICENSE="BSD"
 SLOT="0"
 
-RDEPEND="sys-libs/zlib"
+RDEPEND="virtual/zlib"
 BDEPEND="
 	${RDEPEND}
 "
