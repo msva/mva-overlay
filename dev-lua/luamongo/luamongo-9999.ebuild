@@ -28,7 +28,8 @@ DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
 pkg_pretend() {
-	die "Not working anymore. Use dev-lua/lua-mongo or dev-lua/resty-mongol"
+	[[ -n "${I_ANYWAY_WANT_TO_TRY_TO_BUILD_LUAMONGO}" ]] ||
+	die "Not working anymore. Use dev-lua/lua-mongo or dev-lua/lua-resty-mongol"
 }
 
 src_prepare() {
