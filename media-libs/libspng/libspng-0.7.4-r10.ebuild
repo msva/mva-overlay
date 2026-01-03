@@ -25,7 +25,7 @@ REQUIRED_USE="arm? ( !miniz ) arm64? ( !miniz )"
 
 RDEPEND="
 	!arm? ( !arm64? ( miniz? ( dev-libs/miniz ) ) )
-	!miniz? ( sys-libs/zlib )
+	!miniz? ( virtual/zlib )
 "
 
 multilib_src_configure() {
