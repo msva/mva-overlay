@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..13} python3_13t )
+PYTHON_COMPAT=( python3_{8..14} python3_13t )
 
 inherit wrapper git-r3 python-r1 shell-completion
 
