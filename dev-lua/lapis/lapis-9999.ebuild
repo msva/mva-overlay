@@ -28,7 +28,7 @@ RDEPEND="
 		dev-lua/lua-http[$LUA_USEDEP]
 	)
 	!lua-http? (
-		dev-lua/resty-upload[${LUA_USEDEP}]
+		dev-lua/lua-resty-upload[${LUA_USEDEP}]
 	)
 "
 DEPEND="
