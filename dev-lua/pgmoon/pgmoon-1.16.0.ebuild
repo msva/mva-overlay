@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 2026 mva
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -8,13 +8,15 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 inherit lua git-r3
 
 DESCRIPTION="A pure Lua Postgres driver for use in OpenResty & more"
-HOMEPAGE="https://github.com/Kong/pgmoon"
-EGIT_REPO_URI="https://github.com/Kong/pgmoon"
+HOMEPAGE="https://github.com/leafo/pgmoon"
+EGIT_REPO_URI="https://github.com/leafo/pgmoon"
+# HOMEPAGE="https://github.com/Kong/pgmoon"
+# EGIT_REPO_URI="https://github.com/Kong/pgmoon"
 
 if [[ "${PV}" != 9999 ]]; then
-	KEYWORDS="~amd64 ~arm ~arm64 ~x86 ~amd64-linux ~x86-linux"
-	# ppc ppc64 riscv
-	# ^ nginx
+	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86"
+	# ~ppc64 ~riscv
+	# 👆 luajit 🤷
 	EGIT_COMMIT="v${PV}"
 fi
 
@@ -35,8 +37,16 @@ RDEPEND="
 		dev-lua/luaossl[${LUA_USEDEP}]
 	)
 	openresty? (
-		dev-lua/resty-openssl[lua_targets_luajit]
-		>=www-servers/nginx-1.24.0-r10[nginx_modules_http_lua,ssl,lua_single_target_luajit]
+		dev-lua/lua-resty-openssl[lua_targets_luajit]
+		|| (
+			>=www-servers/nginx-1.24.0-r10[nginx_modules_http_lua(-),lua_single_target_luajit(-)]
+			www-nginx/ngx-lua-module[lua_single_target_luajit]
+		)
+		|| (
+			>=www-servers/nginx-1.24.0-r10[ssl(-)]
+			>=www-servers/nginx-1.24.0-r10[nginx_modules_http_ssl(-)]
+			>=www-servers/nginx-1.24.0-r10[nginx_modules_stream_ssl(-)]
+		)
 		dev-lua/penlight[${LUA_USEDEP}]
 	)
 	lua_targets_lua5-1? ( dev-lua/LuaBitOp[${LUA_USEDEP}] )
