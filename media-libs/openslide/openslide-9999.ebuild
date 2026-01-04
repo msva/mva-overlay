@@ -23,7 +23,7 @@ DEPEND="
 	media-libs/openjpeg:2
 	media-libs/tiff:0
 	virtual/libc
-	sys-libs/zlib
+	virtual/zlib
 	>=x11-libs/cairo-1.2
 	>=dev-libs/glib-2.12
 "
