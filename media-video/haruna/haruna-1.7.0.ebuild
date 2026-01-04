@@ -8,24 +8,26 @@ PLOCALE_BACKUP="en"
 
 inherit cmake plocale xdg
 
-MY_P="${PN}-v${PV}"
-
 DESCRIPTION="Video player built with Qt/QML on top of libmpv"
 HOMEPAGE="https://invent.kde.org/multimedia/haruna"
-SRC_URI="https://invent.kde.org/multimedia/${PN}/-/archive/v${PV}/${MY_P}.tar.gz"
-S="${WORKDIR}/${MY_P}"
+
+if [[ "${PV}" == *9999* ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://invent.kde.org/multimedia/${PN}.git"
+else
+	MY_P="${PN}-v${PV}"
+	SRC_URI="https://invent.kde.org/multimedia/${PN}/-/archive/v${PV}/${MY_P}.tar.gz"
+	S="${WORKDIR}/${MY_P}"
+	KEYWORDS="~amd64 ~x86"
+fi
 
 LICENSE="GPL-3"
-SLOT="6"
-KEYWORDS="~amd64 ~x86"
+SLOT="0"
 
 RDEPEND="
-	dev-qt/qtcore:5
-	dev-qt/qtdbus:5
+	dev-libs/kdsingleapplication
+	dev-qt/qtbase:6
 	dev-qt/qtdeclarative:6
-	dev-qt/qtgui:5
-	dev-qt/qtquickcontrols:5
-	dev-qt/qtquickcontrols2:5
 	kde-frameworks/breeze-icons:6
 	kde-frameworks/kcolorscheme:6
 	kde-frameworks/kconfig:6

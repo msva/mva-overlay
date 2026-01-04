@@ -5,17 +5,27 @@ EAPI=8
 
 PLOCALES="ar ast ca ca@valencia cs de en_GB eo es eu fi fr gl he hi ia id it ja ka ko lt lv nl pl pt pt_BR ro ru sk sl sv ta tr uk zh_CN zh_TW"
 PLOCALE_BACKUP="en"
-EGIT_REPO_URI="https://invent.kde.org/multimedia/${PN}.git"
 
-inherit cmake git-r3 plocale xdg
+inherit cmake plocale xdg
 
 DESCRIPTION="Video player built with Qt/QML on top of libmpv"
 HOMEPAGE="https://invent.kde.org/multimedia/haruna"
 
+if [[ "${PV}" == *9999* ]]; then
+	inherit git-r3
+	EGIT_REPO_URI="https://invent.kde.org/multimedia/${PN}.git"
+else
+	MY_P="${PN}-v${PV}"
+	SRC_URI="https://invent.kde.org/multimedia/${PN}/-/archive/v${PV}/${MY_P}.tar.gz"
+	S="${WORKDIR}/${MY_P}"
+	KEYWORDS="~amd64 ~x86"
+fi
+
 LICENSE="GPL-3"
-SLOT="6"
+SLOT="0"
 
 RDEPEND="
+	dev-libs/kdsingleapplication
 	dev-qt/qtbase:6
 	dev-qt/qtdeclarative:6
 	kde-frameworks/breeze-icons:6
