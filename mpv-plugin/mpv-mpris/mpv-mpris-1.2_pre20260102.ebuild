@@ -14,11 +14,11 @@ if [[ ${PV} == *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/hoyon/${PN}"
 else
 	if [[ ${PV} == *_pre* ]]; then
-		MY_SHA=16fee38988bb0f4a0865b6e8c3b332df2d6d8f14
+		MY_SHA=df95f07c48926d1589ee5fe36a455c1f49cbe4c8
 		S="${WORKDIR}/${PN}-${MY_SHA}"
 	fi
 	SRC_URI="https://github.com/hoyon/${PN}/archive/${MY_SHA:-${PV}}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
+	KEYWORDS="~amd64 ~x86"
 fi
 
 LICENSE="MIT"
