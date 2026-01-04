@@ -28,7 +28,7 @@ RDEPEND="
 	sys-apps/keyutils
 	sys-apps/util-linux
 	sys-fs/e2fsprogs
-	sys-libs/zlib
+	virtual/zlib
 	x11-libs/gtk+:3
 	x11-libs/libXScrnSaver
 	x11-libs/libXtst
