@@ -29,7 +29,7 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-cpp/asio-1.10
-	sys-libs/zlib
+	virtual/zlib
 	ssl? ( dev-libs/openssl:= )
 "
 
