@@ -16,7 +16,7 @@ SLOT="0"
 IUSE="gcrypt +libevent"
 
 DEPEND="
-	sys-libs/zlib
+	virtual/zlib
 	!gcrypt? ( dev-libs/openssl )
 	gcrypt? ( dev-libs/libgcrypt )
 	libevent? ( dev-libs/libevent )
