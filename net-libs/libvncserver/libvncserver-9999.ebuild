@@ -34,7 +34,7 @@ DEPEND="
 	jpeg? ( media-libs/libjpeg-turbo:=[${MULTILIB_USEDEP}] )
 	png? ( >=media-libs/libpng-1.6.10:0=[${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd:= )
-	zlib? ( >=sys-libs/zlib-1.2.8-r1:0=[${MULTILIB_USEDEP}] )"
+	zlib? ( >=virtual/zlib-1.2.8-r1:0=[${MULTILIB_USEDEP}] )"
 RDEPEND="${DEPEND}"
 
 DOCS=( AUTHORS ChangeLog README.md )
