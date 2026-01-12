@@ -28,8 +28,8 @@ src_unpack() {
 
 src_compile() {
 	local my_ldflags=(
-		-s
-		-w
+		# -s -w
+		# 👆 causes QA notice about pre-stripped binary
 		-X "'github.com/dundee/gdu/v5/build.Version=${PV}'"
 		-X "'github.com/dundee/gdu/v5/build.Time=$(date +%Y-%m-%d\ %H:%M:%S)'"
 		-X "'github.com/dundee/gdu/v5/build.User=portage (Gentoo Package Manager)'"
