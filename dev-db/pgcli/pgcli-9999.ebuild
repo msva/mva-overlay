@@ -28,6 +28,7 @@ RDEPEND="$(python_gen_cond_dep '
 	>=dev-python/pygments-2.0[${PYTHON_USEDEP}]
 	<dev-python/sqlparse-0.6.0[${PYTHON_USEDEP}]
 	>=dev-python/setproctitle-1.1.9[${PYTHON_USEDEP}]
+	dev-python/tzlocal[${PYTHON_USEDEP}]
 	ssh? ( >=dev-python/sshtunnel-0.4.0[${PYTHON_USEDEP}] )
 	keyring? ( >=dev-python/keyring-12.2.0[${PYTHON_USEDEP}] )')
 "
