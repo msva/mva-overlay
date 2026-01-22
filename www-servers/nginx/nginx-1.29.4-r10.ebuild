@@ -3,7 +3,6 @@
 
 EAPI=8
 
-
 # TODO:
 # rewrite to eclass as in gentoo repo
 
@@ -488,12 +487,22 @@ HTTP_AJP_MODULE_P="${HTTP_AJP_MODULE_PN}-${HTTP_AJP_MODULE_SHA:-${HTTP_AJP_MODUL
 HTTP_AJP_MODULE_URI="https://github.com/${HTTP_AJP_MODULE_A}/${HTTP_AJP_MODULE_PN}/archive/${HTTP_AJP_MODULE_SHA:-v${HTTP_AJP_MODULE_PV}}.tar.gz"
 HTTP_AJP_MODULE_WD="${WORKDIR}/${HTTP_AJP_MODULE_P}"
 
-# NJS-module (https://hg.nginx.org/njs/, BSD-2)
+# acme-module (https://github.com/nginx/nginx-acme, Apache-2)
+HTTP_ACME_MODULE_A="nginx"
+HTTP_ACME_MODULE_PN="nginx-acme"
+HTTP_ACME_MODULE_PV="0.3.1"
+HTTP_ACME_MODULE_P="${HTTP_ACME_MODULE_PN}-${HTTP_ACME_MODULE_SHA:-${HTTP_ACME_MODULE_PV}}"
+HTTP_ACME_MODULE_URI="https://github.com/${HTTP_ACME_MODULE_A}/${HTTP_ACME_MODULE_PN}/archive/${HTTP_ACME_MODULE_SHA:-v${HTTP_ACME_MODULE_PV}}.tar.gz"
+HTTP_ACME_MODULE_WD="${WORKDIR}/${HTTP_ACME_MODULE_P}/nginx"
+STREAM_ACME_MODULE_WD="${HTTP_ACME_MODULE_WD}"
+
+# NJS-module (https://github.com/nginx/njs, BSD-2)
+HTTP_JAVASCRIPT_MODULE_A="nginx"
 HTTP_JAVASCRIPT_MODULE_PN="njs"
-HTTP_JAVASCRIPT_MODULE_PV="0.8.8"
+HTTP_JAVASCRIPT_MODULE_PV="0.9.4"
 # HTTP_JAVASCRIPT_MODULE_SHA="446a1cb64a6a"
 HTTP_JAVASCRIPT_MODULE_P="${HTTP_JAVASCRIPT_MODULE_PN}-${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}"
-HTTP_JAVASCRIPT_MODULE_URI="https://hg.nginx.org/${HTTP_JAVASCRIPT_MODULE_PN}/archive/${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}.tar.gz"
+HTTP_JAVASCRIPT_MODULE_URI="https://github.com/${HTTP_JAVASCRIPT_MODULE_A}/${HTTP_JAVASCRIPT_MODULE_PN}/archive/${HTTP_JAVASCRIPT_MODULE_SHA:-${HTTP_JAVASCRIPT_MODULE_PV}}.tar.gz"
 HTTP_JAVASCRIPT_MODULE_WD="${WORKDIR}/${HTTP_JAVASCRIPT_MODULE_P}/nginx"
 STREAM_JAVASCRIPT_MODULE_WD="${HTTP_JAVASCRIPT_MODULE_WD}"
 
@@ -598,7 +607,7 @@ LICENSE="
 	nginx_modules_http_hls_audio? ( GPL-3 )
 "
 SLOT="mainline"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 # ppc ppc64 riscv
 # ^ ctpp2, drizzle, sregex
 
@@ -848,9 +857,9 @@ CDEPEND="
 	nginx_modules_http_geoip? ( dev-libs/geoip )
 	nginx_modules_http_geoip2? ( dev-libs/libmaxminddb:= )
 	nginx_modules_stream_geoip2? ( dev-libs/libmaxminddb:= )
-	nginx_modules_http_gunzip? ( sys-libs/zlib )
-	nginx_modules_http_gzip? ( sys-libs/zlib )
-	nginx_modules_http_gzip_static? ( sys-libs/zlib )
+	nginx_modules_http_gunzip? ( virtual/zlib )
+	nginx_modules_http_gzip? ( virtual/zlib )
+	nginx_modules_http_gzip_static? ( virtual/zlib )
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
 	nginx_modules_http_postgres? ( dev-db/postgresql:= )
@@ -908,12 +917,12 @@ BDEPEND="
 	# vim-syntax? ( ~app-vim/nginx-syntax-${PV} )
 PDEPEND="
 	nginx_modules_stream_lua? (
-		dev-lua/resty-core
-		dev-lua/resty-lrucache
+		dev-lua/lua-resty-core
+		dev-lua/lua-resty-lrucache
 	)
 	nginx_modules_http_lua? (
-		dev-lua/resty-core
-		dev-lua/resty-lrucache
+		dev-lua/lua-resty-core
+		dev-lua/lua-resty-lrucache
 	)
 "
 
@@ -1064,7 +1073,7 @@ src_prepare() {
 
 	if use nginx_modules_http_lua; then
 		sed -r \
-			-e '/#ifndef OPENRESTY_LUAJIT/,/#endif/d' \
+			-e '/^#ifndef OPENRESTY_LUAJIT/,/^#endif/d' \
 			-i "${HTTP_LUA_MODULE_WD}"/src/ngx_http_lua_module.c
 		sed -r \
 			-e "s|-lluajit-5.1|$($(tc-getPKG_CONFIG) --libs luajit)|g" \
