@@ -8,7 +8,7 @@
   </maintainer>
   <use>
     <flag name="cli">Build CLI tools</flag>
-    <flag name="e2e-includes">Install includes for td-e2e (needed for <pkg>net-im/telegram-desktop</pkg> but doesn't happen by default)</flag>
+    <flag name="tde2e">Install includes for td-e2e (needed for <pkg>net-im/telegram-desktop</pkg> but doesn't happen by default)</flag>
     <flag name="low-ram">Split build to many files, which adds possibility to build on machines with low RAM values by price of longer compilation time</flag>
     <flag name="lto">Enable Link Time Optimizations</flag>
   </use>
