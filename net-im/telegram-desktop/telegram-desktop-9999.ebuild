@@ -3,7 +3,7 @@
 
 EAPI=8
 
-inherit xdg cmake optfeature flag-o-matic
+inherit xdg cmake optfeature flag-o-matic toolchain-funcs
 
 inherit patches
 # ^ TODO: drop before moving to gentoo repo, and port to manual selection

@@ -12,6 +12,7 @@
     <flag name="enchant">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
     <flag name="hunspell">Use <pkg>app-text/enchant</pkg> for spell checking</flag>
     <flag name="lto">Enable Link Time Optimizations (build will take 20+G RAM and binary will be about 2G)</flag>
+    <flag name="libdispatch">Use <pkg>dev-libs/libdispatch</pkg> to speed up concurrent code execution</flag>
     <flag name="pipewire">Use <pkg>media-video/pipewire</pkg> as sound server</flag>
     <!-- <flag name="libcxx">Build with <pkg>sys-libs/libcxx</pkg> as sdtlib</flag> -->
     <!-- <flag name="system-gsl">Use system-wide installed <pkg>dev-cpp/ms-gsl</pkg> instead of bundled one</flag> -->
