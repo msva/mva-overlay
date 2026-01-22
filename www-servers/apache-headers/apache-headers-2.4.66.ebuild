@@ -4,9 +4,9 @@
 EAPI=8
 
 # latest gentoo apache files
-GENTOO_PATCHSTAMP="20231019"
+GENTOO_PATCHSTAMP="20251205"
 GENTOO_DEVELOPER="graaff"
-GENTOO_PATCHNAME="gentoo-apache-2.4.58"
+GENTOO_PATCHNAME="gentoo-apache-2.4.66"
 
 DESCRIPTION="Header files from the Apache Web Server"
 HOMEPAGE="https://httpd.apache.org/"
@@ -19,7 +19,7 @@ S="${WORKDIR}/httpd-${PV}"
 
 LICENSE="Apache-2.0"
 SLOT="2"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x64-macos ~x64-solaris"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~x64-macos ~x64-solaris"
 
 GENTOO_PATCHDIR="${WORKDIR}/${GENTOO_PATCHNAME}"
 
