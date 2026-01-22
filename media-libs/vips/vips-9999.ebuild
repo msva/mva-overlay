@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{10..13} )
+PYTHON_COMPAT=( python3_{10..14} )
 inherit flag-o-matic meson-multilib python-single-r1 toolchain-funcs vala
 
 DESCRIPTION="VIPS Image Processing Library"
@@ -76,7 +76,7 @@ RDEPEND="
 	spng? ( media-libs/libspng[${MULTILIB_USEDEP}] )
 	svg? (
 		gnome-base/librsvg:2[${MULTILIB_USEDEP}]
-		sys-libs/zlib:=[${MULTILIB_USEDEP}]
+		virtual/zlib:=[${MULTILIB_USEDEP}]
 		x11-libs/cairo[${MULTILIB_USEDEP}]
 	)
 	tiff? ( media-libs/tiff:=[${MULTILIB_USEDEP}] )
