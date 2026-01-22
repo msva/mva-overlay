@@ -1,5 +1,5 @@
-# Copyright 1999-2025 Vadim A. Misbakh-Soloviov
-# Distributed under the terms of the GNU General Public License v2
+# Copyright 2026 mva
+# Distributed under the terms of the Public Domain or CC0 License
 
 EAPI=8
 
