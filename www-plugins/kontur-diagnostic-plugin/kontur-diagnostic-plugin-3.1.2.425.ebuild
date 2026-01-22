@@ -3,13 +3,12 @@
 
 EAPI=8
 
-MAGIC=002396
+MAGIC=002623
 
 # on bump:
 #  check where https://help.kontur.ru/files/diag.plugin_amd64.deb redirects
 # version:
 #  curl -s https://help.kontur.ru/files/diag.plugin_amd64.deb | bsdtar -xO control.tar.gz | bsdtar -xO control
-
 
 inherit unpacker patches
 
