@@ -5,7 +5,7 @@ EAPI=8
 
 GUILE_COMPAT=( 2-2 3-0 )
 LUA_COMPAT=( lua5-{1..4} luajit )
-PYTHON_COMPAT=( python3_{10..13} python3_13t )
+PYTHON_COMPAT=( python3_{10..14} python3_13t )
 
 inherit cmake guile-single lua-single python-single-r1 xdg
 
@@ -51,7 +51,7 @@ RDEPEND="
 	dev-libs/libgcrypt:0=
 	net-libs/gnutls:=
 	ncurses? ( sys-libs/ncurses:0= )
-	sys-libs/zlib:=
+	virtual/zlib:=
 	net-misc/curl[ssl]
 	charset? ( virtual/libiconv )
 	guile? ( ${GUILE_DEPS} )
