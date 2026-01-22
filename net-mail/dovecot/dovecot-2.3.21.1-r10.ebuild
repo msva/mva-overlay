@@ -45,7 +45,7 @@ DEPEND="
 	app-arch/xz-utils
 	dev-libs/icu:=
 	dev-libs/openssl:0=
-	sys-libs/zlib:=
+	virtual/zlib:=
 	virtual/libiconv
 	argon2? ( dev-libs/libsodium:= )
 	caps? ( sys-libs/libcap )
