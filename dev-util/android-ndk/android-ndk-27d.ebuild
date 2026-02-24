@@ -39,7 +39,7 @@ pkg_setup() {
 
 src_prepare() {
 	default
-	rm -r toolchains/llvm/prebuilt/linux-x86_64/musl/lib/i686-unknown-linux-musl || die
+#	rm -r toolchains/llvm/prebuilt/linux-x86_64/musl/lib/i686-unknown-linux-musl || die
 	# linked against missing 32bit libc_musl.so (only 64bit shipped)
 	# patchelf --set-rpath '$ORIGIN/:$ORIGIN/..' \
 	# toolchains/llvm/prebuilt/linux-x86_64/musl/lib/i686-unknown-linux-musl/libc++.so.1
