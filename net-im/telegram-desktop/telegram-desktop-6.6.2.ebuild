@@ -129,7 +129,7 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	>=dev-cpp/cppgir-2.0_p20240315
+	>=dev-cpp/cppgir-2.0_p20260224
 	dev-cpp/range-v3
 	net-libs/tdlib:=[tde2e(-)]
 	dev-cpp/expected
