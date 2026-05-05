@@ -1,0 +1,48 @@
+diff --git a/Telegram/ThirdParty/tgcalls/tgcalls/DirectConnectionChannel.h b/Telegram/ThirdParty/tgcalls/tgcalls/DirectConnectionChannel.h
+index 50a41fc..9c4742b 100644
+--- a/Telegram/ThirdParty/tgcalls/tgcalls/DirectConnectionChannel.h
++++ b/Telegram/ThirdParty/tgcalls/tgcalls/DirectConnectionChannel.h
+@@ -1,6 +1,7 @@
+ #ifndef TGCALLS_DIRECT_CONNECTION_CHANNEL_H
+ #define TGCALLS_DIRECT_CONNECTION_CHANNEL_H
+ 
++#include <cstdint>
+ #include <functional>
+ #include <memory>
+ #include <vector>
+diff --git a/Telegram/ThirdParty/tgcalls/tgcalls/Instance.h b/Telegram/ThirdParty/tgcalls/tgcalls/Instance.h
+index 5968b24..1ade11d 100644
+--- a/Telegram/ThirdParty/tgcalls/tgcalls/Instance.h
++++ b/Telegram/ThirdParty/tgcalls/tgcalls/Instance.h
+@@ -1,6 +1,7 @@
+ #ifndef TGCALLS_INSTANCE_H
+ #define TGCALLS_INSTANCE_H
+ 
++#include <cstdint>
+ #include <functional>
+ #include <vector>
+ #include <string>
+diff --git a/Telegram/ThirdParty/tgcalls/tgcalls/third-party/json11.cpp b/Telegram/ThirdParty/tgcalls/tgcalls/third-party/json11.cpp
+index c9cfbf8..8803873 100644
+--- a/Telegram/ThirdParty/tgcalls/tgcalls/third-party/json11.cpp
++++ b/Telegram/ThirdParty/tgcalls/tgcalls/third-party/json11.cpp
+@@ -22,6 +22,7 @@
+ #include "json11.hpp"
+ #include <cassert>
+ #include <cmath>
++#include <cstdint>
+ #include <cstdlib>
+ #include <cstdio>
+ #include <limits>
+diff --git a/Telegram/ThirdParty/tgcalls/tgcalls/v2/SignalingConnection.h b/Telegram/ThirdParty/tgcalls/tgcalls/v2/SignalingConnection.h
+index 3e95cb8..faf56e3 100644
+--- a/Telegram/ThirdParty/tgcalls/tgcalls/v2/SignalingConnection.h
++++ b/Telegram/ThirdParty/tgcalls/tgcalls/v2/SignalingConnection.h
+@@ -1,6 +1,7 @@
+ #ifndef TGCALLS_SIGNALING_CONNECTION_H_
+ #define TGCALLS_SIGNALING_CONNECTION_H_
+ 
++#include <cstdint>
+ #include <memory>
+ #include <vector>
+ 
