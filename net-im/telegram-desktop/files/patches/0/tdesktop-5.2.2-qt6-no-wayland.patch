@@ -22,15 +22,15 @@ https://github.com/desktop-app/cmake_helpers/commit/a428df5440e76a726abc30924766
  		callback({});
 --- a/Telegram/lib_ui/ui/platform/linux/ui_utility_linux.cpp
 +++ b/Telegram/lib_ui/ui/platform/linux/ui_utility_linux.cpp
-@@ -414,7 +414,7 @@
+@@ -530,7 +530,7 @@
  }
  #endif // !DESKTOP_APP_DISABLE_X11_INTEGRATION
  
 -#if defined QT_FEATURE_wayland && QT_CONFIG(wayland)
 +#if !defined DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION && defined QT_FEATURE_wayland && QT_CONFIG(wayland)
- void ShowWaylandWindowMenu(not_null<QWidget*> widget, const QPoint &point) {
- 	static const auto wl_proxy_marshal_array = [] {
- 		void (*result)(
+ constexpr auto kWaylandMarshalFlagDestroy = uint32_t(1);
+ const auto kWaylandImportedObjectName = u"_td_wayland_foreign_imported"_q;
+ 
 @@ -544,7 +544,7 @@
  }
  

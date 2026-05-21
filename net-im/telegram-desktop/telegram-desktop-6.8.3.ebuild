@@ -224,6 +224,7 @@ src_prepare() {
 		\! -path './cmake/external/opus/CMakeLists.txt' \
 		\! -path './cmake/external/xxhash/CMakeLists.txt' \
 		\! -path './cmake/external/qt/package.cmake' \
+		\! -path './cmake/external/cmark_gfm/CMakeLists.txt' \
 		\! -path './Telegram/lib_webview/CMakeLists.txt' \
 		-print0 | xargs -0 sed -i \
 		-e '/pkg_check_modules(/s/[^ ]*)/REQUIRED &/' \
@@ -233,6 +234,9 @@ src_prepare() {
 		# \! -path './cmake/external/kimageformats/CMakeLists.txt' \
 	# Make sure to check the excluded files for new
 	# CMAKE_DISABLE_FIND_PACKAGE entries.
+
+	# TODO: may be needed after moving to unbundled gfm
+	# sed -e '/pkg_check_modules.*cmark-gfm-extensions/d' -i cmake/external/cmark_gfm/CMakeLists.txt
 
 	# Some packages are found through pkg_check_modules, rather than find_package
 	sed -e '/find_package(lz4 /d' -i cmake/external/lz4/CMakeLists.txt || die
@@ -245,9 +249,14 @@ src_prepare() {
 		libprisma  # Telegram-specific library, no stable releases
 		tgcalls  # Telegram-specific library, no stable releases
 		# xdg-desktop-portal  # Only a few xml files are used with gdbus-codegen
+		cmark-gfm # TODO: unbundle when it will be not so fucked
+		MicroTeX # TODO: maybe unbundle too?
 	)
 	for x in Telegram/ThirdParty/*; do
-		has "${x##*/}" "${keep[@]}" || rm -r "${x}" || die
+		has "${x##*/}" "${keep[@]}" || {
+			einfo "Removing ${x} from bundle"
+			rm -r "${x}"
+		}	|| die
 	done
 
 	# Control QtDBus dependency from here, to avoid messing with QtGui.
