@@ -74,6 +74,7 @@ COMMON_DEPEND="
 	>=dev-qt/qtbase-6.5:6=[dbus?,gui,network,opengl,wayland?,widgets,X?]
 	>=dev-qt/qtimageformats-6.5:6=
 	>=dev-qt/qtsvg-6.5:6=
+	>=dev-qt/qtshadertools-6.5:6=
 	enchant? ( app-text/enchant:= )
 	!fonts? ( media-fonts/open-sans )
 	hunspell? ( >=app-text/hunspell-1.7:= )
@@ -235,7 +236,7 @@ src_prepare() {
 	# Make sure to check the excluded files for new
 	# CMAKE_DISABLE_FIND_PACKAGE entries.
 
-	# TODO: may be needed after moving to unbundled gfm
+	# FIXME: may be needed after moving to unbundled gfm
 	# sed -e '/pkg_check_modules.*cmark-gfm-extensions/d' -i cmake/external/cmark_gfm/CMakeLists.txt
 
 	# Some packages are found through pkg_check_modules, rather than find_package
@@ -249,8 +250,8 @@ src_prepare() {
 		libprisma  # Telegram-specific library, no stable releases
 		tgcalls  # Telegram-specific library, no stable releases
 		# xdg-desktop-portal  # Only a few xml files are used with gdbus-codegen
-		cmark-gfm # TODO: unbundle when it will be not so fucked
-		MicroTeX # TODO: maybe unbundle too?
+		cmark-gfm # FIXME: unbundle when it will be not so fucked
+		MicroTeX # XXX: maybe unbundle too?
 	)
 	for x in Telegram/ThirdParty/*; do
 		has "${x##*/}" "${keep[@]}" || {
@@ -258,6 +259,12 @@ src_prepare() {
 			rm -r "${x}"
 		}	|| die
 	done
+
+	# HACK: tdesktop wants `qsb` to build shaders (otherwise image and video viewers doesn't work and even crash the app),
+	# but currently neither gentoo symlink qsb to /usr/bin, not upstream cmakefile looks for it in /usr/$(get_libdir)/qt6/bin
+	# FIXME: remove when either upstream add LIBDIR/qt6/bin to search path hints in cmakefile (I've already asked and they confirmed), or gentoo will symlink qsb to usrbin.
+	# TODO: check on bumps (although, I'm pretty sure, I'll forgot it, but someday will remove that anyway)
+	export PATH="${PATH}:/usr/$(get_libdir)/qt6/bin"
 
 	# Control QtDBus dependency from here, to avoid messing with QtGui.
 	if ! use dbus; then
