@@ -261,8 +261,10 @@ src_prepare() {
 	done
 
 	# HACK: tdesktop wants `qsb` to build shaders (otherwise image and video viewers doesn't work and even crash the app),
-	# but currently neither gentoo symlink qsb to /usr/bin, not upstream cmakefile looks for it in /usr/$(get_libdir)/qt6/bin
-	# FIXME: remove when either upstream add LIBDIR/qt6/bin to search path hints in cmakefile (I've already asked and they confirmed), or gentoo will symlink qsb to usrbin.
+	# but currently neither gentoo symlink qsb to /usr/bin, nor upstream cmakefile looks for it in
+	# /usr/$(get_libdir)/qt6/bin (where it is actually installed)
+	# FIXME: remove when either upstream add LIBDIR/qt6/bin to search path hints in cmakefile (I've already asked and they confirmed),
+	# or gentoo will symlink qsb to usrbin.
 	# TODO: check on bumps (although, I'm pretty sure, I'll forgot it, but someday will remove that anyway)
 	export PATH="${PATH}:/usr/$(get_libdir)/qt6/bin"
 
