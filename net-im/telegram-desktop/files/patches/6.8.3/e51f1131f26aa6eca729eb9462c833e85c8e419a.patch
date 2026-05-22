@@ -1,0 +1,26 @@
+From e51f1131f26aa6eca729eb9462c833e85c8e419a Mon Sep 17 00:00:00 2001
+From: 23rd <23rd@vivaldi.net>
+Date: Thu, 21 May 2026 21:33:41 +0300
+Subject: [PATCH] Added destruction of media viewer native window on hide for
+ Wayland.
+
+---
+ .../SourceFiles/media/view/media_view_overlay_widget.cpp     | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp b/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp
+index 38f4fbfdc0790..231134159c087 100644
+--- a/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp
++++ b/Telegram/SourceFiles/media/view/media_view_overlay_widget.cpp
+@@ -4105,6 +4105,11 @@ void OverlayWidget::hide() {
+ 	clearBeforeHide();
+ 	applyHideWindowWorkaround();
+ 	_window->hide();
++	if (Platform::IsWayland()) {
++		if (const auto handle = _window->windowHandle()) {
++			handle->destroy();
++		}
++	}
+ }
+ 
+ void OverlayWidget::setCursor(style::cursor cursor) {
