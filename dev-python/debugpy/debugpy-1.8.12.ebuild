@@ -5,6 +5,7 @@ EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
 PYTHON_COMPAT=( python3_{11..13} python3_13t )
+# 👆 pydevd is not ready to 14 atm
 
 inherit distutils-r1 multiprocessing
 
