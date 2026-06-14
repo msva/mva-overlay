@@ -35,7 +35,7 @@ fi
 [[ "${PV}" = 9999* ]] || KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv ~x86"
 # 👆 kludge for eix
 
-IUSE="custom-api-id +dbus debug enchant +fonts +hunspell +libdispatch lto pipewire pulseaudio +screencast test +wayland +webkit +X"
+IUSE="custom-api-id +dbus debug enchant +fonts +hunspell lto pipewire pulseaudio +screencast test +wayland +webkit +X"
 # +system-gsl
 
 REQUIRED_USE="
@@ -65,7 +65,6 @@ COMMON_DEPEND="
 	dev-libs/boost:=
 	>=dev-libs/glib-2.77:2
 	>=dev-libs/gobject-introspection-1.77
-	libdispatch? ( dev-libs/libdispatch )
 	dev-libs/libfmt:=
 	dev-libs/openssl:=
 	>=dev-libs/protobuf-27.2
@@ -209,9 +208,8 @@ src_unpack() {
 
 #	# XXX: maybe de-unbundle those? Anyway, they're header-only libraries...
 #	#  Moreover, upstream recommends to use bundled versions to avoid artefacts 🤷
-#	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 
-	( use arm && ! use arm64 ) || EGIT_SUBMODULES+=(-Telegram/ThirdParty/dispatch)
+#	use system-expected && EGIT_SUBMODULES+=(-Telegram/ThirdParty/expected)
 
 	git-r3_src_unpack
 }
@@ -226,7 +224,8 @@ src_prepare() {
 		\! -path './cmake/external/xxhash/CMakeLists.txt' \
 		\! -path './cmake/external/qt/package.cmake' \
 		\! -path './cmake/external/cmark_gfm/CMakeLists.txt' \
-		\! -path './Telegram/lib_webview/CMakeLists.txt' \
+		\! -path './cmake/external/minizip/CMakeLists.txt' \
+		\! -path './cmake/external/tmc/CMakeLists.txt' \
 		-print0 | xargs -0 sed -i \
 		-e '/pkg_check_modules(/s/[^ ]*)/REQUIRED &/' \
 		-e '/find_package(/s/)/ REQUIRED)/' \
@@ -252,6 +251,7 @@ src_prepare() {
 		# xdg-desktop-portal  # Only a few xml files are used with gdbus-codegen
 		cmark-gfm # FIXME: unbundle when it will be not so fucked
 		MicroTeX # XXX: maybe unbundle too?
+		TooManyCooks # XXX: also candiate for unbundling
 	)
 	for x in Telegram/ThirdParty/*; do
 		has "${x##*/}" "${keep[@]}" || {
@@ -266,7 +266,7 @@ src_prepare() {
 	# FIXME: remove when either upstream add LIBDIR/qt6/bin to search path hints in cmakefile (I've already asked and they confirmed),
 	# or gentoo will symlink qsb to usrbin.
 	# TODO: check on bumps (although, I'm pretty sure, I'll forgot it, but someday will remove that anyway)
-	export PATH="${PATH}:/usr/$(get_libdir)/qt6/bin"
+	# export PATH="${PATH}:/usr/$(get_libdir)/qt6/bin"
 
 	# Control QtDBus dependency from here, to avoid messing with QtGui.
 	if ! use dbus; then
@@ -333,12 +333,20 @@ src_configure() {
 		-Wno-switch
 		-DLIBDIR="$(get_libdir)"
 		-DTDESKTOP_DISABLE_AUTOUPDATE
-		# XXX: temp (I hope) kludge (until abseil-cpp-2025+ will be in tree)
-		# -I/usr/include/tg_owt/third_party/abseil-cpp
 	)
 
-	# https://github.com/telegramdesktop/tdesktop/issues/17437#issuecomment-1001160398
-	use !libdispatch && append-cppflags -DCRL_FORCE_QT
+	# tdesktop has moved to the new threading library: tmc aka TooManyCooks,
+	# but lib_crl still has libdispatch-related logic,
+	# and decides to use some related code if sees it installed, which leads to link failure
+	# as libdispatch itself is not in use by tdesktop core anymore
+
+	if [[ "${PV//.}" -lt 694 ]] && has_version dev-libs/libdispatch; then
+		# FIXME: 👆 hope it will be fixed upstream on next release
+		append-cppflags -DCRL_FORCE_TMC
+		sed -r \
+			-e '/(__has_include..dispatch.*)/s@@\!defined CRL_FORCE_TMC \&\& \1@' \
+			-i Telegram/lib_crl/crl/common/crl_common_config.h
+	fi
 
 	local no_webkit_wayland=$(use webkit && use wayland && echo no || echo yes)
 	local use_webkit_wayland=$(use webkit && use wayland && echo yes || echo no)
@@ -400,9 +408,6 @@ src_configure() {
 
 #		-DDESKTOP_APP_LOTTIE_USE_CACHE=NO
 #		# in case of caching bugs. Maybe also useful with system-rlottie[cache]. TODO: test that idea.
-
-		## See tdesktop-*-libdispatch.patch
-		-DDESKTOP_APP_USE_LIBDISPATCH=$(usex libdispatch)
 	)
 	cmake_src_configure
 }
@@ -422,12 +427,6 @@ pkg_postinst() {
 	xdg_pkg_postinst
 	if ! use X && ! use screencast; then
 		ewarn "both the 'X' and 'screencast' USE flags are disabled, screen sharing won't work!"
-		ewarn
-	fi
-	if ! use libdispatch; then
-		ewarn "Disabling USE=libdispatch may cause performance degradation"
-		ewarn "due to fallback to poor QThreadPool! Please see"
-		ewarn "https://github.com/telegramdesktop/tdesktop/wiki/The-Packaged-Building-Mode"
 		ewarn
 	fi
 	optfeature_header

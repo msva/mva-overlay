@@ -54,21 +54,25 @@ index 2f1dabe..bd6d25f 100644
  }
  
  bool HistoryInner::showCopyRestriction(HistoryItem *item) {
-@@ -3052,14 +3052,6 @@ bool HistoryInner::showCopyRestriction(HistoryItem *item) {
+@@ -3052,17 +3052,7 @@ bool HistoryInner::showCopyRestriction(HistoryItem *item) {
  }
  
  bool HistoryInner::hasCopyRestrictionForSelected() const {
 -	if (hasCopyRestriction()) {
 -		return true;
 -	}
--	for (const auto &[item, selection] : _selected) {
+-	for (const auto &item : _selected) {
 -		if (item && item->forbidsForward()) {
 -			return true;
 -		}
 -	}
- 	return false;
+-	return hasSelectedText()
+-		&& _selectedTextItem
+-		&& _selectedTextItem->forbidsForward();
++	return false;
  }
  
+ void HistoryInner::copySelectedText() {
 diff --git a/Telegram/SourceFiles/history/history_item.cpp b/Telegram/SourceFiles/history/history_item.cpp
 index 55e1def..745338c 100644
 --- a/Telegram/SourceFiles/history/history_item.cpp
