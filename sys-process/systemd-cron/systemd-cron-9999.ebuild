@@ -3,16 +3,15 @@
 
 EAPI=8
 inherit systemd toolchain-funcs
+inherit patches
+inherit tmpfiles
 
 DESCRIPTION="systemd units to create timers for cron directories and crontab"
 HOMEPAGE="https://github.com/systemd-cron/systemd-cron/"
 if [[ "${PV}" =~ "9999" ]]; then
 	inherit git-r3
-	EGIT_REPO_URI="https://github.com/systemd-cron/${PN}"
+	EGIT_REPO_URI="https://github.com/systemd-cron/systemd-cron"
 else
-	if [[ -d "${FILESDIR}/patches/${PV}" ]]; then
-		PATCHES+=("${FILESDIR}/patches/${PV}")
-	fi
 	KEYWORDS="~amd64 ~x86"
 	SRC_URI="https://github.com/systemd-cron/${PN}/archive/v${PV}.tar.gz -> systemd-cron-${PV}.tar.gz"
 fi
@@ -28,6 +27,7 @@ RDEPEND="
 	!sys-process/cronie[anacron]
 	acct-user/_cron-failure
 	acct-group/_cron-failure
+	acct-group/crontab
 	app-crypt/libmd:=
 	sys-process/cronbase
 	>=sys-apps/systemd-255[-split-usr(-)]
@@ -58,7 +58,8 @@ src_prepare() {
 			"${S}/test/test-generator" || die
 	fi
 
-	default
+	# default
+	patches_src_prepare
 }
 
 my_use_enable() {
@@ -83,9 +84,9 @@ src_configure() {
 		$(my_use_enable yearly) \
 		$(my_use_enable yearly quarterly) \
 		$(my_use_enable yearly semi_annually) || die
-		# --statedir="${EPREFIX}/var/spool/cron/crontabs"
 
-	use etc-crontab-systemd && export CRONTAB=crontab-systemd
+	use etc-crontab-systemd &&
+	export CRONTAB=crontab-systemd
 }
 
 src_compile() {
@@ -95,9 +96,12 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${D}" PCH= install
 	rm -f "${ED}"/usr/lib/sysusers.d/systemd-cron.conf
+	fowners "root:crontab" /usr/libexec/systemd-cron/crontab_setgid
+	fperms 2755 /usr/libexec/systemd-cron/crontab_setgid
 }
 
 pkg_postinst() {
+	tmpfiles_process "/usr/lib/tmpfiles.d/systemd-cron.conf"
 	elog "This package now supports USE=runparts which is enabled by default."
 	elog "This enables the traditional run-parts behavior."
 	elog "If you disable this flag you will get the new behavior of having"
