@@ -63,14 +63,14 @@ diff --git a/Telegram/SourceFiles/settings/settings_experimental.cpp b/Telegram/
 index 3b9a5a0..2f9ad4d 100644
 --- a/Telegram/SourceFiles/settings/settings_experimental.cpp
 +++ b/Telegram/SourceFiles/settings/settings_experimental.cpp
-@@ -19,6 +19,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
- #include "core/sandbox.h"
+@@ -31,6 +31,7 @@ https://github.com/telegramdesktop/tdesktop/blob/master/LEGAL
  #include "core/launcher.h"
+ #include "core/sandbox.h"
  #include "chat_helpers/tabbed_panel.h"
 +#include "data/data_stories.h";
+ #include "dialogs/dialogs_entry.h"
  #include "dialogs/dialogs_widget.h"
- #include "info/profile/info_profile_actions.h"
- #include "lang/lang_keys.h"
+ #include "dialogs/ui/dialogs_layout.h"
 @@ -142,5 +143,6 @@ void SetupExperimental(
  				: rpl::producer<>()));
  	};
