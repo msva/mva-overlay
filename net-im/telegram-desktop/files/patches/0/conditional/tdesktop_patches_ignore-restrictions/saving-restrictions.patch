@@ -21,11 +21,13 @@ diff --git a/Telegram/SourceFiles/history/history_inner_widget.cpp b/Telegram/So
 index 2f1dabe..bd6d25f 100644
 --- a/Telegram/SourceFiles/history/history_inner_widget.cpp
 +++ b/Telegram/SourceFiles/history/history_inner_widget.cpp
-@@ -621,16 +621,7 @@ void HistoryInner::setupSharingDisallowed() {
+@@ -621,18 +621,7 @@ void HistoryInner::setupSharingDisallowed() {
  }
  
  bool HistoryInner::hasSelectRestriction() const {
--	if (session().frozen()) {
+-	if (_chooseForReportReason.has_value()) {
+-		return false;
+-	} else if (session().frozen()) {
 -		return true;
 -	} else if (!_sharingDisallowed.current()) {
 -		return false;
