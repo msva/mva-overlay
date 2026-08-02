@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION="A web framework for Lua/MoonScript."
+DESCRIPTION="A web framework for Lua/MoonScript"
 HOMEPAGE="https://github.com/leafo/lapis"
 EGIT_REPO_URI="https://github.com/leafo/lapis"
 
