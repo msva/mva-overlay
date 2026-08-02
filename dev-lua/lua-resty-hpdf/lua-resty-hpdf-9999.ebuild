@@ -7,7 +7,7 @@ LUA_COMPAT=( luajit )
 
 inherit lua git-r3
 
-DESCRIPTION="LuaJIT FFI-based libHaru (PDF) library for OpenResty."
+DESCRIPTION="LuaJIT FFI-based libHaru (PDF) library for OpenResty"
 HOMEPAGE="https://github.com/tavikukko/lua-resty-hpdf"
 EGIT_REPO_URI="https://github.com/tavikukko/lua-resty-hpdf"
 
