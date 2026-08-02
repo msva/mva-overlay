@@ -12,7 +12,9 @@ EGIT_REPO_URI="https://github.com/opsengine/cpulimit"
 LICENSE="GPL-2"
 SLOT="0"
 
-PATCHES="${FILESDIR}/${P}-makefile.patch"
+PATCHES=(
+	"${FILESDIR}/${P}-makefile.patch"
+)
 
 src_prepare() {
 	default
