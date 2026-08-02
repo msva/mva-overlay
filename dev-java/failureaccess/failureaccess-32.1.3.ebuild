@@ -10,7 +10,7 @@ MAVEN_ID="com.google.guava:failureaccess:1.0.1"
 
 inherit java-pkg-2 java-pkg-simple
 
-DESCRIPTION="Guava's InternalFutureFailureAccess and InternalFutures classes."
+DESCRIPTION="Guava's InternalFutureFailureAccess and InternalFutures classes"
 HOMEPAGE="https://github.com/google/guava/"
 SRC_URI="https://github.com/google/guava/archive/v${PV}.tar.gz -> guava-${PV}.tar.gz"
 S="${WORKDIR}/${MY_P}"
