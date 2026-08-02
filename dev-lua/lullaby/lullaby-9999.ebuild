@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION="A stream-based HTML template library for Lua."
+DESCRIPTION="A Turing-complete HTML template library for Lua"
 HOMEPAGE="https://github.com/hugomg/lullaby"
 EGIT_REPO_URI="https://github.com/hugomg/lullaby"
 
