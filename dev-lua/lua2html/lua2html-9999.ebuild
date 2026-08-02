@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua-single mercurial
 
-DESCRIPTION="Lua to HTML code converter written in Lua."
+DESCRIPTION="Lua to HTML code converter written in Lua"
 HOMEPAGE="https://code.matthewwild.co.uk/"
 EHG_REPO_URI="https://code.matthewwild.co.uk/${PN}/"
 
