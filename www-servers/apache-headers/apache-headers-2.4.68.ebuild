@@ -23,7 +23,9 @@ KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~x
 
 GENTOO_PATCHDIR="${WORKDIR}/${GENTOO_PATCHNAME}"
 
-PATCHES="${GENTOO_PATCHDIR}/patches/*.patch"
+PATCHES=(
+	"${GENTOO_PATCHDIR}/patches/*.patch"
+)
 
 src_compile() { :; }
 
