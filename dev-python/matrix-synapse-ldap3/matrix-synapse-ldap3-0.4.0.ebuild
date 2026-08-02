@@ -2,14 +2,14 @@
 # Distributed under the terms of the Public Domain or CC0 License
 
 EAPI=8
-PYTHON_COMPAT=( python3_{9..15} python3_13t )
+PYTHON_COMPAT=( python3_{12..15} )
 DISTUTILS_USE_PEP517=setuptools
 
-PYPI_NO_NORMALIZE=1
+PYPI_PN="${PN//-/_}"
 
 inherit distutils-r1 pypi
 
-DESCRIPTION="An LDAP3 auth provider for Synapse "
+DESCRIPTION="An LDAP3 auth provider for Synapse"
 HOMEPAGE="https://github.com/matrix-org/matrix-synapse-ldap3"
 
 LICENSE="Apache-2.0"
