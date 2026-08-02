@@ -1,3 +1,4 @@
 slotmove www-servers/nginx mainline 0
 slotmove www-servers/nginx stable 0
 slotmove www-servers/nginx live 0
+move dev-python/matrix-synapse-ldap3 dev-python/matrix_synapse_ldap3
