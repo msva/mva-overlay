@@ -4,7 +4,7 @@
 EAPI=8
 
 CABAL_FEATURES="bin"
-inherit haskell-cabal bash-completion-r1 git-r3 desktop
+inherit haskell-cabal shell-completion git-r3 desktop
 
 DESCRIPTION="manage files with git, without checking their contents into git"
 HOMEPAGE="https://git-annex.branchable.com/"
