@@ -4,14 +4,14 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517="poetry"
-PYTHON_COMPAT=( python3_{9..14} )
+PYTHON_COMPAT=( python3_{9..15} )
 
 inherit distutils-r1
 
 DESCRIPTION="Reference Matrix Identity Verification and Lookup Server"
 HOMEPAGE="https://matrix.org/"
 
-SRC_URI="https://github.com/matrix-org/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/element-hq/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -19,6 +19,7 @@ KEYWORDS="~amd64"
 
 IUSE="gammu"
 
+EPYTEST_PLUGINS=()
 distutils_enable_tests pytest
 
 RDEPEND="
