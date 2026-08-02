@@ -32,7 +32,9 @@ RESTRICT="!test? ( test )"
 
 DOCS=( AUTHORS LICENSE PATENTS README.{md,chromium} )
 
-PATCHES="${FILESDIR}/${P//_p*}-cmake-libdir.patch"
+PATCHES=(
+	"${FILESDIR}/${P//_p*}-cmake-libdir.patch"
+)
 
 # BUILD_DIR="${S}/build"
 
