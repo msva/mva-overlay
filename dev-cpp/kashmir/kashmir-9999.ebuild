@@ -5,7 +5,7 @@ EAPI=8
 
 inherit git-r3
 
-DESCRIPTION="Library is provide functionality that not present in the C++ standard library."
+DESCRIPTION="Library is provide functionality that not present in the C++ standard library"
 HOMEPAGE="https://github.com/Corvusoft/kashmir-dependency"
 EGIT_REPO_URI="https://github.com/Corvusoft/${PN}-dependency.git"
 
