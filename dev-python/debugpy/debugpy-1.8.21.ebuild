@@ -4,10 +4,10 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=setuptools
-PYTHON_COMPAT=( python3_{11..13} python3_13t )
-# 👆 pydevd is not ready to 14 atm
+PYTHON_COMPAT=( python3_{12..13} )
+# 👆 pydevd is not ready to 14+ atm
 
-inherit distutils-r1 multiprocessing
+inherit distutils-r1 pypi multiprocessing
 
 DESCRIPTION="An implementation of the Debug Adapter Protocol for Python"
 HOMEPAGE="
@@ -21,7 +21,8 @@ SRC_URI="
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+# FIXME: when pydevd will support modern pythons
+# KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 RDEPEND="
 	dev-python/pydevd[${PYTHON_USEDEP}]
@@ -34,7 +35,7 @@ BDEPEND="
 		dev-python/pytest-xdist[${PYTHON_USEDEP}]
 	)
 "
-
+EPYTEST_PLUGINS=()
 distutils_enable_tests pytest
 
 python_prepare_all() {
@@ -53,7 +54,6 @@ python_prepare_all() {
 }
 
 python_test() {
-	local -x PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
 	local EPYTEST_DESELECT=(
 		tests/debugpy/test_gevent.py::test_gevent
 		tests/debugpy/test_run.py::test_custom_python_args
