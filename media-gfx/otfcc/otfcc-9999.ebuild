@@ -5,7 +5,7 @@ EAPI=8
 
 inherit toolchain-funcs
 
-DESCRIPTION="Parses & writes SFNT structures."
+DESCRIPTION="Parses & writes SFNT structures"
 HOMEPAGE="https://github.com/caryll/otfcc"
 
 if [[ "${PV}" =~ "9999" ]]; then
