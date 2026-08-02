@@ -19,7 +19,9 @@ KEYWORDS="~amd64 ~x86"
 DEPEND="sys-auth/libyubikey"
 RDEPEND="${DEPEND}"
 
-PATCHES="${FILESDIR}/yubikey-ar.patch"
+PATCHES=(
+	"${FILESDIR}/yubikey-ar.patch"
+)
 
 src_prepare() {
 	default
