@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua
 
-DESCRIPTION="A set of Lua bindings for the Fast Artificial Neural Network (FANN) library."
+DESCRIPTION="A set of Lua bindings for the Fast Artificial Neural Network (FANN) library"
 HOMEPAGE="https://github.com/msva/lua-fann"
 
 if [[ "${PV}" == 9999 ]]; then
