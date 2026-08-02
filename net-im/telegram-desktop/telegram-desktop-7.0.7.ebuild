@@ -66,6 +66,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.77:2
 	>=dev-libs/gobject-introspection-1.77
 	dev-libs/libfmt:=
+	dev-libs/libfido2:=
 	dev-libs/openssl:=
 	>=dev-libs/protobuf-27.2
 	dev-libs/qr-code-generator:=
