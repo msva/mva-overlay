@@ -5,7 +5,7 @@ EAPI=8
 
 inherit git-r3 patches
 
-DESCRIPTION="Datacard channel for Asterisk."
+DESCRIPTION="Datacard channel for Asterisk"
 EGIT_REPO_URI="https://github.com/DerArtem/chan_datacard"
 HOMEPAGE="http://www.makhutov.org/"
 
