@@ -2,7 +2,7 @@
 # Distributed under the terms of the Public Domain or CC0 License
 
 EAPI=8
-PYTHON_COMPAT=( python3_{8..14} python3_13t )
+PYTHON_COMPAT=( python3_{8..15} python3_13t )
 
 inherit autotools python-single-r1 git-r3
 
