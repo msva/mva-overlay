@@ -12,10 +12,12 @@ HOMEPAGE="https://github.com/fffonion/lua-resty-openssl"
 EGIT_REPO_URI="https://github.com/fffonion/lua-resty-openssl"
 
 if [[ "${PV}" != 9999 ]]; then
-	KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	# ~ppc64 ~riscv
 	# 👆 luajit 🤷
-	EGIT_COMMIT="v${PV}"
+	# ~ppc ( @ musl )
+	# 👆 luajit 🤷
+	EGIT_COMMIT="${PV}"
 fi
 
 LICENSE="BSD"
