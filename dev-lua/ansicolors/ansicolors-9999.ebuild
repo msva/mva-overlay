@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION="A simple Lua function for printing to the console in color."
+DESCRIPTION="A simple Lua function for printing to the console in color"
 HOMEPAGE="https://github.com/kikito/ansicolors.lua"
 EGIT_REPO_URI="https://github.com/kikito/ansicolors.lua"
 
