@@ -5,7 +5,7 @@ EAPI=8
 
 LUA_COMPAT=( lua{5-{1..4},jit} )
 
-inherit lua-single git-r3
+inherit lua-single git-r3 toolchain-funcs
 
 DESCRIPTION="A programmer friendly language that compiles into Lua"
 HOMEPAGE="https://github.com/leafo/moonscript"
@@ -45,7 +45,12 @@ edo() {
 }
 
 src_compile() {
-	edo $(tc-getCC) -shared -o moonscript/parse/native.so ${CFLAGS} ${LDFLAGS} moonscript/parse/native.c $(lua_get_CFLAGS) $(lua_get_LIBS)
+	edo $(tc-getCC) \
+		-shared \
+		-o moonscript/parse/native.so \
+		${CFLAGS} ${LDFLAGS} \
+		moonscript/parse/native.c \
+		$(lua_get_CFLAGS) $(lua_get_LIBS)
 	edo ${ELUA} bin/moonc moon/ moonscript/
 	(
 		echo "#!/usr/bin/env ${ELUA}"
