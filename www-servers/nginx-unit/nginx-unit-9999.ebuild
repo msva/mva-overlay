@@ -3,17 +3,17 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..14} python3_13t pypy3{,_11} )
+PYTHON_COMPAT=( python3_{8..15} python3_13t pypy3{,_11} )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
-USE_RUBY="ruby31 ruby32 ruby33 ruby34"
+USE_RUBY="ruby31 ruby32 ruby33 ruby34 ruby40"
 
 PHP_EXT_INI="no"
 PHP_EXT_NAME="dummy"
 PHP_EXT_OPTIONAL_USE="unit_modules_php"
 PHP_EXT_NEEDED_USE="embed"
-USE_PHP="php8-2 php8-3 php8-4"
+USE_PHP="php8-2 php8-3 php8-4 php8-5"
 
 inherit systemd php-ext-source-r3 python-r1 ruby-ng toolchain-funcs flag-o-matic patches
 # golang-base
