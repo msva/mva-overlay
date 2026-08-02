@@ -7,7 +7,7 @@ LUA_COMPAT=( luajit )
 
 inherit mercurial lua
 
-DESCRIPTION="XMPP client library written in Lua."
+DESCRIPTION="XMPP client library written in Lua"
 HOMEPAGE="http://code.matthewwild.co.uk/"
 EHG_REPO_URI="http://code.matthewwild.co.uk/${PN}/"
 
