@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517="setuptools"
-PYTHON_COMPAT=( python3_{8..13} python3_13t )
+PYTHON_COMPAT=( python3_{8..15} python3_13t )
 PYTHON_REQ_USE="readline"
 
 inherit distutils-r1 git-r3
