@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION="LibYAML binding for Lua."
+DESCRIPTION="LibYAML binding for Lua"
 HOMEPAGE="https://github.com/gvvaughan/lyaml"
 EGIT_REPO_URI="https://github.com/gvvaughan/lyaml"
 
