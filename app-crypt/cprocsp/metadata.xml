@@ -8,5 +8,6 @@
   </maintainer>
   <use>
   <flag name="kc2">Install KC2</flag>
+  <flag name="browser-plugin">Install Browser Plugin (instead of separate package)</flag>
   </use>
 </pkgmetadata>
