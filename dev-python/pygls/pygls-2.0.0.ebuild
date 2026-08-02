@@ -4,7 +4,7 @@
 EAPI=8
 
 DISTUTILS_USE_PEP517=poetry
-PYTHON_COMPAT=( python3_{9..14} python3_13t )
+PYTHON_COMPAT=( python3_{9..15} python3_13t )
 inherit distutils-r1 pypi
 
 DESCRIPTION="A pythonic generic language server"
@@ -37,4 +37,5 @@ DEPEND="
 # 	)
 # "
 
+EPYTEST_PLUGINS=()
 distutils_enable_tests pytest
