@@ -21,7 +21,9 @@ DEPEND="
 
 RDEPEND="${DEPEND}"
 
-PATCHES="${FILESDIR}/patches/*.patch"
+PATCHES=(
+	"${FILESDIR}/patches/*.patch"
+)
 
 src_configure() {
 	mycmakeargs=(
