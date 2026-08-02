@@ -3,11 +3,11 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..14} python3_13t pypy3{,_11} )
+PYTHON_COMPAT=( python3_{8..15} python3_13t pypy3{,_11} )
 
 inherit patches python-single-r1 xdg git-r3
 
-DESCRIPTION="A curses-based client for Tox."
+DESCRIPTION="A curses-based client for Tox"
 HOMEPAGE="https://wiki.tox.chat/clients/toxic"
 EGIT_REPO_URI="https://github.com/JFreegman/toxic"
 
