@@ -3,12 +3,9 @@
 
 EAPI=8
 
-DESCRIPTION="Asterisk's russian sounds. \"Tamara\" pack."
+DESCRIPTION="Asterisk's russian sounds. \"Tamara\" pack"
 HOMEPAGE="https://asteriskforum.ru/"
-SRC_URI="
-	https://val.bmstu.ru/unix/voip/Russian-Tamara-2.0.2-ulaw.tar.gz
-	https://nettips.ru/files/asterisk/Russian-Tamara-2.0.2-ulaw.tar.gz
-"
+SRC_URI="https://val.bmstu.ru/unix/voip/Russian-Tamara-2.0.2-ulaw.tar.gz"
 
 S="${WORKDIR}"
 
