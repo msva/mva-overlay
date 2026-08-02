@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..14} python3_13t )
+PYTHON_COMPAT=( python3_{12..15} )
 
 DISTUTILS_USE_PEP517="setuptools"
 
