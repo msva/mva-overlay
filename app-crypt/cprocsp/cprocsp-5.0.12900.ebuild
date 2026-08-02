@@ -16,8 +16,47 @@ SRC_URI="
 "
 
 LICENSE="Crypto-Pro"
-SLOT="0/5.0.12900"
+SLOT="0/${PV}"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+
+CRYPTOPRO_PATCHED_SOFTWARE=(
+	curl
+	nginx
+	apache-modssl
+)
+CRYPTOPRO_READERS_DEFAULT=( # cprocsp-rdr-
+	# NOTE: check in install_gui.sh
+	pcsc
+	emv
+	inpaspot
+	kst
+	mskey
+	novacard
+	edoc
+	rutoken
+	jacarta
+	cloud
+	cpfkc
+	infocrypt
+	rosan
+	cryptoki
+	rustoken
+)
+CRYPTOPRO_READERS_ADDITIONAL=(
+	cloud
+	esmart
+	relay
+	gui # TODO: move to searate use flag
+)
+
+IUSE="kc2 +browser-plugin"
+for p in ${CRYPTOPRO_PATCHED_SOFTWARE[@]}; do
+	IUSE+=(cryptopro_patched_${p})
+done
+for p in ${CRYPTOPRO_PATCHED_SOFTWARE[@]}; do
+	IUSE+=(cryptopro_readers_${p})
+done
+
 RESTRICT="bindist fetch mirror strip"
 
 DEPEND="
@@ -83,6 +122,10 @@ _get_arch() {
 	echo "${_got_arch}"
 }
 
+# pkg_pretend() {
+# 	die "Not yet ready"
+# }
+
 pkg_nofetch() {
 	local BASE_URL="https://cryptopro.ru/sites/default/files/private/csp"
 	local v=$(ver_cut 1-2)
@@ -104,7 +147,7 @@ src_unpack() {
 	cd "${S}"
 
 	PKGS=( # Packages that usually installed by CryptoPro installer
-		lsb-cprocsp-{base,rdr,kc1,capilite,ca-certs,pkcs11}
+		lsb-cprocsp-{base,ca-certs,capilite,kc1,pkcs11,rdr}
 		cprocsp-{curl,rdr}
 		apache-modssl
 	)

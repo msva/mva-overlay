@@ -17,12 +17,13 @@ SRC_URI="
 
 LICENSE="Crypto-Pro"
 SLOT="0/${PV}"
-# KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 
 CRYPTOPRO_PATCHED_SOFTWARE=(
-	curl
-	nginx
 	apache-modssl
+	+curl
+	nginx
+	+stunnel
 )
 CRYPTOPRO_READERS_DEFAULT=( # cprocsp-rdr-
 	# NOTE: check in install_gui.sh
@@ -35,7 +36,6 @@ CRYPTOPRO_READERS_DEFAULT=( # cprocsp-rdr-
 	edoc
 	rutoken
 	jacarta
-	cloud
 	cpfkc
 	infocrypt
 	rosan
@@ -49,12 +49,23 @@ CRYPTOPRO_READERS_ADDITIONAL=(
 	gui # TODO: move to searate use flag
 )
 
-IUSE="kc2"
+IUSE="kc2 +browser-plugin"
 for p in ${CRYPTOPRO_PATCHED_SOFTWARE[@]}; do
-	IUSE+=(cryptopro_patched_${p})
+	up=${p//-/_}
+	ep="${up##+}"
+	if [[ "${up}" != "${ep}" ]]; then
+		IUSE+=("+cryptopro_patched_${ep}")
+	else
+		IUSE+=("cryptopro_patched_${up}")
+	fi
 done
-for p in ${CRYPTOPRO_PATCHED_SOFTWARE[@]}; do
-	IUSE+=(cryptopro_readers_${p})
+for p in ${CRYPTOPRO_READERS_DEFAULT[@]}; do
+	up=${p//-/_}
+	IUSE+=("+cryptopro_readers_${up}")
+done
+for p in ${CRYPTOPRO_READERS_ADDITIONAL[@]}; do
+	up=${p//-/_}
+	IUSE+=("cryptopro_readers_${up}")
 done
 
 RESTRICT="bindist fetch mirror strip"
@@ -122,10 +133,6 @@ _get_arch() {
 	echo "${_got_arch}"
 }
 
-pkg_pretend() {
-	die "Not yet ready"
-}
-
 pkg_nofetch() {
 	local BASE_URL="https://cryptopro.ru/sites/default/files/private/csp"
 	local v=$(ver_cut 1-2)
@@ -148,20 +155,28 @@ src_unpack() {
 
 	PKGS=( # Packages that usually installed by CryptoPro installer
 		lsb-cprocsp-{base,ca-certs,capilite,kc1,pkcs11,rdr}
-		cprocsp-{curl,rdr}
-		apache-modssl
+		cprocsp-rdr # TODO: curl moved to COND_PKGS
 	)
 	ADD_PKGS=( # Additional packages that should be useful (token drivers, patched stunnel, cert viewer)
 		lsb-cprocsp-rcrypt
-		cprocsp-{stunnel,xer2print,cptools}
+		cprocsp-{xer2print,cptools}
 		cprocsp-ipsec-{genpsk,ike}
 		ifd-rutokens
-		cprocsp-pki{,-{plugin,cades}} # ,phpcades}}
+		cprocsp-pki{,-cades}
 	)
+	COND_PKGS=()
+	for p in ${CRYPTOPRO_PATCHED_SOFTWARE[@]}; do
+		up="${p//-/_}"
+		if use "cryptopro_patched_${up##+}"; then
+			COND_PKGS+=("cprocsp-${p##+}")
+		fi
+	done
+	use browser-plugin && COND_PKGS+=("cprocsp-pki-plugin")
+	# use php && COND_PKGS+=("cprocsp-pki-phpcades")
 
 	# TODO: USE-flags for readers, browser plugin, curl, stunnel and so on
 
-	for f in ${PKGS[@]} ${ADD_PKGS[@]}; do
+	for f in ${PKGS[@]} ${ADD_PKGS[@]} ${COND_PKGS[@]}; do
 		find "../linux-${arch}" -name "${f}*.rpm" | while read r; do rpm_unpack "./${r}"; done
 	done
 
@@ -172,7 +187,7 @@ src_unpack() {
 	mv usr/${libdir}/pcsc/drivers/* usr/${libdir}/readers/usb/ || die
 
 	cp -rl opt/cprocsp/share usr/share || die
-	# ^  TODO: investigave about pottential collisions on certmgr (mono?) and stunnel mans
+	# ^  TODO: investigate about potential collisions on certmgr (mono?) and stunnel mans
 
 	mkdir -p usr/lib/mozilla/plugins || die
 	cp -lL opt/cprocsp/lib/${arch}/libnpcades.so usr/lib/mozilla/plugins/ || die
