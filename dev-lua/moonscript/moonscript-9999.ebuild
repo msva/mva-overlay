@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua-single git-r3
 
-DESCRIPTION="A programmer friendly language that compiles into Lua."
+DESCRIPTION="A programmer friendly language that compiles into Lua"
 HOMEPAGE="https://github.com/leafo/moonscript"
 EGIT_REPO_URI="https://github.com/leafo/moonscript"
 
@@ -37,19 +37,30 @@ DEPEND="${RDEPEND}"
 
 DOCS+=(docs/.)
 
+# NOTE: preparation to EAPI9
+# TODO: remove me on EAPI9 bump (when lua eclasses will support)
+edo() {
+	einfo ${*}
+	${*}
+}
+
 src_compile() {
-	${ELUA} bin/moonc moon/ moonscript/
+	edo $(tc-getCC) -shared -o moonscript/parse/native.so ${CFLAGS} ${LDFLAGS} moonscript/parse/native.c $(lua_get_CFLAGS) $(lua_get_LIBS)
+	edo ${ELUA} bin/moonc moon/ moonscript/
 	(
 		echo "#!/usr/bin/env ${ELUA}"
-		${ELUA} bin/moonc -p bin/moon.moon
+		edo ${ELUA} bin/moonc -p bin/moon.moon
 		echo "-- vim: set filetype=lua:"
 	) > bin/moon
-	${ELUA} bin/moonc -p bin/splat.moon >> bin/splat
+	edo ${ELUA} bin/moonc -p bin/splat.moon >> bin/splat
 }
 
 src_install() {
+	insinto "$(lua_get_cmod_dir)/moonscript/parse"
+	doins moonscript/parse/native.so
+	rm moonscript/parse/native.so moonscript/parse/native.c || die
 	insinto "$(lua_get_lmod_dir)"
-	doins -r moon{,script}{,.lua}
+	doins -r moon{,script}
 	dobin bin/{moon,moonc,splat}
 	einstalldocs
 }

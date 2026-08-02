@@ -7,9 +7,9 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION="Feature-rich command line parser for Lua "
-HOMEPAGE="https://github.com/mpeterv/argparse"
-EGIT_REPO_URI="https://github.com/mpeterv/argparse"
+DESCRIPTION="Feature-rich command line parser for Lua"
+HOMEPAGE="https://github.com/luarocks/argparse"
+EGIT_REPO_URI="https://github.com/luarocks/argparse"
 
 LICENSE="MIT"
 SLOT="0"
