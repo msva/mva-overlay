@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua git-r3
 
-DESCRIPTION="Templating Engine (HTML) for Lua and OpenResty."
+DESCRIPTION="Templating Engine (HTML) for Lua and OpenResty"
 HOMEPAGE="https://github.com/bungle/lua-resty-template"
 EGIT_REPO_URI="https://github.com/bungle/lua-resty-template"
 
