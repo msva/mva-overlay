@@ -7,7 +7,7 @@ LUA_COMPAT=( lua{5-{1..4},jit} )
 
 inherit lua mercurial
 
-DESCRIPTION="Lua Asynchronous HTTP Library."
+DESCRIPTION="Lua Asynchronous HTTP Library"
 HOMEPAGE="https://code.matthewwild.co.uk/"
 EHG_REPO_URI="https://code.matthewwild.co.uk/${PN}/"
 
