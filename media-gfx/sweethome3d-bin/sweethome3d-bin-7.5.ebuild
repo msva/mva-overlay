@@ -6,7 +6,7 @@ inherit desktop wrapper
 
 MY_PN="SweetHome3D"
 
-DESCRIPTION="Sweet Home 3D is a free interior design application."
+DESCRIPTION="Sweet Home 3D is a free interior design application"
 HOMEPAGE="https://sweethome3d.com/"
 SF_URI="https://downloads.sourceforge.net/${PN//-bin}/${MY_PN}/${MY_PN}-${PV}/${MY_PN}-${PV}-linux"
 SRC_URI="
