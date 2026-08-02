@@ -7,7 +7,7 @@ WANT_LIBTOOL=none
 AUTOTOOLS_AUTO_DEPEND=no
 MESON_AUTO_DEPEND=no
 
-inherit autotools bash-completion-r1 meson ninja-utils tmpfiles
+inherit autotools shell-completion meson ninja-utils tmpfiles
 
 if [[ "${PV}" == 9999* ]]; then
 	inherit git-r3
