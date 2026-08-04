@@ -6,6 +6,7 @@
 # Vadim Misbakh-Soloviov <mva@gentoo.org>
 # @AUTHOR:
 # Vadim Misbakh-Soloviov <mva@gentoo.org>
+# @SUPPORTED_EAPIS: 7 8 9
 # @BLURB: gradle wrapper
 # @DESCRIPTION:
 # Trying to make gradle build to work.

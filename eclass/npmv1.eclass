@@ -8,6 +8,7 @@
 # Vadim Misbakh-Soloviov mva<at>gentoo.org
 # @AUTHOR:
 # Geaaru geaaru<at>gmail.com
+# @SUPPORTED_EAPIS: 7 8 9
 # @BLURB: npm handler
 # @DESCRIPTION:
 # Purpose: Manage installation of nodejs application with automatic

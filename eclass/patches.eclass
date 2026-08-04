@@ -7,6 +7,7 @@
 # @AUTHOR:
 # mva
 # @BLURB: autopatching magic (pretty useful for me, but criticized for obscurity and looks like not suitable for gentoo repo)
+# @SUPPORTED_EAPIS: 7 8 9
 # @DESCRIPTION:
 # Eclass that checks for patches directories existance and auto-add them into PATCHES=()
 

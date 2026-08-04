@@ -1,12 +1,14 @@
-# Copyright 2022 Gentoo Authors
+# Copyright 2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: mpv-plugin.eclass
 # @MAINTAINER:
-# Nicola Smaniotto <smaniotto.nicola@gmail.com>
+# 2022 - Nicola Smaniotto <smaniotto.nicola@gmail.com>
+# 2026 - Vadim Misbakh-Soloviov <gentoo@mva.name>
 # @AUTHOR:
-# Nicola Smaniotto <smaniotto.nicola@gmail.com>
-# @SUPPORTED_EAPIS: 8
+# original: Nicola Smaniotto <smaniotto.nicola@gmail.com>
+# adopter: Vadim Misbakh-Soloviov <gentoo@mva.name>
+# @SUPPORTED_EAPIS: 8 9
 # @BLURB: install mpv plugins
 # @DESCRIPTION:
 # This eclass simplifies the installation of mpv plugins into system-wide
@@ -14,7 +16,7 @@
 # for automatic loading of the plugin.
 
 case ${EAPI:-0} in
-	8) ;;
+	8|9) ;;
 	*) die "${ECLASS}: EAPI ${EAPI:-0} unsupported."
 esac
 
