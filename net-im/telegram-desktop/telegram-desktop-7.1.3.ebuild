@@ -374,8 +374,8 @@ src_configure() {
 		# Unbundling:
 		-DDESKTOP_APP_USE_PACKAGED=ON # Main
 
-		-DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X)
-		# -DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)"
+		# -DDESKTOP_APP_DISABLE_X11_INTEGRATION=$(usex !X) # removed upstream
+		# -DDESKTOP_APP_DISABLE_WAYLAND_INTEGRATION="$(usex !wayland)" # also removed, but we add it by patch
 
 		$(usex lto "-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" '')
 
