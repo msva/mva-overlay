@@ -6,7 +6,7 @@ CHROMIUM_LANGS="af am ar bg bn ca cs da de el en-GB en-US es es-419 et fa fi fil
 
 inherit chromium-2 unpacker desktop wrapper pax-utils xdg
 
-DESCRIPTION="The web browser from Yandex"
+DESCRIPTION="Chromium build with GOST crypto algorythms support"
 HOMEPAGE="https://github.com/deemru/Chromium-Gost"
 
 SRC_URI="
@@ -103,8 +103,8 @@ src_prepare() {
 	fi
 
 	local crap=(
-		"${BROWSER_HOME}/xdg-settings"
-		"${BROWSER_HOME}/xdg-mime"
+		# "${BROWSER_HOME}/xdg-settings"
+		# "${BROWSER_HOME}/xdg-mime"
 	)
 
 	test -L "usr/share/man/man1/${PN}.1.gz" &&
