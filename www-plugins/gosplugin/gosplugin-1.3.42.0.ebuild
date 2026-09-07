@@ -8,7 +8,9 @@ inherit unpacker patches
 DESCRIPTION="Crypto-provider browser plugin for russian e-gov site https://gosuslugi.ru/"
 HOMEPAGE="https://gosuslugi.ru/"
 
-SRC_URI="https://gu-st.ru/content/Gosplugin/Gosplugin_Linux-Debian_Installer.deb.zip"
+MAGIC_NAME="Gosplugin_Linux-Debian_Installer.deb"
+
+SRC_URI="https://gu-st.ru/content/Gosplugin/${MAGIC_NAME}.zip -> ${P}.zip"
 S="${WORKDIR}"
 
 LICENSE="all-rights-reserved"
@@ -17,15 +19,42 @@ KEYWORDS="~amd64"
 RESTRICT="mirror strip"
 
 RDEPEND="
-	dev-libs/libxml2:2
+	dev-db/sqlite
+	dev-libs/glib
+	dev-libs/libinput
+	dev-libs/libpcre2
+	dev-libs/openssl
+	media-libs/fontconfig
+	media-libs/freetype
+	media-libs/harfbuzz
+	media-libs/libglvnd
+	media-libs/libjpeg-turbo
+	media-libs/libpng
+	media-libs/mesa
+	net-print/cups
+	sys-apps/dbus
 	sys-apps/pcsc-lite:0
-	virtual/libusb:0
+	sys-apps/systemd
+	sys-devel/gcc
+	sys-libs/mtdev
+	sys-libs/zlib
+	x11-libs/libdrm
+	x11-libs/libICE
+	x11-libs/libSM
+	x11-libs/libX11
+	x11-libs/libxcb
+	x11-libs/libXi
+	x11-libs/libxkbcommon
+	x11-libs/libXrender
+	x11-libs/xcb-util-image
+	x11-libs/xcb-util-keysyms
+	x11-libs/xcb-util-renderutil
+	x11-libs/xcb-util-wm
 "
-# TODO: 👆
 DEPEND="${RDEPEND}"
 
-QA_PREBUILT="*"
-QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
+# QA_PREBUILT="*"
+# QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
 
 pkg_setup() {
 	if [[ "${MERGE_TYPE}" != "binary" ]]; then
@@ -37,8 +66,8 @@ pkg_setup() {
 
 src_unpack() {
 	unpack_zip "${A}"
-	local installer="${WORKDIR}/${A/zip/sh}"
-	local offset=$(($(grep --text --line-number '^PAYLOAD:$' ${installer} | cut -d: -f1)+1))
+	local installer="${WORKDIR}/${MAGIC_NAME}.sh"
+	local offset=$(($(grep --text --line-number '^PAYLOAD:$' "${installer}" | cut -d: -f1)+1))
 	tail -n "+${offset}" "${installer}" | tar -x || die "Failed to unpack deb from installer"
 	unpack_deb *${PV}*.deb
 	rm *deb* || die "Failed to remove remaining crap"
