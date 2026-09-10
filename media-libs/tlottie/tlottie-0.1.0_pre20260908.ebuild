@@ -3,12 +3,15 @@
 
 EAPI=8
 
-inherit edo multiprocessing
+inherit edo multiprocessing rust-toolchain
+
+# NOTE: kludge for pkgcheck
+cargo_eclass=cargo
 
 DESCRIPTION="Rust library for drawing Lottie animations"
 HOMEPAGE="https://dkaraush.github.io/tlottie"
 if [[ ${PV} == 9999 ]]; then
-	inherit git-r3 cargo
+	inherit git-r3 ${cargo_eclass}
 	EGIT_REPO_URI="https://github.com/dkaraush/tlottie"
 else
 	CRATES="
@@ -20,7 +23,7 @@ else
 		windows-link@0.2.1
 		windows-sys@0.61.2
 	"
-	inherit cargo
+	inherit ${cargo_eclass}
 	MY_SHA=4b940c7942fbde8ee56f10f39a5224a4153bd91e
 	S="${WORKDIR}/${PN}-${MY_SHA:-${PV}}"
 	SRC_URI="https://github.com/dkaraush/tlottie/archive/${MY_SHA}.tar.gz -> ${P}.tar.gz"
@@ -58,7 +61,14 @@ src_prepare() {
 	fi
 }
 
+# NOTE: kludge for pkgconfig
+get_destdir() {
+	echo "${D}"
+}
+
 src_configure() {
+	# NOTE: Currently upstream recommends this for build, but it doesn't install anything
+
 	# local cargoargs=(
 	# 	--features c-api
 	# 	# --features capi
@@ -68,6 +78,7 @@ src_configure() {
 	# 	--jobs $(get_makeopts_jobs)
 	# 	$(usev !debug "--release")
 	# )
+
 	common_cargoargs=(
 		--features capi
 		--lib
@@ -76,8 +87,10 @@ src_configure() {
 		$(usev !static-libs "--library-type=cdylib")
 		--libdir="${EPREFIX}/usr/$(get_libdir)"
 		--target="$(rust_abi)"
-		--destdir="${D}"
 		--prefix="${EPREFIX}"/usr
+		# NOTE: 👇 required to be both in compile and install so build wasn't count as "dirty"
+		# and not cause rebuild in install phase
+		--destdir="$(get_destdir)"
 		# NOTE: 👇 doesn't work (maybe only with rust-bin 🤷)
 		# --no-default-features
 		# --features=no-std
@@ -86,11 +99,9 @@ src_configure() {
 
 src_compile() {
 	# NOTE: Currently upstream recommends this for build, but it doesn't install anything
-
 	# edo cargo rustc "${cargoargs[@]}" || die "cargo rustc build failed"
 
 	# FIXME: cbuild/cinstall makes tlottie.h with duplicating declarations somewhy
-
 	local cargoargs=(
 		${common_cargoargs[@]}
 		$(usev !debug "--release")
@@ -107,7 +118,7 @@ src_install() {
 	)
 	edo cargo cinstall "${cargoargs[@]}" || die "cargo cinstall failed"
 
-	# HACK:
+	# HACK: (to fix broken rlottie.h with duplicating declarations)
 	insinto /usr/include/tlottie
 	doins include/tlottie.h
 }
