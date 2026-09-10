@@ -246,7 +246,7 @@ src_prepare() {
 
 	# Greedily remove ThirdParty directories, keep only ones that interest us
 	local keep=(
-		rlottie  # Patched, not recommended to unbundle by upstream
+		# rlottie  # Patched, not recommended to unbundle by upstream
 		libprisma  # Telegram-specific library, no stable releases
 		tgcalls  # Telegram-specific library, no stable releases
 		# xdg-desktop-portal  # Only a few xml files are used with gdbus-codegen
@@ -279,7 +279,7 @@ src_prepare() {
 	fi
 
 	# Shut the CMake 4 QA checker up by removing unused CMakeLists files
-	rm Telegram/ThirdParty/rlottie/CMakeLists.txt || die
+	# rm Telegram/ThirdParty/rlottie/CMakeLists.txt || die
 	rm cmake/external/glib/cppgir/expected-lite/example/CMakeLists.txt || die
 	rm cmake/external/glib/cppgir/expected-lite/test/CMakeLists.txt || die
 	rm cmake/external/glib/cppgir/expected-lite/CMakeLists.txt || die
