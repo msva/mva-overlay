@@ -34,10 +34,9 @@ RDEPEND="
 	net-print/cups
 	sys-apps/dbus
 	sys-apps/pcsc-lite:0
-	sys-apps/systemd
-	sys-devel/gcc
 	sys-libs/mtdev
-	sys-libs/zlib
+	virtual/udev
+	virtual/zlib
 	x11-libs/libdrm
 	x11-libs/libICE
 	x11-libs/libSM
@@ -52,6 +51,7 @@ RDEPEND="
 	x11-libs/xcb-util-wm
 "
 DEPEND="${RDEPEND}"
+BDEPEND="app-arch/unzip"
 
 # QA_PREBUILT="*"
 # QA_SONAME_NO_SYMLINK="usr/lib32/.* usr/lib64/.*"
@@ -68,7 +68,7 @@ src_unpack() {
 	unpack_zip "${A}"
 	local installer="${WORKDIR}/${MAGIC_NAME}.sh"
 	local offset=$(($(grep --text --line-number '^PAYLOAD:$' "${installer}" | cut -d: -f1)+1))
-	tail -n "+${offset}" "${installer}" | tar -x || die "Failed to unpack deb from installer"
+	tail -n "+${offset}" "${installer}" | tar -xf- || die "Failed to unpack deb from installer"
 	unpack_deb *${PV}*.deb
 	rm *deb* || die "Failed to remove remaining crap"
 }
