@@ -86,6 +86,7 @@ COMMON_DEPEND="
 	media-libs/opus:=
 	media-libs/rnnoise:=
 	>=media-libs/tg_owt-0_pre20250501:=[pipewire(+)=,screencast=,X=]
+	media-libs/tlottie
 	media-video/ffmpeg:=[opus,vpx]
 	sys-apps/xdg-desktop-portal:=
 	virtual/minizip:=
@@ -162,7 +163,7 @@ pkg_pretend() {
 
 	if [[ -n "${tdesktop_patches_warn}" ]]; then
 		ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
-		ewarn "!!!!!!!! WARNING !!!!!!!"
+		ewarn "!!!!!!!! WARNING !!!!!!!!"
 		ewarn "!!!!!!!!!!!!!!!!!!!!!!!!!"
 		ewarn "You have enabled some custom patches!"
 		ewarn "Some of them can violate TOS of Telegram and can (but non necessary will) lead to ban of your account on TG main network."
@@ -236,6 +237,11 @@ src_prepare() {
 	# Make sure to check the excluded files for new
 	# CMAKE_DISABLE_FIND_PACKAGE entries.
 
+	# Dodge CMake deprecation warnings
+	sed -r \
+		-e '1s@3.0@4.0@' \
+		-i Telegram/ThirdParty/cmark-gfm/CMakeLists.txt
+
 	# FIXME: may be needed after moving to unbundled gfm
 	# sed -e '/pkg_check_modules.*cmark-gfm-extensions/d' -i cmake/external/cmark_gfm/CMakeLists.txt
 
@@ -246,7 +252,6 @@ src_prepare() {
 
 	# Greedily remove ThirdParty directories, keep only ones that interest us
 	local keep=(
-		# rlottie  # Patched, not recommended to unbundle by upstream
 		libprisma  # Telegram-specific library, no stable releases
 		tgcalls  # Telegram-specific library, no stable releases
 		# xdg-desktop-portal  # Only a few xml files are used with gdbus-codegen
@@ -279,7 +284,6 @@ src_prepare() {
 	fi
 
 	# Shut the CMake 4 QA checker up by removing unused CMakeLists files
-	# rm Telegram/ThirdParty/rlottie/CMakeLists.txt || die
 	rm cmake/external/glib/cppgir/expected-lite/example/CMakeLists.txt || die
 	rm cmake/external/glib/cppgir/expected-lite/test/CMakeLists.txt || die
 	rm cmake/external/glib/cppgir/expected-lite/CMakeLists.txt || die
@@ -393,7 +397,7 @@ src_configure() {
 		-DDESKTOP_APP_DISABLE_QT_PLUGINS=ON
 
 #		-DDESKTOP_APP_LOTTIE_USE_CACHE=NO
-#		# in case of caching bugs. Maybe also useful with system-rlottie[cache]. TODO: test that idea.
+#		# in case of caching bugs.
 	)
 	cmake_src_configure
 }
