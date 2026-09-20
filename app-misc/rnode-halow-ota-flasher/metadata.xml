@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>git@mva.name</email>
+    <name>Vadim Misbakh-Soloviov</name>
+  </maintainer>
+  <use>
+    <flag name="utils">Install additional utils</flag>
+  </use>
+  <upstream>
+    <remote-id type="github">I-AM-ENGINEER/RNode_Halow_OTA_Flasher</remote-id>
+  </upstream>
+</pkgmetadata>
